@@ -89,7 +89,7 @@ length_comps <- get_expanded_comps(
     strata = WCGBTS_strata,
     comp_column_name = "length_cm",
     output = "full_expansion_ss3_format",
-    two_sex_comps = FALSE,
+    two_sex_comps = FALSE, #single sex model
     input_n_method = "stewart_hamel")
 
 plot_comps(
@@ -99,7 +99,7 @@ raw_length_comps <- get_raw_comps(
     data = bio,
     comp_bins = seq(10, 74, 2),
     comp_column_name = "length_cm",
-    two_sex_comps = FALSE)
+    two_sex_comps = FALSE) #single sex model
 
 ```
 Marginal age composition data
@@ -111,7 +111,7 @@ age_comps <- get_expanded_comps(
     strata = WCGBTS_strata,
     comp_column_name = "age",
     output = "full_expansion_ss3_format",
-    two_sex_comps = FALSE,
+    two_sex_comps = FALSE, #single sex model
     input_n_method = "stewart_hamel")
 
 plot_comps(
@@ -121,7 +121,7 @@ raw_age_comps <- get_raw_comps(
     data = bio,
     comp_bins = 0:65,
     comp_column_name = "age",
-    two_sex_comps = FALSE)
+    two_sex_comps = FALSE) #single sex model
 ```
 Conditional age-at-length data
 ```{r}
@@ -144,9 +144,13 @@ catchT = pull_catch(
   common_name = "yelloweye rockfish", 
   survey = "Triennial")
 
+#this is creating a list, just use $age_data
 bioT = pull_bio(
   common_name = "yelloweye rockfish", 
   survey = "Triennial")
+
+bioTtest <- bioT$age_data #this is the same number of variables as bio from the WCGBTS
+bioT <- bioTtest
 
 plot_cpue(
   catch = catchT)
@@ -210,7 +214,7 @@ length_compsT <- get_expanded_comps(
     strata = Triennial_strata,
     comp_column_name = "length_cm",
     output = "full_expansion_ss3_format",
-    two_sex_comps = FALSE,
+    two_sex_comps = FALSE, #single sex model
     input_n_method = "stewart_hamel")
 
 plot_comps(
@@ -220,41 +224,46 @@ raw_length_compsT <- get_raw_comps(
     data = bioT,
     comp_bins = seq(10, 74, 2),
     comp_column_name = "length_cm",
-    two_sex_comps = FALSE)
+    two_sex_comps = FALSE) #single sex model
 
 ```
 
 Marginal age composition data
 ```{r}
-age_compsT <- get_expanded_comps(
-    bio_data = bioT,
-    catch_data = catchT,
-    comp_bins = 0:65,
-    strata = Triennial_strata,
-    comp_column_name = "age",
-    output = "full_expansion_ss3_format",
-    two_sex_comps = FALSE,
-    input_n_method = "stewart_hamel")
+#no age data from Triennial survey?
 
-plot_comps(
-  data = age_compsT)
+#age_compsT <- get_expanded_comps(
+#    bio_data = bioT,
+#    catch_data = catchT,
+#    comp_bins = 0:65,
+#    strata = Triennial_strata,
+#    comp_column_name = "age",
+#    output = "full_expansion_ss3_format",
+#    two_sex_comps = FALSE, #single sex model
+#    input_n_method = "stewart_hamel")
 
-raw_age_compsT <- get_raw_comps(
-    data = bioT,
-    comp_bins = 0:65,
-    comp_column_name = "age",
-    two_sex_comps = FALSE)
+#plot_comps(
+#  data = age_compsT)
+
+#raw_age_compsT <- get_raw_comps(
+#    data = bioT,
+#    comp_bins = 0:65,
+#    comp_column_name = "age",
+#    two_sex_comps = FALSE) #single sex model
 ```
 
 Conditional age-at-length data
 ```{r}
-caalT <- SurveyAgeAtLen.fn(
-  datAL = bioT, 
-  datTows = catchT,
-  strat.df = Triennial_strata,
-  lgthBins = seq(10, 74, 2), 
-  ageBins = 0:65)
 
-PlotMap.fn(
-  dat = catchT)
+#no age data from Triennial survey?
+
+#caalT <- SurveyAgeAtLen.fn(
+#  datAL = bioT, 
+#  datTows = catchT,
+#  strat.df = Triennial_strata,
+#  lgthBins = seq(10, 74, 2), 
+#  ageBins = 0:65)
+
+#PlotMap.fn(
+#  dat = catchT)
 ```
