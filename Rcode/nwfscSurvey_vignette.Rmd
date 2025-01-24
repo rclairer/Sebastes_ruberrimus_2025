@@ -1,6 +1,8 @@
 ---
 title: "nwfscSurvey Vignette"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 date: "2025-01-23"
 ---
 Set up: The first set of code is for the Bottom trawl survey
