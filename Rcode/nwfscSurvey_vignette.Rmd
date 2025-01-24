@@ -41,7 +41,7 @@ wh_plot_proportion(
 ```
 
 Define the strata
-For Yelloweye, they were not observed beyond 350m, nor were they further south that 34 degrees
+
 ```{r}
 WCGBTS_strata <- CreateStrataDF.fn(
   names = c("shallow_OR", "deep_OR", "shallow_WA", "deep_WA"), 
@@ -167,7 +167,7 @@ wh_plot_proportion(
 ```
 
 Define the strata
-For Yelloweye, they were not observed beyond 350m, nor were they further south that 34 degrees
+
 ```{r}
 Triennial_strata = CreateStrataDF.fn(names=c("OR", "WA"), 
                            depths.shallow = c(55,     55),
@@ -193,7 +193,7 @@ plot_index(
   data = biomassT,
   plot = 1)
 
-# thats only about a maximum of 200,500 fish.... very few...
+# not a lot of fish...
 ```
 
 Plot index for each strata
@@ -264,6 +264,6 @@ Conditional age-at-length data
 #  lgthBins = seq(10, 74, 2), 
 #  ageBins = 0:65)
 
-#PlotMap.fn(
-#  dat = catchT)
+PlotMap.fn(
+  dat = catchT)
 ```
