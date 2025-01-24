@@ -1,0 +1,260 @@
+---
+title: "nwfscSurvey Vignette"
+output: html_document
+date: "2025-01-23"
+---
+Set up: The first set of code is for the Bottom trawl survey
+        The second set of code is for the triennial survey
+
+Questions: is this a two area model as in WA/OR + CA? or WA + OR only? Is California a whole different assessment model?
+If we are seeing catches in CA, what is the strata doing again?
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(nwfscSurvey)
+```
+
+Initial pull and plotting of data: WCGBTS
+
+```{r}
+catch = pull_catch(
+  common_name = "yelloweye rockfish", 
+  survey = "NWFSC.Combo")
+
+bio = pull_bio(
+  common_name = "yelloweye rockfish", 
+  survey = "NWFSC.Combo")
+
+plot_cpue(
+  catch = catch)
+
+plot_bio_patterns(
+  bio = bio, 
+  col_name = "Length_cm")
+
+wh_plot_proportion(
+  data_catch = catch,
+  data_bio = bio
+)
+
+```
+
+Define the strata
+For Yelloweye, they were not observed beyond 350m, nor were they further south that 34 degrees
+```{r}
+WCGBTS_strata <- CreateStrataDF.fn(
+  names = c("shallow_OR", "deep_OR", "shallow_WA", "deep_WA"), 
+  depths.shallow = c(  55,  183,  55, 183),
+  depths.deep    = c( 183,  350, 183, 350),
+  lats.south     = c(42, 42,  46,  46),
+  lats.north     = c(  46,   46,  49,  49)
+)
+
+```
+
+Calculate designed based index of abundance
+```{r}
+biomass = get_design_based(
+  data = catch,  
+  strata = WCGBTS_strata)
+
+```
+
+Plot coastwide
+
+```{r}
+plot_index(
+  data = biomass,
+  plot = 1)
+
+# thats only about a maximum of 200,500 fish.... very few...
+```
+
+Plot index for each strata
+```{r}
+plot_index(
+  data = biomass,
+  plot = 2)
+
+```
+
+Length composition data
+
+```{r}
+length_comps <- get_expanded_comps(
+    bio_data = bio,
+    catch_data = catch,
+    comp_bins = seq(10, 74, 2),
+    strata = WCGBTS_strata,
+    comp_column_name = "length_cm",
+    output = "full_expansion_ss3_format",
+    two_sex_comps = FALSE,
+    input_n_method = "stewart_hamel")
+
+plot_comps(
+  data = length_comps)
+
+raw_length_comps <- get_raw_comps(
+    data = bio,
+    comp_bins = seq(10, 74, 2),
+    comp_column_name = "length_cm",
+    two_sex_comps = FALSE)
+
+```
+Marginal age composition data
+```{r}
+age_comps <- get_expanded_comps(
+    bio_data = bio,
+    catch_data = catch,
+    comp_bins = 0:65,
+    strata = WCGBTS_strata,
+    comp_column_name = "age",
+    output = "full_expansion_ss3_format",
+    two_sex_comps = FALSE,
+    input_n_method = "stewart_hamel")
+
+plot_comps(
+  data = age_comps)
+
+raw_age_comps <- get_raw_comps(
+    data = bio,
+    comp_bins = 0:65,
+    comp_column_name = "age",
+    two_sex_comps = FALSE)
+```
+Conditional age-at-length data
+```{r}
+caal <- SurveyAgeAtLen.fn(
+  datAL = bio, 
+  datTows = catch,
+  strat.df = WCGBTS_strata,
+  lgthBins = seq(10, 74, 2), 
+  ageBins = 0:65)
+
+PlotMap.fn(
+  dat = catch)
+```
+
+
+Initial pull and plotting of data: Triennial
+
+```{r}
+catchT = pull_catch(
+  common_name = "yelloweye rockfish", 
+  survey = "Triennial")
+
+bioT = pull_bio(
+  common_name = "yelloweye rockfish", 
+  survey = "Triennial")
+
+plot_cpue(
+  catch = catchT)
+
+plot_bio_patterns(
+  bio = bioT, 
+  col_name = "Length_cm")
+
+wh_plot_proportion(
+  data_catch = catchT,
+  data_bio = bioT
+)
+
+```
+
+Define the strata
+For Yelloweye, they were not observed beyond 350m, nor were they further south that 34 degrees
+```{r}
+Triennial_strata = CreateStrataDF.fn(names=c("OR", "WA"), 
+                           depths.shallow = c(55,     55),
+                           depths.deep    = c(350,    350),
+                           lats.south     = c(42,     46),
+                           lats.north     = c(46,   	49))
+
+
+```
+
+Calculate designed based index of abundance
+```{r}
+biomassT = get_design_based(
+  data = catchT,  
+  strata = Triennial_strata)
+
+```
+
+Plot coastwide
+
+```{r}
+plot_index(
+  data = biomassT,
+  plot = 1)
+
+# thats only about a maximum of 200,500 fish.... very few...
+```
+
+Plot index for each strata
+```{r}
+plot_index(
+  data = biomassT,
+  plot = 2)
+
+```
+
+Length composition data
+
+```{r}
+length_compsT <- get_expanded_comps(
+    bio_data = bioT,
+    catch_data = catchT,
+    comp_bins = seq(10, 74, 2),
+    strata = Triennial_strata,
+    comp_column_name = "length_cm",
+    output = "full_expansion_ss3_format",
+    two_sex_comps = FALSE,
+    input_n_method = "stewart_hamel")
+
+plot_comps(
+  data = length_compsT)
+
+raw_length_compsT <- get_raw_comps(
+    data = bioT,
+    comp_bins = seq(10, 74, 2),
+    comp_column_name = "length_cm",
+    two_sex_comps = FALSE)
+
+```
+
+Marginal age composition data
+```{r}
+age_compsT <- get_expanded_comps(
+    bio_data = bioT,
+    catch_data = catchT,
+    comp_bins = 0:65,
+    strata = Triennial_strata,
+    comp_column_name = "age",
+    output = "full_expansion_ss3_format",
+    two_sex_comps = FALSE,
+    input_n_method = "stewart_hamel")
+
+plot_comps(
+  data = age_compsT)
+
+raw_age_compsT <- get_raw_comps(
+    data = bioT,
+    comp_bins = 0:65,
+    comp_column_name = "age",
+    two_sex_comps = FALSE)
+```
+
+Conditional age-at-length data
+```{r}
+caalT <- SurveyAgeAtLen.fn(
+  datAL = bioT, 
+  datTows = catchT,
+  strat.df = Triennial_strata,
+  lgthBins = seq(10, 74, 2), 
+  ageBins = 0:65)
+
+PlotMap.fn(
+  dat = catchT)
+```
