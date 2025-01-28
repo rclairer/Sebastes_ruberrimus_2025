@@ -17,9 +17,10 @@ library(dplyr)
 library(nwfscSurvey)
 ```
 
-Initial pull and plotting of data: WCGBTS
+## NWFSC.Combo Data
 
-```{r}
+Initial pull and plotting of data: WCGBTS
+```{r, warning = FALSE, message = FALSE}
 catch = pull_catch(
   common_name = "yelloweye rockfish", 
   survey = "NWFSC.Combo")
@@ -39,109 +40,154 @@ wh_plot_proportion(
   data_catch = catch,
   data_bio = bio
 )
-
 ```
 
 Define the strata
-
-```{r}
+```{r, warning = FALSE, message = FALSE}
 WCGBTS_strata <- CreateStrataDF.fn(
   names = c("shallow_OR", "deep_OR", "shallow_WA", "deep_WA"), 
-  depths.shallow = c(  55,  183,  55, 183),
-  depths.deep    = c( 183,  350, 183, 350),
-  lats.south     = c(42, 42,  46,  46),
-  lats.north     = c(  46,   46,  49,  49)
+  depths.shallow = c(55, 183, 55, 183),
+  depths.deep    = c(183, 350, 183, 350),
+  lats.south     = c(42, 42, 46, 46),
+  lats.north     = c(46, 46, 49, 49)
 )
-
 ```
 
 Calculate designed based index of abundance
-```{r}
+```{r, warning = FALSE, message = FALSE}
 biomass = get_design_based(
   data = catch,  
-  strata = WCGBTS_strata)
+  strata = WCGBTS_strata,
+  dir = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_design_based_indices"),
+  printfolder = "")
+```
 
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+file.rename(from = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_design_based_indices","design_based_indices.csv"), 
+            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_design_based_indices", "NWFSC.Combo_design_based_indices.csv"))
 ```
 
 Plot coastwide
-
-```{r}
+```{r, warning = FALSE, message = FALSE}
 plot_index(
   data = biomass,
   plot = 1)
-
 # thats only about a maximum of 200,500 fish.... very few...
 ```
 
 Plot index for each strata
-```{r}
+```{r, warning = FALSE, message = FALSE}
 plot_index(
   data = biomass,
   plot = 2)
-
 ```
 
 Length composition data
+```{r, warning = FALSE, message = FALSE}
+# Expanded length comps are not used for the yelloweye assessment
+# length_comps <- get_expanded_comps(
+#     bio_data = bio,
+#     catch_data = catch,
+#     comp_bins = seq(10, 74, 2),
+#     strata = WCGBTS_strata,
+#     comp_column_name = "length_cm",
+#     output = "full_expansion_ss3_format",
+#     two_sex_comps = FALSE, #single sex model
+#     input_n_method = "stewart_hamel")
+# 
+# plot_comps(
+#   data = length_comps)
 
-```{r}
-length_comps <- get_expanded_comps(
-    bio_data = bio,
-    catch_data = catch,
-    comp_bins = seq(10, 74, 2),
-    strata = WCGBTS_strata,
-    comp_column_name = "length_cm",
-    output = "full_expansion_ss3_format",
-    two_sex_comps = FALSE, #single sex model
-    input_n_method = "stewart_hamel")
-
-plot_comps(
-  data = length_comps)
-
+# Use raw length comps, you can tell this is what was used in the previous assessment because whole numbers are used
 raw_length_comps <- get_raw_comps(
     data = bio,
     comp_bins = seq(10, 74, 2),
     comp_column_name = "length_cm",
+    dir = getwd(),
+    printfolder = "",
     two_sex_comps = FALSE) #single sex model
 
-```
-Marginal age composition data
-```{r}
-age_comps <- get_expanded_comps(
-    bio_data = bio,
-    catch_data = catch,
-    comp_bins = 0:65,
-    strata = WCGBTS_strata,
-    comp_column_name = "age",
-    output = "full_expansion_ss3_format",
-    two_sex_comps = FALSE, #single sex model
-    input_n_method = "stewart_hamel")
-
 plot_comps(
-  data = age_comps)
+  data = raw_length_comps
+)
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+length_files <- list.files(path = getwd(), pattern = "length_cm")
+
+file.rename(from = length_files[1],
+            to = paste0("NWFSC.Combo_", length_files[1]))
+file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[1])),
+            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[1])))
+
+file.rename(from = length_files[2],
+            to = paste0("NWFSC.Combo_", length_files[2]))
+file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[2])),
+            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[2])))
+```
+
+Marginal age composition data
+```{r, warning = FALSE, message = FALSE}
+# Expanded age comps are not used in the yelloweye assessment
+# age_comps <- get_expanded_comps(
+#     bio_data = bio,
+#     catch_data = catch,
+#     comp_bins = 0:65,
+#     strata = WCGBTS_strata,
+#     comp_column_name = "age",
+#     output = "full_expansion_ss3_format",
+#     two_sex_comps = FALSE, #single sex model
+#     input_n_method = "stewart_hamel")
+# 
+# plot_comps(
+#   data = age_comps)
 
 raw_age_comps <- get_raw_comps(
     data = bio,
     comp_bins = 0:65,
     comp_column_name = "age",
+    dir = getwd(),
+    printfolder = "", 
     two_sex_comps = FALSE) #single sex model
+
+plot_comps(
+  data = raw_age_comps)
 ```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+age_files <- list.files(path = getwd(), pattern = "age_")
+
+file.rename(from = age_files[1],
+            to = paste0("NWFSC.Combo_", age_files[1]))
+file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", age_files[1])), 
+            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_age_comps", paste0("NWFSC.Combo_", age_files[1])))
+
+file.rename(from = age_files[2],
+            to = paste0("NWFSC.Combo_", age_files[2]))
+file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", age_files[2])), 
+          to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_age_comps", paste0("NWFSC.Combo_", age_files[2])))
+```
+
 Conditional age-at-length data
-```{r}
+```{r, warning = FALSE, message = FALSE}
 caal <- SurveyAgeAtLen.fn(
   datAL = bio, 
   datTows = catch,
   strat.df = WCGBTS_strata,
   lgthBins = seq(10, 74, 2), 
-  ageBins = 0:65)
+  ageBins = 0:65,
+  dir = file.path(dirname(getwd()), "Data", "NWFSC.Combo_CAAL"),
+  printfolder = "")
 
 PlotMap.fn(
   dat = catch)
 ```
 
 
-Initial pull and plotting of data: Triennial
+## Triennial Data
 
-```{r}
+Initial pull and plotting of data: Triennial
+```{r, warning = FALSE, message = FALSE}
 catchT = pull_catch(
   common_name = "yelloweye rockfish", 
   survey = "Triennial")
@@ -151,8 +197,7 @@ bioT = pull_bio(
   common_name = "yelloweye rockfish", 
   survey = "Triennial")
 
-bioTtest <- bioT$age_data #this is the same number of variables as bio from the WCGBTS
-bioT <- bioTtest
+bioT <- bioT$length_data # Ian said to use length data
 
 plot_cpue(
   catch = catchT)
@@ -165,73 +210,90 @@ wh_plot_proportion(
   data_catch = catchT,
   data_bio = bioT
 )
-
 ```
 
 Define the strata
-
-```{r}
+```{r, warning = FALSE, message = FALSE}
 Triennial_strata = CreateStrataDF.fn(names=c("OR", "WA"), 
-                           depths.shallow = c(55,     55),
-                           depths.deep    = c(350,    350),
-                           lats.south     = c(42,     46),
-                           lats.north     = c(46,   	49))
-
-
+                           depths.shallow = c(55, 55),
+                           depths.deep    = c(350, 350),
+                           lats.south     = c(42, 46),
+                           lats.north     = c(46, 49))
 ```
 
 Calculate designed based index of abundance
-```{r}
+```{r, warning = FALSE, message = FALSE}
 biomassT = get_design_based(
   data = catchT,  
-  strata = Triennial_strata)
+  strata = Triennial_strata,
+  dir = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_design_based_indices"),
+  printfolder = "")
+```
 
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+file.rename(from = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_design_based_indices","design_based_indices.csv"), 
+            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_design_based_indices", "Tri_design_based_indices.csv"))
 ```
 
 Plot coastwide
-
-```{r}
+```{r, warning = FALSE, message = FALSE}
 plot_index(
   data = biomassT,
   plot = 1)
-
 # not a lot of fish...
 ```
 
 Plot index for each strata
-```{r}
+```{r, warning = FALSE, message = FALSE}
 plot_index(
   data = biomassT,
   plot = 2)
-
 ```
 
 Length composition data
-
-```{r}
-length_compsT <- get_expanded_comps(
-    bio_data = bioT,
-    catch_data = catchT,
-    comp_bins = seq(10, 74, 2),
-    strata = Triennial_strata,
-    comp_column_name = "length_cm",
-    output = "full_expansion_ss3_format",
-    two_sex_comps = FALSE, #single sex model
-    input_n_method = "stewart_hamel")
-
-plot_comps(
-  data = length_compsT)
+```{r, warning = FALSE, message = FALSE}
+# Expanded length comps are not used for the yelloweye assessment
+# length_compsT <- get_expanded_comps(
+#     bio_data = bioT,
+#     catch_data = catchT,
+#     comp_bins = seq(10, 74, 2),
+#     strata = Triennial_strata,
+#     comp_column_name = "length_cm",
+#     output = "full_expansion_ss3_format",
+#     two_sex_comps = FALSE, #single sex model
+#     input_n_method = "stewart_hamel")
+# 
+# plot_comps(
+#   data = length_compsT)
 
 raw_length_compsT <- get_raw_comps(
     data = bioT,
     comp_bins = seq(10, 74, 2),
     comp_column_name = "length_cm",
+    dir = getwd(),
+    printfolder = "",
     two_sex_comps = FALSE) #single sex model
 
+plot_comps(
+  data = raw_length_compsT)
 ```
 
-Marginal age composition data
-```{r}
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+length_files <- list.files(path = getwd(), pattern = "length_cm")
+
+file.rename(from = length_files[1],
+            to = paste0("Tri_", length_files[1]))
+file.rename(from = file.path(getwd(), paste0("Tri_", length_files[1])),
+            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_length_comps", paste0("Tri_", length_files[1])))
+
+file.rename(from = length_files[2],
+            to = paste0("Tri_", length_files[2]))
+file.rename(from = file.path(getwd(), paste0("Tri_", length_files[2])),
+            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_length_comps", paste0("Tri_", length_files[2])))
+```
+
+No marginal age composition data for triennial survey
+```{r, warning = FALSE, message = FALSE}
 #no age data from Triennial survey?
 
 #age_compsT <- get_expanded_comps(
@@ -254,9 +316,8 @@ Marginal age composition data
 #    two_sex_comps = FALSE) #single sex model
 ```
 
-Conditional age-at-length data
-```{r}
-
+No conditional age-at-length data for triennial survey
+```{r, warning = FALSE, message = FALSE}
 #no age data from Triennial survey?
 
 #caalT <- SurveyAgeAtLen.fn(
@@ -268,4 +329,40 @@ Conditional age-at-length data
 
 PlotMap.fn(
   dat = catchT)
+```
+
+## Weight-Length Relationship
+```{r, warning = FALSE, message = FALSE}
+# Ian said we can just use the nwfsc.combo data and don't need to filter by the same latitudes as the index was, just use all data
+wt_len_est <- estimate_weight_length(
+  bio,
+  col_length = "Length_cm",
+  col_weight = "Weight_kg",
+  verbose = FALSE
+)
+
+wt_len_est
+
+plot_weight_length(
+  bio,
+  dir = getwd(),
+  estimates = wt_len_est,
+  col_length = "length_cm",
+  col_weight = "weight_kg",
+  two_sex = FALSE,
+  add_save_name = NULL,
+  height = 7,
+  width = 7,
+  dpi = 300
+)
+```
+
+
+## WCGOP Fisheries Discards
+```{r, warning = FALSE, message = FALSE}
+gemm_data <- pull_gemm("yelloweye rockfish", 
+                       dir = file.path(dirname(getwd()), "Data"), 
+                       verbose = TRUE)
+
+head(gemm_data, n = 20)
 ```
