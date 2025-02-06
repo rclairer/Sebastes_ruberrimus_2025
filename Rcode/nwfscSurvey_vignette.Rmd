@@ -15,6 +15,7 @@ If we are seeing catches in CA, what is the strata doing again?
 knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
 library(nwfscSurvey)
+dir.create(file.path(getwd(),"plots"))
 ```
 
 ## NWFSC.Combo Data
@@ -42,7 +43,8 @@ wh_plot_proportion(
 )
 ```
 
-Define the strata
+### Calculate designed based index of abundance
+
 ```{r, warning = FALSE, message = FALSE}
 WCGBTS_strata <- CreateStrataDF.fn(
   names = c("shallow_OR", "deep_OR", "shallow_WA", "deep_WA"), 
@@ -53,7 +55,6 @@ WCGBTS_strata <- CreateStrataDF.fn(
 )
 ```
 
-Calculate designed based index of abundance
 ```{r, warning = FALSE, message = FALSE}
 biomass = get_design_based(
   data = catch,  
@@ -82,7 +83,7 @@ plot_index(
   plot = 2)
 ```
 
-Length composition data
+### Length composition data
 ```{r, warning = FALSE, message = FALSE}
 # Expanded length comps are not used for the yelloweye assessment
 # length_comps <- get_expanded_comps(
@@ -126,7 +127,7 @@ file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[2])),
             to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[2])))
 ```
 
-Marginal age composition data
+### Marginal age composition data
 ```{r, warning = FALSE, message = FALSE}
 # Expanded age comps are not used in the yelloweye assessment
 # age_comps <- get_expanded_comps(
@@ -168,7 +169,7 @@ file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", age_files[2])),
           to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_age_comps", paste0("NWFSC.Combo_", age_files[2])))
 ```
 
-Conditional age-at-length data
+### Conditional age-at-length data
 ```{r, warning = FALSE, message = FALSE}
 caal <- SurveyAgeAtLen.fn(
   datAL = bio, 
@@ -183,8 +184,52 @@ PlotMap.fn(
   dat = catch)
 ```
 
+### Weight-Length Relationship
+```{r, warning = FALSE, message = FALSE}
+# Ian said we can just use the nwfsc.combo data and don't need to filter by the same latitudes as the index was, just use all data
+wt_len_est <- estimate_weight_length(
+  bio,
+  col_length = "Length_cm",
+  col_weight = "Weight_kg",
+  verbose = FALSE
+)
+
+wt_len_est
+
+plot_weight_length(
+  bio,
+  dir = getwd(),
+  estimates = wt_len_est,
+  col_length = "length_cm",
+  col_weight = "weight_kg",
+  two_sex = FALSE,
+  add_save_name = NULL,
+  height = 7,
+  width = 7,
+  dpi = 300
+)
+```
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+if(dir.exists(file.path(getwd(),"NWFSC.Combo_plots"))){
+  plots <- list.files(file.path(getwd(), "plots"))
+  lapply(plots, function(x){
+    file.rename(from = file.path(getwd(), "plots", plots[x]),
+                to = file.path(getwd(), "NWFSC.Combo_plots", plots[x]))
+  })
+} else {
+  file.rename(from = file.path(dirname(getwd()), "Rcode", "plots"), 
+            to = file.path(dirname(getwd()), "Rcode", "NWFSC.Combo_plots"))
+}
+```
 
 ## Triennial Data
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+if(dir.exists(file.path(getwd(),"plots")) == FALSE) {
+  dir.create(file.path(getwd(),"plots"))
+}
+```
 
 Initial pull and plotting of data: Triennial
 ```{r, warning = FALSE, message = FALSE}
@@ -212,7 +257,8 @@ wh_plot_proportion(
 )
 ```
 
-Define the strata
+### Calculate designed based index of abundance
+
 ```{r, warning = FALSE, message = FALSE}
 Triennial_strata = CreateStrataDF.fn(names=c("OR", "WA"), 
                            depths.shallow = c(55, 55),
@@ -221,7 +267,6 @@ Triennial_strata = CreateStrataDF.fn(names=c("OR", "WA"),
                            lats.north     = c(46, 49))
 ```
 
-Calculate designed based index of abundance
 ```{r, warning = FALSE, message = FALSE}
 biomassT = get_design_based(
   data = catchT,  
@@ -250,7 +295,7 @@ plot_index(
   plot = 2)
 ```
 
-Length composition data
+### Length composition data
 ```{r, warning = FALSE, message = FALSE}
 # Expanded length comps are not used for the yelloweye assessment
 # length_compsT <- get_expanded_comps(
@@ -292,7 +337,7 @@ file.rename(from = file.path(getwd(), paste0("Tri_", length_files[2])),
             to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_length_comps", paste0("Tri_", length_files[2])))
 ```
 
-No marginal age composition data for triennial survey
+### No marginal age composition data for triennial survey
 ```{r, warning = FALSE, message = FALSE}
 #no age data from Triennial survey?
 
@@ -316,7 +361,7 @@ No marginal age composition data for triennial survey
 #    two_sex_comps = FALSE) #single sex model
 ```
 
-No conditional age-at-length data for triennial survey
+### No conditional age-at-length data for triennial survey
 ```{r, warning = FALSE, message = FALSE}
 #no age data from Triennial survey?
 
@@ -331,35 +376,21 @@ PlotMap.fn(
   dat = catchT)
 ```
 
-## Weight-Length Relationship
-```{r, warning = FALSE, message = FALSE}
-# Ian said we can just use the nwfsc.combo data and don't need to filter by the same latitudes as the index was, just use all data
-wt_len_est <- estimate_weight_length(
-  bio,
-  col_length = "Length_cm",
-  col_weight = "Weight_kg",
-  verbose = FALSE
-)
-
-wt_len_est
-
-plot_weight_length(
-  bio,
-  dir = getwd(),
-  estimates = wt_len_est,
-  col_length = "length_cm",
-  col_weight = "weight_kg",
-  two_sex = FALSE,
-  add_save_name = NULL,
-  height = 7,
-  width = 7,
-  dpi = 300
-)
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+if(dir.exists(file.path(getwd(),"Tri_plots"))){
+  plots <- list.files(file.path(getwd(), "plots"))
+  lapply(plots, function(x){
+    file.rename(from = file.path(getwd(), "plots", plots[x]),
+                to = file.path(getwd(), "Tri_plots", plots[x]))
+  })
+} else {
+  file.rename(from = file.path(dirname(getwd()), "Rcode", "plots"), 
+            to = file.path(dirname(getwd()), "Rcode", "Tri_plots"))
+}
 ```
 
-
 ## WCGOP Fisheries Discards
-```{r, warning = FALSE, message = FALSE}
+```{r, warning = FALSE, message = FALSE, }
 gemm_data <- pull_gemm("yelloweye rockfish", 
                        dir = file.path(dirname(getwd()), "Data"), 
                        verbose = TRUE)
