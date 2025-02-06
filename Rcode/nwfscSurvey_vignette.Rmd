@@ -100,9 +100,10 @@ plot_index(
 #   data = length_comps)
 
 # Use raw length comps, you can tell this is what was used in the previous assessment because whole numbers are used
+# The steward-hamel method is used to get the Nsamps, this is better than the simplified stewart-hamel approach used in the 2017 assessment and is fine to use in this years update according to the instructors.
 raw_length_comps <- get_raw_comps(
     data = bio,
-    input_n_method = c("tows"),
+    input_n_method = c("stewart_hamel"),
     comp_bins = seq(10, 74, 2),
     comp_column_name = "length_cm",
     dir = getwd(),
@@ -149,6 +150,7 @@ file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[2])),
 raw_age_comps <- get_raw_comps(
     data = bio,
     comp_bins = 0:65,
+    input_n_method = "stewart_hamel",
     comp_column_name = "age",
     fleet = 11,
     age_error = 2,
@@ -341,7 +343,7 @@ plot_index(
 
 raw_length_compsT <- get_raw_comps(
     data = bioT,
-    input_n_method = c("tows"),
+    input_n_method = c("stewart_hamel"),
     month = 7,
     fleet = 10,
     comp_bins = seq(10, 74, 2),
