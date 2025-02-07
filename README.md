@@ -14,7 +14,7 @@ Update assessment for Yelloweye Rockfish (*Sebastes ruberrimus*)
 
 `model/` - This directory holds the stock synthesis model code.
 
-`model/ss_executables/` - This directory holds the executables for SS considered in this assessment. 
+`model/SS_2017/` - This directory holds the executables for SS. 
 
 ## Useful Packages / Resources
 
