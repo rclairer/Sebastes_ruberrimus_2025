@@ -197,7 +197,7 @@ one_sex_caal <- caal |>
   )) |>
   mutate(age = as.numeric(stringr::str_remove_all(age, "f|m"))) |>
   dplyr::group_by(year, Lbin_lo, age) |>
-  dplyr::summarize(month = unique(month),
+  dplyr::summarize(month = 7,
                    fleet = 11,
                    sex = 0,
                    partition = unique(partition),
