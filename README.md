@@ -4,7 +4,7 @@ Update assessment for Yelloweye Rockfish (*Sebastes ruberrimus*)
 ## File Structure 
 `Data/` - This directory holds any and all data that is direct requested from state/federal agencies or pulled from NOAA servers (ie. survey data).
 
-`Data/raw/` - ***Coming Soon*** Completely raw, unedited, data from various data sources. This folder is untracked and is safe to place confidential data in.
+`Data/raw/` - Completely raw, unedited, data from various data sources. This folder is untracked and is safe to place confidential data in.
 
 `Data/processed/` - Processed data from available data sources. This folder IS tracked, so no confidential data, only cleaned datasets ready for analysis. Every file in this directory should have an equivalent "raw" data file in data/raw.
 
