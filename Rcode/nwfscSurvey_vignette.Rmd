@@ -123,12 +123,12 @@ length_files <- list.files(path = getwd(), pattern = "length_cm")
 file.rename(from = length_files[1],
             to = paste0("NWFSC.Combo_", length_files[1]))
 file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[1])),
-            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[1])))
+            to = file.path(dirname(getwd()), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[1])))
 
 file.rename(from = length_files[2],
             to = paste0("NWFSC.Combo_", length_files[2]))
 file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[2])),
-            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[2])))
+            to = file.path(dirname(getwd()), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[2])))
 ```
 
 ### Marginal age composition data
@@ -169,12 +169,12 @@ age_files <- list.files(path = getwd(), pattern = "age_")
 file.rename(from = age_files[1],
             to = paste0("NWFSC.Combo_", age_files[1]))
 file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", age_files[1])), 
-            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_age_comps", paste0("NWFSC.Combo_", age_files[1])))
+            to = file.path(dirname(getwd()), "Data", "processed", "NWFSC.Combo_age_comps", paste0("NWFSC.Combo_", age_files[1])))
 
 file.rename(from = age_files[2],
             to = paste0("NWFSC.Combo_", age_files[2]))
 file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", age_files[2])), 
-          to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_age_comps", paste0("NWFSC.Combo_", age_files[2])))
+          to = file.path(dirname(getwd()), "Data", "processed", "NWFSC.Combo_age_comps", paste0("NWFSC.Combo_", age_files[2])))
 ```
 
 ### Conditional age-at-length data
@@ -184,7 +184,7 @@ caal <- get_raw_caal(
   dat = bio, 
   len_bins = seq(10, 74, 2), 
   age_bins = 0:65,
-  dir = file.path(dirname(getwd()), "Data", "NWFSC.Combo_CAAL"),
+  dir = file.path(dirname(getwd()), "Data", "processed", NWFSC.Combo_CAAL"),
   printfolder = "")
 
 # Reformat data to only have one sex
@@ -208,7 +208,7 @@ one_sex_caal <- caal |>
   dplyr::select(year, month, fleet, sex, partition, ageerr, Lbin_lo, Lbin_hi, Nsamp, age, count) |>
   tidyr::pivot_wider(names_from = "age", values_from = "count")
 
-write.csv(one_sex_caal, file = file.path(dirname(getwd()), "Data", "NWFSC.Combo_CAAL", "processed_one_sex_caal.csv"), row.names = FALSE)
+write.csv(one_sex_caal, file = file.path(dirname(getwd()), "Data", "processed", "NWFSC.Combo_CAAL", "processed_one_sex_caal.csv"), row.names = FALSE)
 
 PlotMap.fn(
   dat = catch)
@@ -362,12 +362,12 @@ length_files <- list.files(path = getwd(), pattern = "length_cm")
 file.rename(from = length_files[1],
             to = paste0("Tri_", length_files[1]))
 file.rename(from = file.path(getwd(), paste0("Tri_", length_files[1])),
-            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_length_comps", paste0("Tri_", length_files[1])))
+            to = file.path(dirname(getwd()), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("Tri_", length_files[1])))
 
 file.rename(from = length_files[2],
             to = paste0("Tri_", length_files[2]))
 file.rename(from = file.path(getwd(), paste0("Tri_", length_files[2])),
-            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_length_comps", paste0("Tri_", length_files[2])))
+            to = file.path(dirname(getwd()), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("Tri_", length_files[2])))
 ```
 
 ### No marginal age composition data for triennial survey
@@ -425,7 +425,7 @@ if(dir.exists(file.path(getwd(),"Tri_plots"))){
 ## WCGOP Fisheries Discards
 ```{r, warning = FALSE, message = FALSE, }
 gemm_data <- pull_gemm("yelloweye rockfish", 
-                       dir = file.path(dirname(getwd()), "Data"), 
+                       dir = file.path(dirname(getwd()), "Data", "processed"), 
                        verbose = TRUE)
 
 head(gemm_data, n = 20)
