@@ -20,7 +20,7 @@ length_comps <- iphc_bio |>
   tidyr::pivot_wider(names_from = "l_bin", values_from = "n", values_fill = 0) |>
   dplyr::arrange(sample_year)
 
-write.csv(length_comps, file.path(getwd(), "Data", "iphc_length_comps.csv"), row.names = FALSE)
+write.csv(length_comps, file.path(getwd(), "Data", "processed", "iphc_length_comps.csv"), row.names = FALSE)
 
 # get just those until 2016 so it can be compared to the spreadsheet Jason sent me
 test_against_2017 <- length_comps |>
