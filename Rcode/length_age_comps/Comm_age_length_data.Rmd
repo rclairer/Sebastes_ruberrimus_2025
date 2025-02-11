@@ -1,0 +1,505 @@
+---
+title: "Exploration commercial length/age comp"
+author: "Juliette Champagnat"
+date: "2025-02-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, package + data loading}
+
+# rm(list=ls())
+library(tidyverse)
+# remotes::install_github("pfmc-assessments/pacfintools")
+library(pacfintools)
+
+# getwd()
+load('../Data/Confidential/PacFIN.YEYE.bds.12.Dec.2024.RData')
+load('../Data/Confidential/PacFIN.YEYE.CompFT.12.Dec.2024.RData')
+
+
+```
+
+
+# Quick exploration
+
+```{r}
+bds.pacfin %>% dim()
+bds.pacfin %>% names()
+bds.pacfin %>% summary()
+
+catch.pacfin %>% dim()
+catch.pacfin %>% names()
+catch.pacfin %>% summary()
+```
+
+
+# 0- TO CHECK
+
+* Differences between total vs fork length
+**  converting fork length -> develop a new relationship or use the one from the assessment ?
+
+* Do I need to add historical catches (landings) to this ?
+** Seems to have sampling back to 1977 so prob YES ?
+
+# 1- TO SPECIFY
+
+# Bins for biological data
+
+from SAFE 2017 
+
+```{r}
+length_bins <- seq(10,74, by = 2) 
+age_bins <- seq(0, 65, by = 1) 
+```
+
+# The maximum quantile at which to cap all data expansions within getExpansion_1().
+
+```{r}
+expansion <- 0.95 ##?to change ?? 
+```
+
+# 2- CHOICES FOR CLEANING DATABASE
+
+## Gear codes
+
+```{r}
+bds.pacfin %>% names() %>% grepl(pattern='GEAR') %>% which()
+bds.pacfin %>% pull(AGENCY_GEAR_CODE) %>% unique()
+bds.pacfin %>% pull(PACFIN_GEAR_CODE) %>% unique()
+bds.pacfin %>% pull(PACFIN_GEAR_NAME) %>% unique()
+
+names(catch.pacfin)[catch.pacfin %>% names() %>% grepl(pattern='GEAR') %>% which()]
+catch.pacfin %>% pull(GEAR_CODE) %>% unique()
+catch.pacfin %>% pull(GEAR_NAME) %>% unique()
+catch.pacfin %>% pull(ADJUSTED_GEAR_CODE) %>% unique()
+catch.pacfin %>% pull(PACFIN_GEAR_CODE) %>% unique()
+catch.pacfin %>% pull(PACFIN_GEAR_DESCRIPTION) %>% unique()
+catch.pacfin %>% pull(PACFIN_GROUP_GEAR_CODE) %>% unique()
+```
+
+
+### what group relate to what gear
+
+```{r}
+
+catch.pacfin %>% select(PACFIN_GROUP_GEAR_CODE,PACFIN_GEAR_CODE) %>% distinct() %>% arrange(PACFIN_GROUP_GEAR_CODE)
+
+```
+
+### adding PACFIN_GROUP_GEAR_CODE to bds.pacfin
+
+```{r}
+# bds.pacfin <- bds.pacfin %>% 
+#   left_join(catch.pacfin %>% select(PACFIN_GEAR_CODE,PACFIN_GROUP_GEAR_CODE) %>% distinct(),by='PACFIN_GEAR_CODE')
+
+bds.pacfin <- bds.pacfin %>% 
+  mutate(PACFIN_GROUP_GEAR_CODE=
+                       ifelse(PACFIN_GEAR_CODE %in% c('ODG','SCD'),'DRG',
+                        ifelse(PACFIN_GEAR_CODE %in% c('DRL','HDL','HLR','JIG','LGL','OHL','POL','STL','VHL'),'HKL',
+                          ifelse(PACFIN_GEAR_CODE %in% c('DVG','OTH','RVT','USP'),'MSP',
+                            ifelse(PACFIN_GEAR_CODE %in%c('DGN','DPN','GLN','ONT','SEN','SGN','STN','TML'),'NET',
+                              ifelse(PACFIN_GEAR_CODE%in%c('CLP','CPT','FPT','LPT','OPT','PRW','SPT'),'POT',
+                                ifelse(PACFIN_GEAR_CODE %in% c('BTR','HTR','PTR','TRL'),'TLS',
+                                   ifelse(PACFIN_GEAR_CODE %in%c('BMT','BTT','CBF','CBJ','DNT','FFT','FTS',                                                                                      'GFL','GFS','GFT','LFZ','MDT','MPT','OTW','PRT','RLT','SFZ','SRM'),'TWL',
+                                    ifelse(PACFIN_GEAR_CODE%in%c('DST','PWT','SHT','SST'),'TWS',
+                                          #ifelse(PACFIN_GROUP_GEAR_CODE %in%c(DRG,HKL,MSC,NET,NTW)),
+                                    NA)))))))))
+```
+
+
+### display nb of records by GROUP_GEAR
+
+```{r}
+bds.pacfin %>% 
+  group_by(PACFIN_GROUP_GEAR_CODE) %>% 
+  summarise(n=length(PACFIN_GROUP_GEAR_CODE))
+```
+
+there is NAs, what are these?
+
+```{r}
+bds.pacfin %>% 
+  filter(is.na(PACFIN_GROUP_GEAR_CODE)) %>% 
+  group_by(PACFIN_GROUP_GEAR_CODE,PACFIN_GEAR_CODE,PACFIN_GEAR_NAME) %>% 
+  summarise(n=length(PACFIN_GEAR_NAME))
+
+```
+
+* checking here what are they https://reports.psmfc.org/pacfin/f?p=501:804:2720028309398:INITIAL:::: 
+** HKL: ALL HOOK AND LINE GEAR EXCEPT TROLL -> group HKL
+** TWL: ALL TRAWLS EXCEPT SHRIMP TRAWLS -> group TWL
+-> should they been added to HKL and TWL?
+
+
+### display nb of records by GEAR
+
+```{r}
+bds.pacfin %>% 
+  group_by(PACFIN_GEAR_CODE,PACFIN_GEAR_NAME) %>% 
+  summarise(n=length(PACFIN_GEAR_CODE)) %>%  arrange(desc(n))
+
+# bds.pacfin %>% filter(PACFIN_GEAR_CODE %in% c('DST','PWT','SHT','SST'))
+```
+
+### CHOICE : Gear to keep
+
+```{r}
+used_gears <- c("HKL", "TWL")
+```
+
+is it a gear code and a gear group?
+
+## Length type
+
+```{r}
+bds.pacfin %>%
+  group_by(AGENCY_CODE,FISH_LENGTH_TYPE_CODE) %>% 
+  summarise(n=length(FISH_LENGTH_TYPE_CODE))
+```
+What should we do with NAs and Unknow?
+
+### CHOICE: length type
+
+```{r}
+# Keep all alternate (A), fork (F), and unknown (U) length types based on FISH_LENGTH_TYPE_CODE
+good_lengths <- c("F") #"U" ?
+
+```
+
+## Sample method
+
+```{r}
+bds.pacfin %>%
+  group_by(AGENCY_CODE,SAMPLE_METHOD_CODE) %>% 
+  summarise(n=length(SAMPLE_METHOD_CODE))
+```
+
+
+### CHOICE: sample methods
+
+
+
+```{r}
+# Keep only random (R) samples based on SAMPLE_METHOD_CODE. Only random samples
+# should be retained unless specified by a state agency.
+good_methods <- "R"
+```
+
+## Sample type
+
+```{r}
+bds.pacfin %>%
+  group_by(AGENCY_CODE,SAMPLE_TYPE) %>% 
+  summarise(n=length(SAMPLE_TYPE))
+```
+
+what is 'S' ? Should it be kept?
+
+
+### CHOICE: sample type
+
+```{r}
+# Keep commercial on-board (C), market (M), and blank samples based on SAMPLE_TYPE
+good_samples <- c("", "M", "C")
+```
+
+## State
+
+```{r}
+bds.pacfin %>%
+  group_by(AGENCY_CODE) %>% 
+  summarise(n=length(AGENCY_CODE))
+```
+
+### CHOICE: states
+
+```{r}
+# Keep data from all 3 states. This is the default.
+good_states <- c("WA", "OR", "CA")
+```
+
+
+
+## Ageing method
+
+```{r}
+bds.pacfin %>%
+  filter(!is.na(age1)) %>%
+  group_by(AGENCY_CODE,AGE_METHOD1) %>% 
+  summarise(n=length(AGE_METHOD1))
+```
+
+
+### CHOICE: ageing method
+
+```{r}
+# Keep only break and burn (B, BB), unknown (U), and blank (") age reads based
+# on AGE_METHOD. This decision should be species-specific.
+good_age_method <- c("B", "1")
+```
+
+
+# 3- CLEANING DATABASE
+
+```{r}
+
+bds_cleaned <- cleanPacFIN(
+  Pdata = bds.pacfin,
+  keep_gears = used_gears,
+  CLEAN = TRUE,
+  keep_age_method = good_age_method,
+  keep_sample_type = good_samples,
+  keep_sample_method = good_methods,
+  keep_length_type = good_lengths,
+  keep_states = good_states,
+  spp = "yelloweye") |>
+  dplyr::mutate(
+    stratification = paste(state, geargroup, sep = "."),
+    # making another stratification corresponding to model area
+    stratification_byarea = ifelse(state=="CA",paste(state, geargroup, sep = "."), 
+                                   paste("ORWA", geargroup, sep = ".")),
+    # the model is not sexed so it is easier to put everything as unsexed for later calculations
+    SEX='U') 
+
+
+```
+
+
+
+```{r}
+nrow(bds.pacfin);nrow(bds_cleaned)
+ncol(bds.pacfin);ncol(bds_cleaned)
+```
+```{r}
+names(bds_cleaned)
+```
+
+# 4- CLEAN DATABASE EXPLORATION
+
+## gear
+
+```{r}
+bds_cleaned %>% 
+  group_by(geargroup) %>% 
+  summarise(n=length(geargroup))
+
+bds_cleaned %>% 
+  # filter(is.na(PACFIN_GROUP_GEAR_CODE)) %>%
+  group_by(geargroup,PACFIN_GEAR_NAME) %>% 
+    summarise(n=length(PACFIN_GEAR_NAME))
+
+```
+
+## Nb of length/ages by strate (region x fleet)
+
+```{r}
+# bds_cleaned %>% 
+#   group_by(stratification) %>% 
+#     summarise(n=length(stratification))
+ 
+bds_cleaned %>%
+  group_by(stratification) %>%
+    summarise(n_length=sum(!is.na(length)),n_age=sum(!is.na(Age)))
+
+# bds_cleaned %>% 
+#   filter(!is.na(FISH_LENGTH)) %>% 
+#   group_by(stratification) %>% 
+#     summarise(n=length(stratification))
+
+# bds_cleaned %>% 
+#   filter(!is.na(Age)) %>% 
+#   group_by(stratification) %>% 
+#     summarise(n=length(stratification))
+
+```
+
+## Trip
+
+```{r}
+
+bds_cleaned %>% pull(FTID) %>% unique() %>% length()
+
+bds_cleaned %>% pull(FTID) %>% is.na() %>% sum()
+
+bds_cleaned %>% pull(SAMPLE_NO) %>% unique() %>% length()
+
+
+
+
+nrow(bds_cleaned)
+```
+
+
+## Length sampling effort
+
+
+### Number of trip and sample
+
+-> how to get a trip ? -> using SAMPLE_NO
+
+```{r}
+
+bds_cleaned %>%
+  group_by(stratification,year) %>%
+    summarise(n_length=sum(!is.na(length)),n_age=sum(!is.na(Age))) %>% 
+  ggplot(aes(year, stratification))+geom_text(aes(label=n_length))
+
+
+bds_cleaned %>%
+  group_by(stratification,year) %>%
+  filter(!is.na(length)) %>% 
+  summarise(n_length=length(length),n_trip=length(unique(SAMPLE_NO)))
+
+bds_cleaned %>%
+  group_by(year,stratification_byarea) %>%
+  filter(!is.na(length)) %>% 
+  summarise(n_trips=length(unique(SAMPLE_NO)),n_fish=length(length)) %>% 
+  pivot_wider(id_cols = year,names_from = c(stratification_byarea),values_from = c(n_trips,n_fish),names_glue="{stratification_byarea}_{.value}") %>% 
+  relocate(year,CA.TWL_n_trips,CA.TWL_n_fish,CA.HKL_n_fish,CA.HKL_n_trips,CA.HKL_n_fish,
+           ORWA.TWL_n_trips,ORWA.TWL_n_fish,ORWA.HKL_n_trips,ORWA.HKL_n_fish)
+
+```
+
+### Sample size
+
+Formula from 2017 SAFE p41
+
+```{r}
+bds_cleaned %>%
+  group_by(year,stratification_byarea) %>%
+  filter(!is.na(length)) %>% 
+  summarise(N_fish=length(length),N_trips=length(unique(SAMPLE_NO))) %>% 
+  mutate(N_input = ifelse(N_fish/N_trips<44,N_trips+0.138*N_fish,7.06*N_trips))
+```
+
+
+## Age sampling effort
+
+### trips and samples 
+
+```{r}
+
+bds_cleaned %>%
+  group_by(stratification_byarea,year) %>%
+    summarise(n_age=sum(!is.na(Age)))
+
+bds_cleaned %>%
+  group_by(stratification,year) %>%
+    summarise(n_length=sum(!is.na(length)),n_age=sum(!is.na(Age))) %>% 
+  ggplot(aes(year, stratification))+geom_text(aes(label=n_age))
+
+```
+
+### sample size
+
+ Formula from 2017 SAFE p41
+
+```{r}
+bds_cleaned %>%
+  group_by(year,stratification_byarea) %>%
+  filter(!is.na(Age)) %>% 
+  summarise(N_fish=length(Age),N_trips=length(unique(SAMPLE_NO))) %>% 
+  mutate(N_input = ifelse(N_fish/N_trips<44,N_trips+0.138*N_fish,7.06*N_trips))
+```
+
+
+## Plots
+
+### PacFin plots - general
+
+```{r}
+
+plotCleaned(bds_cleaned,savedir = getwd())
+
+```
+
+### PacFIN plot - length/age
+
+```{r}
+plotStrat(data=bds_cleaned,dir = getwd())
+?plotStrat()
+```
+
+function is not working
+
+### length distribution
+
+```{r}
+
+bds_cleaned %>%
+  group_by(stratification_byarea,year) %>%
+  filter(!is.na(length)) %>% 
+  ggplot(aes(year,length))
+
+```
+
+
+# 5- EXPANSION
+
+No expansion is done for this species because of too low samples numbers
+
+p41 of 2017 SAFE
+
+"Due to very sparse sampling (mainly opportunistic, since yelloweye have been landed in very small proportions of mixed species market categories or recreational bag limits) length frequencies are raw, calculated as the count of fish among size bins. This has been the case in previous assessments, and preliminary investigation of alternate weighting procedures revealed little sensitivity to this choice."
+
+
+# 6- LENGTH COMPS
+
+What are the final sample sizes?
+2017 SAFE p41 mention formulas based on Stewart and Hamel (2014) -> is this what we want to use?
+
+
+```{r}
+
+length_comps_long <- getComps(
+  Pdata = bds_cleaned %>% filter(!is.na(lengthcm)) %>% 
+    left_join(bds_cleaned %>%
+  group_by(year,stratification_byarea) %>%
+  filter(!is.na(length)) %>% 
+  summarise(N_fish=length(length),N_trips=length(unique(SAMPLE_NO))) %>% 
+  mutate(N_input = ifelse(N_fish/N_trips<44,N_trips+0.138*N_fish,7.06*N_trips)) %>%  select(-c(N_fish,N_trips)),
+  by=c('year','stratification_byarea')),
+  defaults = c("fishyr", "season",'stratification_byarea'),
+  Comps = "LEN",
+  weightid = "N_input"
+)
+
+
+length_comps_long %>% 
+  ggplot(aes(fishyr,lengthcm))+geom_point(aes(size=comp))+facet_wrap(~stratification_byarea,ncol=1)+
+  theme_bw()+labs(x='Year',y='Length')
+
+# length_comps_long %>% 
+#   ggplot(aes(fishyr,lengthcm))+geom_point(aes(size=n_fish))+facet_wrap(~stratification_byarea)
+```
+
+### 7- AGE COMPS
+
+```{r}
+
+age_comps_long <- getComps(
+  Pdata = bds_cleaned %>% filter(!is.na(Age)) %>% 
+    left_join(bds_cleaned %>%
+  group_by(year,stratification_byarea) %>%
+  filter(!is.na(Age)) %>% 
+  summarise(N_fish=length(Age),N_trips=length(unique(SAMPLE_NO))) %>% 
+  mutate(N_input = ifelse(N_fish/N_trips<44,N_trips+0.138*N_fish,7.06*N_trips)) %>%  select(-c(N_fish,N_trips)),
+  by=c('year','stratification_byarea')),
+  defaults = c("fishyr", "season",'stratification_byarea'),
+  Comps = "AGE",
+  weightid = "N_input"
+)
+
+
+age_comps_long %>% 
+  ggplot(aes(fishyr,Age))+geom_point(aes(size=comp))+facet_wrap(~stratification_byarea,ncol=1)+
+  theme_bw()+labs(x='Year',y='Age')
+
+
+```
+
