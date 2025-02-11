@@ -1,0 +1,110 @@
+---
+title: "Discards"
+author: "Sam Schiano; Elizabeth Perl"
+format: pdf
+editor: visual
+---
+
+## Discards
+
+- Sourced from GEMM
+
+- Incorporated directly into landings/catch rather than modelled separately
+
+```{r}
+gemm <- nwfscSurvey::pull_gemm(common_name = "yelloweye rockfish") |>
+  suppressWarnings()
+```
+
+
+### Recreational Fleets
+
+```{r}
+CA_rec_fleets <- c(
+  "California Recreational"
+)
+OR_rec_fleets <- c(
+  "Oregon Recreational"
+)
+WA_rec_fleets <- c(
+  "Washington Recreational"
+)
+```
+
+
+### Commercial Fleets
+
+```{r}
+CA_comm_twl <- c(
+  "CS - Bottom Trawl",
+  "CS EM - Bottom Trawl",
+  "Pink Shrimp",
+  "CS - Bottom and Midwater Trawl",
+  "Limited Entry Trawl"
+)
+CA_comm_nontwl <- c(
+  "CS EM - Pot",
+  "Triabl Shoreside",
+  "CS - Pot",
+  "LE Fixed Gear DTL - Hook & Line",
+  "CS - Hook & Line",
+  "LE CA Halibut"
+)
+
+ORWA_comm_twl <- c(
+  "At-Sea Hake CP",
+  "At-Sea Hake MSCV",
+  "Midwater Hake",
+  "Midwater Rockfish",
+  "Directed P Halibut",
+  "Midwater Rockfish EM",
+  "Midwater Hake EM",
+  "Tribal At-Sea Hake"
+)
+ORWA_comm_nontwl <- c(
+  "Incidental",
+  "LE Sablefish - Hook & Line",
+  "LE Sablefish - Pot",
+  "Nearshore",
+  "OA Fixed Gear - Hook & Line",
+  "OA Fixed Gear - Pot",
+  "Shoreside Hake"
+)
+```
+
+```{r}
+# extra
+addl_fleets <- c(
+  "Research"
+)
+```
+
+
+### Combine data by fleet and area
+
+```{r}
+recreational <- gemm |>
+  dplyr::filter(sector %in% c(CA_rec_fleets, OR_rec_fleets, WA_rec_fleets))
+```
+
+```{r}
+commercial <- gemm |>
+  dplyr::filter(sector %in% c(CA_comm_twl, CA_comm_nontwl, ORWA_comm_twl, ORWA_comm_nontwl)) |>
+  dplyr::mutate(
+    area = dplyr::case_when(
+      sector %in% c(CA_comm_twl, CA_comm_nontwl) ~ "CA",
+      sector %in% c(ORWA_comm_twl, ORWA_comm_nontwl) ~ "ORWA",
+      TRUE ~ "XXXX"
+      ),
+    type = dplyr::case_when(
+      sector %in% c(CA_comm_twl, ORWA_comm_twl) ~ "twl",
+      sector %in% c(CA_comm_nontwl, ORWA_comm_nontwl) ~ "nontwl",
+      TRUE ~ "XXXX"
+    ),
+    fleet = glue::glue("{area}_{type}")
+  ) |> 
+  dplyr::group_by(year, fleet) |>
+  dplyr::summarise(total_discards = sum(total_discard_mt),
+                   cv = max(cv))
+```
+
