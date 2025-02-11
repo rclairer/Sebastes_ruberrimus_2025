@@ -59,13 +59,13 @@ WCGBTS_strata <- CreateStrataDF.fn(
 biomass = get_design_based(
   data = catch,  
   strata = WCGBTS_strata,
-  dir = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_design_based_indices"),
+  dir = file.path(dirname(dirname(getwd())), "Data", "NWFSC.Combo_and_Tri_design_based_indices"),
   printfolder = "")
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-file.rename(from = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_design_based_indices","design_based_indices.csv"), 
-            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_design_based_indices", "NWFSC.Combo_design_based_indices.csv"))
+file.rename(from = file.path(dirname(dirname(getwd())), "Data", "NWFSC.Combo_and_Tri_design_based_indices","design_based_indices.csv"), 
+            to = file.path(dirname(dirname(getwd())), "Data", "NWFSC.Combo_and_Tri_design_based_indices", "NWFSC.Combo_design_based_indices.csv"))
 ```
 
 Plot coastwide
@@ -100,13 +100,17 @@ plot_index(
 #   data = length_comps)
 
 # Use raw length comps, you can tell this is what was used in the previous assessment because whole numbers are used
+# The steward-hamel method is used to get the Nsamps, this is better than the simplified stewart-hamel approach used in the 2017 assessment and is fine to use in this years update according to the instructors.
 raw_length_comps <- get_raw_comps(
     data = bio,
     comp_bins = seq(10, 74, 2),
     comp_column_name = "length_cm",
+    input_n_method = c("stewart_hamel"),
+    two_sex_comps = FALSE,
+    fleet = 11,
+    month = 7, 
     dir = getwd(),
-    printfolder = "",
-    two_sex_comps = FALSE) #single sex model
+    printfolder = "") #single sex model
 
 plot_comps(
   data = raw_length_comps
@@ -119,12 +123,12 @@ length_files <- list.files(path = getwd(), pattern = "length_cm")
 file.rename(from = length_files[1],
             to = paste0("NWFSC.Combo_", length_files[1]))
 file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[1])),
-            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[1])))
+            to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[1])))
 
 file.rename(from = length_files[2],
             to = paste0("NWFSC.Combo_", length_files[2]))
 file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[2])),
-            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[2])))
+            to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[2])))
 ```
 
 ### Marginal age composition data
@@ -146,7 +150,11 @@ file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[2])),
 raw_age_comps <- get_raw_comps(
     data = bio,
     comp_bins = 0:65,
+    input_n_method = "stewart_hamel",
     comp_column_name = "age",
+    fleet = 11,
+    ageerr = 2,
+    month = 7,
     dir = getwd(),
     printfolder = "", 
     two_sex_comps = FALSE) #single sex model
@@ -161,24 +169,46 @@ age_files <- list.files(path = getwd(), pattern = "age_")
 file.rename(from = age_files[1],
             to = paste0("NWFSC.Combo_", age_files[1]))
 file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", age_files[1])), 
-            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_age_comps", paste0("NWFSC.Combo_", age_files[1])))
+            to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_age_comps", paste0("NWFSC.Combo_", age_files[1])))
 
 file.rename(from = age_files[2],
             to = paste0("NWFSC.Combo_", age_files[2]))
 file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", age_files[2])), 
-          to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_age_comps", paste0("NWFSC.Combo_", age_files[2])))
+          to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_age_comps", paste0("NWFSC.Combo_", age_files[2])))
 ```
 
 ### Conditional age-at-length data
 ```{r, warning = FALSE, message = FALSE}
-caal <- SurveyAgeAtLen.fn(
-  datAL = bio, 
-  datTows = catch,
-  strat.df = WCGBTS_strata,
-  lgthBins = seq(10, 74, 2), 
-  ageBins = 0:65,
-  dir = file.path(dirname(getwd()), "Data", "NWFSC.Combo_CAAL"),
+# The previous function used was actually deprecated and this function should have been used.
+caal <- get_raw_caal(
+  dat = bio, 
+  len_bins = seq(10, 74, 2), 
+  age_bins = 0:65,
+  dir = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_CAAL"),
   printfolder = "")
+
+# Reformat data to only have one sex
+one_sex_caal <- caal |>
+  dplyr::arrange(year, Lbin_lo) |>
+  tidyr::pivot_longer(cols = f0:m65, names_to = "age", values_to = "count") |>
+  dplyr::mutate(input_n = case_when(
+    grepl("m", age) ~ 0,
+    grepl("f", age) ~ input_n
+  )) |>
+  mutate(age = as.numeric(stringr::str_remove_all(age, "f|m"))) |>
+  dplyr::group_by(year, Lbin_lo, age) |>
+  dplyr::summarize(month = 7,
+                   fleet = 11,
+                   sex = 0,
+                   partition = unique(partition),
+                   ageerr = 2,
+                   Lbin_hi = unique(Lbin_hi),
+                   Nsamp = sum(input_n),
+                   count = sum(count)) |>
+  dplyr::select(year, month, fleet, sex, partition, ageerr, Lbin_lo, Lbin_hi, Nsamp, age, count) |>
+  tidyr::pivot_wider(names_from = "age", values_from = "count")
+
+write.csv(one_sex_caal, file = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_CAAL", "processed_one_sex_caal.csv"), row.names = FALSE)
 
 PlotMap.fn(
   dat = catch)
@@ -198,7 +228,7 @@ wt_len_est
 
 plot_weight_length(
   bio,
-  dir = getwd(),
+  dir = file.path(dirname(getwd()), "model_params"),
   estimates = wt_len_est,
   col_length = "length_cm",
   col_weight = "weight_kg",
@@ -219,8 +249,8 @@ if(dir.exists(file.path(getwd(),"NWFSC.Combo_plots"))){
                 to = file.path(getwd(), "NWFSC.Combo_plots", plots[x]))
   })
 } else {
-  file.rename(from = file.path(dirname(getwd()), "Rcode", "plots"), 
-            to = file.path(dirname(getwd()), "Rcode", "NWFSC.Combo_plots"))
+  file.rename(from = file.path(getwd(), "plots"), 
+            to = file.path(getwd(), "NWFSC.Combo_plots"))
 }
 ```
 
@@ -271,13 +301,13 @@ Triennial_strata = CreateStrataDF.fn(names=c("OR", "WA"),
 biomassT = get_design_based(
   data = catchT,  
   strata = Triennial_strata,
-  dir = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_design_based_indices"),
+  dir = file.path(dirname(dirname(getwd())), "Data", "NWFSC.Combo_and_Tri_design_based_indices"),
   printfolder = "")
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-file.rename(from = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_design_based_indices","design_based_indices.csv"), 
-            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_design_based_indices", "Tri_design_based_indices.csv"))
+file.rename(from = file.path(dirname(dirname(getwd())), "Data", "NWFSC.Combo_and_Tri_design_based_indices","design_based_indices.csv"), 
+            to = file.path(dirname(dirname(getwd())), "Data", "NWFSC.Combo_and_Tri_design_based_indices", "Tri_design_based_indices.csv"))
 ```
 
 Plot coastwide
@@ -313,6 +343,9 @@ plot_index(
 
 raw_length_compsT <- get_raw_comps(
     data = bioT,
+    input_n_method = c("stewart_hamel"),
+    month = 7,
+    fleet = 10,
     comp_bins = seq(10, 74, 2),
     comp_column_name = "length_cm",
     dir = getwd(),
@@ -329,12 +362,12 @@ length_files <- list.files(path = getwd(), pattern = "length_cm")
 file.rename(from = length_files[1],
             to = paste0("Tri_", length_files[1]))
 file.rename(from = file.path(getwd(), paste0("Tri_", length_files[1])),
-            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_length_comps", paste0("Tri_", length_files[1])))
+            to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("Tri_", length_files[1])))
 
 file.rename(from = length_files[2],
             to = paste0("Tri_", length_files[2]))
 file.rename(from = file.path(getwd(), paste0("Tri_", length_files[2])),
-            to = file.path(dirname(getwd()), "Data", "NWFSC.Combo_and_Tri_length_comps", paste0("Tri_", length_files[2])))
+            to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("Tri_", length_files[2])))
 ```
 
 ### No marginal age composition data for triennial survey
@@ -384,15 +417,15 @@ if(dir.exists(file.path(getwd(),"Tri_plots"))){
                 to = file.path(getwd(), "Tri_plots", plots[x]))
   })
 } else {
-  file.rename(from = file.path(dirname(getwd()), "Rcode", "plots"), 
-            to = file.path(dirname(getwd()), "Rcode", "Tri_plots"))
+  file.rename(from = file.path(getwd(), "plots"), 
+            to = file.path(getwd(), "Tri_plots"))
 }
 ```
 
 ## WCGOP Fisheries Discards
 ```{r, warning = FALSE, message = FALSE, }
 gemm_data <- pull_gemm("yelloweye rockfish", 
-                       dir = file.path(dirname(getwd()), "Data"), 
+                       dir = file.path(dirname(dirname(getwd())), "Data", "raw"), 
                        verbose = TRUE)
 
 head(gemm_data, n = 20)
