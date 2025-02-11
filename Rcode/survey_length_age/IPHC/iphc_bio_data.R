@@ -52,30 +52,22 @@ length_comps <- iphc_bio |>
   dplyr::select(sample_year, month, fleet, sex, part, Nsamp, everything()) |>
   dplyr::rename(year = sample_year)
 
-column_names <- length_comps |>
-  ungroup() |>
-  dplyr::select(-year, -month, -fleet, -sex, -part, -Nsamp) |>
-  colnames() |>
-  as.numeric()
+write.csv(length_comps, file.path(getwd(), "Data", "processed", "iphc_length_comps.csv"), row.names = FALSE)
 
-need_to_add <- l_bins[!(l_bins %in% column_names)]
+# get just those until 2016 so it can be compared to the spreadsheet Jason sent me
+# test_against_2017 <- length_comps |>
+#   dplyr::filter(sample_year < 2017) |>
+#   dplyr::mutate(
+#     sample_year = sample_year,
+#     sum = rowSums(across(where(is.numeric)))
+#   )
 
-to_add <- data.frame(matrix(0, nrow = length(length_comps$year), ncol = length(need_to_add)))
-colnames(to_add)<- need_to_add
-
-length_comps_all <- cbind(length_comps, to_add) 
-length_comps <- length_comps_all[order(names(length_comps_all), as.numeric(names(length_comps_all)))] |>
-  dplyr::select(year, month, fleet, sex, part, Nsamp, everything())
-
-write.csv(length_comps, file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_length_comps.csv"), row.names = FALSE)
+# View(test_against_2017)
 
 
 ##### CAAL #####
-age_bins <- 0:65
-a_bin <- c(-999, age_bins, Inf)
+a_bin <- c(-999, 10:65, Inf)
 iphc_bio$a_bin <- a_bin[findInterval(iphc_bio$best_age, a_bin, all.inside = T)]
-
-unique(!is.na(iphc_bio$best_age))
 
 caal <- iphc_bio |>
   dplyr::filter(!is.na(l_bin)) |>
@@ -93,17 +85,16 @@ caal <- iphc_bio |>
     ageerr = 1,
     Lbin_lo = l_bin,
     Lbin_hi = l_bin,
-    Nsamp = rowSums(across(`9`:`65`))
+    Nsamp = rowSums(across(`11`:`65`))
   ) |>
   dplyr::ungroup() |>
-  dplyr::select(-l_bin) |>
+  dplyr::select(-l_bin, -`-999`) |>
   dplyr::select(sample_year, month, fleet, sex, part, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything()) |>
   dplyr::rename(year = sample_year)
 
-write.csv(caal, file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_caal.csv"), row.names = FALSE)
+write.csv(caal, file.path(getwd(), "Data", "processed", "iphc_caal.csv"), row.names = FALSE)
 
 # Need to get stlkey column from Fabio to do nsamps
-#### Figure out how to add rows for each year for ages 0-8
 maal <- iphc_bio |>
   dplyr::filter(!is.na(a_bin)) |>
   dplyr::group_by(sample_year, a_bin) |>
@@ -283,3 +274,4 @@ ggsave(plot = comparison_plot, "iphc_age_comp_comparisons.png", path = file.path
 #   ggplot2::ggplot(aes(x = Year, y = age, col = type, size = freq)) +
 #   ggplot2::geom_point(position = position_dodge(0.5))
 # ggsave(plot = comparison_plot, "iphc_age_comp_comparisons.png", path = file.path(getwd(), "Rcode", "survey_length_age", "IPHC"))
+
