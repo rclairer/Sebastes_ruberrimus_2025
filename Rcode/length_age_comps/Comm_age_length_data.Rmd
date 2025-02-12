@@ -343,25 +343,32 @@ nrow(bds_cleaned)
 -> how to get a trip ? -> using SAMPLE_NO
 
 ```{r}
-
+#plot n_fish
 bds_cleaned %>%
   group_by(stratification,year) %>%
     summarise(n_length=sum(!is.na(length)),n_age=sum(!is.na(Age))) %>% 
   ggplot(aes(year, stratification))+geom_text(aes(label=n_length))
 
-
+# df n_fish + n_trip long format
 bds_cleaned %>%
-  group_by(stratification,year) %>%
+  group_by(stratification_byarea,year) %>%
   filter(!is.na(length)) %>% 
-  summarise(n_length=length(length),n_trip=length(unique(SAMPLE_NO)))
+  summarise(n_fish=length(length),n_trips=length(unique(SAMPLE_NO)))
 
+# df n_fish + n_trip large format
 bds_cleaned %>%
   group_by(year,stratification_byarea) %>%
   filter(!is.na(length)) %>% 
   summarise(n_trips=length(unique(SAMPLE_NO)),n_fish=length(length)) %>% 
+  # mutate_at(.vars = c('n_trips','n_fish'),.funs = ifelse(is.na()),0,.)
   pivot_wider(id_cols = year,names_from = c(stratification_byarea),values_from = c(n_trips,n_fish),names_glue="{stratification_byarea}_{.value}") %>% 
-  relocate(year,CA.TWL_n_trips,CA.TWL_n_fish,CA.HKL_n_fish,CA.HKL_n_trips,CA.HKL_n_fish,
-           ORWA.TWL_n_trips,ORWA.TWL_n_fish,ORWA.HKL_n_trips,ORWA.HKL_n_fish)
+  relocate(year,CA.TWL_n_trips,CA.TWL_n_fish,
+           CA.HKL_n_trips,CA.HKL_n_fish,
+           ORWA.TWL_n_trips,ORWA.TWL_n_fish,
+           ORWA.HKL_n_trips,ORWA.HKL_n_fish) #%>% 
+  # write.csv(row.names = FALSE,
+  #           file = "../../Data/processed/Commercial_length_sampling_effort.csv")
+
 
 ```
 
@@ -370,11 +377,12 @@ bds_cleaned %>%
 Formula from 2017 SAFE p41
 
 ```{r}
-bds_cleaned %>%
+sample_size_length <- bds_cleaned %>%
   group_by(year,stratification_byarea) %>%
   filter(!is.na(length)) %>% 
   summarise(N_fish=length(length),N_trips=length(unique(SAMPLE_NO))) %>% 
   mutate(N_input = ifelse(N_fish/N_trips<44,N_trips+0.138*N_fish,7.06*N_trips))
+sample_size_length
 ```
 
 
@@ -384,14 +392,23 @@ bds_cleaned %>%
 
 ```{r}
 
-bds_cleaned %>%
-  group_by(stratification_byarea,year) %>%
-    summarise(n_age=sum(!is.na(Age)))
-
+# plot n_fish aged
 bds_cleaned %>%
   group_by(stratification,year) %>%
     summarise(n_length=sum(!is.na(length)),n_age=sum(!is.na(Age))) %>% 
   ggplot(aes(year, stratification))+geom_text(aes(label=n_age))
+
+# df n_fish + n_trip large format
+bds_cleaned %>%
+  group_by(year,stratification_byarea) %>%
+  filter(!is.na(Age)) %>% 
+  summarise(n_trips=length(unique(SAMPLE_NO)),n_fish=length(Age)) %>% 
+  pivot_wider(id_cols = year,names_from = c(stratification_byarea),values_from = c(n_trips,n_fish),names_glue="{stratification_byarea}_{.value}") %>% 
+  relocate(year,#CA.TWL_n_trips,CA.TWL_n_fish,CA.HKL_n_fish,CA.HKL_n_trips,CA.HKL_n_fish,
+           ORWA.TWL_n_trips,ORWA.TWL_n_fish,ORWA.HKL_n_trips,ORWA.HKL_n_fish) #%>% 
+  # write.csv(row.names = FALSE,
+  #           file = "../../Data/processed/Commercial_age_sampling_effort.csv")
+
 
 ```
 
@@ -400,11 +417,12 @@ bds_cleaned %>%
  Formula from 2017 SAFE p41
 
 ```{r}
-bds_cleaned %>%
+sample_size_age <- bds_cleaned %>%
   group_by(year,stratification_byarea) %>%
   filter(!is.na(Age)) %>% 
   summarise(N_fish=length(Age),N_trips=length(unique(SAMPLE_NO))) %>% 
   mutate(N_input = ifelse(N_fish/N_trips<44,N_trips+0.138*N_fish,7.06*N_trips))
+sample_size_age
 ```
 
 
@@ -448,21 +466,19 @@ p41 of 2017 SAFE
 "Due to very sparse sampling (mainly opportunistic, since yelloweye have been landed in very small proportions of mixed species market categories or recreational bag limits) length frequencies are raw, calculated as the count of fish among size bins. This has been the case in previous assessments, and preliminary investigation of alternate weighting procedures revealed little sensitivity to this choice."
 
 
-# 6- LENGTH COMPS
+# 6- COMPUTING COMPS
 
 What are the final sample sizes?
 2017 SAFE p41 mention formulas based on Stewart and Hamel (2014) -> is this what we want to use?
+
+## 6.1 LENGTH COMPS
 
 
 ```{r}
 
 length_comps_long <- getComps(
   Pdata = bds_cleaned %>% filter(!is.na(lengthcm)) %>% 
-    left_join(bds_cleaned %>%
-  group_by(year,stratification_byarea) %>%
-  filter(!is.na(length)) %>% 
-  summarise(N_fish=length(length),N_trips=length(unique(SAMPLE_NO))) %>% 
-  mutate(N_input = ifelse(N_fish/N_trips<44,N_trips+0.138*N_fish,7.06*N_trips)) %>%  select(-c(N_fish,N_trips)),
+    left_join(sample_size_length,
   by=c('year','stratification_byarea')),
   defaults = c("fishyr", "season",'stratification_byarea'),
   Comps = "LEN",
@@ -478,17 +494,13 @@ length_comps_long %>%
 #   ggplot(aes(fishyr,lengthcm))+geom_point(aes(size=n_fish))+facet_wrap(~stratification_byarea)
 ```
 
-### 7- AGE COMPS
+## 6.2- AGE COMPS
 
 ```{r}
 
 age_comps_long <- getComps(
   Pdata = bds_cleaned %>% filter(!is.na(Age)) %>% 
-    left_join(bds_cleaned %>%
-  group_by(year,stratification_byarea) %>%
-  filter(!is.na(Age)) %>% 
-  summarise(N_fish=length(Age),N_trips=length(unique(SAMPLE_NO))) %>% 
-  mutate(N_input = ifelse(N_fish/N_trips<44,N_trips+0.138*N_fish,7.06*N_trips)) %>%  select(-c(N_fish,N_trips)),
+    left_join( sample_size_age,
   by=c('year','stratification_byarea')),
   defaults = c("fishyr", "season",'stratification_byarea'),
   Comps = "AGE",
