@@ -1,8 +1,10 @@
 library(ggplot2)
 library(tidyverse)
 
+setwd("C:/Users/msand/OneDrive/Documents/GitHub/Sebastes_ruberrimus_2025")
+
 # Cleaning CA recreational from the reconstruction data from Ralston
-ca_rec <- read.csv("Data/raw/CA_historical_Ralston_rec_recon_1928_1980.csv")
+ca_rec <- read.csv("Data/CA_historical_Ralston_rec_recon_1928_1980.csv")
 ca_rec <- ca_rec %>% 
   mutate("State" = "CA") %>% 
   mutate('DataType' = "Rec") %>% 
@@ -17,7 +19,7 @@ ca_rec <- ca_rec %>%
 
 # Cleaning CA 1916-1968 commercial catches from CA reconstruction 
 # need to separate out trawl vs non trawl then sum the catches to match format of last assessment
-ca_com_earlier <- read.csv("Data/raw/CA_historical_Ralston_comm_recon_1916_68.csv")
+ca_com_earlier <- read.csv("Data/CA_historical_Ralston_comm_recon_1916_68.csv")
 ca_com_earlier_TWL <- ca_com_earlier %>% 
   filter(gear == "TWL") %>% #filters for trawl
   group_by(year) %>% 
@@ -34,9 +36,9 @@ ca_com_earlier_TWL <- ca_com_earlier %>%
 
 # CA trawl interpolation to match other states in the assessment
 catch_1916 <- ca_com_earlier_TWL$`Catches`[ca_com_earlier_TWL$Year == 1916]
-Year <- c(1888, 1915)
+Year <- c(1889, 1915)
 Catches <- c(0, catch_1916)
-interpolated <- approx(Year, Catches, xout = seq(1888, 1915, by = 1))
+interpolated <- approx(Year, Catches, xout = seq(1889, 1915, by = 1))
 interpolated
 df_interpolated <- data.frame(
   Year = interpolated$x,
@@ -68,9 +70,9 @@ ca_com_earlier_NONTWL <- ca_com_earlier %>%
 
 # Interpolation for nontrawl
 catch_1916 <- ca_com_earlier_NONTWL$`Catches`[ca_com_earlier_NONTWL$Year == 1916]
-Year <- c(1888, 1915)
+Year <- c(1889, 1915)
 Catches <- c(0, catch_1916)
-interpolated <- approx(Year, Catches, xout = seq(1888, 1915, by = 1))
+interpolated <- approx(Year, Catches, xout = seq(1889, 1915, by = 1))
 interpolated
 df_interpolated <- data.frame(
   Year = interpolated$x,
@@ -88,7 +90,7 @@ print(ca_com_earlier_NONTWL)
   
 # Cleaning CA 1969-1980 Commercial catches from CA reconstruction 
 # need to separate out trawl vs non trawl then sum the catches to match format of last assessment
-ca_com_later <- read.csv("Data/raw/CA_historical_comm_1969_1980.csv")
+ca_com_later <- read.csv("Data/CA_historical_comm_1969_1980.csv")
 ca_com_later_TWL <- ca_com_later %>% 
   filter(GEAR_GRP == "TWL") %>% #filters for trawl
   group_by(YEAR) %>% 
@@ -119,7 +121,7 @@ ca_com_later_NONTWL <- ca_com_later %>%
 
 
 # foreign catch in california 
-foregin <- read.csv("Data/raw/Rogers_2003_Foreign_Catch.csv")
+foregin <- read.csv("Data/Rogers_2003_Foreign_Catch.csv")
 # within the csv it says there is 1ton for 1967, so I will just manually put that in 
 foreign_catches_ca <- data.frame(Year = 1979, `Catches (mtons)` = 1)%>% 
   mutate("State" = "CA") %>% 
@@ -148,7 +150,7 @@ ggplot(Ca_historical_catches, aes(x = Year, y = Catches, fill = DataType)) +
 
 
 # check w/ previous assessment catch data for CA
-previous <- read.csv("Data/raw/Yelloweye catches 2017 assessment.csv") %>% 
+previous <- read.csv("Data/Yelloweye catches 2017 assessment.csv") %>% 
   filter(State == "CA") %>% 
   filter(Year < 1981) %>% 
   rename('DataType' = Data.Type) %>% 
