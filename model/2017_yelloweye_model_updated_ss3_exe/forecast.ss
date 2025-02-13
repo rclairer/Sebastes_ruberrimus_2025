@@ -31,7 +31,7 @@
 # Factor method st_yr end_yr 
  10 1 0 0 # selectivity; use:  10 1 0 0
  11 1 0 0 # rel_F; use:  11 1 -10 0
- 12 0 -999 0 # recruitment; use:  12 1 -999 0
+ 12 1 -999 0 # recruitment; use:  12 1 -999 0
 -9999 0 0 0
 #
 1 # Control rule method (1=catch=f(SSB) west coast; 2=F=f(SSB) ) 
