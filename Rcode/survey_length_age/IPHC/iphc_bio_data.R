@@ -3,9 +3,14 @@
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+<<<<<<< HEAD
 library(r4ss)
 
 iphc_bio <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "iphc_biodata.csv"))
+=======
+
+iphc_bio <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_biodata.csv"))
+>>>>>>> 881bd12 (Add comp plots and model forecast update (#39))
 
 ##### Length Comps #####
 # method used for assigning bins in nwfscSurvey package
@@ -52,22 +57,15 @@ length_comps <- iphc_bio |>
   dplyr::select(sample_year, month, fleet, sex, part, Nsamp, everything()) |>
   dplyr::rename(year = sample_year)
 
-write.csv(length_comps, file.path(getwd(), "Data", "processed", "iphc_length_comps.csv"), row.names = FALSE)
-
-# get just those until 2016 so it can be compared to the spreadsheet Jason sent me
-# test_against_2017 <- length_comps |>
-#   dplyr::filter(sample_year < 2017) |>
-#   dplyr::mutate(
-#     sample_year = sample_year,
-#     sum = rowSums(across(where(is.numeric)))
-#   )
-
-# View(test_against_2017)
+write.csv(length_comps, file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_length_comps.csv"), row.names = FALSE)
 
 
 ##### CAAL #####
-a_bin <- c(-999, 10:65, Inf)
+age_bins <- 0:65
+a_bin <- c(-999, age_bins, Inf)
 iphc_bio$a_bin <- a_bin[findInterval(iphc_bio$best_age, a_bin, all.inside = T)]
+
+unique(!is.na(iphc_bio$best_age))
 
 caal <- iphc_bio |>
   dplyr::filter(!is.na(l_bin)) |>
@@ -85,14 +83,14 @@ caal <- iphc_bio |>
     ageerr = 1,
     Lbin_lo = l_bin,
     Lbin_hi = l_bin,
-    Nsamp = rowSums(across(`11`:`65`))
+    Nsamp = rowSums(across(`9`:`65`))
   ) |>
   dplyr::ungroup() |>
-  dplyr::select(-l_bin, -`-999`) |>
+  dplyr::select(-l_bin) |>
   dplyr::select(sample_year, month, fleet, sex, part, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything()) |>
   dplyr::rename(year = sample_year)
 
-write.csv(caal, file.path(getwd(), "Data", "processed", "iphc_caal.csv"), row.names = FALSE)
+write.csv(caal, file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_caal.csv"), row.names = FALSE)
 
 # Need to get stlkey column from Fabio to do nsamps
 maal <- iphc_bio |>
@@ -119,6 +117,7 @@ maal <- iphc_bio |>
 write.csv(maal, file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_marginal_ages.csv"), row.names = FALSE)
 
 # Comparison plots
+<<<<<<< HEAD
 # IPHC lengths
 # Read new data
 iphc_lengths_new <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_length_comps.csv")) |>
@@ -127,12 +126,37 @@ iphc_lengths_new <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_bio_d
   tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "length", values_to = "freq") |>
   dplyr::mutate(length = gsub("X", "", length)) |>
   dplyr::group_by(year) |>
+=======
+iphc_lengths <- read.csv(file.path(getwd(), "Rcode", "survey_length_age", "IPHC", "iphc_comparison_lengths.csv"))
+
+long_iphc_lengths <- iphc_lengths |>
+  dplyr::mutate(type = dplyr::case_when(
+    Fleet == 12 ~ "previous assessment",
+    Fleet == 13 ~ "current assessment"
+  )) |>
+  dplyr::select(Year, type, Nsamps, `X10`:`X74`) |>
+  tidyr::pivot_longer(cols = c(-Year, -type, -Nsamps), names_to = "length", values_to = "freq") |>
+  dplyr::mutate(length = gsub("X", "", length))
+
+old_comps <- long_iphc_lengths |>
+  dplyr::filter(type == "previous assessment") |>
+  dplyr::group_by(Year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    # NsampsFreq = freq/unique(Nsamps), still waiting on these
+    length = as.numeric(length)
+  )
+new_comps <- long_nwfsc_lengths |>
+  dplyr::filter(type == "current assessment") |>
+  dplyr::group_by(Year) |>
+>>>>>>> 881bd12 (Add comp plots and model forecast update (#39))
   dplyr::mutate(
     freq = freq / sum(freq),
     # NsampsFreq = freq/unique(Nsamps), still waiting on these
     length = as.numeric(length)
   )
 
+<<<<<<< HEAD
 # Read old data
 inputs_old <- r4ss::SS_read(dir = file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe"))
 
@@ -275,3 +299,58 @@ ggsave(plot = comparison_plot, "iphc_age_comp_comparisons.png", path = file.path
 #   ggplot2::geom_point(position = position_dodge(0.5))
 # ggsave(plot = comparison_plot, "iphc_age_comp_comparisons.png", path = file.path(getwd(), "Rcode", "survey_length_age", "IPHC"))
 
+=======
+together <- rbind(old_comps, new_comps)
+comparison_plot <- together |>
+  dplyr::filter(freq > 0) |>
+  ggplot2::ggplot(aes(x = Year, y = length, col = type, size = freq)) +
+  ggplot2::geom_point(position = position_dodge(0.5))
+ggsave(plot = comparison_plot, "iphc_length_comp_comparisons.png", path = file.path(getwd(), "Rcode", "survey_length_age", "IPHC"))
+
+### IPHC ages
+iphc_ages <- read.csv(file.path(getwd(), "Rcode", "survey_length_age", "IPHC", "iphc_comparison_ages.csv"))
+
+long_iphc_ages <- iphc_ages |>
+  dplyr::mutate(
+    type = dplyr::case_when(
+      Fleet == 12 ~ "previous assessment",
+      Fleet == -12 ~ "previous assessment",
+      Fleet == 13 ~ "current assessment",
+      Fleet == -13 ~ "current assessment"
+    ),
+    age_type = dplyr::case_when(
+      Fleet == 12 ~ "caal",
+      Fleet == -12 ~ "maal",
+      Fleet == 13 ~ "caal",
+      Fleet == -13 ~ "maal"
+    )
+  ) |>
+  dplyr::select(Year, type, age_type, `X0`:`X65`) |>
+  tidyr::pivot_longer(cols = c(-Year, -type, -age_type), names_to = "age", values_to = "freq") |>
+  dplyr::mutate(age = gsub("X", "", age))
+
+
+old_comps <- long_iphc_ages |>
+  dplyr::filter(type == "previous assessment") |>
+  dplyr::filter(age_type == "maal") |>
+  dplyr::group_by(Year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    age = as.numeric(age)
+  )
+new_comps <- long_iphc_ages |>
+  dplyr::filter(type == "current assessment") |>
+  dplyr::filter(age_type == "maal") |>
+  dplyr::group_by(Year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    age = as.numeric(age)
+  )
+
+together <- rbind(old_comps, new_comps)
+comparison_plot <- together |>
+  dplyr::filter(freq > 0) |>
+  ggplot2::ggplot(aes(x = Year, y = age, col = type, size = freq)) +
+  ggplot2::geom_point(position = position_dodge(0.5))
+ggsave(plot = comparison_plot, "iphc_age_comp_comparisons.png", path = file.path(getwd(), "Rcode", "survey_length_age", "IPHC"))
+>>>>>>> 881bd12 (Add comp plots and model forecast update (#39))
