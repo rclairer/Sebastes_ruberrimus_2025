@@ -17,14 +17,14 @@ set_data        = read.csv(data_directory2,header=TRUE)
 # Recover information on Depth, Latitude, and Vessels
 # Joins by "Stlkey" identifier
 IPHC_data = IPHC_data %>%
-  left_join(set_data %>% select(Stlkey, MidLat.fished, Vessel.code, AvgDepth..fm.,Effective.skates.hauled))
+  left_join(set_data %>% select(Stlkey, MidLat.fished, Vessel.code, AvgDepth..fm.,Effective.skates.hauled, Avg.no..hook.skate))
 
 # Filter out other species -----------------------------------------------------
 IPHC_data = IPHC_data %>%
   filter(Species.Name == "Yelloweye Rockfish")
 
 # Remove stations as per Jason Cope's code -------------------------------------
-# Why are these stations removed??
+#Why are these stations removed??
 IPHC_data = subset(
   IPHC_data,
   Station %in% c(1010,1020,1024,1027,1082,1084,1528:1531,1533,1534)
@@ -38,14 +38,15 @@ IPHC_data$State[IPHC_data$Station > 1027] = "WA"
 
 # 1. Calculate CPUE for each tow 
 ## CPUE is in individuals/hook
-IPHC_data$CPUE = IPHC_data$Number.Observed / as.numeric(IPHC_data$HooksObserved)
+#IPHC_data$CPUE = IPHC_data$Number.Observed / (as.numeric(IPHC_data$HooksObserved) / IPHC_data$Effective.skates.hauled)
+IPHC_data$CPUE = IPHC_data$Number.Observed / as.numeric(IPHC_data$HooksObserved) * IPHC_data$Avg.no..hook.skate
 
 
 # Exploratory plots 
 station_plot = IPHC_data %>%
   ggplot(aes(x = as.factor(Station), y = CPUE)) +
   geom_boxplot() +
-  ylim(0,0.2) +
+  ylim(0,20) +
   theme_minimal() +
   ylab("") +
   xlab("Station")
@@ -53,7 +54,7 @@ station_plot = IPHC_data %>%
 vessel_plot = IPHC_data %>%
   ggplot(aes(x = as.factor(Vessel.code), y = CPUE)) +
   geom_boxplot() +
-  ylim(0,0.2) +
+  ylim(0,20) +
   theme_minimal() +
   ylab("CPUE (ind./hook)") +
   xlab("Vessel")
