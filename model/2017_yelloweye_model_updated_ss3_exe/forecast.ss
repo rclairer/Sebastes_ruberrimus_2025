@@ -14,12 +14,12 @@
 12 # N forecast years 
 0.2 # F scalar (only used for Do_Forecast==5)
 #_Fcast_years:  beg_selex, end_selex, beg_relF, end_relF, beg_recruits, end_recruits  (enter actual year, or values of 0 or -integer to be rel. endyr)
- 0 0 0 0 -999 0
+# 0 0 0 0 -999 0
 #  2010 2010 2010 2010 1916 2010 # after processing
-0 # Forecast selectivity (0=fcast selex is mean from year range; 1=fcast selectivity from time-vary parms). NOTE: logic reverses in new format
+# 0 # Forecast selectivity (0=fcast selex is mean from year range; 1=fcast selectivity from time-vary parms). NOTE: logic reverses in new format
 # A revised protocol for the Fcast_yr specification is available and recommended. Template is below.
 #
-#-12345  # code to invoke new format for expanded fcast year controls
+-12345  # code to invoke new format for expanded fcast year controls
 # biology and selectivity vectors are updated annually in the forecast according to timevary parameters, so check end year of blocks and dev vectors
 # input in this section directs creation of means over historical years to override any time_vary changes
 # Factors implemented so far: 1=M, 4=recr_dist, 5=migration, 10=selectivity, 11=rel_F, 12=recruitment
@@ -29,10 +29,10 @@
 # st_yr and end_yr input can be actual year; <=0 sets rel. to timeseries endyr; Except -999 for st_yr sets to first year if time series
 # Method = 0 (or omitted) continue using time_vary parms; 1  use mean of derived factor over specified year range
 # Factor method st_yr end_yr 
-# 10 1 0 0 # selectivity; use:  10 1 0 0
-# 11 1 -10 0 # rel_F; use:  11 1 -10 0
-# 12 1 -999 0 # recruitment; use:  12 1 -999 0
-#-9999 0 0 0
+ 10 1 0 0 # selectivity; use:  10 1 0 0
+ 11 1 0 0 # rel_F; use:  11 1 -10 0
+ 12 0 -999 0 # recruitment; use:  12 1 -999 0
+-9999 0 0 0
 #
 1 # Control rule method (1=catch=f(SSB) west coast; 2=F=f(SSB) ) 
 0.4 # Control rule Biomass level for constant F (as frac of Bzero, e.g. 0.40); (Must be > the no F level below) 
