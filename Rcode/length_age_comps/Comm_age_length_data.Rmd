@@ -7,21 +7,17 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
-
-
-```{r, package + data loading}
-
 # rm(list=ls())
 library(tidyverse)
 # remotes::install_github("pfmc-assessments/pacfintools")
 library(pacfintools)
+```
 
+
+```{r, data loading}
 # getwd()
 load('../Data/Confidential/PacFIN.YEYE.bds.12.Dec.2024.RData')
 load('../Data/Confidential/PacFIN.YEYE.CompFT.12.Dec.2024.RData')
-
-
 ```
 
 
@@ -98,17 +94,18 @@ catch.pacfin %>% select(PACFIN_GROUP_GEAR_CODE,PACFIN_GEAR_CODE) %>% distinct() 
 #   left_join(catch.pacfin %>% select(PACFIN_GEAR_CODE,PACFIN_GROUP_GEAR_CODE) %>% distinct(),by='PACFIN_GEAR_CODE')
 
 bds.pacfin <- bds.pacfin %>% 
-  mutate(PACFIN_GROUP_GEAR_CODE=
-                       ifelse(PACFIN_GEAR_CODE %in% c('ODG','SCD'),'DRG',
-                        ifelse(PACFIN_GEAR_CODE %in% c('DRL','HDL','HLR','JIG','LGL','OHL','POL','STL','VHL'),'HKL',
-                          ifelse(PACFIN_GEAR_CODE %in% c('DVG','OTH','RVT','USP'),'MSP',
-                            ifelse(PACFIN_GEAR_CODE %in%c('DGN','DPN','GLN','ONT','SEN','SGN','STN','TML'),'NET',
-                              ifelse(PACFIN_GEAR_CODE%in%c('CLP','CPT','FPT','LPT','OPT','PRW','SPT'),'POT',
-                                ifelse(PACFIN_GEAR_CODE %in% c('BTR','HTR','PTR','TRL'),'TLS',
-                                   ifelse(PACFIN_GEAR_CODE %in%c('BMT','BTT','CBF','CBJ','DNT','FFT','FTS',                                                                                      'GFL','GFS','GFT','LFZ','MDT','MPT','OTW','PRT','RLT','SFZ','SRM'),'TWL',
-                                    ifelse(PACFIN_GEAR_CODE%in%c('DST','PWT','SHT','SST'),'TWS',
-                                          #ifelse(PACFIN_GROUP_GEAR_CODE %in%c(DRG,HKL,MSC,NET,NTW)),
-                                    NA)))))))))
+  mutate(PACFIN_GROUP_GEAR_CODE = case_when(
+  PACFIN_GEAR_CODE %in% c('ODG','SCD') ~ 'DRG',
+  PACFIN_GEAR_CODE %in% c('DRL','HDL','HLR','JIG','LGL','OHL','POL','STL','VHL') ~ 'HKL',
+  PACFIN_GEAR_CODE %in% c('DVG','OTH','RVT','USP') ~ 'MSP',
+  PACFIN_GEAR_CODE %in% c('DGN','DPN','GLN','ONT','SEN','SGN','STN','TML') ~ 'NET',
+  PACFIN_GEAR_CODE %in% c('CLP','CPT','FPT','LPT','OPT','PRW','SPT') ~ 'POT',
+  PACFIN_GEAR_CODE %in% c('BTR','HTR','PTR','TRL') ~ 'TLS',
+  PACFIN_GEAR_CODE %in%c('BMT','BTT','CBF','CBJ','DNT','FFT','FTS',  
+     'GFL','GFS','GFT','LFZ','MDT','MPT','OTW','PRT','RLT','SFZ','SRM') ~ 'TWL',
+  PACFIN_GEAR_CODE %in% c('DST','PWT','SHT','SST') ~ 'TWS',
+  TRUE ~ NA))
+
 ```
 
 
@@ -292,6 +289,26 @@ bds_cleaned %>%
   # filter(is.na(PACFIN_GROUP_GEAR_CODE)) %>%
   group_by(geargroup,PACFIN_GEAR_NAME) %>% 
     summarise(n=length(PACFIN_GEAR_NAME))
+
+#plot gear along time
+bds_cleaned %>%
+    filter(geargroup=='TWL') %>% 
+    group_by(year,stratification_byarea,geargroup,PACFIN_GEAR_NAME) %>% 
+    summarise(n=length(SAMPLE_NO)) %>% 
+    ggplot()+geom_bar(aes(year,n,fill=PACFIN_GEAR_NAME),position='stack',stat='identity')+facet_wrap(~stratification_byarea,nrow=2)
+
+bds_cleaned %>%
+    filter(!geargroup=='TWL') %>% 
+    group_by(year,stratification_byarea,geargroup,PACFIN_GEAR_NAME) %>% 
+    summarise(n=length(SAMPLE_NO)) %>% 
+    ggplot()+geom_bar(aes(year,n,fill=PACFIN_GEAR_NAME),position='stack',stat='identity')+facet_wrap(~stratification_byarea,nrow=2)
+
+
+bds_cleaned %>%
+    group_by(year,stratification_byarea,PACFIN_GEAR_NAME) %>% 
+    filter(PACFIN_GEAR_NAME%in%c('TRAWLS')) %>% 
+    summarise(n=length(SAMPLE_NO))
+
 
 ```
 
