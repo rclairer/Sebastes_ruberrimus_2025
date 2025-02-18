@@ -42,7 +42,7 @@ IPHC_data$State[IPHC_data$Station > 1027] = "WA"
 ## CPUE is in individuals/hook
 #IPHC_data$CPUE = IPHC_data$Number.Observed / (as.numeric(IPHC_data$HooksObserved) / IPHC_data$Effective.skates.hauled)
 IPHC_data$CPUE = IPHC_data$Number.Observed / as.numeric(IPHC_data$HooksObserved) * IPHC_data$Avg.no..hook.skate
-IPHC_data$CPUE = IPHC_data$Number.Observed / as.numeric(IPHC_data$HooksObserved)
+#IPHC_data$CPUE = IPHC_data$Number.Observed / as.numeric(IPHC_data$HooksObserved)
 
 # Exploratory plots 
 station_plot = IPHC_data %>%
@@ -99,7 +99,7 @@ IPHC_data_sum %>%
 ggsave("design_based_index.pdf", width = 7.7, height = 4, path = figure_diretory)
 
 # 4. Export index file
-write.csv(IPHC_data_sum, file.path(here::here(), "Data", "processed", "IPHC_design_based.csv"))
+write.csv(IPHC_data_sum[,c(1,2,4)], file.path(here::here(), "Data", "processed", "IPHC_design_based.csv"))
 
 # Model-based index (detalGLMM) ------------------------------------------------
 # This is an attempt at running the model via Stan since I could not figure out the
@@ -132,27 +132,56 @@ stanc(model_directory)
 out = stan(file   = model_directory,
            data   = data_list,
            warmup = 2000,
-           iter   = 15000,
-           chains = 3)
+           iter   = 6000,
+           chains = 2)
 
-# 3. Extract index from model
-
-mcmc = out %>%
+# 3. Extract random effects from model
+RE = out %>%
   ggs() %>%
-  filter(grepl("index", Parameter)) %>%
+  filter(grepl("Y", Parameter)) %>%
   group_by(Parameter) %>%
   summarise(mean = mean(value),
             sd   = sd(value)) %>%
-  mutate(Year = 2001:2023)
+  slice(-(data_list$N_years+1:46)) %>%
+  mutate(Year = 2001:2023) %>%
+  mutate(IPHC_data_sum$mean_CPUE) %>%
+  mutate(IPHC_data_sum$se)
+  
+names(RE) = c("Par", "mean", "sd", "Year", "mean_CPUE", "se")
 
-mcmc %>%
-  ggplot(aes(x = Year, y = mean)) +
+RE$adj_CPUE = RE$mean_CPUE + RE$mean
+
+RE %>%
+  ggplot(aes(x = Year, y = adj_CPUE)) +
   geom_line() +
-  geom_point()
+  geom_point() +
+  geom_errorbar(aes(x = Year, ymin = adj_CPUE - se, ymax = adj_CPUE + se), width = 0.1) +
+  theme_minimal() +
+  ylab("Index")
 
+ggsave("glm_normal_index.pdf", width = 7.7, height = 4, path = figure_diretory)
+write.csv(RE[,c(4,7,6)], file.path(here::here(), "Data", "processed", "IPHC_normal_glm.csv"))
 
+# Compare the two indices
+RE = RE[,c(4,7,6)] %>% mutate(type = "Normal Delta GLM")
+names(RE) = c("year", "index", "se", "type")
+IPHC_data_sum = IPHC_data_sum[,c(1,2,4)] %>% mutate(type = "Design-based")
+names(IPHC_data_sum) = c("year", "index", "se", "type")
+df = rbind(RE, IPHC_data_sum)
 
-
+df %>%
+  ggplot(aes(x = year, y = index, color = type)) +
+  geom_line(position=position_dodge(width = .25)) +
+  geom_point(position=position_dodge(width = .25)) +
+  geom_errorbar(aes(x = year, ymin = index - se, ymax = index + se),
+                width = 0.1,
+                position=position_dodge(width = .25)) +
+  theme_minimal() +
+  theme(legend.title = element_blank(),
+        legend.position = "top") +
+  ylab("Index") + xlab("Year")
+ 
+ggsave("index_comparison.pdf", width = 7.7, height = 4, path = figure_diretory)
 
 
 
