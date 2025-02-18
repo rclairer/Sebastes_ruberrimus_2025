@@ -17,22 +17,16 @@ set_data        = read.csv(data_directory2,header=TRUE)
 # Recover information on Depth, Latitude, and Vessels
 # Joins by "Stlkey" identifier
 IPHC_data = IPHC_data %>%
-<<<<<<< HEAD
   left_join(set_data %>% select(Stlkey, MidLat.fished, Vessel.code, AvgDepth..fm.,Effective.skates.hauled, Avg.no..hook.skate))
-=======
-  left_join(set_data %>% select(Stlkey, MidLat.fished, Vessel.code, AvgDepth..fm.,Effective.skates.hauled))
->>>>>>> 5350874af767c62d3a2ec7e9d5ce0c265b7c4571
 
 # Filter out other species -----------------------------------------------------
 IPHC_data = IPHC_data %>%
   filter(Species.Name == "Yelloweye Rockfish")
 
 # Remove stations as per Jason Cope's code -------------------------------------
-<<<<<<< HEAD
 #Why are these stations removed??
-=======
+
 # Why are these stations removed??
->>>>>>> 5350874af767c62d3a2ec7e9d5ce0c265b7c4571
 IPHC_data = subset(
   IPHC_data,
   Station %in% c(1010,1020,1024,1027,1082,1084,1528:1531,1533,1534)
@@ -46,23 +40,16 @@ IPHC_data$State[IPHC_data$Station > 1027] = "WA"
 
 # 1. Calculate CPUE for each tow 
 ## CPUE is in individuals/hook
-<<<<<<< HEAD
 #IPHC_data$CPUE = IPHC_data$Number.Observed / (as.numeric(IPHC_data$HooksObserved) / IPHC_data$Effective.skates.hauled)
 IPHC_data$CPUE = IPHC_data$Number.Observed / as.numeric(IPHC_data$HooksObserved) * IPHC_data$Avg.no..hook.skate
-=======
 IPHC_data$CPUE = IPHC_data$Number.Observed / as.numeric(IPHC_data$HooksObserved)
->>>>>>> 5350874af767c62d3a2ec7e9d5ce0c265b7c4571
-
 
 # Exploratory plots 
 station_plot = IPHC_data %>%
   ggplot(aes(x = as.factor(Station), y = CPUE)) +
   geom_boxplot() +
-<<<<<<< HEAD
   ylim(0,20) +
-=======
   ylim(0,0.2) +
->>>>>>> 5350874af767c62d3a2ec7e9d5ce0c265b7c4571
   theme_minimal() +
   ylab("") +
   xlab("Station")
@@ -70,11 +57,9 @@ station_plot = IPHC_data %>%
 vessel_plot = IPHC_data %>%
   ggplot(aes(x = as.factor(Vessel.code), y = CPUE)) +
   geom_boxplot() +
-<<<<<<< HEAD
   ylim(0,20) +
-=======
+
   ylim(0,0.2) +
->>>>>>> 5350874af767c62d3a2ec7e9d5ce0c265b7c4571
   theme_minimal() +
   ylab("CPUE (ind./hook)") +
   xlab("Vessel")
