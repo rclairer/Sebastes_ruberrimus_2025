@@ -21,7 +21,7 @@ parameters {
   vector[SS]      S;
   real            beta;
   vector[V]       gamma;
-  vector<lower=0>[N] sigma;
+  real<lower=0>   sigma;
 }
 model {
   // Detection model, logit link -----------------------------------------------
@@ -37,7 +37,7 @@ model {
   vector[N] mu;
   for (i in 1:N) {
     mu[i] = Y[year[i]] + S[station[i]] + beta*depth[i] + gamma[vessel[i]];
-    CPUE[i] ~ normal(mu[i], sigma[i]);
+    CPUE[i] ~ normal(mu[i], sigma);
   }
   // Priors
   Y     ~ normal(0, 1);
@@ -47,18 +47,18 @@ model {
   sigma ~ gamma(0.01, 0.01);
 }
 generated quantities {
-  vector[N_years] preds;
+//  vector[N_years] preds;
   vector[N_years] index;
-  vector[N_years] mu_pred;
+//  vector[N_years] mu_pred;
   real<lower=0,upper=1> theta;
 // Computes probability of encounter 
   for (i in 1:N) theta = inv_logit(Y_det[year[i]] + S_det[station[i]] + beta_det*depth[i] + gamma_det[vessel[i]]);
 
  // Computes model predictions and calculates index by adding year random effects to predictions
    for (i in 1:N_years) {
-     mu_pred[i] = Y[year[i]] + S[station[i]] + beta*depth[i] + gamma[vessel[i]];
-     preds[i]   = normal_rng(mu_pred[i], sigma[i]);
-     index[i]   = preds[i]*theta + Y[i];
+     //mu_pred[i] = Y[year[i]] + S[station[i]] + beta*depth[i] + gamma[vessel[i]];
+     //preds[i]   = normal_rng(mu_pred[i], sigma);
+     index[i]   = CPUE[i] + Y[i];
    }
 }
 
