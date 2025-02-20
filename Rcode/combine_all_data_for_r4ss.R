@@ -9,6 +9,7 @@ library(r4ss)
 
 # Get inputs from 2017 assessment that will get carried over to this assessment
 inputs <- SS_read(dir = file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe"))
+
 file.copy(
   file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe", "yelloweye_data.ss"),
   file.path(getwd(), "data", "for_SS", "yelloweye_data_2025.ss")
@@ -117,31 +118,31 @@ inputs$dat$catch <- all_catch
 colnames_i <- c("year", "seas", "index", "obs", "se_log")
 
 # CA Rec MRFSS dockside CPUE - fleet 3
-#I think we just bring over from 2017 assessment, because max year is 1999
+# I think we just bring over from 2017 assessment, because max year is 1999
 CA_REC_MRFSS_index <- inputs$dat$CPUE |>
   filter(index == 3)
 
 # OR Rec MRFSS - fleet 6
-#I think we just bring over from 2017 assessment
+# I think we just bring over from 2017 assessment
 OR_REC_MRFSS_index <- inputs$dat$CPUE |>
   filter(index == 6, year < 2000)
 
 # OR ORBS - fleet 6
-#FROM ALI, hopefully 03/05/2025
+# FROM ALI, hopefully 03/05/2025
 
 # WA Rec CPUE - fleet 7
-#I think we just bring over from the 2017 assessment, because max year is 2001
+# I think we just bring over from the 2017 assessment, because max year is 2001
 WA_REC_CPUE_index <- inputs$dat$CPUE |>
   filter(index == 7)
 
 # CA onboard CPFV CPUE - fleet 8
-#I think we just bring over from the 2017 assessment, because max year is 1998
+# I think we just bring over from the 2017 assessment, because max year is 1998
 CA_CPFV_CPUE_index <- inputs$dat$CPUE |>
   filter(index == 8)
 
 # Oregon onboard Recreational Charter observer CPUE - fleet 9
-#this is ORFS, right?
-#FROM ALI, hopefully 03/05/2025
+# this is ORFS, right?
+# FROM ALI, hopefully 03/05/2025
 
 # TRI ORWA - fleet 10
 tri_index <- inputs$dat$CPUE |>
@@ -152,15 +153,17 @@ NWFSC_ORWA <- read.csv(file.path(getwd(), "Data", "processed", "wcgbts_indices",
 NWFSC_ORWA_index <- NWFSC_ORWA |>
   filter(area == "Coastwide") |>
   select(year, est, se) |>
-  mutate(Month = 7,
-         Fleet = 11) |>
+  mutate(
+    Month = 7,
+    Fleet = 11
+  ) |>
   select(year, Month, Fleet, est, se)
 colnames(NWFSC_ORWA_index) <- colnames_i
 
 # IPHC ORWA - fleet 12
 IPHC_ORWA <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_model_based_index_forSS3.csv"))
 IPHC_ORWA_index <- IPHC_ORWA
-colnames(IPHC_ORWA_index) <- colnames_i #se or se_log?
+colnames(IPHC_ORWA_index) <- colnames_i # se or se_log?
 
 all_indices <- do.call("rbind", list(c(CA_REC_MRFSS_index, OR_REC_MRFSS_index, WA_REC_CPUE_index, CA_CPFV_CPUE_index, tri_index, NWFSC_ORWA_index, IPHC_ORWA_index)))
 
@@ -210,8 +213,8 @@ all_lengths <- do.call("rbind", list(c(
   tri_lengths,
   nwfsc_lengths
 )))
-inputs$dat$lencomp <- all_lengths
 
+inputs$dat$lencomp <- all_lengths
 
 ########################
 ### Age compositions ###
@@ -277,6 +280,7 @@ nwfsc_maal <- read.csv(file.path(
     ageerr = 2,
     fleet = -11
   )
+
 colnames(nwfsc_maal) <- colnames_a
 
 nwfsc_ages <- rbind(nwfsc_caal, nwfsc_maal)
