@@ -49,13 +49,37 @@ ca_hist_catch_RECL <- ca_hist_catch |>
          fleet = fleet,
          catch = catch,
          catch_se = 0.01) 
-# |> bind_rows(ca_recent_catch_REC) 
+  # |> bind_rows(ca_recent_catch_REC) 
  
 # ORWA TWL - fleet 4
+OR_hist_catch_to_2000 <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "OR_YEYE_combined historical landings.csv"))
+OR_hist_TWL <- OR_hist_catch_to_2000 |>
+  select(year, comm_TWL) |>
+  filter(!is.na(comm_TWL)) |>
+  mutate(seas = 1,
+         fleet = 4,
+         catch = comm_TWL,
+         catch_se = 0.01) 
+  # |> bind_rows(ORWA_recent_TWL)
  
 # ORWA NONTWL - fleet 5
+OR_hist_NONTWL <- OR_hist_catch_to_2000 |>
+  select(year, comm_NTWL) |>
+  mutate(seas = 1,
+         fleet = 5,
+         catch = comm_NTWL,
+         catch_se = 0.01) 
+  # |> bind_rows(ORWA_recent_NONTWL)
  
 # OR Rec - fleet 6
+OR_his_rec <- OR_hist_catch_to_2000 |>
+  select(year, rec) |>
+  filter(!is.na(rec)) |>
+  mutate(seas = 1,
+         fleet = 6,
+         catch = rec,
+         catch_se = 0.01) 
+  # |> bind_rows(OR_recent_rec)
  
 # WA Rec - fleet 7
 wa_rec_catch <- read.csv(file.path(getwd(), "Data", "processed", "WA_historical_to_recent_rec_catch.csv")) |>

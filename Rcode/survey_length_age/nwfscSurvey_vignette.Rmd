@@ -451,7 +451,7 @@ long_nwfsc_ages <- nwfsc_ages |>
                                       Fleet == -2 ~ "maal"))|>
                     dplyr::select(Year, type, age_type, `X0`:`X65`) |>
                     tidyr::pivot_longer(cols = c(-Year, -type, -age_type), names_to = 'age', values_to = 'freq') |>
-                    dplyr::mutate(age = gsub("X","",age)
+                    dplyr::mutate(age = gsub("X","",age))
           
 old_comps <- long_nwfsc_ages |>
              dplyr::filter(type == "previous assessment") |>
