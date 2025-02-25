@@ -2,20 +2,18 @@
 title: "Discards"
 author: "Sam Schiano; Elizabeth Perl"
 format: pdf
-editor: visual
 ---
 
 ## Discards
 
-- Sourced from GEMM
+-   Sourced from GEMM
 
-- Incorporated directly into landings/catch rather than modelled separately
+-   Incorporated directly into landings/catch rather than modelled separately
 
 ```{r}
 gemm <- nwfscSurvey::pull_gemm(common_name = "yelloweye rockfish") |>
   suppressWarnings()
 ```
-
 
 ### Recreational Fleets
 
@@ -30,7 +28,6 @@ WA_rec_fleets <- c(
   "Washington Recreational"
 )
 ```
-
 
 ### Commercial Fleets
 
@@ -79,7 +76,6 @@ addl_fleets <- c(
 )
 ```
 
-
 ### Combine data by fleet and area
 
 ```{r}
@@ -106,5 +102,62 @@ commercial <- gemm |>
   dplyr::group_by(year, fleet) |>
   dplyr::summarise(total_discards = sum(total_discard_mt),
                    cv = max(cv))
+```
+
+
+## Processing Observer Discard Data (WCGOP)
+
+Notes from Chantel during data extraction:
+
+- "Since much of the discarding by the commercial fleet is coming from the non-catch share sector, which does not have full observation coverage, how best to use these data should be carefully considered. There are missing year-gear-area combinations that were removed due to confidentiality issues."
+
+Notes from class:
+
+- GEMM and WCGOP missing 2004 -> discards missing then and we will have to make some assumptions to add into landings for that year (values should be the same)
+- use discard rate?
+
+- 2-area model - GEMM might not have the same breaks in the fleets 
+- PACFIN YOU can specify
+- WCGOP divided by fleet and won't have to decide by fleet in GEMM
+- do comparisons between the 2
+
+Notes: 
+
+- You might assume the discarding rate is the same, so figure out the fraction of the directed catch (by year) in the two areas, and apply that to the discards?
+
+```{r}
+disdir <- "~/GitHub/Sebastes_ruberrimus_2025/Data/discards"
+
+disrate_comb <- utils::read.csv(file.path(disdir, "discard_rates_combined_catch_share.csv"))
+disrate_noncatch <- utils::read.csv(file.path(disdir, "discard_rates_noncatch_share.csv"))
+disrate_emcatch <- utils::read.csv(file.path(disdir, "discards_rates_em_catch_share.csv"))
+disrate_catchsh <- utils::read.csv(file.path(disdir, "discards_rates_catch_share.csv"))
+```
+
+
+## Check catch share
+
+```{r}
+catchshare <- rbind(disrate_catchsh, disrate_emcatch) |>
+  dplyr::group_by(year, fleet, catch_shares) |>
+  dplyr::summarise(
+    n_obs = sum(n_obs),
+    n_hauls = sum(n_hauls),
+    n_trips = sum(n_trips),
+    n_vessels = sum(n_vessels),
+    obs_disc_mt = sum(observed_discard_mt),
+    obs_ret_mt = sum(observed_retained_mt),
+    dis_rate = mean(discard_rate)
+  )
+
+chk1 <- catchshare |>
+  dplyr::select(year, fleet, catch_shares, obs_disc_mt)
+  # data.frame(year = catchshare$year, discard.sum = catchshare$obs_disc_mt)
+chk2 <- disrate_catchsh |>
+  dplyr::select(year, fleet, catch_shares, observed_discard_mt)
+  # data.frame(year = disrate_catchsh$year, discard.cs = disrate_catchsh$observed_discard_mt)
+comb <- dplyr::left_join(chk1, chk2, by = c("year", "fleet", "catch_shares")) |>
+  dplyr::mutate(diff = obs_disc_mt - observed_discard_mt) # |>
+  # dplyr::filter(diff > 0)
 ```
 
