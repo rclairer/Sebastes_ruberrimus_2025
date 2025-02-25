@@ -155,7 +155,7 @@ CA_historical_catches_csv <- Ca_historical_catches |>
                              ungroup() |>
                              arrange(GearGroup, Year) |>
                              select(Year, catch, fleet, GearGroup) |>
-                             write.csv(file.path(getwd(), "Data", "processed", "CA_all_fleets_historical_catches.csv"))
+                             write.csv(file.path(getwd(), "Data", "processed", "CA_all_fleets_historical_catches.csv"), row.names = FALSE)
 
 ca_both_assessments_comparison <- CA_historical_catches_csv |>
                        select(-GearGroup) |>

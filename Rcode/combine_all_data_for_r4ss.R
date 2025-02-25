@@ -120,7 +120,7 @@ tri_index <- inputs$dat$CPUE |>
   filter(index == 10)
 
 
-all_indices <- do.call("rbind", list(c(tri_index,
+all_indices <- do.call("rbind", list(c(tri_index
 )))
 
 inputs$dat$indices <- all_indices
