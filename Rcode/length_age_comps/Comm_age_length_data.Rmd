@@ -16,8 +16,8 @@ library(pacfintools)
 
 ```{r, data loading}
 # getwd()
-load('../Data/Confidential/PacFIN.YEYE.bds.12.Dec.2024.RData')
-load('../Data/Confidential/PacFIN.YEYE.CompFT.12.Dec.2024.RData')
+load('../Data/Confidential/PacFIN.YEYE.bds.12.Dec.2024.RData') #biological dataset
+load('../Data/Confidential/PacFIN.YEYE.CompFT.12.Dec.2024.RData') #landings
 ```
 
 
@@ -36,12 +36,6 @@ catch.pacfin %>% summary()
 
 # 0- TO CHECK
 
-* Differences between total vs fork length
-**  converting fork length -> develop a new relationship or use the one from the assessment ?
-
-* Do I need to add historical catches (landings) to this ?
-** Seems to have sampling back to 1977 so prob YES ?
-
 # 1- TO SPECIFY
 
 # Bins for biological data
@@ -58,6 +52,8 @@ age_bins <- seq(0, 65, by = 1)
 ```{r}
 expansion <- 0.95 ##?to change ?? 
 ```
+
+I don't think we care because we are not expanding. 
 
 # 2- CHOICES FOR CLEANING DATABASE
 
@@ -158,6 +154,7 @@ bds.pacfin %>%
   group_by(AGENCY_CODE,FISH_LENGTH_TYPE_CODE) %>% 
   summarise(n=length(FISH_LENGTH_TYPE_CODE))
 ```
+
 What should we do with NAs and Unknow?
 
 ### CHOICE: length type
@@ -263,6 +260,25 @@ bds_cleaned <- cleanPacFIN(
     # the model is not sexed so it is easier to put everything as unsexed for later calculations
     SEX='U') 
 
+## make the same but keeping al the records so I can see what was removed
+bds_cleaned_full <- cleanPacFIN(
+  Pdata = bds.pacfin,
+  keep_gears = used_gears,
+  CLEAN = FALSE,
+  keep_age_method = good_age_method,
+  keep_sample_type = good_samples,
+  keep_sample_method = good_methods,
+  keep_length_type = good_lengths,
+  keep_states = good_states,
+  spp = "yelloweye") |>
+  dplyr::mutate(
+    stratification = paste(state, geargroup, sep = "."),
+    # making another stratification corresponding to model area
+    stratification_byarea = ifelse(state=="CA",paste(state, geargroup, sep = "."), 
+                                   paste("ORWA", geargroup, sep = ".")),
+    # the model is not sexed so it is easier to put everything as unsexed for later calculations
+    SEX='U') 
+
 
 ```
 
@@ -271,10 +287,9 @@ bds_cleaned <- cleanPacFIN(
 ```{r}
 nrow(bds.pacfin);nrow(bds_cleaned)
 ncol(bds.pacfin);ncol(bds_cleaned)
-```
-```{r}
 names(bds_cleaned)
 ```
+
 
 # 4- CLEAN DATABASE EXPLORATION
 
@@ -333,6 +348,13 @@ bds_cleaned %>%
 #   group_by(stratification) %>% 
 #     summarise(n=length(stratification))
 
+#plot n_fish
+bds_cleaned %>%
+  group_by(stratification,year) %>%
+    summarise(n_length=sum(!is.na(length)),n_age=sum(!is.na(Age))) %>% 
+  ggplot(aes(year, stratification))+geom_text(aes(label=n_length))
+
+
 ```
 
 ## Trip
@@ -344,49 +366,177 @@ bds_cleaned %>% pull(FTID) %>% unique() %>% length()
 bds_cleaned %>% pull(FTID) %>% is.na() %>% sum()
 
 bds_cleaned %>% pull(SAMPLE_NO) %>% unique() %>% length()
-
-
-
-
 nrow(bds_cleaned)
-```
+
+bds_cleaned %>% 
+  group_by(stratification_byarea) %>% 
+  summarize(FTID_NA=sum(is.na(FTID)),FTID_nNA=sum(!is.na(FTID)),
+            FTID_tot=length(FTID)) %>% 
+  mutate(verif=FTID_NA+FTID_nNA)
 
 
-## Length sampling effort
-
-
-### Number of trip and sample
-
--> how to get a trip ? -> using SAMPLE_NO
-
-```{r}
-#plot n_fish
 bds_cleaned %>%
-  group_by(stratification,year) %>%
-    summarise(n_length=sum(!is.na(length)),n_age=sum(!is.na(Age))) %>% 
-  ggplot(aes(year, stratification))+geom_text(aes(label=n_length))
+  group_by(year,stratification_byarea) %>%
+  filter(!is.na(FTID)) %>% 
+  filter(!is.na(length)) %>% 
+  summarise(n_trips=length(unique(FTID)),n_fish=length(length)) 
+
 
 # df n_fish + n_trip long format
 bds_cleaned %>%
   group_by(stratification_byarea,year) %>%
   filter(!is.na(length)) %>% 
-  summarise(n_fish=length(length),n_trips=length(unique(SAMPLE_NO)))
+  summarise(n_fish=length(length),
+            n_trips=length(unique(SAMPLE_NO)),
+            n_trips2=length(unique(FTID)),
+            n_trips3=length((FTID))) %>% 
+  mutate(diff=n_trips-n_trips2)
+
+
+# check 2 ways of counting trips -> they match
+bds_cleaned %>% 
+  group_by(stratification_byarea,year) %>%
+  filter(!is.na(FTID)) %>%
+  filter(!is.na(length)) %>% 
+  # first way of computing trips
+  distinct(FTID) %>% 
+  summarize(n_trips=length(FTID)) %>%
+  ## merge with a second one to compare
+  full_join(bds_cleaned %>% 
+  group_by(stratification_byarea,year) %>%
+  filter(!is.na(FTID)) %>%
+  filter(!is.na(length)) %>% 
+  summarize(n_trips2=length(unique(FTID))),
+  by=c('stratification_byarea','year')) %>% 
+  mutate(isequal=n_trips==n_trips2) %>% summary()
+  # filter(!isequal)
+```
+
+certain nb of NA in FTID -> filter them out?
+
+
+# 5- COMPUTE SAMPLING EFFORT
+
+Need a number of trips and fish samples per year per stratification
+
+a row = a fish
+SAMPLE_NO = sample number (sometime a tow sometime not)
+FTID = a fish ticket = proxy of a trip
+
+```{r}
+file_path = "../../Data/processed/length_age_comps/"
+```
+
+
+## 5.1- Length sampling effort
+
+
+### Number of trip and sample
+
+#### Computation
+
+```{r}
+
+# df n_fish + n_trip 
+length_sample_effort <- bds_cleaned %>%
+  group_by(year,stratification_byarea) %>%
+  filter(!is.na(FTID)) %>% 
+  filter(!is.na(length)) %>% 
+  summarise(n_trips=length(unique(FTID)),n_fish=length(length)) 
+
 
 # df n_fish + n_trip large format
-bds_cleaned %>%
-  group_by(year,stratification_byarea) %>%
-  filter(!is.na(length)) %>% 
-  summarise(n_trips=length(unique(SAMPLE_NO)),n_fish=length(length)) %>% 
-  # mutate_at(.vars = c('n_trips','n_fish'),.funs = ifelse(is.na()),0,.)
-  pivot_wider(id_cols = year,names_from = c(stratification_byarea),values_from = c(n_trips,n_fish),names_glue="{stratification_byarea}_{.value}") %>% 
+length_sample_effort_wide <- length_sample_effort %>% 
+  pivot_wider(id_cols = year,names_from = c(stratification_byarea),
+              values_from = c(n_trips,n_fish),
+              names_glue="{stratification_byarea}_{.value}") %>% 
   relocate(year,CA.TWL_n_trips,CA.TWL_n_fish,
            CA.HKL_n_trips,CA.HKL_n_fish,
            ORWA.TWL_n_trips,ORWA.TWL_n_fish,
            ORWA.HKL_n_trips,ORWA.HKL_n_fish) #%>% 
-  # write.csv(row.names = FALSE,
-  #           file = "../../Data/processed/Commercial_length_sampling_effort.csv")
+
+  write.csv(length_sample_effort_wide,row.names = FALSE,
+            file =paste0(file_path,"Commercial_length_sampling_effort.csv"))
 
 
+```
+
+```{r}
+#plot these numbers
+minmaxy_l <- c(min(length_sample_effort$year),max(length_sample_effort$year))
+
+length_sample_effort_plt <- length_sample_effort_wide %>% 
+  pivot_longer(cols=-year) %>% 
+  ggplot(aes(x="",y=-year))+geom_tile(aes(fill=value))+
+  geom_text(aes(label=value))+facet_wrap(~name,nrow=1)+
+  scale_fill_gradient2()+
+  scale_y_continuous(breaks=-seq(minmaxy_l[1],minmaxy_l[2],1))+
+  labs(x='stratification_byarea*(numbers of trips OR fish)',y='year',
+       title="Updated length sampling effort")+
+  theme(legend.position='bottom') 
+
+length_sample_effort_plt
+# ggsave(length_sample_effort_plt,filename=
+#          paste0(file_path,"Commercial_length_sampling_effort.png"),
+#        width=12,height = 8)
+```
+
+#### Compare w 2017 SAFE
+
+```{r}
+
+# compare with 2017 SAFE
+length_sample_effort_2017 <- read.csv(file=paste0(file_path,"2017SAFE_Table21-22_commercial_length_sampling_effort.csv"))%>% 
+  pivot_longer(cols = -year,values_to = 'prev_value') %>% 
+  separate(name,sep="_",
+           into=c("stratification_byarea","B",'C')) %>% 
+  mutate(var=paste0(B,'_',C),
+         # pre_value=case_when(is.na(prev_value)~0,.default=pre_value)
+         ) %>% 
+  select(year,stratification_byarea,var,prev_value)
+  
+comp_length_sample_effort <- length_sample_effort %>%
+  #convert to long format
+  pivot_longer(cols=c(n_trips,n_fish),
+               values_to = 'new_value',names_to = 'var') %>% 
+  filter(year<2017) %>% #filter most recent year
+  full_join(length_sample_effort_2017,
+            by=c('stratification_byarea','year','var')) %>% 
+  arrange(year) %>% 
+  mutate(prev_value=replace_na(prev_value,0),
+            new_value=replace_na(new_value,0)) %>% 
+  mutate(diff=new_value-prev_value) %>% #summary()
+  pivot_wider(id_cols = year,
+              names_from = c(stratification_byarea,var),
+              values_from = c(diff)) #%>% #View() 
+  
+  
+write.csv(comp_length_sample_effort,row.names = FALSE,
+            file =paste0(file_path,"Commercial_length_sampling_effort_DIFF.csv"))
+  
+```
+
+
+
+```{r}
+minmaxy_lcomp <- c(min(comp_length_sample_effort$year),max(comp_length_sample_effort$year))
+
+# plot diff with scaled color
+comp_length_sample_effort_plt <- comp_length_sample_effort %>%
+  pivot_longer(cols=-year,values_to = 'diff') %>%
+  ggplot(aes(x="",y=-year))+geom_tile(aes(fill=diff))+
+  geom_text(aes(label=diff))+facet_wrap(~name,nrow=1)+
+  scale_fill_gradient2()+
+  scale_y_continuous(breaks=-seq(minmaxy_lcomp[1],minmaxy_lcomp[2],1))+
+  labs(x='stratification_byarea*(numbers of trips OR fish)',y='year',
+       title="Length sampling effort comparison with 2017 (diff=new value - previous value)")+
+  theme(legend.position='bottom') 
+
+comp_length_sample_effort_plt
+  
+ggsave(comp_length_sample_effort_plt,path=file_path,
+       filename="Commercial_length_sampling_effort_DIFF.png",
+       height=7,width=12)
 ```
 
 ### Sample size
@@ -397,37 +547,191 @@ Formula from 2017 SAFE p41
 sample_size_length <- bds_cleaned %>%
   group_by(year,stratification_byarea) %>%
   filter(!is.na(length)) %>% 
-  summarise(N_fish=length(length),N_trips=length(unique(SAMPLE_NO))) %>% 
+  summarise(N_fish=length(length),N_trips=length(unique(FTID))) %>% 
   mutate(N_input = ifelse(N_fish/N_trips<44,N_trips+0.138*N_fish,7.06*N_trips))
 sample_size_length
 ```
 
 
-## Age sampling effort
+## 5.2- Age sampling effort
 
 ### trips and samples 
 
+#### Computation
+
 ```{r}
 
-# plot n_fish aged
-bds_cleaned %>%
-  group_by(stratification,year) %>%
-    summarise(n_length=sum(!is.na(length)),n_age=sum(!is.na(Age))) %>% 
-  ggplot(aes(year, stratification))+geom_text(aes(label=n_age))
+# df n_fish + n_trip large format
+age_sample_effort <- bds_cleaned %>%
+  group_by(year,stratification_byarea) %>%
+  filter(!is.na(FTID)) %>% #remove NA fish tickets
+  filter(!is.na(Age)) %>%  #remove rows with no age samples
+  summarise(n_trips=length(unique(FTID)),n_fish=length(Age)) #compute 
 
 # df n_fish + n_trip large format
-bds_cleaned %>%
-  group_by(year,stratification_byarea) %>%
-  filter(!is.na(Age)) %>% 
-  summarise(n_trips=length(unique(SAMPLE_NO)),n_fish=length(Age)) %>% 
-  pivot_wider(id_cols = year,names_from = c(stratification_byarea),values_from = c(n_trips,n_fish),names_glue="{stratification_byarea}_{.value}") %>% 
-  relocate(year,#CA.TWL_n_trips,CA.TWL_n_fish,CA.HKL_n_fish,CA.HKL_n_trips,CA.HKL_n_fish,
-           ORWA.TWL_n_trips,ORWA.TWL_n_fish,ORWA.HKL_n_trips,ORWA.HKL_n_fish) #%>% 
-  # write.csv(row.names = FALSE,
-  #           file = "../../Data/processed/Commercial_age_sampling_effort.csv")
-
+age_sample_effort_wide <- age_sample_effort %>% 
+  pivot_wider(id_cols = year,
+              names_from = c(stratification_byarea),
+              values_from = c(n_trips,n_fish),
+              names_glue="{stratification_byarea}_{.value}") %>% 
+  relocate(year,#CA.TWL_n_trips,CA.TWL_n_fish,
+                #CA.HKL_n_trips,CA.HKL_n_fish,
+                ORWA.TWL_n_trips,ORWA.TWL_n_fish,
+                ORWA.HKL_n_trips,ORWA.HKL_n_fish) #%>% View()
+  
+  
+# write.csv(age_sample_effort_wide,row.names = FALSE,
+#             file = paste0(file_path,"Commercial_age_sampling_effort.csv"))
 
 ```
+
+
+```{r}
+minmaxy_age <- c(min(age_sample_effort$year),max(age_sample_effort$year))
+
+#plot these numbers
+age_sample_effort_plt <- age_sample_effort %>% 
+  pivot_longer(cols=c(n_trips,n_fish),
+               values_to = 'value',names_to = 'var') %>% 
+  mutate(name=paste0(stratification_byarea,'_',var)) %>% 
+  ggplot(aes(x="",y=-year))+geom_tile(aes(fill=value))+
+  geom_text(aes(label=value))+facet_wrap(~name,nrow=1)+
+  scale_fill_gradient2()+
+  scale_y_continuous(breaks=-seq(minmaxy_age[1],minmaxy_age[2],1))+
+  labs(x='stratification_byarea*(numbers of trips OR fish)',y='year',
+       title="Updated age sampling effort")+
+  theme(legend.position='bottom') 
+
+age_sample_effort_plt
+
+# ggsave(age_sample_effort_plt,filename=
+#          paste0(file_path,"Commercial_age_sampling_effort.png"),
+#        width=8,height = 5)
+```
+
+#### Compare with 2017 SAFE
+
+```{r}
+
+#loading table
+age_sample_effort_2017 <- read.csv(file=paste0(file_path,"/2017SAFE_Table23-24_commercial_age_sampling_effort.csv")) %>% 
+  pivot_longer(cols = -year,values_to = 'prev_value') %>% 
+  separate(name,sep="_",
+           into=c("stratification_byarea","B",'C')) %>% 
+  mutate(var=paste0(B,'_',C),
+         # prev_value=case_when(is.na(pre_value)~0,.default=pre_value)
+         ) %>% 
+  select(year,stratification_byarea,var,prev_value)
+
+## make a df with differences  
+comp_age_sample_effort <- age_sample_effort %>% 
+  #convert to long format
+  pivot_longer(cols=c(n_trips,n_fish),
+               values_to = 'new_value',names_to = 'var') %>% 
+  filter(year<2017) %>% #comparison on past years only
+  # merge with 2017 data
+  full_join(age_sample_effort_2017,
+            by=c('stratification_byarea','year','var')) %>% 
+  arrange(year) %>% 
+  mutate(prev_value=replace_na(prev_value,0),
+            new_value=replace_na(new_value,0)) %>% 
+  mutate(diff=new_value-prev_value) %>% #summary()
+  pivot_wider(id_cols = year,
+              names_from = c(stratification_byarea,var),
+              values_from = c(diff)) #%>% #View()
+  
+ comp_age_sample_effort 
+ # write.csv(comp_age_sample_effort,row.names = FALSE,file =
+ #  paste0(file_path,"Commercial_age_sampling_effort_DIFF.csv")
+
+
+## compute summary of differences -> no info if it's + or -
+colSums(abs(comp_age_sample_effort))
+
+```
+
+
+
+```{r}
+minmaxy_agecomp <- c(min(comp_age_sample_effort$year),max(comp_age_sample_effort$year))
+
+# plot diff with scaled color
+comp_age_sample_effort_plt <- comp_age_sample_effort %>% 
+  pivot_longer(cols=-year,values_to = 'diff') %>% 
+  ggplot(aes(x="",y=-year))+geom_tile(aes(fill=diff))+
+  geom_text(aes(label=diff))+facet_wrap(~name,nrow=1)+
+  scale_fill_gradient2()+
+  scale_y_continuous(breaks=-seq(minmaxy_agecomp[1],minmaxy_agecomp[2],1))+
+  labs(x='stratification_byarea*(numbers of trips OR fish)',y='year',
+       title="Age sampling effort comparison with 2017 (diff=new value - previous value)")+
+  theme(legend.position='bottom') 
+
+comp_age_sample_effort_plt
+  
+# ggsave(comp_age_sample_effort_plt,path=file_path,
+#        filename="Commercial_age_sampling_effort_DIFF.png",
+#        height=6,width=12)
+```
+
+<!-- #### investigate missing age samples from CA.non-trawl -->
+
+<!-- ```{r} -->
+
+<!-- bds_cleaned_full %>%  -->
+<!--   filter(!is.na(Age),CLEAN==FALSE,state=='CA')  -->
+
+<!-- ``` -->
+
+<!-- This database does not contain any ages from CA. -->
+
+<!-- #### investigate augmented age samples from OR-WA.TWL -->
+
+
+<!-- ```{r} -->
+<!-- # df n_fish + n_trip large format -->
+<!-- bds_cleaned %>% -->
+<!--   group_by(year,stratification) %>% -->
+<!--   filter(!is.na(Age),state!='CA',geargroup=='TWL') %>%  -->
+<!--   summarise(n_trips=length(unique(SAMPLE_NO)),n_fish=length(Age)) %>%  -->
+<!--   pivot_wider(id_cols = year,names_from = c(stratification),values_from = c(n_trips,n_fish),names_glue="{stratification}_{.value}") %>%  -->
+<!--   filter(year %in% c(2004:2006,2015:2016)) %>%  #filter years where I have discrepencies -->
+<!--   relocate(year,OR.TWL_n_trips,OR.TWL_n_fish,WA.TWL_n_trips,WA.TWL_n_fish) -->
+
+<!-- ``` -->
+
+
+<!-- #### investigate augmented age samples from OR-WA.HKL -->
+
+<!-- ```{r} -->
+<!-- # df n_fish + n_trip large format -->
+<!-- bds_cleaned %>% -->
+<!--   group_by(year,stratification) %>% -->
+<!--   filter(!is.na(Age),state!='CA',geargroup=='HKL') %>%  -->
+<!--   summarise(n_trips=length(unique(SAMPLE_NO)),n_fish=length(Age)) %>%  -->
+<!--   pivot_wider(id_cols = year,names_from = c(stratification),values_from = c(n_trips,n_fish),names_glue="{stratification}_{.value}") %>%  -->
+<!--   filter(year %in% c(2001,2003:2007,2014)) %>%  #filter years where I have discrepencies -->
+<!--   relocate(year,OR.HKL_n_trips,OR.HKL_n_fish, -->
+<!--           WA.HKL_n_trips,WA.HKL_n_fish)  -->
+
+
+<!-- ``` -->
+
+
+<!-- #### first age samples -->
+
+<!-- ```{r} -->
+<!-- bds_cleaned %>% -->
+<!--   group_by(year,stratification) %>% -->
+<!--   filter(!is.na(Age)) %>%  -->
+<!--   summarise(n_trips=length(unique(SAMPLE_NO)),n_fish=length(Age)) %>%  -->
+<!--   pivot_wider(id_cols = year,names_from = c(stratification),values_from = c(n_trips,n_fish),names_glue="{stratification}_{.value}") %>%  -->
+<!--   filter(year %in% c(2001,2003:2007,2014)) %>%  #filter years where I have discrepencies -->
+<!--   relocate(year,OR.HKL_n_trips,OR.HKL_n_fish, -->
+<!--           WA.HKL_n_trips,WA.HKL_n_fish)  -->
+
+<!-- ``` -->
+
+
 
 ### sample size
 
@@ -437,7 +741,7 @@ bds_cleaned %>%
 sample_size_age <- bds_cleaned %>%
   group_by(year,stratification_byarea) %>%
   filter(!is.na(Age)) %>% 
-  summarise(N_fish=length(Age),N_trips=length(unique(SAMPLE_NO))) %>% 
+  summarise(N_fish=length(Age),N_trips=length(unique(FTID))) %>% 
   mutate(N_input = ifelse(N_fish/N_trips<44,N_trips+0.138*N_fish,7.06*N_trips))
 sample_size_age
 ```
@@ -474,7 +778,7 @@ bds_cleaned %>%
 ```
 
 
-# 5- EXPANSION
+# 6- EXPANSION
 
 No expansion is done for this species because of too low samples numbers
 
@@ -483,51 +787,52 @@ p41 of 2017 SAFE
 "Due to very sparse sampling (mainly opportunistic, since yelloweye have been landed in very small proportions of mixed species market categories or recreational bag limits) length frequencies are raw, calculated as the count of fish among size bins. This has been the case in previous assessments, and preliminary investigation of alternate weighting procedures revealed little sensitivity to this choice."
 
 
-# 6- COMPUTING COMPS
+# 7- COMPUTING COMPS
 
-What are the final sample sizes?
-2017 SAFE p41 mention formulas based on Stewart and Hamel (2014) -> is this what we want to use?
+Instructors advise to use getrawComp from nwfscSurvey
+-> can also use PacFINtools::getComps() to double check?
 
-## 6.1 LENGTH COMPS
+
+## 7.1- LENGTH COMPS
 
 
 ```{r}
 
-length_comps_long <- getComps(
-  Pdata = bds_cleaned %>% filter(!is.na(lengthcm)) %>% 
-    left_join(sample_size_length,
-  by=c('year','stratification_byarea')),
-  defaults = c("fishyr", "season",'stratification_byarea'),
-  Comps = "LEN",
-  weightid = "N_input"
-)
-
-
-length_comps_long %>% 
-  ggplot(aes(fishyr,lengthcm))+geom_point(aes(size=comp))+facet_wrap(~stratification_byarea,ncol=1)+
-  theme_bw()+labs(x='Year',y='Length')
+# length_comps_long <- getComps(
+#   Pdata = bds_cleaned %>% filter(!is.na(lengthcm)) %>% 
+#     left_join(sample_size_length,
+#   by=c('year','stratification_byarea')),
+#   defaults = c("fishyr", "season",'stratification_byarea'),
+#   Comps = "LEN",
+#   weightid = "N_input"
+# )
+# 
+# 
+# length_comps_long %>% 
+#   ggplot(aes(fishyr,lengthcm))+geom_point(aes(size=comp))+facet_wrap(~stratification_byarea,ncol=1)+
+#   theme_bw()+labs(x='Year',y='Length')
 
 # length_comps_long %>% 
 #   ggplot(aes(fishyr,lengthcm))+geom_point(aes(size=n_fish))+facet_wrap(~stratification_byarea)
 ```
 
-## 6.2- AGE COMPS
+## 7.2- AGE COMPS
 
 ```{r}
 
-age_comps_long <- getComps(
-  Pdata = bds_cleaned %>% filter(!is.na(Age)) %>% 
-    left_join( sample_size_age,
-  by=c('year','stratification_byarea')),
-  defaults = c("fishyr", "season",'stratification_byarea'),
-  Comps = "AGE",
-  weightid = "N_input"
-)
-
-
-age_comps_long %>% 
-  ggplot(aes(fishyr,Age))+geom_point(aes(size=comp))+facet_wrap(~stratification_byarea,ncol=1)+
-  theme_bw()+labs(x='Year',y='Age')
+# age_comps_long <- getComps(
+#   Pdata = bds_cleaned %>% filter(!is.na(Age)) %>% 
+#     left_join( sample_size_age,
+#   by=c('year','stratification_byarea')),
+#   defaults = c("fishyr", "season",'stratification_byarea'),
+#   Comps = "AGE",
+#   weightid = "N_input"
+# )
+# 
+# 
+# age_comps_long %>% 
+#   ggplot(aes(fishyr,Age))+geom_point(aes(size=comp))+facet_wrap(~stratification_byarea,ncol=1)+
+#   theme_bw()+labs(x='Year',y='Age')
 
 
 ```
