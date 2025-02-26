@@ -240,6 +240,17 @@ good_age_method <- c("B", "1")
 
 # 3- CLEANING DATABASE
 
+reminder of filter choice
+
+```{r}
+good_age_method
+good_states
+good_samples
+good_lengths
+good_methods
+```
+
+
 ```{r}
 
 bds_cleaned <- cleanPacFIN(
