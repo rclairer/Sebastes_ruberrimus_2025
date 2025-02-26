@@ -240,15 +240,13 @@ good_age_method <- c("B", "1")
 
 # 3- CLEANING DATABASE
 
-reminder of filter choice
+*reminder of filter choice*
 
-```{r}
-good_age_method
-good_states
-good_samples
-good_lengths
-good_methods
-```
+good_age_method = c("B","1")
+good_states = c("WA","OR","CA")
+good_samples = c("","M","C")
+good_lengths = "F"
+good_methods = "R"
 
 
 ```{r}
