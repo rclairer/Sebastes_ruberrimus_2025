@@ -145,7 +145,6 @@ bds.pacfin %>%
 used_gears <- c("HKL", "TWL")
 ```
 
-is it a gear code and a gear group?
 
 ## Length type
 
@@ -153,15 +152,25 @@ is it a gear code and a gear group?
 bds.pacfin %>%
   group_by(AGENCY_CODE,FISH_LENGTH_TYPE_CODE) %>% 
   summarise(n=length(FISH_LENGTH_TYPE_CODE))
+
+# check what's the unknown -> they don't have FTID so would be dropped anyway
+bds.pacfin %>% 
+  filter(FISH_LENGTH_TYPE_CODE=='U') %>% pull(FTID)
+
+# check what's the NA -> there's age but no length recorded -> drop
+bds.pacfin %>% 
+  filter(is.na(FISH_LENGTH_TYPE_CODE),!is.na(age1)) %>% 
+  select(SAMPLE_ID,FTID,SAMPLE_YEAR,AGENCY_CODE,age1,FISH_LENGTH)
+
 ```
 
-What should we do with NAs and Unknow?
+What should we do with NAs and Unknow? -> DROP (see explanation above)
 
 ### CHOICE: length type
 
 ```{r}
 # Keep all alternate (A), fork (F), and unknown (U) length types based on FISH_LENGTH_TYPE_CODE
-good_lengths <- c("F") #"U" ?
+good_lengths <- c("F") 
 
 ```
 
@@ -192,7 +201,7 @@ bds.pacfin %>%
   summarise(n=length(SAMPLE_TYPE))
 ```
 
-what is 'S' ? Should it be kept?
+'S' is "special project" samples -> drop said instructors
 
 
 ### CHOICE: sample type
@@ -213,7 +222,7 @@ bds.pacfin %>%
 ### CHOICE: states
 
 ```{r}
-# Keep data from all 3 states. This is the default.
+# Keep data from all 3 states.
 good_states <- c("WA", "OR", "CA")
 ```
 
@@ -292,15 +301,13 @@ bds_cleaned_full <- cleanPacFIN(
 ```
 
 
+# 4- CLEAN DATABASE EXPLORATION
 
 ```{r}
 nrow(bds.pacfin);nrow(bds_cleaned)
 ncol(bds.pacfin);ncol(bds_cleaned)
 names(bds_cleaned)
 ```
-
-
-# 4- CLEAN DATABASE EXPLORATION
 
 ## gear
 
