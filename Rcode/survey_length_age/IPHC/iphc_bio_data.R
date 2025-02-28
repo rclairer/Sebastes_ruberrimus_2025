@@ -104,6 +104,7 @@ write.csv(caal, file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_c
 
 # Need to get stlkey column from Fabio to do nsamps
 #### Figure out how to add rows for each year for ages 0-8
+#### Figure out how to add rows for each year for ages 0-8
 maal <- iphc_bio |>
   dplyr::filter(!is.na(a_bin)) |>
   dplyr::group_by(sample_year, a_bin) |>
@@ -211,6 +212,7 @@ iphc_ages_new <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_bio_data
   dplyr::group_by(year) |>
   dplyr::mutate(
     freq = freq / sum(freq),
+    # NsampsFreq = freq/unique(Nsamps), still waiting on these
     # NsampsFreq = freq/unique(Nsamps), still waiting on these
     age = as.numeric(age)
   )
