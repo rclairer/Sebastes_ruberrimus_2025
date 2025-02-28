@@ -1,0 +1,532 @@
+---
+title: "Yelloweye Commercial Catch"
+author: Samantha Schiano
+format: html
+editor: visual
+---
+
+## Previous Assessment Calcs
+
+```{=html}
+<!--- - CA historial (1916-1980) commercial catches were recontructed
+ - used spatial info on aggregate rockfish catches back to 1916 and used intermittent species composition records by markey category to apportion the catches in mixed species market categories to species, fishing gears, and ports
+ - Linear rampoing was applied over the period btwn 1889-1916
+ --->
+```
+-   landings from 1981-2016 were obtained from PacFIN (extracted by hear type and state), then combined into the area-specific fishing fleets used in the assessment
+-   Supplement the year-specific landings from PacFIN with discard amounts estimated by WCGOP = total commercial catch
+
+### Previous data sources needed
+
+-   PacFIN catches
+-   WCGOP
+
+CA - from PacFIN OR - reconstructed landings through 1986; recent landings (1987-2017) obtained from PacFIN OR pacfin landings from 1987-1999 were supplemented with add'l estimates from landing\`s reported w/in rockfish market categories
+
+Area-specific fishing fleets: California Oregon-Washington
+
+## Relevant Notes from GitHub Discussions
+
+-   For yelloweye, the bottom and midwater trawls are in the same fleet, don't worry about that.
+
+Often the gear groupings for TWL and TWS (shrimp trawl) are combined, and then everything else goes into non-trawl. You might check with people analyzing the catch data to make sure that is the case. I have seen shrimp trawl catches put into non-trawl fleets before. Whatever you do should be consistent between the composition data and the landings.
+
+-   cleanPacFIN() is taking care of these HKL and TWL cases
+
+-   PacFIN has a lot of different users and three different state agencies that provide data. As a result, there are a LOT of different columns to denote gear. For stock assessment, we most commonly use PACFIN_GROUP_GEAR_CODE. This is only available for the catch data-- but you can see which specific PACFIN_GEAR_CODE matches up with the more general PACFIN_GROUP_GEAR_CODE.
+
+-   use the same data provided in the last assessment then all the years after will be sources from PacFIN -- follow up with Fabio (WA) and Ali (OR) to talk about commercial catches (do we also need to ask julia? (CA)) -- Is the cv assumed or calculated? Looks like the previous assessment cv's are just set to 0.01
+
+## Load in data
+
+```{r}
+#| echo: false
+common_name <- "yelloweye"
+species_code <- "YEYE"
+
+or <- read.csv(file.path(getwd(), "data", "Oregon Commercial landings_457_2024.csv")) |>
+  dplyr::mutate(STATE = "OR",
+                FLEET = dplyr::case_when(
+                  FLEET == "NTRW" ~ "NONTWL",
+                  FLEET == "TRW" ~ "TWL",
+                  TRUE ~ NA
+                  ))
+                
+file_catch <- fs::path(getwd(), "data", "confidential", "PacFIN.YEYE.CompFT.12.Dec.2024.RData")
+file_bds <- fs::path(getwd(), "data", "confidential", "PacFIN.YEYE.bds.12.Dec.2024.RData")
+
+# head(catch.pacfin)
+```
+
+Bins for bio data
+
+```{r}
+#| eval: false
+# Bins for bio data
+length_bins <- seq(10, 74, by = 2)
+age_bins <- seq(0,65, 1)
+# Gear codes
+used_gears <- c("NET", "HKL", "TWL", "TLS", "POT", "TWS", "MSC")
+# max quantile at which to cap all data expansions within getExpansion_1()
+expansion <- 0.95
+```
+
+Plotting raw data
+
+# Specifying retained records
+
+```{r}
+#| eval: false
+good_lengths <- c("U", "F") # definitley keep fork length
+# Retain random samples
+good_methods <- "R"
+# keep comm on-board (C), market (M), and blank samples
+good_samples <- c("", "M", "C")
+# States to keep
+good_states <- c("CA","WA","OR")
+# ageing method
+# yelloweye also has "1" and "9" as options
+good_age_method <- c("", "U","B") 
+```
+
+Load in data now
+
+```{r}
+#| echo: false
+load(file_bds) # bds.pacfin
+load(file_catch) # catch.pacfin
+```
+
+Clean PacFIN bds data
+
+```{r}
+#| eval: false
+# Clean bio data
+bds_cleaned <- pacfintools::cleanPacFIN(
+  Pdata = bds.pacfin,
+  keep_gears = used_gears,
+  CLEAN = TRUE,
+  keep_age_method = good_age_method,
+  keep_sample_type = good_samples,
+  keep_sample_method = good_methods,
+  keep_length_type = good_lengths,
+  keep_states = good_states,
+  spp = common_name
+  ) |>
+  dplyr::mutate(
+    stratification = paste(state, geargroup, sep = ".")
+  )
+# Following code is for model that includes both length and marginal ages
+  # bds_cleaned <- bds_cleaned |>
+  #   # Set any length with an age to NA to avoid double use of data
+  #   # in the model via marginals.
+  #   dplyr::mutate(
+  #     lengthcm = dplyr::case_when(
+  #       !is.na(Age) ~ NA, is.na(Age) ~ lengthcm
+  #     )
+  #   )
+```
+
+## Catch Data
+
+1.  Plot landings by state, gear, and fleet
+2.  Compare current landings with those in the last assessment
+3.  Make sample size tables to determine confidentiality needs
+
+```{r}
+#| echo: false
+colnames(catch.pacfin)
+
+catch.pacfin |> 
+  dplyr::select(PACFIN_GROUP_GEAR_CODE,PACFIN_GEAR_CODE) |> 
+  dplyr::distinct() |>
+  dplyr::arrange(PACFIN_GROUP_GEAR_CODE)
+
+unique(catch.pacfin$PACFIN_SPECIES_CODE)
+
+pacfin_gears <- pacfintools::get_codelist() |> dplyr::select(GRID, GROUP)
+```
+
+### Plots
+
+```{r}
+#| echo: false
+library(ggplot2)
+
+catch_gear <- catch.pacfin |>
+  dplyr::left_join(pacfin_gears, by = c("PACFIN_GEAR_CODE" = "GRID")) |>
+  dplyr::mutate(FLEET = dplyr::case_when(
+    GROUP == "TWL" ~ "TWL",
+    GROUP == "TWS" ~ "TWL",
+    TRUE ~ "NONTWL"
+  )) |>
+  dplyr::group_by(LANDING_YEAR, FLEET, PACFIN_GEAR_CODE, COUNTY_STATE) |> 
+  dplyr::summarise(TOTAL_CATCH = sum(LANDED_WEIGHT_MTONS)) |>
+  dplyr::ungroup() |>
+  dplyr::filter(!is.na(TOTAL_CATCH))
+
+ggplot(data = catch_gear, aes(x = LANDING_YEAR, y = TOTAL_CATCH, fill = PACFIN_GEAR_CODE)) +
+  geom_bar(stat = "identity", position = "stack", color = "black") +
+  facet_wrap(~ COUNTY_STATE)
+```
+
+```{r}
+#| echo: false
+catch_state <- catch.pacfin |>
+  dplyr::left_join(pacfin_gears, by = c("PACFIN_GEAR_CODE" = "GRID")) |>
+  dplyr::mutate(FLEET = dplyr::case_when(
+    GROUP == "TWL" ~ "TWL",
+    GROUP == "TWS" ~ "TWL",
+    TRUE ~ "NONTWL"
+  )) |>
+  dplyr::group_by(LANDING_YEAR, FLEET, COUNTY_STATE) |> 
+  dplyr::summarise(TOTAL_CATCH = sum(LANDED_WEIGHT_MTONS)) |>
+  dplyr::ungroup() |>
+  na.omit()
+
+ggplot(data = catch_state, aes(x = LANDING_YEAR, y = TOTAL_CATCH, fill = FLEET)) +
+  geom_bar(stat = "identity", position = "stack", color = "black") +
+  facet_wrap(~ COUNTY_STATE) +
+  labs(
+    x="Year",
+    y="Catch (mt)",
+    fill="Fleet"
+  ) +
+  theme_classic()
+
+ggplot(data = catch_state, aes(x = LANDING_YEAR, y = TOTAL_CATCH, fill = COUNTY_STATE)) +
+  geom_bar(stat = "identity", position = "stack", color = "black") +
+  facet_wrap(~ FLEET) +
+  labs(
+    x="Year",
+    y="Catch (mt)",
+    fill="State"
+  ) +
+  theme_classic()
+
+```
+
+### Plots for recent years
+
+```{r}
+ggplot(data = subset(catch_state, LANDING_YEAR>2015), aes(x = as.factor(LANDING_YEAR), y = TOTAL_CATCH, fill = FLEET)) +
+  geom_bar(stat = "identity", position = "stack", color = "black") +
+  facet_wrap(~ COUNTY_STATE) +
+  labs(
+    x="Year",
+    y="Catch (mt)",
+    fill="Fleet"
+  ) +
+  theme_classic()
+
+ggplot(data = subset(catch_state, LANDING_YEAR>2015), aes(x = as.factor(LANDING_YEAR), y = TOTAL_CATCH, fill = COUNTY_STATE)) +
+  geom_bar(stat = "identity", position = "stack", color = "black") +
+  facet_wrap(~ FLEET) +
+  labs(
+    x="Year",
+    y="Catch (mt)",
+    fill="State"
+  ) +
+  theme_classic()
+```
+
+### Summarize Catch data by state, year, and gear
+
+```{r}
+#| echo: false
+catch <- catch.pacfin |>
+  dplyr::left_join(pacfin_gears, by = c("PACFIN_GEAR_CODE" = "GRID")) |>
+  dplyr::mutate(FLEET = dplyr::case_when(
+    GROUP == "TWL" ~ "TWL",
+    TRUE ~ "NONTWL"
+  )) |>
+  dplyr::group_by(LANDING_YEAR, FLEET, COUNTY_STATE) |>
+  dplyr::summarise(TOTAL_CATCH = sum(LANDED_WEIGHT_MTONS)) |>
+  dplyr::rename(YEAR = LANDING_YEAR,
+                TOTAL = TOTAL_CATCH,
+                STATE = COUNTY_STATE
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::select(YEAR, FLEET, STATE, TOTAL) |>
+  dplyr::filter(!is.na(STATE),
+                # filter data to above 2016 since we are only adding this into it
+                YEAR > 2015)
+                
+# not working
+# catch_formatted <- catch.pacfin |>
+#   pacfintools::formatCatch(
+#     strat = c("LANDING_YEAR", "COUNTY_STATE","PACFIN_GEAR_CODE"),
+#     valuename = "LANDED_WT_MTONS"
+#   )
+```
+
+## More Plotting
+
+```{r}
+#| echo: false
+catch_plt <- ggplot(data = catch) +
+  geom_line(aes(x = YEAR, y = TOTAL, color = FLEET), linewidth = 1) +
+  facet_wrap(~ STATE) +
+  ggplot2::labs(
+    x = "Year",
+    y = "Catch (mt)",
+    color = "Fleet"
+  )
+satf::add_theme(catch_plt)
+```
+
+Look at WA Landings in 2023
+
+```{r}
+WA.catch <- catch.pacfin |>
+    dplyr::filter(LANDING_YEAR == 2023,
+                  COUNTY_STATE == "WA")
+max(WA.catch$LANDED_WEIGHT_MTONS)
+chk <- WA.catch |>
+  dplyr::select(LANDED_WEIGHT_MTONS, LANDING_YEAR, COUNTY_STATE, PACFIN_GEAR_CODE)
+CHK2 <- WA.catch[c(57,128),]
+
+WA_catch_gear <- catch.pacfin |>
+  dplyr::left_join(pacfin_gears, by = c("PACFIN_GEAR_CODE" = "GRID")) |>
+  dplyr::mutate(FLEET = dplyr::case_when(
+    GROUP == "TWL" ~ "TWL",
+    TRUE ~ "NONTWL"
+  )) |>
+  dplyr::group_by(LANDING_YEAR, FLEET, PACFIN_GEAR_CODE, COUNTY_STATE) |> 
+  dplyr::summarise(TOTAL_CATCH = sum(LANDED_WEIGHT_MTONS)) |>
+  dplyr::ungroup() |>
+  dplyr::filter(!is.na(TOTAL_CATCH),
+                COUNTY_STATE == "WA")
+
+ggplot(data = WA_catch_gear, aes(x = LANDING_YEAR, y = TOTAL_CATCH, fill = PACFIN_GEAR_CODE)) +
+  geom_bar(stat = "identity", position = "stack", color = "black") +
+  labs(
+    x="Year",
+    y="Catch (mt)",
+    fill="Gear"
+  ) +
+  ggtitle("Washington Yelloweye Commercial Catch")+
+  theme_light()
+```
+
+### Comparison to OR state data
+
+```{r}
+#| eval: false
+# Does not work
+# Cath data subset to >2015 (chose 2015 since the 2016 data is missing for CA nontwl)
+pacfin.or <- catch |>
+  dplyr::filter(STATE == "OR") |>
+  dplyr::mutate(SOURCE = "PACFIN")
+or_compar <- or |> dplyr::select(YEAR, FLEET, TOTAL, STATE) |>
+  dplyr::mutate(SOURCE = "STATE") |>
+  rbind(pacfin.or) |>
+  dplyr::filter(YEAR > 2015)
+  
+ggplot(data = or_compar, aes(x = as.factor(YEAR), y = TOTAL, fill = SOURCE)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  facet_wrap(~ FLEET) +
+  labs(
+    x="Year",
+    y="Catch (mt)",
+    fill="Source"
+  )
+```
+
+```{r}
+#| echo: false
+# difference btwn pacfin and OR state commercial data in 2018
+pf_num <- pacfin.or |>
+  dplyr::filter(YEAR == 2018,
+                FLEET == "NONTWL") |>
+  dplyr::pull(TOTAL)
+pull_or_2018 <- or_compar |>
+  dplyr::filter(YEAR == 2018,
+                FLEET == "NONTWL")
+diff <- pull_or_2018$TOTAL[pull_or_2018$SOURCE=="STATE"] - pull_or_2018$TOTAL[pull_or_2018$SOURCE=="PACFIN"]
+diff
+
+chk_2018_nontwl <- or |>
+  dplyr::filter(YEAR == 2018,
+                FLEET == "NONTWL")
+chk_pac_2018_nontwl <- catch.pacfin
+```
+
+### Combine ORWA and name fleets
+
+```{r}
+# due to above results - replace OR fleet data from PacFIN with OR state data
+or2 <- or |>
+  dplyr::select(YEAR, FLEET, TOTAL, STATE) |>
+  dplyr::filter(YEAR > 2015)
+
+pacfin.cawa <- catch |>
+  dplyr::filter(STATE != "OR")
+
+catch2 <- rbind(pacfin.cawa, or2)
+
+# Combine fleets
+catch_orwa <- catch2 |>
+  dplyr::filter(STATE %in% c("WA", "OR")) |>
+  dplyr::group_by(YEAR, FLEET) |>
+  dplyr::summarise(CATCH = sum(TOTAL)) |>
+  dplyr::ungroup() |>
+  dplyr::mutate(STATE = "ORWA")
+
+comm_catch <- catch2 |>
+  dplyr::filter(STATE == "CA") |>
+  dplyr::rename(CATCH = TOTAL) |>
+  rbind(catch_orwa) |>
+  dplyr::mutate(ST_FLEET = glue::glue("{STATE}_{FLEET}")) |>
+  dplyr::mutate(SEAS = "1",
+                CATCH_SE = 0.01) |>
+  dplyr::select(YEAR, SEAS, ST_FLEET, CATCH, CATCH_SE)
+```
+
+Sample size tables
+
+```{r}
+# 9,241 occruances of vessels having <=3 trips in a given year
+vessel_yr_n <- catch.pacfin |>
+  dplyr::group_by(LANDING_YEAR, VESSEL_ID) |>
+  dplyr::summarize(total_count=dplyr::n())
+
+vessel_yr_n |>
+  dplyr::filter(total_count <= 3)
+
+# 2,556 vessels with 3 or less trips over all years
+vessel_n <- catch.pacfin |>
+  dplyr::group_by(VESSEL_ID) |>
+  dplyr::summarize(total_count=dplyr::n())
+vessel_n |>
+  dplyr::filter(total_count <= 3)
+
+# no years with occurances less than 3
+year_n <- catch.pacfin |>
+  dplyr::group_by(LANDING_YEAR) |>
+  dplyr::summarize(total_count=dplyr::n())
+year_n |>
+  dplyr::filter(total_count <= 3)
+```
+
+Vessel count from for summarizing data for catches (2017-present)
+
+```{r}
+catch <- catch.pacfin |>
+  dplyr::left_join(pacfin_gears, by = c("PACFIN_GEAR_CODE"="GRID")) |>
+  dplyr::mutate(FLEET = dplyr::case_when(
+    GROUP == "TWL" ~ "TWL",
+    TRUE ~ "NONTWL"
+  )) |>
+  dplyr::group_by(LANDING_YEAR, FLEET, COUNTY_STATE) |>
+  dplyr::summarise(TOTAL_CATCH = sum(LANDED_WEIGHT_MTONS)) |>
+  dplyr::rename(YEAR = LANDING_YEAR,
+                TOTAL = TOTAL_CATCH,
+                STATE = COUNTY_STATE
+  ) |>
+  dplyr::ungroup() |>
+  dplyr::select(YEAR, FLEET, STATE, TOTAL) |>
+  dplyr::filter(!is.na(STATE),
+                # filter data to above 2016 since we are only adding this into it
+                YEAR > 2015)
+
+trips <- catch.pacfin |>
+  dplyr::left_join(pacfin_gears, by = c("PACFIN_GEAR_CODE"="GRID")) |>
+  dplyr::mutate(FLEET = dplyr::case_when(
+    GROUP == "TWL" ~ "TWL",
+    TRUE ~ "NONTWL"
+  )) |>
+  dplyr::filter(LANDING_YEAR > 2015) |>
+  dplyr::group_by(LANDING_YEAR, FLEET, COUNTY_STATE) |>
+  dplyr::summarise(count = dplyr::n()) |>
+  dplyr::filter(!is.na(COUNTY_STATE))
+  
+```
+
+Plot OR Data
+
+```{r}
+or_land <- ggplot2::ggplot(data = or2) +
+  ggplot2::geom_line(ggplot2::aes(x = YEAR, y = TOTAL, color = FLEET))
+satf::add_theme(or_land)
+```
+
+## Catches compared to the last assessment
+
+```{r}
+#| echo: false
+# from r4ss
+rich.colors.short <- function(n, alpha = 1) {
+  x <- seq(0, 1, length = n)
+  r <- 1 / (1 + exp(20 - 35 * x))
+  g <- pmin(pmax(0, -0.8 + 6 * x - 5 * x^2), 1)
+  b <- dnorm(x, 0.25, 0.15) / max(dnorm(x, 0.25, 0.15))
+  rgb.m <- matrix(c(r, g, b), ncol = 3)
+  rich.vector <- apply(rgb.m, 1, function(v) rgb(v[1], v[2], v[3], alpha = alpha))
+}
+```
+
+```{r}
+# load in input catches
+hist_c <- read.csv(file.path(getwd(), "data", "ss3_input_comm_catch.csv")) |>
+  dplyr::select(YEAR, SEAS, ST_FLEET, CATCH, CATCH_SE)
+
+all_catch <- rbind(hist_c, comm_catch) |>
+  dplyr::mutate(
+    # YEAR = as.factor(YEAR),
+    CATCH = as.numeric(CATCH)
+    )
+
+# identify colors for plot
+all_fleets <- c("CA_TWL", "CA_NONTWL", "CA_REC", "ORWA_TWL", "ORWA_NONTWL", "OR_REC", "WA_REC")
+colors <- rich.colors.short(length(unique(all_fleets)) + 1)[-1]
+
+fleetcols <- c("CA_TWL" = "#0000CBFF", "CA_NONTWL" = "#0081FFFF", "CA_REC" = "#02DA81FF", "ORWA_TWL" = "#80FE1AFF", "ORWA_NONTWL" = "#FDEE02FF", "OR_REC" = "#FFAB00FF", "WA_REC" = "#FF3300FF")
+
+ggplot(data = all_catch, aes(x = YEAR, y = CATCH, fill = ST_FLEET)) +
+  geom_bar(position = "stack", stat = "identity", color = "black") +
+  labs(
+    x = "Year",
+    y = "Catch (mt)",
+    fill = ""
+  ) +
+  ggtitle("Yelloweye Rockfish Commercial Catch") +
+  scale_fill_manual(values = fleetcols) +
+  theme_minimal()
+
+```
+
+```{r}
+# catches added for update assessment
+ggplot(data = subset(all_catch, YEAR > 2016), aes(x = YEAR, y = CATCH, fill = ST_FLEET)) +
+  geom_bar(position = "stack", stat = "identity", color = "black") +
+  labs(
+    x = "Year",
+    y = "Yelloweye rockfish catch (mt)",
+    fill = ""
+  ) +
+  scale_fill_manual(values = fleetcols) +
+  theme_minimal()
+```
+
+## Notes from class
+
+(Regarding commercial discards)
+
+-   GEMM and WCGOP missing 2004 -\> discards missing then and we will have to make some assumptions to add into landings for that year (values should be the same)
+
+-   use discard rate?
+
+-   2-area model - GEMM might not have the same breaks in the fleets
+
+-   PACFIN YOU can specify
+
+-   WCGOP divided by fleet and won't have to decide by fleet in GEMM
+
+-   do comparisons between the 2
+
+-   look at the sheet for WA recontruction
+
+    -   Fabio is sending
+
+## Double check period from 1987-2000 in PacFIN and OR data
