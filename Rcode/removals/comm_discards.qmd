@@ -104,6 +104,7 @@ commercial_gemm <- gemm |>
                    cv = max(cv))
 ```
 
+
 ```{r}
 # alternatvie gemm from Kiva
 #| eval: false
@@ -172,16 +173,17 @@ catchshare <- rbind(disrate_catchsh, disrate_emcatch) |>
 chk1 <- catchshare |>
   dplyr::select(year, fleet, catch_shares, obs_disc_mt)
   # data.frame(year = catchshare$year, discard.sum = catchshare$obs_disc_mt)
-chk2 <- disrate_comb |>
+
+chk2 <- disrate_catchsh |>
   dplyr::select(year, fleet, catch_shares, observed_discard_mt)
   # data.frame(year = disrate_catchsh$year, discard.cs = disrate_catchsh$observed_discard_mt)
-comb_chk <- dplyr::left_join(chk1, chk2, by = c("year", "fleet", "catch_shares")) |>
+comb <- dplyr::left_join(chk1, chk2, by = c("year", "fleet", "catch_shares")) |>
   dplyr::mutate(diff = obs_disc_mt - observed_discard_mt) # |>
   # dplyr::filter(diff > 0)
 ```
 
-There is a small discrepancy in discards when combining catch share + em catch sahre and comparing them with the "combined catch share" data. We are deferring to using the combined catch share to be conservative.
 
+There is a small discrepancy in discards when combining catch share + em catch sahre and comparing them with the "combined catch share" data. We are deferring to using the combined catch share to be conservative.
 
 ### WCGOP Office Hours Notes 
 
@@ -209,9 +211,6 @@ calculate percentages of discard by state and gear group (trawl vs
 non-trawl), and applied those percentages to the coastwide discard amount
 reported in GEMM, to calculate the total discard by state and gear group. I
 have two excel files from 2017 and will be happy to share them with you.
-
-
-### Catch Shares
 
 ```{r}
 #| echo: false
@@ -261,6 +260,7 @@ non_catchshare <- non_catchshare_prop |>
   # chk <- non_catchshare |>
   #   dplyr::filter(total_discards > 0 & is.na(nonshare_discard))
 ```
+
 ```{r}
 # check years for non-share data
 tidyr::pivot_wider(non_catchshare,
