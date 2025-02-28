@@ -103,6 +103,7 @@ caal <- iphc_bio |>
 write.csv(caal, file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_caal.csv"), row.names = FALSE)
 
 # Need to get stlkey column from Fabio to do nsamps
+#### Figure out how to add rows for each year for ages 0-8
 maal <- iphc_bio |>
   dplyr::filter(!is.na(a_bin)) |>
   dplyr::group_by(sample_year, a_bin) |>
@@ -144,7 +145,7 @@ iphc_lengths_new <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_bio_d
 # Read old data
 inputs_old <- r4ss::SS_read(dir = file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe"))
 
-iphc_lengths_old <- inputs_old$dat$lencom |>
+iphc_lengths_old <- inputs_old$dat$lencomp |>
   dplyr::filter(fleet == 12)|>
   mutate(assessment = "Previous") |>
   dplyr::select(year, assessment, Nsamp, `l10`:`l74`) |>
@@ -202,48 +203,83 @@ ggsave(plot = comparison_plot, "iphc_length_comp_comparisons.png", path = file.p
 # ggsave(plot = comparison_plot, "iphc_length_comp_comparisons.png", path = file.path(getwd(), "Rcode", "survey_length_age", "IPHC"))
 
 ### IPHC ages
-iphc_ages <- read.csv(file.path(getwd(), "Rcode", "survey_length_age", "IPHC", "iphc_comparison_ages.csv"))
-
-long_iphc_ages <- iphc_ages |>
-  dplyr::mutate(
-    type = dplyr::case_when(
-      Fleet == 12 ~ "previous assessment",
-      Fleet == -12 ~ "previous assessment",
-      Fleet == 13 ~ "current assessment",
-      Fleet == -13 ~ "current assessment"
-    ),
-    age_type = dplyr::case_when(
-      Fleet == 12 ~ "caal",
-      Fleet == -12 ~ "maal",
-      Fleet == 13 ~ "caal",
-      Fleet == -13 ~ "maal"
-    )
-  ) |>
-  dplyr::select(Year, type, age_type, `X0`:`X65`) |>
-  tidyr::pivot_longer(cols = c(-Year, -type, -age_type), names_to = "age", values_to = "freq") |>
-  dplyr::mutate(age = gsub("X", "", age))
-
-
-old_comps <- long_iphc_ages |>
-  dplyr::filter(type == "previous assessment") |>
-  dplyr::filter(age_type == "maal") |>
-  dplyr::group_by(Year) |>
+iphc_ages_new <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_marginal_ages.csv")) |>
+  mutate(assessment = "Current") |>
+  dplyr::select(year, assessment, Nsamp, `X9`:`X65`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "age", values_to = "freq") |>
+  dplyr::mutate(age = gsub("X", "", age)) |>
+  dplyr::group_by(year) |>
   dplyr::mutate(
     freq = freq / sum(freq),
-    age = as.numeric(age)
-  )
-new_comps <- long_iphc_ages |>
-  dplyr::filter(type == "current assessment") |>
-  dplyr::filter(age_type == "maal") |>
-  dplyr::group_by(Year) |>
-  dplyr::mutate(
-    freq = freq / sum(freq),
+    # NsampsFreq = freq/unique(Nsamps), still waiting on these
     age = as.numeric(age)
   )
 
-together <- rbind(old_comps, new_comps)
+iphc_ages_old <- inputs_old$dat$agecomp |>
+  dplyr::filter(fleet == -12)|>
+  mutate(assessment = "Previous") |>
+  dplyr::select(year, assessment, Nsamp, `a1`:`l65`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "age", values_to = "freq") |>
+  dplyr::mutate(age = gsub("^a", "", age)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    # NsampsFreq = freq/unique(Nsamps), still waiting on these
+    age = as.numeric(age)
+  )
+
+together <- rbind(iphc_ages_old, iphc_ages_new)
 comparison_plot <- together |>
   dplyr::filter(freq > 0) |>
-  ggplot2::ggplot(aes(x = Year, y = age, col = type, size = freq)) +
+  ggplot2::ggplot(aes(x = year, y = age, col = assessment, size = freq)) +
   ggplot2::geom_point(position = position_dodge(0.5))
 ggsave(plot = comparison_plot, "iphc_age_comp_comparisons.png", path = file.path(getwd(), "Rcode", "survey_length_age", "IPHC"))
+
+
+# Old way of doing the age comp plot by using data frames formatted from the SAC tool
+# 
+# iphc_ages <- read.csv(file.path(getwd(), "Rcode", "survey_length_age", "IPHC", "iphc_comparison_ages.csv"))
+# 
+# long_iphc_ages <- iphc_ages |>
+#   dplyr::mutate(
+#     type = dplyr::case_when(
+#       Fleet == 12 ~ "previous assessment",
+#       Fleet == -12 ~ "previous assessment",
+#       Fleet == 13 ~ "current assessment",
+#       Fleet == -13 ~ "current assessment"
+#     ),
+#     age_type = dplyr::case_when(
+#       Fleet == 12 ~ "caal",
+#       Fleet == -12 ~ "maal",
+#       Fleet == 13 ~ "caal",
+#       Fleet == -13 ~ "maal"
+#     )
+#   ) |>
+#   dplyr::select(Year, type, age_type, `X0`:`X65`) |>
+#   tidyr::pivot_longer(cols = c(-Year, -type, -age_type), names_to = "age", values_to = "freq") |>
+#   dplyr::mutate(age = gsub("X", "", age))
+# 
+# 
+# old_comps <- long_iphc_ages |>
+#   dplyr::filter(type == "previous assessment") |>
+#   dplyr::filter(age_type == "maal") |>
+#   dplyr::group_by(Year) |>
+#   dplyr::mutate(
+#     freq = freq / sum(freq),
+#     age = as.numeric(age)
+#   )
+# new_comps <- long_iphc_ages |>
+#   dplyr::filter(type == "current assessment") |>
+#   dplyr::filter(age_type == "maal") |>
+#   dplyr::group_by(Year) |>
+#   dplyr::mutate(
+#     freq = freq / sum(freq),
+#     age = as.numeric(age)
+#   )
+# 
+# together <- rbind(old_comps, new_comps)
+# comparison_plot <- together |>
+#   dplyr::filter(freq > 0) |>
+#   ggplot2::ggplot(aes(x = Year, y = age, col = type, size = freq)) +
+#   ggplot2::geom_point(position = position_dodge(0.5))
+# ggsave(plot = comparison_plot, "iphc_age_comp_comparisons.png", path = file.path(getwd(), "Rcode", "survey_length_age", "IPHC"))

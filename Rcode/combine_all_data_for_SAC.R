@@ -74,16 +74,14 @@ colnames_i <- c("Year",	"Month",	"Fleet",	"Index",	"CV", "Label")
 # Oregon onboard Recreational Charter observer CPUE - fleet 9
  
 # TRI ORWA - fleet 10
- 
-# NWFSC ORWA - fleet 11
- 
-# IPHC ORWA - fleet 12
-
-# Triennial survey - fleet 10
 tri_index <- inputs$dat$CPUE |>
   filter(index == 10) |>
   mutate(Label = "Triennial")
 colnames(tri_index) <- colnames_i
+ 
+# NWFSC ORWA - fleet 11
+ 
+# IPHC ORWA - fleet 12
 
 all_indices <- do.call("rbind", list(c(tri_index,
                                        )))
