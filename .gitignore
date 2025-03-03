@@ -1,6 +1,7 @@
 .DS_Store
 .Rproj.user
 .Rhistory
+
 Data/raw/confidential
 
 # SS3 specific files
@@ -66,3 +67,6 @@ Data/raw/confidential
 *ss3.exe
 *ss3.cor
 *ss3.std
+
+Data/discards/
+
