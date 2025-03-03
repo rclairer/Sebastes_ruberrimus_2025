@@ -85,23 +85,33 @@ recreational <- gemm |>
 
 ```{r}
 commercial_gemm <- gemm |>
-  dplyr::filter(sector %in% c(CA_comm_twl, CA_comm_nontwl, ORWA_comm_twl, ORWA_comm_nontwl)) |>
-  dplyr::mutate(
-    area = dplyr::case_when(
-      sector %in% c(CA_comm_twl, CA_comm_nontwl) ~ "CA",
-      sector %in% c(ORWA_comm_twl, ORWA_comm_nontwl) ~ "ORWA",
-      TRUE ~ "XXXX"
-      ),
-    type = dplyr::case_when(
-      sector %in% c(CA_comm_twl, ORWA_comm_twl) ~ "TWL",
-      sector %in% c(CA_comm_nontwl, ORWA_comm_nontwl) ~ "NONTWL",
-      TRUE ~ "XXXX"
-    ),
-    fleet = glue::glue("{type}-{area}")
-  ) |> 
-  dplyr::group_by(year, fleet) |>
+  # dplyr::filter(sector %in% c(CA_comm_twl, CA_comm_nontwl, ORWA_comm_twl, ORWA_comm_nontwl)) |>
+  # dplyr::mutate(
+  #   area = dplyr::case_when(
+  #     sector %in% c(CA_comm_twl, CA_comm_nontwl) ~ "CA",
+  #     sector %in% c(ORWA_comm_twl, ORWA_comm_nontwl) ~ "ORWA",
+  #     TRUE ~ "XXXX"
+  #     ),
+  #   type = dplyr::case_when(
+  #     sector %in% c(CA_comm_twl, ORWA_comm_twl) ~ "TWL",
+  #     sector %in% c(CA_comm_nontwl, ORWA_comm_nontwl) ~ "NONTWL",
+  #     TRUE ~ "XXXX"
+  #   ),
+  #   fleet = glue::glue("{type}-{area}")
+  # ) |> 
+  dplyr::group_by(year) |> #, fleet - no longer summarizing by fleet bc we don't know which ones are for which fleet/state
   dplyr::summarise(total_discards = sum(total_discard_mt),
                    cv = max(cv))
+```
+
+```{r}
+# alternatvie gemm from Kiva
+#| eval: false
+gemm_comm_alt <- gemm_catch_by_cs_gear |>
+  dplyr::group_by(year) |>
+  dplyr::summarise(gemm_alt_dsic = sum(discard_mt)) |>
+  dplyr::left_join(commercial_gemm, by = "year") |>
+  dplyr::mutate(diff = total_discards - gemm_alt_dsic)
 ```
 
 
@@ -162,19 +172,44 @@ catchshare <- rbind(disrate_catchsh, disrate_emcatch) |>
 chk1 <- catchshare |>
   dplyr::select(year, fleet, catch_shares, obs_disc_mt)
   # data.frame(year = catchshare$year, discard.sum = catchshare$obs_disc_mt)
-chk2 <- disrate_catchsh |>
+chk2 <- disrate_comb |>
   dplyr::select(year, fleet, catch_shares, observed_discard_mt)
   # data.frame(year = disrate_catchsh$year, discard.cs = disrate_catchsh$observed_discard_mt)
-comb <- dplyr::left_join(chk1, chk2, by = c("year", "fleet", "catch_shares")) |>
+comb_chk <- dplyr::left_join(chk1, chk2, by = c("year", "fleet", "catch_shares")) |>
   dplyr::mutate(diff = obs_disc_mt - observed_discard_mt) # |>
   # dplyr::filter(diff > 0)
 ```
+
+There is a small discrepancy in discards when combining catch share + em catch sahre and comparing them with the "combined catch share" data. We are deferring to using the combined catch share to be conservative.
+
 
 ### WCGOP Office Hours Notes 
 
 - disrate_comb is the total catch share we need for discards - these are 100% observed
 
 - use proportion of recorded discards from non-catch shares to calc discards from GEMM
+
+- In 2011, limited entry trawl fishery (a large portion of the fleet, which
+was previously managed using cumulative landing limits) was replaced with a
+catch share program, called an Individual Fishing Quota (IFQ) fishery.
+Since 2011, therefore, the wcgop discard data has two components: non-catch
+share data (from 2002 forward) and catch share data (from 2011 forward).
+
+- catch share and non-catch share discards need to be combined (within
+each fleet defined in the model). However, there is a trick to it. The
+catch share fishery is 100% observed and, thus, wcgop provides you an
+absolute amount of discarded catch within this part of the fishery. On the
+other hand, non-catch share part of the fishery is not fully observed, and
+wcgop gives you amounts of only *observed *discard (not the full discard
+amount). It also provides discard rates, with associated uncertainty around
+the estimates.
+
+- In the 2017 assessment, we used non-catch share discard *amounts *to
+calculate percentages of discard by state and gear group (trawl vs
+non-trawl), and applied those percentages to the coastwide discard amount
+reported in GEMM, to calculate the total discard by state and gear group. I
+have two excel files from 2017 and will be happy to share them with you.
+
 
 ### Catch Shares
 
@@ -189,17 +224,20 @@ disrate_comb
 
 
 ```{r}
+#| eval: true
+#| echo: false
 all_noncatch <- disrate_noncatch |>
   dplyr::group_by(year) |>
   dplyr::summarise(total_discards = sum(obs_discard))
 
 non_catchshare_prop <- disrate_noncatch |>
   dplyr::left_join(all_noncatch, by = "year") |>
-  dplyr::mutate(fleet = dplyr::case_when(
-                  fleet == "fixed-OR" | fleet == "fixed-WA" ~ "fixed-ORWA",
-                  fleet == "trawl-OR" | fleet == "trawl-WA" ~ "trawl-ORWA",
-                  TRUE ~ fleet
-                )) |>
+  # combine OR and WA fleets like the assessment and GEMM groupings
+  # dplyr::mutate(fleet = dplyr::case_when(
+  #                 fleet == "fixed-OR" | fleet == "fixed-WA" ~ "fixed-ORWA",
+  #                 fleet == "trawl-OR" | fleet == "trawl-WA" ~ "trawl-ORWA",
+  #                 TRUE ~ fleet
+  #               )) |>
   dplyr::group_by(year, fleet) |>
   dplyr::summarise(
     total_discards = sum(total_discards),
@@ -213,13 +251,47 @@ non_catchshare_prop <- disrate_noncatch |>
     TRUE ~ fleet
   ))
 
-non_catchshare <- commercial_gemm |>
-  dplyr::left_join(non_catchshare_prop, by = c("year","fleet")) |>
+non_catchshare <- non_catchshare_prop |>
+  dplyr::left_join(commercial_gemm, by = c("year")) |> # ,"fleet"
   dplyr::mutate(nonshare_discard = total_discards * prop_disc) |>
   dplyr::select(year, fleet, nonshare_discard)
 
 # check for reported discards from the non-catch share that dont have calc'd discards at the end
-chk <- non_catchshare |>
-  dplyr::filter(total_discards > 0 & is.na(nonshare_discard))
+# check only valid if lines 239-241 are run for non_catchshare
+  # chk <- non_catchshare |>
+  #   dplyr::filter(total_discards > 0 & is.na(nonshare_discard))
+```
+```{r}
+# check years for non-share data
+tidyr::pivot_wider(non_catchshare,
+                   id_cols = year,
+                   names_from = fleet,
+                   values_from = nonshare_discard
+                   ) |>
+  flextable::flextable()
+```
+
+
+## Commercial Discard Totals
+
+```{r}
+#| echo: false
+#| eval: true
+all_comm_discards <- disrate_comb |>
+  dplyr::select(year, fleet, observed_discard_mt) |>
+  dplyr::mutate(fleet = dplyr::case_when(
+    grepl("fixed", fleet) ~ stringr::str_replace(fleet, "fixed", "NONTWL"),
+    grepl("trawl", fleet) ~ stringr::str_replace(fleet, "trawl", "TWL"),
+    TRUE ~ fleet
+  )) |>
+  dplyr::right_join(non_catchshare, by = c("year", "fleet")) |>
+  dplyr::mutate(nonshare_discard = dplyr::case_when(is.na(nonshare_discard) ~ 0,
+                                                    TRUE ~ nonshare_discard),
+                observed_discard_mt = dplyr::case_when(is.na(observed_discard_mt) ~ 0,
+                                                    TRUE ~ observed_discard_mt),
+                total_discards = round(observed_discard_mt + nonshare_discard, 2)) |>
+  dplyr::select(year, fleet, total_discards)
+
+# write.csv(all_comm_discards, file = "~/GitHub/Sebastes_ruberrimus_2025/Data/processed/discards/commercial_discards.csv")
 ```
 
