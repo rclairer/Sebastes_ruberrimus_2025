@@ -21,29 +21,20 @@ inputs <- SS_read(dir = file.path(getwd(), "model", "2017_yelloweye_model_update
 ca_hist_catch <- read.csv(file.path(getwd(), "Data", "processed", "CA_all_fleets_historical_catches.csv"))
 ca_hist_catch_TWL <- ca_hist_catch |>
   filter(fleet == 1) |>
-  select(year, catch) |>
-  rename(
-    Year = year,
-    CA_TWL = catch
-  )
+  select(Year, catch) |>
+  rename(CA_TWL = catch)
 
 # CA NONTWL - fleet 2
 ca_hist_catch_NONTWL <- ca_hist_catch |>
   filter(fleet == 2) |>
-  select(year, catch) |>
-  rename(
-    Year = year,
-    CA_TWL = catch
-  )
+  select(Year, catch) |>
+  rename(CA_NONTWL = catch)
 
 # CA Rec - fleet 3
 ca_hist_catch_REC <- ca_hist_catch |>
   filter(fleet == 3) |>
-  select(year, catch) |>
-  rename(
-    Year = year,
-    CA_REC = catch
-  )
+  select(Year, catch) |>
+  rename(CA_REC = catch)
 
 # ORWA TWL - fleet 4
 
