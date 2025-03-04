@@ -129,8 +129,8 @@ stanc(model_directory)
 # the model needs quite a few iterations due to random effects
 out = stan(file   = model_directory,
            data   = data_list,
-           warmup = 2000,
-           iter   = 6000,
+           warmup = 1000,
+           iter   = 3000,
            chains = 2)
 
 # 3. Extract random effects from model
@@ -185,7 +185,19 @@ df %>%
  
 ggsave("index_comparison.pdf", width = 7.7, height = 4, path = figure_diretory)
 
+# Format index for SS3 .dat file
+model_based_index = df %>%
+  filter(type == "Normal Delta GLM") %>%
+  select(year, index, se) 
+model_based_index = model_based_index[-c(1),]
 
+index_df = data.frame(
+  year = model_based_index$year,
+  month = rep(7, dim(model_based_index)[1]),
+  fleet = rep(12, dim(model_based_index)[1]),
+  obs = model_based_index$index,
+  se = model_based_index$se
+)
 
 
 
