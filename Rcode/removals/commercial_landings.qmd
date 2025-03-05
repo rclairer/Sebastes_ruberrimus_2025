@@ -2,17 +2,15 @@
 title: "Yelloweye Commercial Catch"
 author: Samantha Schiano
 format: html
-editor: visual
 ---
 
 ## Previous Assessment Calcs
 
-```{=html}
 <!--- - CA historial (1916-1980) commercial catches were recontructed
  - used spatial info on aggregate rockfish catches back to 1916 and used intermittent species composition records by markey category to apportion the catches in mixed species market categories to species, fishing gears, and ports
  - Linear rampoing was applied over the period btwn 1889-1916
  --->
-```
+
 -   landings from 1981-2016 were obtained from PacFIN (extracted by hear type and state), then combined into the area-specific fishing fleets used in the assessment
 -   Supplement the year-specific landings from PacFIN with discard amounts estimated by WCGOP = total commercial catch
 
@@ -53,78 +51,19 @@ or <- read.csv(file.path(getwd(), "data", "Oregon Commercial landings_457_2024.c
                   ))
                 
 file_catch <- fs::path(getwd(), "data", "confidential", "PacFIN.YEYE.CompFT.12.Dec.2024.RData")
-file_bds <- fs::path(getwd(), "data", "confidential", "PacFIN.YEYE.bds.12.Dec.2024.RData")
-
+# file_bds <- fs::path(getwd(), "data", "confidential", "PacFIN.YEYE.bds.12.Dec.2024.RData")
 # head(catch.pacfin)
 ```
 
-Bins for bio data
-
-```{r}
-#| eval: false
-# Bins for bio data
-length_bins <- seq(10, 74, by = 2)
-age_bins <- seq(0,65, 1)
-# Gear codes
-used_gears <- c("NET", "HKL", "TWL", "TLS", "POT", "TWS", "MSC")
-# max quantile at which to cap all data expansions within getExpansion_1()
-expansion <- 0.95
-```
 
 Plotting raw data
 
-# Specifying retained records
-
-```{r}
-#| eval: false
-good_lengths <- c("U", "F") # definitley keep fork length
-# Retain random samples
-good_methods <- "R"
-# keep comm on-board (C), market (M), and blank samples
-good_samples <- c("", "M", "C")
-# States to keep
-good_states <- c("CA","WA","OR")
-# ageing method
-# yelloweye also has "1" and "9" as options
-good_age_method <- c("", "U","B") 
-```
 
 Load in data now
 
 ```{r}
 #| echo: false
-load(file_bds) # bds.pacfin
 load(file_catch) # catch.pacfin
-```
-
-Clean PacFIN bds data
-
-```{r}
-#| eval: false
-# Clean bio data
-bds_cleaned <- pacfintools::cleanPacFIN(
-  Pdata = bds.pacfin,
-  keep_gears = used_gears,
-  CLEAN = TRUE,
-  keep_age_method = good_age_method,
-  keep_sample_type = good_samples,
-  keep_sample_method = good_methods,
-  keep_length_type = good_lengths,
-  keep_states = good_states,
-  spp = common_name
-  ) |>
-  dplyr::mutate(
-    stratification = paste(state, geargroup, sep = ".")
-  )
-# Following code is for model that includes both length and marginal ages
-  # bds_cleaned <- bds_cleaned |>
-  #   # Set any length with an age to NA to avoid double use of data
-  #   # in the model via marginals.
-  #   dplyr::mutate(
-  #     lengthcm = dplyr::case_when(
-  #       !is.na(Age) ~ NA, is.na(Age) ~ lengthcm
-  #     )
-  #   )
 ```
 
 ## Catch Data
@@ -133,8 +72,12 @@ bds_cleaned <- pacfintools::cleanPacFIN(
 2.  Compare current landings with those in the last assessment
 3.  Make sample size tables to determine confidentiality needs
 
+
+Identify gears in pacfin to figure out trawl and non-trawl fleets
 ```{r}
 #| echo: false
+#| eval: true
+#| output: false
 colnames(catch.pacfin)
 
 catch.pacfin |> 
@@ -151,8 +94,11 @@ pacfin_gears <- pacfintools::get_codelist() |> dplyr::select(GRID, GROUP)
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
 library(ggplot2)
 
+# summarize pacfin data by gear code
 catch_gear <- catch.pacfin |>
   dplyr::left_join(pacfin_gears, by = c("PACFIN_GEAR_CODE" = "GRID")) |>
   dplyr::mutate(FLEET = dplyr::case_when(
@@ -172,6 +118,9 @@ ggplot(data = catch_gear, aes(x = LANDING_YEAR, y = TOTAL_CATCH, fill = PACFIN_G
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
+# summarize pacfin data by state and assign gear codes to trawl
 catch_state <- catch.pacfin |>
   dplyr::left_join(pacfin_gears, by = c("PACFIN_GEAR_CODE" = "GRID")) |>
   dplyr::mutate(FLEET = dplyr::case_when(
@@ -208,7 +157,11 @@ ggplot(data = catch_state, aes(x = LANDING_YEAR, y = TOTAL_CATCH, fill = COUNTY_
 
 ### Plots for recent years
 
+Data is same as above, just subset for update years
+
 ```{r}
+#| warning: false
+#| message: false
 ggplot(data = subset(catch_state, LANDING_YEAR>2015), aes(x = as.factor(LANDING_YEAR), y = TOTAL_CATCH, fill = FLEET)) +
   geom_bar(stat = "identity", position = "stack", color = "black") +
   facet_wrap(~ COUNTY_STATE) +
@@ -230,14 +183,19 @@ ggplot(data = subset(catch_state, LANDING_YEAR>2015), aes(x = as.factor(LANDING_
   theme_classic()
 ```
 
-### Summarize Catch data by state, year, and gear
+## Summarize Catch data by state, year, and gear
+
+This is the summarized data for use in the update assessment
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
 catch <- catch.pacfin |>
   dplyr::left_join(pacfin_gears, by = c("PACFIN_GEAR_CODE" = "GRID")) |>
   dplyr::mutate(FLEET = dplyr::case_when(
     GROUP == "TWL" ~ "TWL",
+    GROUP == "TWS" ~ "TWL",
     TRUE ~ "NONTWL"
   )) |>
   dplyr::group_by(LANDING_YEAR, FLEET, COUNTY_STATE) |>
@@ -248,22 +206,18 @@ catch <- catch.pacfin |>
   ) |>
   dplyr::ungroup() |>
   dplyr::select(YEAR, FLEET, STATE, TOTAL) |>
-  dplyr::filter(!is.na(STATE),
+  dplyr::filter(!is.na(STATE)
                 # filter data to above 2016 since we are only adding this into it
-                YEAR > 2015)
-                
-# not working
-# catch_formatted <- catch.pacfin |>
-#   pacfintools::formatCatch(
-#     strat = c("LANDING_YEAR", "COUNTY_STATE","PACFIN_GEAR_CODE"),
-#     valuename = "LANDED_WT_MTONS"
-#   )
+                # YEAR > 2015
+                )
 ```
 
 ## More Plotting
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
 catch_plt <- ggplot(data = catch) +
   geom_line(aes(x = YEAR, y = TOTAL, color = FLEET), linewidth = 1) +
   facet_wrap(~ STATE) +
@@ -278,6 +232,8 @@ satf::add_theme(catch_plt)
 Look at WA Landings in 2023
 
 ```{r}
+#| warning: false
+#| message: false
 WA.catch <- catch.pacfin |>
     dplyr::filter(LANDING_YEAR == 2023,
                   COUNTY_STATE == "WA")
@@ -311,8 +267,12 @@ ggplot(data = WA_catch_gear, aes(x = LANDING_YEAR, y = TOTAL_CATCH, fill = PACFI
 
 ### Comparison to OR state data
 
+Pacfin OR from 2016-present vs OR state catch data from 2016-present
+
 ```{r}
-#| eval: false
+#| eval: true
+#| warning: false
+#| message: false
 # Does not work
 # Cath data subset to >2015 (chose 2015 since the 2016 data is missing for CA nontwl)
 pacfin.or <- catch |>
@@ -333,8 +293,13 @@ ggplot(data = or_compar, aes(x = as.factor(YEAR), y = TOTAL, fill = SOURCE)) +
   )
 ```
 
+Checking the difference of catches reported by PacFIN vs OR state in 2018 due to discrepancy above
+
 ```{r}
 #| echo: false
+#| eval: false
+#| warning: false
+#| message: false
 # difference btwn pacfin and OR state commercial data in 2018
 pf_num <- pacfin.or |>
   dplyr::filter(YEAR == 2018,
@@ -352,20 +317,51 @@ chk_2018_nontwl <- or |>
 chk_pac_2018_nontwl <- catch.pacfin
 ```
 
-### Combine ORWA and name fleets
+Result of above leads us to use the OR state data to be more convervative even though it's minimal on the grand scheme of things. 
+
+
+## Final Catch
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 # due to above results - replace OR fleet data from PacFIN with OR state data
 or2 <- or |>
   dplyr::select(YEAR, FLEET, TOTAL, STATE) |>
   dplyr::filter(YEAR > 2015)
 
+# remove OR data from catch
 pacfin.cawa <- catch |>
   dplyr::filter(STATE != "OR")
 
+# combine subset PacFIN catch data (WA and CA) and OR state data
 catch2 <- rbind(pacfin.cawa, or2)
 
-# Combine fleets
+# read in commercial discards
+discards <- read.csv(file.path(getwd(), "commercial_discards.csv")) |> 
+  dplyr::select(-X)
+
+# Combine OR and WA discards for fleet
+discards_ORWA <- discards |>
+  dplyr::filter(grepl("OR|WA", fleet)) |>
+  tidyr::separate_wider_delim(fleet, delim = "-", names = c("fleet", "state")) |>
+  dplyr::group_by(year, fleet) |>
+  dplyr::summarise(discards = sum(total_discards)) |>
+  dplyr::ungroup() |>
+  dplyr::mutate(state = "ORWA")
+
+# Combine CA and ORWA discards into final discards df
+discards_all <- discards |>
+  dplyr::filter(grepl("CA", fleet)) |>
+  tidyr::separate_wider_delim(fleet, delim = "-", names = c("fleet", "state")) |>
+  dplyr::rename(discards = total_discards) |>
+  rbind(discards_ORWA) |>
+  dplyr::mutate(ST_FLEET = glue::glue("{state}_{fleet}")) |>
+  dplyr::select(-c(fleet, state)) |>
+  dplyr::filter(year > 2015)
+
+# Combine WA and OR fleets
 catch_orwa <- catch2 |>
   dplyr::filter(STATE %in% c("WA", "OR")) |>
   dplyr::group_by(YEAR, FLEET) |>
@@ -373,19 +369,34 @@ catch_orwa <- catch2 |>
   dplyr::ungroup() |>
   dplyr::mutate(STATE = "ORWA")
 
+# Subset catch to just CA and add back in ORWA then restrucutre DF for final output
 comm_catch <- catch2 |>
   dplyr::filter(STATE == "CA") |>
   dplyr::rename(CATCH = TOTAL) |>
   rbind(catch_orwa) |>
   dplyr::mutate(ST_FLEET = glue::glue("{STATE}_{FLEET}")) |>
-  dplyr::mutate(SEAS = "1",
+  dplyr::filter(YEAR > 2015) |>
+  dplyr::left_join(discards_all, by = c("YEAR" = "year", "ST_FLEET" = "ST_FLEET")) |>
+  dplyr::mutate(discards = dplyr::case_when(is.na(discards) ~ 0,
+                                            TRUE ~ discards),
+                CATCH = dplyr::case_when(is.na(CATCH) ~ 0,
+                                            TRUE ~ CATCH),
+                TOTAL_CATCH = CATCH + discards,
+                SEAS = "1",
                 CATCH_SE = 0.01) |>
-  dplyr::select(YEAR, SEAS, ST_FLEET, CATCH, CATCH_SE)
+  dplyr::select(YEAR, SEAS, ST_FLEET, TOTAL_CATCH, CATCH_SE)
+
+# export catches
+# write.csv(comm_catch, file = file.path(getwd(), "yelloweye_commercial_catch_2016_2024.csv"), append = FALSE)
 ```
 
 Sample size tables
 
 ```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
 # 9,241 occruances of vessels having <=3 trips in a given year
 vessel_yr_n <- catch.pacfin |>
   dplyr::group_by(LANDING_YEAR, VESSEL_ID) |>
@@ -412,6 +423,9 @@ year_n |>
 Vessel count from for summarizing data for catches (2017-present)
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 catch <- catch.pacfin |>
   dplyr::left_join(pacfin_gears, by = c("PACFIN_GEAR_CODE"="GRID")) |>
   dplyr::mutate(FLEET = dplyr::case_when(
@@ -446,6 +460,10 @@ trips <- catch.pacfin |>
 Plot OR Data
 
 ```{r}
+#| echo: false
+#| eval: true 
+#| warning: false
+#| message: false
 or_land <- ggplot2::ggplot(data = or2) +
   ggplot2::geom_line(ggplot2::aes(x = YEAR, y = TOTAL, color = FLEET))
 satf::add_theme(or_land)
@@ -455,6 +473,8 @@ satf::add_theme(or_land)
 
 ```{r}
 #| echo: false
+#| warning: false
+#| message: false
 # from r4ss
 rich.colors.short <- function(n, alpha = 1) {
   x <- seq(0, 1, length = n)
@@ -467,14 +487,19 @@ rich.colors.short <- function(n, alpha = 1) {
 ```
 
 ```{r}
+#| eval: true
+#| echo: false
+#| warning: false
+#| message: false
 # load in input catches
 hist_c <- read.csv(file.path(getwd(), "data", "ss3_input_comm_catch.csv")) |>
-  dplyr::select(YEAR, SEAS, ST_FLEET, CATCH, CATCH_SE)
+  dplyr::select(YEAR, SEAS, ST_FLEET, CATCH, CATCH_SE) |>
+  dplyr::rename(TOTAL_CATCH = CATCH)
 
 all_catch <- rbind(hist_c, comm_catch) |>
   dplyr::mutate(
     # YEAR = as.factor(YEAR),
-    CATCH = as.numeric(CATCH)
+    CATCH = as.numeric(TOTAL_CATCH)
     )
 
 # identify colors for plot
@@ -490,19 +515,72 @@ ggplot(data = all_catch, aes(x = YEAR, y = CATCH, fill = ST_FLEET)) +
     y = "Catch (mt)",
     fill = ""
   ) +
-  ggtitle("Yelloweye Rockfish Commercial Catch") +
+  ggtitle("Yelloweye Rockfish Commercial Catch (landings + discards)") +
+  scale_fill_manual(values = fleetcols) +
+  theme_minimal()
+```
+
+Catches w/o discard data
+
+```{r}
+comm_catch <- catch2 |>
+  dplyr::filter(STATE == "CA") |>
+  dplyr::rename(CATCH = TOTAL) |>
+  rbind(catch_orwa) |>
+  dplyr::mutate(ST_FLEET = glue::glue("{STATE}_{FLEET}")) |>
+  dplyr::filter(YEAR > 2016) |>
+  # dplyr::left_join(discards_all, by = c("YEAR" = "year", "ST_FLEET" = "ST_FLEET")) |>
+  dplyr::mutate(
+    # discards = dplyr::case_when(is.na(discards) ~ 0,
+    #                             TRUE ~ discards),
+                TOTAL_CATCH = dplyr::case_when(is.na(CATCH) ~ 0,
+                                            TRUE ~ CATCH),
+                # TOTAL_CATCH = CATCH + discards,
+                SEAS = "1",
+                CATCH_SE = 0.01) |>
+  dplyr::select(YEAR, SEAS, ST_FLEET, TOTAL_CATCH, CATCH_SE)
+
+all_catch_nodisc <- rbind(hist_c, comm_catch) |>
+  dplyr::mutate(
+    # YEAR = as.factor(YEAR),
+    CATCH = as.numeric(TOTAL_CATCH)
+    )
+
+ggplot(data = all_catch_nodisc, aes(x = YEAR, y = CATCH, fill = ST_FLEET)) +
+  geom_bar(position = "stack", stat = "identity", color = "black") +
+  labs(
+    x = "Year",
+    y = "Catch (mt)",
+    fill = ""
+  ) +
+  ggtitle("Yelloweye Rockfish Commercial Catch (landings only)") +
   scale_fill_manual(values = fleetcols) +
   theme_minimal()
 
 ```
 
+
 ```{r}
+#| eval: true
+#| echo: false
+#| warning: false
+#| message: false
 # catches added for update assessment
-ggplot(data = subset(all_catch, YEAR > 2016), aes(x = YEAR, y = CATCH, fill = ST_FLEET)) +
+ggplot(data = subset(all_catch, YEAR > 2016), aes(x = YEAR, y = TOTAL_CATCH, fill = ST_FLEET)) +
   geom_bar(position = "stack", stat = "identity", color = "black") +
   labs(
     x = "Year",
-    y = "Yelloweye rockfish catch (mt)",
+    y = "Udpate Yelloweye rockfish catch (mt)",
+    fill = ""
+  ) +
+  scale_fill_manual(values = fleetcols) +
+  theme_minimal()
+
+ggplot(data = subset(all_catch_nodisc, YEAR > 2016), aes(x = YEAR, y = TOTAL_CATCH, fill = ST_FLEET)) +
+  geom_bar(position = "stack", stat = "identity", color = "black") +
+  labs(
+    x = "Year",
+    y = "Udpate Yelloweye rockfish catch (mt) (w/o discards)",
     fill = ""
   ) +
   scale_fill_manual(values = fleetcols) +
@@ -529,4 +607,61 @@ ggplot(data = subset(all_catch, YEAR > 2016), aes(x = YEAR, y = CATCH, fill = ST
 
     -   Fabio is sending
 
-## Double check period from 1987-2000 in PacFIN and OR data
+## Double check estimation for update vs assessment
+
+```{r}
+#| eval: true
+#| echo: false
+#| warning: false
+#| message: false
+# calculated comm landings
+catch_curr_chk <- all_catch |>
+  dplyr::mutate(SOURCE = "CURRENT") |>
+  dplyr::filter(YEAR > 2001)|>
+  dplyr::select(YEAR, ST_FLEET, TOTAL_CATCH, SOURCE)
+hist_c_chk <- hist_c |>
+  dplyr::filter(YEAR > 2001) |>
+  dplyr::mutate(SOURCE = "PREVIOUS") |>
+  dplyr::select(YEAR, ST_FLEET, TOTAL_CATCH, SOURCE)
+COMB_CHK <- rbind(catch_curr_chk, hist_c_chk)
+```
+
+Compare catch from prev assessment to current estimates
+
+```{r}
+# ggplot(data = COMB_CHK) +
+#   geom_line(aes(x = YEAR, y = as.numeric(TOTAL_CATCH), color = SOURCE), linewidth = 1) +
+#   facet_wrap(~ ST_FLEET)
+ggplot(data = COMB_CHK, aes(x = YEAR, y=TOTAL_CATCH, fill = SOURCE)) +
+  geom_bar(position = "stack", stat = "identity", color = "black") +
+  facet_wrap(~ ST_FLEET, scales = "free_y") +
+  labs(
+    x="Year",
+    y="Catch (mt) with discards"
+  )
+```
+
+```{r}
+#| eval: true
+#| echo: false
+#| warning: false
+#| message: false
+# same as above w/o discards
+catch_curr_chk <- all_catch_nodisc |>
+  dplyr::mutate(SOURCE = "CURRENT") |>
+  dplyr::filter(YEAR > 2001)|>
+  dplyr::select(YEAR, ST_FLEET, TOTAL_CATCH, SOURCE)
+hist_c_chk <- hist_c |>
+  dplyr::filter(YEAR > 2001) |>
+  dplyr::mutate(SOURCE = "PREVIOUS") |>
+  dplyr::select(YEAR, ST_FLEET, TOTAL_CATCH, SOURCE)
+COMB_CHK <- rbind(catch_curr_chk, hist_c_chk)
+ggplot(data = COMB_CHK, aes(x = YEAR, y=TOTAL_CATCH, fill = SOURCE)) +
+  geom_bar(position = "stack", stat = "identity", color = "black") +
+  facet_wrap(~ ST_FLEET, scales = "free_y") +
+  labs(
+    x="Year",
+    y="Catch (mt) w/o discards"
+  )
+```
+
