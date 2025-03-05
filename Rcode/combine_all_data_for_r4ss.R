@@ -117,16 +117,31 @@ inputs$dat$catch <- all_catch
 colnames_i <- c("year", "seas", "index", "obs", "se_log")
 
 # CA Rec MRFSS dockside CPUE - fleet 3
+#I think we just bring over from 2017 assessment, because max year is 1999
+CA_REC_MRFSS_index <- inputs$dat$CPUE |>
+  filter(index == 3)
 
 # OR Rec MRFSS - fleet 6
+#I think we just bring over from 2017 assessment
+OR_REC_MRFSS_index <- inputs$dat$CPUE |>
+  filter(index == 6, year < 2000)
 
 # OR ORBS - fleet 6
+#FROM ALI, hopefully 03/05/2025
 
 # WA Rec CPUE - fleet 7
+#I think we just bring over from the 2017 assessment, because max year is 2001
+WA_REC_CPUE_index <- inputs$dat$CPUE |>
+  filter(index == 7)
 
 # CA onboard CPFV CPUE - fleet 8
+#I think we just bring over from the 2017 assessment, because max year is 1998
+CA_CPFV_CPUE_index <- inputs$dat$CPUE |>
+  filter(index == 8)
 
 # Oregon onboard Recreational Charter observer CPUE - fleet 9
+#this is ORFS, right?
+#FROM ALI, hopefully 03/05/2025
 
 # TRI ORWA - fleet 10
 tri_index <- inputs$dat$CPUE |>
@@ -147,8 +162,7 @@ IPHC_ORWA <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_model_based_
 IPHC_ORWA_index <- IPHC_ORWA
 colnames(IPHC_ORWA_index) <- colnames_i #se or se_log?
 
-
-all_indices <- do.call("rbind", list(c(tri_index, NWFSC_ORWA_index, IPHC_ORWA_index)))
+all_indices <- do.call("rbind", list(c(CA_REC_MRFSS_index, OR_REC_MRFSS_index, WA_REC_CPUE_index, CA_CPFV_CPUE_index, tri_index, NWFSC_ORWA_index, IPHC_ORWA_index)))
 
 inputs$dat$indices <- all_indices
 
