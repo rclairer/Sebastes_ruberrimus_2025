@@ -143,10 +143,12 @@ NWFSC_ORWA_index <- NWFSC_ORWA |>
 colnames(NWFSC_ORWA_index) <- colnames_i
 
 # IPHC ORWA - fleet 12
+IPHC_ORWA <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_model_based_index_forSS3.csv"))
+IPHC_ORWA_index <- IPHC_ORWA
+colnames(IPHC_ORWA_index) <- colnames_i #se or se_log?
 
 
-
-all_indices <- do.call("rbind", list(c(tri_index, NWFSC_ORWA_index)))
+all_indices <- do.call("rbind", list(c(tri_index, NWFSC_ORWA_index, IPHC_ORWA_index)))
 
 inputs$dat$indices <- all_indices
 
