@@ -6,6 +6,8 @@ library(nwfscDeltaGLM)
 library(rstan)
 library(ggmcmc)
 library(ggpubr)
+library(MASS)
+library(MuMIn)
 
 # Read-in data -----------------------------------------------------------------
 data_directory  = paste0(here::here(), "/Data/raw/IPHC_survey_1998_2024.csv")
@@ -17,8 +19,7 @@ set_data        = read.csv(data_directory2,header=TRUE)
 # Recover information on Depth, Latitude, and Vessels
 # Joins by "Stlkey" identifier
 IPHC_data = IPHC_data %>%
-  left_join(set_data %>% select(Stlkey, MidLat.fished, Vessel.code, AvgDepth..fm.,Effective.skates.hauled, Avg.no..hook.skate))
-
+  left_join(set_data %>% dplyr::select(Stlkey, MidLat.fished, Vessel.code, AvgDepth..fm., Effective.skates.hauled, Avg.no..hook.skate))
 
 # Filter out other species -----------------------------------------------------
 IPHC_data = IPHC_data %>%
@@ -39,9 +40,8 @@ IPHC_data$State[IPHC_data$Station > 1027] = "WA"
 
 # 1. Calculate CPUE for each tow 
 ## CPUE is in individuals/hook
-#IPHC_data$CPUE = IPHC_data$Number.Observed / (as.numeric(IPHC_data$HooksObserved) / IPHC_data$Effective.skates.hauled)
-IPHC_data$CPUE = IPHC_data$Number.Observed / as.numeric(IPHC_data$HooksObserved) * IPHC_data$Avg.no..hook.skate
-#IPHC_data$CPUE = IPHC_data$Number.Observed / as.numeric(IPHC_data$HooksObserved)
+IPHC_data$CPUE   = IPHC_data$Number.Observed / as.numeric(IPHC_data$HooksObserved) * IPHC_data$Avg.no..hook.skate
+IPHC_data$Effort = as.numeric(IPHC_data$HooksObserved) * IPHC_data$Avg.no..hook.skate
 
 # Exploratory plots 
 station_plot = IPHC_data %>%
@@ -99,14 +99,15 @@ ggsave("design_based_index.pdf", width = 7.7, height = 4, path = figure_diretory
 # 4. Export index file
 write.csv(IPHC_data_sum[,c(1,2,4)], file.path(here::here(), "Data", "processed", "IPHC_design_based.csv"))
 
-# Model-based index (detalGLMM) ------------------------------------------------
+# Model-based index (deltaGLMM) ------------------------------------------------
 # This is an attempt at running the model via Stan since I could not figure out the
 # exact data formatting for the nwfscDeltaGLM package
 
 # 1.Organize data 
-IPHC_data_glm = data.frame(IPHC_data$CPUE, IPHC_data$Year, IPHC_data$Station,
-                           IPHC_data$Vessel.code, IPHC_data$AvgDepth..fm.)
-names(IPHC_data_glm) = c("CPUE", "Year", "Station", "Vessel", "Depth")
+IPHC_data_glm = data.frame(IPHC_data$CPUE, IPHC_data$Number.Observed, IPHC_data$Year, 
+                           IPHC_data$Station, IPHC_data$Vessel.code, IPHC_data$AvgDepth..fm.,
+                           IPHC_data$Effort)
+names(IPHC_data_glm) = c("CPUE", "Count", "Year", "Station", "Vessel", "Depth", "Effort")
 IPHC_data_glm$Detect = ifelse(IPHC_data_glm$CPUE == 0, 0, 1)
 
 data_list = list(
@@ -198,6 +199,62 @@ index_df = data.frame(
   obs = model_based_index$index,
   se = model_based_index$se
 )
+
+write.csv(index_df, file.path(here::here(), "Data", "processed", "IPHC_model_based_index_forSS3.csv"), row.names = FALSE)
+
+# Negative-binomial model ------------------------------------------------------
+
+IPHC_data_glm$Year    = as.numeric(as.factor(IPHC_data_glm$Year))
+IPHC_data_glm$Station = as.numeric(as.factor(IPHC_data_glm$Station))
+IPHC_data_glm$Vessel  = as.numeric(as.factor(IPHC_data_glm$Vessel))
+
+# # FULL MODEL
+# full_model = MASS::glm.nb(
+#   
+#   Count ~ Year + Station + Vessel + Depth + offset(log(Effort)),
+#   data = IPHC_data_glm,
+#   na.action = "na.fail"
+#   
+# )
+# summary(full_model)
+# anova(full_model)
+# 
+# # MODEL SELECTION
+# model_suite = MuMIn::dredge(full_model,
+#                             rank = "AICc",
+#                             fixed = c("offset(log(Effort))"))
+# 
+# model_selection = as.data.frame(model_suite) %>% dplyr::select(-weight)
+
+fit = sdmTMB(
+  Count ~ Year + Station + Vessel + Depth,
+  data           = IPHC_data_glm,
+  offset         = log(IPHC_data_glm$CPUE+0.0001), # works better than offset(logEffort)
+  time           = "Year",
+  spatial        = "off",
+  spatiotemporal = "off",
+  family         = nbinom1(link = "log"),
+  control        = sdmTMBcontrol(newton_loops = 1)
+)
+
+sanity(fit) # model looks OK
+
+# extract predictions
+preds = predict(fit, return_tmb_object = TRUE)$data
+
+# plot predictive check
+limits = c(0,70)
+plot(exp(preds$est) ~ preds$Count,
+     xlab = "Observed", ylab = "Predicted",
+     xlim = limits, ylim = limits) 
+abline(a=0, b=1, col = "red", lwd = 2, lty = 2)
+
+
+
+
+
+
+
 
 
 
