@@ -80,6 +80,15 @@ tri_index <- inputs$dat$CPUE |>
 colnames(tri_index) <- colnames_i
  
 # NWFSC ORWA - fleet 11
+NWFSC_ORWA <- read.csv(file.path(getwd(), "Data", "processed", "wcgbts_indices", "updated_indices_ORWA_CA_split", "yelloweye_split_42_point/yelloweye_rockfish/wcgbts", "delta_lognormal", "index", "est_by_area.csv"))
+NWFSC_ORWA_index <- NWFSC_ORWA |>
+  filter(area == "Coastwide") |>
+  select(year, est, se) |>
+  mutate(Month = 7,
+         Fleet = 11,
+         Label = "NWFSC ORWA") |>
+  select(year, Month, Fleet, est, se, Label)
+colnames(NWFSC_ORWA_index) <- colnames_i
  
 # IPHC ORWA - fleet 12
 
