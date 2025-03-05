@@ -20,7 +20,8 @@ inputs$dat$endyr <- 2024
 ### Catch ###
 #############
 colnames_c <- c("year", "seas", "fleet", "catch", "catch_se")
-yelloweye_recent_catch <- read.csv(file.path(getwd(), "Data", "processed", "yelloweye_commercial_catch_2016_2024.csv"))
+
+yelloweye_recent_comm_catch <- read.csv(file.path(getwd(), "Data", "processed", "yelloweye_commercial_catch_2016_2024.csv"))
 
 # CA TWL - fleet 1
 CA_hist_catch <- read.csv(file.path(getwd(), "Data", "processed", "CA_all_fleets_historical_catches.csv"))
@@ -33,7 +34,7 @@ CA_hist_catch_TWL <- CA_hist_catch |>
   ) |>
   select(year, seas, fleet, catch, catch_se)
 
-CA_1981_2015_TWL <- inputs$dat$catch |>
+CA_1981_2015_TWL <- inputs_catch$dat$catch |>
   filter(fleet == 1) |>
   filter(year > 1980 & year < 2016)
 
@@ -59,7 +60,7 @@ CA_hist_catch_NONTWL <- CA_hist_catch |>
   ) |>
   select(year, seas, fleet, catch, catch_se)
 
-CA_1981_2015_NONTWL <- inputs$dat$catch |>
+CA_1981_2015_NONTWL <- inputs_catch$dat$catch |>
   filter(fleet == 2) |>
   filter(year > 1980 & year < 2016)
 
@@ -84,9 +85,16 @@ CA_hist_catch_REC <- CA_hist_catch |>
   ) |>
   select(year, seas, fleet, catch, catch_se)
 
-# STILL NEED CLARIFICATION ON MRFSS
 CA_1981_2004_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "MRFSS_catch_est_yelloweye_CA.csv")) |>
-  select(YEAR, )
+  select(YEAR_, WGT_AB1) |>
+  group_by(YEAR_) |>
+  summarize(
+    seas = 1,
+    fleet = 3,
+    catch = sum(WGT_AB1) / 1000,
+    catch_se = 0.01
+  ) |>
+  rename(year = YEAR_)
 
 CA_recent_catch_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE001-California-1990---2024.csv")) |>
   select(RECFIN_YEAR, SUM_TOTAL_MORTALITY_MT) |>
@@ -111,7 +119,7 @@ OR_comm_all <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "OR
 OR_TWL <- OR_comm_all |>
   select(YEAR, FLEET, TOTAL) |>
   filter(
-    FLEET == TRW,
+    FLEET == "TRW",
     YEAR < 2016
   ) |>
   select(-FLEET) |>
@@ -124,8 +132,8 @@ OR_TWL <- OR_comm_all |>
   ) |>
   select(-TOTAL)
 
-WA_TWL <- read.csv(file.path(getwd(), "Data", "processed", "WA_historical_to_recent_twl_catch.csv")) |>
-  select(Year, `Catches (mtons)`) |>
+WA_TWL <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "WA_hist_catch_twl.csv")) |>
+  select(Year, Catches..mtons.) |>
   filter(Year < 2016) |>
   mutate(
     seas = 1,
@@ -134,9 +142,10 @@ WA_TWL <- read.csv(file.path(getwd(), "Data", "processed", "WA_historical_to_rec
   ) |>
   rename(
     year = Year,
-    catches = `Catches (mtons)`
+    catch = Catches..mtons.
   ) |>
   select(year, seas, fleet, catch, catch_se)
+
 
 ORWA_TWL_until_2015 <- OR_TWL |>
   bind_rows(WA_TWL) |>
@@ -162,7 +171,7 @@ ORWA_TWL <- ORWA_TWL_until_2015 |>
 OR_NONTWL <- OR_comm_all |>
   select(YEAR, FLEET, TOTAL) |>
   filter(
-    FLEET == NTRW,
+    FLEET == "NTRW",
     YEAR < 2016
   ) |>
   select(-FLEET) |>
@@ -175,8 +184,8 @@ OR_NONTWL <- OR_comm_all |>
   ) |>
   select(-TOTAL)
 
-WA_NONTWL <- read.csv(file.path(getwd(), "Data", "processed", "WA_historical_to_recent_nontwl_catch.csv")) |>
-  select(Year, `Catches (mtons)`) |>
+WA_NONTWL <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "WA_hist_catch_nontwl.csv")) |>
+  select(Year, Catches..mtons.) |>
   filter(Year < 2016) |>
   mutate(
     seas = 1,
@@ -185,11 +194,11 @@ WA_NONTWL <- read.csv(file.path(getwd(), "Data", "processed", "WA_historical_to_
   ) |>
   rename(
     year = Year,
-    catches = `Catches (mtons)`
+    catch = Catches..mtons.
   ) |>
   select(year, seas, fleet, catch, catch_se)
 
-ORWA_TWL_until_2015 <- OR_NONTWL |>
+ORWA_NONTWL_until_2015 <- OR_NONTWL |>
   bind_rows(WA_NONTWL) |>
   group_by(year) |>
   summarize(
@@ -218,7 +227,7 @@ OR_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "ORRecLa
     catch = Total_MT,
     catch_se = 0.01
   ) |>
-  rename(year = YEAR) |>
+  rename(year = Year) |>
   select(-Total_MT)
 
 # WA REC - fleet 7
@@ -232,7 +241,7 @@ WA_REC <- read.csv(file.path(getwd(), "Data", "processed", "WA_historical_to_rec
 
 
 # Combine all catch data
-all_catch <- do.call("rbind", list(c(
+all_catch <- do.call("rbind", list(
   CA_TWL,
   CA_NONTWL,
   CA_REC,
@@ -240,10 +249,9 @@ all_catch <- do.call("rbind", list(c(
   ORWA_NONTWL,
   OR_REC,
   WA_REC
-)))
+))
 
-inputs$dat$catch <- all_catch
-
+inputs_catch$dat$catch <- all_catch
 
 ###############
 ### Indices ###

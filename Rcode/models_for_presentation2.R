@@ -1,11 +1,6 @@
 # For class
 model_2017_path <- file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")
 
-# file.copy(
-#   file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe", "yelloweye_data.ss"),
-#   file.path(getwd(), "data", "for_SS", "yelloweye_data_2025.ss")
-# )
-
 # Copy input files to new folders using r4ss
 copy_SS_inputs(
   dir.old = model_2017_path,
@@ -25,9 +20,10 @@ copy_SS_inputs(
   verbose = TRUE
 )
 
-inputs$dat$endyr <- 2024
+#######################
+# WCGBTS Update Model #
+#######################
 
-# WCGBTS
 inputs_wcgbts <- SS_read(dir = file.path(getwd(), "model", "2025_updated_WCGBTS"))
 inputs_wcgbts$dat$endyr <- 2024
 
@@ -49,15 +45,20 @@ SS_write(inputs_wcgbts, dir = file.path(getwd(), "model", "2025_updated_WCGBTS")
 
 get_ss3_exe(dir = file.path(getwd(), "model", "2025_updated_WCGBTS"))
 
-run(dir = file.path(getwd(), "model", "2025_updated_WCGBTS"), show_in_console = TRUE)
+# run(dir = file.path(getwd(), "model", "2025_updated_WCGBTS"), show_in_console = TRUE)
 
-# Catch
+replist <- SS_output(dir = file.path(getwd(), "model", "2025_updated_WCGBTS"))
+SS_plots(replist)
+
+#######################
+# Catch Updated Model #
+#######################
 
 inputs_catch <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch"))
 inputs_catch$dat$endyr <- 2024
 
 colnames_c <- c("year", "seas", "fleet", "catch", "catch_se")
-yelloweye_recent_catch <- read.csv(file.path(getwd(), "Data", "processed", "yelloweye_commercial_catch_2016_2024.csv"))
+yelloweye_recent_comm_catch <- read.csv(file.path(getwd(), "Data", "processed", "yelloweye_commercial_catch_2016_2024.csv"))
 
 # CA TWL - fleet 1
 CA_hist_catch <- read.csv(file.path(getwd(), "Data", "processed", "CA_all_fleets_historical_catches.csv"))
@@ -85,7 +86,6 @@ CA_TWL <- CA_hist_catch_TWL |>
   bind_rows(CA_2016_2024_TWL) |>
   arrange(year)
 
-
 # CA NONTWL - fleet 2
 CA_hist_catch_NONTWL <- CA_hist_catch |>
   filter(fleet == 2) |>
@@ -104,7 +104,7 @@ CA_2016_2024_NONTWL <- yelloweye_recent_catch |>
   filter(ST_FLEET == "CA_NONTWL") |>
   mutate(fleet = 1) |>
   select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE)
-colnames(CA_2016_2024_TWL) <- colnames_c
+colnames(CA_2016_2024_NONTWL) <- colnames_c
 
 CA_NONTWL <- CA_hist_catch_NONTWL |>
   bind_rows(CA_1981_2015_NONTWL) |>
@@ -121,9 +121,25 @@ CA_hist_catch_REC <- CA_hist_catch |>
   ) |>
   select(year, seas, fleet, catch, catch_se)
 
-# STILL NEED CLARIFICATION ON MRFSS
 CA_1981_2004_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "MRFSS_catch_est_yelloweye_CA.csv")) |>
-  select(YEAR, )
+  select(YEAR_, WGT_AB1) |>
+  group_by(YEAR_) |>
+  summarize(
+    seas = 1,
+    fleet = 3,
+    catch = sum(WGT_AB1)/1000,
+    catch_se = 0.01
+  ) |>
+  rename(year = YEAR_) |>
+  filter(!is.na(catch))
+
+CA_missing_1981_2004_rec <- inputs_catch$dat$catch |>
+  filter(fleet == 3 & year > 1980 & year < 2005) |>
+  filter(!year %in% CA_1981_2004_REC$year)
+
+CA_1981_2004_REC <- CA_1981_2004_REC |>
+  bind_rows(CA_missing_1981_2004_rec) |>
+  arrange(year)
 
 CA_recent_catch_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE001-California-1990---2024.csv")) |>
   select(RECFIN_YEAR, SUM_TOTAL_MORTALITY_MT) |>
@@ -146,7 +162,7 @@ OR_comm_all <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "OR
 
 OR_TWL <- OR_comm_all |>
   select(YEAR, FLEET, TOTAL) |>
-  filter(FLEET == TRW,
+  filter(FLEET == "TRW",
          YEAR < 2016) |>
   select(-FLEET) |>
   rename(year = YEAR) |>
@@ -158,8 +174,8 @@ OR_TWL <- OR_comm_all |>
   ) |>
   select(-TOTAL)
 
-WA_TWL <- read.csv(file.path(getwd(), "Data", "processed", "WA_historical_to_recent_twl_catch.csv")) |>
-  select(Year, `Catches (mtons)`) |>
+WA_TWL <- read.csv(file.path(getwd(), "Data",  "raw", "nonconfidential", "WA_hist_catch_twl.csv")) |>
+  select(Year, Catches..mtons.) |>
   filter(Year < 2016) |>
   mutate(
     seas = 1,
@@ -167,7 +183,7 @@ WA_TWL <- read.csv(file.path(getwd(), "Data", "processed", "WA_historical_to_rec
     catch_se = 0.01
   ) |>
   rename(year = Year,
-         catches =  `Catches (mtons)`) |>
+         catch =  Catches..mtons.) |>
   select(year, seas, fleet, catch, catch_se)
 
 ORWA_TWL_until_2015 <- OR_TWL |>
@@ -193,7 +209,7 @@ ORWA_TWL <- ORWA_TWL_until_2015 |>
 # ORWA NONTWL - fleet 5
 OR_NONTWL <- OR_comm_all |>
   select(YEAR, FLEET, TOTAL) |>
-  filter(FLEET == NTRW,
+  filter(FLEET == "NTRW",
          YEAR < 2016) |>
   select(-FLEET) |>
   rename(year = YEAR) |>
@@ -205,8 +221,8 @@ OR_NONTWL <- OR_comm_all |>
   ) |>
   select(-TOTAL)
 
-WA_NONTWL <- read.csv(file.path(getwd(), "Data", "processed", "WA_historical_to_recent_nontwl_catch.csv")) |>
-  select(Year, `Catches (mtons)`) |>
+WA_NONTWL <- read.csv(file.path(getwd(), "Data",  "raw", "nonconfidential", "WA_hist_catch_nontwl.csv")) |>
+  select(Year, Catches..mtons.) |>
   filter(Year < 2016) |>
   mutate(
     seas = 1,
@@ -214,10 +230,10 @@ WA_NONTWL <- read.csv(file.path(getwd(), "Data", "processed", "WA_historical_to_
     catch_se = 0.01
   ) |>
   rename(year = Year,
-         catches =  `Catches (mtons)`) |>
+         catch =  Catches..mtons.) |>
   select(year, seas, fleet, catch, catch_se)
 
-ORWA_TWL_until_2015 <- OR_NONTWL |>
+ORWA_NONTWL_until_2015 <- OR_NONTWL |>
   bind_rows(WA_NONTWL) |>
   group_by(year) |>
   summarize(
@@ -246,7 +262,7 @@ OR_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "ORRecLa
     catch = Total_MT,
     catch_se = 0.01
   ) |>
-  rename(year = YEAR) |>
+  rename(year = Year) |>
   select(-Total_MT)
 
 # WA REC - fleet 7
@@ -258,15 +274,14 @@ WA_REC <- read.csv(file.path(getwd(), "Data", "processed", "WA_historical_to_rec
   ) |>
   select(year, seas, fleet, catch, catch_se)
 
-
 # Combine all catch data
-all_catch <- do.call("rbind", list(c(CA_TWL,
+all_catch <- do.call("rbind", list(CA_TWL,
                                      CA_NONTWL,
                                      CA_REC, 
                                      ORWA_TWL,
                                      ORWA_NONTWL,
                                      OR_REC,
-                                     WA_REC)))
+                                     WA_REC))
 
 inputs_catch$dat$catch <- all_catch
 
@@ -274,4 +289,11 @@ SS_write(inputs_catch, dir = file.path(getwd(), "model", "2025_updated_catch"), 
 
 get_ss3_exe(dir = file.path(getwd(), "model", "2025_updated_catch"))
 
-run(dir = file.path(getwd(), "model", "2025_updated_catch"), show_in_console = TRUE)
+#run(dir = file.path(getwd(), "model", "2025_updated_catch"), show_in_console = TRUE)
+replist <- SS_output(dir = file.path(getwd(), "model", "2025_updated_catch"))
+
+# Compare models
+models <- list.dirs(file.path(getwd(), "model"))
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary)
