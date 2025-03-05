@@ -162,7 +162,6 @@ IPHC_ORWA <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_model_based_
 IPHC_ORWA_index <- IPHC_ORWA
 colnames(IPHC_ORWA_index) <- colnames_i #se or se_log?
 
-
 all_indices <- do.call("rbind", list(c(CA_REC_MRFSS_index, OR_REC_MRFSS_index, WA_REC_CPUE_index, CA_CPFV_CPUE_index, tri_index, NWFSC_ORWA_index, IPHC_ORWA_index)))
 
 inputs$dat$indices <- all_indices
