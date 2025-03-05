@@ -92,7 +92,7 @@ colnames(NWFSC_ORWA_index) <- colnames_i
  
 # IPHC ORWA - fleet 12
 
-all_indices <- do.call("rbind", list(c(tri_index,
+all_indices <- do.call("rbind", list(c(tri_index, NWFSC_ORWA_index,
                                        )))
 write.csv(all_indices, file = file.path(getwd(), "Data", "for_SS", "all_indices_SAC.csv"), row.names = FALSE)
 
