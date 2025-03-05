@@ -61,12 +61,8 @@ CA_hist_catch_REC <- CA_hist_catch |>
   ) |>
   select(year, seas, fleet, catch, catch_se)
 
-CA_1981_2004_REC <- inputs$dat$catch |>
-  filter(
-    fleet == 3,
-    year > 1980,
-    year < 2005
-  )
+CA_1981_2004_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "MRFSS_catch_est_yelloweye_CA.csv")) |>
+  
 
 CA_recent_catch_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE001-California-1990---2024.csv")) |>
   select(RECFIN_YEAR, SUM_TOTAL_MORTALITY_MT) |>
@@ -163,6 +159,7 @@ OR_REC_MRFSS_index <- inputs$dat$CPUE |>
 
 # OR ORBS - fleet 6
 # FROM ALI, hopefully 03/05/2025
+ORBS <- read.csv()
 
 # WA Rec CPUE - fleet 7
 # I think we just bring over from the 2017 assessment, because max year is 2001
