@@ -286,24 +286,6 @@ CA_CPFV_CPUE_index <- inputs$dat$CPUE |>
 # this is ORFS, right?
 # FROM ALI, hopefully 03/05/2025
 
-# TRI ORWA - fleet 10
-
-# NWFSC ORWA - fleet 11
-NWFSC_index <- read.csv(file.path(getwd(), "Data", "processed", "wcgbts_indices", "delta_lognormal", "index", "est_by_area.csv")) |>
-  filter(area == "Coastwide") |>
-  mutate(
-    month = 7,
-    index = 11,
-  ) |>
-  rename(
-    obs = est,
-    se_log = se
-  ) |>
-  select(year, month, index, obs, se_log)
-
-
-# IPHC ORWA - fleet 12
-
 # Triennial survey - fleet 10
 tri_index <- inputs$dat$CPUE |>
   filter(index == 10)

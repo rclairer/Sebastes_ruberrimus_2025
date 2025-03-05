@@ -291,9 +291,10 @@ get_ss3_exe(dir = file.path(getwd(), "model", "2025_updated_catch"))
 
 #run(dir = file.path(getwd(), "model", "2025_updated_catch"), show_in_console = TRUE)
 replist <- SS_output(dir = file.path(getwd(), "model", "2025_updated_catch"))
+SS_plots(replist)
 
 # Compare models
-models <- list.dirs(file.path(getwd(), "model"))
+models <- list.dirs(file.path(getwd(), "model"), recursive = FALSE)
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary)
