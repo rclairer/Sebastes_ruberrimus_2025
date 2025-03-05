@@ -1,10 +1,10 @@
 
 #########################################################################
 ### Run the At Sea CPFV observer data to get an index of abundance
-### Black rockfish assessment 2023
+### Yelloweye rockfish assessment 2025
 ### Melissa Monk, edited by Ali Whitman (ODFW)
 #########################################################################
-# updated 5/11/2023 by A. Whitman 
+# updated 3/4/2025 by A. Whitman 
 
 rm(list = ls(all = TRUE))
 graphics.off()
@@ -29,8 +29,8 @@ library(gridExtra)
 library(fitdistrplus)
 
 #species and area identifiers - eventually put in function
-pacfinSpecies <- 'BLCK'
-speciesName <- "black"
+pacfinSpecies <- 'YEYE'
+speciesName <- "yelloweye"
 modelArea = "oregon"
 indexName <-  "atsea_cpfv_observer"
 modelName <- "full"
@@ -45,7 +45,7 @@ modelName <- "full"
 
 # loading helper functions
 
-dir<-file.path("C:/Users/daubleal/Desktop/2023 Assessment Cycle/Raw Index Scripts")
+dir<-file.path("C:/Users/daubleal/OneDrive - Oregon/Desktop/2025 Assesssment Cycle/Index_ORBS/Raw Index Scripts")
 setwd(dir)
 list.files()
 #source("helper_functions.R")
