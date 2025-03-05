@@ -142,7 +142,7 @@ Notes:
 
 
 ```{r}
-disdir <- "~/GitHub/Sebastes_ruberrimus_2025/Data/discards"
+disdir <- file.path(getwd(), "Data","raw","nonconfidential","discards")
 
 disrate_comb <- utils::read.csv(file.path(disdir, "discard_rates_combined_catch_share.csv"))
 disrate_noncatch <- utils::read.csv(file.path(disdir, "discard_rates_noncatch_share.csv"))
