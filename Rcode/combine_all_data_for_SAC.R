@@ -62,16 +62,40 @@ write.csv(all_catch, file = file.path(getwd(), "Data", "for_SS", "all_catch_SAC.
 colnames_i <- c("Year",	"Month",	"Fleet",	"Index",	"CV", "Label")
 
 # CA Rec MRFSS dockside CPUE - fleet 3
+#I think we just bring over from 2017 assessment, because max year is 1999
+CA_REC_MRFSS_index <- inputs$dat$CPUE |>
+  filter(index == 3) |>
+  mutate(Label = "CA_REC MRFSS dockside CPUE")
+colnames(CA_REC_MRFSS_index) <- colnames_i
+
+# OR Rec MRFSS - fleet 6 #why the same fleet as below?
+#I think we just bring over from 2017 assessment
+OR_REC_MRFSS_index <- inputs$dat$CPUE |>
+  filter(index == 6, year < 2000) |>
+  mutate(Label = "OR_REC MRFSS dockside CPUE")
+colnames(OR_REC_MRFSS_index) <- colnames_i
  
-# OR Rec MRFSS - fleet 6
- 
-# OR ORBS - fleet 6
+# OR ORBS - fleet 6 #why the same fleet as above?
+#Label = OR ORBS released
+#FROM ALI, hopefully 03/05/2025
 
 # WA Rec CPUE - fleet 7
- 
+#I think we just bring over from the 2017 assessment, because max year is 2001
+WA_REC_CPUE_index <- inputs$dat$CPUE |>
+  filter(index == 7) |>
+  mutate(Label = "WA_REC dockside CPUE")
+colnames(WA_REC_CPUE_index) <- colnames_i
+
 # CA onboard CPFV CPUE - fleet 8
+#I think we just bring over from the 2017 assessment, because max year is 1998
+CA_CPFV_CPUE_index <- inputs$dat$CPUE |>
+  filter(index == 8) |>
+  mutate(Label = "CA onboard CPFV CPUE")
+colnames(CA_CPFV_CPUE_index) <- colnames_i
  
 # Oregon onboard Recreational Charter observer CPUE - fleet 9
+#this is ORFS, right?
+#FROM ALI, hopefully 03/05/2025
  
 # TRI ORWA - fleet 10
 tri_index <- inputs$dat$CPUE |>
@@ -91,8 +115,13 @@ NWFSC_ORWA_index <- NWFSC_ORWA |>
 colnames(NWFSC_ORWA_index) <- colnames_i
  
 # IPHC ORWA - fleet 12
+#this might be updated with a sdmTMB model based
+IPHC_ORWA <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_model_based_index_forSS3.csv"))
+IPHC_ORWA_index <- IPHC_ORWA |>
+  mutate(Label = "IPHC ORWA")
+colnames(IPHC_ORWA_index) <- colnames_i
 
-all_indices <- do.call("rbind", list(c(tri_index, NWFSC_ORWA_index,
+all_indices <- do.call("rbind", list(c(CA_REC_MRFSS_index, OR_REC_MRFSS_index, WA_REC_CPUE_index, CA_CPFV_CPUE_index, tri_index, NWFSC_ORWA_index, IPHC_ORWA_index
                                        )))
 write.csv(all_indices, file = file.path(getwd(), "Data", "for_SS", "all_indices_SAC.csv"), row.names = FALSE)
 
