@@ -639,6 +639,23 @@ ggplot(data = COMB_CHK, aes(x = YEAR, y=TOTAL_CATCH, fill = SOURCE)) +
     x="Year",
     y="Catch (mt) with discards"
   )
+ggplot(data = COMB_CHK, aes(x = YEAR, y=TOTAL_CATCH, color = SOURCE)) +
+  geom_line(linewidth = 1, position=position_jitter(w=0.02, h=0.02)) +
+  facet_wrap(~ ST_FLEET, scales = "free_y") +
+  labs(
+    x="Year",
+    y="Catch (mt) with discards"
+  )
+ggplot() +
+  geom_bar(data = subset(COMB_CHK, SOURCE=="PREVIOUS"), aes(x = YEAR, y=TOTAL_CATCH), stat = "identity")+
+    geom_line(
+    data = subset(COMB_CHK, SOURCE=="CURRENT"), aes(x = YEAR, y=TOTAL_CATCH),
+    linewidth = 1, position=position_jitter(w=0.02, h=0.02), color = "red") +
+  facet_wrap(~ ST_FLEET, scales = "free_y") +
+  labs(
+    x="Year",
+    y="Catch (mt) with discards"
+  )
 ```
 
 ```{r}
@@ -647,21 +664,39 @@ ggplot(data = COMB_CHK, aes(x = YEAR, y=TOTAL_CATCH, fill = SOURCE)) +
 #| warning: false
 #| message: false
 # same as above w/o discards
-catch_curr_chk <- all_catch_nodisc |>
+catch_curr_chk2 <- all_catch_nodisc |>
   dplyr::mutate(SOURCE = "CURRENT") |>
   dplyr::filter(YEAR > 2001)|>
   dplyr::select(YEAR, ST_FLEET, TOTAL_CATCH, SOURCE)
-hist_c_chk <- hist_c |>
+hist_c_chk2 <- hist_c |>
   dplyr::filter(YEAR > 2001) |>
   dplyr::mutate(SOURCE = "PREVIOUS") |>
   dplyr::select(YEAR, ST_FLEET, TOTAL_CATCH, SOURCE)
-COMB_CHK <- rbind(catch_curr_chk, hist_c_chk)
-ggplot(data = COMB_CHK, aes(x = YEAR, y=TOTAL_CATCH, fill = SOURCE)) +
+COMB_CHK2 <- rbind(catch_curr_chk2, hist_c_chk2)
+ggplot(data = COMB_CHK2, aes(x = YEAR, y=TOTAL_CATCH, fill = SOURCE)) +
   geom_bar(position = "stack", stat = "identity", color = "black") +
   facet_wrap(~ ST_FLEET, scales = "free_y") +
   labs(
     x="Year",
     y="Catch (mt) w/o discards"
+  )
+ggplot(data = COMB_CHK2, aes(x = YEAR, y=TOTAL_CATCH, color = SOURCE)) +
+  geom_line(linewidth = 1, position=position_jitter(w=0.02, h=0.02)) +
+  facet_wrap(~ ST_FLEET, scales = "free_y") +
+  labs(
+    x="Year",
+    y="Catch (mt) without discards"
+  )
+
+ggplot() +
+  geom_bar(data = subset(COMB_CHK2, SOURCE=="PREVIOUS"), aes(x = YEAR, y=TOTAL_CATCH), stat = "identity")+
+    geom_line(
+    data = subset(COMB_CHK2, SOURCE=="CURRENT"), aes(x = YEAR, y=TOTAL_CATCH),
+    linewidth = 1, position=position_jitter(w=0.02, h=0.02), color = "red") +
+  facet_wrap(~ ST_FLEET, scales = "free_y") +
+  labs(
+    x="Year",
+    y="Catch (mt) without discards"
   )
 ```
 
