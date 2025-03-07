@@ -29,7 +29,7 @@
 # Factor method st_yr end_yr 
  10 1 0 0 # selectivity; use:  10 1 2016 2016
  11 1 0 0 # rel_F; use:  11 1 2016 2016
- 12 0 -999 0 # recruitment; use:  12 0 1889 2016
+ 12 1 -999 0 # recruitment; use:  12 1 1889 2016
 -9999 0 0 0
 #
 1 # Control rule method (0: none; 1: ramp does catch=f(SSB), buffer on F; 2: ramp does F=f(SSB), buffer on F; 3: ramp does catch=f(SSB), buffer on catch; 4: ramp does F=f(SSB), buffer on catch) 
@@ -55,12 +55,12 @@
 2 # basis for fcast catch tuning and for fcast catch caps and allocation  (2=deadbio; 3=retainbio; 5=deadnum; 6=retainnum); NOTE: same units for all fleets
 # Conditional input if relative F choice = 2
 # enter list of:  season, fleet, relF; if used, terminate with season=-9999
-# 1 1 0.000529252
-# 1 3 0.166754
-# 1 4 0.00688316
-# 1 5 0.266621
-# 1 6 0.243388
-# 1 7 0.315825
+# 1 1 0.00052925
+# 1 3 0.166753
+# 1 4 0.00688317
+# 1 5 0.266623
+# 1 6 0.243389
+# 1 7 0.315823
 # -9999 0 0  # terminator for list of relF
 # enter list of: fleet number, max annual catch for fleets with a max; terminate with fleet=-9999
 -9999 -1

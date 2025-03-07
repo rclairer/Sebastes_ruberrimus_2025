@@ -5,7 +5,7 @@
 #_User_info_available_at:https://vlab.noaa.gov/group/stock-synthesis
 #_Source_code_at:_https://github.com/nmfs-ost/ss3-source-code
 
-#_Start_time: Wed Feb 12 15:04:29 2025
+#_Start_time: Fri Mar  7 10:31:23 2025
 #_echo_input_data
 #C Data file for 2017 yelloweye assessment
 #V3.30.23.1;_safe;_compile_date:_Dec  5 2024;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_13.2
@@ -15,7 +15,7 @@
  12 #_months/season
 2 #_Nsubseasons (even number, minimum is 2)
 1 #_spawn_month
-1 #_Nsexes: 1, 2, -1  (use -1 for 1 sex setup with SSB multiplied by female_frac parameter)
+-1 #_Nsexes: 1, 2, -1  (use -1 for 1 sex setup with SSB multiplied by female_frac parameter)
 100 #_Nages=accumulator age, first age is always age 0
 2 #_Nareas
 12 #_Nfleets (including surveys)

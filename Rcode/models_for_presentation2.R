@@ -4,7 +4,7 @@ model_2017_path <- file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3
 # Copy input files to new folders using r4ss
 copy_SS_inputs(
   dir.old = model_2017_path,
-  dir.new = file.path(getwd(), "model", "2025_updated_WCGBTS"),
+  dir.new = file.path(getwd(), "model", "2025_updated_catch"),
   create.dir = FALSE,
   overwrite = TRUE,
   use_ss_new = TRUE,
@@ -13,42 +13,12 @@ copy_SS_inputs(
 
 copy_SS_inputs(
   dir.old = model_2017_path,
-  dir.new = file.path(getwd(), "model", "2025_updated_catch"),
+  dir.new = file.path(getwd(), "model", "2025_updated_WCGBTS"),
   create.dir = FALSE,
   overwrite = TRUE,
   use_ss_new = TRUE,
   verbose = TRUE
 )
-
-#######################
-# WCGBTS Update Model #
-#######################
-
-inputs_wcgbts <- SS_read(dir = file.path(getwd(), "model", "2025_updated_WCGBTS"))
-inputs_wcgbts$dat$endyr <- 2024
-
-NWFSC_ORWA <- read.csv(file.path(getwd(), "Data", "processed", "wcgbts_indices", "updated_indices_ORWA_CA_split", "yelloweye_split_42_point/yelloweye_rockfish/wcgbts", "delta_lognormal", "index", "est_by_area.csv"))
-NWFSC_ORWA_index <- NWFSC_ORWA |>
-  filter(area == "Coastwide") |>
-  select(year, est, se) |>
-  mutate(Month = 7,
-         Fleet = 11) |>
-  select(year, Month, Fleet, est, se)
-colnames(NWFSC_ORWA_index) <- colnames_i
-
-inputs_wcgbts$dat$indices <- inputs_wcgbts$dat$CPUE |>
-  filter(index != 11) |>
-  bind_rows(NWFSC_ORWA_index) |>
-  arrange(index, year)
-
-SS_write(inputs_wcgbts, dir = file.path(getwd(), "model", "2025_updated_WCGBTS"), overwrite = TRUE)
-
-get_ss3_exe(dir = file.path(getwd(), "model", "2025_updated_WCGBTS"))
-
-# run(dir = file.path(getwd(), "model", "2025_updated_WCGBTS"), show_in_console = TRUE)
-
-replist <- SS_output(dir = file.path(getwd(), "model", "2025_updated_WCGBTS"))
-SS_plots(replist)
 
 #######################
 # Catch Updated Model #
@@ -75,7 +45,7 @@ CA_1981_2015_TWL <- inputs_catch$dat$catch |>
   filter(fleet == 1) |>
   filter(year > 1980 & year < 2016)
 
-CA_2016_2024_TWL <- yelloweye_recent_catch |>
+CA_2016_2024_TWL <- yelloweye_recent_comm_catch |>
   filter(ST_FLEET == "CA_TWL") |>
   mutate(fleet = 1) |>
   select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE)
@@ -100,7 +70,7 @@ CA_1981_2015_NONTWL <- inputs_catch$dat$catch |>
   filter(fleet == 2) |>
   filter(year > 1980 & year < 2016)
 
-CA_2016_2024_NONTWL <- yelloweye_recent_catch |>
+CA_2016_2024_NONTWL <- yelloweye_recent_comm_catch |>
   filter(ST_FLEET == "CA_NONTWL") |>
   mutate(fleet = 1) |>
   select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE)
@@ -121,16 +91,29 @@ CA_hist_catch_REC <- CA_hist_catch |>
   ) |>
   select(year, seas, fleet, catch, catch_se)
 
+CA_2004_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE510-2004CRFSYelloweye.csv")) |>
+  select(Year, Wgt.Ab1) |>
+  filter(Wgt.Ab1 != "-") |>
+  group_by(Year) |>
+  summarize(
+    seas = 1,
+    fleet = 3,
+    catch = sum(as.numeric(Wgt.Ab1)) / 1000,
+    catch_se = 0.01
+  ) |>
+  rename(year = Year)
+
 CA_1981_2004_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "MRFSS_catch_est_yelloweye_CA.csv")) |>
   select(YEAR_, WGT_AB1) |>
   group_by(YEAR_) |>
   summarize(
     seas = 1,
     fleet = 3,
-    catch = sum(WGT_AB1)/1000,
+    catch = sum(WGT_AB1) / 1000,
     catch_se = 0.01
   ) |>
   rename(year = YEAR_) |>
+  bind_rows(CA_2004_REC) |>
   filter(!is.na(catch))
 
 CA_missing_1981_2004_rec <- inputs_catch$dat$catch |>
@@ -148,7 +131,8 @@ CA_recent_catch_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidenti
     seas = 1,
     fleet = 3,
     catch = sum(SUM_TOTAL_MORTALITY_MT),
-    catch_se = 0.01) |>
+    catch_se = 0.01
+  ) |>
   rename(year = RECFIN_YEAR)
 
 CA_REC <- CA_hist_catch_REC |>
@@ -162,8 +146,10 @@ OR_comm_all <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "OR
 
 OR_TWL <- OR_comm_all |>
   select(YEAR, FLEET, TOTAL) |>
-  filter(FLEET == "TRW",
-         YEAR < 2016) |>
+  filter(
+    FLEET == "TRW",
+    YEAR < 2016
+  ) |>
   select(-FLEET) |>
   rename(year = YEAR) |>
   mutate(
@@ -174,7 +160,7 @@ OR_TWL <- OR_comm_all |>
   ) |>
   select(-TOTAL)
 
-WA_TWL <- read.csv(file.path(getwd(), "Data",  "raw", "nonconfidential", "WA_hist_catch_twl.csv")) |>
+WA_TWL <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "WA_hist_catch_twl.csv")) |>
   select(Year, Catches..mtons.) |>
   filter(Year < 2016) |>
   mutate(
@@ -182,8 +168,10 @@ WA_TWL <- read.csv(file.path(getwd(), "Data",  "raw", "nonconfidential", "WA_his
     fleet = 4,
     catch_se = 0.01
   ) |>
-  rename(year = Year,
-         catch =  Catches..mtons.) |>
+  rename(
+    year = Year,
+    catch = Catches..mtons.
+  ) |>
   select(year, seas, fleet, catch, catch_se)
 
 ORWA_TWL_until_2015 <- OR_TWL |>
@@ -196,7 +184,7 @@ ORWA_TWL_until_2015 <- OR_TWL |>
     catch_se = 0.01
   )
 
-ORWA_TWL_2016_2024 <- yelloweye_recent_catch |>
+ORWA_TWL_2016_2024 <- yelloweye_recent_comm_catch |>
   filter(ST_FLEET == "ORWA_TWL") |>
   mutate(fleet = 4) |>
   select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE)
@@ -209,8 +197,10 @@ ORWA_TWL <- ORWA_TWL_until_2015 |>
 # ORWA NONTWL - fleet 5
 OR_NONTWL <- OR_comm_all |>
   select(YEAR, FLEET, TOTAL) |>
-  filter(FLEET == "NTRW",
-         YEAR < 2016) |>
+  filter(
+    FLEET == "NTRW",
+    YEAR < 2016
+  ) |>
   select(-FLEET) |>
   rename(year = YEAR) |>
   mutate(
@@ -221,7 +211,7 @@ OR_NONTWL <- OR_comm_all |>
   ) |>
   select(-TOTAL)
 
-WA_NONTWL <- read.csv(file.path(getwd(), "Data",  "raw", "nonconfidential", "WA_hist_catch_nontwl.csv")) |>
+WA_NONTWL <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "WA_hist_catch_nontwl.csv")) |>
   select(Year, Catches..mtons.) |>
   filter(Year < 2016) |>
   mutate(
@@ -229,8 +219,10 @@ WA_NONTWL <- read.csv(file.path(getwd(), "Data",  "raw", "nonconfidential", "WA_
     fleet = 5,
     catch_se = 0.01
   ) |>
-  rename(year = Year,
-         catch =  Catches..mtons.) |>
+  rename(
+    year = Year,
+    catch = Catches..mtons.
+  ) |>
   select(year, seas, fleet, catch, catch_se)
 
 ORWA_NONTWL_until_2015 <- OR_NONTWL |>
@@ -243,7 +235,7 @@ ORWA_NONTWL_until_2015 <- OR_NONTWL |>
     catch_se = 0.01
   )
 
-ORWA_NONTWL_2016_2024 <- yelloweye_recent_catch |>
+ORWA_NONTWL_2016_2024 <- yelloweye_recent_comm_catch |>
   filter(ST_FLEET == "ORWA_NONTWL") |>
   mutate(fleet = 5) |>
   select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE)
@@ -275,13 +267,15 @@ WA_REC <- read.csv(file.path(getwd(), "Data", "processed", "WA_historical_to_rec
   select(year, seas, fleet, catch, catch_se)
 
 # Combine all catch data
-all_catch <- do.call("rbind", list(CA_TWL,
-                                     CA_NONTWL,
-                                     CA_REC, 
-                                     ORWA_TWL,
-                                     ORWA_NONTWL,
-                                     OR_REC,
-                                     WA_REC))
+all_catch <- do.call("rbind", list(
+  CA_TWL,
+  CA_NONTWL,
+  CA_REC,
+  ORWA_TWL,
+  ORWA_NONTWL,
+  OR_REC,
+  WA_REC
+))
 
 inputs_catch$dat$catch <- all_catch
 
@@ -289,12 +283,50 @@ SS_write(inputs_catch, dir = file.path(getwd(), "model", "2025_updated_catch"), 
 
 get_ss3_exe(dir = file.path(getwd(), "model", "2025_updated_catch"))
 
-#run(dir = file.path(getwd(), "model", "2025_updated_catch"), show_in_console = TRUE)
+# run(dir = file.path(getwd(), "model", "2025_updated_catch"), show_in_console = TRUE)
 replist <- SS_output(dir = file.path(getwd(), "model", "2025_updated_catch"))
 SS_plots(replist)
 
+#################################
+# WCGBTS and Catches Updated Model #
+#################################
+
+# Use ss_new files from the catches run
+inputs_wcgbts <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch"), ss_new = TRUE)
+
+NWFSC_ORWA <- read.csv(file.path(getwd(), "Data", "processed", "wcgbts_indices", "updated_indices_ORWA_CA_split", "yelloweye_split_42_point/yelloweye_rockfish/wcgbts", "delta_lognormal", "index", "est_by_area.csv"))
+NWFSC_ORWA_index <- NWFSC_ORWA |>
+  filter(area == "Coastwide") |>
+  select(year, est, se) |>
+  mutate(
+    Month = 7,
+    Fleet = 11
+  ) |>
+  select(year, Month, Fleet, est, se)
+colnames(NWFSC_ORWA_index) <- colnames_i
+
+inputs_wcgbts$dat$indices <- inputs_wcgbts$dat$CPUE |>
+  filter(index != 11) |>
+  bind_rows(NWFSC_ORWA_index) |>
+  arrange(index, year)
+
+SS_write(inputs_wcgbts, dir = file.path(getwd(), "model", "2025_updated_WCGBTS"), overwrite = TRUE)
+
+get_ss3_exe(dir = file.path(getwd(), "model", "2025_updated_WCGBTS"))
+
+# run(dir = file.path(getwd(), "model", "2025_updated_WCGBTS"), show_in_console = TRUE)
+
+replist <- SS_output(dir = file.path(getwd(), "model", "2025_updated_WCGBTS"))
+SS_plots(replist)
+
 # Compare models
+# Get branch that SSsummarize fix is on for now until it is merged into main
+# devtools::install_github("r4ss/r4ss", ref = "fix_SSsummarize")
+# library(r4ss)
 models <- list.dirs(file.path(getwd(), "model"), recursive = FALSE)
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
-SSplotComparisons(models_summary)
+SSplotComparisons(models_summary,
+  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "presentation_2_comparisons"),
+  print = TRUE
+)

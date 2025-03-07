@@ -6,7 +6,7 @@
 12 		#_months/season
 2 		#_N_subseasons(even number, minimum is 2)
 1 		#_spawn_month
-1 		#_Nsexes
+-1 		#_Nsexes
 100 	#_Nages=accumulator age
 2 		#_N_areas
 12 		#_Nfleets (including surveys)
