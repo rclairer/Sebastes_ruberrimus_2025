@@ -139,6 +139,7 @@ CA_REC <- CA_hist_catch_REC |>
   mutate(catch = round(catch, 2))
 
 # ORWA TWL - fleet 4
+# OR historical catch reconstruction has been updated
 OR_comm_all <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "ORCommLandings_457_2024.csv"))
 
 OR_TWL <- OR_comm_all |>
@@ -247,6 +248,7 @@ OR_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "ORRecLa
   select(-Total_MT)
 
 # WA REC - fleet 7
+# Discards are included unlike they were in the 2017 assessment
 WA_REC <- read.csv(file.path(getwd(), "Data", "processed", "WA_historical_to_recent_rec_catch.csv")) |>
   mutate(
     seas = 1,

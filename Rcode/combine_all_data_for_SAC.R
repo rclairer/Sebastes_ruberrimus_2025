@@ -35,8 +35,10 @@ CA_1981_2015_TWL <- inputs$dat$catch |>
 CA_2016_2024_TWL <- yelloweye_recent_comm_catch |>
   filter(ST_FLEET == "CA_TWL") |>
   select(YEAR, TOTAL_CATCH) |>
-  rename(Year = YEAR,
-         catch = TOTAL_CATCH)
+  rename(
+    Year = YEAR,
+    catch = TOTAL_CATCH
+  )
 
 CA_TWL <- CA_hist_catch_TWL |>
   bind_rows(CA_1981_2015_TWL) |>
@@ -51,20 +53,22 @@ CA_hist_catch_NONTWL <- CA_hist_catch |>
 
 CA_1981_2015_NONTWL <- inputs$dat$catch |>
   filter(fleet == 2) |>
-  filter(year > 1980 & year < 2016)|>
+  filter(year > 1980 & year < 2016) |>
   select(year, catch) |>
   rename(Year = year)
 
 CA_2016_2024_NONTWL <- yelloweye_recent_comm_catch |>
-  filter(ST_FLEET == "CA_NONTWL")  |>
+  filter(ST_FLEET == "CA_NONTWL") |>
   select(YEAR, TOTAL_CATCH) |>
-  rename(Year = YEAR,
-         catch = TOTAL_CATCH)
+  rename(
+    Year = YEAR,
+    catch = TOTAL_CATCH
+  )
 
 CA_NONTWL <- CA_hist_catch_NONTWL |>
   bind_rows(CA_1981_2015_NONTWL) |>
   bind_rows(CA_2016_2024_NONTWL) |>
-  arrange(Year)|>
+  arrange(Year) |>
   rename(CA_NONTWL = catch)
 
 # CA Rec - fleet 3
@@ -72,21 +76,23 @@ CA_hist_catch_REC <- CA_hist_catch |>
   filter(fleet == 3) |>
   select(Year, catch)
 
+# Provided by Julia Coates at CDFW
 CA_2004_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE510-2004CRFSYelloweye.csv")) |>
   select(Year, Wgt.Ab1) |>
   filter(Wgt.Ab1 != "-") |>
   group_by(Year) |>
   summarize(catch = sum(as.numeric(Wgt.Ab1)) / 1000)
 
+# Provided by Julia Coates at CDFW
 CA_1981_2004_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "MRFSS_catch_est_yelloweye_CA.csv")) |>
   select(YEAR_, WGT_AB1) |>
   group_by(YEAR_) |>
-  summarize(catch = sum(WGT_AB1)/1000) |>
+  summarize(catch = sum(WGT_AB1) / 1000) |>
   rename(Year = YEAR_) |>
   bind_rows(CA_2004_REC) |>
   filter(!is.na(catch))
 
-CA_missing_1981_2004_rec <- inputs_catch$dat$catch |>
+CA_missing_1981_2004_rec <- inputs$dat$catch |>
   filter(fleet == 3 & year > 1980 & year < 2005) |>
   rename(Year = year) |>
   filter(!Year %in% CA_1981_2004_REC$Year) |>
@@ -115,28 +121,33 @@ OR_comm_all <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "OR
 
 OR_TWL <- OR_comm_all |>
   select(YEAR, FLEET, TOTAL) |>
-  filter(FLEET == "TRW",
-         YEAR < 2016) |>
+  filter(
+    FLEET == "TRW",
+    YEAR < 2016
+  ) |>
   select(-FLEET) |>
-  summarize(Year = YEAR,
-            catch = TOTAL)
+  rename(
+    Year = YEAR,
+    catch = TOTAL
+  )
 
-WA_TWL <- WA_TWL <- read.csv(file.path(getwd(), "Data",  "raw", "nonconfidential", "WA_hist_catch_twl.csv")) |>
+WA_TWL <- WA_TWL <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "WA_hist_catch_twl.csv")) |>
   select(Year, Catches..mtons.) |>
   filter(Year < 2016) |>
   rename(catch = Catches..mtons.)
 
 ORWA_TWL_until_2015 <- OR_TWL |>
   bind_rows(WA_TWL) |>
-  group_by(year) |>
-  summarize(catch = sum(catch)) |>
-  rename(Year = year)
+  group_by(Year) |>
+  summarize(catch = sum(catch))
 
 ORWA_TWL_2016_2024 <- yelloweye_recent_comm_catch |>
   filter(ST_FLEET == "ORWA_TWL") |>
   select(YEAR, TOTAL_CATCH) |>
-  rename(Year = YEAR,
-         catch = TOTAL_CATCH)
+  rename(
+    Year = YEAR,
+    catch = TOTAL_CATCH
+  )
 
 ORWA_TWL <- ORWA_TWL_until_2015 |>
   bind_rows(ORWA_TWL_2016_2024) |>
@@ -144,30 +155,36 @@ ORWA_TWL <- ORWA_TWL_until_2015 |>
   rename(ORWA_TWL = catch)
 
 # ORWA NONTWL - fleet 5
+
 OR_NONTWL <- OR_comm_all |>
   select(YEAR, FLEET, TOTAL) |>
-  filter(FLEET == "NTRW",
-         YEAR < 2016) |>
-  summarize(Year = YEAR,
-            catch = TOTAL)
+  filter(
+    FLEET == "NTRW",
+    YEAR < 2016
+  ) |>
+  rename(
+    Year = YEAR,
+    catch = TOTAL
+  )
 
-WA_NONTWL <- read.csv(file.path(getwd(), "Data",  "raw", "nonconfidential", "WA_hist_catch_nontwl.csv")) |>
+WA_NONTWL <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "WA_hist_catch_nontwl.csv")) |>
   select(Year, Catches..mtons.) |>
   filter(Year < 2016) |>
-  rename(catch =  Catches..mtons.) |>
+  rename(catch = Catches..mtons.) |>
   select(Year, catch)
 
-ORWA_TWL_until_2015 <- OR_NONTWL |>
+ORWA_NONTWL_until_2015 <- OR_NONTWL |>
   bind_rows(WA_NONTWL) |>
-  group_by(year) |>
-  summarize(catch = sum(catch)) |>
-  rename(Year = year)
+  group_by(Year) |>
+  summarize(catch = sum(catch))
 
 ORWA_NONTWL_2016_2024 <- yelloweye_recent_comm_catch |>
   filter(ST_FLEET == "ORWA_NONTWL") |>
   select(YEAR, TOTAL_CATCH) |>
-  rename(Year = YEAR,
-         catch = TOTAL_CATCH)
+  rename(
+    Year = YEAR,
+    catch = TOTAL_CATCH
+  )
 
 ORWA_NONTWL <- ORWA_NONTWL_until_2015 |>
   bind_rows(ORWA_NONTWL_2016_2024) |>
@@ -180,7 +197,7 @@ OR_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "ORRecLa
   rename(OR_REC = Total_MT)
 
 # WA Rec - fleet 7
-WA_REC <- read.csv(file.path(getwd(),"Data", "processed", "WA_historical_to_recent_rec_catch.csv")) |>
+WA_REC <- read.csv(file.path(getwd(), "Data", "processed", "WA_historical_to_recent_rec_catch.csv")) |>
   select(year, catch) |>
   rename(
     Year = year,
@@ -188,13 +205,14 @@ WA_REC <- read.csv(file.path(getwd(),"Data", "processed", "WA_historical_to_rece
   )
 
 # Combine all catch data
-all_catch <- do.call("rbind", list(CA_TWL,
-                                     CA_NONTWL,
-                                     CA_REC, 
-                                     ORWA_TWL,
-                                     ORWA_NONTWL,
-                                     OR_REC,
-                                     WA_REC))
+all_catch <- CA_TWL |>
+  left_join(CA_NONTWL, by = "Year") |>
+  left_join(CA_REC, by = "Year") |>
+  left_join(ORWA_TWL, by = "Year") |>
+  left_join(ORWA_NONTWL, by = "Year") |>
+  left_join(OR_REC, by = "Year") |>
+  left_join(WA_REC, by = "Year")
+all_catch[is.na(all_catch)] <- 0
 
 write.csv(all_catch, file = file.path(getwd(), "Data", "for_SS", "all_catch_SAC.csv"), row.names = FALSE)
 
@@ -223,9 +241,11 @@ colnames(OR_REC_MRFSS_index) <- colnames_i
 
 # OR ORBS - fleet 6 (OR_REC)
 ORBS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORBS_index_forSS.csv")) |>
-  mutate(fleet = 6,
-         Label = "OR_REC") |>
-colnames(ORBS_index) <- colnames_i
+  mutate(
+    fleet = 6,
+    Label = "OR_REC"
+  ) |>
+  colnames(ORBS_index) <- colnames_i
 
 # WA Rec CPUE - fleet 7
 # I think we just bring over from the 2017 assessment, because max year is 2001
@@ -271,13 +291,15 @@ IPHC_ORWA_index <- IPHC_ORWA |>
   mutate(Label = "IPHC_ORWA")
 colnames(IPHC_ORWA_index) <- colnames_i
 
-all_indices <- do.call("rbind", list(CA_REC_MRFSS_index, 
-                                     OR_REC_MRFSS_index, 
-                                     WA_REC_CPUE_index, 
-                                     CA_CPFV_CPUE_index, 
-                                     tri_index, 
-                                     NWFSC_ORWA_index, 
-                                     IPHC_ORWA_index))
+all_indices <- do.call("rbind", list(
+  CA_REC_MRFSS_index,
+  OR_REC_MRFSS_index,
+  WA_REC_CPUE_index,
+  CA_CPFV_CPUE_index,
+  tri_index,
+  NWFSC_ORWA_index,
+  IPHC_ORWA_index
+))
 
 write.csv(all_indices, file = file.path(getwd(), "Data", "for_SS", "all_indices_SAC.csv"), row.names = FALSE)
 
@@ -313,7 +335,7 @@ tri_lengths <- read.csv(file.path(
   "Tri_length_cm_unsexed_raw_10_74_yelloweye rockfish_groundfish_triennial_shelf_survey.csv"
 )) |>
   select(-partition)
-  colnames(tri_lengths) <- colnames_l
+colnames(tri_lengths) <- colnames_l
 
 # NWFSC survey - fleet 11
 nwfsc_lengths <- read.csv(file.path(
@@ -406,10 +428,11 @@ nwfsc_ages <- rbind(nwfsc_caal, nwfsc_maal)
 # IPHC survey CAAL and MAAL - fleet -12 and 12
 
 # Combine all ages together
-all_ages <- do.call("rbind", list(ca_nontwl_wcgop,
-                                  ca_rec_wdfw,
-                                  ca_rec_don_pearson,
-                                  nwfsc_ages
-                                  ))
+all_ages <- do.call("rbind", list(
+  ca_nontwl_wcgop,
+  ca_rec_wdfw,
+  ca_rec_don_pearson,
+  nwfsc_ages
+))
 
 write.csv(all_ages, file = file.path(getwd(), "Data", "for_SS", "all_ages_SAC.csv"), row.names = FALSE)
