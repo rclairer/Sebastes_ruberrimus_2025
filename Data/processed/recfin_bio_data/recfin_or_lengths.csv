@@ -1,4 +1,4 @@
-"","unsexed.year","unsexed.month","unsexed.fleet","unsexed.sex","unsexed.partition","unsexed.input_n","unsexed.U10","unsexed.U12","unsexed.U14","unsexed.U16","unsexed.U18","unsexed.U20","unsexed.U22","unsexed.U24","unsexed.U26","unsexed.U28","unsexed.U30","unsexed.U32","unsexed.U34","unsexed.U36","unsexed.U38","unsexed.U40","unsexed.U42","unsexed.U44","unsexed.U46","unsexed.U48","unsexed.U50","unsexed.U52","unsexed.U54","unsexed.U56","unsexed.U58","unsexed.U60","unsexed.U62","unsexed.U64","unsexed.U66","unsexed.U68","unsexed.U70","unsexed.U72","unsexed.U74"
+"","year","month","fleet","sex","partition","input_n","L10","L12","L14","L16","L18","L20","L22","L24","L26","L28","L30","L32","L34","L36","L38","L40","L42","L44","L46","L48","L50","L52","L54","L56","L58","L60","L62","L64","L66","L68","L70","L72","L74"
 "1",2001,7,6,0,0,368,0,0,0,0,0,0,0,3,1,12,9,11,23,14,35,30,39,41,33,28,22,21,14,11,5,2,4,3,2,4,0,0,1
 "2",2002,7,6,0,0,448,0,0,0,0,0,0,1,5,3,6,10,13,23,35,30,47,42,35,60,37,30,17,17,7,8,9,7,3,2,1,0,0,0
 "3",2003,7,6,0,0,492,0,0,0,0,0,1,3,3,8,11,6,14,14,25,32,34,37,43,46,47,34,44,28,16,11,11,9,2,7,4,1,1,0
