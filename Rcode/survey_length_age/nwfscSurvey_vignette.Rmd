@@ -1,0 +1,655 @@
+---
+title: "nwfscSurvey Vignette"
+output:
+  pdf_document: default
+  html_document: default
+date: "2025-01-23"
+---
+Set up: The first set of code is for the Bottom trawl survey
+        The second set of code is for the triennial survey
+
+Questions: is this a two area model as in WA/OR + CA? or WA + OR only? Is California a whole different assessment model?
+If we are seeing catches in CA, what is the strata doing again?
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+library(nwfscSurvey)
+dir.create(file.path(getwd(),"plots"))
+```
+
+## NWFSC.Combo Data
+
+Initial pull and plotting of data: WCGBTS
+```{r, warning = FALSE, message = FALSE}
+catch = pull_catch(
+  common_name = "yelloweye rockfish", 
+  survey = "NWFSC.Combo")
+
+bio = pull_bio(
+  common_name = "yelloweye rockfish", 
+  survey = "NWFSC.Combo")
+
+plot_cpue(
+  catch = catch)
+
+plot_bio_patterns(
+  bio = bio, 
+  col_name = "Length_cm")
+
+wh_plot_proportion(
+  data_catch = catch,
+  data_bio = bio
+)
+```
+
+### Calculate designed based index of abundance
+
+```{r, warning = FALSE, message = FALSE}
+WCGBTS_strata <- CreateStrataDF.fn(
+  names = c("shallow_OR", "deep_OR", "shallow_WA", "deep_WA"), 
+  depths.shallow = c(55, 183, 55, 183),
+  depths.deep    = c(183, 350, 183, 350),
+  lats.south     = c(42, 42, 46, 46),
+  lats.north     = c(46, 46, 49, 49)
+)
+```
+
+```{r, warning = FALSE, message = FALSE}
+biomass = get_design_based(
+  data = catch,  
+  strata = WCGBTS_strata,
+  dir = file.path(dirname(dirname(getwd())), "Data", "NWFSC.Combo_and_Tri_design_based_indices"),
+  printfolder = "")
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+file.rename(from = file.path(dirname(dirname(getwd())), "Data", "NWFSC.Combo_and_Tri_design_based_indices","design_based_indices.csv"), 
+            to = file.path(dirname(dirname(getwd())), "Data", "NWFSC.Combo_and_Tri_design_based_indices", "NWFSC.Combo_design_based_indices.csv"))
+```
+
+Plot coastwide
+```{r, warning = FALSE, message = FALSE}
+plot_index(
+  data = biomass,
+  plot = 1)
+# thats only about a maximum of 200,500 fish.... very few...
+```
+
+Plot index for each strata
+```{r, warning = FALSE, message = FALSE}
+plot_index(
+  data = biomass,
+  plot = 2)
+```
+
+### Length composition data
+```{r, warning = FALSE, message = FALSE}
+# Expanded length comps are not used for the yelloweye assessment
+# length_comps <- get_expanded_comps(
+#     bio_data = bio,
+#     catch_data = catch,
+#     comp_bins = seq(10, 74, 2),
+#     strata = WCGBTS_strata,
+#     comp_column_name = "length_cm",
+#     output = "full_expansion_ss3_format",
+#     two_sex_comps = FALSE, #single sex model
+#     input_n_method = "stewart_hamel")
+# 
+# plot_comps(
+#   data = length_comps)
+
+# Use raw length comps, you can tell this is what was used in the previous assessment because whole numbers are used
+# The steward-hamel method is used to get the Nsamps, this is better than the simplified stewart-hamel approach used in the 2017 assessment and is fine to use in this years update according to the instructors.
+raw_length_comps <- get_raw_comps(
+    data = bio,
+    comp_bins = seq(10, 74, 2),
+    comp_column_name = "length_cm",
+    input_n_method = c("stewart_hamel"),
+    two_sex_comps = FALSE,
+    fleet = 11,
+    month = 7, 
+    dir = getwd(),
+    printfolder = "") #single sex model
+
+plot_comps(
+  data = raw_length_comps
+)
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+length_files <- list.files(path = getwd(), pattern = "length_cm")
+
+file.rename(from = length_files[1],
+            to = paste0("NWFSC.Combo_", length_files[1]))
+file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[1])),
+            to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[1])))
+
+file.rename(from = length_files[2],
+            to = paste0("NWFSC.Combo_", length_files[2]))
+file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[2])),
+            to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[2])))
+```
+
+### Marginal age composition data
+```{r, warning = FALSE, message = FALSE}
+# Expanded age comps are not used in the yelloweye assessment
+# age_comps <- get_expanded_comps(
+#     bio_data = bio,
+#     catch_data = catch,
+#     comp_bins = 0:65,
+#     strata = WCGBTS_strata,
+#     comp_column_name = "age",
+#     output = "full_expansion_ss3_format",
+#     two_sex_comps = FALSE, #single sex model
+#     input_n_method = "stewart_hamel")
+# 
+# plot_comps(
+#   data = age_comps)
+
+raw_age_comps <- get_raw_comps(
+    data = bio,
+    comp_bins = 0:65,
+    input_n_method = "stewart_hamel",
+    comp_column_name = "age",
+    fleet = 11,
+    ageerr = 2,
+    month = 7,
+    dir = getwd(),
+    printfolder = "", 
+    two_sex_comps = FALSE) #single sex model
+
+plot_comps(
+  data = raw_age_comps)
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+age_files <- list.files(path = getwd(), pattern = "age_")
+
+file.rename(from = age_files[1],
+            to = paste0("NWFSC.Combo_", age_files[1]))
+file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", age_files[1])), 
+            to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_age_comps", paste0("NWFSC.Combo_", age_files[1])))
+
+file.rename(from = age_files[2],
+            to = paste0("NWFSC.Combo_", age_files[2]))
+file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", age_files[2])), 
+          to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_age_comps", paste0("NWFSC.Combo_", age_files[2])))
+```
+
+### Conditional age-at-length data
+```{r, warning = FALSE, message = FALSE}
+# The previous function used was actually deprecated and this function should have been used.
+caal <- get_raw_caal(
+  dat = bio, 
+  len_bins = seq(10, 74, 2), 
+  age_bins = 0:65,
+  dir = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_CAAL"),
+  printfolder = "")
+
+# Reformat data to only have one sex
+one_sex_caal <- caal |>
+  dplyr::arrange(year, Lbin_lo) |>
+  tidyr::pivot_longer(cols = f0:m65, names_to = "age", values_to = "count") |>
+  dplyr::mutate(input_n = case_when(
+    grepl("m", age) ~ 0,
+    grepl("f", age) ~ input_n
+  )) |>
+  mutate(age = as.numeric(stringr::str_remove_all(age, "f|m"))) |>
+  dplyr::group_by(year, Lbin_lo, age) |>
+  dplyr::summarize(month = 7,
+                   fleet = 11,
+                   sex = 0,
+                   partition = unique(partition),
+                   ageerr = 2,
+                   Lbin_hi = unique(Lbin_hi),
+                   Nsamp = sum(input_n),
+                   count = sum(count)) |>
+  dplyr::select(year, month, fleet, sex, partition, ageerr, Lbin_lo, Lbin_hi, Nsamp, age, count) |>
+  tidyr::pivot_wider(names_from = "age", values_from = "count")
+
+write.csv(one_sex_caal, file = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_CAAL", "processed_one_sex_caal.csv"), row.names = FALSE)
+
+PlotMap.fn(
+  dat = catch)
+```
+
+### Weight-Length Relationship
+```{r, warning = FALSE, message = FALSE}
+# Ian said we can just use the nwfsc.combo data and don't need to filter by the same latitudes as the index was, just use all data
+wt_len_est <- estimate_weight_length(
+  bio,
+  col_length = "Length_cm",
+  col_weight = "Weight_kg",
+  verbose = FALSE
+)
+
+wt_len_est
+
+plot_weight_length(
+  bio,
+  dir = file.path(dirname(getwd()), "model_params"),
+  estimates = wt_len_est,
+  col_length = "length_cm",
+  col_weight = "weight_kg",
+  two_sex = FALSE,
+  add_save_name = NULL,
+  height = 7,
+  width = 7,
+  dpi = 300
+)
+```
+
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+if(dir.exists(file.path(getwd(),"NWFSC.Combo_plots"))){
+  plots <- list.files(file.path(getwd(), "plots"))
+  lapply(plots, function(x){
+    file.rename(from = file.path(getwd(), "plots", plots[x]),
+                to = file.path(getwd(), "NWFSC.Combo_plots", plots[x]))
+  })
+} else {
+  file.rename(from = file.path(getwd(), "plots"), 
+            to = file.path(getwd(), "NWFSC.Combo_plots"))
+}
+```
+
+## Triennial Data
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+if(dir.exists(file.path(getwd(),"plots")) == FALSE) {
+  dir.create(file.path(getwd(),"plots"))
+}
+```
+
+Initial pull and plotting of data: Triennial
+```{r, warning = FALSE, message = FALSE}
+catchT = pull_catch(
+  common_name = "yelloweye rockfish", 
+  survey = "Triennial")
+
+#this is creating a list, just use $age_data
+bioT = pull_bio(
+  common_name = "yelloweye rockfish", 
+  survey = "Triennial")
+
+bioT <- bioT$length_data # Ian said to use length data
+
+plot_cpue(
+  catch = catchT)
+
+plot_bio_patterns(
+  bio = bioT, 
+  col_name = "Length_cm")
+
+wh_plot_proportion(
+  data_catch = catchT,
+  data_bio = bioT
+)
+```
+
+### Calculate designed based index of abundance
+
+```{r, warning = FALSE, message = FALSE}
+Triennial_strata = CreateStrataDF.fn(names=c("OR", "WA"), 
+                           depths.shallow = c(55, 55),
+                           depths.deep    = c(350, 350),
+                           lats.south     = c(42, 46),
+                           lats.north     = c(46, 49))
+```
+
+```{r, warning = FALSE, message = FALSE}
+biomassT = get_design_based(
+  data = catchT,  
+  strata = Triennial_strata,
+  dir = file.path(dirname(dirname(getwd())), "Data", "NWFSC.Combo_and_Tri_design_based_indices"),
+  printfolder = "")
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+file.rename(from = file.path(dirname(dirname(getwd())), "Data", "NWFSC.Combo_and_Tri_design_based_indices","design_based_indices.csv"), 
+            to = file.path(dirname(dirname(getwd())), "Data", "NWFSC.Combo_and_Tri_design_based_indices", "Tri_design_based_indices.csv"))
+```
+
+Plot coastwide
+```{r, warning = FALSE, message = FALSE}
+plot_index(
+  data = biomassT,
+  plot = 1)
+# not a lot of fish...
+```
+
+Plot index for each strata
+```{r, warning = FALSE, message = FALSE}
+plot_index(
+  data = biomassT,
+  plot = 2)
+```
+
+### Length composition data
+```{r, warning = FALSE, message = FALSE}
+# Expanded length comps are not used for the yelloweye assessment
+# length_compsT <- get_expanded_comps(
+#     bio_data = bioT,
+#     catch_data = catchT,
+#     comp_bins = seq(10, 74, 2),
+#     strata = Triennial_strata,
+#     comp_column_name = "length_cm",
+#     output = "full_expansion_ss3_format",
+#     two_sex_comps = FALSE, #single sex model
+#     input_n_method = "stewart_hamel")
+# 
+# plot_comps(
+#   data = length_compsT)
+
+raw_length_compsT <- get_raw_comps(
+    data = bioT,
+    input_n_method = c("stewart_hamel"),
+    month = 7,
+    fleet = 10,
+    comp_bins = seq(10, 74, 2),
+    comp_column_name = "length_cm",
+    dir = getwd(),
+    printfolder = "",
+    two_sex_comps = FALSE) #single sex model
+
+plot_comps(
+  data = raw_length_compsT)
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+length_files <- list.files(path = getwd(), pattern = "length_cm")
+
+file.rename(from = length_files[1],
+            to = paste0("Tri_", length_files[1]))
+file.rename(from = file.path(getwd(), paste0("Tri_", length_files[1])),
+            to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("Tri_", length_files[1])))
+
+file.rename(from = length_files[2],
+            to = paste0("Tri_", length_files[2]))
+file.rename(from = file.path(getwd(), paste0("Tri_", length_files[2])),
+            to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("Tri_", length_files[2])))
+```
+
+### No marginal age composition data for triennial survey
+```{r, warning = FALSE, message = FALSE}
+#no age data from Triennial survey?
+
+#age_compsT <- get_expanded_comps(
+#    bio_data = bioT,
+#    catch_data = catchT,
+#    comp_bins = 0:65,
+#    strata = Triennial_strata,
+#    comp_column_name = "age",
+#    output = "full_expansion_ss3_format",
+#    two_sex_comps = FALSE, #single sex model
+#    input_n_method = "stewart_hamel")
+
+#plot_comps(
+#  data = age_compsT)
+
+#raw_age_compsT <- get_raw_comps(
+#    data = bioT,
+#    comp_bins = 0:65,
+#    comp_column_name = "age",
+#    two_sex_comps = FALSE) #single sex model
+```
+
+### No conditional age-at-length data for triennial survey
+```{r, warning = FALSE, message = FALSE}
+#no age data from Triennial survey?
+
+#caalT <- SurveyAgeAtLen.fn(
+#  datAL = bioT, 
+#  datTows = catchT,
+#  strat.df = Triennial_strata,
+#  lgthBins = seq(10, 74, 2), 
+#  ageBins = 0:65)
+
+PlotMap.fn(
+  dat = catchT)
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
+if(dir.exists(file.path(getwd(),"Tri_plots"))){
+  plots <- list.files(file.path(getwd(), "plots"))
+  lapply(plots, function(x){
+    file.rename(from = file.path(getwd(), "plots", plots[x]),
+                to = file.path(getwd(), "Tri_plots", plots[x]))
+  })
+} else {
+  file.rename(from = file.path(getwd(), "plots"), 
+            to = file.path(getwd(), "Tri_plots"))
+}
+```
+
+## WCGOP Fisheries Discards
+```{r, warning = FALSE, message = FALSE, }
+gemm_data <- pull_gemm("yelloweye rockfish", 
+                       dir = file.path(dirname(dirname(getwd())), "Data", "raw"), 
+                       verbose = TRUE)
+
+head(gemm_data, n = 20)
+```
+
+
+## Composition comparison plots
+### NWFSC.Combo Comparisons
+```{r}
+# Lengths
+nwfsc_lengths_new <- read.csv(file.path(getwd(), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", "NWFSC.Combo_length_cm_unsexed_raw_10_74_yelloweye rockfish_groundfish_slope_and_shelf_combination_survey.csv")) |>
+  mutate(assessment = "Current") |>
+  dplyr::select(year, assessment, input_n, `u10`:`u74`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -input_n), names_to = "length", values_to = "freq") |>
+  dplyr::mutate(length = gsub("u", "", length)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    # NsampsFreq = freq/unique(Nsamps), still waiting on these
+    length = as.numeric(length)
+  )
+
+# Read old data
+inputs_old <- r4ss::SS_read(dir = file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe"))
+
+nwfsc_lengths_old <- inputs_old$dat$lencomp |>
+  dplyr::filter(fleet == 11)|>
+  mutate(assessment = "Previous") |>
+  dplyr::select(year, assessment, Nsamp, `l10`:`l74`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "length", values_to = "freq") |>
+  dplyr::mutate(length = gsub("^l", "", length)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    # NsampsFreq = freq/unique(Nsamps), still waiting on these
+    length = as.numeric(length)
+  )
+
+together <- rbind(nwfsc_lengths_old, nwfsc_lengths_new)
+comparison_plot <- together |>
+  dplyr::filter(freq > 0) |>
+  ggplot2::ggplot(aes(x = year, y = length, col = assessment, size = freq)) +
+  ggplot2::geom_point(position = position_dodge(0.5))
+ggsave(plot = comparison_plot, "nwfsc_length_comp_comparisons.png", path = file.path(getwd(), "Rcode", "survey_length_age", "NWFSC.Combo_plots"))
+
+# Ages
+nwfsc_ages_new <- read.csv(file.path(getwd(), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", "NWFSC.Combo_age_unsexed_raw_0_65_yelloweye rockfish_groundfish_slope_and_shelf_combination_survey.csv")) |>
+  mutate(assessment = "Current") |>
+  dplyr::select(year, assessment, input_n, `u0`:`u65`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -input_n), names_to = "age", values_to = "freq") |>
+  dplyr::mutate(age = gsub("u", "", age)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    # NsampsFreq = freq/unique(Nsamps), still waiting on these
+    age = as.numeric(age)
+  )
+
+nwfsc_ages_old <- inputs_old$dat$agecomp |>
+  dplyr::filter(fleet == 11)|>
+  mutate(assessment = "Previous") |>
+  dplyr::select(year, assessment, Nsamp, `a0`:`a65`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "age", values_to = "freq") |>
+  dplyr::mutate(age = gsub("^a", "", age)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    # NsampsFreq = freq/unique(Nsamps), still waiting on these
+    age = as.numeric(age)
+  )
+
+together <- rbind(nwfsc_ages_old, nwfsc_ages_new)
+comparison_plot <- together |>
+  dplyr::filter(freq > 0) |>
+  ggplot2::ggplot(aes(x = year, y = age, col = assessment, size = freq)) +
+  ggplot2::geom_point(position = position_dodge(0.5))
+ggsave(plot = comparison_plot, "nwfsc_age_comp_comparisons.png", path = file.path(getwd(), "Rcode", "survey_length_age", "NWFSC.Combo_plots"))
+```
+
+### Triennial length comparisons only
+```{r}
+# Lengths
+tri_lengths_new <- read.csv(file.path(getwd(), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", "Tri_length_cm_unsexed_raw_10_74_yelloweye rockfish_groundfish_triennial_shelf_survey.csv")) |>
+  mutate(assessment = "Current") |>
+  dplyr::select(year, assessment, input_n, `u10`:`u74`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -input_n), names_to = "length", values_to = "freq") |>
+  dplyr::mutate(length = gsub("u", "", length)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    # NsampsFreq = freq/unique(Nsamps), still waiting on these
+    length = as.numeric(length)
+  )
+
+
+tri_lengths_old <- inputs_old$dat$lencomp |>
+  dplyr::filter(fleet == 10)|>
+  mutate(assessment = "Previous") |>
+  dplyr::select(year, assessment, Nsamp, `l10`:`l74`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "length", values_to = "freq") |>
+  dplyr::mutate(length = gsub("^l", "", length)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    # NsampsFreq = freq/unique(Nsamps), still waiting on these
+    length = as.numeric(length)
+  )
+
+together <- rbind(tri_lengths_old, tri_lengths_new)
+comparison_plot <- together |>
+  dplyr::filter(freq > 0) |>
+  ggplot2::ggplot(aes(x = year, y = length, col = assessment, size = freq)) +
+  ggplot2::geom_point(position = position_dodge(0.5))
+ggsave(plot = comparison_plot, "tri_length_comp_comparisons.png", path = file.path(getwd(), "Rcode", "survey_length_age", "Tri_plots"))
+```
+
+
+### Age composition ccomparisons (NWFSC.Combo only)
+Both of these use csv files that were formatted to input in the SAC tool with different numbered fleets to represent the years but 
+you could easily extract data from the previous assessment and rbind it with the updated data. The big thing you would want is 
+```{r}
+nwfsc_ages<-read.csv(file.path(getwd(), "NWFSC.Combo_plots", "nwfsc.combo_comparison_ages.csv"))
+
+long_nwfsc_ages <- nwfsc_ages |>
+              dplyr::mutate(type = dplyr::case_when(Fleet == 1 ~ "previous assessment",
+                                      Fleet == -1 ~ "previous assessment",
+                                      Fleet == 2 ~ "current assessment",
+                                      Fleet == -2 ~ "current assessment"),
+                     age_type = dplyr::case_when(Fleet == 1 ~ "caal",
+                                      Fleet == -1 ~ "maal",
+                                      Fleet == 2 ~ "caal",
+                                      Fleet == -2 ~ "maal"))|>
+                    dplyr::select(Year, type, age_type, `X0`:`X65`) |>
+                    tidyr::pivot_longer(cols = c(-Year, -type, -age_type), names_to = 'age', values_to = 'freq') |>
+                    dplyr::mutate(age = gsub("X","",age))
+          
+old_comps <- long_nwfsc_ages |>
+             dplyr::filter(type == "previous assessment") |>
+             dplyr::filter(age_type == "maal") |>
+             dplyr::group_by(Year) |>
+             dplyr::mutate(freq = freq/sum(freq),
+                    age = as.numeric(age)) 
+new_comps <- long_nwfsc_ages |>
+             dplyr::filter(type == "current assessment") |>
+             dplyr::filter(age_type == "maal")|>
+             dplyr::group_by(Year) |>
+             dplyr::mutate(freq = freq/sum(freq),
+                    age = as.numeric(age)) 
+
+# Kiva's method of looking at the age comps...it didn't make sense to my brain
+# dplyr::bind_rows(list(new = new_comps,
+#                old = old_comps),
+#           .id = 'type') |> 
+#   tidyr::pivot_wider(names_from = type, values_from = freq) |>
+#   ggplot2::ggplot(aes(x = new, y = old, col = age)) +
+#   ggplot2::geom_point()
+
+together <- rbind(old_comps, new_comps)
+comparison_plot <- together |>
+                   dplyr::filter(freq > 0 ) |>
+                   ggplot2::ggplot(aes(x = Year, y = age, col = type, size = freq)) +
+                   ggplot2::geom_point(position=position_dodge(0.5))
+ggsave(plot = comparison_plot, "nwfsc_age_comp_comparisons.png", path = file.path(getwd(), "NWFSC.Combo_plots"))
+
+```
+
+### Length composition comparisons 
+```{r}
+nwfsc_lengths<-read.csv(file.path(getwd(), "NWFSC.Combo_plots", "nwfsc.combo_comparison_lengths.csv"))
+
+long_nwfsc_lengths <- nwfsc_lengths |>
+              dplyr::mutate(type = dplyr::case_when(Fleet == 1 ~ "previous assessment",
+                                      Fleet == 2 ~ "current assessment")) |>
+              dplyr::select(Year, type, Nsamps, `X10`:`X74`) |>
+              tidyr::pivot_longer(cols = c(-Year, -type, -Nsamps), names_to = 'length', values_to = 'freq') |>
+              dplyr::mutate(length = gsub("X","",length))
+
+old_comps <- long_nwfsc_lengths |>
+             dplyr::filter(type == "previous assessment") |>
+             dplyr::group_by(Year) |>
+             dplyr::mutate(freq = freq/sum(freq),
+                    NsampsFreq = freq/unique(Nsamps),
+                    length = as.numeric(length)) 
+new_comps <- long_nwfsc_lengths |>
+             dplyr::filter(type == "current assessment") |>
+             dplyr::group_by(Year) |>
+             dplyr::mutate(freq = freq/sum(freq),
+                    NsampsFreq = freq/unique(Nsamps),
+                    length = as.numeric(length)) 
+
+together <- rbind(old_comps, new_comps)
+comparison_plot <- together |>
+                   dplyr::filter(freq > 0 ) |>
+                   ggplot2::ggplot(aes(x = Year, y = length, col = type, size = freq)) +
+                   ggplot2::geom_point(position=position_dodge(0.5))
+ggsave(plot = comparison_plot, "nwfsc_length_comp_comparisons.png", path = file.path(getwd(), "NWFSC.Combo_plots"))
+
+## Triennial length compositions
+tri_lengths <- read.csv(file.path(getwd(), "Tri_plots", "triennial_comparison_lengths.csv"))
+long_tri_lengths <- tri_lengths |>
+              dplyr::mutate(type = dplyr::case_when(Fleet == 1 ~ "previous assessment",
+                                      Fleet == 2 ~ "current assessment")) |>
+              dplyr::select(Year, type, Nsamps, `X10`:`X74`) |>
+              tidyr::pivot_longer(cols = c(-Year, -type, -Nsamps), names_to = 'length', values_to = 'freq') |>
+              dplyr::mutate(length = gsub("X","",length))
+
+old_comps <- long_tri_lengths |>
+             dplyr::filter(type == "previous assessment") |>
+             dplyr::group_by(Year) |>
+             dplyr::mutate(freq = freq/sum(freq),
+                    NsampsFreq = freq/unique(Nsamps),
+                    length = as.numeric(length)) 
+new_comps <- long_tri_lengths |>
+             dplyr::filter(type == "current assessment") |>
+             dplyr::group_by(Year) |>
+             dplyr::mutate(freq = freq/sum(freq),
+                    NsampsFreq = freq/unique(Nsamps),
+                    length = as.numeric(length)) 
+
+together <- rbind(old_comps, new_comps)
+comparison_plot <- together |>
+                   dplyr::filter(freq > 0 ) |>
+                   ggplot2::ggplot(aes(x = Year, y = length, col = type, size = freq)) +
+                   ggplot2::geom_point(position=position_dodge(0.5))
+ggsave(plot = comparison_plot, "tri_length_comp_comparisons.png", path = file.path(getwd(), "Tri_plots"))
+```

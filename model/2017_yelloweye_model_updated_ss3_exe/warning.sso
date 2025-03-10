@@ -1,5 +1,7 @@
-SS-V3.30.04.02-safe;_2017_05_31;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_11.6
-Wed Jul 12 19:23:01 2017
-
- N warnings: 0
-Number_of_active_parameters_on_or_near_bounds: 1
+Note 1 Information: Max data length bin: 74  < max pop len bins: 88; so will accumulate larger pop len bins
+Note 2 Suggestion:  recr_dist_method 3 is simpler and takes 1 parm for each settlement
+Warning 1 : At least one block pattern ends in endyr. Check the output parameter value time series to see if the values in forecast years are as intended.
+Warning 2 : parameter init value is less than parameter min -16.1653 < -15 for parm: 9; search for <now check> in echoinput.sso for parm_type
+Warning 3 : Setting in starter does not request all priors, and 4 parameters have priors and are not estimated, so their prior not included in obj_fun.
+Note 3 Information:  N parameters that are on or within 1% of min-max bound: 1; check results, variance may be suspect
+ 3 warnings  and 3 notes 
