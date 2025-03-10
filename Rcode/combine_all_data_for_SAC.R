@@ -243,8 +243,7 @@ colnames(OR_REC_MRFSS_index) <- colnames_i
 ORBS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORBS_index_forSS.csv")) |>
   mutate(
     fleet = 6,
-    Label = "OR_REC"
-  ) |>
+    Label = "OR_REC") |>
   colnames(ORBS_index) <- colnames_i
 
 # WA Rec CPUE - fleet 7
@@ -346,8 +345,15 @@ nwfsc_lengths <- read.csv(file.path(
 colnames(nwfsc_lengths) <- colnames_l
 
 # IPHC ORWA - fleet 12
+iphc_lengths <- read.csv(file.path(getwd(),
+                                   "Data", "processed", "IPHC_bio_data", "iphc_length_comps.csv")) >
+  select(-partition)
+colnames(iphc_lengths) <- colnames_l
 
-all_lengths <- do.call("rbind", list(nwfsc_lengths))
+# All lengths
+all_lengths <- do.call("rbind", list(tri_lengths,
+                                     nwfsc_lengths,
+                                     iphc_lengths))
 
 write.csv(all_lengths, file = file.path(getwd(), "Data", "for_SS", "all_lengths_SAC.csv"), row.names = FALSE)
 
@@ -426,13 +432,21 @@ colnames(nwfsc_maal) <- colnames_a
 nwfsc_ages <- rbind(nwfsc_caal, nwfsc_maal)
 
 # IPHC survey CAAL and MAAL - fleet -12 and 12
+iphc_caal <- read.csv(file.path(getwd(),
+                                "Data", "processed", "IPHC_bio_data", "iphc_caal.csv"))
+iphc_maal <- read.csv(file.path(getwd(),
+                                "Data", "processed", "IPHC_bio_data", "iphc_marginal_ages.csv"))
+iphc_ages <- rbind(iphc_caal, iphc_maal) |>
+             select(-partition)
+colnames(iphc_ages) <- colnames_a
 
 # Combine all ages together
 all_ages <- do.call("rbind", list(
   ca_nontwl_wcgop,
   ca_rec_wdfw,
   ca_rec_don_pearson,
-  nwfsc_ages
+  nwfsc_ages,
+  iphc_ages
 ))
 
 write.csv(all_ages, file = file.path(getwd(), "Data", "for_SS", "all_ages_SAC.csv"), row.names = FALSE)

@@ -374,10 +374,13 @@ nwfsc_lengths <- read.csv(file.path(
   colnames(nwfsc_lengths) <- colnames_l
 
 # IPHC ORWA - fleet 12
+iphc_lengths <- read.csv(file.path(getwd(),
+                                   "Data", "processed", "IPHC_bio_data", "iphc_length_comps.csv"))
 
 
 all_lengths <- do.call("rbind", list(tri_lengths,
-                                     nwfsc_lengths
+                                     nwfsc_lengths,
+                                     iphc_lengths
                                      ))
 
 inputs$dat$lencomp <- all_lengths
@@ -452,13 +455,18 @@ colnames(nwfsc_maal) <- colnames_a
 nwfsc_ages <- rbind(nwfsc_caal, nwfsc_maal)
 
 # IPHC survey CAAL and MAAL - fleet -12 and 12
-
+iphc_caal <- read.csv(file.path(getwd(),
+                                   "Data", "processed", "IPHC_bio_data", "iphc_caal.csv"))
+iphc_maal <- read.csv(file.path(getwd(),
+                                "Data", "processed", "IPHC_bio_data", "iphc_marginal_ages.csv"))
+iphc_ages <- rbind(iphc_caal, iphc_maal)
 
 # Combine all ages together
 all_ages <- do.call("rbind", list(ca_nontwl_wcgop,
                                   ca_rec_wdfw,
                                   ca_rec_don_pearson,
-                                  nwfsc_ages
+                                  nwfsc_ages,
+                                  iphc_ages
                                   ))
 
 inputs$dat$agecomp <- all_ages

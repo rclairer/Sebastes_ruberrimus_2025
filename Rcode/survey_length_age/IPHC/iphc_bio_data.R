@@ -75,7 +75,7 @@ age_bins <- 0:65
 a_bin <- c(-999, age_bins, Inf)
 iphc_bio$a_bin <- a_bin[findInterval(iphc_bio$best_age, a_bin, all.inside = T)]
 
-unique(!is.na(iphc_bio$best_age))
+early_age_values <- as.character(0:(min(iphc_bio$a_bin, na.rm = TRUE)-1))
 
 caal <- iphc_bio |>
   dplyr::filter(!is.na(l_bin)) |>
@@ -100,6 +100,11 @@ caal <- iphc_bio |>
   dplyr::select(sample_year, month, fleet, sex, part, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything()) |>
   dplyr::rename(year = sample_year)
 
+caal <- caal |>
+  select(year, month, fleet, sex, part, ageerr, Lbin_lo, Lbin_hi, Nsamp) |>
+  mutate(!!!setNames(rep(0, length(early_age_values)), early_age_values)) |>
+  left_join(caal, by = c("year", "month", "fleet", "sex", "part", "ageerr", "Lbin_lo", "Lbin_hi", "Nsamp"))
+  
 write.csv(caal, file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_caal.csv"), row.names = FALSE)
 
 # Need to get stlkey column from Fabio to do nsamps
@@ -125,6 +130,27 @@ maal <- iphc_bio |>
   ) |>
   dplyr::select(sample_year, month, fleet, sex, part, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything()) |>
   dplyr::rename(year = sample_year)
+
+years <- unique(maal$year) 
+  
+repeated_years <- rep(years, min(missing_ages$a_bin))
+repeated_ages <- rep(0:(min(missing_ages$a_bin)-1), each = length(years))
+
+maal <- data.frame(year = repeated_years, a_bin = repeated_ages, n = 0) |>
+  tidyr::pivot_wider(names_from = "a_bin", values_from = "n", values_fill = 0) |>
+  dplyr::arrange(year) |>
+  dplyr::mutate(
+    month = 7,
+    fleet = -12,
+    sex = 0,
+    part = 0,
+    ageerr = 1,
+    Lbin_lo = -1,
+    Lbin_hi = -1,
+    Nsamp = NA,
+  ) |>
+  dplyr::select(year, month, fleet, sex, part, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything()) |>
+  left_join(maal, by = c("year", "month", "fleet", "sex", "part", "ageerr", "Lbin_lo", "Lbin_hi", "Nsamp"))
 
 write.csv(maal, file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_marginal_ages.csv"), row.names = FALSE)
 
@@ -166,42 +192,6 @@ comparison_plot <- together |>
   ggplot2::geom_point(position = position_dodge(0.5))
 ggsave(plot = comparison_plot, "iphc_length_comp_comparisons.png", path = file.path(getwd(), "Rcode", "survey_length_age", "IPHC"))
 
-
-# Previous method used to do comparison plots
-# iphc_lengths <- read.csv(file.path(getwd(), "Rcode", "survey_length_age", "IPHC", "iphc_comparison_lengths.csv"))
-#
-# long_iphc_lengths <- iphc_lengths |>
-#   dplyr::mutate(type = dplyr::case_when(
-#     Fleet == 12 ~ "previous assessment",
-#     Fleet == 13 ~ "current assessment"
-#   )) |>
-#   dplyr::select(Year, type, Nsamps, `X10`:`X74`) |>
-#   tidyr::pivot_longer(cols = c(-Year, -type, -Nsamps), names_to = "length", values_to = "freq") |>
-#   dplyr::mutate(length = gsub("X", "", length))
-#
-# old_comps <- long_iphc_lengths |>
-#   dplyr::filter(type == "previous assessment") |>
-#   dplyr::group_by(Year) |>
-#   dplyr::mutate(
-#     freq = freq / sum(freq),
-#     # NsampsFreq = freq/unique(Nsamps), still waiting on these
-#     length = as.numeric(length)
-#   )
-# new_comps <- long_nwfsc_lengths |>
-#   dplyr::filter(type == "current assessment") |>
-#   dplyr::group_by(Year) |>
-#   dplyr::mutate(
-#     freq = freq / sum(freq),
-#     # NsampsFreq = freq/unique(Nsamps), still waiting on these
-#     length = as.numeric(length)
-#   )
-#
-# together <- rbind(old_comps, new_comps)
-# comparison_plot <- together |>
-#   dplyr::filter(freq > 0) |>
-#   ggplot2::ggplot(aes(x = Year, y = length, col = type, size = freq)) +
-#   ggplot2::geom_point(position = position_dodge(0.5))
-# ggsave(plot = comparison_plot, "iphc_length_comp_comparisons.png", path = file.path(getwd(), "Rcode", "survey_length_age", "IPHC"))
 
 ### IPHC ages
 iphc_ages_new <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_marginal_ages.csv")) |>
