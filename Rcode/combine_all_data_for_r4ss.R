@@ -8,12 +8,10 @@ library(tidyr)
 library(r4ss)
 
 # Get inputs from 2017 assessment that will get carried over to this assessment
-inputs <- SS_read(dir = file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe"))
-file.copy(
-  file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe", "yelloweye_data.ss"),
-  file.path(getwd(), "data", "for_SS", "yelloweye_data_2025.ss")
-)
+model_2017_path <- file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")
+inputs <- SS_read(dir = model_2017_path, ss_new = TRUE)
 
+# Discard mortality not included for WA recreational fishery so need to figure out
 ##############
 ### End Yr ###
 ##############
@@ -24,82 +22,234 @@ inputs$dat$endyr <- 2024
 #############
 colnames_c <- c("year", "seas", "fleet", "catch", "catch_se")
 
-# CA TWL - fleet 1
-ca_hist_catch <- read.csv(file.path(getwd(), "Data", "processed", "CA_all_fleets_historical_catches.csv"))
-ca_hist_catch_TWL <- ca_hist_catch |>
-  filter(fleet == 1) |>
-  mutate(
-    year = year,
-    seas = 1,
-    fleet = fleet,
-    catch = catch,
-    catch_se = 0.01
-  )
-# |> bind_rows(ca_recent_catch_TWL)
+inputs_catch <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch"))
+inputs_catch$dat$endyr <- 2024
 
+colnames_c <- c("year", "seas", "fleet", "catch", "catch_se")
+yelloweye_recent_comm_catch <- read.csv(file.path(getwd(), "Data", "processed", "yelloweye_commercial_catch_2016_2024.csv"))
+
+# CA TWL - fleet 1
+CA_hist_catch <- read.csv(file.path(getwd(), "Data", "processed", "CA_all_fleets_historical_catches.csv"))
+CA_hist_catch_TWL <- CA_hist_catch |>
+  filter(fleet == 1) |>
+  rename(year = Year) |>
+  mutate(
+    seas = 1,
+    catch_se = 0.01
+  ) |>
+  select(year, seas, fleet, catch, catch_se)
+
+CA_1981_2015_TWL <- inputs_catch$dat$catch |>
+  filter(fleet == 1) |>
+  filter(year > 1980 & year < 2016)
+
+CA_2016_2024_TWL <- yelloweye_recent_comm_catch |>
+  filter(ST_FLEET == "CA_TWL") |>
+  mutate(fleet = 1) |>
+  select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE)
+colnames(CA_2016_2024_TWL) <- colnames_c
+
+CA_TWL <- CA_hist_catch_TWL |>
+  bind_rows(CA_1981_2015_TWL) |>
+  bind_rows(CA_2016_2024_TWL) |>
+  arrange(year)
 
 # CA NONTWL - fleet 2
-ca_hist_catch_NONTWL <- ca_hist_catch |>
+CA_hist_catch_NONTWL <- CA_hist_catch |>
   filter(fleet == 2) |>
+  rename(year = Year) |>
   mutate(
-    year = year,
     seas = 1,
-    fleet = fleet,
-    catch = catch,
     catch_se = 0.01
-  )
-# |> bind_rows(ca_recent_catch_NONTWL)
+  ) |>
+  select(year, seas, fleet, catch, catch_se)
 
-# CA Rec - fleet 3
-ca_hist_catch_RECL <- ca_hist_catch |>
+CA_1981_2015_NONTWL <- inputs_catch$dat$catch |>
+  filter(fleet == 2) |>
+  filter(year > 1980 & year < 2016)
+
+CA_2016_2024_NONTWL <- yelloweye_recent_comm_catch |>
+  filter(ST_FLEET == "CA_NONTWL") |>
+  mutate(fleet = 1) |>
+  select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE)
+colnames(CA_2016_2024_NONTWL) <- colnames_c
+
+CA_NONTWL <- CA_hist_catch_NONTWL |>
+  bind_rows(CA_1981_2015_NONTWL) |>
+  bind_rows(CA_2016_2024_NONTWL) |>
+  arrange(year)
+
+# CA REC - fleet 3
+CA_hist_catch_REC <- CA_hist_catch |>
   filter(fleet == 3) |>
+  rename(year = Year) |>
   mutate(
-    year = year,
     seas = 1,
-    fleet = fleet,
-    catch = catch,
     catch_se = 0.01
-  )
-# |> bind_rows(ca_recent_catch_REC)
+  ) |>
+  select(year, seas, fleet, catch, catch_se)
+
+CA_2004_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE510-2004CRFSYelloweye.csv")) |>
+  select(Year, Wgt.Ab1) |>
+  filter(Wgt.Ab1 != "-") |>
+  group_by(Year) |>
+  summarize(
+    seas = 1,
+    fleet = 3,
+    catch = sum(as.numeric(Wgt.Ab1)) / 1000,
+    catch_se = 0.01
+  ) |>
+  rename(year = Year)
+
+CA_1981_2004_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "MRFSS_catch_est_yelloweye_CA.csv")) |>
+  select(YEAR_, WGT_AB1) |>
+  group_by(YEAR_) |>
+  summarize(
+    seas = 1,
+    fleet = 3,
+    catch = sum(WGT_AB1)/1000,
+    catch_se = 0.01
+  ) |>
+  rename(year = YEAR_) |>
+  bind_rows(CA_2004_REC) |>
+  filter(!is.na(catch))
+
+CA_missing_1981_2004_rec <- inputs_catch$dat$catch |>
+  filter(fleet == 3 & year > 1980 & year < 2005) |>
+  filter(!year %in% CA_1981_2004_REC$year)
+
+CA_1981_2004_REC <- CA_1981_2004_REC |>
+  bind_rows(CA_missing_1981_2004_rec) |>
+  arrange(year)
+
+CA_recent_catch_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE001-California-1990---2024.csv")) |>
+  select(RECFIN_YEAR, SUM_TOTAL_MORTALITY_MT) |>
+  group_by(RECFIN_YEAR) |>
+  summarize(
+    seas = 1,
+    fleet = 3,
+    catch = sum(SUM_TOTAL_MORTALITY_MT),
+    catch_se = 0.01) |>
+  rename(year = RECFIN_YEAR)
+
+CA_REC <- CA_hist_catch_REC |>
+  bind_rows(CA_1981_2004_REC) |>
+  bind_rows(CA_recent_catch_REC) |>
+  arrange(year) |>
+  mutate(catch = round(catch, 2))
 
 # ORWA TWL - fleet 4
-OR_hist_catch_to_2000 <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "OR_YEYE_combined historical landings.csv"))
-OR_hist_TWL <- OR_hist_catch_to_2000 |>
-  select(year, comm_TWL) |>
-  filter(!is.na(comm_TWL)) |>
+# OR historical catch reconstruction has been updated
+OR_comm_all <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "ORCommLandings_457_2024.csv"))
+
+OR_TWL <- OR_comm_all |>
+  select(YEAR, FLEET, TOTAL) |>
+  filter(FLEET == "TRW",
+         YEAR < 2016) |>
+  select(-FLEET) |>
+  rename(year = YEAR) |>
   mutate(
     seas = 1,
     fleet = 4,
-    catch = comm_TWL,
+    catch = TOTAL,
+    catch_se = 0.01
+  ) |>
+  select(-TOTAL)
+
+WA_TWL <- read.csv(file.path(getwd(), "Data",  "raw", "nonconfidential", "WA_hist_catch_twl.csv")) |>
+  select(Year, Catches..mtons.) |>
+  filter(Year < 2016) |>
+  mutate(
+    seas = 1,
+    fleet = 4,
+    catch_se = 0.01
+  ) |>
+  rename(year = Year,
+         catch =  Catches..mtons.) |>
+  select(year, seas, fleet, catch, catch_se)
+
+ORWA_TWL_until_2015 <- OR_TWL |>
+  bind_rows(WA_TWL) |>
+  group_by(year) |>
+  summarize(
+    seas = 1,
+    fleet = 4,
+    catch = sum(catch),
     catch_se = 0.01
   )
-# |> bind_rows(ORWA_recent_TWL)
+
+ORWA_TWL_2016_2024 <- yelloweye_recent_comm_catch |>
+  filter(ST_FLEET == "ORWA_TWL") |>
+  mutate(fleet = 4) |>
+  select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE)
+colnames(ORWA_TWL_2016_2024) <- colnames_c
+
+ORWA_TWL <- ORWA_TWL_until_2015 |>
+  bind_rows(ORWA_TWL_2016_2024) |>
+  arrange(year)
 
 # ORWA NONTWL - fleet 5
-OR_hist_NONTWL <- OR_hist_catch_to_2000 |>
-  select(year, comm_NTWL) |>
+OR_NONTWL <- OR_comm_all |>
+  select(YEAR, FLEET, TOTAL) |>
+  filter(FLEET == "NTRW",
+         YEAR < 2016) |>
+  select(-FLEET) |>
+  rename(year = YEAR) |>
   mutate(
     seas = 1,
     fleet = 5,
-    catch = comm_NTWL,
+    catch = TOTAL,
+    catch_se = 0.01
+  ) |>
+  select(-TOTAL)
+
+WA_NONTWL <- read.csv(file.path(getwd(), "Data",  "raw", "nonconfidential", "WA_hist_catch_nontwl.csv")) |>
+  select(Year, Catches..mtons.) |>
+  filter(Year < 2016) |>
+  mutate(
+    seas = 1,
+    fleet = 5,
+    catch_se = 0.01
+  ) |>
+  rename(year = Year,
+         catch =  Catches..mtons.) |>
+  select(year, seas, fleet, catch, catch_se)
+
+ORWA_NONTWL_until_2015 <- OR_NONTWL |>
+  bind_rows(WA_NONTWL) |>
+  group_by(year) |>
+  summarize(
+    seas = 1,
+    fleet = 5,
+    catch = sum(catch),
     catch_se = 0.01
   )
-# |> bind_rows(ORWA_recent_NONTWL)
 
-# OR Rec - fleet 6
-OR_his_rec <- OR_hist_catch_to_2000 |>
-  select(year, rec) |>
-  filter(!is.na(rec)) |>
+ORWA_NONTWL_2016_2024 <- yelloweye_recent_comm_catch |>
+  filter(ST_FLEET == "ORWA_NONTWL") |>
+  mutate(fleet = 5) |>
+  select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE)
+colnames(ORWA_NONTWL_2016_2024) <- colnames_c
+
+ORWA_NONTWL <- ORWA_NONTWL_until_2015 |>
+  bind_rows(ORWA_NONTWL_2016_2024) |>
+  arrange(year)
+
+# OR REC - fleet 6
+OR_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "ORRecLandings_457_2024.csv")) |>
+  select(Year, Total_MT) |>
   mutate(
     seas = 1,
     fleet = 6,
-    catch = rec,
+    catch = Total_MT,
     catch_se = 0.01
-  )
-# |> bind_rows(OR_recent_rec)
+  ) |>
+  rename(year = Year) |>
+  select(-Total_MT)
 
-# WA Rec - fleet 7
-wa_rec_catch <- read.csv(file.path(getwd(), "Data", "processed", "WA_historical_to_recent_rec_catch.csv")) |>
+# WA REC - fleet 7
+# Discards are included unlike they were in the 2017 assessment
+WA_REC <- read.csv(file.path(getwd(), "Data", "processed", "WA_historical_to_recent_rec_catch.csv")) |>
   mutate(
     seas = 1,
     fleet = 7,
@@ -107,38 +257,79 @@ wa_rec_catch <- read.csv(file.path(getwd(), "Data", "processed", "WA_historical_
   ) |>
   select(year, seas, fleet, catch, catch_se)
 
-all_catch <- do.call("rbind", list(c(wa_rec_catch, )))
+# Combine all catch data
+all_catch <- do.call("rbind", list(CA_TWL,
+                                   CA_NONTWL,
+                                   CA_REC, 
+                                   ORWA_TWL,
+                                   ORWA_NONTWL,
+                                   OR_REC,
+                                   WA_REC))
 
-inputs$dat$catch <- all_catch
+inputs_catch$dat$catch <- all_catch
 
 ###############
 ### Indices ###
 ###############
+colnames_i <- c("year", "month", "index", "obs", "se_log")
 
 # CA Rec MRFSS dockside CPUE - fleet 3
+# I think we just bring over from 2017 assessment, because max year is 1999
+CA_REC_MRFSS_index <- inputs$dat$CPUE |>
+  filter(index == 3)
 
 # OR Rec MRFSS - fleet 6
+# I think we just bring over from 2017 assessment
+OR_REC_MRFSS_index <- inputs$dat$CPUE |>
+  filter(index == 6, year < 2000)
 
 # OR ORBS - fleet 6
+ORBS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORBS_index_forSS.csv")) |>
+  mutate(fleet = 6)
+colnames(ORBS_index) <- colnames_i
 
 # WA Rec CPUE - fleet 7
+# I think we just bring over from the 2017 assessment, because max year is 2001
+WA_REC_CPUE_index <- inputs$dat$CPUE |>
+  filter(index == 7)
 
 # CA onboard CPFV CPUE - fleet 8
+# I think we just bring over from the 2017 assessment, because max year is 1998
+CA_CPFV_CPUE_index <- inputs$dat$CPUE |>
+  filter(index == 8)
 
 # Oregon onboard Recreational Charter observer CPUE - fleet 9
-
-# TRI ORWA - fleet 10
-
-# NWFSC ORWA - fleet 11
-
-# IPHC ORWA - fleet 12
+# this is ORFS, right?
+# FROM ALI, hopefully 03/05/2025
 
 # Triennial survey - fleet 10
 tri_index <- inputs$dat$CPUE |>
   filter(index == 10)
 
+# NWFSC ORWA - fleet 11
+NWFSC_ORWA <- read.csv(file.path(getwd(), "Data", "processed", "wcgbts_indices", "updated_indices_ORWA_CA_split", "yelloweye_split_42_point_offanisotropy/yelloweye_rockfish/wcgbts", "delta_lognormal", "index", "est_by_area.csv"))
+NWFSC_ORWA_index <- NWFSC_ORWA |>
+  filter(area == "Coastwide") |>
+  select(year, est, se) |>
+  mutate(
+    Month = 7,
+    Fleet = 11
+  ) |>
+  select(year, Month, Fleet, est, se)
+colnames(NWFSC_ORWA_index) <- colnames_i
 
-all_indices <- do.call("rbind", list(c(tri_index)))
+# IPHC ORWA - fleet 12
+IPHC_ORWA <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_model_based_index_forSS3.csv"))
+IPHC_ORWA_index <- IPHC_ORWA
+colnames(IPHC_ORWA_index) <- colnames_i
+
+all_indices <- do.call("rbind", list(CA_REC_MRFSS_index, 
+                                     OR_REC_MRFSS_index, 
+                                     WA_REC_CPUE_index, 
+                                     CA_CPFV_CPUE_index, 
+                                     tri_index, 
+                                     NWFSC_ORWA_index, 
+                                     IPHC_ORWA_index))
 
 inputs$dat$indices <- all_indices
 
@@ -169,8 +360,11 @@ colnames_1 <- colnames(inputs$dat$lencom)
 # OR observer - fleet 9
 
 # Triennial survey - fleet 10
-tri_lengths <- inputs$dat$lencom |>
-  filter(fleet == 10)
+tri_lengths <- read.csv(file.path(
+  getwd(), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps",
+  "Tri_length_cm_unsexed_raw_10_74_yelloweye rockfish_groundfish_triennial_shelf_survey.csv"
+)) |>
+  colnames(tri_lengths) <- colnames_l
 
 # NWFSC survey - fleet 11
 nwfsc_lengths <- read.csv(file.path(
@@ -180,14 +374,16 @@ nwfsc_lengths <- read.csv(file.path(
   colnames(nwfsc_lengths) <- colnames_l
 
 # IPHC ORWA - fleet 12
+iphc_lengths <- read.csv(file.path(getwd(),
+                                   "Data", "processed", "IPHC_bio_data", "iphc_length_comps.csv"))
 
 
-all_lengths <- do.call("rbind", list(c(
-  tri_lengths,
-  nwfsc_lengths
-)))
+all_lengths <- do.call("rbind", list(tri_lengths,
+                                     nwfsc_lengths,
+                                     iphc_lengths
+                                     ))
+
 inputs$dat$lencomp <- all_lengths
-
 
 ########################
 ### Age compositions ###
@@ -253,19 +449,24 @@ nwfsc_maal <- read.csv(file.path(
     ageerr = 2,
     fleet = -11
   )
+
 colnames(nwfsc_maal) <- colnames_a
 
 nwfsc_ages <- rbind(nwfsc_caal, nwfsc_maal)
 
 # IPHC survey CAAL and MAAL - fleet -12 and 12
-
+iphc_caal <- read.csv(file.path(getwd(),
+                                   "Data", "processed", "IPHC_bio_data", "iphc_caal.csv"))
+iphc_maal <- read.csv(file.path(getwd(),
+                                "Data", "processed", "IPHC_bio_data", "iphc_marginal_ages.csv"))
+iphc_ages <- rbind(iphc_caal, iphc_maal)
 
 # Combine all ages together
-all_ages <- do.call("rbind", list(
-  ca_nontwl_wcgop,
-  ca_rec_wdfw,
-  ca_rec_don_pearson,
-  nwfsc_ages
-))
+all_ages <- do.call("rbind", list(ca_nontwl_wcgop,
+                                  ca_rec_wdfw,
+                                  ca_rec_don_pearson,
+                                  nwfsc_ages,
+                                  iphc_ages
+                                  ))
 
 inputs$dat$agecomp <- all_ages
