@@ -304,7 +304,6 @@ ORFS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORFS_index_forSS
   mutate(fleet = 9)
 colnames(ORFS_index) <- colnames_i
 
-
 # Triennial survey - fleet 10
 tri_index <- inputs$dat$CPUE |>
   filter(index == 10)
@@ -327,9 +326,11 @@ IPHC_ORWA_index <- IPHC_ORWA
 colnames(IPHC_ORWA_index) <- colnames_i
 
 all_indices <- do.call("rbind", list(CA_REC_MRFSS_index, 
-                                     OR_REC_MRFSS_index, 
+                                     OR_REC_MRFSS_index,
+                                     ORBS_index,
                                      WA_REC_CPUE_index, 
-                                     CA_CPFV_CPUE_index, 
+                                     CA_CPFV_CPUE_index,
+                                     ORFS_index,
                                      tri_index, 
                                      NWFSC_ORWA_index, 
                                      IPHC_ORWA_index))
