@@ -233,7 +233,7 @@ CA_REC_MRFSS_index <- inputs$dat$CPUE |>
 colnames(CA_REC_MRFSS_index) <- colnames_i
 
 # OR Rec MRFSS - fleet 6 (OR_REC)
-# I think we just bring over from 2017 assessment
+# Just bring over from 2017 assessment
 OR_REC_MRFSS_index <- inputs$dat$CPUE |>
   filter(index == 6, year < 2000) |>
   mutate(Label = "OR_REC")
@@ -243,30 +243,34 @@ colnames(OR_REC_MRFSS_index) <- colnames_i
 ORBS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORBS_index_forSS.csv")) |>
   mutate(
     fleet = 6,
-    Label = "OR_REC") |>
-  colnames(ORBS_index) <- colnames_i
+    Label = "OR_REC"
+  )
+colnames(ORBS_index) <- colnames_i
 
 # WA Rec CPUE - fleet 7
-# I think we just bring over from the 2017 assessment, because max year is 2001
+# Just bring over from the 2017 assessment, because max year is 2001
 WA_REC_CPUE_index <- inputs$dat$CPUE |>
   filter(index == 7) |>
   mutate(Label = "WA_REC")
 colnames(WA_REC_CPUE_index) <- colnames_i
 
 # CA onboard CPFV CPUE - fleet 8
-# I think we just bring over from the 2017 assessment, because max year is 1998
+# Just bring over from the 2017 assessment, because max year is 1998
 CA_CPFV_CPUE_index <- inputs$dat$CPUE |>
   filter(index == 8) |>
   mutate(Label = "CA_CPFV_CPUE")
 colnames(CA_CPFV_CPUE_index) <- colnames_i
 
-# Oregon onboard Recreational Charter observer CPUE - fleet 9
-# ORFS
+# Oregon onboard Recreational Charter observer CPUE (ORFS) - fleet 9
+# From Ali Whitman
 ORFS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORFS_index_forSS.csv")) |>
   mutate(
     fleet = 9,
-    Label = "OR_REC") |>
-  colnames(ORFS_index) <- colnames_i
+    obs = round(obs, digits = 6),
+    logse = round(logse, digits = 6),
+    Label = "OR_RECOB/ORFS"
+  )
+colnames(ORFS_index) <- colnames_i
 
 # TRI ORWA - fleet 10
 tri_index <- inputs$dat$CPUE |>
@@ -297,8 +301,10 @@ colnames(IPHC_ORWA_index) <- colnames_i
 all_indices <- do.call("rbind", list(
   CA_REC_MRFSS_index,
   OR_REC_MRFSS_index,
+  ORBS_index,
   WA_REC_CPUE_index,
   CA_CPFV_CPUE_index,
+  ORFS_index,
   tri_index,
   NWFSC_ORWA_index,
   IPHC_ORWA_index
@@ -349,15 +355,19 @@ nwfsc_lengths <- read.csv(file.path(
 colnames(nwfsc_lengths) <- colnames_l
 
 # IPHC ORWA - fleet 12
-iphc_lengths <- read.csv(file.path(getwd(),
-                                   "Data", "processed", "IPHC_bio_data", "iphc_length_comps.csv")) >
+iphc_lengths <- read.csv(file.path(
+  getwd(),
+  "Data", "processed", "IPHC_bio_data", "iphc_length_comps.csv"
+)) >
   select(-partition)
 colnames(iphc_lengths) <- colnames_l
 
 # All lengths
-all_lengths <- do.call("rbind", list(tri_lengths,
-                                     nwfsc_lengths,
-                                     iphc_lengths))
+all_lengths <- do.call("rbind", list(
+  tri_lengths,
+  nwfsc_lengths,
+  iphc_lengths
+))
 
 write.csv(all_lengths, file = file.path(getwd(), "Data", "for_SS", "all_lengths_SAC.csv"), row.names = FALSE)
 
@@ -436,12 +446,16 @@ colnames(nwfsc_maal) <- colnames_a
 nwfsc_ages <- rbind(nwfsc_caal, nwfsc_maal)
 
 # IPHC survey CAAL and MAAL - fleet -12 and 12
-iphc_caal <- read.csv(file.path(getwd(),
-                                "Data", "processed", "IPHC_bio_data", "iphc_caal.csv"))
-iphc_maal <- read.csv(file.path(getwd(),
-                                "Data", "processed", "IPHC_bio_data", "iphc_marginal_ages.csv"))
+iphc_caal <- read.csv(file.path(
+  getwd(),
+  "Data", "processed", "IPHC_bio_data", "iphc_caal.csv"
+))
+iphc_maal <- read.csv(file.path(
+  getwd(),
+  "Data", "processed", "IPHC_bio_data", "iphc_marginal_ages.csv"
+))
 iphc_ages <- rbind(iphc_caal, iphc_maal) |>
-             select(-partition)
+  select(-partition)
 colnames(iphc_ages) <- colnames_a
 
 # Combine all ages together
