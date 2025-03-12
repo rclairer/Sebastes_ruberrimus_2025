@@ -107,7 +107,7 @@ CA_1981_2004_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential"
   summarize(
     seas = 1,
     fleet = 3,
-    catch = sum(WGT_AB1)/1000,
+    catch = sum(WGT_AB1) / 1000,
     catch_se = 0.01
   ) |>
   rename(year = YEAR_) |>
@@ -129,7 +129,8 @@ CA_recent_catch_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidenti
     seas = 1,
     fleet = 3,
     catch = sum(SUM_TOTAL_MORTALITY_MT),
-    catch_se = 0.01) |>
+    catch_se = 0.01
+  ) |>
   rename(year = RECFIN_YEAR)
 
 CA_REC <- CA_hist_catch_REC |>
@@ -144,8 +145,10 @@ OR_comm_all <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "OR
 
 OR_TWL <- OR_comm_all |>
   select(YEAR, FLEET, TOTAL) |>
-  filter(FLEET == "TRW",
-         YEAR < 2016) |>
+  filter(
+    FLEET == "TRW",
+    YEAR < 2016
+  ) |>
   select(-FLEET) |>
   rename(year = YEAR) |>
   mutate(
@@ -156,7 +159,7 @@ OR_TWL <- OR_comm_all |>
   ) |>
   select(-TOTAL)
 
-WA_TWL <- read.csv(file.path(getwd(), "Data",  "raw", "nonconfidential", "WA_hist_catch_twl.csv")) |>
+WA_TWL <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "WA_hist_catch_twl.csv")) |>
   select(Year, Catches..mtons.) |>
   filter(Year < 2016) |>
   mutate(
@@ -164,8 +167,10 @@ WA_TWL <- read.csv(file.path(getwd(), "Data",  "raw", "nonconfidential", "WA_his
     fleet = 4,
     catch_se = 0.01
   ) |>
-  rename(year = Year,
-         catch =  Catches..mtons.) |>
+  rename(
+    year = Year,
+    catch = Catches..mtons.
+  ) |>
   select(year, seas, fleet, catch, catch_se)
 
 ORWA_TWL_until_2015 <- OR_TWL |>
@@ -191,8 +196,10 @@ ORWA_TWL <- ORWA_TWL_until_2015 |>
 # ORWA NONTWL - fleet 5
 OR_NONTWL <- OR_comm_all |>
   select(YEAR, FLEET, TOTAL) |>
-  filter(FLEET == "NTRW",
-         YEAR < 2016) |>
+  filter(
+    FLEET == "NTRW",
+    YEAR < 2016
+  ) |>
   select(-FLEET) |>
   rename(year = YEAR) |>
   mutate(
@@ -203,7 +210,7 @@ OR_NONTWL <- OR_comm_all |>
   ) |>
   select(-TOTAL)
 
-WA_NONTWL <- read.csv(file.path(getwd(), "Data",  "raw", "nonconfidential", "WA_hist_catch_nontwl.csv")) |>
+WA_NONTWL <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "WA_hist_catch_nontwl.csv")) |>
   select(Year, Catches..mtons.) |>
   filter(Year < 2016) |>
   mutate(
@@ -211,8 +218,10 @@ WA_NONTWL <- read.csv(file.path(getwd(), "Data",  "raw", "nonconfidential", "WA_
     fleet = 5,
     catch_se = 0.01
   ) |>
-  rename(year = Year,
-         catch =  Catches..mtons.) |>
+  rename(
+    year = Year,
+    catch = Catches..mtons.
+  ) |>
   select(year, seas, fleet, catch, catch_se)
 
 ORWA_NONTWL_until_2015 <- OR_NONTWL |>
@@ -258,13 +267,15 @@ WA_REC <- read.csv(file.path(getwd(), "Data", "processed", "WA_historical_to_rec
   select(year, seas, fleet, catch, catch_se)
 
 # Combine all catch data
-all_catch <- do.call("rbind", list(CA_TWL,
-                                   CA_NONTWL,
-                                   CA_REC, 
-                                   ORWA_TWL,
-                                   ORWA_NONTWL,
-                                   OR_REC,
-                                   WA_REC))
+all_catch <- do.call("rbind", list(
+  CA_TWL,
+  CA_NONTWL,
+  CA_REC,
+  ORWA_TWL,
+  ORWA_NONTWL,
+  OR_REC,
+  WA_REC
+))
 
 inputs_catch$dat$catch <- all_catch
 
@@ -279,7 +290,7 @@ CA_REC_MRFSS_index <- inputs$dat$CPUE |>
   filter(index == 3)
 
 # OR Rec MRFSS - fleet 6
-# I think we just bring over from 2017 assessment
+# Just bring over from 2017 assessment
 OR_REC_MRFSS_index <- inputs$dat$CPUE |>
   filter(index == 6, year < 2000)
 
@@ -289,19 +300,23 @@ ORBS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORBS_index_forSS
 colnames(ORBS_index) <- colnames_i
 
 # WA Rec CPUE - fleet 7
-# I think we just bring over from the 2017 assessment, because max year is 2001
+# Just bring over from the 2017 assessment, because max year is 2001
 WA_REC_CPUE_index <- inputs$dat$CPUE |>
   filter(index == 7)
 
 # CA onboard CPFV CPUE - fleet 8
-# I think we just bring over from the 2017 assessment, because max year is 1998
+# Just bring over from the 2017 assessment, because max year is 1998
 CA_CPFV_CPUE_index <- inputs$dat$CPUE |>
   filter(index == 8)
 
-# Oregon onboard Recreational Charter observer CPUE - fleet 9
-# ORFS
+# Oregon onboard Recreational Charter observer CPUE (ORFS) - fleet 9
+# From Ali Whitman
 ORFS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORFS_index_forSS.csv")) |>
-  mutate(fleet = 9)
+  mutate(
+    fleet = 9,
+    obs = round(obs, digits = 6),
+    logse = round(logse, digits = 6)
+  )
 colnames(ORFS_index) <- colnames_i
 
 # Triennial survey - fleet 10
@@ -325,15 +340,17 @@ IPHC_ORWA <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_model_based_
 IPHC_ORWA_index <- IPHC_ORWA
 colnames(IPHC_ORWA_index) <- colnames_i
 
-all_indices <- do.call("rbind", list(CA_REC_MRFSS_index, 
-                                     OR_REC_MRFSS_index,
-                                     ORBS_index,
-                                     WA_REC_CPUE_index, 
-                                     CA_CPFV_CPUE_index,
-                                     ORFS_index,
-                                     tri_index, 
-                                     NWFSC_ORWA_index, 
-                                     IPHC_ORWA_index))
+all_indices <- do.call("rbind", list(
+  CA_REC_MRFSS_index,
+  OR_REC_MRFSS_index,
+  ORBS_index,
+  WA_REC_CPUE_index,
+  CA_CPFV_CPUE_index,
+  ORFS_index,
+  tri_index,
+  NWFSC_ORWA_index,
+  IPHC_ORWA_index
+))
 
 inputs$dat$indices <- all_indices
 
@@ -341,7 +358,7 @@ inputs$dat$indices <- all_indices
 ### Length compositions ###
 ###########################
 
-colnames_1 <- colnames(inputs$dat$lencom)
+colnames_l <- colnames(inputs$dat$lencom)
 
 # CA TWL (from PacFIN) - fleet 1
 
@@ -349,7 +366,9 @@ colnames_1 <- colnames(inputs$dat$lencom)
 
 # CA NONTWL (from WCGOP) - fleet 2
 
-# CA Rec - fleet 3
+# CA REC - fleet 3
+CA_REC_lengths <- read.csv(file.path(getwd(), "Data", "processed", "recfin_bio_data", "recfin_ca_lengths.csv"))
+colnames(CA_REC_lengths) <- colnames_l
 
 # ORWA TWL (PacFIN and WCGOP combined) - fleet 4
 
@@ -358,6 +377,8 @@ colnames_1 <- colnames(inputs$dat$lencom)
 # OR REC (MRFSS and ORBS combined, plus data associated with WDFW ages (1979-2002) and ODFW (2009-2016) ages, not included in RecFIN) - fleet 6
 
 # WA REC (data from WDFW) - fleet 7
+CA_REC_lengths <- read.csv(file.path(getwd(), "Data", "processed", "recfin_bio_data", "recfin_wa_lengths.csv"))
+colnames(CA_REC_lengths) <- colnames_l
 
 # CA observer - fleet 8
 
@@ -378,14 +399,17 @@ nwfsc_lengths <- read.csv(file.path(
   colnames(nwfsc_lengths) <- colnames_l
 
 # IPHC ORWA - fleet 12
-iphc_lengths <- read.csv(file.path(getwd(),
-                                   "Data", "processed", "IPHC_bio_data", "iphc_length_comps.csv"))
+iphc_lengths <- read.csv(file.path(
+  getwd(),
+  "Data", "processed", "IPHC_bio_data", "iphc_length_comps.csv"
+))
 
 
-all_lengths <- do.call("rbind", list(tri_lengths,
-                                     nwfsc_lengths,
-                                     iphc_lengths
-                                     ))
+all_lengths <- do.call("rbind", list(
+  tri_lengths,
+  nwfsc_lengths,
+  iphc_lengths
+))
 
 inputs$dat$lencomp <- all_lengths
 
@@ -459,18 +483,23 @@ colnames(nwfsc_maal) <- colnames_a
 nwfsc_ages <- rbind(nwfsc_caal, nwfsc_maal)
 
 # IPHC survey CAAL and MAAL - fleet -12 and 12
-iphc_caal <- read.csv(file.path(getwd(),
-                                   "Data", "processed", "IPHC_bio_data", "iphc_caal.csv"))
-iphc_maal <- read.csv(file.path(getwd(),
-                                "Data", "processed", "IPHC_bio_data", "iphc_marginal_ages.csv"))
+iphc_caal <- read.csv(file.path(
+  getwd(),
+  "Data", "processed", "IPHC_bio_data", "iphc_caal.csv"
+))
+iphc_maal <- read.csv(file.path(
+  getwd(),
+  "Data", "processed", "IPHC_bio_data", "iphc_marginal_ages.csv"
+))
 iphc_ages <- rbind(iphc_caal, iphc_maal)
 
 # Combine all ages together
-all_ages <- do.call("rbind", list(ca_nontwl_wcgop,
-                                  ca_rec_wdfw,
-                                  ca_rec_don_pearson,
-                                  nwfsc_ages,
-                                  iphc_ages
-                                  ))
+all_ages <- do.call("rbind", list(
+  ca_nontwl_wcgop,
+  ca_rec_wdfw,
+  ca_rec_don_pearson,
+  nwfsc_ages,
+  iphc_ages
+))
 
 inputs$dat$agecomp <- all_ages
