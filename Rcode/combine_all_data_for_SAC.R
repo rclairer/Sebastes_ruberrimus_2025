@@ -261,8 +261,12 @@ CA_CPFV_CPUE_index <- inputs$dat$CPUE |>
 colnames(CA_CPFV_CPUE_index) <- colnames_i
 
 # Oregon onboard Recreational Charter observer CPUE - fleet 9
-# this is ORFS, right?
-# FROM ALI, hopefully 03/05/2025
+# ORFS
+ORFS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORFS_index_forSS.csv")) |>
+  mutate(
+    fleet = 9,
+    Label = "OR_REC") |>
+  colnames(ORFS_index) <- colnames_i
 
 # TRI ORWA - fleet 10
 tri_index <- inputs$dat$CPUE |>
