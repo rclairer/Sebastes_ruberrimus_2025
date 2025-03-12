@@ -262,6 +262,7 @@ CA_CPFV_CPUE_index <- inputs$dat$CPUE |>
 colnames(CA_CPFV_CPUE_index) <- colnames_i
 
 # Oregon onboard Recreational Charter observer CPUE (ORFS) - fleet 9
+# Can't have the same name as fleet 6 or will be linked to that in the SAC tool
 # From Ali Whitman
 ORFS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORFS_index_forSS.csv")) |>
   mutate(
