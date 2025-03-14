@@ -21,7 +21,7 @@ Load in all data sources and organize by Fleet
 4. recfin - WA length and age
 
 Fleets:
-3 - CA_REC
+3 - CA_REC *
 6 - OR_REC
 7 - WA_REC
 8 - CA_CPFV (observer program)
@@ -48,40 +48,16 @@ ca_rec <- ca_rec[ca_rec$RECFIN_MODE_NAME != "PARTY/CHARTER BOATS", ]
 ca_rec <- as.data.frame(ca_rec)
 ca_cpfv <- as.data.frame(ca_cpfv)
 
-
-
-
-df <- read.csv('~/Git/Sebastes_ruberrimus_2025/Data/raw/confidential/recfin_states_length.csv')
-df1 <- read.csv('~/Git/Sebastes_ruberrimus_2025/Data/raw/confidential/recfin_WDFW_length_age.csv')
-
-df1 %>%
-  rename(
-    year = SAMPLE_YEAR,
-    common_name = RECFIN_SPECIES_NAME,
-    sex = RECFIN_SEX_CODE,
-    age = USE_THIS_AGE
-  )
-
-df %>%
-  mutate(length = RECFIN_LENGTH_MM / 10)
-
-df1 %>%
-  mutate(length = RECFIN_LENGTH_MM / 10)
-
-or_mrfss <- read_csv("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/raw/confidential/MRFSS_BIO_2025 CYCLE_457.csv")
-recfin_wa_age <- read.csv("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/raw/confidential/SD506.csv")
 ```
 
 #Data processing: select and filter relevant data, then organize to match format of SS file. Then, load 2017 data and compare with bubble plots.
 
-# We might just need to set a cut off date: anything before 2003, we use old data, 2003 and newer we use new data that we have?
+# For comparison plots - only compare new data from 2004 and on.
 
 
-CA_REC: Recfin, and Don Pearson data (lengths come with the ages)
+Fleet 3 - CA_REC: Recfin, and Don Pearson data (lengths come with the ages)
 
 #Problems: recfin data only goes back to 2004, I bet Don Pearson's data goes back to 1979
-  Can we just use 2017 data from 1979-2004?
-  
 #for now, just compare current recfin 2004-2024 to old assessment 2004-2017
 #look at 2020 data just in case
 
