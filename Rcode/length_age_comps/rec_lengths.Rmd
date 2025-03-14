@@ -1,0 +1,198 @@
+---
+title: "rec_lengths"
+output: html_document
+date: "2025-03-13"
+---
+
+```{r setup}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(r4ss)
+library(readr)
+library(nwfscSurvey)
+library(pacfintools)
+```
+
+Load in all data sources and organize by Fleet
+1. recfin - lengths only, make sure to get up to date pull after March 20th
+2. Julia's CRFS data (CRFS_ages_yeye.xlsx) - ages and lengths
+3. MRFSS Bio data - Oregon, from Ali
+4. recfin - WA length and age
+
+Fleets:
+3 - CA_REC
+6 - OR_REC
+7 - WA_REC
+8 - CA_CPFV (observer program)
+9 - OR_CPFV (observer program)
+
+```{r}
+recfin_bio <- read_csv("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/raw/confidential/SD501.csv")
+
+# Building Fleet 3 and Fleet 8:
+ca_rec <- recfin_bio %>% filter(STATE_NAME == "CALIFORNIA")
+
+  # Rename columns to match nwfsc code inputs
+names(ca_rec)[names(ca_rec) == "RECFIN_YEAR"] <- "year"
+names(ca_rec)[names(ca_rec) == "SPECIES_NAME"] <- "common_name"
+names(ca_rec)[names(ca_rec) == "RECFIN_SEX_CODE"] <- "sex"
+names(ca_rec)[names(ca_rec) == "STATE_NAME"] <- "state"
+names(ca_rec)[names(ca_rec) == "RECFIN_LENGTH_MM"] <- "length"
+ca_rec$length <- ca_rec$length/10
+
+  # Remove CPFV data to make fleets 3 and 8
+  # Also, make sure everything is a data.frame!!!
+ca_cpfv <- ca_rec %>% filter(RECFIN_MODE_NAME == "PARTY/CHARTER BOATS")
+ca_rec <- ca_rec[ca_rec$RECFIN_MODE_NAME != "PARTY/CHARTER BOATS", ]
+ca_rec <- as.data.frame(ca_rec)
+ca_cpfv <- as.data.frame(ca_cpfv)
+
+
+
+
+df <- read.csv('~/Git/Sebastes_ruberrimus_2025/Data/raw/confidential/recfin_states_length.csv')
+df1 <- read.csv('~/Git/Sebastes_ruberrimus_2025/Data/raw/confidential/recfin_WDFW_length_age.csv')
+
+df1 %>%
+  rename(
+    year = SAMPLE_YEAR,
+    common_name = RECFIN_SPECIES_NAME,
+    sex = RECFIN_SEX_CODE,
+    age = USE_THIS_AGE
+  )
+
+df %>%
+  mutate(length = RECFIN_LENGTH_MM / 10)
+
+df1 %>%
+  mutate(length = RECFIN_LENGTH_MM / 10)
+
+or_mrfss <- read_csv("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/raw/confidential/MRFSS_BIO_2025 CYCLE_457.csv")
+recfin_wa_age <- read.csv("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/raw/confidential/SD506.csv")
+```
+
+#Data processing: select and filter relevant data, then organize to match format of SS file. Then, load 2017 data and compare with bubble plots.
+
+# We might just need to set a cut off date: anything before 2003, we use old data, 2003 and newer we use new data that we have?
+
+
+CA_REC: Recfin, and Don Pearson data (lengths come with the ages)
+
+#Problems: recfin data only goes back to 2004, I bet Don Pearson's data goes back to 1979
+  Can we just use 2017 data from 1979-2004?
+  
+#for now, just compare current recfin 2004-2024 to old assessment 2004-2017
+#look at 2020 data just in case
+
+```{r}
+# Organize length data into bins
+ca_rec_lengths_list <- get_raw_comps(
+  data = ca_rec,
+  comp_bins = seq(10, 74, 2),
+  comp_column_name = "length",
+  input_n_method = "stewart_hamel",
+  two_sex_comps = FALSE,
+  month = 7,
+  fleet = 3,
+  partition = 0,
+  dir = NULL,
+  printfolder = "",
+  verbose = TRUE
+)
+
+# Make it a readable data frame
+ca_rec_lengths <- as.data.frame(ca_rec_lengths_list)
+colnames(ca_rec_lengths) <- gsub("^unsexed\\.", "", colnames(ca_rec_lengths))
+colnames(ca_rec_lengths) <- gsub("^u", "L", colnames(ca_rec_lengths))
+
+# Save
+write.csv(ca_rec_lengths, file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/processed/rec_comps/ca_rec_lengths.csv"))
+
+# Comparison plots for 2004-2024 showing that the 2017 CA_REC fleet excludes party/charter boats (CPFV)
+
+  # Read new data
+ca_rec_lengths_new <- read.csv("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/processed/rec_comps/ca_rec_lengths.csv") |>
+  mutate(assessment = "New_Data") |>
+  dplyr::select(year, assessment, L10:L74) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "length", values_to = "freq") |>
+  dplyr::mutate(length = gsub("L", "", length)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    length = as.numeric(length),
+  )
+
+
+# Read old data
+inputs_old <- r4ss::SS_read(dir = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "model", "2017_yelloweye_model_updated_ss3_exe"))
+ca_lengths_old <- inputs_old$dat$lencomp |>
+  dplyr::filter(fleet == 3) |>
+  mutate(assessment = "Previous") |>
+  dplyr::select(year, assessment, Nsamp, `l10`:`l74`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "length", values_to = "freq") |>
+  dplyr::mutate(length = gsub("^l", "", length)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    length = as.numeric(length)
+  )
+
+together <- rbind(ca_lengths_old, ca_rec_lengths_new)
+together <- together[together$year >= 2004,]
+comparison_plot_ca <- together |>
+  dplyr::filter(freq > 0) |>
+  ggplot2::ggplot(aes(x = year, y = length, col = assessment, size = freq)) +
+  ggplot2::geom_point(position = position_dodge(0.5))
+comparison_plot_ca
+ggsave(plot = comparison_plot_ca, "ca_rec_length_comp_comparisons.png", path = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "Rcode", "length_age_comps"))
+
+### Confirming that CA_REC fleet does not include CPFV - next compare current recfin cpfv data to 2017
+```
+
+OR_REC: MRFSS and ORBS combined, 
+plus lengths with WDFW ages (1979-2012) or 2002????  *Fabio??*
+ODFW ages (2009-2016/present?) *Ali has this and will upload*
+
+*not included in recfin, see Ali's uploaded data*
+Recfin includes data starting in 2001
+MRFSS data goes from 1980 to 2003 - *roll over from 2017* For benchmark, use only measured lengths
+ORBS data? *just start in 2004 to avoid the overlap of mrfss and orbs data*
+WDFW/ODFW ages?
+
+```{r}
+or_data <- recfin_bio %>% filter(STATE_NAME == "OREGON") ###this is ORBS!!!!
+  # need to clean this before organizing
+or_mrfss
+  #need to clean before organizing...
+```
+
+WA_REC: WDFW data (starting in 1981)
+
+Super weird...the RecFin data starts in 1983, the very old dates dont line up at all. (double check!! I bet some of those old lengths may have come from Age data that we havent gotten yet??)
+Is it possible to get this data from somewhere else?
+*the assessment document said they got their data directly from WDFW, not RecFin*
+use previous assessment and ignore old recfin data? ask higher powers
+
+```{r}
+wa_data <- recfin_bio %>% filter(STATE_NAME == "WASHINGTON")
+```
+
+CA_Observer: CPFV, Melissa Monk, starting in 1987-1999, 2004-2016
+
+*ask Julia about CRFS data, same thing? But that only goes from 2009 to 2016*
+check the catch data, they used CRFS starting in 2004
+
+```{r}
+
+```
+
+OR_Observer: ODFW data, starting in 2003
+
+*is this the same thing as ORBS?? Also, do we have lengths from ORFS? I feel like we talked about including them potentially. If so, this is where we should test it*
+
+```{r}
+
+```
+
+
