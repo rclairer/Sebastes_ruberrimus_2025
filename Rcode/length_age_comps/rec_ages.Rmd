@@ -1,0 +1,64 @@
+---
+title: "rec_ages"
+output: html_document
+date: "2025-03-13"
+---
+
+```{r setup}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(r4ss)
+library(readr)
+library(nwfscSurvey)
+library(pacfintools)
+```
+
+*if there are no new CA age data since 2016, then dont worry about it*
+
+Load in all data sources
+1. ??? where is all the data for this
+
+```{r}
+#recfin_bio <- read_csv("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/raw/confidential/SD501.csv")
+
+```
+
+#Data processing: select and filter relevant data, then organize to match format of SS file. Then, load 2017 data and compare with bubble plots.
+
+
+CA_REC: CAAL, CDFW. We only need to find CDFW data starting in 2009 (John Budrick)
+
+```{r}
+
+```
+
+CA_REC: MAAL, CDFW. We only need to find CDFW data starting in 2009 (John Budrick)
+
+```{r}
+
+```
+
+OR_REC: CAAL, WDFW ager data. Starting in 1979
+
+```{r}
+
+```
+
+OR_REC: MAAL, WDFW ager data. Starting in 1979
+
+```{r}
+
+```
+
+WA_REC: CAAL, WDFW ager data. Starting in 1998. includes MRFSS and OSP
+
+```{r}
+
+```
+
+WA_REC: MAAL, WDFW ager data. Starting in 1998. includes MRFSS and OSP
+
+```{r}
+
+```
