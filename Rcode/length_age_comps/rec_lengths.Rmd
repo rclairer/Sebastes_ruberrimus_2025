@@ -59,7 +59,7 @@ Fleet 3 - CA_REC: Recfin, and Don Pearson data (lengths come with the ages)
 
 #Problems: recfin data only goes back to 2004, I bet Don Pearson's data goes back to 1979
 #for now, just compare current recfin 2004-2024 to old assessment 2004-2017
-#look at 2020 data just in case
+#2020 had only one fish
 
 ```{r}
 # Organize length data into bins
@@ -99,8 +99,7 @@ ca_rec_lengths_new <- read.csv("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/
     length = as.numeric(length),
   )
 
-
-# Read old data
+  # Read old data
 inputs_old <- r4ss::SS_read(dir = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "model", "2017_yelloweye_model_updated_ss3_exe"))
 ca_lengths_old <- inputs_old$dat$lencomp |>
   dplyr::filter(fleet == 3) |>
@@ -114,6 +113,7 @@ ca_lengths_old <- inputs_old$dat$lencomp |>
     length = as.numeric(length)
   )
 
+  # Put the long data frames together, filter for all data >= 2004, and bubble plot!
 together <- rbind(ca_lengths_old, ca_rec_lengths_new)
 together <- together[together$year >= 2004,]
 comparison_plot_ca <- together |>
@@ -121,14 +121,20 @@ comparison_plot_ca <- together |>
   ggplot2::ggplot(aes(x = year, y = length, col = assessment, size = freq)) +
   ggplot2::geom_point(position = position_dodge(0.5))
 comparison_plot_ca
+
+  #Save plot
 ggsave(plot = comparison_plot_ca, "ca_rec_length_comp_comparisons.png", path = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "Rcode", "length_age_comps"))
 
 ### Confirming that CA_REC fleet does not include CPFV - next compare current recfin cpfv data to 2017
+
+# Next step is to combine all 2017 CA_REC data with New 2017-2024 data
+
 ```
 
-OR_REC: MRFSS and ORBS combined, 
-plus lengths with WDFW ages (1979-2012) or 2002????  *Fabio??*
-ODFW ages (2009-2016/present?) *Ali has this and will upload*
+Fleet 6 - OR_REC: MRFSS and ORBS combined, 
+plus lengths with WDFW ages (1979-2002) - these should be included already in recfin
+ODFW ages (2009-2016/present?) *Ali has this and will upload* lengths should also be in recfin...
+Make sure to separate out 
 
 *not included in recfin, see Ali's uploaded data*
 Recfin includes data starting in 2001
