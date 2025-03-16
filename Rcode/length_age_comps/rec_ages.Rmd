@@ -19,6 +19,11 @@ library(pacfintools)
 Load in all data sources
 1. ??? where is all the data for this
 
+Fleets:
+3 - CA_REC
+6 - OR_REC 
+7 - WA_REC (abby)
+
 ```{r}
 #recfin_bio <- read_csv("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/raw/confidential/SD501.csv")
 

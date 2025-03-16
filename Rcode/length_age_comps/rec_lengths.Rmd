@@ -22,31 +22,43 @@ Load in all data sources and organize by Fleet
 
 Fleets:
 3 - CA_REC *need to calculate sample sizes
-6 - OR_REC
-7 - WA_REC
-8 - CA_CPFV (observer program)
-9 - OR_CPFV (observer program)
+6 - OR_REC *need to calculate sample sizes
+7 - WA_REC (Abby)
+8 - CA_CPFV (observer program) *need to calculate sample sizes
+9 - OR_CPFV (observer program) *need to calculate sample sizes
 
 ```{r}
+## Load in recfin data and format
 recfin_bio <- read_csv("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/raw/confidential/SD501.csv")
 
-# Building Fleet 3 and Fleet 8:
-ca_rec <- recfin_bio %>% filter(STATE_NAME == "CALIFORNIA")
-
   # Rename columns to match nwfsc code inputs
-names(ca_rec)[names(ca_rec) == "RECFIN_YEAR"] <- "year"
-names(ca_rec)[names(ca_rec) == "SPECIES_NAME"] <- "common_name"
-names(ca_rec)[names(ca_rec) == "RECFIN_SEX_CODE"] <- "sex"
-names(ca_rec)[names(ca_rec) == "STATE_NAME"] <- "state"
-names(ca_rec)[names(ca_rec) == "RECFIN_LENGTH_MM"] <- "length"
-ca_rec$length <- ca_rec$length/10
+names(recfin_bio)[names(recfin_bio) == "RECFIN_YEAR"] <- "year"
+names(recfin_bio)[names(recfin_bio) == "SPECIES_NAME"] <- "common_name"
+names(recfin_bio)[names(recfin_bio) == "RECFIN_SEX_CODE"] <- "sex"
+names(recfin_bio)[names(recfin_bio) == "STATE_NAME"] <- "state"
+names(recfin_bio)[names(recfin_bio) == "RECFIN_LENGTH_MM"] <- "length"
+recfin_bio$length <- recfin_bio$length/10
+
+## Building Fleet 3 and Fleet 8:
+ca_rec <- recfin_bio %>% filter(state == "CALIFORNIA")
+
+  # Remove CPFV data to make fleets 3 and 8 ################TRY SORTING BY SOURCE CODE INSTERAD OF MODE NAME. WILL THIS FIX THE ISSUES?
+  # Also, make sure everything is a data.frame!!!
+ca_cpfv <- ca_rec %>% filter(SOURCE_CODE == "CPFV")
+ca_rec <- ca_rec[ca_rec$SOURCE_CODE != "CPFV", ]
+ca_rec <- as.data.frame(ca_rec)
+ca_cpfv <- as.data.frame(ca_cpfv)
+
+## Building Fleet 6 and Fleet 9:
+
+or_rec <- recfin_bio %>% filter(state == "OREGON")
 
   # Remove CPFV data to make fleets 3 and 8
   # Also, make sure everything is a data.frame!!!
-ca_cpfv <- ca_rec %>% filter(RECFIN_MODE_NAME == "PARTY/CHARTER BOATS")
-ca_rec <- ca_rec[ca_rec$RECFIN_MODE_NAME != "PARTY/CHARTER BOATS", ]
-ca_rec <- as.data.frame(ca_rec)
-ca_cpfv <- as.data.frame(ca_cpfv)
+or_cpfv <- or_rec %>% filter(SOURCE_CODE == "CPFV")
+or_rec <- or_rec[or_rec$SOURCE_CODE != "CPFV", ]
+or_rec <- as.data.frame(or_rec)
+or_cpfv <- as.data.frame(or_cpfv)
 
 ```
 
@@ -120,7 +132,8 @@ together_rec <- together_rec[together_rec$year >= 2004,]
 comparison_plot_ca <- together_rec |>
   dplyr::filter(freq > 0) |>
   ggplot2::ggplot(aes(x = year, y = length, col = assessment, size = freq)) +
-  ggplot2::geom_point(position = position_dodge(0.5))
+  ggplot2::geom_point(position = position_dodge(0.5)) +
+  ggtitle("CA_REC Length Comparison")
 comparison_plot_ca
 
   #Save plot
@@ -144,10 +157,75 @@ ORBS data? *just start in 2004 to avoid the overlap of mrfss and orbs data*
 WDFW/ODFW ages?
 
 ```{r}
-or_data <- recfin_bio %>% filter(STATE_NAME == "OREGON") ###this is ORBS!!!!
-  # need to clean this before organizing
-or_mrfss
-  #need to clean before organizing...
+# Organize length data into bins
+or_rec_lengths_list <- get_raw_comps(
+  data = or_rec,
+  comp_bins = seq(10, 74, 2),
+  comp_column_name = "length",
+  input_n_method = "total_samples",
+  two_sex_comps = FALSE,
+  month = 7,
+  fleet = 6,
+  partition = 0,
+  dir = NULL,
+  printfolder = "",
+  verbose = TRUE
+)
+
+# Make it a readable data frame
+or_rec_lengths <- as.data.frame(or_rec_lengths_list)
+colnames(or_rec_lengths) <- gsub("^unsexed\\.", "", colnames(or_rec_lengths))
+colnames(or_rec_lengths) <- gsub("^u", "L", colnames(or_rec_lengths))
+# Filter out everything before 2004 to avoid MRFSS data
+or_rec_lengths <- or_rec_lengths[or_rec_lengths$year>=2004,]
+
+# Save
+write.csv(or_rec_lengths, file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/processed/rec_comps/or_rec_lengths.csv"))
+
+# Comparison plots for 2004-2024 showing that the 2017 OR_REC fleet excludes party/charter boats (CPFV)
+
+  # Read new data
+or_rec_lengths_new <- read.csv("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/processed/rec_comps/or_rec_lengths.csv") |>
+  mutate(assessment = "New_Data") |>
+  dplyr::select(year, assessment, L10:L74) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "length", values_to = "freq") |>
+  dplyr::mutate(length = gsub("L", "", length)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    length = as.numeric(length),
+  )
+
+  # Read old data
+inputs_old <- r4ss::SS_read(dir = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "model", "2017_yelloweye_model_updated_ss3_exe"))
+or_lengths_old <- inputs_old$dat$lencomp |>
+  dplyr::filter(fleet == 6) |>
+  mutate(assessment = "Previous") |>
+  dplyr::select(year, assessment, Nsamp, `l10`:`l74`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "length", values_to = "freq") |>
+  dplyr::mutate(length = gsub("^l", "", length)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    length = as.numeric(length)
+  )
+
+  # Put the long data frames together, filter for all data >= 2004, and bubble plot!
+together_rec <- rbind(or_lengths_old, or_rec_lengths_new)
+together_rec <- together_rec[together_rec$year >= 2004,]
+comparison_plot_or <- together_rec |>
+  dplyr::filter(freq > 0) |>
+  ggplot2::ggplot(aes(x = year, y = length, col = assessment, size = freq)) +
+  ggplot2::geom_point(position = position_dodge(0.5)) +
+  ggtitle("OR_REC Length Comparison")
+comparison_plot_or
+
+  #Save plot
+ggsave(plot = comparison_plot_or, "or_rec_length_comp_comparisons.png", path = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "Rcode", "length_age_comps"))
+
+### Confirming that OR_REC fleet does not include CPFV - next compare current recfin cpfv data to 2017
+
+# Next step is to combine all 2017 OR_REC data with New 2017-2024 data
 ```
 
 WA_REC: WDFW data (starting in 1981)
@@ -158,7 +236,7 @@ Is it possible to get this data from somewhere else?
 use previous assessment and ignore old recfin data? ask higher powers
 
 ```{r}
-wa_data <- recfin_bio %>% filter(STATE_NAME == "WASHINGTON")
+# wa_data <- recfin_bio %>% filter(STATE_NAME == "WASHINGTON")
 ```
 
 Fleet 8 - CA_Observer: CPFV, Melissa Monk, starting in 1987-1999, 2004-2016
@@ -227,7 +305,8 @@ together_obs <- together_obs[together_obs$year >= 2004,]
 comparison_plot_ca <- together_obs |>
   dplyr::filter(freq > 0) |>
   ggplot2::ggplot(aes(x = year, y = length, col = assessment, size = freq)) +
-  ggplot2::geom_point(position = position_dodge(0.5))
+  ggplot2::geom_point(position = position_dodge(0.5)) +
+  ggtitle("CA_observer Length Comparison")
 comparison_plot_ca
 
   #Save plot
@@ -240,27 +319,107 @@ ggsave(plot = comparison_plot_ca, "ca_obs_length_comp_comparisons.png", path = f
 testing script to try and figure out whats wrong with the early CA_obs data
 
 ```{r}
-#bring in old data so we can get nsamps 
-inputs_old <- r4ss::SS_read(dir = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "model", "2017_yelloweye_model_updated_ss3_exe"))
-ca_obs_lengths_old <- inputs_old$dat$lencomp
-ca_obs_lengths_old <- inputs_old$dat$lencomp |>
-  dplyr::filter(fleet == 8) |>
-  mutate(assessment = "Previous") |>
-  dplyr::select(year, assessment, Nsamp, `l10`:`l74`)
+# #bring in old data so we can get nsamps 
+# inputs_old <- r4ss::SS_read(dir = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "model", "2017_yelloweye_model_updated_ss3_exe"))
+# ca_obs_lengths_old <- inputs_old$dat$lencomp
+# ca_obs_lengths_old <- inputs_old$dat$lencomp |>
+#   dplyr::filter(fleet == 8) |>
+#   mutate(assessment = "Previous") |>
+#   dplyr::select(year, assessment, Nsamp, `l10`:`l74`)
+# 
+# #remove data older than 2004 so we can bring it in
+# ca_obs_lengths_old<-  ca_obs_lengths_old[ca_obs_lengths_old$year>=2004,]
+# #also remove 2006...for some reason
+# ca_obs_lengths_old<-  ca_obs_lengths_old[ca_obs_lengths_old$year!=2006,]
+#   
+# # now in the new data, get rid of data newer than 2016
+# ca_obs_lengths<-  ca_obs_lengths[ca_obs_lengths$year<=2016,]
+# 
+# 
+# ca_obs_lengths$input_n <- ca_obs_lengths_old$Nsamp
+# 
+#   # Read new data # with old nsamps
+# ca_obs_lengths_new <- ca_obs_lengths |>
+#   mutate(assessment = "New_Data") |>
+#   dplyr::select(year, assessment, L10:L74) |>
+#   tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "length", values_to = "freq") |>
+#   dplyr::mutate(length = gsub("L", "", length)) |>
+#   dplyr::group_by(year) |>
+#   dplyr::mutate(
+#     freq = freq / sum(freq),
+#     length = as.numeric(length),
+#   )
+# 
+# 
+#   # Read old data
+# # inputs_old <- r4ss::SS_read(dir = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "model", "2017_yelloweye_model_updated_ss3_exe"))
+# # ca_obs_lengths_old <- inputs_old$dat$lencomp
+# # ca_obs_lengths_old <- inputs_old$dat$lencomp |>
+# #   dplyr::filter(fleet == 8) |>
+# #   mutate(assessment = "Previous") |>
+# #   dplyr::select(year, assessment, Nsamp, `l10`:`l74`) 
+# 
+# ca_obs_lengths_old <- ca_obs_lengths_old|>
+#   tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "length", values_to = "freq") |>
+#   dplyr::mutate(length = gsub("^l", "", length)) |>
+#   dplyr::group_by(year) |>
+#   dplyr::mutate(
+#     freq = freq / sum(freq),
+#     length = as.numeric(length)
+#   )
+# 
+#   # Put the long data frames together, filter for all data >= 2004, and bubble plot!
+# together_obs <- rbind(ca_obs_lengths_old, ca_obs_lengths_new)
+# together_obs <- together_obs[together_obs$year >= 2004,]
+# comparison_plot_ca <- together_obs |>
+#   dplyr::filter(freq > 0) |>
+#   ggplot2::ggplot(aes(x = year, y = length, col = assessment, size = freq)) +
+#   ggplot2::geom_point(position = position_dodge(0.5))
+# comparison_plot_ca
+# 
+# ### This code shows that Nsamps doesnt have any affect on the bubble plots...still dont know why the data is so wrong
+# 
+# #look at the fish in 2006
+# 
+# s <- ca_rec[ca_rec$year==2006,]
+# 
+# #all the fish in 2006 are Retained and were caught on private/rental. so I dont think I am classifying the data wrong, I think the data from RecFin (from 2004-2008) is wrong, or at least different from what 2017 assessment used.
+```
 
-#remove data older than 2004 so we can bring it in
-ca_obs_lengths_old<-  ca_obs_lengths_old[ca_obs_lengths_old$year>=2004,]
-#also remove 2006...for some reason
-ca_obs_lengths_old<-  ca_obs_lengths_old[ca_obs_lengths_old$year!=2006,]
-  
-# now in the new data, get rid of data newer than 2016
-ca_obs_lengths<-  ca_obs_lengths[ca_obs_lengths$year<=2016,]
+OR_Observer: ODFW data, starting in 2003 (lets start in 2004 again, to avoid mrfss data)
 
+```{r}
+#or_cpfv
 
-ca_obs_lengths$input_n <- ca_obs_lengths_old$Nsamp
+# Organize length data into bins
+or_obs_lengths_list <- get_raw_comps(
+  data = or_cpfv,
+  comp_bins = seq(10, 74, 2),
+  comp_column_name = "length",
+  input_n_method = "total_samples",
+  two_sex_comps = FALSE,
+  month = 7,
+  fleet = 9,
+  partition = 0,
+  dir = NULL,
+  printfolder = "",
+  verbose = TRUE
+)
 
-  # Read new data # with old nsamps
-ca_obs_lengths_new <- ca_obs_lengths |>
+# Make it a readable data frame
+or_obs_lengths <- as.data.frame(or_obs_lengths_list)
+colnames(or_obs_lengths) <- gsub("^unsexed\\.", "", colnames(or_obs_lengths))
+colnames(or_obs_lengths) <- gsub("^u", "L", colnames(or_obs_lengths))
+# Filter out everything before 2004 to avoid MRFSS data
+or_obs_lengths <- or_obs_lengths[or_obs_lengths$year>=2004,]
+
+# Save
+write.csv(or_obs_lengths, file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/processed/rec_comps/or_obs_lengths.csv"))
+
+# Comparison plots for 2004-2024, 2023? 
+
+  # Read new data
+or_obs_lengths_new <- read.csv("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/processed/rec_comps/or_obs_lengths.csv") |>
   mutate(assessment = "New_Data") |>
   dplyr::select(year, assessment, L10:L74) |>
   tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "length", values_to = "freq") |>
@@ -271,16 +430,13 @@ ca_obs_lengths_new <- ca_obs_lengths |>
     length = as.numeric(length),
   )
 
-
   # Read old data
-# inputs_old <- r4ss::SS_read(dir = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "model", "2017_yelloweye_model_updated_ss3_exe"))
-# ca_obs_lengths_old <- inputs_old$dat$lencomp
-# ca_obs_lengths_old <- inputs_old$dat$lencomp |>
-#   dplyr::filter(fleet == 8) |>
-#   mutate(assessment = "Previous") |>
-#   dplyr::select(year, assessment, Nsamp, `l10`:`l74`) 
-
-ca_obs_lengths_old <- ca_obs_lengths_old|>
+inputs_old <- r4ss::SS_read(dir = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "model", "2017_yelloweye_model_updated_ss3_exe"))
+or_obs_lengths_old <- inputs_old$dat$lencomp
+or_obs_lengths_old <- inputs_old$dat$lencomp |>
+  dplyr::filter(fleet == 9) |>
+  mutate(assessment = "Previous") |>
+  dplyr::select(year, assessment, Nsamp, `l10`:`l74`) |>
   tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "length", values_to = "freq") |>
   dplyr::mutate(length = gsub("^l", "", length)) |>
   dplyr::group_by(year) |>
@@ -289,31 +445,20 @@ ca_obs_lengths_old <- ca_obs_lengths_old|>
     length = as.numeric(length)
   )
 
-
-
   # Put the long data frames together, filter for all data >= 2004, and bubble plot!
-together_obs <- rbind(ca_obs_lengths_old, ca_obs_lengths_new)
+together_obs <- rbind(or_obs_lengths_old, or_obs_lengths_new)
 together_obs <- together_obs[together_obs$year >= 2004,]
-comparison_plot_ca <- together_obs |>
+comparison_plot_or <- together_obs |>
   dplyr::filter(freq > 0) |>
   ggplot2::ggplot(aes(x = year, y = length, col = assessment, size = freq)) +
-  ggplot2::geom_point(position = position_dodge(0.5))
-comparison_plot_ca
+  ggplot2::geom_point(position = position_dodge(0.5)) +
+  ggtitle("OR_observer Length Comparison")
+comparison_plot_or
 
-### This code shows that Nsamps doesnt have any affect on the bubble plots...still dont know why the data is so wrong
+  #Save plot
+ggsave(plot = comparison_plot_or, "or_obs_length_comp_comparisons.png", path = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "Rcode", "length_age_comps"))
 
-#look at the fish in 2006
-
-s <- ca_rec[ca_rec$year==2006,]
-
-#all the fish in 2006 are Retained and were caught on private/rental. so I dont think I am classifying the data wrong, I think the data from RecFin (from 2004-2008) is wrong, or at least different from what 2017 assessment used.
-```
-OR_Observer: ODFW data, starting in 2003
-
-*is this the same thing as ORBS?? Also, do we have lengths from ORFS? I feel like we talked about including them potentially. If so, this is where we should test it*
-
-```{r}
-
+# Next step is to combine all 2017 OR_obs data with New 2017-2024 data
 ```
 
 
