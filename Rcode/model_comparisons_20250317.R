@@ -293,7 +293,8 @@ SS_write(inputs_catch, dir = file.path(getwd(), "model", "2025_updated_catch_202
 
 get_ss3_exe(dir = file.path(getwd(), "model", "2025_updated_catch_20250317"))
 
-# run(dir = file.path(getwd(), "model", "2025_updated_catch"), show_in_console = TRUE)
+run(dir = file.path(getwd(), "model", "2025_updated_catch_20250317"), show_in_console = TRUE)
+
 replist <- SS_output(dir = file.path(getwd(), "model", "2025_updated_catch_20250317"))
 SS_plots(replist)
 
@@ -335,7 +336,7 @@ SS_write(inputs_wcgbts, dir = file.path(getwd(), "model", "2025_updated_catch_WC
 
 get_ss3_exe(dir = file.path(getwd(), "model", "2025_updated_catch_WCGBTSindex_20250317"))
 
-# run(dir = file.path(getwd(), "model", "2025_updated_WCGBTS"), show_in_console = TRUE)
+run(dir = file.path(getwd(), "model", "2025_updated_catch_WCGBTSindex_20250317"), show_in_console = TRUE)
 
 replist <- SS_output(dir = file.path(getwd(), "model", "2025_updated_catch_WCGBTSindex_20250317"))
 SS_plots(replist)
@@ -433,7 +434,7 @@ SS_write(inputs_wcgbts, dir = file.path(getwd(), "model", "2025_updated_catch_in
 
 get_ss3_exe(dir = file.path(getwd(), "model", "2025_updated_catch_indices_20250317"))
 
-# run(dir = file.path(getwd(), "model", "2025_updated_WCGBTS"), show_in_console = TRUE)
+run(dir = file.path(getwd(), "model", "2025_updated_catch_indices_20250317"), show_in_console = TRUE)
 
 replist <- SS_output(dir = file.path(getwd(), "model", "2025_updated_catch_indices_20250317"))
 SS_plots(replist)
