@@ -1,0 +1,286 @@
+---
+title: "rec_ages"
+output: html_document
+date: "2025-03-13"
+---
+
+```{r setup}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(r4ss)
+library(readr)
+library(nwfscSurvey)
+#library(pacfintools)
+```
+
+*if there are no new CA age data since 2016, then dont worry about it*
+
+Load in all data sources
+1. CA ages from Julia: "CRFS_ages_yeye"
+2. OR ages from Ali: "OR_non_standard_yelloweye_2009-2016_nonconfid"
+3. WA ages from RecFin
+
+Fleets:
+3 - CA_REC *need to calculate sample sizes
+6 - OR_REC *need to calculate sample sizes
+7 - WA_REC (abby)
+
+```{r}
+# Load CA ages and format
+ca_ages_raw <- read_csv("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/raw/nonconfidential/CRFS_ages_yeye.csv")
+
+ # Rename columns to match nwfsc code inputs
+names(ca_ages_raw)[names(ca_ages_raw) == "Year"] <- "year"
+names(ca_ages_raw)[names(ca_ages_raw) == "Final Age"] <- "age"
+names(ca_ages_raw)[names(ca_ages_raw) == "Sex"] <- "sex"
+  # Change the sex column to a uniform number
+ca_ages_raw[,17] = "U"
+  # One length had only total length, so I used the Assessment document's equation to get a new value (0.9824*365+0.7522 = 359.3282
+ca_ages_raw[1,13] = 359.3282
+names(ca_ages_raw)[names(ca_ages_raw) == "Fork Length (mm)"] <- "length"
+ca_ages_raw$length <- ca_ages_raw$length/10
+ca_ages_raw <- as.data.frame(ca_ages_raw)
+
+# Load OR ages and format
+or_ages_raw <- read_csv("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/raw/nonconfidential/OR_non_standard_yelloweye_2009-2016_nonconfid.csv")
+
+  # Rename columns to match nwfsc code inputs
+names(or_ages_raw)[names(or_ages_raw) == "YYYY"] <- "year"
+names(or_ages_raw)[names(or_ages_raw) == "Age"] <- "age"
+names(or_ages_raw)[names(or_ages_raw) == "Sex"] <- "sex"
+  # Change the sex column to a uniform number
+or_ages_raw[,37] = "U"
+names(or_ages_raw)[names(or_ages_raw) == "SampleLength"] <- "length"
+or_ages_raw$length <- or_ages_raw$length/10
+or_ages_raw <- as.data.frame(or_ages_raw)
+
+```
+
+#Data processing: select and filter relevant data, then organize to match format of SS file. Then, load 2017 data and compare with bubble plots.
+
+
+CA_REC: CAAL, CDFW. We only need to find CDFW data starting in 2009 (John Budrick)
+
+*this data should pretty much exactly match, except we might have an Nsamps problem?*
+
+```{r}
+# Organize data into age bins conditional on length bins. Make sure it's a single sex.
+ca_rec_caal <- get_raw_caal(
+  data = ca_ages_raw,
+  len_bins = seq(10, 74, 2),
+  age_bins = seq(0, 65, 1),
+  length_column_name = "length",
+  age_column_name = "age",
+  month = 7,
+  fleet = 3,
+  partition = 0,
+  ageerr = 2,
+  dir = NULL,
+  printfolder = "",
+  verbose = TRUE
+)
+
+# Make it a readable data fram
+ca_rec_caal <- data.frame(ca_rec_caal)
+colnames(ca_rec_caal) <- gsub("^u", "A", colnames(ca_rec_caal))
+
+# Save
+write.csv(ca_rec_caal, file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/processed/rec_comps/ca_rec_caal.csv"))
+
+# Comparison plots for 2009-2016
+  # Read new data
+ca_rec_caal_new <- read.csv("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/processed/rec_comps/ca_rec_caal.csv") |>
+  mutate(assessment = "Current") |>
+  dplyr::select(year, assessment, A0:A65) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "age", values_to = "freq") |>
+  dplyr::mutate(age = gsub("A", "", age)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    age = as.numeric(age),
+  )
+
+# Read old data
+inputs_old <- r4ss::SS_read(dir = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "model", "2017_yelloweye_model_updated_ss3_exe"))
+ca_rec_caal_old <- inputs_old$dat$agecomp |>
+  dplyr::filter(fleet == 3) |>
+  mutate(assessment = "Previous") |>
+  dplyr::select(year, assessment, Nsamp, `a0`:`a65`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "age", values_to = "freq") |>
+  dplyr::mutate(age = gsub("^a", "", age)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    age = as.numeric(age)
+  )
+
+  # Put the long data frames together, filter for all data >= 2009, and bubble plot!
+together_caal <- rbind(ca_rec_caal_old, ca_rec_caal_new)
+together_caal <- together_caal[together_caal$year >= 2009,]
+comparison_plot_ca <- together_caal |>
+  dplyr::filter(freq > 0) |>
+  ggplot2::ggplot(aes(x = year, y = age, col = assessment, size = freq)) +
+  ggplot2::geom_point(position = position_dodge(0.5)) +
+  ggtitle("CA_REC CAAL Comparison")
+comparison_plot_ca
+
+  #Save plot
+ggsave(plot = comparison_plot_ca, "ca_rec_caal_comparisons.png", path = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "Rcode", "length_age_comps"))
+```
+
+CA_REC: MAAL, CDFW. We only need to find CDFW data starting in 2009 (John Budrick)
+
+```{r}
+
+```
+
+OR_REC: CAAL, WDFW ager data. Starting in 1979
+
+```{r}
+# Organize data into age bins conditional on length bins. Make sure it's a single sex.
+or_rec_caal <- get_raw_caal(
+  data = or_ages_raw,
+  len_bins = seq(10, 74, 2),
+  age_bins = seq(0, 65, 1),
+  length_column_name = "length",
+  age_column_name = "age",
+  month = 7,
+  fleet = 6,
+  partition = 0,
+  ageerr = 2,
+  dir = NULL,
+  printfolder = "",
+  verbose = TRUE
+)
+
+# Make it a readable data fram
+or_rec_caal <- data.frame(or_rec_caal)
+colnames(or_rec_caal) <- gsub("^u", "A", colnames(or_rec_caal))
+
+# Save
+write.csv(or_rec_caal, file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/processed/rec_comps/or_rec_caal.csv"))
+
+# Comparison plots for 2009-2016
+  # Read new data
+or_rec_caal_new <- read.csv("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/processed/rec_comps/or_rec_caal.csv") |>
+  mutate(assessment = "Current") |>
+  dplyr::select(year, assessment, A0:A65) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "age", values_to = "freq") |>
+  dplyr::mutate(age = gsub("A", "", age)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    age = as.numeric(age),
+  )
+
+# Read old data
+inputs_old <- r4ss::SS_read(dir = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "model", "2017_yelloweye_model_updated_ss3_exe"))
+or_rec_caal_old <- inputs_old$dat$agecomp |>
+  dplyr::filter(fleet == 6) |>
+  mutate(assessment = "Previous") |>
+  dplyr::select(year, assessment, Nsamp, `a0`:`a65`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "age", values_to = "freq") |>
+  dplyr::mutate(age = gsub("^a", "", age)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    age = as.numeric(age)
+  )
+
+  # Put the long data frames together, filter for all data >= 2009, and bubble plot!
+together_caal <- rbind(or_rec_caal_old, or_rec_caal_new)
+together_caal <- together_caal[together_caal$year >= 2009,]
+comparison_plot_ca <- together_caal |>
+  dplyr::filter(freq > 0) |>
+  ggplot2::ggplot(aes(x = year, y = age, col = assessment, size = freq)) +
+  ggplot2::geom_point(position = position_dodge(0.5)) +
+  ggtitle("OR_REC CAAL Comparison")
+comparison_plot_ca
+
+  #Save plot
+ggsave(plot = comparison_plot_ca, "or_rec_caal_comparisons.png", path = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "Rcode", "length_age_comps"))
+
+# there are two more ages present (31 and 17) I wonder why these were not included. It looks like they were aged all in the same way as the other ages for that year. New data?
+```
+
+OR_REC: MAAL, WDFW ager data. Starting in 1979
+
+```{r}
+
+```
+
+WA_REC: CAAL, WDFW ager data. Starting in 1998. includes MRFSS and OSP
+
+```{r}
+df <- read.csv('~/Git/Sebastes_ruberrimus_2025/Data/raw/confidential/recfin_WDFW_length_age.csv')
+
+```
+
+WA_REC: MAAL, WDFW ager data. Starting in 1998. includes MRFSS and OSP
+
+```{r}
+wa_data <- read.csv('~/Git/Sebastes_ruberrimus_2025/Data/raw/confidential/recfin_WDFW_length_age.csv')
+names(wa_data)[names(wa_data) == "SAMPLE_YEAR"] <- "year"
+names(wa_data)[names(wa_data) == "RECFIN_SPECIES_NAME"] <- "common_name"
+names(wa_data)[names(wa_data) == "RECFIN_SEX_CODE"] <- "sex"
+names(wa_data)[names(wa_data) == "USE_THIS_AGE"] <- "age"
+names(wa_data)[names(wa_data) == "RECFIN_LENGTH_MM"] <- "length"
+wa_data$length <- wa_data$length/10
+
+
+wa_ages <- get_raw_comps(
+  data = wa_data,
+  comp_bins = seq(0, 65, 1),
+  comp_column_name = "age",
+  input_n_method = "stewart_hamel",
+  two_sex_comps = FALSE,
+  month = 7,
+  fleet = -7,
+  partition = 0,
+  dir = NULL,
+  printfolder = "",
+  verbose = TRUE
+)
+
+wa_ages <- data.frame(wa_ages)
+colnames(wa_ages) <- gsub("^unsexed\\.", "", colnames(wa_ages))
+colnames(wa_ages) <- gsub("^u", "A", colnames(wa_ages))
+
+write.csv(wa_ages,'~/Git/Sebastes_ruberrimus_2025/Data/processed/recfin_WDFW_length_age.csv')
+
+# Comparison plots
+# WA ages
+# Read new data
+wa_ages_new <- read.csv('~/Git/Sebastes_ruberrimus_2025/Data/processed/recfin_WDFW_length_age.csv') |>
+  mutate(assessment = "Current") |>
+  dplyr::select(year, assessment, A0:A65) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "age", values_to = "freq") |>
+  dplyr::mutate(age = gsub("A", "", age)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    age = as.numeric(age),
+  )
+
+# Read old data
+inputs_old <- r4ss::SS_read(dir = file.path("/Users/abby/Git/Sebastes_ruberrimus_2025/model/2017_yelloweye_model_updated_ss3_exe"))
+wa_ages_old <- inputs_old$dat$agecomp |>
+  dplyr::filter(fleet == 7) |>
+  mutate(assessment = "Previous") |>
+  dplyr::select(year, assessment, Nsamp, `a0`:`a65`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "age", values_to = "freq") |>
+  dplyr::mutate(age = gsub("^a", "", age)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    age = as.numeric(age)
+  )
+
+together <- rbind(wa_ages_old, wa_ages_new)
+comparison_plot_wa_age <- together |>
+  dplyr::filter(freq > 0) |>
+  ggplot2::ggplot(aes(x = year, y = age, col = assessment, size = freq)) +
+  ggplot2::geom_point(position = position_dodge(0.5))
+ggsave(plot = comparison_plot_wa_age, "recfin_wa_age_comp_comparisons.png", path = file.path("/Users/abby/Git/Sebastes_ruberrimus_2025/Rcode/length_age_comps"))
+```
