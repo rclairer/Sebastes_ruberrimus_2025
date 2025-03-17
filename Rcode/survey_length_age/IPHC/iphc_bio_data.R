@@ -30,7 +30,7 @@ N_samp <- iphc_bio |>
   summarize(n_trips = n(),
             n_fish = sum(n_fish_stlkey),
             n_fish_per_trip = n_fish/n_trips,
-            Nsamp = ifelse(n_fish_per_trip < 55, (n_trips + 0.0707 * n_fish_per_trip), 4.89*n_trips)) |>
+            Nsamp = ifelse(n_fish_per_trip < 55, (n_trips + 0.0707 * n_fish), 4.89*n_trips)) |>
   ungroup() |>
   rename(year = sample_year) |>
   select(year, Nsamp)

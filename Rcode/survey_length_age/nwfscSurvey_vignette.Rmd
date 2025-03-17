@@ -102,6 +102,10 @@ plot_index(
 
 # Use raw length comps, you can tell this is what was used in the previous assessment because whole numbers are used
 # The steward-hamel method is used to get the Nsamps, this is better than the simplified stewart-hamel approach used in the 2017 assessment and is fine to use in this years update according to the instructors.
+# Nsamp method is the Stewart Hammel method where 
+# Nsamp = n_tows + 0.0707 * n_fish when n_fish/n_tows < 55 and
+# Nsamp = 4.89 * n_tows when n_fish/n_tows >= 55
+
 raw_length_comps_n_trips <- get_raw_comps(
     data = bio,
     comp_bins = seq(10, 74, 2),
@@ -135,23 +139,24 @@ raw_length_comps <- raw_length_comps_n_trips |>
   left_join(raw_length_comps_n_fish, by = "year") |>
   dplyr::mutate(
     n_samps_per_tow = n_samps / n_tows,
-    Nsamp = ifelse(n_samps_per_tow < 55, (n_tows + 0.0707 * n_samps_per_tow), 4.89*n_tows)
+    Nsamp = ifelse(n_samps_per_tow < 55, (n_tows + 0.0707*n_samps), 4.89*n_tows)
     ) |>
-  dplyr::select(year, month, fleet, sex, partition, Nsamp, everything(), -n_samps_per_tow)
+  dplyr::select(year, month, fleet, sex, partition, Nsamp, everything(), -n_samps_per_tow, -n_samps, -n_tows) |>
+  write.csv(file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", "NWFSC.Combo_length_cm_unsexed_raw_10_74_yelloweye rockfish_groundfish_slope_and_shelf_combination_survey.csv"), row.names = FALSE)
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-length_files <- list.files(path = getwd(), pattern = "length_cm")
-
-file.rename(from = length_files[1],
-            to = paste0("NWFSC.Combo_", length_files[1]))
-file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[1])),
-            to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[1])))
-
-file.rename(from = length_files[2],
-            to = paste0("NWFSC.Combo_", length_files[2]))
-file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[2])),
-            to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[2])))
+# length_files <- list.files(path = getwd(), pattern = "length_cm")
+# 
+# file.rename(from = length_files[1],
+#             to = paste0("NWFSC.Combo_", length_files[1]))
+# file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[1])),
+#             to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[1])))
+# 
+# file.rename(from = length_files[2],
+#             to = paste0("NWFSC.Combo_", length_files[2]))
+# file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[2])),
+#             to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[2])))
 ```
 
 ### Marginal age composition data
@@ -180,7 +185,9 @@ raw_age_comps_n_trips <- get_raw_comps(
     month = 7,
     dir = getwd(),
     printfolder = "", 
-    two_sex_comps = FALSE) |>
+    two_sex_comps = FALSE) 
+
+raw_age_comps_n_trips <- raw_age_comps_n_trips$unsexed |>
   dplyr::rename(n_tows = input_n)
 
 raw_age_comps_n_fish <- get_raw_comps(
@@ -193,18 +200,20 @@ raw_age_comps_n_fish <- get_raw_comps(
     month = 7,
     dir = getwd(),
     printfolder = "", 
-    two_sex_comps = FALSE) |>
-  dplyr::rename(n_samps = input_n) |>
-  dplyr::select(year, n_samps)
-  
+    two_sex_comps = FALSE)
 
-raw_length_comps <- raw_age_comps_n_trips |>
+raw_age_comps_n_fish <- raw_age_comps_n_fish$unsexed |>
+  dplyr::rename(n_samps = input_n)|>
+  dplyr::select(year, n_samps)
+
+raw_age_comps <- raw_age_comps_n_trips |>
   left_join(raw_age_comps_n_fish, by = "year") |>
   mutate(
     n_samps_per_tow = n_samps / n_tows,
-    Nsamp = ifelse(n_samps_per_n_tows < 55, (n_tows + 0.0707 * n_samps_per_tow), 4.89*n_tows)
+    Nsamp = ifelse(n_samps_per_tow < 55, (n_tows + 0.0707 * n_samps), 4.89*n_tows)
     ) |>
-  dplyr::select(year, month, fleet, sex, partition, Nsamp, everything(), -n_samps_per_tow)
+  dplyr::select(year, month, fleet, sex, partition, Nsamp, everything(), -n_samps_per_tow, -n_samps, -n_tows) |>
+  write.csv(file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_age_comps", "Tri_length_cm_unsexed_raw_10_74_yelloweye rockfish_groundfish_triennial_shelf_survey.csv"))
 
 plot_comps(
   data = raw_age_comps_n_trips)
@@ -417,7 +426,7 @@ raw_length_comps <- raw_length_comps_n_trips |>
   left_join(raw_length_comps_n_fish, by = "year") |>
   mutate(
     n_samps_per_tow = n_samps / n_tows,
-    Nsamp = ifelse(n_samps_per_n_tows < 55, (n_tows + 0.0707 * n_samps_per_tow), 4.89*n_tows)
+    Nsamp = ifelse(n_samps_per_n_tows < 55, (n_tows + 0.0707 * n_samps), 4.89*n_tows)
     ) |>
   dplyr::select(year, month, fleet, sex, partition, Nsamp, everything(), -n_samps_per_tow)
 
