@@ -44,9 +44,9 @@ wh_plot_proportion(
 )
 ```
 
-### Calculate designed based index of abundance
+### Calculate designed based index of abundance (not used in this assessment)
 
-```{r, warning = FALSE, message = FALSE}
+```{r, warning = FALSE, message = FALSE, eval = FALSE}
 WCGBTS_strata <- CreateStrataDF.fn(
   names = c("shallow_OR", "deep_OR", "shallow_WA", "deep_WA"), 
   depths.shallow = c(55, 183, 55, 183),
@@ -56,7 +56,7 @@ WCGBTS_strata <- CreateStrataDF.fn(
 )
 ```
 
-```{r, warning = FALSE, message = FALSE}
+```{r, warning = FALSE, message = FALSE, eval = FALSE}
 biomass = get_design_based(
   data = catch,  
   strata = WCGBTS_strata,
@@ -64,13 +64,13 @@ biomass = get_design_based(
   printfolder = "")
 ```
 
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
+```{r, echo = FALSE, message = FALSE, warning = FALSE, eval = FALSE}
 file.rename(from = file.path(dirname(dirname(getwd())), "Data", "NWFSC.Combo_and_Tri_design_based_indices","design_based_indices.csv"), 
             to = file.path(dirname(dirname(getwd())), "Data", "NWFSC.Combo_and_Tri_design_based_indices", "NWFSC.Combo_design_based_indices.csv"))
 ```
 
 Plot coastwide
-```{r, warning = FALSE, message = FALSE}
+```{r, warning = FALSE, message = FALSE, eval = FALSE}
 plot_index(
   data = biomass,
   plot = 1)
@@ -78,7 +78,7 @@ plot_index(
 ```
 
 Plot index for each strata
-```{r, warning = FALSE, message = FALSE}
+```{r, warning = FALSE, message = FALSE, eval = FALSE}
 plot_index(
   data = biomass,
   plot = 2)
@@ -102,20 +102,42 @@ plot_index(
 
 # Use raw length comps, you can tell this is what was used in the previous assessment because whole numbers are used
 # The steward-hamel method is used to get the Nsamps, this is better than the simplified stewart-hamel approach used in the 2017 assessment and is fine to use in this years update according to the instructors.
-raw_length_comps <- get_raw_comps(
+raw_length_comps_n_trips <- get_raw_comps(
     data = bio,
     comp_bins = seq(10, 74, 2),
     comp_column_name = "length_cm",
-    input_n_method = c("stewart_hamel"),
+    input_n_method = c("tows"),
     two_sex_comps = FALSE,
     fleet = 11,
     month = 7, 
     dir = getwd(),
-    printfolder = "") #single sex model
+    printfolder = "") 
 
-plot_comps(
-  data = raw_length_comps
-)
+raw_length_comps_n_trips <- raw_length_comps_n_trips$unsexed |>
+  dplyr::rename(n_tows = input_n)
+
+raw_length_comps_n_fish <- get_raw_comps(
+    data = bio,
+    comp_bins = seq(10, 74, 2),
+    comp_column_name = "length_cm",
+    input_n_method = c("total_samples"),
+    two_sex_comps = FALSE,
+    fleet = 11,
+    month = 7, 
+    dir = getwd(),
+    printfolder = "")
+
+raw_length_comps_n_fish <- raw_length_comps_n_fish$unsexed |>
+  dplyr::rename(n_samps = input_n)|>
+  dplyr::select(year, n_samps)
+
+raw_length_comps <- raw_length_comps_n_trips |>
+  left_join(raw_length_comps_n_fish, by = "year") |>
+  dplyr::mutate(
+    n_samps_per_tow = n_samps / n_tows,
+    Nsamp = ifelse(n_samps_per_tow < 55, (n_tows + 0.0707 * n_samps_per_tow), 4.89*n_tows)
+    ) |>
+  dplyr::select(year, month, fleet, sex, partition, Nsamp, everything(), -n_samps_per_tow)
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
@@ -148,20 +170,44 @@ file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[2])),
 # plot_comps(
 #   data = age_comps)
 
-raw_age_comps <- get_raw_comps(
+raw_age_comps_n_trips <- get_raw_comps(
     data = bio,
     comp_bins = 0:65,
-    input_n_method = "stewart_hamel",
+    input_n_method = "tows",
     comp_column_name = "age",
     fleet = 11,
     ageerr = 2,
     month = 7,
     dir = getwd(),
     printfolder = "", 
-    two_sex_comps = FALSE) #single sex model
+    two_sex_comps = FALSE) |>
+  dplyr::rename(n_tows = input_n)
+
+raw_age_comps_n_fish <- get_raw_comps(
+    data = bio,
+    comp_bins = 0:65,
+    input_n_method = "total_samples",
+    comp_column_name = "age",
+    fleet = 11,
+    ageerr = 2,
+    month = 7,
+    dir = getwd(),
+    printfolder = "", 
+    two_sex_comps = FALSE) |>
+  dplyr::rename(n_samps = input_n) |>
+  dplyr::select(year, n_samps)
+  
+
+raw_length_comps <- raw_age_comps_n_trips |>
+  left_join(raw_age_comps_n_fish, by = "year") |>
+  mutate(
+    n_samps_per_tow = n_samps / n_tows,
+    Nsamp = ifelse(n_samps_per_n_tows < 55, (n_tows + 0.0707 * n_samps_per_tow), 4.89*n_tows)
+    ) |>
+  dplyr::select(year, month, fleet, sex, partition, Nsamp, everything(), -n_samps_per_tow)
 
 plot_comps(
-  data = raw_age_comps)
+  data = raw_age_comps_n_trips)
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
@@ -342,19 +388,41 @@ plot_index(
 # plot_comps(
 #   data = length_compsT)
 
-raw_length_compsT <- get_raw_comps(
+raw_length_comps_n_trips <- get_raw_comps(
     data = bioT,
-    input_n_method = c("stewart_hamel"),
-    month = 7,
-    fleet = 10,
     comp_bins = seq(10, 74, 2),
     comp_column_name = "length_cm",
+    input_n_method = c("tows"),
+    two_sex_comps = FALSE,
+    fleet = 10,
+    month = 7,
     dir = getwd(),
-    printfolder = "",
-    two_sex_comps = FALSE) #single sex model
+    printfolder = "") |>
+  dplyr::rename(n_tows = input_n)
+
+raw_length_comps_n_fish <- get_raw_comps(
+    data = bioT,
+    comp_bins = seq(10, 74, 2),
+    comp_column_name = "length_cm",
+    input_n_method = c("total_samples"),
+    two_sex_comps = FALSE,
+    fleet = 10,
+    month = 7, 
+    dir = getwd(),
+    printfolder = "") |>
+  dplyr::rename(n_samps = input_n) |>
+  dplyr::select(year, n_samps)
+
+raw_length_comps <- raw_length_comps_n_trips |>
+  left_join(raw_length_comps_n_fish, by = "year") |>
+  mutate(
+    n_samps_per_tow = n_samps / n_tows,
+    Nsamp = ifelse(n_samps_per_n_tows < 55, (n_tows + 0.0707 * n_samps_per_tow), 4.89*n_tows)
+    ) |>
+  dplyr::select(year, month, fleet, sex, partition, Nsamp, everything(), -n_samps_per_tow)
 
 plot_comps(
-  data = raw_length_compsT)
+  data = raw_length_comps_n_trips)
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
