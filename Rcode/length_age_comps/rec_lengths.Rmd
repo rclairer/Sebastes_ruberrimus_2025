@@ -23,7 +23,7 @@ Load in all data sources and organize by Fleet
 Fleets:
 3 - CA_REC *need to calculate sample sizes
 6 - OR_REC *need to calculate sample sizes
-7 - WA_REC (Abby)
+7 - WA_REC *need to calculate sample sizes
 8 - CA_CPFV (observer program) *need to calculate sample sizes
 9 - OR_CPFV (observer program) *need to calculate sample sizes
 
@@ -59,6 +59,13 @@ or_cpfv <- or_rec %>% filter(SOURCE_CODE == "CPFV")
 or_rec <- or_rec[or_rec$SOURCE_CODE != "CPFV", ]
 or_rec <- as.data.frame(or_rec)
 or_cpfv <- as.data.frame(or_cpfv)
+
+## Building Fleet 7:
+
+wa_rec <- recfin_bio %>% filter(state == "WASHINGTON")
+
+  # Make sure everything is a data.frame!!!
+wa_rec <- as.data.frame(wa_rec)
 
 ```
 
@@ -96,7 +103,7 @@ colnames(ca_rec_lengths) <- gsub("^unsexed\\.", "", colnames(ca_rec_lengths))
 colnames(ca_rec_lengths) <- gsub("^u", "L", colnames(ca_rec_lengths))
 
 # Save
-write.csv(ca_rec_lengths, file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/processed/rec_comps/ca_rec_lengths.csv"))
+write.csv(ca_rec_lengths, file.path("../../Data/processed/rec_comps/ca_rec_lengths.csv"))
 
 # Comparison plots for 2004-2024 showing that the 2017 CA_REC fleet excludes party/charter boats (CPFV)
 
@@ -113,7 +120,7 @@ ca_rec_lengths_new <- read.csv("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/
   )
 
   # Read old data
-inputs_old <- r4ss::SS_read(dir = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "model", "2017_yelloweye_model_updated_ss3_exe"))
+inputs_old <- r4ss::SS_read(dir = file.path("../../model/2017_yelloweye_model_updated_ss3_exe"))
 ca_lengths_old <- inputs_old$dat$lencomp |>
   dplyr::filter(fleet == 3) |>
   mutate(assessment = "Previous") |>
@@ -137,7 +144,7 @@ comparison_plot_ca <- together_rec |>
 comparison_plot_ca
 
   #Save plot
-ggsave(plot = comparison_plot_ca, "ca_rec_length_comp_comparisons.png", path = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "Rcode", "length_age_comps"))
+ggsave(plot = comparison_plot_ca, "ca_rec_length_comp_comparisons.png", path = file.path("../../Rcode/length_age_comps"))
 
 ### Confirming that CA_REC fleet does not include CPFV - next compare current recfin cpfv data to 2017
 
@@ -180,7 +187,7 @@ colnames(or_rec_lengths) <- gsub("^u", "L", colnames(or_rec_lengths))
 or_rec_lengths <- or_rec_lengths[or_rec_lengths$year>=2004,]
 
 # Save
-write.csv(or_rec_lengths, file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/processed/rec_comps/or_rec_lengths.csv"))
+write.csv(or_rec_lengths, file.path("../../Data/processed/rec_comps/or_rec_lengths.csv"))
 
 # Comparison plots for 2004-2024 showing that the 2017 OR_REC fleet excludes party/charter boats (CPFV)
 
@@ -197,7 +204,7 @@ or_rec_lengths_new <- read.csv("C:/Morgan's Stuff/Sebastes_ruberrimus_2025/Data/
   )
 
   # Read old data
-inputs_old <- r4ss::SS_read(dir = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "model", "2017_yelloweye_model_updated_ss3_exe"))
+inputs_old <- r4ss::SS_read(dir = file.path("../../model/2017_yelloweye_model_updated_ss3_exe"))
 or_lengths_old <- inputs_old$dat$lencomp |>
   dplyr::filter(fleet == 6) |>
   mutate(assessment = "Previous") |>
@@ -221,7 +228,7 @@ comparison_plot_or <- together_rec |>
 comparison_plot_or
 
   #Save plot
-ggsave(plot = comparison_plot_or, "or_rec_length_comp_comparisons.png", path = file.path("C:/Morgan's Stuff/Sebastes_ruberrimus_2025", "Rcode", "length_age_comps"))
+ggsave(plot = comparison_plot_or, "or_rec_length_comp_comparisons.png", path = file.path("../../Rcode/length_age_comps"))
 
 ### Confirming that OR_REC fleet does not include CPFV - next compare current recfin cpfv data to 2017
 
@@ -236,7 +243,73 @@ Is it possible to get this data from somewhere else?
 use previous assessment and ignore old recfin data? ask higher powers
 
 ```{r}
-# wa_data <- recfin_bio %>% filter(STATE_NAME == "WASHINGTON")
+# Organize length data into bins
+wa_rec_lengths_list <- get_raw_comps(
+  data = wa_rec,
+  comp_bins = seq(10, 74, 2),
+  comp_column_name = "length",
+  input_n_method = "total_samples",
+  two_sex_comps = FALSE,
+  month = 7,
+  fleet = 7,
+  partition = 0,
+  dir = NULL,
+  printfolder = "",
+  verbose = TRUE
+)
+
+# Make it a readable data frame
+wa_rec_lengths <- as.data.frame(wa_rec_lengths_list)
+colnames(wa_rec_lengths) <- gsub("^unsexed\\.", "", colnames(wa_rec_lengths))
+colnames(wa_rec_lengths) <- gsub("^u", "L", colnames(wa_rec_lengths))
+
+# Save
+write.csv(wa_rec_lengths, file.path("../../Data/processed/rec_comps/wa_rec_lengths.csv"))
+
+# Comparison plots for 2004-2024 showing that the 2017 WA_REC fleet excludes party/charter boats (CPFV)
+
+  # Read new data
+wa_rec_lengths_new <- read.csv("../../Data/processed/rec_comps/wa_rec_lengths.csv") |>
+  mutate(assessment = "New_Data") |>
+  dplyr::select(year, assessment, L10:L74) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "length", values_to = "freq") |>
+  dplyr::mutate(length = gsub("L", "", length)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    length = as.numeric(length),
+  )
+
+  # Read old data
+inputs_old <- r4ss::SS_read(dir=file.path("../../model/2017_yelloweye_model_updated_ss3_exe"))
+wa_lengths_old <- inputs_old$dat$lencomp |>
+  dplyr::filter(fleet == 7) |>
+  mutate(assessment = "Previous") |>
+  dplyr::select(year, assessment, Nsamp, `l10`:`l74`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "length", values_to = "freq") |>
+  dplyr::mutate(length = gsub("^l", "", length)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    length = as.numeric(length)
+  )
+
+  # Put the long data frames together, filter for all data >= 2004, and bubble plot!
+together_rec <- rbind(wa_lengths_old, wa_rec_lengths_new)
+#together_rec <- together_rec[together_rec$year >= 1983,]
+comparison_plot_ca <- together_rec |>
+  dplyr::filter(freq > 0) |>
+  ggplot2::ggplot(aes(x = year, y = length, col = assessment, size = freq)) +
+  ggplot2::geom_point(position = position_dodge(0.5)) +
+  ggtitle("WA_REC Length Comparison")
+comparison_plot_ca
+
+  #Save plot
+ggsave(plot = comparison_plot_ca, "wa_rec_length_comp_comparisons.png", path = file.path("../../Rcode/length_age_comps"))
+
+## It looks like RecFin has a lot of data that wasn't in the assessment, but is also missing all the really old data that they used (they got it directly from WDFW)
+
+# Next step is to combine all 2017 CA_REC data with New 2017-2024 data
 ```
 
 Fleet 8 - CA_Observer: CPFV, Melissa Monk, starting in 1987-1999, 2004-2016
