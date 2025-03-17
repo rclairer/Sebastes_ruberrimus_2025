@@ -1,21 +1,25 @@
 # Comparison of WA and OR Historical Commercial Catches
 library(dplyr)
 library(r4ss)
-library(ggplot2)\
+library(ggplot2)
 library(tidyr)
 library(scales)
 
 WA_twl <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "WA_hist_catch_twl.csv")) |>
-  select(Year, Catches..mtons.) |>
+  select(Year, Catches..mtons.) |
   filter(Year <= 2000) |>
-  rename(year = Year,
-         catch = Catches..mtons.)
-  
+    rename(
+      year = Year,
+      catch = Catches..mtons.
+    )
+
 WA_nontwl <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "WA_hist_catch_nontwl.csv")) |>
   select(Year, Catches..mtons.) |>
   filter(Year <= 2000) |>
-  rename(year = Year,
-         catch = Catches..mtons.)
+  rename(
+    year = Year,
+    catch = Catches..mtons.
+  )
 
 OR_all <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "OR_YEYE_combined historical landings.csv"))
 
@@ -26,7 +30,7 @@ OR_nontwl <- OR_all |>
 OR_twl <- OR_all |>
   select(year, comm_TWL) |>
   rename(catch = comm_TWL)
-  
+
 ORWA_twl <- rbind(WA_twl, OR_twl) |>
   group_by(year) |>
   summarize(catch_2025 = sum(round(catch, 2)))
@@ -48,15 +52,15 @@ ORWA_nontwl_old <- inputs$dat$catch |>
   rename(catch_2017 = catch)
 
 ORWA_twl_comp <- left_join(ORWA_twl, ORWA_twl_old, by = "year") |>
-  mutate(diff = round(catch_2025-catch_2017, 2)) |>
+  mutate(diff = round(catch_2025 - catch_2017, 2)) |>
   filter(!is.na(diff))
 write.csv(ORWA_twl_comp, file.path(getwd(), "Rcode", "removals", "ORWA_hist_twl_comparison.csv"), row.names = FALSE)
-  
+
 ORWA_nontwl_comp <- left_join(ORWA_nontwl, ORWA_nontwl_old, by = "year") |>
-  mutate(diff = round(catch_2025-catch_2017, 2)) |>
+  mutate(diff = round(catch_2025 - catch_2017, 2)) |>
   filter(!is.na(diff))
 write.csv(ORWA_nontwl_comp, file.path(getwd(), "Rcode", "removals", "ORWA_hist_nontwl_comparison.csv"), row.names = FALSE)
-  
+
 
 ORWA_twl_hist_comp <- ORWA_twl_comp |>
   pivot_longer(cols = c(catch_2025, catch_2017), names_to = "assessment_yr", values_to = "catch") |>
