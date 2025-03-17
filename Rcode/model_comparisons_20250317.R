@@ -1,3 +1,5 @@
+library(r4ss)
+
 ###############################################
 #########    BASE MODEL #######################
 ##############################################
@@ -10,12 +12,19 @@ model_2017_base_path <- file.path(getwd(), "model", "2017_yelloweye_model_base")
 
 model_2017_updated_path <- file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")
 
+
+###################################################
+# UPDATED SS3 EXE AND BIAS ADJUSTMENT FOR ONE SEX #
+###################################################
+
+model_2017_updated_biasadj_path <- file.path(getwd(), "model", "2017_add_bias_adjustment")
+
 ##############################################
 #### UPDATED SS3 EXE, UPDATED CATCH #########
 #############################################
 
 copy_SS_inputs(
-  dir.old = model_2017_path,
+  dir.old = model_2017_updated_biasadj_path,
   dir.new = file.path(getwd(), "model", "2025_updated_catch_20250317"),
   create.dir = FALSE,
   overwrite = TRUE,
@@ -293,7 +302,7 @@ SS_plots(replist)
 ###################################################
 
 copy_SS_inputs(
-  dir.old = model_2017_path,
+  dir.old = model_2017_updated_biasadj_path,
   dir.new = file.path(getwd(), "model", "2025_updated_catch_WCGBTSindex_20250317"),
   create.dir = FALSE,
   overwrite = TRUE,
@@ -337,7 +346,7 @@ SS_plots(replist)
 ###################################################
 
 copy_SS_inputs(
-  dir.old = model_2017_path,
+  dir.old = model_2017_updated_biasadj_path,
   dir.new = file.path(getwd(), "model", "2025_updated_catch_indices_20250317"),
   create.dir = FALSE,
   overwrite = TRUE,
@@ -434,9 +443,12 @@ SS_plots(replist)
 ####################################################
 
 # Get branch that SSsummarize fix is on for now until it is merged into main
-# devtools::install_github("r4ss/r4ss", ref = "fix_SSsummarize")
+#devtools::install_github("r4ss/r4ss", ref = "fix_SSsummarize")
 # library(r4ss)
 models <- list.dirs(file.path(getwd(), "model"), recursive = FALSE)
+#####delete this###
+models <- models[c(3)]
+#####delete this###
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
