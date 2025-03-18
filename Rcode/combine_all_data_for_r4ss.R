@@ -516,3 +516,5 @@ all_ages <- do.call("rbind", list(
 ))
 
 inputs$dat$agecomp <- all_ages
+
+r4ss::SS_write(inputs, dir = "", overwrite = TRUE)
