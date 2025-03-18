@@ -1,3 +1,4 @@
+library(dplyr)
 library(r4ss)
 
 ###############################################
@@ -10,21 +11,23 @@ model_2017_base_path <- file.path(getwd(), "model", "2017_yelloweye_model_base")
 ############   UPDATED SS3 EXE   #############
 ##############################################
 
-model_2017_updated_path <- file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")
+model_2017_updatedexe_path <- file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")
 
 
 ###################################################
 # UPDATED SS3 EXE AND BIAS ADJUSTMENT FOR ONE SEX #
 ###################################################
 
-model_2017_updated_biasadj_path <- file.path(getwd(), "model", "2017_add_bias_adjustment")
+model_2017_updatedexe_biasadj_path <- file.path(getwd(), "model", "2017_add_bias_adjustment")
+#how do we run this model??????????????????? 
+#I'm assuming this is old exe, hopefully - to replace "base model" in comparisons
 
 ##############################################
 #### UPDATED SS3 EXE, UPDATED CATCH #########
 #############################################
 
 copy_SS_inputs(
-  dir.old = model_2017_updated_biasadj_path,
+  dir.old = model_2017_updatedexe_path, #why won't this work with the biasadj model
   dir.new = file.path(getwd(), "model", "2025_updated_catch_20250317"),
   create.dir = FALSE,
   overwrite = TRUE,
@@ -303,7 +306,7 @@ SS_plots(replist)
 ###################################################
 
 copy_SS_inputs(
-  dir.old = model_2017_updated_biasadj_path,
+  dir.old = model_2017_updatedexe_path,
   dir.new = file.path(getwd(), "model", "2025_updated_catch_WCGBTSindex_20250317"),
   create.dir = FALSE,
   overwrite = TRUE,
@@ -312,7 +315,7 @@ copy_SS_inputs(
 )
 
 # Use ss_new files from the catches run
-inputs_wcgbts <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch_20250317"), ss_new = TRUE)
+inputs_catch_wcgbts <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch_20250317"), ss_new = TRUE)
 
 colnames_i <- c("year", "month", "index", "obs", "se_log")
 
@@ -327,12 +330,12 @@ NWFSC_ORWA_index <- NWFSC_ORWA |>
   select(year, Month, Fleet, est, se)
 colnames(NWFSC_ORWA_index) <- colnames_i
 
-inputs_wcgbts$dat$indices <- inputs_wcgbts$dat$CPUE |>
+inputs_catch_wcgbts$dat$indices <- inputs_catch_wcgbts$dat$CPUE |>
   filter(index != 11) |>
   bind_rows(NWFSC_ORWA_index) |>
   arrange(index, year)
 
-SS_write(inputs_wcgbts, dir = file.path(getwd(), "model", "2025_updated_catch_WCGBTSindex_20250317"), overwrite = TRUE)
+SS_write(inputs_catch_wcgbts, dir = file.path(getwd(), "model", "2025_updated_catch_WCGBTSindex_20250317"), overwrite = TRUE)
 
 get_ss3_exe(dir = file.path(getwd(), "model", "2025_updated_catch_WCGBTSindex_20250317"))
 
@@ -347,7 +350,7 @@ SS_plots(replist)
 ###################################################
 
 copy_SS_inputs(
-  dir.old = model_2017_updated_biasadj_path,
+  dir.old = model_2017_updatedexe_path,
   dir.new = file.path(getwd(), "model", "2025_updated_catch_indices_20250317"),
   create.dir = FALSE,
   overwrite = TRUE,
@@ -356,18 +359,18 @@ copy_SS_inputs(
 )
 
 # Use ss_new files from the catches run
-inputs_wcgbts <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch_20250317"), ss_new = TRUE)
+inputs_catch_indices <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch_20250317"), ss_new = TRUE)
 
 colnames_i <- c("year", "month", "index", "obs", "se_log")
 
 # CA Rec MRFSS dockside CPUE - fleet 3
 # I think we just bring over from 2017 assessment, because max year is 1999
-CA_REC_MRFSS_index <- inputs$dat$CPUE |>
+CA_REC_MRFSS_index <- inputs_catch_indices$dat$CPUE |>
   filter(index == 3)
 
 # OR Rec MRFSS - fleet 6
 # Just bring over from 2017 assessment
-OR_REC_MRFSS_index <- inputs$dat$CPUE |>
+OR_REC_MRFSS_index <- inputs_catch_indices$dat$CPUE |>
   filter(index == 6, year < 2000)
 
 # OR ORBS - fleet 6
@@ -377,12 +380,12 @@ colnames(ORBS_index) <- colnames_i
 
 # WA Rec CPUE - fleet 7
 # Just bring over from the 2017 assessment, because max year is 2001
-WA_REC_CPUE_index <- inputs$dat$CPUE |>
+WA_REC_CPUE_index <- inputs_catch_indices$dat$CPUE |>
   filter(index == 7)
 
 # CA onboard CPFV CPUE - fleet 8
 # Just bring over from the 2017 assessment, because max year is 1998
-CA_CPFV_CPUE_index <- inputs$dat$CPUE |>
+CA_CPFV_CPUE_index <- inputs_catch_indices$dat$CPUE |>
   filter(index == 8)
 
 # Oregon onboard Recreational Charter observer CPUE (ORFS) - fleet 9
@@ -396,7 +399,7 @@ ORFS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORFS_index_forSS
 colnames(ORFS_index) <- colnames_i
 
 # Triennial survey - fleet 10
-tri_index <- inputs$dat$CPUE |>
+tri_index <- inputs_catch_indices$dat$CPUE |>
   filter(index == 10)
 
 # NWFSC ORWA - fleet 11
@@ -428,9 +431,9 @@ all_indices <- do.call("rbind", list(
   IPHC_ORWA_index
 ))
 
-inputs$dat$indices <- all_indices
+inputs_catch_indices$dat$indices <- all_indices
 
-SS_write(inputs_wcgbts, dir = file.path(getwd(), "model", "2025_updated_catch_indices_20250317"), overwrite = TRUE)
+SS_write(inputs_catch_indices, dir = file.path(getwd(), "model", "2025_updated_catch_indices_20250317"), overwrite = TRUE)
 
 get_ss3_exe(dir = file.path(getwd(), "model", "2025_updated_catch_indices_20250317"))
 
@@ -442,21 +445,30 @@ SS_plots(replist)
 #####################################################
 ############## MODEL COMPARISON  ###################
 ####################################################
+#how do I change model names in plots????????
 
 # Get branch that SSsummarize fix is on for now until it is merged into main
 #devtools::install_github("r4ss/r4ss", ref = "fix_SSsummarize")
 # library(r4ss)
 models <- list.dirs(file.path(getwd(), "model"), recursive = FALSE)
-#####delete this###
-models <- models[c(3)]
-#####delete this###
+#first, base, updated ss3 exe, and bias adj CHANGE THE ORDER OF THIS IS BIAS ADJ USES OLD EXE
+models <- models[c(2,3,1)]
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
-                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "term1_final_model_comparisons"),
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "term1_final_model_comparisons", "base_updatedss3exe_sexbiasadj"),
                   print = TRUE
 )
 
+models <- list.dirs(file.path(getwd(), "model"), recursive = FALSE)
+#first, base, updated ss3 exe, and bias adj
+models <- models[c(1,3,5,6)]
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "term1_final_model_comparisons", "sexbiasadj_updatedss3exe_updatedcatch_updatedindices"),
+                  print = TRUE
+)
 
 
 
