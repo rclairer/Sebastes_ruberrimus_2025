@@ -29,7 +29,8 @@ catch = pull_catch(
 
 bio = pull_bio(
   common_name = "yelloweye rockfish", 
-  survey = "NWFSC.Combo")
+  survey = "NWFSC.Combo") |>
+  dplyr::filter(Latitude_dd >= 42)
 
 plot_cpue(
   catch = catch)
@@ -139,24 +140,23 @@ raw_length_comps <- raw_length_comps_n_trips |>
   left_join(raw_length_comps_n_fish, by = "year") |>
   dplyr::mutate(
     n_samps_per_tow = n_samps / n_tows,
-    Nsamp = ifelse(n_samps_per_tow < 55, (n_tows + 0.0707*n_samps), 4.89*n_tows)
-    ) |>
+    Nsamp = round(ifelse(n_samps_per_tow < 55, (n_tows + 0.0707*n_samps), 4.89*n_tows), digits = 2)) |>
   dplyr::select(year, month, fleet, sex, partition, Nsamp, everything(), -n_samps_per_tow, -n_samps, -n_tows) |>
-  write.csv(file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", "NWFSC.Combo_length_cm_unsexed_raw_10_74_yelloweye rockfish_groundfish_slope_and_shelf_combination_survey.csv"), row.names = FALSE)
+  write.csv(file.path(dirname(dirname(getwd())), "Rcode", "survey_length_age", "length_cm_unsexed_raw_10_74_yelloweye rockfish_groundfish_slope_and_shelf_combination_survey.csv"), row.names = FALSE)
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
-# length_files <- list.files(path = getwd(), pattern = "length_cm")
-# 
-# file.rename(from = length_files[1],
-#             to = paste0("NWFSC.Combo_", length_files[1]))
-# file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[1])),
-#             to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[1])))
-# 
-# file.rename(from = length_files[2],
-#             to = paste0("NWFSC.Combo_", length_files[2]))
-# file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[2])),
-#             to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[2])))
+length_files <- list.files(path = getwd(), pattern = "length_cm")
+
+file.rename(from = length_files[1],
+            to = paste0("NWFSC.Combo_", length_files[1]))
+file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[1])),
+            to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[1])))
+
+file.rename(from = length_files[2],
+            to = paste0("NWFSC.Combo_", length_files[2]))
+file.rename(from = file.path(getwd(), paste0("NWFSC.Combo_", length_files[2])),
+            to = file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", paste0("NWFSC.Combo_", length_files[2])))
 ```
 
 ### Marginal age composition data
@@ -210,13 +210,19 @@ raw_age_comps <- raw_age_comps_n_trips |>
   left_join(raw_age_comps_n_fish, by = "year") |>
   mutate(
     n_samps_per_tow = n_samps / n_tows,
-    Nsamp = ifelse(n_samps_per_tow < 55, (n_tows + 0.0707 * n_samps), 4.89*n_tows)
-    ) |>
+    Nsamp = round(ifelse(n_samps_per_tow < 55, (n_tows + 0.0707 * n_samps), 4.89*n_tows), digits = 2)) |>
   dplyr::select(year, month, fleet, sex, partition, Nsamp, everything(), -n_samps_per_tow, -n_samps, -n_tows) |>
-  write.csv(file.path(dirname(dirname(getwd())), "Data", "processed", "NWFSC.Combo_age_comps", "Tri_length_cm_unsexed_raw_10_74_yelloweye rockfish_groundfish_triennial_shelf_survey.csv"))
+  write.csv(file.path(dirname(dirname(getwd())), "Rcode", "survey_length_age", "age_unsexed_raw_10_74_yelloweye rockfish_groundfish_slope_and_shelf_combination_survey.csv"))
 
-plot_comps(
-  data = raw_age_comps_n_trips)
+# plot_comps(
+#   data = raw_age_comps_n_trips)
+raw_length_comps <- raw_length_comps_n_trips |>
+  left_join(raw_length_comps_n_fish, by = "year") |>
+  dplyr::mutate(
+    n_samps_per_tow = n_samps / n_tows,
+    Nsamp = round(ifelse(n_samps_per_tow < 55, (n_tows + 0.0707*n_samps), 4.89*n_tows), digits = 2)) |>
+  dplyr::select(year, month, fleet, sex, partition, Nsamp, everything(), -n_samps_per_tow, -n_samps, -n_tows) |>
+  write.csv(file.path(dirname(dirname(getwd())), "Rcode", "survey_length_age", "length_cm_unsexed_raw_10_74_yelloweye rockfish_groundfish_slope_and_shelf_combination_survey.csv"), row.names = FALSE)
 ```
 
 ```{r, echo = FALSE, message = FALSE, warning = FALSE}
