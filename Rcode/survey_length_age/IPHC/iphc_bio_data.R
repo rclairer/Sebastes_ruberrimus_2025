@@ -76,7 +76,7 @@ colnames(to_add) <- need_to_add
 
 length_comps_all <- cbind(length_comps, to_add)
 length_comps <- length_comps_all |>
-  dplyr::select(year, month, fleet, sex, part, Nsamp, stringr::str_sort(colnames(length_comps_all_all), decreasing = FALSE, numeric = TRUE))
+  dplyr::select(year, month, fleet, sex, part, Nsamp, stringr::str_sort(colnames(length_comps_all), decreasing = FALSE, numeric = TRUE))
 
 write.csv(length_comps, file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_length_comps.csv"), row.names = FALSE)
 

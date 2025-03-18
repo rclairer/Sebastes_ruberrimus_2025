@@ -520,13 +520,12 @@ head(gemm_data, n = 20)
 # Lengths
 nwfsc_lengths_new <- read.csv(file.path(getwd(), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", "NWFSC.Combo_length_cm_unsexed_raw_10_74_yelloweye rockfish_groundfish_slope_and_shelf_combination_survey.csv")) |>
   mutate(assessment = "Current") |>
-  dplyr::select(year, assessment, input_n, `u10`:`u74`) |>
-  tidyr::pivot_longer(cols = c(-year, -assessment, -input_n), names_to = "length", values_to = "freq") |>
+  dplyr::select(year, assessment, `u10`:`u74`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "length", values_to = "freq") |>
   dplyr::mutate(length = gsub("u", "", length)) |>
   dplyr::group_by(year) |>
   dplyr::mutate(
     freq = freq / sum(freq),
-    # NsampsFreq = freq/unique(Nsamps), still waiting on these
     length = as.numeric(length)
   )
 
@@ -536,13 +535,12 @@ inputs_old <- r4ss::SS_read(dir = file.path(getwd(), "model", "2017_yelloweye_mo
 nwfsc_lengths_old <- inputs_old$dat$lencomp |>
   dplyr::filter(fleet == 11)|>
   mutate(assessment = "Previous") |>
-  dplyr::select(year, assessment, Nsamp, `l10`:`l74`) |>
-  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "length", values_to = "freq") |>
+  dplyr::select(year, assessment, `l10`:`l74`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "length", values_to = "freq") |>
   dplyr::mutate(length = gsub("^l", "", length)) |>
   dplyr::group_by(year) |>
   dplyr::mutate(
     freq = freq / sum(freq),
-    # NsampsFreq = freq/unique(Nsamps), still waiting on these
     length = as.numeric(length)
   )
 
@@ -554,10 +552,10 @@ comparison_plot <- together |>
 ggsave(plot = comparison_plot, "nwfsc_length_comp_comparisons.png", path = file.path(getwd(), "Rcode", "survey_length_age", "NWFSC.Combo_plots"))
 
 # Ages
-nwfsc_ages_new <- read.csv(file.path(getwd(), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", "NWFSC.Combo_age_unsexed_raw_0_65_yelloweye rockfish_groundfish_slope_and_shelf_combination_survey.csv")) |>
+nwfsc_ages_new <- read.csv(file.path(getwd(), "Data", "processed", "NWFSC.Combo_age_comps", "NWFSC.Combo_age_unsexed_raw_0_65_yelloweye rockfish_groundfish_slope_and_shelf_combination_survey.csv")) |>
   mutate(assessment = "Current") |>
-  dplyr::select(year, assessment, input_n, `u0`:`u65`) |>
-  tidyr::pivot_longer(cols = c(-year, -assessment, -input_n), names_to = "age", values_to = "freq") |>
+  dplyr::select(year, assessment, `u0`:`u65`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "age", values_to = "freq") |>
   dplyr::mutate(age = gsub("u", "", age)) |>
   dplyr::group_by(year) |>
   dplyr::mutate(
@@ -569,13 +567,12 @@ nwfsc_ages_new <- read.csv(file.path(getwd(), "Data", "processed", "NWFSC.Combo_
 nwfsc_ages_old <- inputs_old$dat$agecomp |>
   dplyr::filter(fleet == 11)|>
   mutate(assessment = "Previous") |>
-  dplyr::select(year, assessment, Nsamp, `a0`:`a65`) |>
-  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "age", values_to = "freq") |>
+  dplyr::select(year, assessment, `a0`:`a65`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "age", values_to = "freq") |>
   dplyr::mutate(age = gsub("^a", "", age)) |>
   dplyr::group_by(year) |>
   dplyr::mutate(
     freq = freq / sum(freq),
-    # NsampsFreq = freq/unique(Nsamps), still waiting on these
     age = as.numeric(age)
   )
 
@@ -592,13 +589,12 @@ ggsave(plot = comparison_plot, "nwfsc_age_comp_comparisons.png", path = file.pat
 # Lengths
 tri_lengths_new <- read.csv(file.path(getwd(), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps", "Tri_length_cm_unsexed_raw_10_74_yelloweye rockfish_groundfish_triennial_shelf_survey.csv")) |>
   mutate(assessment = "Current") |>
-  dplyr::select(year, assessment, input_n, `u10`:`u74`) |>
-  tidyr::pivot_longer(cols = c(-year, -assessment, -input_n), names_to = "length", values_to = "freq") |>
+  dplyr::select(year, assessment, `u10`:`u74`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "length", values_to = "freq") |>
   dplyr::mutate(length = gsub("u", "", length)) |>
   dplyr::group_by(year) |>
   dplyr::mutate(
     freq = freq / sum(freq),
-    # NsampsFreq = freq/unique(Nsamps), still waiting on these
     length = as.numeric(length)
   )
 
@@ -606,13 +602,12 @@ tri_lengths_new <- read.csv(file.path(getwd(), "Data", "processed", "NWFSC.Combo
 tri_lengths_old <- inputs_old$dat$lencomp |>
   dplyr::filter(fleet == 10)|>
   mutate(assessment = "Previous") |>
-  dplyr::select(year, assessment, Nsamp, `l10`:`l74`) |>
-  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "length", values_to = "freq") |>
+  dplyr::select(year, assessment, `l10`:`l74`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "length", values_to = "freq") |>
   dplyr::mutate(length = gsub("^l", "", length)) |>
   dplyr::group_by(year) |>
   dplyr::mutate(
     freq = freq / sum(freq),
-    # NsampsFreq = freq/unique(Nsamps), still waiting on these
     length = as.numeric(length)
   )
 
@@ -622,115 +617,4 @@ comparison_plot <- together |>
   ggplot2::ggplot(aes(x = year, y = length, col = assessment, size = freq)) +
   ggplot2::geom_point(position = position_dodge(0.5))
 ggsave(plot = comparison_plot, "tri_length_comp_comparisons.png", path = file.path(getwd(), "Rcode", "survey_length_age", "Tri_plots"))
-```
-
-
-### Age composition ccomparisons (NWFSC.Combo only)
-Both of these use csv files that were formatted to input in the SAC tool with different numbered fleets to represent the years but 
-you could easily extract data from the previous assessment and rbind it with the updated data. The big thing you would want is 
-```{r}
-nwfsc_ages<-read.csv(file.path(getwd(), "NWFSC.Combo_plots", "nwfsc.combo_comparison_ages.csv"))
-
-long_nwfsc_ages <- nwfsc_ages |>
-              dplyr::mutate(type = dplyr::case_when(Fleet == 1 ~ "previous assessment",
-                                      Fleet == -1 ~ "previous assessment",
-                                      Fleet == 2 ~ "current assessment",
-                                      Fleet == -2 ~ "current assessment"),
-                     age_type = dplyr::case_when(Fleet == 1 ~ "caal",
-                                      Fleet == -1 ~ "maal",
-                                      Fleet == 2 ~ "caal",
-                                      Fleet == -2 ~ "maal"))|>
-                    dplyr::select(Year, type, age_type, `X0`:`X65`) |>
-                    tidyr::pivot_longer(cols = c(-Year, -type, -age_type), names_to = 'age', values_to = 'freq') |>
-                    dplyr::mutate(age = gsub("X","",age))
-          
-old_comps <- long_nwfsc_ages |>
-             dplyr::filter(type == "previous assessment") |>
-             dplyr::filter(age_type == "maal") |>
-             dplyr::group_by(Year) |>
-             dplyr::mutate(freq = freq/sum(freq),
-                    age = as.numeric(age)) 
-new_comps <- long_nwfsc_ages |>
-             dplyr::filter(type == "current assessment") |>
-             dplyr::filter(age_type == "maal")|>
-             dplyr::group_by(Year) |>
-             dplyr::mutate(freq = freq/sum(freq),
-                    age = as.numeric(age)) 
-
-# Kiva's method of looking at the age comps...it didn't make sense to my brain
-# dplyr::bind_rows(list(new = new_comps,
-#                old = old_comps),
-#           .id = 'type') |> 
-#   tidyr::pivot_wider(names_from = type, values_from = freq) |>
-#   ggplot2::ggplot(aes(x = new, y = old, col = age)) +
-#   ggplot2::geom_point()
-
-together <- rbind(old_comps, new_comps)
-comparison_plot <- together |>
-                   dplyr::filter(freq > 0 ) |>
-                   ggplot2::ggplot(aes(x = Year, y = age, col = type, size = freq)) +
-                   ggplot2::geom_point(position=position_dodge(0.5))
-ggsave(plot = comparison_plot, "nwfsc_age_comp_comparisons.png", path = file.path(getwd(), "NWFSC.Combo_plots"))
-
-```
-
-### Length composition comparisons 
-```{r}
-nwfsc_lengths<-read.csv(file.path(getwd(), "NWFSC.Combo_plots", "nwfsc.combo_comparison_lengths.csv"))
-
-long_nwfsc_lengths <- nwfsc_lengths |>
-              dplyr::mutate(type = dplyr::case_when(Fleet == 1 ~ "previous assessment",
-                                      Fleet == 2 ~ "current assessment")) |>
-              dplyr::select(Year, type, Nsamps, `X10`:`X74`) |>
-              tidyr::pivot_longer(cols = c(-Year, -type, -Nsamps), names_to = 'length', values_to = 'freq') |>
-              dplyr::mutate(length = gsub("X","",length))
-
-old_comps <- long_nwfsc_lengths |>
-             dplyr::filter(type == "previous assessment") |>
-             dplyr::group_by(Year) |>
-             dplyr::mutate(freq = freq/sum(freq),
-                    NsampsFreq = freq/unique(Nsamps),
-                    length = as.numeric(length)) 
-new_comps <- long_nwfsc_lengths |>
-             dplyr::filter(type == "current assessment") |>
-             dplyr::group_by(Year) |>
-             dplyr::mutate(freq = freq/sum(freq),
-                    NsampsFreq = freq/unique(Nsamps),
-                    length = as.numeric(length)) 
-
-together <- rbind(old_comps, new_comps)
-comparison_plot <- together |>
-                   dplyr::filter(freq > 0 ) |>
-                   ggplot2::ggplot(aes(x = Year, y = length, col = type, size = freq)) +
-                   ggplot2::geom_point(position=position_dodge(0.5))
-ggsave(plot = comparison_plot, "nwfsc_length_comp_comparisons.png", path = file.path(getwd(), "NWFSC.Combo_plots"))
-
-## Triennial length compositions
-tri_lengths <- read.csv(file.path(getwd(), "Tri_plots", "triennial_comparison_lengths.csv"))
-long_tri_lengths <- tri_lengths |>
-              dplyr::mutate(type = dplyr::case_when(Fleet == 1 ~ "previous assessment",
-                                      Fleet == 2 ~ "current assessment")) |>
-              dplyr::select(Year, type, Nsamps, `X10`:`X74`) |>
-              tidyr::pivot_longer(cols = c(-Year, -type, -Nsamps), names_to = 'length', values_to = 'freq') |>
-              dplyr::mutate(length = gsub("X","",length))
-
-old_comps <- long_tri_lengths |>
-             dplyr::filter(type == "previous assessment") |>
-             dplyr::group_by(Year) |>
-             dplyr::mutate(freq = freq/sum(freq),
-                    NsampsFreq = freq/unique(Nsamps),
-                    length = as.numeric(length)) 
-new_comps <- long_tri_lengths |>
-             dplyr::filter(type == "current assessment") |>
-             dplyr::group_by(Year) |>
-             dplyr::mutate(freq = freq/sum(freq),
-                    NsampsFreq = freq/unique(Nsamps),
-                    length = as.numeric(length)) 
-
-together <- rbind(old_comps, new_comps)
-comparison_plot <- together |>
-                   dplyr::filter(freq > 0 ) |>
-                   ggplot2::ggplot(aes(x = Year, y = length, col = type, size = freq)) +
-                   ggplot2::geom_point(position=position_dodge(0.5))
-ggsave(plot = comparison_plot, "tri_length_comp_comparisons.png", path = file.path(getwd(), "Tri_plots"))
 ```
