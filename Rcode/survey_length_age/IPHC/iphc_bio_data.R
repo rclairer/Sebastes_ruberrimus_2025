@@ -7,30 +7,33 @@ library(r4ss)
 
 iphc_bio_new <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "IPHCFISS_YEYE_Biodata_2025-03-12.csv"))
 
-#for ages until I can get the age data
+# for ages until I can get the age data
 iphc_bio_old <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "iphc_biodata.csv"))
 
 # join the old and new ones to have the STLKEY for the ages
 # Will not be necessary when we get the updated age data
 iphc_bio <- iphc_bio_new |>
-  dplyr::select(sample_year, BDS.sample.code, BDS.fish.number, weight_gm, YearTag, fish_length_cm, STLKEY) |>
+  dplyr::select(sample_year, BDS.sample.code, BDS.fish.number, weight_gm, YearTag, fish_length_cm, STLKEY, IPHC.Charter.Region) |>
   dplyr::mutate(tag_number = stringr::str_sub(YearTag, 5, stringr::str_length(YearTag))) |>
   inner_join(iphc_bio_old, by = c("sample_year", "BDS.sample.code" = "sample_code", "BDS.fish.number" = "fish_number", "weight_gm")) |>
   select(-tag_number.y, -fish_length_cm.y) |>
   rename(fish_length_cm = fish_length_cm.x)
 
-# Nsamp method is the Stewart Hammel method where 
+# Nsamp method is the Stewart Hammel method where
 # Nsamp = n_trips + 0.0707 * n_fish when n_fish/n_tows < 55 and
 # Nsamp = 4.89 * n_trips when n_fish/n_tows >= 55
 N_samp <- iphc_bio |>
+  filter(IPHC.Charter.Region != "North CA") |>
   group_by(sample_year, STLKEY) |>
   summarize(n_fish_stlkey = n()) |>
   ungroup() |>
   group_by(sample_year) |>
-  summarize(n_trips = n(),
-            n_fish = sum(n_fish_stlkey),
-            n_fish_per_trip = n_fish/n_trips,
-            Nsamp = ifelse(n_fish_per_trip < 55, (n_trips + 0.0707 * n_fish), 4.89*n_trips)) |>
+  summarize(
+    n_trips = n(),
+    n_fish = sum(n_fish_stlkey),
+    n_fish_per_trip = n_fish / n_trips,
+    Nsamp = ifelse(n_fish_per_trip < 55, (n_trips + 0.0707 * n_fish), 4.89 * n_trips)
+  ) |>
   ungroup() |>
   rename(year = sample_year) |>
   select(year, Nsamp)
@@ -40,10 +43,11 @@ N_samp <- iphc_bio |>
 # method used for assigning bins in nwfscSurvey package
 l_bins <- c(10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74)
 l_bins_inf <- c(l_bins, Inf)
-iphc_bio$l_bin <- as.numeric(l_bins_inf[findInterval(iphc_bio[, "fish_length_cm"],l_bins_inf, all.inside = T)])
+iphc_bio$l_bin <- as.numeric(l_bins_inf[findInterval(iphc_bio[, "fish_length_cm"], l_bins_inf, all.inside = T)])
 
 # get length comps by year and bin
 length_comps <- iphc_bio |>
+  filter(IPHC.Charter.Region != "North CA") |>
   filter(case_when(sample_year <= 2016 ~ !is.na(best_age), TRUE ~ TRUE)) |>
   # dplyr::filter(!is.na(best_age)) |>
   dplyr::filter(!is.na(l_bin)) |>
@@ -89,6 +93,7 @@ iphc_bio$a_bin <- a_bins_inf[findInterval(iphc_bio$best_age, a_bins_inf, all.ins
 early_age_values <- as.character(0:(min(iphc_bio$a_bin, na.rm = TRUE) - 1))
 
 caal <- iphc_bio |>
+  filter(IPHC.Charter.Region != "North CA") |>
   dplyr::filter(sample_year <= 2016) |> # will remove when we get updated age data
   dplyr::filter(!is.na(l_bin)) |>
   dplyr::filter(!is.na(a_bin)) |>
@@ -121,6 +126,7 @@ write.csv(caal, file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_c
 
 ### MAAL ###
 maal <- iphc_bio |>
+  filter(IPHC.Charter.Region != "North CA") |>
   dplyr::filter(sample_year <= 2016) |> # will remove when we get updated age data
   dplyr::filter(!is.na(a_bin)) |>
   dplyr::group_by(sample_year, a_bin) |>
@@ -140,7 +146,7 @@ maal <- iphc_bio |>
   ) |>
   dplyr::rename(year = sample_year) |>
   inner_join(N_samp, by = "year") |>
-  dplyr::select(year, month, fleet, sex, part, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything()) 
+  dplyr::select(year, month, fleet, sex, part, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything())
 
 column_names <- maal |>
   ungroup() |>
@@ -170,7 +176,6 @@ iphc_lengths_new <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_bio_d
   dplyr::group_by(year) |>
   dplyr::mutate(
     freq = freq / sum(freq),
-    # NsampsFreq = freq/unique(Nsamps), still waiting on these
     length = as.numeric(length)
   )
 
@@ -186,7 +191,6 @@ iphc_lengths_old <- inputs_old$dat$lencomp |>
   dplyr::group_by(year) |>
   dplyr::mutate(
     freq = freq / sum(freq),
-    # NsampsFreq = freq/unique(Nsamps), still waiting on these
     length = as.numeric(length)
   )
 
@@ -207,8 +211,6 @@ iphc_ages_new <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_bio_data
   dplyr::group_by(year) |>
   dplyr::mutate(
     freq = freq / sum(freq),
-    # NsampsFreq = freq/unique(Nsamps), still waiting on these
-    # NsampsFreq = freq/unique(Nsamps), still waiting on these
     age = as.numeric(age)
   )
 
@@ -221,7 +223,6 @@ iphc_ages_old <- inputs_old$dat$agecomp |>
   dplyr::group_by(year) |>
   dplyr::mutate(
     freq = freq / sum(freq),
-    # NsampsFreq = freq/unique(Nsamps), still waiting on these
     age = as.numeric(age)
   )
 
