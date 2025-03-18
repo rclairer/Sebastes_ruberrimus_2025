@@ -384,6 +384,9 @@ colnames(CA_REC_lengths) <- colnames_l
 
 # OR observer - fleet 9
 
+# Nsamp method used for all survey length comps is the old Stewart Hamel method from the 2017 assessment where
+# Nsamp = n_trips + 0.0707 * n_fish when n_fish/n_tows < 55 and
+# Nsamp = 4.89 * n_trips when n_fish/n_tows >= 55
 # Triennial survey - fleet 10
 tri_lengths <- read.csv(file.path(
   getwd(), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps",
@@ -469,6 +472,9 @@ colnames(ca_rec_don_pearson) <- colnames_a
 
 # WA REC MAAL - fleet -7
 
+# Nsamp method used for all survey maal is the old Stewart Hamel method from the 2017 assessment where
+# Nsamp = n_trips + 0.0707 * n_fish when n_fish/n_tows < 55 and
+# Nsamp = 4.89 * n_trips when n_fish/n_tows >= 55
 # NWFSC survey CAAL and MAAL - fleet -11 and 11
 nwfsc_caal <- read.csv(file.path(
   getwd(), "Data", "processed", "NWFSC.Combo_CAAL",
