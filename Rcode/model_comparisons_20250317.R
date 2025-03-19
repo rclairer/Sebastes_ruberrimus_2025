@@ -14,14 +14,6 @@ model_2017_base_path <- file.path(getwd(), "model", "2017_yelloweye_model_base")
 model_2017_updatedexe_path <- file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")
 
 
-###################################################
-# UPDATED SS3 EXE AND BIAS ADJUSTMENT FOR ONE SEX #
-###################################################
-
-model_2017_updatedexe_biasadj_path <- file.path(getwd(), "model", "2017_add_bias_adjustment")
-#how do we run this model??????????????????? 
-#I'm assuming this is old exe, hopefully - to replace "base model" in comparisons
-
 ##############################################
 #### UPDATED SS3 EXE, UPDATED CATCH #########
 #############################################
@@ -451,7 +443,7 @@ SS_plots(replist)
 #devtools::install_github("r4ss/r4ss", ref = "fix_SSsummarize")
 # library(r4ss)
 models <- list.dirs(file.path(getwd(), "model"), recursive = FALSE)
-#first, base, updated ss3 exe, and bias adj CHANGE THE ORDER OF THIS IS BIAS ADJ USES OLD EXE
+#first, base, updated ss3 exe
 models <- models[c(2,3)]
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -462,7 +454,6 @@ SSplotComparisons(models_summary,
 )
 
 models <- list.dirs(file.path(getwd(), "model"), recursive = FALSE)
-#first, base, updated ss3 exe, and bias adj
 models <- models[c(2,3,5,6)]
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
