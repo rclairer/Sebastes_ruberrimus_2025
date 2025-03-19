@@ -452,21 +452,21 @@ SS_plots(replist)
 # library(r4ss)
 models <- list.dirs(file.path(getwd(), "model"), recursive = FALSE)
 #first, base, updated ss3 exe, and bias adj CHANGE THE ORDER OF THIS IS BIAS ADJ USES OLD EXE
-models <- models[c(2,3,1)]
+models <- models[c(2,3)]
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
-                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "term1_final_model_comparisons", "base_updatedss3exe_sexbiasadj"),
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "term1_final_model_comparisons", "base_updatedss3exe"),
                   print = TRUE
 )
 
 models <- list.dirs(file.path(getwd(), "model"), recursive = FALSE)
 #first, base, updated ss3 exe, and bias adj
-models <- models[c(1,3,5,6)]
+models <- models[c(2,3,5,6)]
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
-                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "term1_final_model_comparisons", "sexbiasadj_updatedss3exe_updatedcatch_updatedindices"),
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "term1_final_model_comparisons", "base_updatedss3exe_updatedcatch_updatedindices"),
                   print = TRUE
 )
 
