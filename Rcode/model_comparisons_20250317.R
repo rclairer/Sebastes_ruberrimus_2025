@@ -457,6 +457,7 @@ models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "term1_final_model_comparisons", "base_updatedss3exe"),
+                  legendlabels = c("2017 base", "2017 updated SS3 exe"),
                   print = TRUE
 )
 
@@ -467,6 +468,7 @@ models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "term1_final_model_comparisons", "base_updatedss3exe_updatedcatch_updatedindices"),
+                  legendlabels = c("2017 base", "2017 updated SS3 exe", "2025 updated catch", "2025 updated catch & indices"),
                   print = TRUE
 )
 
