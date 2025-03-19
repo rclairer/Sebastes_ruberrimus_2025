@@ -213,11 +213,73 @@ OR_REC: MAAL, WDFW ager data. Starting in 1979
 WA_REC: CAAL, WDFW ager data. Starting in 1998. includes MRFSS and OSP
 
 ```{r}
-df <- read.csv('~/Git/Sebastes_ruberrimus_2025/Data/raw/confidential/recfin_WDFW_length_age.csv')
+wa_data <- read.csv('~/Git/Sebastes_ruberrimus_2025/Data/raw/confidential/recfin_WDFW_length_age.csv')
+names(wa_data)[names(wa_data) == "SAMPLE_YEAR"] <- "year"
+names(wa_data)[names(wa_data) == "RECFIN_SPECIES_NAME"] <- "common_name"
+names(wa_data)[names(wa_data) == "RECFIN_SEX_CODE"] <- "sex"
+names(wa_data)[names(wa_data) == "USE_THIS_AGE"] <- "age"
+names(wa_data)[names(wa_data) == "RECFIN_LENGTH_MM"] <- "length"
+wa_data$length <- wa_data$length/10
+
+wa_caal <- get_raw_caal(
+  data = wa_data,
+  len_bins = seq(10, 74, 2),
+  age_bins = seq(0, 65, 1),
+  length_column_name = "length",
+  age_column_name = "age",
+  month = 7,
+  fleet = 7,
+  partition = 0,
+  dir = NULL,
+  printfolder = "",
+  verbose = TRUE
+)
+
+wa_caal <- data.frame(wa_caal)
+colnames(wa_caal) <- gsub("^unsexed\\.", "", colnames(wa_caal))
+colnames(wa_caal) <- gsub("^f", "A", colnames(wa_caal))
+
+write.csv(wa_caal,'~/Git/Sebastes_ruberrimus_2025/Data/processed/recfin_WDFW_caal_age.csv')
+
+# Comparison plots
+# WA ages
+# Read new data
+wa_caal_new <- read.csv('~/Git/Sebastes_ruberrimus_2025/Data/processed/recfin_WDFW_caal_age.csv') |>
+  mutate(assessment = "Current") |>
+  dplyr::select(year, assessment, A0:A65) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "age", values_to = "freq") |>
+  dplyr::mutate(age = gsub("A", "", age)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    age = as.numeric(age),
+  )
+
+# Read old data
+inputs_old <- r4ss::SS_read(dir = file.path("/Users/abby/Git/Sebastes_ruberrimus_2025/model/2017_yelloweye_model_updated_ss3_exe"))
+wa_caal_old <- inputs_old$dat$agecomp |>
+  dplyr::filter(fleet == 7) |>
+  mutate(assessment = "Previous") |>
+  dplyr::select(year, assessment, Nsamp, `a0`:`a65`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "age", values_to = "freq") |>
+  dplyr::mutate(age = gsub("^a", "", age)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    age = as.numeric(age)
+  )
+
+together <- rbind(wa_caal_old, wa_caal_new)
+comparison_plot_wa_age <- together |>
+  dplyr::filter(freq > 0) |>
+  ggplot2::ggplot(aes(x = year, y = age, col = assessment, size = freq)) +
+  ggplot2::geom_point(position = position_dodge(0.5))
+ggsave(plot = comparison_plot_wa_age, "recfin_wa_caal_comp_comparisons.png", path = file.path("/Users/abby/Git/Sebastes_ruberrimus_2025/Rcode/length_age_comps"))
 
 ```
 
 WA_REC: MAAL, WDFW ager data. Starting in 1998. includes MRFSS and OSP
+Some ages have changed 2004-2015 from previous assessment to our data
 
 ```{r}
 wa_data <- read.csv('~/Git/Sebastes_ruberrimus_2025/Data/raw/confidential/recfin_WDFW_length_age.csv')
@@ -266,7 +328,7 @@ wa_ages_new <- read.csv('~/Git/Sebastes_ruberrimus_2025/Data/processed/recfin_WD
 # Read old data
 inputs_old <- r4ss::SS_read(dir = file.path("/Users/abby/Git/Sebastes_ruberrimus_2025/model/2017_yelloweye_model_updated_ss3_exe"))
 wa_ages_old <- inputs_old$dat$agecomp |>
-  dplyr::filter(fleet == 7) |>
+  dplyr::filter(fleet == -7) |>
   mutate(assessment = "Previous") |>
   dplyr::select(year, assessment, Nsamp, `a0`:`a65`) |>
   tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "age", values_to = "freq") |>
