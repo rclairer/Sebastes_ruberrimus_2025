@@ -590,7 +590,7 @@ bds_cleaned_addCAage <- bind_rows(bds_cleaned,CA_age_samples_cleaned)
 ```
 
 
-# 5- COMPUTE SAMPLING EFFORT
+# 6- COMPUTE SAMPLING EFFORT
 
 Need a number of trips and fish samples per year per stratification
 
@@ -604,7 +604,7 @@ fleets_names <- data_frame(
   fleet_nb=c(1,2,4,5))
 ```
 
-## 5.1- Length sampling effort
+## 6.1- Length sampling effort
 
 
 ### Number of trip and sample
@@ -716,7 +716,7 @@ ggsave(comp_length_sample_effort_plt,path=file_path,
        height=7,width=12)
 ```
 
-## 5.2- Age sampling effort
+## 6.2- Age sampling effort
 
 ### trips and samples 
 
@@ -895,23 +895,174 @@ ggsave(comp_age_sample_effort_plt,path=file_path,
 
 <!-- ``` -->
 
+# 7- Prepare WCGOP
 
-
-### Sample size
-
-#### Computation
-
-2017 SAFE p42 -> for CAAL actual numbers of fish on which each comp is based
+## Load data
 
 ```{r}
-age_sample_size <- age_sample_effort %>%
-  mutate(n_input = n_fish) %>% 
+#length
+wcgop_length_comps <- read.csv(file = '../../Data/raw/nonconfidential/wcgop/biological_discard_lengths.csv')
+wcgop_length_sample_size <- read.csv(file = '../../Data/raw/nonconfidential/wcgop/biological_sample_sizes_length.csv')
+
+#age
+wcgop_age_comps <- read.csv(file = '../../Data/raw/nonconfidential/wcgop/biological_discard_ages.csv')
+wcgop_age_sample_size <- read.csv(file = '../../Data/raw/nonconfidential/wcgop/biological_sample_sizes_age.csv')
+```
+
+
+## Length
+
+
+### quick explo
+
+```{r}
+View(wcgop_length_comps)
+names(wcgop_length_comps)
+
+
+# wcgop_length_comps %>% select(f10:f74) == wcgop_length_comps %>% select(m10:m74)
+
+summary(wcgop_length_comps)
+summary(wcgop_length_comps[,c(1:6)])
+rowSums(wcgop_length_comps[,-c(1:6)])
+
+wcgop_length_comps$sex %>% unique()
+
+wcgop_length_comps %>% 
+          filter(sex==0) %>% 
+
+
+rowSums(wcgop_length_comps %>% 
+          filter(sex==0) %>% #sex==3
+          select(f10:m74))
+
+
+colSums(wcgop_length_comps %>% 
+          filter(sex==0) %>% #sex==3
+          select(f10:m74))
+
+```
+
+there are 2 'sex' modalities 0 and 3:
+** if sex==0 there are only 'female' -> maybe unsexed?
+** if sex==3 comps for female and male
+
+```{r}
+ wcgop_length_comps %>% 
+   pivot_longer(cols = f10:m74) %>% 
+   separate(name,into=c('sex_name','plength'),sep=1) %>% 
+   group_by(year,fleet) %>% 
+   summarize(sum=sum(value)) %>% summary()
+```
+
+
+everything sums to 100 -> it seems ok to group things
+
+```{r}
+wcgop_length_sample_size %>% 
+              mutate(input_n2= round(ifelse(fish /trips <44,
+                                      trips +0.138*fish ,7.06*trips )),
+                     fleet=paste(gear_groups,fleet_groups,sep='-')) %>% 
+  mutate(input_nCHECK=input_n2==input_n2) %>% summary()
+
+
+```
+
+Check if sample size computation match our formula -> YES
+THOUGH we want to do it on total sampling effort (PacFIN+WCGOP)
+
+
+```{r}
+wcgop_length_sample_size %>% 
+  mutate(area=ifelse(fleet_groups=='CA',fleet_groups,'ORWA')) %>% 
+  mutate(fleet=paste(gear_groups,area,sep='-')) %>% 
+  pivot_wider(id_cols = year,names_from = c(fleet),
+              values_from = c(trips,fish),
+              names_glue="{fleet}_{.value}",values_fn=sum) %>% 
+  relocate(year,'trawl-CA_trips','trawl-CA_fish',
+           'fixed-CA_trips','fixed-CA_fish',
+          'trawl-ORWA_trips','trawl-ORWA_fish',
+           'fixed-ORWA_trips','fixed-ORWA_fish') %>% View()
+```
+
+Check if sample size match passed assessment -> YES, very low differences in ORWA-fixed
+
+
+```{r}
+ wcgop_length_comps %>% 
+   pivot_longer(cols = f10:m74) %>% 
+   separate(name,into=c('sex_name','length'),sep=1) %>% 
+   group_by(year,fleet,length) %>% 
+   summarize(sum=sum(value)) %>% 
+  
+  #add number of fish sample that year*fleet
+  left_join(wcgop_length_sample_size %>% 
+              mutate(fleet=paste(gear_groups,fleet_groups,sep='-')) %>% 
+              select(year,fleet,fish,input_n),
+            by=c('year','fleet')) %>% 
+  
+   mutate(nfish1=fish*sum/100,nfish2=input_n*sum/100) %>%
+   filter(nfish1>0) %>% View()#pull(nfish)
+
+
+
+
+```
+
+## Age
+
+
+### Sampling effort 
+
+```{r}
+wcgop_age_sample_size %>% 
+  mutate(area=ifelse(fleet_groups=='CA',fleet_groups,'ORWA')) %>% 
+  mutate(fleet=paste(gear_groups,area,sep='-')) %>% 
+  pivot_wider(id_cols = year,names_from = c(fleet),
+              values_from = c(trips,fish),
+              names_glue="{fleet}_{.value}",values_fn=sum) %>% 
+  relocate(year,'trawl-CA_trips','trawl-CA_fish',
+           'fixed-CA_trips','fixed-CA_fish',
+          'trawl-ORWA_trips','trawl-ORWA_fish',
+           'fixed-ORWA_trips','fixed-ORWA_fish') %>% View()
+```
+
+Check if sample size match passed assessment -> YES, very low differences in ORWA-fixed
+
+### Sampling size 
+
+# 8- Sample size (PacFIN+WCGOP)
+
+## Length
+
+### Computation
+
+Formula from 2017 SAFE p41
+
+```{r}
+length_sample_size <- 
+  # take WCGOP + clean and format
+  wcgop_length_sample_size %>% 
+  mutate(fleet_groups=ifelse(fleet_groups=='CA','CA','ORWA'),
+         gear_groups=ifelse(gear_groups=='trawl','TWL','HKL')) %>% 
+  mutate(stratification_byarea=paste(fleet_groups,gear_groups,sep='.')) %>% 
+  dplyr::rename(n_fish=fish,n_trips=trips) %>% 
+    select(year,stratification_byarea,n_fish,n_trips) %>% 
+  
+  # add PacFIN
+  bind_rows(length_sample_effort) %>% 
+
+  #summarise
+  group_by(year, stratification_byarea) %>% 
+  summarize(n_trips=sum(n_trips),n_fish=sum(n_fish)) %>% 
+  
+  #compute
+  mutate(n_input = ifelse(n_fish/n_trips<44,n_trips+0.138*n_fish,7.06*n_trips)) %>% 
   # add lines for every year
-  right_join(expand.grid(year=seq(minmaxy_agecomp[1],minmaxy_age[2]),stratification_byarea=fleets_names$fleet_name),
+  right_join(expand.grid(year=seq(minmaxy_l[1],minmaxy_l[2]),stratification_byarea=fleets_names$fleet_name),
              by=c('year','stratification_byarea')) %>% 
   arrange(year)
-
-age_sample_size
+length_sample_size
 ```
 
 #### Compare w 2017
@@ -999,7 +1150,7 @@ ggsave(comp_age_sample_size,path=file_path,
 
 ```
 
-# 6- EXPANSION
+# 9- EXPANSION
 
 No expansion is done for this species because of too low samples numbers
 
@@ -1008,13 +1159,13 @@ p41 of 2017 SAFE
 "Due to very sparse sampling (mainly opportunistic, since yelloweye have been landed in very small proportions of mixed species market categories or recreational bag limits) length frequencies are raw, calculated as the count of fish among size bins. This has been the case in previous assessments, and preliminary investigation of alternate weighting procedures revealed little sensitivity to this choice."
 
 
-# 7- COMPUTING COMPS
+# 10- COMPUTING COMPS
 
 Instructors advise to use getrawComp from nwfscSurvey
 -> can also use PacFINtools::getComps() to double check?
 
 
-## 7.1- LENGTH COMPS
+## 10.1- LENGTH COMPS
 
 ### Compute w getComps()
 
@@ -1132,7 +1283,7 @@ for (f in 1:nrow(fleets_names)){
 tmp_plt
 ```
 
-## 7.2- CONDITIONAL AGE AT LENGTH
+## 10.2- CONDITIONAL AGE AT LENGTH
 
 ### Compute w get_raw_caal
 
@@ -1217,7 +1368,7 @@ tmp_plt
 ->> not sure if there is a point to make comparative plots because CAAL are quite hard to look at anyway -> check w instructors
 
 
-## 7.3- GHOST AGE COMPS
+## 10.3- GHOST AGE COMPS
 
 not fitted in the stock assessment model but included in data to explore fit/observed better
 
