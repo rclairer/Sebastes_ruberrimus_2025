@@ -226,7 +226,7 @@ catch_plt <- ggplot(data = catch) +
     y = "Catch (mt)",
     color = "Fleet"
   )
-satf::add_theme(catch_plt)
+stockplotr::add_theme(catch_plt)
 ```
 
 Look at WA Landings in 2023
