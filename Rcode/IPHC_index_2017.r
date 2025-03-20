@@ -2,8 +2,10 @@ library(reshape2)
 setwd("C:/Users/Jason.Cope/Desktop/Yelloweye_2017_indices/IPHC")
 IPHC.dat<-read.csv("IPHC_CPUE.csv",header=TRUE)
 
+IPHC.dat = IPHC_CPUE
+
 #Add depth bins
-IPHC.dat$DEPTH_MAX_M<-IPHC.dat$Max.depth..fm.*1.8288
+IPHC.dat$DEPTH_MAX_M<-IPHC.dat$`Max depth (fm)`*1.8288
 #Remove depths >185
 IPHC.dat.depths<-subset(IPHC.dat,DEPTH_MAX_M<185)
 IPHCdepth_bins<-pretty(IPHC.dat.depths$DEPTH_MAX_M,n=10)
@@ -19,11 +21,11 @@ IPHC.dat.depths.stations$State[IPHC.dat.depths.stations$Station>1027]<-"WA"
 
 #Checks each factor for presence of yelloweye
 obj.in<-IPHC.dat.depths.stations
-dcast(obj.in,SurveyYear~Station,sum,na.rm=T,value.var = "Yelloweye.Rockfish")
+dcast(obj.in,SurveyYear~Station,sum,na.rm=T,value.var = "Yelloweye Rockfish")
 dim(obj.in)[1]
-sum(dcast(obj.in,1~SurveyYear,sum,na.rm=T,value.var = "Yelloweye.Rockfish"))
-sum(table(obj.in$Yelloweye.Rockfish)[-1])
-sum(table(obj.in$Yelloweye.Rockfish)[-1])/dim(obj.in)[1]
+sum(dcast(obj.in,1~SurveyYear,sum,na.rm=T,value.var = "Yelloweye Rockfish"))
+sum(table(obj.in$`Yelloweye Rockfish`)[-1])
+sum(table(obj.in$`Yelloweye Rockfish`)[-1])/dim(obj.in)[1]
 
 
 cbind(
@@ -32,9 +34,9 @@ cbind(
     dim(IPHC.dat.depths)[1],
     dim(IPHC.dat.depths.stations)[1]  ),
   c(
-    sum(table(IPHC.dat$Yelloweye.Rockfish)[-1]),
-    sum(table(IPHC.dat.depths$Yelloweye.Rockfish)[-1]),
-    sum(table(IPHC.dat.depths.stations$Yelloweye.Rockfish)[-1]))
+    sum(table(IPHC.dat$`Yelloweye Rockfish`)[-1]),
+    sum(table(IPHC.dat.depths$`Yelloweye Rockfish`)[-1]),
+    sum(table(IPHC.dat.depths.stations$`Yelloweye Rockfish`)[-1]))
 )
 
 
@@ -47,7 +49,7 @@ cbind(
 library(plyr) #colwise
 
 #Add CPUE
-IPHC.dat.depths.stations$CPUE<-IPHC.dat.depths.stations$Yelloweye.Rockfish/IPHC.dat.depths.stations$Skates.hauled..100.hk.skt.
+IPHC.dat.depths.stations$CPUE<-IPHC.dat.depths.stations$`Yelloweye Rockfish`/IPHC.dat.depths.stations$`Skates hauled (100 hk/skt)`
 #Combine depths 120 and 140
 IPHC.dat.depths.stations$DEPTH_CATS<-IPHC.dat.depths.stations$DEP_M_BINS
 IPHC.dat.depths.stations$DEPTH_CATS[IPHC.dat.depths.stations$DEP_M_BINS>100]<-120
