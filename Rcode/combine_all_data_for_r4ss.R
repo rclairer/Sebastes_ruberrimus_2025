@@ -384,6 +384,9 @@ colnames(CA_REC_lengths) <- colnames_l
 
 # OR observer - fleet 9
 
+# Nsamp method used for all survey length comps is the old Stewart Hamel method from the 2017 assessment where
+# Nsamp = n_trips + 0.0707 * n_fish when n_fish/n_tows < 55 and
+# Nsamp = 4.89 * n_trips when n_fish/n_tows >= 55
 # Triennial survey - fleet 10
 tri_lengths <- read.csv(file.path(
   getwd(), "Data", "processed", "NWFSC.Combo_and_Tri_length_comps",
@@ -399,6 +402,13 @@ nwfsc_lengths <- read.csv(file.path(
   colnames(nwfsc_lengths) <- colnames_l
 
 # IPHC ORWA - fleet 12
+# IPHC bio data notes:
+# Total_Biodata_Comb includes all Yelloweye biodata collected from IPHC FISS 2A from 2022-2023 and stlkeys for association with the IPHC effort database, and some location information pulled from the IPHC effort database
+# Experimental gear catch and catch where species could not be rectified against onboard tag documentation were removed.
+# 2A was not fished in 2020 and 2024.  Oregon stations were not fished in 2023.
+# Oregon rockfish were not tagged in 2021 and fish cannot be reconciled with IPHC effort data.
+# IPHC has not provided onboard tag information for Oregon stations in 2019. 2019 landings currently cannot be reconciled with IPHC effort data.
+
 iphc_lengths <- read.csv(file.path(
   getwd(),
   "Data", "processed", "IPHC_bio_data", "iphc_length_comps.csv"
@@ -462,6 +472,9 @@ colnames(ca_rec_don_pearson) <- colnames_a
 
 # WA REC MAAL - fleet -7
 
+# Nsamp method used for all survey maal is the old Stewart Hamel method from the 2017 assessment where
+# Nsamp = n_trips + 0.0707 * n_fish when n_fish/n_tows < 55 and
+# Nsamp = 4.89 * n_trips when n_fish/n_tows >= 55
 # NWFSC survey CAAL and MAAL - fleet -11 and 11
 nwfsc_caal <- read.csv(file.path(
   getwd(), "Data", "processed", "NWFSC.Combo_CAAL",
@@ -503,3 +516,5 @@ all_ages <- do.call("rbind", list(
 ))
 
 inputs$dat$agecomp <- all_ages
+
+r4ss::SS_write(inputs, dir = "", overwrite = TRUE)
