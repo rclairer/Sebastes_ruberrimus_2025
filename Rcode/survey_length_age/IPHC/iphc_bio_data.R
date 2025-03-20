@@ -5,25 +5,13 @@ library(tidyr)
 library(ggplot2)
 library(r4ss)
 
-iphc_bio_new <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "IPHCFISS_YEYE_Biodata_2025-03-12.csv"))
+iphc_bio <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "iphc_biodata_final.csv"))
 
-# for ages until I can get the age data
-iphc_bio_old <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "iphc_biodata.csv"))
-
-# join the old and new ones to have the STLKEY for the ages
-# Will not be necessary when we get the updated age data
-iphc_bio <- iphc_bio_new |>
-  dplyr::select(sample_year, BDS.sample.code, BDS.fish.number, weight_gm, YearTag, fish_length_cm, STLKEY, IPHC.Charter.Region) |>
-  dplyr::mutate(tag_number = stringr::str_sub(YearTag, 5, stringr::str_length(YearTag))) |>
-  inner_join(iphc_bio_old, by = c("sample_year", "BDS.sample.code" = "sample_code", "BDS.fish.number" = "fish_number", "weight_gm")) |>
-  select(-tag_number.y, -fish_length_cm.y) |>
-  rename(fish_length_cm = fish_length_cm.x)
 
 # Nsamp method is the Stewart Hammel method where
 # Nsamp = n_trips + 0.0707 * n_fish when n_fish/n_tows < 55 and
 # Nsamp = 4.89 * n_trips when n_fish/n_tows >= 55
 N_samp <- iphc_bio |>
-  filter(IPHC.Charter.Region != "North CA") |>
   group_by(sample_year, STLKEY) |>
   summarize(n_fish_stlkey = n()) |>
   ungroup() |>
@@ -43,13 +31,12 @@ N_samp <- iphc_bio |>
 # method used for assigning bins in nwfscSurvey package
 l_bins <- c(10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74)
 l_bins_inf <- c(l_bins, Inf)
-iphc_bio$l_bin <- as.numeric(l_bins_inf[findInterval(iphc_bio[, "fish_length_cm"], l_bins_inf, all.inside = T)])
+iphc_bio$l_bin <- as.numeric(l_bins_inf[findInterval(iphc_bio[, "fish_length"], l_bins_inf, all.inside = T)])
 
 # get length comps by year and bin
 length_comps <- iphc_bio |>
-  filter(IPHC.Charter.Region != "North CA") |>
-  filter(case_when(sample_year <= 2016 ~ !is.na(best_age), TRUE ~ TRUE)) |>
-  # dplyr::filter(!is.na(best_age)) |>
+  filter(!is.na(best_age)) |>
+  dplyr::filter(!is.na(best_age)) |>
   dplyr::filter(!is.na(l_bin)) |>
   dplyr::group_by(sample_year, l_bin) |>
   dplyr::summarize(n = n()) |>
@@ -93,8 +80,6 @@ iphc_bio$a_bin <- a_bins_inf[findInterval(iphc_bio$best_age, a_bins_inf, all.ins
 early_age_values <- as.character(0:(min(iphc_bio$a_bin, na.rm = TRUE) - 1))
 
 caal <- iphc_bio |>
-  filter(IPHC.Charter.Region != "North CA") |>
-  dplyr::filter(sample_year <= 2016) |> # will remove when we get updated age data
   dplyr::filter(!is.na(l_bin)) |>
   dplyr::filter(!is.na(a_bin)) |>
   dplyr::group_by(sample_year, l_bin, a_bin) |>
@@ -126,8 +111,7 @@ write.csv(caal, file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_c
 
 ### MAAL ###
 maal <- iphc_bio |>
-  filter(IPHC.Charter.Region != "North CA") |>
-  dplyr::filter(sample_year <= 2016) |> # will remove when we get updated age data
+  dplyr::filter(!is.na(l_bin)) |>
   dplyr::filter(!is.na(a_bin)) |>
   dplyr::group_by(sample_year, a_bin) |>
   dplyr::summarise(n = n()) |>
@@ -198,7 +182,8 @@ together <- rbind(iphc_lengths_old, iphc_lengths_new)
 comparison_plot <- together |>
   dplyr::filter(freq > 0) |>
   ggplot2::ggplot(aes(x = year, y = length, col = assessment, size = freq)) +
-  ggplot2::geom_point(position = position_dodge(0.5))
+  ggplot2::geom_point(position = position_dodge(0.5)) +
+  labs(title = "Length Composition Comparisons", x = "Year", y = "Length (cm)", col = "Assessment", size = "Frequency")
 ggsave(plot = comparison_plot, "iphc_length_comp_comparisons.png", path = file.path(getwd(), "Rcode", "survey_length_age", "IPHC"))
 
 
@@ -230,5 +215,6 @@ together <- rbind(iphc_ages_old, iphc_ages_new)
 comparison_plot <- together |>
   dplyr::filter(freq > 0) |>
   ggplot2::ggplot(aes(x = year, y = age, col = assessment, size = freq)) +
-  ggplot2::geom_point(position = position_dodge(0.5))
+  ggplot2::geom_point(position = position_dodge(0.5)) +
+  labs(title = "Marginal Age Composition Comparisons", x = "Year", y = "Age", col = "Assessment", size = "Frequency")
 ggsave(plot = comparison_plot, "iphc_age_comp_comparisons.png", path = file.path(getwd(), "Rcode", "survey_length_age", "IPHC"))
