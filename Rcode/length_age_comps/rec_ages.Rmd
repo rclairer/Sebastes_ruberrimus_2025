@@ -56,7 +56,7 @@ or_ages_raw$length <- or_ages_raw$length/10
 or_ages_raw <- as.data.frame(or_ages_raw)
 
 # Load WA ages and format
-wa_ages_raw <- read_csv("../../Data/raw/confidential/SD506.csv")
+wa_ages_raw <- read_csv("../../Data/raw/confidential/SD506_1984_2024_march.csv")
   
   # Rename columns 
 names(wa_ages_raw)[names(wa_ages_raw) == "SAMPLE_YEAR"] <- "year"
