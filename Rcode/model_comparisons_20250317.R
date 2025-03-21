@@ -451,7 +451,7 @@ all_indices <- do.call("rbind", list(
   IPHC_ORWA_index
 ))
 
-inputs_catch_indices$dat$indices <- all_indices
+inputs_catch_indices$dat$CPUE <- all_indices
 
 SS_write(inputs_catch_indices, dir = file.path(getwd(), "model", "2025_updated_catch_indices_20250320"), overwrite = TRUE)
 
@@ -705,6 +705,17 @@ models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "term1_final_model_comparisons", "updatedss3exe_updatedcatch_updatedindices"),
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", "2025 updated catch", "2025 updated catch & indices"),
+                  print = TRUE
+)
+
+#working updated catch
+models <- list.dirs(file.path(getwd(), "model"), recursive = FALSE)
+models <- models[c(4,5)] #CHECK THIS EVERY TIME
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "term1_final_model_comparisons", "updatedss3exe_updatedcatch"),
+                  legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", "2025 updated catch"),
                   print = TRUE
 )
 
