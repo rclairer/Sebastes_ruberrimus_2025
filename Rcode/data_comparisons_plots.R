@@ -93,29 +93,7 @@ all_indices_2025$assessment <- "2025_assessment"
 
 all_indices_2017_2025 <- rbind(all_indices_2017, all_indices_2025)
 
-#PLot WCGBTS
-tibble(indices)%>%
-  #filter(year >= 1900)%>% #remove the VAST index (negative years)
-  filter(index == "NWFSC_ORWA" | index == "NWFSC_42POINT_lognormal")%>%
-  #mutate(index = "NWFSC")%>% 
-  # mutate(obs = obs/exp(lnQ_nwfsc))%>%#NWFSC
-  ggplot(aes(x = year, y = est, col = index))+
-  geom_point(position = position_dodge(width = dodge_width))+
-  geom_errorbar(aes(x = year, ymin = qlnorm(.025,log(est), sd = se) ,  #se in log space so convert
-                    ymax = qlnorm(.975,log(est), sd = se) , col = as.factor(index)),
-                position = position_dodge(width = dodge_width))+
-  ggtitle("NWFSC/WCGBTS")+
-  scale_color_manual(values = c("NWFSC_ORWA" = "black", "NWFSC_42POINT_lognormal" = "orange"),
-                     labels = c("NWFSC_ORWA" = "2017 assessment (VAST)", "NWFSC_42POINT_lognormal" = "2025 assessment (sdmTMB delta lognormal, only ORWA)"))+
-  labs(color = "Index")+
-  theme_minimal()
-
-
-
-
-
-
-#PLot WCGBTS
+#Plot WCGBTS
 tibble(all_indices_2017_2025)%>%
   #filter(year >= 1900)%>% #remove the VAST index (negative years)
   filter(index == 11)%>%
@@ -132,18 +110,17 @@ tibble(all_indices_2017_2025)%>%
   labs(color = "Assessment")+
   theme_minimal()
 
-#PLot IPHC
+#Plot IPHC
 tibble(all_indices_2017_2025)%>%
   #filter(year >= 1900)%>% #remove the VAST index (negative years)
-  filter(index == 11)%>%
+  filter(index == 12)%>%
   #mutate(index = "NWFSC")%>% 
   # mutate(obs = obs/exp(lnQ_nwfsc))%>%#NWFSC
   ggplot(aes(x = year, y = obs, col = assessment))+
   geom_point(position = position_dodge(width = dodge_width))+
-  geom_errorbar(aes(x = year, ymin = qlnorm(.025,log(obs), sd = se_log) ,  #se in log space so convert
-                    ymax = qlnorm(.975,log(obs), sd = se_log) , col = as.factor(assessment)),
+  geom_errorbar(aes(x = year, ymin = (obs - 1.96 * se_log) ,  #se in log space so convert
+                    ymax =  (obs + 1.96 * se_log), col = as.factor(assessment)),
                 position = position_dodge(width = dodge_width))+
-  #ggtitle("NWFSC/WCGBTS")+
   scale_color_manual(values = c("2017_assessment" = "black", "2025_assessment" = "cyan"),
                      labels = c("2017_assessment" = "2017 assessment", "2025_assessment" = "2025 assessment"))+
   labs(color = "Assessment")+
