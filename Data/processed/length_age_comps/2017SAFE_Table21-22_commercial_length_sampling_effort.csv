@@ -1,4 +1,4 @@
-﻿year,CA.TWL_n_trips,CA.TWL_n_fish,CA.HKL_n_trips,CA.HKL_n_fish,ORWA.TWL_n_trips,ORWA.TWL_n_fish,ORWA.HKL_n_trips,ORWA.HKL_n_fish
+﻿year,CA.TWL_n_trips,CA.TWL_n_fish,CA.NONTWL_n_trips,CA.NONTWL_n_fish,ORWA.TWL_n_trips,ORWA.TWL_n_fish,ORWA.NONTWL_n_trips,ORWA.NONTWL_n_fish
 1978,2,15,0,0,NA,NA,NA,NA
 1979,2,5,13,55,NA,NA,NA,NA
 1980,8,11,10,24,0,0,2,4
