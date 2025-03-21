@@ -93,6 +93,45 @@ all_indices_2025$assessment <- "2025_assessment"
 
 all_indices_2017_2025 <- rbind(all_indices_2017, all_indices_2025)
 
+
+#Plot ORBS
+#need to standardize indices with mean of 1 to compare...
+tibble(all_indices_2017_2025)%>%
+  #filter(year >= 1900)%>% #remove the VAST index (negative years)
+  filter(index == 6, year > 2000)%>%
+  #mutate(index = "NWFSC")%>% 
+  # mutate(obs = obs/exp(lnQ_nwfsc))%>%#NWFSC
+  ggplot(aes(x = year, y = obs, col = assessment))+
+  geom_point(position = position_dodge(width = dodge_width))+
+  geom_errorbar(aes(x = year, ymin = qlnorm(.025,log(obs), sd = se_log) ,  #se in log space so convert
+                    ymax = qlnorm(.975,log(obs), sd = se_log) , col = as.factor(assessment)),
+                position = position_dodge(width = dodge_width))+
+  #ggtitle("NWFSC/WCGBTS")+
+  scale_color_manual(values = c("2017_assessment" = "black", "2025_assessment" = "cyan"),
+                     labels = c("2017_assessment" = "2017 assessment", "2025_assessment" = "2025 assessment"))+
+  labs(color = "Assessment")+
+  theme_minimal()
+
+#Plot ORFS
+#need to standardize indices with mean of 1 to compare...
+tibble(all_indices_2017_2025)%>%
+  #filter(year >= 1900)%>% #remove the VAST index (negative years)
+  filter(index == 9)%>%
+  #mutate(index = "NWFSC")%>% 
+  # mutate(obs = obs/exp(lnQ_nwfsc))%>%#NWFSC
+  ggplot(aes(x = year, y = obs, col = assessment))+
+  geom_point(position = position_dodge(width = dodge_width))+
+  geom_errorbar(aes(x = year, ymin = qlnorm(.025,log(obs), sd = se_log) ,  #se in log space so convert
+                    ymax = qlnorm(.975,log(obs), sd = se_log) , col = as.factor(assessment)),
+                position = position_dodge(width = dodge_width))+
+  #ggtitle("NWFSC/WCGBTS")+
+  scale_color_manual(values = c("2017_assessment" = "black", "2025_assessment" = "cyan"),
+                     labels = c("2017_assessment" = "2017 assessment", "2025_assessment" = "2025 assessment"))+
+  labs(color = "Assessment")+
+  theme_minimal()
+
+
+
 #Plot WCGBTS
 tibble(all_indices_2017_2025)%>%
   #filter(year >= 1900)%>% #remove the VAST index (negative years)
