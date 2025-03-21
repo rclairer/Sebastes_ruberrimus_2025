@@ -294,6 +294,8 @@ SS_plots(replist)
 # Use ss_new files from the catches run
 inputs_wcgbts <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch"), ss_new = TRUE)
 
+colnames_i <- c("year", "month", "index", "obs", "se_log")
+
 NWFSC_ORWA <- read.csv(file.path(getwd(), "Data", "processed", "wcgbts_indices", "updated_indices_ORWA_CA_split", "yelloweye_split_42_point/yelloweye_rockfish/wcgbts", "delta_lognormal", "index", "est_by_area.csv"))
 NWFSC_ORWA_index <- NWFSC_ORWA |>
   filter(area == "Coastwide") |>
@@ -305,7 +307,7 @@ NWFSC_ORWA_index <- NWFSC_ORWA |>
   select(year, Month, Fleet, est, se)
 colnames(NWFSC_ORWA_index) <- colnames_i
 
-inputs_wcgbts$dat$indices <- inputs_wcgbts$dat$CPUE |>
+inputs_wcgbts$dat$CPUE <- inputs_wcgbts$dat$CPUE |>
   filter(index != 11) |>
   bind_rows(NWFSC_ORWA_index) |>
   arrange(index, year)
