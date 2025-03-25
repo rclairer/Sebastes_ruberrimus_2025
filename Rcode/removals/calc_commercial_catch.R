@@ -7,7 +7,7 @@
 
 #### Loading in data/data paths for script ----
 # Directory for PacFIN catch file
-file_catch <- fs::path(getwd(), "data", "confidential", "PacFIN.YEYE.CompFT.12.Dec.2024.RData")
+file_catch <- fs::path(getwd(), "data", "confidential", "PacFIN.YEYE.CompFT.21.Mar.2025.RData")
 # Object name = catch.pacfin
 load(file_catch)
 
@@ -115,42 +115,43 @@ comm_catch <- catch2 |>
 
 #### Export df ----
 # export catches
-# write.csv(comm_catch, file = file.path(getwd(), "yelloweye_commercial_catch_2016_2024.csv"), append = FALSE)
+write.csv(comm_catch, file = file.path(getwd(), "yelloweye_commercial_catch_2016_2024_25Mar2025.csv"), append = FALSE)
 
 
 # Replicate r4ss catches plot
-  # library(ggplot2)
-  # rich.colors.short <- function(n, alpha = 1) {
-  #   x <- seq(0, 1, length = n)
-  #   r <- 1 / (1 + exp(20 - 35 * x))
-  #   g <- pmin(pmax(0, -0.8 + 6 * x - 5 * x^2), 1)
-  #   b <- dnorm(x, 0.25, 0.15) / max(dnorm(x, 0.25, 0.15))
-  #   rgb.m <- matrix(c(r, g, b), ncol = 3)
-  #   rich.vector <- apply(rgb.m, 1, function(v) rgb(v[1], v[2], v[3], alpha = alpha))
-  # }
-  # hist_c <- read.csv(file.path(getwd(), "data", "ss3_input_comm_catch.csv")) |>
-  #   dplyr::select(YEAR, SEAS, ST_FLEET, CATCH, CATCH_SE) |>
-  #   dplyr::rename(TOTAL_CATCH = CATCH)
-  # 
-  # all_catch <- rbind(hist_c, comm_catch) |>
-  #   dplyr::mutate(
-  #     # YEAR = as.factor(YEAR),
-  #     CATCH = as.numeric(TOTAL_CATCH)
-  #   )
-  # 
-  # # identify colors for plot
-  # all_fleets <- c("CA_TWL", "CA_NONTWL", "CA_REC", "ORWA_TWL", "ORWA_NONTWL", "OR_REC", "WA_REC")
-  # colors <- rich.colors.short(length(unique(all_fleets)) + 1)[-1]
-  # 
-  # fleetcols <- c("CA_TWL" = "#0000CBFF", "CA_NONTWL" = "#0081FFFF", "CA_REC" = "#02DA81FF", "ORWA_TWL" = "#80FE1AFF", "ORWA_NONTWL" = "#FDEE02FF", "OR_REC" = "#FFAB00FF", "WA_REC" = "#FF3300FF")
-  # 
-  # ggplot(data = all_catch, aes(x = YEAR, y = CATCH, fill = ST_FLEET)) +
-  #   geom_bar(position = "stack", stat = "identity", color = "black") +
-  #   labs(
-  #     x = "Year",
-  #     y = "Catch (mt)",
-  #     fill = ""
-  #   ) +
-  #   ggtitle("Yelloweye Rockfish Commercial Catch (landings + discards)") +
-  #   scale_fill_manual(values = fleetcols) +
-  #   theme_minimal()
+  library(ggplot2)
+  rich.colors.short <- function(n, alpha = 1) {
+    x <- seq(0, 1, length = n)
+    r <- 1 / (1 + exp(20 - 35 * x))
+    g <- pmin(pmax(0, -0.8 + 6 * x - 5 * x^2), 1)
+    b <- dnorm(x, 0.25, 0.15) / max(dnorm(x, 0.25, 0.15))
+    rgb.m <- matrix(c(r, g, b), ncol = 3)
+    rich.vector <- apply(rgb.m, 1, function(v) rgb(v[1], v[2], v[3], alpha = alpha))
+  }
+  hist_c <- read.csv(file.path(getwd(), "data", "ss3_input_comm_catch.csv")) |>
+    dplyr::select(YEAR, SEAS, ST_FLEET, CATCH, CATCH_SE) |>
+    dplyr::rename(TOTAL_CATCH = CATCH)
+
+  all_catch <- rbind(hist_c, comm_catch) |>
+    dplyr::mutate(
+      # YEAR = as.factor(YEAR),
+      CATCH = as.numeric(TOTAL_CATCH)
+    )
+
+  # identify colors for plot
+  all_fleets <- c("CA_TWL", "CA_NONTWL", "CA_REC", "ORWA_TWL", "ORWA_NONTWL", "OR_REC", "WA_REC")
+  colors <- rich.colors.short(length(unique(all_fleets)) + 1)[-1]
+
+  fleetcols <- c("CA_TWL" = "#0000CBFF", "CA_NONTWL" = "#0081FFFF", "CA_REC" = "#02DA81FF", "ORWA_TWL" = "#80FE1AFF", "ORWA_NONTWL" = "#FDEE02FF", "OR_REC" = "#FFAB00FF", "WA_REC" = "#FF3300FF")
+
+  ggplot(data = all_catch, aes(x = YEAR, y = CATCH, fill = ST_FLEET)) +
+    geom_bar(position = "stack", stat = "identity", color = "black") +
+    labs(
+      x = "Year",
+      y = "Catch (mt)",
+      fill = ""
+    ) +
+    ggtitle("Yelloweye Rockfish Commercial Catch (landings + discards)") +
+    scale_fill_manual(values = fleetcols) +
+    theme_minimal()
+  
