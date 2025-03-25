@@ -34,119 +34,63 @@ yelloweye_recent_comm_catch <- read.csv(file.path(
   getwd(),
   "Data",
   "processed",
-  "yelloweye_commercial_catch_2016_2024.csv"
-))
+  "yelloweye_commercial_catch_2016_2024_25Mar2025.csv"
+)) |>
+  filter(YEAR < 2025)
 
 # CA TWL - fleet 1
-# CA historical catch the same as the previous assessment but used catch reconstruction data provided by EJ
-# CA_hist_catch <- read.csv(file.path(getwd(), "Data", "processed", "CA_all_fleets_historical_catches.csv"))
-# CA_hist_catch_TWL <- CA_hist_catch |>
-#   filter(fleet == 1) |>
-#   rename(year = Year) |>
-#   mutate(
-#     seas = 1,
-#     catch_se = 0.01
-#   ) |>
-#   select(year, seas, fleet, catch, catch_se)
-
 # Use CA TWL from 1889-2015 from previous assessment
 CA_1889_2015_TWL <- inputs_catch$dat$catch |>
   filter(fleet == 1) |>
   filter(year < 2016)
 
-# PACFIN data
+# PACFIN data that starts in 2017
 CA_2016_2024_TWL <- yelloweye_recent_comm_catch |>
   filter(ST_FLEET == "CA_TWL") |>
   mutate(fleet = 1) |>
-  select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE)
+  select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE) |>
+  mutate(TOTAL_CATCH = round(TOTAL_CATCH, 3))
 colnames(CA_2016_2024_TWL) <- colnames_c
 
 CA_TWL <- CA_1889_2015_TWL |>
   bind_rows(CA_2016_2024_TWL) |>
-  arrange(year) |>
-  mutate(catch = round(catch, 2))
+  arrange(year)
 
 # CA NONTWL - fleet 2
-# CA historical catch the same as the previous assessment but used catch reconstruction data provided by EJ
-# CA_hist_catch_NONTWL <- CA_hist_catch |>
-#   filter(fleet == 2) |>
-#   rename(year = Year) |>
-#   mutate(
-#     seas = 1,
-#     catch_se = 0.01
-#   ) |>
-#   select(year, seas, fleet, catch, catch_se)
-
 # Use CA TWL from 1889-2015 from previous assessment
 CA_1889_2015_NONTWL <- inputs_catch$dat$catch |>
   filter(fleet == 2) |>
   filter(year < 2016)
 
 # PACFIN data
+# No catch data for 2016, 2018, 2019, 2020, or 2024
 CA_2016_2024_NONTWL <- yelloweye_recent_comm_catch |>
   filter(ST_FLEET == "CA_NONTWL") |>
   mutate(fleet = 2) |>
-  select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE)
+  select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE) |>
+  mutate(TOTAL_CATCH = round(TOTAL_CATCH, 3))
 colnames(CA_2016_2024_NONTWL) <- colnames_c
+
+years_no_data <- data.frame(
+  year = c(2018, 2019, 2020, 2024),
+  seas = c(1, 1, 1, 1),
+  fleet = c(2, 2, 2, 2),
+  catch = c(0, 0, 0, 0),
+  catch_se = c(0.01, 0.01, 0.01, 0.01)
+)
 
 CA_NONTWL <- CA_1889_2015_NONTWL |>
   bind_rows(CA_2016_2024_NONTWL) |>
-  arrange(year) |>
-  mutate(catch = round(catch, 2))
+  bind_rows(years_no_data) |>
+  arrange(year)
 
 # CA REC - fleet 3
-# CA historical catch the same as the previous assessment but used catch reconstruction data provided by EJ
-# CA_hist_catch_REC <- CA_hist_catch |>
-#   filter(fleet == 3) |>
-#   rename(year = Year) |>
-#   mutate(
-#     seas = 1,
-#     catch_se = 0.01
-#   ) |>
-#   select(year, seas, fleet, catch, catch_se)
-
+# CA historical catch the same as the previous assessment
 CA_hist_catch_REC <- inputs_catch$dat$catch |>
-  filter(fleet == 3 & year <= 2016) |>
-  filter(fleet >= 1928)
+  filter(fleet == 3 & year < 2016) |>
+  filter(!between(year, 1880, 1927))
 
-# RecFIN obtained data for 2004 provided by Julia Coates
-# CA_2004_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE510-2004CRFSYelloweye.csv")) |>
-#   select(Year, Wgt.Ab1) |>
-#   filter(Wgt.Ab1 != "-") |>
-#   group_by(Year) |>
-#   summarize(
-#     seas = 1,
-#     fleet = 3,
-#     catch = sum(as.numeric(Wgt.Ab1)) / 1000,
-#     catch_se = 0.01
-#   ) |>
-#   rename(year = Year)
-
-#CA data provided from Julia Coates
-# CA_1981_2004_REC <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "MRFSS_catch_est_yelloweye_CA.csv")) |>
-#   select(YEAR_, WGT_AB1) |>
-#   group_by(YEAR_) |>
-#   summarize(
-#     seas = 1,
-#     fleet = 3,
-#     catch = sum(WGT_AB1) / 1000,
-#     catch_se = 0.01
-#   ) |>
-#   rename(year = YEAR_) |>
-#   bind_rows(CA_2004_REC) |>
-#   filter(!is.na(catch))|>
-#   filter(year > 1980)
-
-# Use interpolated values from the last assessment
-# CA_missing_1981_2004_rec <- inputs_catch$dat$catch |>
-#   filter(fleet == 3 & year > 1980 & year < 2005) |>
-#   filter(!year %in% CA_1981_2004_REC$year)
-#
-# CA_1981_2004_REC <- CA_1981_2004_REC |>
-#   bind_rows(CA_missing_1981_2004_rec) |>
-#   arrange(year)
-
-# RecFIN data for recent years
+# RecFIN data for 2016 - 2024
 CA_recent_catch_REC <- read.csv(file.path(
   getwd(),
   "Data",
@@ -163,12 +107,12 @@ CA_recent_catch_REC <- read.csv(file.path(
     catch_se = 0.01
   ) |>
   rename(year = RECFIN_YEAR) |>
-  filter(year > 2016)
+  filter(year >= 2016) |>
+  mutate(catch = round(catch, 3))
 
 CA_REC <- CA_hist_catch_REC |>
   bind_rows(CA_recent_catch_REC) |>
-  arrange(year) |>
-  mutate(catch = round(catch, 2))
+  arrange(year)
 
 # ORWA TWL - fleet 4
 # All OR data provided from Ali with updated historical catch reconstruction
@@ -235,7 +179,16 @@ ORWA_TWL_2016_2024 <- yelloweye_recent_comm_catch |>
   select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE)
 colnames(ORWA_TWL_2016_2024) <- colnames_c
 
-ORWA_TWL <- ORWA_TWL_until_2015 |>
+start_line <- data.frame(
+  year = -999,
+  seas = 1,
+  fleet = 4,
+  catch = 0,
+  catch_se = 0.01
+)
+
+ORWA_TWL <- start_line |>
+  bind_rows(ORWA_TWL_until_2015) |>
   bind_rows(ORWA_TWL_2016_2024) |>
   arrange(year) |>
   mutate(catch = round(catch, 2))
@@ -297,13 +250,34 @@ ORWA_NONTWL_2016_2024 <- yelloweye_recent_comm_catch |>
   select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE)
 colnames(ORWA_NONTWL_2016_2024) <- colnames_c
 
-ORWA_NONTWL <- ORWA_NONTWL_until_2015 |>
+start_line <- data.frame(
+  year = -999,
+  seas = 1,
+  fleet = 5,
+  catch = 0,
+  catch_se = 0.01
+)
+
+ORWA_NONTWL <- start_line |>
+  bind_rows(ORWA_NONTWL_until_2015) |>
   bind_rows(ORWA_NONTWL_2016_2024) |>
   arrange(year) |>
   mutate(catch = round(catch, 2))
 
 # OR REC - fleet 6
 # OR Rec data up to 2024 provided from Ali Whitman
+# From Ali: Previous assessments used some in-house data to produce recreational
+# catch  estimates from 1973 – 1978. The data are similar (same sampling program)
+# to  those used in the new sport reconstruction, which as you said, starts in 1979.
+# I have no updates for those numbers but hope to eventually incorporate those
+# data into our new reconstruction. I would suggest just rolling those years
+# (1973 – 1978) over from the previous assessment.  I’m not opposed to removing
+# them if you guys feel otherwise, but I think they’re fine as is.
+
+OR_REC_to_1978 <- inputs_catch$dat$catch |>
+  filter(fleet == 6) |>
+  filter(year <= 1978)
+
 OR_REC <- read.csv(file.path(
   getwd(),
   "Data",
@@ -320,14 +294,17 @@ OR_REC <- read.csv(file.path(
   ) |>
   rename(year = Year) |>
   select(-Total_MT) |>
-  mutate(catch = round(catch, 2))
+  mutate(catch = round(catch, 2)) |>
+  bind_rows(OR_REC_to_1978) |>
+  arrange(year)
 
 # WA REC - fleet 7
 # WA Rec data from RecFIN - See Rcode > removals > WA_rec_catch.r file for how this was compiled
 # Discards are included unlike they were in the 2017 assessment and I think we should use those
 # but it's not that much different from the previous asssessment so also good with using this assessment
 WA_hist_catch_REC <- inputs_catch$dat$catch |>
-  filter(fleet == 7 & year <= 2016)
+  filter(fleet == 7 & year < 2016) |>
+  filter(!between(year, 1880, 1974))
 
 WA_REC <- read.csv(file.path(
   getwd(),
@@ -341,11 +318,10 @@ WA_REC <- read.csv(file.path(
     catch_se = 0.01
   ) |>
   select(year, seas, fleet, catch, catch_se) |>
-  filter(year > 2016) |>
+  filter(year >= 2016) |>
+  mutate(catch = round(catch, 2)) |>
   bind_rows(WA_hist_catch_REC) |>
-  arrange(year) |>
-  mutate(catch = round(catch, 2))
-
+  arrange(year)
 
 # Combine all catch data
 all_catch <- do.call(
