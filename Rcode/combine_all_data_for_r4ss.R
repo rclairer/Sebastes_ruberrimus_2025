@@ -8,11 +8,7 @@ library(tidyr)
 library(r4ss)
 
 # Get inputs from 2017 assessment that will get carried over to this assessment
-model_2017_path <- file.path(
-  getwd(),
-  "model",
-  "2017_yelloweye_model_updated_ss3_exe"
-)
+model_2017_path <- file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")
 inputs <- SS_read(dir = model_2017_path, ss_new = TRUE)
 
 # Discard mortality not included for WA recreational fishery so need to figure out
@@ -173,7 +169,8 @@ ORWA_TWL_until_2015 <- OR_TWL |>
 ORWA_TWL_2016_2024 <- yelloweye_recent_comm_catch |>
   filter(ST_FLEET == "ORWA_TWL") |>
   mutate(fleet = 4) |>
-  select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE)
+  select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE) |>
+  mutate(TOTAL_CATCH = round(TOTAL_CATCH, 3))
 colnames(ORWA_TWL_2016_2024) <- colnames_c
 
 start_line <- data.frame(
@@ -187,8 +184,7 @@ start_line <- data.frame(
 ORWA_TWL <- start_line |>
   bind_rows(ORWA_TWL_until_2015) |>
   bind_rows(ORWA_TWL_2016_2024) |>
-  arrange(year) |>
-  mutate(catch = round(catch, 2))
+  arrange(year)
 
 # ORWA NONTWL - fleet 5
 # All OR data provided from Ali with updated historical catch reconstruction
@@ -244,7 +240,8 @@ ORWA_NONTWL_until_2015 <- OR_NONTWL |>
 ORWA_NONTWL_2016_2024 <- yelloweye_recent_comm_catch |>
   filter(ST_FLEET == "ORWA_NONTWL") |>
   mutate(fleet = 5) |>
-  select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE)
+  select(YEAR, SEAS, fleet, TOTAL_CATCH, CATCH_SE) |>
+  mutate(TOTAL_CATCH = round(TOTAL_CATCH, 3))
 colnames(ORWA_NONTWL_2016_2024) <- colnames_c
 
 start_line <- data.frame(
@@ -258,8 +255,7 @@ start_line <- data.frame(
 ORWA_NONTWL <- start_line |>
   bind_rows(ORWA_NONTWL_until_2015) |>
   bind_rows(ORWA_NONTWL_2016_2024) |>
-  arrange(year) |>
-  mutate(catch = round(catch, 2))
+  arrange(year)
 
 # OR REC - fleet 6
 # OR Rec data up to 2024 provided from Ali Whitman
