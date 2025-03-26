@@ -371,6 +371,8 @@ CA_CPFV_CPUE_index <- inputs$dat$CPUE |>
   filter(index == 8)
 
 # Oregon onboard Recreational Charter observer CPUE (ORFS) - fleet 9
+# QUESTION: Ali and I are still unsure if this is ORFS or not, the assessment is
+# unclear and she was on parental leave for that assessment. 
 OR_onboard_rec_index <- inputs$dat$CPUE |>
   filter(index == 9)
 
@@ -635,10 +637,7 @@ inputs$dat$lencomp <- all_lengths
 
 colnames_a <- colnames(inputs$dat$agecom)
 
-# CA NONTWL CAAL - fleet 2
-# QUESTION: Where is this dataset?
-
-# CA NONTWL MAAL - fleet -2
+# CA NONTWL CAAL and MAAL - fleet 2 and -2
 # QUESTION: Where is this dataset?
 
 # CA NONTWL WCGOP - fleet -2 and 2
@@ -671,17 +670,13 @@ CA_REC_maal <- inputs$dat$agecomp |>
   filter(year >= 2009)
 CA_REC_ages <- rbind(CA_REC_caal, CA_REC_maal)
 
-# ORWA TWL CAAL (PacFIN and WCGOP combined) - fleet 4
+# ORWA TWL CAAL and MAAL (PacFIN and WCGOP combined) - fleet 4 and -4
 # QUESTION: Where is this dataset?
 
-# ORWA TWL MAAL (PacFIN and WCGOP combined) - fleet -4
+
+# ORWA NONTWL CAAL and MAAL (PacFIN and WCGOP combined) - fleet 5 and -5
 # QUESTION: Where is this dataset?
 
-# ORWA NONTWL CAAL (PacFIN and WCGOP combined) - fleet 5
-# QUESTION: Where is this dataset?
-
-# ORWA NONTWL MAAL (PacFIN and WCGOP combined) - fleet -5
-# QUESTION: Where is this dataset?
 
 # OR REC CAAL and MAAL - fleet -6 and 6
 # Do we only have these up until 2016 still?
