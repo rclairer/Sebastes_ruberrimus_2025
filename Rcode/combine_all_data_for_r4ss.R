@@ -33,11 +33,12 @@ yelloweye_recent_comm_catch <- read.csv(file.path(
 
 # CA TWL - fleet 1
 # Use CA TWL from 1889-2015 from previous assessment
-CA_1889_2015_TWL <- inputs_catch$dat$catch |>
+CA_1889_2015_TWL <- inputs$dat$catch |>
   filter(fleet == 1) |>
   filter(year < 2016)
 
-# PACFIN data that starts in 2017
+# PACFIN data with discards that starts in 2016
+# Data from Sam Schiano
 CA_2016_2024_TWL <- yelloweye_recent_comm_catch |>
   filter(ST_FLEET == "CA_TWL") |>
   mutate(fleet = 1) |>
@@ -51,11 +52,12 @@ CA_TWL <- CA_1889_2015_TWL |>
 
 # CA NONTWL - fleet 2
 # Use CA TWL from 1889-2015 from previous assessment
-CA_1889_2015_NONTWL <- inputs_catch$dat$catch |>
+CA_1889_2015_NONTWL <- inputs$dat$catch |>
   filter(fleet == 2) |>
   filter(year < 2016)
 
-# PACFIN data
+# PACFIN data with discards
+# From Sam Schiano
 # No catch data for 2016, 2018, 2019, 2020, or 2024
 CA_2016_2024_NONTWL <- yelloweye_recent_comm_catch |>
   filter(ST_FLEET == "CA_NONTWL") |>
@@ -64,26 +66,27 @@ CA_2016_2024_NONTWL <- yelloweye_recent_comm_catch |>
   mutate(TOTAL_CATCH = round(TOTAL_CATCH, 3))
 colnames(CA_2016_2024_NONTWL) <- colnames_c
 
-years_no_data <- data.frame(
-  year = c(2018, 2019, 2020, 2024),
-  seas = c(1, 1, 1, 1),
-  fleet = c(2, 2, 2, 2),
-  catch = c(0, 0, 0, 0),
-  catch_se = c(0.01, 0.01, 0.01, 0.01)
-)
+# years_no_data <- data.frame(
+#   year = c(2016, 2018, 2019, 2020, 2024),
+#   seas = c(1, 1, 1, 1, 1),
+#   fleet = c(2, 2, 2, 2, 2),
+#   catch = c(0, 0, 0, 0, 0),
+#   catch_se = c(0.01, 0.01, 0.01, 0.01, 0.01)
+# )
 
 CA_NONTWL <- CA_1889_2015_NONTWL |>
   bind_rows(CA_2016_2024_NONTWL) |>
-  bind_rows(years_no_data) |>
+  # bind_rows(years_no_data) |>
   arrange(year)
 
 # CA REC - fleet 3
 # CA historical catch the same as the previous assessment
-CA_hist_catch_REC <- inputs_catch$dat$catch |>
+CA_hist_catch_REC <- inputs$dat$catch |>
   filter(fleet == 3 & year < 2016) |>
   filter(!between(year, 1880, 1927))
 
 # RecFIN data for 2016 - 2024
+# Data from Madison and Elizabeth
 CA_recent_catch_REC <- read.csv(file.path(
   getwd(),
   "Data",
@@ -108,7 +111,7 @@ CA_REC <- CA_hist_catch_REC |>
   arrange(year)
 
 # ORWA TWL - fleet 4
-# All OR data provided from Ali with updated historical catch reconstruction
+# All OR data provided from Ali Whitman with updated historical catch reconstruction
 OR_comm_all <- read.csv(file.path(
   getwd(),
   "Data",
@@ -133,7 +136,8 @@ OR_TWL <- OR_comm_all |>
   ) |>
   select(-TOTAL)
 
-# WA historical catch with unchanged reconstruction provided from Fabio
+# WA historical catch with unchanged reconstruction provided from Fabio which Theresa
+# gave to the last assessment
 WA_TWL <- read.csv(file.path(
   getwd(),
   "Data",
@@ -166,6 +170,7 @@ ORWA_TWL_until_2015 <- OR_TWL |>
   )
 
 # Recent OR and WA historical catch from PacFIN
+# Provided by Sam Schiano
 ORWA_TWL_2016_2024 <- yelloweye_recent_comm_catch |>
   filter(ST_FLEET == "ORWA_TWL") |>
   mutate(fleet = 4) |>
@@ -173,6 +178,7 @@ ORWA_TWL_2016_2024 <- yelloweye_recent_comm_catch |>
   mutate(TOTAL_CATCH = round(TOTAL_CATCH, 3))
 colnames(ORWA_TWL_2016_2024) <- colnames_c
 
+# add back in start line because starting from scratch it isn't there
 start_line <- data.frame(
   year = -999,
   seas = 1,
@@ -244,6 +250,7 @@ ORWA_NONTWL_2016_2024 <- yelloweye_recent_comm_catch |>
   mutate(TOTAL_CATCH = round(TOTAL_CATCH, 3))
 colnames(ORWA_NONTWL_2016_2024) <- colnames_c
 
+# add back in start line because starting from scratch it isn't there
 start_line <- data.frame(
   year = -999,
   seas = 1,
@@ -267,7 +274,7 @@ ORWA_NONTWL <- start_line |>
 # (1973 – 1978) over from the previous assessment.  I’m not opposed to removing
 # them if you guys feel otherwise, but I think they’re fine as is.
 
-OR_REC_to_1978 <- inputs_catch$dat$catch |>
+OR_REC_to_1978 <- inputs$dat$catch |>
   filter(fleet == 6) |>
   filter(year <= 1978)
 
@@ -292,10 +299,11 @@ OR_REC <- read.csv(file.path(
   arrange(year)
 
 # WA REC - fleet 7
+# Data provided by Fabio and RecFin, data compiled by Elizabeth
 # WA Rec data from RecFIN - See Rcode > removals > WA_rec_catch.r file for how this was compiled
 # Discards are included unlike they were in the 2017 assessment and I think we should use those
-# but it's not that much different from the previous asssessment so also good with using this assessment
-WA_hist_catch_REC <- inputs_catch$dat$catch |>
+# but it's not that much different from the previous assessment so also good with using this assessment
+WA_hist_catch_REC <- inputs$dat$catch |>
   filter(fleet == 7 & year < 2016) |>
   filter(!between(year, 1880, 1974))
 
@@ -330,7 +338,7 @@ all_catch <- do.call(
   )
 )
 
-inputs_catch$dat$catch <- all_catch
+inputs$dat$catch <- all_catch
 
 
 ###############
@@ -357,7 +365,7 @@ ORBS_index <- read.csv(file.path(
   "processed",
   "ORBS_index_forSS.csv"
 )) |>
-  mutate(fleet = 6)
+  mutate(index = 6)
 colnames(ORBS_index) <- colnames_i
 
 # WA Rec CPUE - fleet 7
@@ -450,29 +458,38 @@ inputs$dat$CPUE <- all_indices
 
 colnames_l <- colnames(inputs$dat$lencom)
 
+# Might need to retroactively divide nsamps and actual numbers of fish by 2
+# from last assessment
+
 # CA TWL (from PacFIN) - fleet 1
+# Provided by Juliette
 # QUESTION: Where is this dataset?
 CA_TWL_lengths_old <- inputs$dat$lencomp |>
   filter(fleet == 1)
 CA_TWL_lengths_new <-
 
 # CA NONTWL (from PacFIN) up until 2002 - fleet 2
-  # QUESTION: Where is this dataset?
+# Provided by Juliette
+# QUESTION: Where is this dataset?
 CA_NONTWL_lengths_pacfin_old <- inputs$dat$lencomp |>
   filter(fleet == 2) |>
   filter(year <= 2002)
 CA_NONTWL_lengths_pacfin_new <- 
 
 # CA NONTWL (from WCGOP) - fleet 2
-  # QUESTION: Where is this dataset?
+# Provided by Juliette
+# QUESTION: Where is this dataset?
 CA_NONTWL_lengths_old <- inputs$dat$lencomp |>
   filter(fleet == 2) |>
   filter(year > 2002)
 CA_NONTWL_lengths_new <- 
 
 # CA REC - fleet 3
+# Provided by Morgan and Abby
+# Previous data to 2016
 CA_REC_lengths_old <- inputs$dat$lencomp |>
   filter(fleet == 3)
+# Recent data 2017 and onward
 CA_REC_lengths_new <- read.csv(file.path(
   getwd(),
   "Data",
@@ -486,12 +503,14 @@ colnames(CA_REC_lengths_new) <- colnames_l
 CA_REC_lengths <- rbind(CA_REC_lengths_old, CA_REC_lengths_new)
 
 # ORWA TWL (PacFIN and WCGOP combined) - fleet 4
+# Provided by Juliette
 # QUESTION: Where is this dataset?
 ORWA_TWL_lengths_old <- inputs$dat$lencomp |>
   filter(fleet == 4)
 ORWA_TWL_lengths_new
 
 # ORWA NONTWL (PacFIN and WCGOP combined) - fleet 5
+# Provided by Juliette
 # QUESTION: Where is this dataset?
 ORWA_NONTWL_lengths_old <- inputs$dat$lencomp |>
   filter(fleet == 5)
@@ -499,8 +518,11 @@ ORWA_NONTWL_lengths_new
 
 # OR REC (MRFSS and ORBS combined, plus data associated with WDFW ages (1979-2002) 
 # and ODFW (2009-2016) ages, not included in RecFIN) - fleet 6
+# Provided by Morgan and Abby
+# Previous data until 2016
 OR_REC_lengths_old <- inputs$dat$lencomp |>
   filter(fleet == 6)
+# Recent data from 2017 onward
 OR_REC_lengths_new <- read.csv(file.path(
   getwd(),
   "Data",
@@ -514,9 +536,7 @@ colnames(OR_REC_lengths_new) <- colnames_l
 OR_REC_lengths <- rbind(OR_REC_lengths_old, OR_REC_lengths_new)
 
 # WA REC (data from WDFW) - fleet 7
-# QUESTION:
-# What are we doing with this data set? The lengths looked very different
-# between the 2017 length data and the updated length data
+# Provided by Morgan and Abby
 WA_REC_lengths_old <- inputs$dat$lencomp |>
   filter(fleet == 7)
 WA_REC_lengths_new <- read.csv(file.path(
@@ -532,6 +552,7 @@ colnames(WA_REC_lengths_new) <- colnames_l
 WA_REC_lengths <- rbind(WA_REC_lengths_old, WA_REC_lengths_new)
 
 # CA observer - fleet 8
+# Provided by Morgan and Abby
 CA_observer_lengths_old <- inputs$dat$lencomp |>
   filter(fleet == 8)
 CA_observer_lengths_new <- read.csv(file.path(
@@ -547,6 +568,7 @@ colnames(CA_observer_lengths_new) <- colnames_l
 CA_observer_lengths <- rbind(CA_observer_lengths_old, CA_observer_lengths_new)
 
 # OR observer - fleet 9
+# Provided by Morgan and Abby
 OR_observer_lengths_old <- inputs$dat$lencomp |>
   filter(fleet == 9)
 OR_observer_lengths_new <- read.csv(file.path(
@@ -569,6 +591,7 @@ TRI_lengths <- inputs$dat$lencom |>
   filter(fleet == 10)
 
 # NWFSC survey - fleet 11
+# Provided by Elizabeth
 NWFSC_lengths_old <- inputs$dat$lencom |>
   filter(fleet == 11)
 NWFSC_lengths_new <- read.csv(file.path(
@@ -638,6 +661,7 @@ inputs$dat$lencomp <- all_lengths
 colnames_a <- colnames(inputs$dat$agecom)
 
 # CA NONTWL CAAL and MAAL - fleet 2 and -2
+# From Juliette
 # QUESTION: Where is this dataset?
 
 # CA NONTWL WCGOP - fleet -2 and 2
@@ -671,14 +695,17 @@ CA_REC_maal <- inputs$dat$agecomp |>
 CA_REC_ages <- rbind(CA_REC_caal, CA_REC_maal)
 
 # ORWA TWL CAAL and MAAL (PacFIN and WCGOP combined) - fleet 4 and -4
+# Provided by Juliette
 # QUESTION: Where is this dataset?
 
 
 # ORWA NONTWL CAAL and MAAL (PacFIN and WCGOP combined) - fleet 5 and -5
+# Provided by Juliette
 # QUESTION: Where is this dataset?
 
 
 # OR REC CAAL and MAAL - fleet -6 and 6
+# Morgan and Abby need to provide an updated data set
 # Do we only have these up until 2016 still?
 OR_REC_caal_old <- inputs$dat$agecom |>
   filter(fleet == 6)
@@ -711,6 +738,7 @@ OR_REC_maal <- rbind(OR_REC_maal_old, OR_REC_maal_new)
 OR_REC_ages <- rbind(OR_REC_caal, OR_REC_maal)
 
 # WA REC CAAL and MAAL - fleet -7 and 7
+# Provided by Morgan and Abby
 # Fabio said to use new ages because they have been reanalyzed
 WA_REC_caal <- read.csv(file.path(
   getwd(),
@@ -777,6 +805,7 @@ NWFSC_maal <- NWFSC_maal_new
 NWFSC_ages <- rbind(NWFSC_caal, NWFSC_maal)
 
 # IPHC survey CAAL and MAAL - fleet -12 and 12
+# Data provided by Fabio, bio comps processed by Elizabeth
 IPHC_caal_old <- inputs$dat$agecom |>
   filter(fleet == 12) |>
   filter(year <= 2016)
