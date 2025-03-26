@@ -24,9 +24,6 @@ inputs$dat$endyr <- 2024
 #############
 ### Catch ###
 #############
-inputs_catch <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch"))
-inputs_catch$dat$endyr <- 2024
-
 colnames_c <- c("year", "seas", "fleet", "catch", "catch_se")
 
 # Load recent commercial catch data for CA, OR, and WA
@@ -356,6 +353,8 @@ OR_REC_MRFSS_index <- inputs$dat$CPUE |>
   filter(index == 6, year < 2000)
 
 # OR ORBS - fleet 6
+# From Ali Whitman
+# This now includes years 2004 and 2017 - 2024
 ORBS_index <- read.csv(file.path(
   getwd(),
   "Data",
@@ -376,25 +375,27 @@ CA_CPFV_CPUE_index <- inputs$dat$CPUE |>
   filter(index == 8)
 
 # Oregon onboard Recreational Charter observer CPUE (ORFS) - fleet 9
+OR_onboard_rec_index <- inputs$dat$CPUE |>
+  filter(index == 9)
+
+# Experimental ORFS to test a sensitivity with
 # From Ali Whitman
-ORFS_index <- read.csv(file.path(
-  getwd(),
-  "Data",
-  "processed",
-  "ORFS_index_forSS.csv"
-)) |>
-  mutate(
-    fleet = 9,
-    obs = round(obs, digits = 6),
-    logse = round(logse, digits = 6)
-  )
-colnames(ORFS_index) <- colnames_i
+# For some reason 2003 is missing from the updated index. This also now includes
+# years 2015, 2017, 2022, 2023, and 2024
+# ORFS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORFS_index_forSS.csv")) |>
+#   mutate(
+#     fleet = ?,
+#     obs = round(obs, digits = 6),
+#     logse = round(logse, digits = 6)
+#   )
+# colnames(ORFS_index) <- colnames_i
 
 # Triennial survey - fleet 10
 tri_index <- inputs$dat$CPUE |>
   filter(index == 10)
 
-# NWFSC ORWA - fleet 11
+# NWFSC ORWA (sdmTMB) - fleet 11
+# Full update done by Claire
 NWFSC_ORWA <- read.csv(file.path(
   getwd(),
   "Data",
@@ -417,6 +418,7 @@ NWFSC_ORWA_index <- NWFSC_ORWA |>
 colnames(NWFSC_ORWA_index) <- colnames_i
 
 # IPHC ORWA - fleet 12
+# Full update done in STAN by Matheus
 IPHC_ORWA <- read.csv(file.path(
   getwd(),
   "Data",
@@ -434,14 +436,15 @@ all_indices <- do.call(
     ORBS_index,
     WA_REC_CPUE_index,
     CA_CPFV_CPUE_index,
-    ORFS_index,
+    OR_onboard_rec_index,
+    # ORFS_index,
     tri_index,
     NWFSC_ORWA_index,
     IPHC_ORWA_index
   )
 )
 
-inputs$dat$indices <- all_indices
+inputs$dat$CPUE <- all_indices
 
 ###########################
 ### Length compositions ###
@@ -502,7 +505,8 @@ TRI_lengths <- inputs$dat$lencom |>
 
 # NWFSC survey - fleet 11
 NWFSC_lengths_old <- inputs$dat$lencom |>
-  filter(fleet == 11)
+  filter(fleet == 11) |>
+  select(year < 2016)
 NWFSC_lengths_new <- read.csv(file.path(
   getwd(),
   "Data",
@@ -510,7 +514,7 @@ NWFSC_lengths_new <- read.csv(file.path(
   "NWFSC.Combo_and_Tri_length_comps",
   "NWFSC.Combo_length_cm_unsexed_raw_10_74_yelloweye rockfish_groundfish_slope_and_shelf_combination_survey.csv"
 )) |>
-  filter(Year > 2016)
+  filter(Year >= 2016)
 colnames(NWFSC_lengths_new) <- colnames_l
 NWFSC_lengths <- rbind(NWFSC_lengths_old, NWFSC_lengths_new)
 
