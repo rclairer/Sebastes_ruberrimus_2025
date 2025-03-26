@@ -453,48 +453,115 @@ inputs$dat$CPUE <- all_indices
 colnames_l <- colnames(inputs$dat$lencom)
 
 # CA TWL (from PacFIN) - fleet 1
+# QUESTION: Where is this dataset?
+CA_TWL_lengths_old <- inputs$dat$lencomp |>
+  filter(fleet == 1)
+CA_TWL_lengths_new <-
 
-# CA NONTWL (from PacFIN) - fleet 2
+# CA NONTWL (from PacFIN) up until 2002 - fleet 2
+  # QUESTION: Where is this dataset?
+CA_NONTWL_lengths_pacfin_old <- inputs$dat$lencomp |>
+  filter(fleet == 2) |>
+  filter(year <= 2002)
+CA_NONTWL_lengths_pacfin_new <- 
 
 # CA NONTWL (from WCGOP) - fleet 2
+  # QUESTION: Where is this dataset?
+CA_NONTWL_lengths_old <- inputs$dat$lencomp |>
+  filter(fleet == 2) |>
+  filter(year > 2002)
+CA_NONTWL_lengths_new <- 
 
 # CA REC - fleet 3
-CA_REC_lengths <- read.csv(file.path(
+CA_REC_lengths_old <- inputs$dat$lencomp |>
+  filter(fleet == 3)
+CA_REC_lengths_new <- read.csv(file.path(
   getwd(),
   "Data",
   "processed",
-  "recfin_bio_data",
-  "recfin_ca_lengths.csv"
-))
-colnames(CA_REC_lengths) <- colnames_l
+  "rec_comps",
+  "ca_rec_lengths.csv"
+)) |>
+  select(-X) |>
+  filter(year > 2016)
+colnames(CA_REC_lengths_new) <- colnames_l
+CA_REC_lengths <- rbind(CA_REC_lengths_old, CA_REC_lengths_new)
 
 # ORWA TWL (PacFIN and WCGOP combined) - fleet 4
+# QUESTION: Where is this dataset?
+ORWA_TWL_lengths_old <- inputs$dat$lencomp |>
+  filter(fleet == 4)
+ORWA_TWL_lengths_new
 
 # ORWA NONTWL (PacFIN and WCGOP combined) - fleet 5
+# QUESTION: Where is this dataset?
+ORWA_NONTWL_lengths_old <- inputs$dat$lencomp |>
+  filter(fleet == 5)
+ORWA_NONTWL_lengths_new
 
-# OR REC (MRFSS and ORBS combined, plus data associated with WDFW ages (1979-2002) and ODFW (2009-2016) ages, not included in RecFIN) - fleet 6
-OR_REC_lengths <- read.csv(file.path(
+# OR REC (MRFSS and ORBS combined, plus data associated with WDFW ages (1979-2002) 
+# and ODFW (2009-2016) ages, not included in RecFIN) - fleet 6
+OR_REC_lengths_old <- inputs$dat$lencomp |>
+  filter(fleet == 6)
+OR_REC_lengths_new <- read.csv(file.path(
   getwd(),
   "Data",
   "processed",
   "rec_comps",
   "or_rec_lengths.csv"
-))
-colnames(OR_REC_lengths) <- colnames_l
+)) |>
+  filter(year > 2016) |>
+  select(-X)
+colnames(OR_REC_lengths_new) <- colnames_l
+OR_REC_lengths <- rbind(OR_REC_lengths_old, OR_REC_lengths_new)
 
 # WA REC (data from WDFW) - fleet 7
-WA_REC_lengths <- read.csv(file.path(
+# QUESTION:
+# What are we doing with this data set? The lengths looked very different
+# between the 2017 length data and the updated length data
+WA_REC_lengths_old <- inputs$dat$lencomp |>
+  filter(fleet == 7)
+WA_REC_lengths_new <- read.csv(file.path(
   getwd(),
   "Data",
   "processed",
   "rec_comps",
-  "recfin_wa_lengths.csv"
-))
-colnames(WA_REC_lengths) <- colnames_l
+  "wa_rec_lengths.csv"
+)) |>
+  filter(year > 2016) |>
+  select(-X)
+colnames(WA_REC_lengths_new) <- colnames_l
+WA_REC_lengths <- rbind(WA_REC_lengths_old, WA_REC_lengths_new)
 
 # CA observer - fleet 8
+CA_observer_lengths_old <- inputs$dat$lencomp |>
+  filter(fleet == 8)
+CA_observer_lengths_new <- read.csv(file.path(
+  getwd(),
+  "Data",
+  "processed",
+  "rec_comps",
+  "ca_obs_lengths.csv"
+)) |>
+  filter(year > 2016) |>
+  select(-X)
+colnames(CA_observer_lengths_new) <- colnames_l
+CA_observer_lengths <- rbind(CA_observer_lengths_old, CA_observer_lengths_new)
 
 # OR observer - fleet 9
+OR_observer_lengths_old <- inputs$dat$lencomp |>
+  filter(fleet == 9)
+OR_observer_lengths_new <- read.csv(file.path(
+  getwd(),
+  "Data",
+  "processed",
+  "rec_comps",
+  "or_obs_lengths.csv"
+)) |>
+  filter(year > 2016) |>
+  select(-X)
+colnames(OR_observer_lengths_new) <- colnames_l
+OR_observer_lengths <- rbind(OR_observer_lengths_old, OR_observer_lengths_new)
 
 # Nsamp method used for all survey length comps is the old Stewart Hamel method from the 2017 assessment where
 # Nsamp = n_trips + 0.0707 * n_fish when n_fish/n_tows < 55 and
@@ -505,8 +572,7 @@ TRI_lengths <- inputs$dat$lencom |>
 
 # NWFSC survey - fleet 11
 NWFSC_lengths_old <- inputs$dat$lencom |>
-  filter(fleet == 11) |>
-  select(year < 2016)
+  filter(fleet == 11)
 NWFSC_lengths_new <- read.csv(file.path(
   getwd(),
   "Data",
@@ -514,22 +580,31 @@ NWFSC_lengths_new <- read.csv(file.path(
   "NWFSC.Combo_and_Tri_length_comps",
   "NWFSC.Combo_length_cm_unsexed_raw_10_74_yelloweye rockfish_groundfish_slope_and_shelf_combination_survey.csv"
 )) |>
-  filter(Year >= 2016)
+  filter(year > 2016)
 colnames(NWFSC_lengths_new) <- colnames_l
 NWFSC_lengths <- rbind(NWFSC_lengths_old, NWFSC_lengths_new)
 
+
 # IPHC ORWA - fleet 12
 # IPHC bio data notes:
-# Total_Biodata_Comb includes all Yelloweye biodata collected from IPHC FISS 2A from 2022-2023 and stlkeys for association with the IPHC effort database, and some location information pulled from the IPHC effort database
-# Experimental gear catch and catch where species could not be rectified against onboard tag documentation were removed.
+# Total_Biodata_Comb includes all Yelloweye biodata collected from IPHC FISS 2A 
+# from 2022-2023 and stlkeys for association with the IPHC effort database, and 
+# some location information pulled from the IPHC effort database
+# Experimental gear catch and catch where species could not be rectified against 
+# onboard tag documentation were removed.
 # 2A was not fished in 2020 and 2024.  Oregon stations were not fished in 2023.
-# Oregon rockfish were not tagged in 2021 and fish cannot be reconciled with IPHC effort data.
-# IPHC has not provided onboard tag information for Oregon stations in 2019. 2019 landings currently cannot be reconciled with IPHC effort data.
+# Oregon rockfish were not tagged in 2021 and fish cannot be reconciled with IPHC 
+# effort data.
+# IPHC has not provided onboard tag information for Oregon stations in 2019. 2019 
+# landings currently cannot be reconciled with IPHC effort data.
+
+# From the 2017 assessment, it looks like Jason and Vlada used only lengths that also
+# had ages EXCEPT for 2016 where they used all the lengths, we will keep their data for this
+# year because there were not many samples for this year and only using lengths
+# that have ages for 2016 truncates the age data
 
 IPHC_lengths_old <- inputs$dat$lencom |>
-  filter(fleet == 11)
-
-# Use previous assessment year 2016 or use new data?
+  filter(fleet == 12)
 IPHC_lengths_new <- read.csv(file.path(
   getwd(),
   "Data",
@@ -537,8 +612,8 @@ IPHC_lengths_new <- read.csv(file.path(
   "IPHC_bio_data",
   "iphc_length_comps.csv"
 )) |>
-  filter(Year > 2016)
-colnames(IPHC_lengths) <- colnames_l
+  filter(year > 2016)
+colnames(IPHC_lengths_new) <- colnames_l
 IPHC_lengths <- rbind(IPHC_lengths_old, IPHC_lengths_new)
 
 # Put all lengths together
@@ -548,6 +623,8 @@ all_lengths <- do.call(
     CA_REC_lengths,
     OR_REC_lengths,
     WA_REC_lengths,
+    CA_observer_lengths,
+    OR_observer_lengths,
     TRI_lengths,
     NWFSC_lengths,
     IPHC_lengths
@@ -563,8 +640,10 @@ inputs$dat$lencomp <- all_lengths
 colnames_a <- colnames(inputs$dat$agecom)
 
 # CA NONTWL CAAL - fleet 2
+# QUESTION: Where is this dataset?
 
 # CA NONTWL MAAL - fleet -2
+# QUESTION: Where is this dataset?
 
 # CA NONTWL WCGOP - fleet -2 and 2
 CA_NONTWL_wcgop <- inputs$dat$agecom |>
@@ -575,99 +654,118 @@ colnames(CA_NONTWL_wcgop) <- colnames_a
 # CA REC CAAL and MAAL (aged by WDFW, 1983 and 1996 only) - fleet -3 and 3
 CA_REC_wdfw <- inputs$dat$agecom |>
   filter(fleet %in% c(-3, 3))
-CA_REC_wdfw <- ca_rec_wdfw[1:4, ]
+CA_REC_wdfw <- CA_REC_wdfw[1:4, ]
 colnames(CA_REC_wdfw) <- colnames_a
 
 # CA REC CAAL and MAAL (data from Don Pearson 1979 - 1984, aged by Betty) - fleet -3 and 3
 CA_REC_don_pearson <- inputs$dat$agecom |>
   filter(fleet %in% c(-3, 3))
-CA_REC_don_pearson <- ca_rec_don_pearson[-c(1:4), ] |>
+CA_REC_don_pearson <- CA_REC_don_pearson[-c(1:4), ] |>
   filter(year < 1985)
 colnames(CA_REC_don_pearson) <- colnames_a
 
-# CA REC CAAL and MAAL (data from CDFW Julia Coates) - fleet -3 and 3
-CA_REC_caal <- read.csv(file.path(
-  getwd(),
-  "Data",
-  "processed",
-  "rec_comps",
-  "ca_rec_caal.csv"
-))
-CA_REC_maal <- read.csv(file.path(
-  getwd(),
-  "Data",
-  "processed",
-  "rec_comps",
-  "ca_rec_caal.csv"
-))
 
+# CA REC CAAL and MAAL (data from CDFW Julia Coates) - fleet -3 and 3
+# QUESTION: There are no updates to these since 2016?
+CA_REC_caal <- inputs$dat$agecomp |>
+  filter(fleet == 3) |>
+  filter(year >=2009)
+CA_REC_maal <- inputs$dat$agecomp |>
+  filter(fleet == -3) |>
+  filter(year >= 2009)
 CA_REC_ages <- rbind(CA_REC_caal, CA_REC_maal)
-colnames(CA_REC_ages) <- colnames_a
 
 # ORWA TWL CAAL (PacFIN and WCGOP combined) - fleet 4
+# QUESTION: Where is this dataset?
 
 # ORWA TWL MAAL (PacFIN and WCGOP combined) - fleet -4
+# QUESTION: Where is this dataset?
 
 # ORWA NONTWL CAAL (PacFIN and WCGOP combined) - fleet 5
+# QUESTION: Where is this dataset?
 
 # ORWA NONTWL MAAL (PacFIN and WCGOP combined) - fleet -5
+# QUESTION: Where is this dataset?
 
 # OR REC CAAL and MAAL - fleet -6 and 6
-OR_REC_caal <- read.csv(file.path(
+# Do we only have these up until 2016 still?
+OR_REC_caal_old <- inputs$dat$agecom |>
+  filter(fleet == 6)
+OR_REC_caal_new <- read.csv(file.path(
   getwd(),
   "Data",
   "processed",
   "rec_comps",
   "or_rec_caal.csv"
-))
-OR_REC_maal <- read.csv(file.path(
+)) |>
+  filter(year > 2016) |>
+  select(-X)
+colnames(OR_REC_caal_new) <- colnames_a
+OR_REC_caal <- rbind(OR_REC_caal_old, OR_REC_caal_new)
+
+OR_REC_maal_old <- inputs$dat$agecom |>
+  filter(fleet == -6)
+OR_REC_maal_new <- read.csv(file.path(
   getwd(),
   "Data",
   "processed",
   "rec_comps",
   "or_rec_maal.csv"
-))
+))|>
+  filter(year > 2016) |>
+  select(-X)
+colnames(OR_REC_maal_new) <- colnames_a
+OR_REC_maal <- rbind(OR_REC_maal_old, OR_REC_maal_new)
 
 OR_REC_ages <- rbind(OR_REC_caal, OR_REC_maal)
-colnames(OR_REC_ages) <- colnames_a
 
 # WA REC CAAL and MAAL - fleet -7 and 7
+# Fabio said to use new ages because they have been reanalyzed
 WA_REC_caal <- read.csv(file.path(
   getwd(),
   "Data",
   "processed",
   "rec_comps",
   "wa_rec_caal.csv"
-))
+)) |>
+  select(-X)
+colnames(WA_REC_caal) <- colnames_a
+
 WA_REC_maal <- read.csv(file.path(
   getwd(),
   "Data",
   "processed",
   "rec_comps",
   "wa_rec_maal.csv"
-))
+)) |>
+  select(-X)
+colnames(WA_REC_maal) <- colnames_a
 
 WA_REC_ages <- rbind(WA_REC_caal, WA_REC_maal)
-colnames(WA_REC_ages) <- colnames_a
 
 # Nsamp method used for all survey maal is the old Stewart Hamel method from the 2017 assessment where
 # Nsamp = n_trips + 0.0707 * n_fish when n_fish/n_tows < 55 and
 # Nsamp = 4.89 * n_trips when n_fish/n_tows >= 55
 # NWFSC survey CAAL and MAAL - fleet -11 and 11
-NWFSC_caal_old <- inputs$dat$agecom |>
-  filter(fleet == 11)
+# QUESTION: The age comps were a little different between the old assessment and the new assessment, are we
+# going to use updated ages? for all years?
+# NWFSC_caal_old <- inputs$dat$agecom |>
+#   filter(fleet == 11)
 NWFSC_caal_new <- read.csv(file.path(
   getwd(),
   "Data",
   "processed",
   "NWFSC.Combo_CAAL",
   "processed_one_sex_caal.csv"
-))
-colnames(NWFSC_caal) <- colnames_a
-NWFSC_caal <- rbind(NWFSC_caal_old, NWFSC_caal_new)
+)) 
+# |>
+#   filter(year > 2016)
+colnames(NWFSC_caal_new) <- colnames_a
+NWFSC_caal <- NWFSC_caal_new
+# NWFSC_caal <- rbind(NWFSC_caal_old, NWFSC_caal_new)
 
-NWFSC_maal_old <- inputs$dat$agecom |>
-  filter(fleet == -11)
+# NWFSC_maal_old <- inputs$dat$agecom |>
+#   filter(fleet == -11)
 NWFSC_maal_new <- read.csv(file.path(
   getwd(),
   "Data",
@@ -678,16 +776,19 @@ NWFSC_maal_new <- read.csv(file.path(
   mutate(
     ageerr = 2,
     fleet = -11
-  )
-colnames(NWFSC_maal) <- colnames_a
-NWFSC_maal <- rbind(NWFSC_maal_old, NWFSC_maal_new)
+  ) 
+# |>
+#   filter(year > 2016)
+colnames(NWFSC_maal_new) <- colnames_a
+NWFSC_maal <- NWFSC_maal_new
+# NWFSC_maal <- rbind(NWFSC_maal_old, NWFSC_maal_new)
 
 NWFSC_ages <- rbind(NWFSC_caal, NWFSC_maal)
 
 # IPHC survey CAAL and MAAL - fleet -12 and 12
 IPHC_caal_old <- inputs$dat$agecom |>
   filter(fleet == 12) |>
-  filter(year <= 2015)
+  filter(year <= 2016)
 IPHC_caal_new <- read.csv(file.path(
   getwd(),
   "Data",
@@ -695,23 +796,25 @@ IPHC_caal_new <- read.csv(file.path(
   "IPHC_bio_data",
   "iphc_caal.csv"
 )) |>
-  filter(year > 2015)
+  filter(year > 2016)
+colnames(IPHC_caal_new) <- colnames_a
 IPHC_caal <- rbind(IPHC_caal_old, IPHC_caal_new)
 
 IPHC_maal_old <- inputs$dat$agecom |>
   filter(fleet == -12) |>
-  filter(year <= 2015)
-IPHC_maal_old <- read.csv(file.path(
+  filter(year <= 2016)
+IPHC_maal_new <- read.csv(file.path(
   getwd(),
   "Data",
   "processed",
   "IPHC_bio_data",
   "iphc_marginal_ages.csv"
 )) |>
-  filter(year > 2015)
+  filter(year > 2016)
+colnames(IPHC_maal_new) <- colnames_a
 IPHC_maal <- rbind(IPHC_maal_old, IPHC_maal_new)
 
-IPCH_ages <- rbind(IPHC_caal, IPHC_maal)
+IPHC_ages <- rbind(IPHC_caal, IPHC_maal)
 
 # Combine all ages together
 all_ages <- do.call(
