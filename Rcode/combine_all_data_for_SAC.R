@@ -303,12 +303,6 @@ CA_CPFV_CPUE_index <- inputs$dat$CPUE |>
   mutate(Label = "CA_CPFV_CPUE")
 colnames(CA_CPFV_CPUE_index) <- colnames_i
 
-# Oregon onboard Recreational Charter observer CPUE (ORFS) - fleet 9
-OR_onboard_rec_index <- inputs$dat$CPUE |>
-  filter(index == 9) |>
-  mutate(Label = "OR_RECOB")
-colnames(OR_onboard_rec_index) <- colnames_i
-
 # Experimental ORFS to test a sensitivity with
 # From Ali Whitman
 # For some reason 2003 is missing from the updated index. This also now includes
@@ -368,8 +362,7 @@ all_indices <- do.call("rbind", list(
   ORBS_index,
   WA_REC_CPUE_index,
   CA_CPFV_CPUE_index,
-  OR_onboard_rec_index,
-  # ORFS_index,
+  ORFS_index,
   TRI_index,
   NWFSC_ORWA_index,
   IPHC_ORWA_index

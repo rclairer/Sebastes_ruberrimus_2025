@@ -383,6 +383,8 @@ CA_CPFV_CPUE_index <- inputs$dat$CPUE |>
 
 # For some reason 2003 is missing from the updated index. This also now includes
 # years 2015, 2017, 2022, 2023, and 2024
+# Using everything Ali gave because it's pretty different from the ORFS index
+# in the 2017 assessment
 ORFS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORFS_index_forSS.csv")) |>
   mutate(
     fleet = 9,
