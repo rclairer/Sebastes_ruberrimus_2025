@@ -41,10 +41,12 @@ IPHC_data$State[IPHC_data$Station > 1027] = "WA"
 IPHC_data$Year = substr(as.character(IPHC_data$Stlkey), 1, 4)
 # Calculate design-based index -------------------------------------------------
 
-# 1. Calculate CPUE for each tow  
+#1. Calculate CPUE for each tow
 IPHC_data$Effort = ifelse(IPHC_data$Year < 2013 & IPHC_data$Year > 2019,
                           as.numeric(IPHC_data$HooksObserved) / IPHC_data$Avg.no..hook.skate,
                           as.numeric(IPHC_data$HooksObserved) / ((IPHC_data$Avg.no..hook.skate*4)/3) )
+
+# IPHC_data$Effort = IPHC_data$Effective.skates.hauled
 
 IPHC_data$CPUE   = IPHC_data$Number.Observed / IPHC_data$Effort
 
@@ -77,7 +79,7 @@ depth_plot = IPHC_data %>%
 
 ggarrange(station_plot, vessel_plot, depth_plot, ncol = 1)
 
-figure_diretory = file.path(here::here(), "Rcode", "fish_dep_indices", "IPHC")
+figure_diretory = file.path(here::here(), "Rcode", "fish_dep_indices", "IPHC", "Figures")
 ggsave("exploratory_plots_IPHC_hook_and_line.pdf", width = 6, height = 8.2, path = figure_diretory)
 
 # 2. Calculate average CPUE in stratum (station)
@@ -85,15 +87,15 @@ ggsave("exploratory_plots_IPHC_hook_and_line.pdf", width = 6, height = 8.2, path
 IPHC_data_sum = 
   IPHC_data %>%
   group_by(Year) %>%
-  summarise(mean_CPUE = mean(CPUE, na.rm = TRUE),
-            sd        = sd(CPUE, na.rm = TRUE),
-            se        = sd/sqrt(n()),
-            n         = n())
+  dplyr::summarise(mean_CPUE = mean(CPUE, na.rm = TRUE),
+                   sd        = sd(CPUE, na.rm = TRUE),
+                   se        = sd/sqrt(n()),
+                   n         = n())
 
-IPHC_data_sum = IPHC_data_sum[-c(1),] # remove 1999
+IPHC_data_sum = IPHC_data_sum[-c(1, 2),] # remove 1999 and 2001
 
 # 3. Plot index
-IPHC_data_sum %>%
+index_design = IPHC_data_sum %>%
   ggplot(aes(x = as.numeric(Year), y = mean_CPUE)) +
   geom_line() +
   geom_point() +
@@ -147,14 +149,14 @@ RE = out %>%
   ggs() %>%
   filter(grepl("Y", Parameter)) %>%
   group_by(Parameter) %>%
-  summarise(mean = mean(value),
-            sd   = sd(value)) %>%
+  dplyr::summarise(mean = mean(value),
+                   sd   = sd(value)) %>%
   slice(-(data_list$N_years+1:46)) %>%
-  mutate(Year = 2001:2023)
-  
+  mutate(Year = 2000:2022)
+
 names(RE) = c("Par", "mean", "sd", "Year", "mean_CPUE", "se")
 
-RE = RE[-c(20),] # remove 2020
+RE = RE[-c(1,2),] # remove 2000 and 2001
 
 RE$adj_CPUE = IPHC_data_sum$mean_CPUE + RE$mean
 RE$se = IPHC_data_sum$se
@@ -191,7 +193,7 @@ df %>%
   theme(legend.title = element_blank(),
         legend.position = "top") +
   ylab("Index") + xlab("Year")
- 
+
 ggsave("index_comparison.pdf", width = 7.7, height = 4, path = figure_diretory)
 
 # Format index for SS3 .dat file
@@ -209,70 +211,3 @@ index_df = data.frame(
 )
 
 write.csv(index_df, file.path(here::here(), "Data", "processed", "IPHC_model_based_index_forSS3.csv"), row.names = FALSE)
-
-# Negative-binomial model ------------------------------------------------------
-constant = 1e-10 # to avoid NaNs in log-transformations
-
-IPHC_data_glm$Year       = as.numeric(as.factor(IPHC_data_glm$Year))
-IPHC_data_glm$Station    = as.numeric(as.factor(IPHC_data_glm$Station))
-IPHC_data_glm$Vessel     = as.numeric(as.factor(IPHC_data_glm$Vessel))
-IPHC_data_glm$log_Effort = log(IPHC_data_glm$Effort + constant)
-
-IPHC_data_glm = na.exclude(IPHC_data_glm)
-
-# FULL MODEL
-full_model = MASS::glm.nb(
-
-  Count ~ Year + Station + Vessel + Depth + offset(log(Effort)),
-  data = IPHC_data_glm,
-  na.action = "na.fail"
-
-)
-summary(full_model)
-anova(full_model)
-
-# MODEL SELECTION
-model_suite = MuMIn::dredge(full_model,
-                            rank = "AICc",
-                            fixed = c("offset(log(Effort))"))
-
-model_selection = as.data.frame(model_suite) %>% dplyr::select(-weight)
-
-fit = sdmTMB(
-  Count ~ Year + Vessel + Station,
-  data           = IPHC_data_glm,
-  offset         = log(IPHC_data_glm$CPUE + constant),
-  time           = "Year",
-  spatial        = "off",
-  spatiotemporal = "off",
-  family         = nbinom1(link = "log"),
-  control        = sdmTMBcontrol(newton_loops = 1)
-)
-
-sanity(fit) # model looks OK
-
-# extract predictions
-preds = predict(fit, return_tmb_object = TRUE, newdata = IPHC_data_glm, offset = log(IPHC_data_glm$CPUE + constant))
-
-preds$data
-
-# plot predictive check
-limits = c(0,70)
-plot(exp(preds$data$est) ~ IPHC_data_glm$Count,
-     xlab = "Observed", ylab = "Predicted",
-     xlim = limits, ylim = limits)
-abline(a=0, b=1, col = "red", lwd = 2, lty = 2)
-
-# get index file
-index = get_index(preds, bias_correct = TRUE)
-
-index %>%
-  ggplot(aes(x = Year+2000, y = est)) +
-  geom_line() +
-  geom_point() +
-  geom_errorbar(aes(x = Year+2000, ymin = lwr, ymax = upr), width = .1)
-
-
-
-
-
