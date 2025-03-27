@@ -1,8 +1,10 @@
 library(reshape2)
-setwd("C:/Users/Jason.Cope/Desktop/Yelloweye_2017_indices/IPHC")
-IPHC.dat<-read.csv("IPHC_CPUE.csv",header=TRUE)
 
-IPHC.dat = IPHC_CPUE
+data_directory = file.path(here::here(), "Data", "raw", "nonconfidential")
+IPHC.dat<-read.csv(file.path(data_directory, "IPHC_CPUE.csv"),header=TRUE)
+
+function_directory = file.path(here::here(), "Rcode", "fish_dep_indices", "IPHC", "Code", "IPHC_utilities.r")
+source(function_directory)
 
 #Add depth bins
 IPHC.dat$DEPTH_MAX_M<-IPHC.dat$`Max depth (fm)`*1.8288
@@ -54,9 +56,15 @@ IPHC.dat.depths.stations$CPUE<-IPHC.dat.depths.stations$`Yelloweye Rockfish`/IPH
 IPHC.dat.depths.stations$DEPTH_CATS<-IPHC.dat.depths.stations$DEP_M_BINS
 IPHC.dat.depths.stations$DEPTH_CATS[IPHC.dat.depths.stations$DEP_M_BINS>100]<-120
 #CPUE~SurveyYear+State+DEPTH_CATS
-IPHC.dat.glm<-IPHC.dat.depths.stations[,c(105,1,104,106)]
+IPHC.dat.glm<-IPHC.dat.depths.stations[,c(105,1,104,106)] 
+
+
+# runs until this point -------------------
+
+
+
 #Convert to factors
-IPHC.dat.glm[,2:ncol(YE.OR_ORBS.dat)]<-colwise(as.factor)(IPHC.dat.glm[,2:ncol(IPHC.dat.glm)])
+IPHC.dat.glm[,2:ncol(IPHC.dat.glm)]<-colwise(as.factor)(IPHC.dat.glm[,2:ncol(IPHC.dat.glm)])
 
 
 deltaglmselect.EJ(IPHC.dat.glm[,c(1:2)],"IPHC_Model_Select")
@@ -80,7 +88,7 @@ IPHC.dat.glm.WA<-IPHC.dat.glm.WA[,c(1,2,4)]
 #deltaglmselect.EJ(IPHC.dat.glm.WA[,c(1:3)],"IPHC_Model_Select_WA")
 
 #Run deltaGLM
-IPHC.dat.glm.log.jack<-CPUEanalysis.EJ(IPHC.dat.glm[,c(1:4)],0,length(unique(IPHC.dat.glm$SurveyYear)),1,plotting=1, plotID='CPUE',J.in=TRUE)
+IPHC.dat.glm.log.jack<-CPUEanalysis.EJ(IPHC.dat.glm,0,length(unique(IPHC.dat.glm$SurveyYear)),0,plotting=1, plotID='CPUE',J.in=TRUE)
 IPHC.dat.glm.OR.log.jack<-CPUEanalysis.EJ(IPHC.dat.glm.OR[,c(1:2)],0,length(unique(IPHC.dat.glm.OR$SurveyYear)),1,plotting=1, plotID='CPUE',J.in=FALSE)
 IPHC.dat.glm.WA.log.jack<-CPUEanalysis.EJ(IPHC.dat.glm.WA[,c(1:2)],0,length(unique(IPHC.dat.glm.WA$SurveyYear)),1,plotting=1, plotID='CPUE',J.in=FALSE)
 save(IPHC.dat.glm.log.jack,file="IPHC_dat_glm_log_jack.DMP")
@@ -90,3 +98,6 @@ save(IPHC.dat.depths.stations,file="IPHC_dat_depths_stations.DMP")
 
 IPHC.index.plot<-read.table('clipboard',header=TRUE)
 ggplot(IPHC.index.plot,aes(Year,Index,color=Type))+geom_line(lwd=1.5)+geom_point(size=4)
+
+  
+
