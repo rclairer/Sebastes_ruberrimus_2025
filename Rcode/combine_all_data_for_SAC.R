@@ -67,8 +67,8 @@ CA_2016_2024_NONTWL <- yelloweye_recent_comm_catch |>
   )
 
 years_no_data <- data.frame(
-  Year = c(2018, 2019, 2020, 2024),
-  catch = c(0,0,0,0)
+  Year = c(2016, 2018, 2019, 2020, 2024),
+  catch = c(0, 0,0,0,0)
 )
 
 CA_NONTWL <- CA_1889_2015_NONTWL |>
@@ -313,14 +313,14 @@ colnames(OR_onboard_rec_index) <- colnames_i
 # From Ali Whitman
 # For some reason 2003 is missing from the updated index. This also now includes
 # years 2015, 2017, 2022, 2023, and 2024
-# ORFS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORFS_index_forSS.csv")) |>
-#   mutate(
-#     fleet = 9,
-#     obs = round(obs, digits = 6),
-#     logse = round(logse, digits = 6),
-#     Label = "OR_RECOB/ORFS"
-#   )
-# colnames(ORFS_index) <- colnames_i
+ORFS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORFS_index_forSS.csv")) |>
+  mutate(
+    fleet = 9,
+    obs = round(obs, digits = 6),
+    logse = round(logse, digits = 6),
+    Label = "OR_RECOB/ORFS"
+  )
+colnames(ORFS_index) <- colnames_i
 
 # TRI ORWA - fleet 10
 TRI_index <- inputs$dat$CPUE |>

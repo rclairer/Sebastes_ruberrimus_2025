@@ -66,17 +66,8 @@ CA_2016_2024_NONTWL <- yelloweye_recent_comm_catch |>
   mutate(TOTAL_CATCH = round(TOTAL_CATCH, 3))
 colnames(CA_2016_2024_NONTWL) <- colnames_c
 
-# years_no_data <- data.frame(
-#   year = c(2016, 2018, 2019, 2020, 2024),
-#   seas = c(1, 1, 1, 1, 1),
-#   fleet = c(2, 2, 2, 2, 2),
-#   catch = c(0, 0, 0, 0, 0),
-#   catch_se = c(0.01, 0.01, 0.01, 0.01, 0.01)
-# )
-
 CA_NONTWL <- CA_1889_2015_NONTWL |>
   bind_rows(CA_2016_2024_NONTWL) |>
-  # bind_rows(years_no_data) |>
   arrange(year)
 
 # CA REC - fleet 3
@@ -379,22 +370,26 @@ CA_CPFV_CPUE_index <- inputs$dat$CPUE |>
   filter(index == 8)
 
 # Oregon onboard Recreational Charter observer CPUE (ORFS) - fleet 9
-# QUESTION: Ali and I are still unsure if this is ORFS or not, the assessment is
-# unclear and she was on parental leave for that assessment. 
-OR_onboard_rec_index <- inputs$dat$CPUE |>
-  filter(index == 9)
+# From Ali: I don’t typically recommend using both ORFS and ORBS in a model together, 
+# as they sample the same fishery and in rare cases, the same boats. This is 
+# exacerbated in this assessment because the ORBS index uses released fish only 
+# (as opposed to retained fish, which is how ORBS is typically set up).  Second, 
+# while I updated both ORBS and ORFS for yelloweye this cycle (thinking I could 
+# improve upon the previous ORFS model), the diagnostics continue to be poor for 
+# the ORFS index. The TORs won’t let us remove one or the other without. We need to 
+# just note all this for the future and move ahead with the updated versions of ORBS and ORFS in the model.
 
-# Experimental ORFS to test a sensitivity with
-# From Ali Whitman
+# We can do a sensitivity with just ORBS and just ORFS
+
 # For some reason 2003 is missing from the updated index. This also now includes
 # years 2015, 2017, 2022, 2023, and 2024
-# ORFS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORFS_index_forSS.csv")) |>
-#   mutate(
-#     fleet = ?,
-#     obs = round(obs, digits = 6),
-#     logse = round(logse, digits = 6)
-#   )
-# colnames(ORFS_index) <- colnames_i
+ORFS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORFS_index_forSS.csv")) |>
+  mutate(
+    fleet = 9,
+    obs = round(obs, digits = 6),
+    logse = round(logse, digits = 6)
+  )
+colnames(ORFS_index) <- colnames_i
 
 # Triennial survey - fleet 10
 tri_index <- inputs$dat$CPUE |>
@@ -442,8 +437,7 @@ all_indices <- do.call(
     ORBS_index,
     WA_REC_CPUE_index,
     CA_CPFV_CPUE_index,
-    OR_onboard_rec_index,
-    # ORFS_index,
+    ORFS_index,
     tri_index,
     NWFSC_ORWA_index,
     IPHC_ORWA_index
