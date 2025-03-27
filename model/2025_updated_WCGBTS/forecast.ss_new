@@ -1,6 +1,6 @@
 #V3.30.23.1;_safe;_compile_date:_Dec  5 2024;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_13.2
 #C file created using an r4ss function
-#C file write time: 2025-03-07  10:19:17
+#C file write time: 2025-03-25  16:08:51
 # for all year entries except rebuilder; enter either: actual year, -999 for styr, 0 for endyr, neg number for rel. endyr
 1 # Benchmarks: 0=skip; 1=calc F_spr,F_btgt,F_msy; 2=calc F_spr,F0.1,F_msy; 3=add F_Blimit; 
 2 # Do_MSY: 1= set to F(SPR); 2=calc F(MSY); 3=set to F(Btgt) or F0.1; 4=set to F(endyr); 5=calc F(MEY) with MSY_unit options
@@ -30,7 +30,7 @@
 # Factor method st_yr end_yr 
  10 1 0 0 # selectivity; use:  10 1 2024 2024
  11 1 0 0 # rel_F; use:  11 1 2024 2024
- 12 0 -999 0 # recruitment; use:  12 0 1889 2024
+ 12 1 -999 0 # recruitment; use:  12 1 1889 2024
 -9999 0 0 0
 #
 1 # Control rule method (0: none; 1: ramp does catch=f(SSB), buffer on F; 2: ramp does F=f(SSB), buffer on F; 3: ramp does catch=f(SSB), buffer on catch; 4: ramp does F=f(SSB), buffer on catch) 
@@ -56,9 +56,12 @@
 2 # basis for fcast catch tuning and for fcast catch caps and allocation  (2=deadbio; 3=retainbio; 5=deadnum; 6=retainnum); NOTE: same units for all fleets
 # Conditional input if relative F choice = 2
 # enter list of:  season, fleet, relF; if used, terminate with season=-9999
-# 1 3 0.469451
-# 1 6 0.26311
-# 1 7 0.26744
+# 1 1 0.0165204
+# 1 3 0.387441
+# 1 4 0.0252918
+# 1 5 0.178561
+# 1 6 0.192137
+# 1 7 0.200049
 # -9999 0 0  # terminator for list of relF
 # enter list of: fleet number, max annual catch for fleets with a max; terminate with fleet=-9999
 -9999 -1
