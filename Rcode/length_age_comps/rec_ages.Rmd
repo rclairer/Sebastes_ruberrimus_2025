@@ -239,7 +239,7 @@ or_rec_caal <- data.frame(or_rec_caal)
 colnames(or_rec_caal) <- gsub("^u", "A", colnames(or_rec_caal))
 
 # Save
-write.csv(or_rec_caal, file.path("../../Data/processed/rec_comps/or_rec_caal.csv"))
+write_csv(or_rec_caal, file.path("../../Data/processed/rec_comps/or_rec_caal.csv"))
 
 # Comparison plots for 2009-2016
   # Read new data
@@ -378,11 +378,11 @@ wa_rec_caal <- data.frame(wa_rec_caal)
 colnames(wa_rec_caal) <- gsub("^u", "A", colnames(wa_rec_caal))
 
 # Save
-write.csv(wa_rec_caal, file.path("../../Data/processed/rec_comps/wa_rec_caal.csv"))
+write_csv(wa_rec_caal, file.path("../../Data/processed/rec_comps/wa_rec_caal.csv"))
 
 # Comparison plots for 1998-2024
   # Read new data
-wa_rec_caal_new <- read.csv("../../Data/processed/rec_comps/wa_rec_caal.csv") |>
+wa_rec_caal_new <- read_csv("../../Data/processed/rec_comps/wa_rec_caal.csv") |>
   mutate(assessment = "Current") |>
   dplyr::select(year, assessment, A0:A65) |>
   tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "age", values_to = "freq") |>
@@ -449,11 +449,11 @@ colnames(wa_rec_maal) <- gsub("^unsexed\\.", "", colnames(wa_rec_maal))
 colnames(wa_rec_maal) <- gsub("^u", "A", colnames(wa_rec_maal))
 
 # Save
-write.csv(wa_rec_maal, file.path("../../Data/processed/rec_comps/wa_rec_maal.csv"))
+write_csv(wa_rec_maal, file.path("../../Data/processed/rec_comps/wa_rec_maal.csv"))
 
 # Comparison plots for 1998-2024
   # Read new data
-wa_rec_maal_new <- read.csv("../../Data/processed/rec_comps/wa_rec_maal.csv") |>
+wa_rec_maal_new <- read_csv("../../Data/processed/rec_comps/wa_rec_maal.csv") |>
   mutate(assessment = "Current") |>
   dplyr::select(year, assessment, A0:A65) |>
   tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "age", values_to = "freq") |>
