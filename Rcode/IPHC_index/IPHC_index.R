@@ -8,11 +8,12 @@ library(ggmcmc)
 library(ggpubr)
 library(MASS)
 library(MuMIn)
+library(sdmTMB)
 
 # Read-in data -----------------------------------------------------------------
-data_directory  = paste0(here::here(), "/Data/raw/IPHC_survey_1998_2024.csv")
+data_directory  = paste0(here::here(), "/Data/raw/nonconfidential/IPHC_survey_1998_2024.csv")
 IPHC_data       = read.csv(data_directory, header=TRUE)
-data_directory2 = paste0(here::here(), "/Data/raw/set_data.csv")
+data_directory2 = paste0(here::here(), "/Data/raw/nonconfidential/set_data.csv")
 set_data        = read.csv(data_directory2,header=TRUE)
 
 # Left-join data from set data -------------------------------------------------
@@ -36,12 +37,18 @@ IPHC_data = subset(
 IPHC_data$State = "OR"
 IPHC_data$State[IPHC_data$Station > 1027] = "WA"
 
+# Label years ------------------------------------------------------------------
+IPHC_data$Year = substr(as.character(IPHC_data$Stlkey), 1, 4)
 # Calculate design-based index -------------------------------------------------
 
-# 1. Calculate CPUE for each tow 
-## CPUE is in individuals/hook
-IPHC_data$CPUE   = IPHC_data$Number.Observed / as.numeric(IPHC_data$HooksObserved) * IPHC_data$Avg.no..hook.skate
-IPHC_data$Effort = as.numeric(IPHC_data$HooksObserved) * IPHC_data$Avg.no..hook.skate
+# 1. Calculate CPUE for each tow  
+IPHC_data$Effort = ifelse(IPHC_data$Year < 2013 & IPHC_data$Year > 2019,
+                          as.numeric(IPHC_data$HooksObserved) / IPHC_data$Avg.no..hook.skate,
+                          as.numeric(IPHC_data$HooksObserved) / ((IPHC_data$Avg.no..hook.skate*4)/3) )
+
+IPHC_data$CPUE   = IPHC_data$Number.Observed / IPHC_data$Effort
+
+IPHC_data = IPHC_data %>% filter(Effort != 0)
 
 # Exploratory plots 
 station_plot = IPHC_data %>%
@@ -87,12 +94,13 @@ IPHC_data_sum = IPHC_data_sum[-c(1),] # remove 1999
 
 # 3. Plot index
 IPHC_data_sum %>%
-  ggplot(aes(x = Year, y = mean_CPUE)) +
+  ggplot(aes(x = as.numeric(Year), y = mean_CPUE)) +
   geom_line() +
   geom_point() +
   geom_errorbar(aes(ymin = mean_CPUE - se, ymax = mean_CPUE + se), width = 0.1) +
   theme_minimal() + 
-  ylab("CPUE (ind./hook)")
+  ylab("CPUE (ind./set)") +
+  xlab("Year")
 
 ggsave("design_based_index.pdf", width = 7.7, height = 4, path = figure_diretory)
 
@@ -203,33 +211,37 @@ index_df = data.frame(
 write.csv(index_df, file.path(here::here(), "Data", "processed", "IPHC_model_based_index_forSS3.csv"), row.names = FALSE)
 
 # Negative-binomial model ------------------------------------------------------
+constant = 1e-10 # to avoid NaNs in log-transformations
 
-IPHC_data_glm$Year    = as.numeric(as.factor(IPHC_data_glm$Year))
-IPHC_data_glm$Station = as.numeric(as.factor(IPHC_data_glm$Station))
-IPHC_data_glm$Vessel  = as.numeric(as.factor(IPHC_data_glm$Vessel))
+IPHC_data_glm$Year       = as.numeric(as.factor(IPHC_data_glm$Year))
+IPHC_data_glm$Station    = as.numeric(as.factor(IPHC_data_glm$Station))
+IPHC_data_glm$Vessel     = as.numeric(as.factor(IPHC_data_glm$Vessel))
+IPHC_data_glm$log_Effort = log(IPHC_data_glm$Effort + constant)
 
-# # FULL MODEL
-# full_model = MASS::glm.nb(
-#   
-#   Count ~ Year + Station + Vessel + Depth + offset(log(Effort)),
-#   data = IPHC_data_glm,
-#   na.action = "na.fail"
-#   
-# )
-# summary(full_model)
-# anova(full_model)
-# 
-# # MODEL SELECTION
-# model_suite = MuMIn::dredge(full_model,
-#                             rank = "AICc",
-#                             fixed = c("offset(log(Effort))"))
-# 
-# model_selection = as.data.frame(model_suite) %>% dplyr::select(-weight)
+IPHC_data_glm = na.exclude(IPHC_data_glm)
+
+# FULL MODEL
+full_model = MASS::glm.nb(
+
+  Count ~ Year + Station + Vessel + Depth + offset(log(Effort)),
+  data = IPHC_data_glm,
+  na.action = "na.fail"
+
+)
+summary(full_model)
+anova(full_model)
+
+# MODEL SELECTION
+model_suite = MuMIn::dredge(full_model,
+                            rank = "AICc",
+                            fixed = c("offset(log(Effort))"))
+
+model_selection = as.data.frame(model_suite) %>% dplyr::select(-weight)
 
 fit = sdmTMB(
-  Count ~ Year + Station + Vessel + Depth,
+  Count ~ Year + Vessel + Station,
   data           = IPHC_data_glm,
-  offset         = log(IPHC_data_glm$CPUE+0.0001), # works better than offset(logEffort)
+  offset         = log(IPHC_data_glm$CPUE + constant),
   time           = "Year",
   spatial        = "off",
   spatiotemporal = "off",
@@ -240,21 +252,25 @@ fit = sdmTMB(
 sanity(fit) # model looks OK
 
 # extract predictions
-preds = predict(fit, return_tmb_object = TRUE)$data
+preds = predict(fit, return_tmb_object = TRUE, newdata = IPHC_data_glm, offset = log(IPHC_data_glm$CPUE + constant))
+
+preds$data
 
 # plot predictive check
 limits = c(0,70)
-plot(exp(preds$est) ~ preds$Count,
+plot(exp(preds$data$est) ~ IPHC_data_glm$Count,
      xlab = "Observed", ylab = "Predicted",
-     xlim = limits, ylim = limits) 
+     xlim = limits, ylim = limits)
 abline(a=0, b=1, col = "red", lwd = 2, lty = 2)
 
+# get index file
+index = get_index(preds, bias_correct = TRUE)
 
-
-
-
-
-
+index %>%
+  ggplot(aes(x = Year+2000, y = est)) +
+  geom_line() +
+  geom_point() +
+  geom_errorbar(aes(x = Year+2000, ymin = lwr, ymax = upr), width = .1)
 
 
 
