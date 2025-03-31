@@ -29,7 +29,7 @@ Fleets:
 
 ```{r}
 ## Load in recfin data and format
-recfin_bio <- read.csv("../../Data/raw/confidential/SD501.csv")
+recfin_bio <- read.csv("../../Data/raw/confidential/SD501_1983_2024_march.csv")
 
   # Rename columns to match nwfsc code inputs
 names(recfin_bio)[names(recfin_bio) == "RECFIN_YEAR"] <- "year"
