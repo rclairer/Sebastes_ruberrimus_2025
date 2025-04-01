@@ -165,3 +165,37 @@ tibble(all_indices_2017_2025)%>%
   labs(color = "Assessment")+
   theme_minimal()
 
+
+
+#Plot IPHC with 2017 standardized and centered at 0
+
+
+IPHC_2017 <- all_indices_2017_2025 %>%
+  dplyr::filter(index == 12 & assessment == "2017_assessment")
+
+IPHC_2017_standardized <- IPHC_2017 %>%
+  mutate(
+    obs = (obs - mean(obs))/ sd(obs),
+    se_log = se_log /sd(obs)
+  )
+
+IPHC_2025 <- all_indices_2017_2025 %>%
+  dplyr::filter(index == 12 & assessment == "2025_assessment")
+
+IPHC_2017_2025 <- rbind(IPHC_2017_standardized, IPHC_2025)
+
+tibble(IPHC_2017_2025)%>%
+  #filter(year >= 1900)%>% #remove the VAST index (negative years)
+  filter(index == 12)%>%
+  #mutate(index = "NWFSC")%>% 
+  # mutate(obs = obs/exp(lnQ_nwfsc))%>%#NWFSC
+  ggplot(aes(x = year, y = obs, col = assessment))+
+  geom_point(position = position_dodge(width = dodge_width))+
+  geom_errorbar(aes(x = year, ymin = (obs - 1.96 * se_log) ,  #se in log space so convert
+                    ymax =  (obs + 1.96 * se_log), col = as.factor(assessment)),
+                position = position_dodge(width = dodge_width))+
+  scale_color_manual(values = c("2017_assessment" = "black", "2025_assessment" = "cyan"),
+                     labels = c("2017_assessment" = "2017 assessment", "2025_assessment" = "2025 assessment"))+
+  labs(color = "Assessment")+
+  theme_minimal()
+
