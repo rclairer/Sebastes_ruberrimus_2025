@@ -21,7 +21,7 @@ library(r4ss)
 
 ```{r}
 #path for data
-file_path = "../../Data/processed/length_age_comps/"
+#file_path = "../../Data/processed/length_age_comps/"
 
 # Get inputs from 2017 assessment that will get carried over to this assessment
 model_2017_path <- file.path("../../model/2017_yelloweye_model_updated_ss3_exe")
