@@ -2,9 +2,12 @@ library(ggplot2)
 library(tidyverse)
 
 setwd("C:/Users/msand/OneDrive/Documents/GitHub/Sebastes_ruberrimus_2025")
+inputs <- SS_read(dir = file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe"))
+inputs <- SS_read(dir = file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe"))
 
 # Cleaning CA recreational from the reconstruction data from Ralston
-ca_rec <- read.csv("Data/CA_historical_Ralston_rec_recon_1928_1980.csv")
+ca_rec <- read.csv(file.path(getwd(), "Data/CA_historical_Ralston_rec_recon_1928_1980.csv"))
+ca_rec <- read.csv(file.path(getwd(), "Data/CA_historical_Ralston_rec_recon_1928_1980.csv"))
 ca_rec <- ca_rec %>% 
   mutate("State" = "CA") %>% 
   mutate('DataType' = "Rec") %>% 
@@ -48,7 +51,8 @@ df_interpolated <- data.frame(
   Fleet = "Shoreside",
   DataSource = "CalCom",
   Providedby = "EJ Dick",
-  GearGroup = "NONTWL"
+  GearGroup = "TWL"
+  GearGroup = "TWL"
 )
 ca_com_earlier_TWL <- bind_rows(ca_com_earlier_TWL, df_interpolated)
 print(ca_com_earlier_TWL)
@@ -121,7 +125,8 @@ ca_com_later_NONTWL <- ca_com_later %>%
 
 
 # foreign catch in california 
-foregin <- read.csv("Data/Rogers_2003_Foreign_Catch.csv")
+foreign <- read.csv("Data/Rogers_2003_Foreign_Catch.csv")
+foreign <- read.csv("Data/Rogers_2003_Foreign_Catch.csv")
 # within the csv it says there is 1ton for 1967, so I will just manually put that in 
 foreign_catches_ca <- data.frame(Year = 1979, `Catches (mtons)` = 1)%>% 
   mutate("State" = "CA") %>% 
@@ -141,6 +146,36 @@ Ca_historical_catches <- rbind(ca_com_earlier_NONTWL,ca_com_earlier_TWL,ca_com_l
   mutate("In.the.model."= "unsure") %>% 
   mutate("Final."= "unsure") %>% 
   mutate("Notes"= "")
+
+CA_historical_catches_csv <- Ca_historical_catches |>
+                             mutate(GearGroup = case_when(GearGroup == "All" ~ "REC",
+                                                          GearGroup != "All" ~ GearGroup),
+                                    fleet = case_when(GearGroup == "REC" ~ 3,
+                                                      GearGroup == "TWL" ~ 1,
+                                                      GearGroup == "NONTWL" ~ 2)) |>
+                             group_by(GearGroup, Year) |>
+                             summarize(catch = sum(Catches),
+                                       fleet = unique(fleet)) |>
+                             ungroup() |>
+                             arrange(GearGroup, Year) |>
+                             select(Year, catch, fleet, GearGroup) |>
+                             write.csv(file.path(getwd(), "Data", "processed", "CA_all_fleets_historical_catches.csv"), row.names = FALSE)
+
+ca_both_assessments_comparison <- CA_historical_catches_csv |>
+                       select(-GearGroup) |>
+                       rename(year = Year) |> 
+                       mutate(assessment = "Current") |>
+                       bind_rows(inputs$dat$catch |>
+                                 filter(fleet %in% c(1,2,3),
+                                        catch > 0,
+                                        year <= 1980) |>
+                                 mutate(assessment = "Previous")) |>
+                      ggplot(aes(x = year, y = catch, fill = assessment)) +
+                      geom_bar(stat = "identity") +
+                      facet_grid(~fleet)
+ggsave(plot = ca_both_assessments_comparison, "ca_historical_catch_comparisons_all_fleets.png",
+       path = file.path(getwd(), "Rcode", "removals"))
+              
 
 # plot for fun
 ggplot(Ca_historical_catches, aes(x = Year, y = Catches, fill = DataType)) + 

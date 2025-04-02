@@ -2,18 +2,41 @@
 
 library(dplyr)
 library(tidyr)
+library(ggplot2)
+library(r4ss)
 
-iphc_bio <- read.csv(file.path(getwd(), "Data", "raw", "iphc_biodata.csv"))
+iphc_bio <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "iphc_biodata_final.csv"))
+
+
+# Nsamp method is the Stewart Hammel method where
+# Nsamp = n_trips + 0.0707 * n_fish when n_fish/n_tows < 55 and
+# Nsamp = 4.89 * n_trips when n_fish/n_tows >= 55
+N_samp <- iphc_bio |>
+  group_by(sample_year, STLKEY) |>
+  summarize(n_fish_stlkey = n()) |>
+  ungroup() |>
+  group_by(sample_year) |>
+  summarize(
+    n_trips = n(),
+    n_fish = sum(n_fish_stlkey),
+    n_fish_per_trip = n_fish / n_trips,
+    Nsamp = ifelse(n_fish_per_trip < 55, (n_trips + 0.0707 * n_fish), 4.89 * n_trips)
+  ) |>
+  ungroup() |>
+  rename(year = sample_year) |>
+  select(year, Nsamp)
+
 
 ##### Length Comps #####
 # method used for assigning bins in nwfscSurvey package
 l_bins <- c(10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74)
-bins <- c(l_bins, Inf)
-iphc_bio$l_bin <- as.numeric(bins[findInterval(iphc_bio[, "fish_length_cm"], bins, all.inside = T)])
+l_bins_inf <- c(l_bins, Inf)
+iphc_bio$l_bin <- as.numeric(l_bins_inf[findInterval(iphc_bio[, "fish_length"], l_bins_inf, all.inside = T)])
 
 # get length comps by year and bin
-# unable to provide nsamps yet until Fabio gets the stlkey
 length_comps <- iphc_bio |>
+  filter(!is.na(best_age)) |>
+  dplyr::filter(!is.na(best_age)) |>
   dplyr::filter(!is.na(l_bin)) |>
   dplyr::group_by(sample_year, l_bin) |>
   dplyr::summarize(n = n()) |>
@@ -24,28 +47,37 @@ length_comps <- iphc_bio |>
     month = 7,
     fleet = 12,
     sex = 0,
-    part = 0,
-    Nsamp = NA
+    part = 0
   ) |>
-  dplyr::select(sample_year, month, fleet, sex, part, Nsamp, everything()) |>
-  dplyr::rename(year = sample_year)
+  dplyr::rename(year = sample_year) |>
+  inner_join(N_samp, by = "year") |>
+  dplyr::select(year, month, fleet, sex, part, Nsamp, everything())
 
-write.csv(length_comps, file.path(getwd(), "Data", "processed", "iphc_length_comps.csv"), row.names = FALSE)
+column_names <- length_comps |>
+  ungroup() |>
+  dplyr::select(-year, -month, -fleet, -sex, -part, -Nsamp) |>
+  colnames() |>
+  as.numeric()
 
-# get just those until 2016 so it can be compared to the spreadsheet Jason sent me
-# test_against_2017 <- length_comps |>
-#   dplyr::filter(sample_year < 2017) |>
-#   dplyr::mutate(
-#     sample_year = sample_year,
-#     sum = rowSums(across(where(is.numeric)))
-#   )
+# add zeros for lengths that are missing
+need_to_add <- l_bins[!(l_bins %in% column_names)]
 
-# View(test_against_2017)
+to_add <- data.frame(matrix(0, nrow = length(length_comps$year), ncol = length(need_to_add)))
+colnames(to_add) <- need_to_add
+
+length_comps_all <- cbind(length_comps, to_add)
+length_comps <- length_comps_all |>
+  dplyr::select(year, month, fleet, sex, part, Nsamp, stringr::str_sort(colnames(length_comps_all), decreasing = FALSE, numeric = TRUE))
+
+write.csv(length_comps, file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_length_comps.csv"), row.names = FALSE)
 
 
 ##### CAAL #####
-a_bin <- c(-999, 10:65, Inf)
-iphc_bio$a_bin <- a_bin[findInterval(iphc_bio$best_age, a_bin, all.inside = T)]
+a_bins <- 0:65
+a_bins_inf <- c(-999, a_bins, Inf)
+iphc_bio$a_bin <- a_bins_inf[findInterval(iphc_bio$best_age, a_bins_inf, all.inside = T)]
+
+early_age_values <- as.character(0:(min(iphc_bio$a_bin, na.rm = TRUE) - 1))
 
 caal <- iphc_bio |>
   dplyr::filter(!is.na(l_bin)) |>
@@ -63,17 +95,23 @@ caal <- iphc_bio |>
     ageerr = 1,
     Lbin_lo = l_bin,
     Lbin_hi = l_bin,
-    Nsamp = rowSums(across(`11`:`65`))
+    Nsamp = rowSums(across(`9`:`65`))
   ) |>
   dplyr::ungroup() |>
-  dplyr::select(-l_bin, -`-999`) |>
+  dplyr::select(-l_bin) |>
   dplyr::select(sample_year, month, fleet, sex, part, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything()) |>
   dplyr::rename(year = sample_year)
 
-write.csv(caal, file.path(getwd(), "Data", "processed", "iphc_caal.csv"), row.names = FALSE)
+caal <- caal |>
+  select(year, month, fleet, sex, part, ageerr, Lbin_lo, Lbin_hi, Nsamp) |>
+  mutate(!!!setNames(rep(0, length(early_age_values)), early_age_values)) |>
+  left_join(caal, by = c("year", "month", "fleet", "sex", "part", "ageerr", "Lbin_lo", "Lbin_hi", "Nsamp"))
 
-# Need to get stlkey column from Fabio to do nsamps
+write.csv(caal, file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_caal.csv"), row.names = FALSE)
+
+### MAAL ###
 maal <- iphc_bio |>
+  dplyr::filter(!is.na(l_bin)) |>
   dplyr::filter(!is.na(a_bin)) |>
   dplyr::group_by(sample_year, a_bin) |>
   dplyr::summarise(n = n()) |>
@@ -88,35 +126,95 @@ maal <- iphc_bio |>
     part = 0,
     ageerr = 1,
     Lbin_lo = -1,
-    Lbin_hi = -1,
-    Nsamp = NA,
+    Lbin_hi = -1
   ) |>
-  dplyr::select(sample_year, month, fleet, sex, part, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything()) |>
-  dplyr::rename(year = sample_year)
+  dplyr::rename(year = sample_year) |>
+  inner_join(N_samp, by = "year") |>
+  dplyr::select(year, month, fleet, sex, part, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything())
 
-write.csv(maal, file.path(getwd(), "Data", "processed", "iphc_marginal_ages.csv"), row.names = FALSE)
+column_names <- maal |>
+  ungroup() |>
+  dplyr::select(-year, -month, -fleet, -sex, -part, -ageerr, -Lbin_lo, -Lbin_hi, -Nsamp) |>
+  colnames() |>
+  as.numeric()
 
-### Plotting ###
-lengths_2017 <- read.csv(file.path(getwd(), "Data", "2017_data", "lengths_2017.csv"))
-colnames(lengths_2017) <- tolower(sub("X", "", colnames(lengths_2017)))
-lengths_2017$name <- "previous"
-length_comps$name <- "update"
+need_to_add <- a_bins[!(a_bins %in% column_names)]
 
-Lt.dat.plot <- length_comps |>
-  dplyr::rename(nsamps = Nsamp) |>
-  rbind(lengths_2017) |>
-  filter(fleet == 12) |>
-  dplyr::select(-Nsamps) |>
-  pivot_longer(c(-year, -fleet, -sex)) |>
-  mutate(
-    Year = factor(year),
-    name = "update"
+to_add <- data.frame(matrix(0, nrow = length(maal$year), ncol = length(need_to_add)))
+colnames(to_add) <- as.numeric(need_to_add)
+
+maal_all <- cbind(maal, to_add)
+maal <- maal_all |>
+  dplyr::select(year, month, fleet, sex, part, ageerr, Lbin_lo, Lbin_hi, Nsamp, stringr::str_sort(colnames(maal_all), decreasing = FALSE, numeric = TRUE))
+
+write.csv(maal, file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_marginal_ages.csv"), row.names = FALSE)
+
+# Comparison plots
+# IPHC lengths
+# Read new data
+iphc_lengths_new <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_length_comps.csv")) |>
+  mutate(assessment = "Current") |>
+  dplyr::select(year, assessment, Nsamp, `X10`:`X74`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "length", values_to = "freq") |>
+  dplyr::mutate(length = gsub("X", "", length)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    length = as.numeric(length)
   )
 
-ggplot(Lt.dat.plot) +
-  geom_line(aes(name, value, color = Year)) +
-  facet_grid(sex ~ fleet, scales = "free_y", labeller = label_both) +
-  xlab("Length bin") +
-  ylab("Frequency") +
-  scale_fill_viridis_d() +
-  xlim(0, NA)
+# Read old data
+inputs_old <- r4ss::SS_read(dir = file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe"))
+
+iphc_lengths_old <- inputs_old$dat$lencomp |>
+  dplyr::filter(fleet == 12) |>
+  mutate(assessment = "Previous") |>
+  dplyr::select(year, assessment, Nsamp, `l10`:`l74`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "length", values_to = "freq") |>
+  dplyr::mutate(length = gsub("^l", "", length)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    length = as.numeric(length)
+  )
+
+together <- rbind(iphc_lengths_old, iphc_lengths_new)
+comparison_plot <- together |>
+  dplyr::filter(freq > 0) |>
+  ggplot2::ggplot(aes(x = year, y = length, col = assessment, size = freq)) +
+  ggplot2::geom_point(position = position_dodge(0.5)) +
+  labs(title = "Length Composition Comparisons", x = "Year", y = "Length (cm)", col = "Assessment", size = "Frequency")
+ggsave(plot = comparison_plot, "iphc_length_comp_comparisons.png", path = file.path(getwd(), "Rcode", "survey_length_age", "IPHC"))
+
+
+### IPHC ages
+iphc_ages_new <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_marginal_ages.csv")) |>
+  mutate(assessment = "Current") |>
+  dplyr::select(year, assessment, Nsamp, `X0`:`X65`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "age", values_to = "freq") |>
+  dplyr::mutate(age = gsub("X", "", age)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    age = as.numeric(age)
+  )
+
+iphc_ages_old <- inputs_old$dat$agecomp |>
+  dplyr::filter(fleet == -12) |>
+  mutate(assessment = "Previous") |>
+  dplyr::select(year, assessment, Nsamp, `a1`:`a65`) |>
+  tidyr::pivot_longer(cols = c(-year, -assessment, -Nsamp), names_to = "age", values_to = "freq") |>
+  dplyr::mutate(age = gsub("^a", "", age)) |>
+  dplyr::group_by(year) |>
+  dplyr::mutate(
+    freq = freq / sum(freq),
+    age = as.numeric(age)
+  )
+
+together <- rbind(iphc_ages_old, iphc_ages_new)
+comparison_plot <- together |>
+  dplyr::filter(freq > 0) |>
+  ggplot2::ggplot(aes(x = year, y = age, col = assessment, size = freq)) +
+  ggplot2::geom_point(position = position_dodge(0.5)) +
+  labs(title = "Marginal Age Composition Comparisons", x = "Year", y = "Age", col = "Assessment", size = "Frequency")
+ggsave(plot = comparison_plot, "iphc_age_comp_comparisons.png", path = file.path(getwd(), "Rcode", "survey_length_age", "IPHC"))

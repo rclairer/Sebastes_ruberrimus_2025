@@ -4,22 +4,39 @@
 
 Data/raw/confidential
 
+# SS3 specific files
+*admodel.cov
+*admodel.dep
+*admodel.hes
+*checkup.sso
+*covar.sso
+*CumReport.sso
+*echoinput.sso
+*fmin.log
+*gradient*
+*ParmTrace.sso
+*posterior_obj_func.sso
+*posterior_vectors.sso
+*posteriors.sso
+*rebuild.sso
+*runnumber.ss
+*SIS_table.sso
+*ss3.b0*
+*ss3.bar
+*ss3.ecm
+*ss3.eva
+*ss3.exe
+*ss3.log
+*ss3.mc2
+*ss3.mcm
+*ss3.p0*
+*ss3.r0*
+*ss3.rep
+*ss3.exe
+*ss3.cor
+*ss3.std
 
-Rcode/length_age_comps/trash/Commercial_CA.HKL_length_compsCOMP.png
-Rcode/length_age_comps/trash/Commercial_CA.HKL_length_compsDIFF.png
-Rcode/length_age_comps/trash/Commercial_CA.HKL_length_compsDIFF2.png
-Rcode/length_age_comps/trash/Commercial_CA.TWL_length_compsCOMP.png
-Rcode/length_age_comps/trash/Commercial_CA.TWL_length_compsDIFF.png
-Rcode/length_age_comps/trash/Commercial_CA.TWL_length_compsDIFF2.png
-Rcode/length_age_comps/trash/Commercial_ORWA.HKL_age_compsDIFF.png
-Rcode/length_age_comps/trash/Commercial_ORWA.HKL_length_compsCOMP.png
-Rcode/length_age_comps/trash/Commercial_ORWA.HKL_length_compsDIFF.png
-Rcode/length_age_comps/trash/Commercial_ORWA.HKL_length_compsDIFF2.png
-Rcode/length_age_comps/trash/Commercial_ORWA.TWL_age_compsDIFF.png
-Rcode/length_age_comps/trash/Commercial_ORWA.TWL_length_compsCOMP.png
-Rcode/length_age_comps/trash/Commercial_ORWA.TWL_length_compsDIFF.png
-Rcode/length_age_comps/trash/Commercial_ORWA.TWL_length_compsDIFF2.png
-/Data/processed/length_age_comps/old
-/Data/raw/nonconfidential/wcgop/prev
-/Rcode/length_age_comps/beforeWCGOP
-/Rcode/length_age_comps/ready
+
+Data/discards/
+
+
