@@ -17,9 +17,9 @@ library(pacfintools)
 *if there are no new CA age data since 2016, then dont worry about it*
 
 Load in all data sources
-1. CA ages from Julia: "CRFS_ages_yeye"
-2. OR ages from Ali: "OR_non_standard_yelloweye_2009-2016_nonconfid"
-3. WA ages from RecFin
+1. CA ages from Julia: "CRFS_ages_yeye" * no updates
+2. OR ages from Ali: "OR_non_standard_yelloweye_2009-2016_nonconfid" * no updates
+3. WA ages from RecFin * updated in March
 
 Fleets:
 3 - CA_REC *need to calculate sample sizes
@@ -56,7 +56,7 @@ or_ages_raw$length <- or_ages_raw$length/10
 or_ages_raw <- as.data.frame(or_ages_raw)
 
 # Load WA ages and format
-wa_ages_raw <- read_csv("../../Data/raw/confidential/SD506.csv")
+wa_ages_raw <- read_csv("../../Data/raw/confidential/SD506_1984_2024_march.csv")
   
   # Rename columns 
 names(wa_ages_raw)[names(wa_ages_raw) == "SAMPLE_YEAR"] <- "year"
@@ -151,7 +151,7 @@ ca_rec_maal <- get_raw_comps(
   data = ca_ages_raw,
   comp_bins = seq(0, 65, 1),
   comp_column_name = "age",
-  input_n_method = "total_samples",
+  input_n_method = c("total_samples"),
   two_sex_comps = FALSE,
   month = 7,
   fleet = -3,
@@ -239,7 +239,7 @@ or_rec_caal <- data.frame(or_rec_caal)
 colnames(or_rec_caal) <- gsub("^u", "A", colnames(or_rec_caal))
 
 # Save
-write.csv(or_rec_caal, file.path("../../Data/processed/rec_comps/or_rec_caal.csv"))
+write_csv(or_rec_caal, file.path("../../Data/processed/rec_comps/or_rec_caal.csv"))
 
 # Comparison plots for 2009-2016
   # Read new data
@@ -292,7 +292,7 @@ or_rec_maal <- get_raw_comps(
   data = or_ages_raw,
   comp_bins = seq(0, 65, 1),
   comp_column_name = "age",
-  input_n_method = "total_samples",
+  input_n_method = c("total_samples"),
   two_sex_comps = FALSE,
   month = 7,
   fleet = -6,
@@ -378,11 +378,11 @@ wa_rec_caal <- data.frame(wa_rec_caal)
 colnames(wa_rec_caal) <- gsub("^u", "A", colnames(wa_rec_caal))
 
 # Save
-write.csv(wa_rec_caal, file.path("../../Data/processed/rec_comps/wa_rec_caal.csv"))
+write_csv(wa_rec_caal, file.path("../../Data/processed/rec_comps/wa_rec_caal.csv"))
 
 # Comparison plots for 1998-2024
   # Read new data
-wa_rec_caal_new <- read.csv("../../Data/processed/rec_comps/wa_rec_caal.csv") |>
+wa_rec_caal_new <- read_csv("../../Data/processed/rec_comps/wa_rec_caal.csv") |>
   mutate(assessment = "Current") |>
   dplyr::select(year, assessment, A0:A65) |>
   tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "age", values_to = "freq") |>
@@ -449,11 +449,11 @@ colnames(wa_rec_maal) <- gsub("^unsexed\\.", "", colnames(wa_rec_maal))
 colnames(wa_rec_maal) <- gsub("^u", "A", colnames(wa_rec_maal))
 
 # Save
-write.csv(wa_rec_maal, file.path("../../Data/processed/rec_comps/wa_rec_maal.csv"))
+write_csv(wa_rec_maal, file.path("../../Data/processed/rec_comps/wa_rec_maal.csv"))
 
 # Comparison plots for 1998-2024
   # Read new data
-wa_rec_maal_new <- read.csv("../../Data/processed/rec_comps/wa_rec_maal.csv") |>
+wa_rec_maal_new <- read_csv("../../Data/processed/rec_comps/wa_rec_maal.csv") |>
   mutate(assessment = "Current") |>
   dplyr::select(year, assessment, A0:A65) |>
   tidyr::pivot_longer(cols = c(-year, -assessment), names_to = "age", values_to = "freq") |>
