@@ -1,0 +1,169 @@
+---
+title: "rec_ages_for_datafile"
+output: html_document
+date: "2025-03-30"
+---
+
+```{r setup, include=FALSE}
+rm(list = ls())
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(r4ss)
+library(readr)
+library(nwfscSurvey)
+library(pacfintools)
+```
+
+Read in 2017 model data
+```{r}
+# Get inputs from 2017 assessment that will get carried over to this assessment
+model_2017_path <- file.path("../../model/2017_yelloweye_model_updated_ss3_exe")
+inputs <- SS_read(dir = model_2017_path, ss_new = TRUE)
+```
+
+1. CA_REC CAAL 1983-1996, aged by WDFW
+  *no change* pull in old data
+
+```{r}
+ca_rec_caal_1983_1996 <- inputs$dat$agecomp |>
+  filter(fleet == 3) |>
+  filter(year == 1983 | year == 1996) |>
+  filter(ageerr == 1)
+```
+
+2. CA_REC MAAL Ghost 1983-1996, aged by WDFW
+  *no change* pull in old data
+
+```{r}
+ca_rec_maal_1983_1996 <- inputs$dat$agecomp |>
+  filter(fleet == -3) |>
+  filter(year == 1983 | year == 1996) |>
+  filter(ageerr == 1)
+```
+
+3. CA_REC CAAL Don Pearson Data 1979-1984, aged by Betty
+  *divide all Nsamp and Ages by 2* - everything was doubled by accident in last assessment
+```{r}
+ca_rec_caal_Don <- inputs$dat$agecomp |>
+  filter(fleet == 3) |>
+  filter(year >= 1979 & year <= 1984) |>
+  filter(ageerr == 2)
+ca_rec_caal_Don[,9:75] <- ca_rec_caal_Don[,9:75]/2
+```
+
+4. CA_REC CAAL John Budrick Data 2009-2016, aged by Betty
+  *divide all Nsamp and Ages by 2* - No new data, all data we got matched perfectly with 2017 assessment data, so just use old data.
+```{r}
+ca_rec_caal_John <- inputs$dat$agecomp |>
+  filter(fleet == 3) |>
+  filter(year >= 2009 & year <= 2016)
+ca_rec_caal_John[,9:75] <- ca_rec_caal_John[,9:75]/2
+```
+
+5. CA_REC MAAL Ghost, Don's data
+  *need to rebuild from CAAL* - Nsamp column was duplicated (and is wrong), so it shifted all of the ages forward by 1 and dropped the last age column
+```{r}
+old_ca_rec_maal_Don <- inputs$dat$agecomp |>
+  filter(fleet == -3) |>
+  filter(year >= 1979 & year <= 1984) |>
+  filter(ageerr == 2)
+
+# Take CAAL and group it so it matches MAAL structure, re-add the correct columns
+ca_rec_maal_Don <- ca_rec_caal_Don %>%
+  group_by(year) %>%  # Retain key columns
+  summarise(across(starts_with("a"), \(x) sum(x, na.rm = TRUE)),  # Sum age columns
+            Nsamp = sum(Nsamp, na.rm = TRUE), .groups = "drop")  # Sum input_n
+ca_rec_maal_Don <- cbind(old_ca_rec_maal_Don[,1:8],ca_rec_maal_Don[,69],ca_rec_maal_Don[,3:68])
+```
+
+6. CA_REC MAAL Ghost, John's data
+  *need to rebuild from CAAL* - Nsamp column is totally wrong, All the age data looks correct, but how they added the Nsamps together is off. Do the same thing as above and just rebuild from CAAL. Confirmed that the data matched the MAAL that I calculated using nwfsc code
+```{r}
+old_ca_rec_maal_John <- inputs$dat$agecomp |>
+  filter(fleet == -3) |>
+  filter(year >= 2009 & year <= 2016)
+
+ca_rec_maal_John <- ca_rec_caal_John %>%
+  group_by(year) %>%  # Retain key columns
+  summarise(across(starts_with("a"), \(x) sum(x, na.rm = TRUE)),  # Sum age columns
+            Nsamp = sum(Nsamp, na.rm = TRUE), .groups = "drop")  # Sum input_n
+ca_rec_maal_John <- cbind(old_ca_rec_maal_John[,1:8],ca_rec_maal_John[,69],ca_rec_maal_John[,3:68])
+```
+
+7. OR_REC CAAL
+  *doubling issue here too* - Also fixing Ageing Error column and adding updated Ages
+  - If Ali or Vlada thinks we should ignore the new ages in 2015, then just use all old data and divide by 2
+```{r}
+# First, bring in old data from 1979-2002
+or_rec_caal <- inputs$dat$agecomp |>
+  filter(fleet == 6) |>
+  filter(year >= 1979 & year <= 2002)
+
+# Next, fix doubling problem
+or_rec_caal[,9:75] <- or_rec_caal[,9:75]/2
+
+# Then, Bring in new 2009-2016 data - some of the ages were updated (Check with Ali)
+new_or_rec_caal <- read_csv(file.path("../../Data/processed/rec_comps/or_rec_caal.csv"))
+names(new_or_rec_caal) <- names(or_rec_caal)
+or_rec_caal <- rbind(or_rec_caal,new_or_rec_caal)
+
+# Finally, Fix the ageError column (check with Ali)
+ # *still need to do*
+```
+
+8. OR_REC MAAL ghost
+  *why are Nsamps not whole numbers???* - rebuild using up to date CAAL data
+```{r}
+# load old MAAL so we can use the first 8 columns and double check the data
+old_or_rec_maal <- inputs$dat$agecomp |>
+  filter(fleet == -6)
+
+# Take CAAL and group it so it matches MAAL structure, re-add the correct columns
+or_rec_maal <- or_rec_caal %>%
+  group_by(year) %>%  # Retain key columns
+  summarise(across(starts_with("a"), \(x) sum(x, na.rm = TRUE)),  # Sum age columns
+            Nsamp = sum(Nsamp, na.rm = TRUE), .groups = "drop")  # Sum input_n
+or_rec_maal <- cbind(old_or_rec_maal[,1:8],or_rec_maal[,69],or_rec_maal[,3:68])
+```
+
+9. WA_REC CAAL
+  *Doubling problem, however, Fabio (state rep) provided new data for the entire time series and recommends we use all new data* - some of the old ages have been updated.
+```{r}
+#load new processed data from most recent RecFin pull
+wa_rec_caal <- read_csv(file.path("../../Data/processed/rec_comps/wa_rec_caal.csv"))
+
+# Replace col names so they match everything else
+names(wa_rec_caal) <- names(or_rec_caal)
+
+# done! Easy
+```
+
+10. WA_REC MAAL
+  *Just use new data* - some of the old ages have been updated.
+```{r}
+#load new processed data from most recent RecFin pull
+wa_rec_maal <- read_csv(file.path("../../Data/processed/rec_comps/wa_rec_maal.csv"))
+
+# Replace col names so they match everything else
+names(wa_rec_maal) <- names(or_rec_maal)
+
+# done! Easy
+```
+
+Finish and put it all together 
+```{r}
+mod$dat$agecomp <- dplyr::bind_rows(ca_rec_caal_1983_1996,
+                                  ca_rec_maal_1983_1996, 
+                                  ca_rec_caal_Don, 
+                                  ca_rec_caal_John, 
+                                  ca_rec_maal_Don,
+                                  ca_rec_maal_John,
+                                  or_rec_caal,
+                                  or_rec_maal,
+                                  wa_rec_caal,
+                                  wa_rec_maal) 
+# list all the dfs that I just made, when we start to add others, make sure to insert Commercial comps in the right spot
+
+```
