@@ -23,13 +23,15 @@ library(r4ss)
 #path for data
 file_path = "../../Data/processed/length_age_comps/"
 
-ss_data <- SS_readdat(file="../../model/2017_yelloweye_model_updated_ss3_exe/yelloweye_data.ss")
+# Get inputs from 2017 assessment that will get carried over to this assessment
+model_2017_path <- file.path("../../model/2017_yelloweye_model_updated_ss3_exe")
+inputs <- SS_read(dir = model_2017_path, ss_new = TRUE)
 # wcgop_age_comps
 
 # length comps, maal and caal from PacFIN AND WCGOP
-raw_length_comps_comb <- read_csv('../../Commercial_length_comps_PacFIN_WCGOP_forSS.csv')
-raw_age_caal_comb <- read.csv(paste0(file_path,'Commercial_caal_PacFIN_WCGOP_forSS.csv'))
-raw_age_comps_comb <- read.csv(paste0(file_path,' Commercial_age_comps_PacFIN_WCGOP_forSS.csv'))
+raw_length_comps_comb <- read_csv('../../Data/processed/length_age_comps/_Commercial_length_comps_PacFIN_WCGOP_forSS.csv')
+raw_age_caal_comb <- read_csv('../../Data/processed/length_age_comps/Commercial_caal_PacFIN_WCGOP_forSS.csv')
+raw_age_comps_comb <- read_csv('../../Data/processed/length_age_comps/_Commercial_age_comps_PacFIN_WCGOP_forSS.csv')
 
 ```
 
@@ -151,8 +153,23 @@ TBD when all previous issues are resolved
 
 2017 file = 1978-1988
 no updated data
+ *by updated data do you mean nothing new? if there is nothing new, why doesn't it match?*
+ Once we get it to match, we can figure out what is going on with that one 7, and then divide by 2, or, just use the new data pull. I think we can justify using the new data if it is the easiest way to fix their mistake.
 
 ```{r}
+# old data
+old_ca_nontwl_caal_1978_1988 <- inputs$dat$agecomp |>
+  filter(fleet == 2) |>
+  filter(year <= 1988)
+
+# new data
+new_ca_nontwl_caal_1978_1988 <- raw_age_caal_comb |>
+  filter(fleet == 2) |>
+  filter(year <= 1988)
+
+#### Here is the first problem...the data that we filtered does not match. Why?
+# Need to go back to filtering method and check this.
+
 # check for updated data
 raw_age_caal_comb %>% filter(fleet==2,year>1988) #these are WCGOP data
 
@@ -185,7 +202,7 @@ ss_data$agecomp %>% filter(fleet==2,year<2016) %>%
 ready = NO
 
 ```{r}
-CA_NONTWL_TraciCDFW_caal <- ss_data$agecomp %>% filter(fleet==2,year<=1988) #%>% 
+CA_NONTWL_TraciCDFW_caal <- ss_data$agecomp %>% filter(fleet==2,year<=1988) %>% 
   mutate_at(vars(-c('year','month','fleet','sex','part','ageerr','Lbin_lo','Lbin_hi')), .funs=function(x){x/2}) 
   
 CA_NONTWL_TraciCDFW_caal %>% View()
@@ -198,7 +215,32 @@ CA_NONTWL_TraciCDFW_caal %>% View()
 2017 file = 1978-1988
 no updated data
 
+*how is it possible that the new MAAL data that you made perfectly matches the old MAAL, but the CAAL does not?*
+
+I would trust the old MAAl data in that the 1979 A24 fish should be a 1, so to fix the doubling problem, we could make that a 2, then divide everything. 
+
 ```{r}
+# old data
+old_ca_nontwl_maal_1978_1988 <- inputs$dat$agecomp |>
+  filter(fleet == -2) |>
+  filter(year <= 1988)
+
+# let take the old CAAL and mutate it to look like MAAL so we can check the Nsamps for the new data, to help try and figure out what is wrong
+
+old_ca_nontwl_maal_Nsamp <- old_ca_nontwl_caal_1978_1988 %>%
+  group_by(year) %>%  # Retain key columns
+  summarise(across(starts_with("a"), \(x) sum(x, na.rm = TRUE)),  # Sum age columns
+            Nsamp = sum(Nsamp, na.rm = TRUE), .groups = "drop")  # Sum input_n
+old_ca_nontwl_maal_Nsamp <- cbind(old_ca_nontwl_maal_1978_1988[,1:8],old_ca_nontwl_maal_Nsamp[,69],old_ca_nontwl_maal_Nsamp[,3:68])
+
+### 1979 seems to be the only problem year, which is consistent with our CAAL problems. The 1979 Age 24 fish should be counted as a 1. In the old MAAL data, it says there is one fish there, where as everything else comparing it to the restructured Nsamp that I made is doubled. so for some reason that one fish didnt get doubled...idk why. 
+
+# new data
+new_ca_nontwl_maal_1978_1988 <- raw_age_comps_comb |>
+  filter(fleet == -2) |>
+  filter(year <= 1988)
+
+
 # check for updated data
 raw_age_comps_comb %>% filter(fleet==-2,year>1988) #these are WCGOP data
 ```
@@ -213,6 +255,8 @@ CA_NONTWL_TraciCDFW_maal <- ss_data$agecomp %>% filter(fleet==-2,year<=1988)
 
 2017 file = 2005
 no updated data 
+
+*here it looks like the new data has an extra age. Do you know why?*
 
 ```{r}
 # check for updated data
