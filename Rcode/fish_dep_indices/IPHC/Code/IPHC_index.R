@@ -9,6 +9,7 @@ library(ggpubr)
 library(MASS)
 library(MuMIn)
 library(sdmTMB)
+library(r4ss)
 
 # Read-in data -----------------------------------------------------------------
 data_directory  = paste0(here::here(), "/Data/raw/nonconfidential/IPHC_survey_1998_2024.csv")
@@ -221,6 +222,41 @@ index_df = data.frame(
 )
 
 write.csv(index_df, file.path(here::here(), "Data", "processed", "IPHC_index", "IPHC_model_based_index_forSS3.csv"), row.names = FALSE)
+
+# Compare with 2017 index ------------------------------------------------------
+
+model_2017_path = file.path(here::here(), "model", "2017_yelloweye_model_updated_ss3_exe")
+inputs          = SS_read(dir = model_2017_path, ss_new = TRUE)
+
+index_2017 = inputs$dat$CPUE %>% filter(index == 12) %>% mutate(Assessment = "2017")
+index_2017$obs = (index_2017$obs - mean(index_2017$obs)) / sd(index_2017$obs) # scale index
+
+index_df   = index_df %>% mutate(Assessment = "2020")
+colnames(index_2017) = colnames(index_df)
+
+all_indexes = rbind(index_df, index_2017)
+
+all_indexes %>% 
+  
+  ggplot(aes(x = as.numeric(year), y = obs, color = Assessment)) +
+#  geom_line() +
+  geom_point(position=position_dodge(width = 0.5)) +
+  geom_errorbar(aes(x    = as.numeric(year),
+                    ymin = obs - 1.96*se,
+                    ymax = obs + 1.96*se),
+                width = 0.1,
+                position=position_dodge(width = 0.5)) +
+  theme_minimal() +
+  xlab("Year") +
+  ylab("Scaled index")
+
+
+
+
+
+
+
+
 
 
 
