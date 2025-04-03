@@ -542,6 +542,10 @@ CA_age_samples%>%
   group_by(year) %>% 
   summarize(fish=length(First.age),trips=length(unique(Sample.date)))
 
+
+CA_age_samples%>% 
+  filter(Survey.type == 'Recreational')
+
 ```
 
 
@@ -873,25 +877,25 @@ ggsave(comp_age_sample_effort_plt,path=file_path,
 ## Load data
 
 ```{r}
+wcgop_path <- '../../Data/raw/nonconfidential/wcgop_updated_20250319/'
+
 #length
-wcgop_length_comps <- read.csv(file = '../../Data/raw/nonconfidential/wcgop/biological_discard_lengths_raw.csv') %>% 
-  
-  mutate(partition=0,fleet=case_when(fleet=='trawl-WA-OR'~4,#'ORWA.TWL',
+wcgop_length_comps <- read.csv(file = paste0(wcgop_path,'biological_discard_lengths_raw.csv')) %>% 
+    mutate(partition=0,fleet=case_when(fleet=='trawl-WA-OR'~4,#'ORWA.TWL',
                          fleet=="fixed-CA"~2,#'CA.NONTWL',
                          fleet=='fixed-OR-WA'~5,#'ORWA.NONTWL',
                          fleet=='trawl-CA'~1)) %>% #'CA.TWL')) %>% 
                          dplyr::rename('fleet_nb'=fleet)
 
 #sample size
-wcgop_sample_size <- read.csv(file = '../../Data/raw/nonconfidential/wcgop/wcgop_biological_sample_sizes.csv') %>% 
+wcgop_sample_size <- read.csv(file = paste0(wcgop_path,'wcgop_biological_sample_sizes.csv')) %>% 
   mutate(fleet=case_when(fleet=='trawl-WA-OR'~'ORWA.TWL',
                          fleet=="fixed-CA"~'CA.NONTWL',
                          fleet=='fixed-WA-OR'~'ORWA.NONTWL',
                          fleet=='trawl-CA'~'CA.TWL'))
 
 #age
-wcgop_caal <- read.csv(file = '../../Data/raw/nonconfidential/wcgop/biological_discard_caal.csv') %>% 
-  
+wcgop_caal <- read.csv(file = paste0(wcgop_path,'biological_discard_caal.csv')) %>% 
   mutate(partition=0,ageerr=1,
          fleet=case_when(fleet=='trawl-OR-WA'~4,#'ORWA.TWL',
                          fleet=="fixed-CA"~2,#'CA.NONTWL',
@@ -1129,7 +1133,7 @@ raw_length_comps_comb <- raw_length_comps  %>%
   group_by(year,month,fleet_nb,sex,partition) %>% 
   summarise_at(.vars=vars(input_n:u74),.funs=sum)
 
-raw_length_comps_comb
+raw_length_comps_comb %>% View()
 
 ```
 
@@ -1305,6 +1309,7 @@ tmp_plt <- raw_age_caal_long %>%
 
 # tmp_plt
 ```
+
 #### sample size
  
 #### Compare w 2017 -> TO DO !!
@@ -1388,7 +1393,7 @@ raw_age_comps_comb <- raw_age_comps  %>%
   mutate(fleet_nb=-fleet_nb) #this is ghost comp, - is telling the model
 
 
-raw_age_comps_comb
+raw_age_comps_comb %>% View()
 
 # #looking for missing sample for CA.TWL 2005 -> it is here
 # wcgop_caal %>% filter(year==2005,fleet_nb==1)
