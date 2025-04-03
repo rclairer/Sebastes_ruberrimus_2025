@@ -8,7 +8,22 @@ library(tidyr)
 library(r4ss)
 
 # Get inputs from 2017 assessment that will get carried over to this assessment
-model_2017_path <- file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")
+model_2017_path <- file.path(
+  getwd(),
+  "model",
+  "2017_yelloweye_model_updated_ss3_exe"
+)
+
+
+# Copy input files to new folders using r4ss
+copy_SS_inputs(
+  dir.old = model_2017_path,
+  dir.new = file.path(getwd(), "model", "2025_update_all_data"),
+  create.dir = FALSE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
 
 
 # Copy input files to new folders using r4ss
@@ -22,7 +37,7 @@ copy_SS_inputs(
 )
 
 inputs <- SS_read(dir = model_2017_path, ss_new = TRUE)
-inputs <-SS_read(dir = file.path(getwd(), "model", "2025_update_all_data"))
+inputs <- SS_read(dir = file.path(getwd(), "model", "2025_update_all_data"))
 
 # Discard mortality not included for WA recreational fishery so need to figure out
 ##############
@@ -369,7 +384,7 @@ ORBS_index <- read.csv(file.path(
   "processed",
   "ORBS_index_forSS.csv"
 )) |>
-  mutate(fleet = 6) 
+  mutate(fleet = 6)
 colnames(ORBS_index) <- colnames_i
 
 # WA Rec CPUE - fleet 7
@@ -383,13 +398,13 @@ CA_CPFV_CPUE_index <- inputs$dat$CPUE |>
   filter(index == 8)
 
 # Oregon onboard Recreational Charter observer CPUE (ORFS) - fleet 9
-# From Ali: I don’t typically recommend using both ORFS and ORBS in a model together, 
-# as they sample the same fishery and in rare cases, the same boats. This is 
-# exacerbated in this assessment because the ORBS index uses released fish only 
-# (as opposed to retained fish, which is how ORBS is typically set up).  Second, 
-# while I updated both ORBS and ORFS for yelloweye this cycle (thinking I could 
-# improve upon the previous ORFS model), the diagnostics continue to be poor for 
-# the ORFS index. The TORs won’t let us remove one or the other without. We need to 
+# From Ali: I don’t typically recommend using both ORFS and ORBS in a model together,
+# as they sample the same fishery and in rare cases, the same boats. This is
+# exacerbated in this assessment because the ORBS index uses released fish only
+# (as opposed to retained fish, which is how ORBS is typically set up).  Second,
+# while I updated both ORBS and ORFS for yelloweye this cycle (thinking I could
+# improve upon the previous ORFS model), the diagnostics continue to be poor for
+# the ORFS index. The TORs won’t let us remove one or the other without. We need to
 # just note all this for the future and move ahead with the updated versions of ORBS and ORFS in the model.
 
 # We can do a sensitivity with just ORBS and just ORFS
@@ -398,7 +413,12 @@ CA_CPFV_CPUE_index <- inputs$dat$CPUE |>
 # years 2015, 2017, 2022, 2023, and 2024
 # Using everything Ali gave because it's pretty different from the ORFS index
 # in the 2017 assessment
-ORFS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORFS_index_forSS.csv")) |>
+ORFS_index <- read.csv(file.path(
+  getwd(),
+  "Data",
+  "processed",
+  "ORFS_index_forSS.csv"
+)) |>
   mutate(
     fleet = 9,
     obs = round(obs, digits = 6),
@@ -408,6 +428,7 @@ colnames(ORFS_index) <- colnames_i
 
 # Triennial survey - fleet 10
 TRI_index <- inputs$dat$CPUE |>
+  TRI_index <- inputs$dat$CPUE |>
   filter(index == 10)
 
 # NWFSC ORWA (sdmTMB) - fleet 11
@@ -440,7 +461,7 @@ IPHC_ORWA <- read.csv(file.path(
   "Data",
   "processed",
   "IPHC_index",
-  "IPHC_model_based_index_forSS3_UNSCALED.csv"
+  "IPHC_model_based_index_forSS3.csv"
 ))
 IPHC_ORWA_index <- IPHC_ORWA
 colnames(IPHC_ORWA_index) <- colnames_i
@@ -485,7 +506,7 @@ CA_TWL_lengths <- inputs$dat$lencomp |>
 CA_NONTWL_lengths <- inputs$dat$lencomp |>
   filter(fleet == 2) |>
   filter(year <= 2002)
-# CA_NONTWL_lengths_new <- 
+# CA_NONTWL_lengths_new <-
 # CA_NONTWL_lengths <- rbind(CA_NONTWL_lengths_old, CA_NONTWL_lengths_new)
 
 # CA NONTWL (from WCGOP) - fleet 2
@@ -494,7 +515,7 @@ CA_NONTWL_lengths <- inputs$dat$lencomp |>
 CA_NONTWL_lengths_wcgop <- inputs$dat$lencomp |>
   filter(fleet == 2) |>
   filter(year > 2002)
-# CA_NONTWL_lengths_wcgop_new <- 
+# CA_NONTWL_lengths_wcgop_new <-
 # CA_NONTWL_lengths_wcgop <- rbind(CA_NONTWL_lengths_wcgop_old, CA_NONTWL_lengths_wcgop_new)
 
 # CA REC - fleet 3
@@ -520,7 +541,7 @@ CA_REC_lengths <- rbind(CA_REC_lengths_old, CA_REC_lengths_new)
 # QUESTION: Where is this dataset?
 ORWA_TWL_lengths <- inputs$dat$lencomp |>
   filter(fleet == 4)
-# ORWA_TWL_lengths_new <- 
+# ORWA_TWL_lengths_new <-
 # ORWA_TWL_lengths <- rbind(ORWA_TWL_lengths_old, ORWA_TWL_lengths_new)
 
 # ORWA NONTWL (PacFIN and WCGOP combined) - fleet 5
@@ -528,10 +549,10 @@ ORWA_TWL_lengths <- inputs$dat$lencomp |>
 # QUESTION: Where is this dataset?
 ORWA_NONTWL_lengths <- inputs$dat$lencomp |>
   filter(fleet == 5)
-# ORWA_NONTWL_lengths_new <- 
+# ORWA_NONTWL_lengths_new <-
 # ORWA_NONTWL_lengths <- rbind(ORWA_NONTWL_lengths_old, ORWA_NONTWL_lengths_new)
 
-# OR REC (MRFSS and ORBS combined, plus data associated with WDFW ages (1979-2002) 
+# OR REC (MRFSS and ORBS combined, plus data associated with WDFW ages (1979-2002)
 # and ODFW (2009-2016) ages, not included in RecFIN) - fleet 6
 # Provided by Morgan and Abby
 # Previous data until 2016
@@ -623,15 +644,15 @@ NWFSC_lengths <- rbind(NWFSC_lengths_old, NWFSC_lengths_new)
 
 # IPHC ORWA - fleet 12
 # IPHC bio data notes:
-# Total_Biodata_Comb includes all Yelloweye biodata collected from IPHC FISS 2A 
-# from 2022-2023 and stlkeys for association with the IPHC effort database, and 
+# Total_Biodata_Comb includes all Yelloweye biodata collected from IPHC FISS 2A
+# from 2022-2023 and stlkeys for association with the IPHC effort database, and
 # some location information pulled from the IPHC effort database
-# Experimental gear catch and catch where species could not be rectified against 
+# Experimental gear catch and catch where species could not be rectified against
 # onboard tag documentation were removed.
 # 2A was not fished in 2020 and 2024.  Oregon stations were not fished in 2023.
-# Oregon rockfish were not tagged in 2021 and fish cannot be reconciled with IPHC 
+# Oregon rockfish were not tagged in 2021 and fish cannot be reconciled with IPHC
 # effort data.
-# IPHC has not provided onboard tag information for Oregon stations in 2019. 2019 
+# IPHC has not provided onboard tag information for Oregon stations in 2019. 2019
 # landings currently cannot be reconciled with IPHC effort data.
 
 # From the 2017 assessment, it looks like Jason and Vlada used only lengths that also
@@ -683,7 +704,7 @@ colnames_a <- colnames(inputs$dat$agecom)
 # CA TWL CAAL and MAAL - fleet 1 and -1
 CA_TWL_ages <- inputs$dat$agecom |>
   filter(fleet %in% c(-1, 1))
-# CA_TWL_ages_new <- 
+# CA_TWL_ages_new <-
 # CA_TWL_ages <- rbind(CA_TWL_ages_old, CA_TWL_ages_new)
 
 # CA NONTWL CAAL and MAAL - fleet 2 and -2
@@ -692,7 +713,7 @@ CA_TWL_ages <- inputs$dat$agecom |>
 CA_NONTWL_ages <- inputs$dat$agecom |>
   filter(fleet %in% c(-2, 2)) |>
   filter(year < 2005)
-# CA_NONTWL_ages_new <- 
+# CA_NONTWL_ages_new <-
 # CA_NONTWL_ages <- rbind(CA_NONTWL_ages_old, CA_NONTWL_ages_new)
 
 # CA NONTWL WCGOP - fleet -2 and 2
@@ -715,7 +736,7 @@ CA_REC_don_pearson <- CA_REC_don_pearson[-c(1:4), ] |>
 # QUESTION: There are no updates to these since 2016?
 CA_REC_caal <- inputs$dat$agecomp |>
   filter(fleet == 3) |>
-  filter(year >=2009)
+  filter(year >= 2009)
 CA_REC_maal <- inputs$dat$agecomp |>
   filter(fleet == -3) |>
   filter(year >= 2009)
@@ -726,7 +747,7 @@ CA_REC_ages <- rbind(CA_REC_caal, CA_REC_maal)
 # QUESTION: Where is this dataset?
 ORWA_TWL_ages <- inputs$dat$agecom |>
   filter(fleet %in% c(-4, 4))
-# ORWA_TWL_ages_new <- 
+# ORWA_TWL_ages_new <-
 # ORWA_TWL_ages <- rbind(ORWA_TWL_ages_old, ORWA_TWL_ages_new)
 
 # ORWA NONTWL CAAL and MAAL (PacFIN and WCGOP combined) - fleet 5 and -5
@@ -734,7 +755,7 @@ ORWA_TWL_ages <- inputs$dat$agecom |>
 # QUESTION: Where is this dataset?
 ORWA_NONTWL_ages <- inputs$dat$agecom |>
   filter(fleet %in% c(-5, 5))
-# ORWA_NONTWL_ages_new <- 
+# ORWA_NONTWL_ages_new <-
 # ORWA_NONTWL_ages <- rbind(ORWA_NONTWL_ages_old, ORWA_NONTWL_ages_new)
 
 # OR REC CAAL and MAAL - fleet -6 and 6
@@ -761,7 +782,7 @@ OR_REC_maal_new <- read.csv(file.path(
   "processed",
   "rec_comps",
   "or_rec_maal.csv"
-))|>
+)) |>
   filter(year > 2016) |>
   select(-X)
 colnames(OR_REC_maal_new) <- colnames_a
@@ -807,7 +828,18 @@ NWFSC_caal_new <- read.csv(file.path(
   "NWFSC.Combo_CAAL",
   "processed_one_sex_caal.csv"
 )) |>
-  select(year, month, fleet, sex, partition, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything())
+  select(
+    year,
+    month,
+    fleet,
+    sex,
+    partition,
+    ageerr,
+    Lbin_lo,
+    Lbin_hi,
+    Nsamp,
+    everything()
+  )
 # |>
 #   filter(year > 2016)
 colnames(NWFSC_caal_new) <- colnames_a
@@ -827,9 +859,20 @@ NWFSC_maal_new <- read.csv(file.path(
     ageerr = 2,
     fleet = -11
   ) |>
-  select(year, month, fleet, sex, partition, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything())
+  select(
+    year,
+    month,
+    fleet,
+    sex,
+    partition,
+    ageerr,
+    Lbin_lo,
+    Lbin_hi,
+    Nsamp,
+    everything()
+  )
 # |>
-#   filter(year > 2016) 
+#   filter(year > 2016)
 colnames(NWFSC_maal_new) <- colnames_a
 NWFSC_maal <- NWFSC_maal_new
 # NWFSC_maal <- rbind(NWFSC_maal_old, NWFSC_maal_new)
@@ -889,7 +932,11 @@ all_ages <- do.call(
 
 inputs$dat$agecomp <- all_ages
 
-r4ss::SS_write(inputs, dir = here::here("model/2025_update_all_data"), overwrite = TRUE)
+r4ss::SS_write(
+  inputs,
+  dir = here::here("model/2025_update_all_data"),
+  overwrite = TRUE
+)
 r4ss::get_ss3_exe(here::here("model/2025_update_all_data"))
 # r4ss::run(dir = here::here("model/2025_update_all_data"), extras = "-nohess")
 
