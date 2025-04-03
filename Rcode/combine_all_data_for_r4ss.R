@@ -9,6 +9,18 @@ library(r4ss)
 
 # Get inputs from 2017 assessment that will get carried over to this assessment
 model_2017_path <- file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")
+
+
+# Copy input files to new folders using r4ss
+copy_SS_inputs(
+  dir.old = model_2017_path,
+  dir.new = file.path(getwd(), "model", "2025_update_all_data"),
+  create.dir = FALSE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
 inputs <- SS_read(dir = model_2017_path, ss_new = TRUE)
 
 # Discard mortality not included for WA recreational fishery so need to figure out
@@ -356,7 +368,7 @@ ORBS_index <- read.csv(file.path(
   "processed",
   "ORBS_index_forSS.csv"
 )) |>
-  mutate(index = 6)
+  mutate(fleet = 6) 
 colnames(ORBS_index) <- colnames_i
 
 # WA Rec CPUE - fleet 7
@@ -394,7 +406,7 @@ ORFS_index <- read.csv(file.path(getwd(), "Data", "processed", "ORFS_index_forSS
 colnames(ORFS_index) <- colnames_i
 
 # Triennial survey - fleet 10
-tri_index <- inputs$dat$CPUE |>
+TRI_index <- inputs$dat$CPUE |>
   filter(index == 10)
 
 # NWFSC ORWA (sdmTMB) - fleet 11
@@ -426,6 +438,7 @@ IPHC_ORWA <- read.csv(file.path(
   getwd(),
   "Data",
   "processed",
+  "IPHC_index",
   "IPHC_model_based_index_forSS3.csv"
 ))
 IPHC_ORWA_index <- IPHC_ORWA
@@ -440,7 +453,7 @@ all_indices <- do.call(
     WA_REC_CPUE_index,
     CA_CPFV_CPUE_index,
     ORFS_index,
-    tri_index,
+    TRI_index,
     NWFSC_ORWA_index,
     IPHC_ORWA_index
   )
@@ -460,25 +473,28 @@ colnames_l <- colnames(inputs$dat$lencom)
 # CA TWL (from PacFIN) - fleet 1
 # Provided by Juliette
 # QUESTION: Where is this dataset?
-CA_TWL_lengths_old <- inputs$dat$lencomp |>
+CA_TWL_lengths <- inputs$dat$lencomp |>
   filter(fleet == 1)
-CA_TWL_lengths_new <-
+# CA_TWL_lengths_new <-
+# CA_TWL_lengths <- rbind(CA_TWL_lengths_old, CA_TWL_lengths_new)
 
 # CA NONTWL (from PacFIN) up until 2002 - fleet 2
 # Provided by Juliette
 # QUESTION: Where is this dataset?
-CA_NONTWL_lengths_pacfin_old <- inputs$dat$lencomp |>
+CA_NONTWL_lengths <- inputs$dat$lencomp |>
   filter(fleet == 2) |>
   filter(year <= 2002)
-CA_NONTWL_lengths_pacfin_new <- 
+# CA_NONTWL_lengths_new <- 
+# CA_NONTWL_lengths <- rbind(CA_NONTWL_lengths_old, CA_NONTWL_lengths_new)
 
 # CA NONTWL (from WCGOP) - fleet 2
 # Provided by Juliette
 # QUESTION: Where is this dataset?
-CA_NONTWL_lengths_old <- inputs$dat$lencomp |>
+CA_NONTWL_lengths_wcgop <- inputs$dat$lencomp |>
   filter(fleet == 2) |>
   filter(year > 2002)
-CA_NONTWL_lengths_new <- 
+# CA_NONTWL_lengths_wcgop_new <- 
+# CA_NONTWL_lengths_wcgop <- rbind(CA_NONTWL_lengths_wcgop_old, CA_NONTWL_lengths_wcgop_new)
 
 # CA REC - fleet 3
 # Provided by Morgan and Abby
@@ -501,16 +517,18 @@ CA_REC_lengths <- rbind(CA_REC_lengths_old, CA_REC_lengths_new)
 # ORWA TWL (PacFIN and WCGOP combined) - fleet 4
 # Provided by Juliette
 # QUESTION: Where is this dataset?
-ORWA_TWL_lengths_old <- inputs$dat$lencomp |>
+ORWA_TWL_lengths <- inputs$dat$lencomp |>
   filter(fleet == 4)
-ORWA_TWL_lengths_new
+# ORWA_TWL_lengths_new <- 
+# ORWA_TWL_lengths <- rbind(ORWA_TWL_lengths_old, ORWA_TWL_lengths_new)
 
 # ORWA NONTWL (PacFIN and WCGOP combined) - fleet 5
 # Provided by Juliette
 # QUESTION: Where is this dataset?
-ORWA_NONTWL_lengths_old <- inputs$dat$lencomp |>
+ORWA_NONTWL_lengths <- inputs$dat$lencomp |>
   filter(fleet == 5)
-ORWA_NONTWL_lengths_new
+# ORWA_NONTWL_lengths_new <- 
+# ORWA_NONTWL_lengths <- rbind(ORWA_NONTWL_lengths_old, ORWA_NONTWL_lengths_new)
 
 # OR REC (MRFSS and ORBS combined, plus data associated with WDFW ages (1979-2002) 
 # and ODFW (2009-2016) ages, not included in RecFIN) - fleet 6
@@ -637,7 +655,12 @@ IPHC_lengths <- rbind(IPHC_lengths_old, IPHC_lengths_new)
 all_lengths <- do.call(
   "rbind",
   list(
+    CA_TWL_lengths,
+    CA_NONTWL_lengths,
+    CA_NONTWL_lengths_wcgop,
     CA_REC_lengths,
+    ORWA_TWL_lengths,
+    ORWA_NONTWL_lengths,
     OR_REC_lengths,
     WA_REC_lengths,
     CA_observer_lengths,
@@ -656,29 +679,36 @@ inputs$dat$lencomp <- all_lengths
 
 colnames_a <- colnames(inputs$dat$agecom)
 
+# CA TWL CAAL and MAAL - fleet 1 and -1
+CA_TWL_ages <- inputs$dat$agecom |>
+  filter(fleet %in% c(-1, 1))
+# CA_TWL_ages_new <- 
+# CA_TWL_ages <- rbind(CA_TWL_ages_old, CA_TWL_ages_new)
+
 # CA NONTWL CAAL and MAAL - fleet 2 and -2
 # From Juliette
 # QUESTION: Where is this dataset?
+CA_NONTWL_ages <- inputs$dat$agecom |>
+  filter(fleet %in% c(-2, 2)) |>
+  filter(year < 2005)
+# CA_NONTWL_ages_new <- 
+# CA_NONTWL_ages <- rbind(CA_NONTWL_ages_old, CA_NONTWL_ages_new)
 
 # CA NONTWL WCGOP - fleet -2 and 2
-CA_NONTWL_wcgop <- inputs$dat$agecom |>
+CA_NONTWL_ages_wcgop <- inputs$dat$agecom |>
   filter(fleet %in% c(-2, 2)) |>
   filter(year == 2005)
-colnames(CA_NONTWL_wcgop) <- colnames_a
 
 # CA REC CAAL and MAAL (aged by WDFW, 1983 and 1996 only) - fleet -3 and 3
 CA_REC_wdfw <- inputs$dat$agecom |>
   filter(fleet %in% c(-3, 3))
 CA_REC_wdfw <- CA_REC_wdfw[1:4, ]
-colnames(CA_REC_wdfw) <- colnames_a
 
 # CA REC CAAL and MAAL (data from Don Pearson 1979 - 1984, aged by Betty) - fleet -3 and 3
 CA_REC_don_pearson <- inputs$dat$agecom |>
   filter(fleet %in% c(-3, 3))
 CA_REC_don_pearson <- CA_REC_don_pearson[-c(1:4), ] |>
   filter(year < 1985)
-colnames(CA_REC_don_pearson) <- colnames_a
-
 
 # CA REC CAAL and MAAL (data from CDFW Julia Coates) - fleet -3 and 3
 # QUESTION: There are no updates to these since 2016?
@@ -693,12 +723,18 @@ CA_REC_ages <- rbind(CA_REC_caal, CA_REC_maal)
 # ORWA TWL CAAL and MAAL (PacFIN and WCGOP combined) - fleet 4 and -4
 # Provided by Juliette
 # QUESTION: Where is this dataset?
-
+ORWA_TWL_ages <- inputs$dat$agecom |>
+  filter(fleet %in% c(-4, 4))
+# ORWA_TWL_ages_new <- 
+# ORWA_TWL_ages <- rbind(ORWA_TWL_ages_old, ORWA_TWL_ages_new)
 
 # ORWA NONTWL CAAL and MAAL (PacFIN and WCGOP combined) - fleet 5 and -5
 # Provided by Juliette
 # QUESTION: Where is this dataset?
-
+ORWA_NONTWL_ages <- inputs$dat$agecom |>
+  filter(fleet %in% c(-5, 5))
+# ORWA_NONTWL_ages_new <- 
+# ORWA_NONTWL_ages <- rbind(ORWA_NONTWL_ages_old, ORWA_NONTWL_ages_new)
 
 # OR REC CAAL and MAAL - fleet -6 and 6
 # Morgan and Abby need to provide an updated data set
@@ -712,8 +748,7 @@ OR_REC_caal_new <- read.csv(file.path(
   "rec_comps",
   "or_rec_caal.csv"
 )) |>
-  filter(year > 2016) |>
-  select(-X)
+  filter(year > 2016)
 colnames(OR_REC_caal_new) <- colnames_a
 OR_REC_caal <- rbind(OR_REC_caal_old, OR_REC_caal_new)
 
@@ -742,8 +777,7 @@ WA_REC_caal <- read.csv(file.path(
   "processed",
   "rec_comps",
   "wa_rec_caal.csv"
-)) |>
-  select(-X)
+))
 colnames(WA_REC_caal) <- colnames_a
 
 WA_REC_maal <- read.csv(file.path(
@@ -752,8 +786,7 @@ WA_REC_maal <- read.csv(file.path(
   "processed",
   "rec_comps",
   "wa_rec_maal.csv"
-)) |>
-  select(-X)
+))
 colnames(WA_REC_maal) <- colnames_a
 
 WA_REC_ages <- rbind(WA_REC_caal, WA_REC_maal)
@@ -836,10 +869,14 @@ IPHC_ages <- rbind(IPHC_caal, IPHC_maal)
 all_ages <- do.call(
   "rbind",
   list(
-    CA_NONTWL_wcgop,
+    CA_TWL_ages,
+    CA_NONTWL_ages,
+    CA_NONTWL_ages_wcgop,
     CA_REC_wdfw,
     CA_REC_don_pearson,
     CA_REC_ages,
+    ORWA_TWL_ages,
+    ORWA_NONTWL_ages,
     OR_REC_ages,
     WA_REC_ages,
     NWFSC_ages,
@@ -849,4 +886,4 @@ all_ages <- do.call(
 
 inputs$dat$agecomp <- all_ages
 
-r4ss::SS_write(inputs, dir = "", overwrite = TRUE)
+r4ss::SS_write(inputs, dir = here::here("model/2025_update_all_data"), overwrite = TRUE)
