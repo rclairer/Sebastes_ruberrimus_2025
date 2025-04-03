@@ -9,6 +9,7 @@ library(ggpubr)
 library(MASS)
 library(MuMIn)
 library(sdmTMB)
+library(r4ss)
 
 # Read-in data -----------------------------------------------------------------
 data_directory  = paste0(here::here(), "/Data/raw/nonconfidential/IPHC_survey_1998_2024.csv")
@@ -26,8 +27,7 @@ IPHC_data = IPHC_data %>%
 IPHC_data = IPHC_data %>%
   filter(Species.Name == "Yelloweye Rockfish")
 
-# Remove stations as per Jason Cope's code -------------------------------------
-#Why are these stations removed??
+# Remove stations as per 2017 assessment ---------------------------------------
 IPHC_data = subset(
   IPHC_data,
   Station %in% c(1010,1020,1024,1027,1082,1084,1528:1531,1533,1534)
@@ -128,7 +128,7 @@ IPHC_data_glm = na.exclude(IPHC_data_glm)
 # FULL MODEL
 full_model = MASS::glm.nb(
   
-  Count ~ Year + Station + Vessel + Depth + offset(log(Effort)),
+  CPUE ~ Year + Station + Vessel + Depth + offset(log(Effort)),
   data = IPHC_data_glm,
   na.action = "na.fail"
   
@@ -147,7 +147,7 @@ model_selection = as.data.frame(model_suite) %>% dplyr::select(-weight)
 IPHC_data_glm = IPHC_data_glm %>% filter(CPUE != 0)
 
 fit = sdmTMB(
-  CPUE ~ Year + Station,
+  CPUE ~ Year + Station + Depth,
   data           = IPHC_data_glm,
   #  offset         = log(IPHC_data_glm$Effort + constant),
   time           = "Year",
@@ -164,16 +164,6 @@ preds = predict(fit, return_tmb_object = TRUE, newdata = IPHC_data_glm, offset =
 
 # get index file
 index = get_index(preds, bias_correct = TRUE)
-
-indexSDM_TMB = index %>%
-  ggplot(aes(x = Year+2000, y = log(est))) +
-  geom_line() +
-  geom_point() +
-  geom_errorbar(aes(x = Year+2000, ymin = log(lwr), ymax = log(upr)), width = .1)
-
-
-require(ggpubr)
-ggarrange(index_design, indexSDM_TMB)
 
 #index = index[-c(1),]
 mu1 = mean(index$est) # sdm tmb
@@ -208,7 +198,6 @@ scaled_index %>%
                 position=position_dodge(width = 0.5)) +
   theme_bw() +
   xlab("Year") + ylab("Scaled index")
-ggsave("scaled_index_comp.pdf", width = 7.7, height = 4, path = figure_diretory)
 
 
 # Format index for SS3 .dat file
@@ -221,6 +210,45 @@ index_df = data.frame(
 )
 
 write.csv(index_df, file.path(here::here(), "Data", "processed", "IPHC_index", "IPHC_model_based_index_forSS3.csv"), row.names = FALSE)
+
+# Compare with 2017 index ------------------------------------------------------
+
+model_2017_path = file.path(here::here(), "model", "2017_yelloweye_model_updated_ss3_exe")
+inputs          = SS_read(dir = model_2017_path, ss_new = TRUE)
+
+index_2017     = inputs$dat$CPUE %>% filter(index == 12) %>% mutate(Assessment = "2017")
+index_2017$obs = (index_2017$obs - mean(index_2017$obs)) / sd(index_2017$obs) # scale index
+
+index_df   = index_df %>% mutate(Assessment = "2025")
+colnames(index_2017) = colnames(index_df)
+
+all_indexes = rbind(index_df, index_2017)
+
+all_indexes %>% 
+  ggplot(aes(x = as.numeric(year), y = obs, color = Assessment)) +
+  #  geom_line() +
+  geom_point(position=position_dodge(width = 0.5)) +
+  geom_errorbar(aes(x    = as.numeric(year),
+                    ymin = obs - 1.96*se,
+                    ymax = obs + 1.96*se),
+                width = 0.1,
+                position=position_dodge(width = 0.5)) +
+  theme_minimal() +
+  xlab("Year") +
+  ylab("Scaled index")
+
+ggsave("scaled_index_comp.pdf", width = 7.7, height = 4, path = figure_diretory)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
