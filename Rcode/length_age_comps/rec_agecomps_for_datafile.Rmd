@@ -109,38 +109,47 @@ ca_rec_maal_John <- cbind(old_ca_rec_maal_John[,1:8],ca_rec_maal_John[,69],ca_re
 ```
 
 
-####################### start here
+
 
 7. OR_REC CAAL
   *doubling issue here too* - Also fixing Ageing Error column and adding updated Ages
   - If Ali or Vlada thinks we should ignore the new ages in 2015, then just use all old data and divide by 2
 ```{r}
 # Use this first section to grab the old data with out any changes! 
-# Bring in old data from 1979-2002
+# Bring in old data from 1979-2016
 or_rec_caal <- inputs$dat$agecomp |>
   filter(fleet == 6) |>
-  filter(year >= 1979 & year <= 2002)
+  filter(year >= 1979)
 
 # Next, fix doubling problem, without adding any new data
 # Use for a model run where we fix issues before adding new data
 or_rec_caal[,9:75] <- or_rec_caal[,9:75]/2
 
-# Then, Bring in new 2009-2016 data - some of the ages were updated (Check with Ali)
+# Next problem is to fix the age column.Below is the correct age location and years according to Ali
+# 1979 - 2000 = WDFW
+# 2001 = WDFW(40) /unknown (assumed NWFSC) (10)
+# 2002 =WDFW (n = 73)
+# 2009 - 2016 = NWFSC
+or_rec_caal[146:160,6] <- 1 # changing 2002 = WDFW
+or_rec_caal[161:193,6] <- 2 # changing 2009-2016 = NWFSC
+
+#################### Hold off on adding new data until Ali
+
+# Last, Bring in new 2009-2016 data - some of the ages were updated (Check with Ali)
 new_or_rec_caal <- read_csv(file.path("../../Data/processed/rec_comps/or_rec_caal.csv"))
 names(new_or_rec_caal) <- names(or_rec_caal)
 or_rec_caal <- rbind(or_rec_caal,new_or_rec_caal)
-
-# Finally, Fix the ageError column (check with Ali)
- # *still need to do*
 ```
 
 8. OR_REC MAAL ghost
-  *why are Nsamps not whole numbers???* - rebuild using up to date CAAL data
+  *why are Nsamps not whole numbers?* - It doesn't matter...but it is a lot easier to double check the data if Nsamps are "total samples", so rebuild using up to date CAAL data
 ```{r}
+# Use this first section to grab the old data with out any changes!
 # load old MAAL so we can use the first 8 columns and double check the data
 old_or_rec_maal <- inputs$dat$agecomp |>
   filter(fleet == -6)
 
+## For the Update, add this next section to fix Nsamps
 # Take CAAL and group it so it matches MAAL structure, re-add the correct columns
 or_rec_maal <- or_rec_caal %>%
   group_by(year) %>%  # Retain key columns
@@ -152,29 +161,36 @@ or_rec_maal <- cbind(old_or_rec_maal[,1:8],or_rec_maal[,69],or_rec_maal[,3:68])
 9. WA_REC CAAL
   *Doubling problem, however, Fabio (state rep) provided new data for the entire time series and recommends we use all new data* - some of the old ages have been updated.
 ```{r}
+# Use this first section to grab the old data with out any changes!
+old_wa_rec_caal <- inputs$dat$agecomp |>
+  filter(fleet == 7)
+
+# Use this section to fix the doubling problem for OLD data
+old_wa_rec_caal[,9:75] <- old_wa_rec_caal[,9:75]/2
+
+## For the Update, add this next section to use the updated ages (Fabio), ignore all old data
 #load new processed data from most recent RecFin pull
 wa_rec_caal <- read_csv(file.path("../../Data/processed/rec_comps/wa_rec_caal.csv"))
+names(wa_rec_caal) <- names(old_wa_rec_caal) # Replace col names from another MAAL dataset so they match everything else
 
-# Replace col names so they match everything else
-names(wa_rec_caal) <- names(or_rec_caal)
-
-# done! Easy
 ```
 
 10. WA_REC MAAL
   *Just use new data* - some of the old ages have been updated.
 ```{r}
+# Use this first section to grab the old data with out any changes!
+old_wa_rec_maal <- inputs$dat$agecomp |>
+  filter(fleet == -7)
+
+## For the Update, add this next section to use the updated ages (Fabio), ignore all old data
 #load new processed data from most recent RecFin pull
 wa_rec_maal <- read_csv(file.path("../../Data/processed/rec_comps/wa_rec_maal.csv"))
-
-# Replace col names so they match everything else
-names(wa_rec_maal) <- names(or_rec_maal)
-
-# done! Easy
+names(wa_rec_maal) <- names(old_wa_rec_maal) # Replace col names from another MAAL dataset so they match everything else
 ```
 
 Finish and put it all together 
 ```{r}
+# Always double check the names we are calling, they may change depending on if we use the old vs the new data
 mod$dat$agecomp <- dplyr::bind_rows(ca_rec_caal_1983_1996,
                                   ca_rec_maal_1983_1996, 
                                   ca_rec_caal_Don, 
@@ -185,6 +201,5 @@ mod$dat$agecomp <- dplyr::bind_rows(ca_rec_caal_1983_1996,
                                   or_rec_maal,
                                   wa_rec_caal,
                                   wa_rec_maal) 
-# list all the dfs that I just made, when we start to add others, make sure to insert Commercial comps in the right spot
-
+# list all the dfs that I just made, when we start to add others, make sure to insert Commercial comps in the correct spot
 ```
