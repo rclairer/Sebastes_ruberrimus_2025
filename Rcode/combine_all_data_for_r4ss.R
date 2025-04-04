@@ -887,3 +887,9 @@ all_ages <- do.call(
 inputs$dat$agecomp <- all_ages
 
 r4ss::SS_write(inputs, dir = here::here("model/2025_update_all_data"), overwrite = TRUE)
+
+r4ss::get_ss3_exe(here::here("model/2025_update_all_data"))
+
+# r4ss::run()
+replist <- r4ss::SS_output(here::here("model/2025_update_all_data"))
+r4ss::SS_plots(replist)

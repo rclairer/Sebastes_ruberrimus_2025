@@ -794,3 +794,7 @@ all_ages <- do.call("rbind", list(
 ))
 
 write.csv(all_ages, file = file.path(getwd(), "Data", "for_SS", "all_ages_SAC.csv"), row.names = FALSE)
+
+#L50 selex: 35.6,33.5,32.3,36.9,38.8,30.9,36.9,32,26,2.3,35.1,46
+#Lpeak selex: 49,45,45,55,53,39,47,45,35,81,57,57
+yelloweye_fixed_params
