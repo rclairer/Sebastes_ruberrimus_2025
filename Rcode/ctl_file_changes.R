@@ -28,6 +28,7 @@ inputs <- SS_read(dir = update_ctl_model_path)
 ctl <- inputs$ctl
 
 # Update block end year (selectivity and biology (if used) time blocks)
+# Update block end year (selectivity and biology (if used) time blocks)
 ctl$Block_Design[[2]][2] <- 2024
 ctl$Block_Design[[3]][2] <- 2024
 ctl$Block_Design[[4]][2] <- 2024

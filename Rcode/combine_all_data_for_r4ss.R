@@ -937,8 +937,9 @@ r4ss::SS_write(
   dir = here::here("model/2025_update_all_data"),
   overwrite = TRUE
 )
-r4ss::get_ss3_exe(here::here("model/2025_update_all_data"))
-# r4ss::run(dir = here::here("model/2025_update_all_data"), extras = "-nohess")
 
+r4ss::get_ss3_exe(here::here("model/2025_update_all_data"))
+
+# r4ss::run()
 replist <- r4ss::SS_output(here::here("model/2025_update_all_data"))
 r4ss::SS_plots(replist)
