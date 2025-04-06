@@ -108,9 +108,6 @@ ca_rec_maal_John <- ca_rec_caal_John %>%
 ca_rec_maal_John <- cbind(old_ca_rec_maal_John[,1:8],ca_rec_maal_John[,69],ca_rec_maal_John[,3:68])
 ```
 
-
-
-
 7. OR_REC CAAL
   *doubling issue here too* - Also fixing Ageing Error column and adding updated Ages
   - If Ali or Vlada thinks we should ignore the new ages in 2015, then just use all old data and divide by 2
@@ -132,6 +129,7 @@ or_rec_caal[,9:75] <- or_rec_caal[,9:75]/2
 # 2009 - 2016 = NWFSC
 or_rec_caal[146:160,6] <- 1 # changing 2002 = WDFW
 or_rec_caal[161:193,6] <- 2 # changing 2009-2016 = NWFSC
+### probably just make 2001 1s
 
 #################### Hold off on adding new data until Ali
 

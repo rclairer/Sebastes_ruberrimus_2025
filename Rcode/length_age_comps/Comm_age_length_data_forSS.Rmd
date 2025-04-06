@@ -39,19 +39,19 @@ raw_age_comps_comb <- read_csv('../../Data/processed/length_age_comps/_Commercia
 
 ```{r}
 # length comps
-dim(raw_length_comps_comb);dim(ss_data$lencomp)
-names(raw_length_comps_comb); names(ss_data$lencomp)
-names(raw_length_comps_comb) <- names(ss_data$lencomp)
+dim(raw_length_comps_comb);dim(inputs$lencomp)
+names(raw_length_comps_comb); names(inputs$lencomp)
+names(raw_length_comps_comb) <- names(inputs$lencomp)
 
 # caal
-dim(raw_age_caal_comb);dim(ss_data$agecomp)
-names(raw_age_caal_comb); names(ss_data$agecomp)
-names(raw_age_caal_comb) <- names(ss_data$agecomp)
+dim(raw_age_caal_comb);dim(inputs$agecomp)
+names(raw_age_caal_comb); names(inputs$agecomp)
+names(raw_age_caal_comb) <- names(inputs$agecomp)
 
 # maal 
-dim(raw_age_comps_comb);dim(ss_data$agecomp)
-names(raw_age_comps_comb); names(ss_data$agecomp)
-names(raw_age_comps_comb) <- names(ss_data$agecomp)
+dim(raw_age_comps_comb);dim(inputs$agecomp)
+names(raw_age_comps_comb); names(inputs$agecomp)
+names(raw_age_comps_comb) <- names(inputs$agecomp)
 ```
 
 
