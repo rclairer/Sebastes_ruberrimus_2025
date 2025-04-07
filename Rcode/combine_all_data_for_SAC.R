@@ -365,7 +365,7 @@ IPHC_ORWA <- read.csv(file.path(
   "Data",
   "processed",
   "IPHC_index",
-  "IPHC_model_based_index_forSS3.csv"
+  "IPHC_model_based_index_forSS3_UNSCALED.csv"
 ))
 IPHC_ORWA_index <- IPHC_ORWA |>
   mutate(Label = "IPHC_ORWA")

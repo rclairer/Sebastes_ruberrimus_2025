@@ -461,7 +461,7 @@ IPHC_ORWA <- read.csv(file.path(
   "Data",
   "processed",
   "IPHC_index",
-  "IPHC_model_based_index_forSS3.csv"
+  "IPHC_model_based_index_forSS3_UNSCALED.csv"
 ))
 IPHC_ORWA_index <- IPHC_ORWA
 colnames(IPHC_ORWA_index) <- colnames_i
@@ -939,7 +939,7 @@ r4ss::SS_write(
 )
 
 r4ss::get_ss3_exe(here::here("model/2025_update_all_data"))
+# r4ss::run(here::here("model/2025_update_all_data"))
 
-# r4ss::run()
 replist <- r4ss::SS_output(here::here("model/2025_update_all_data"))
 r4ss::SS_plots(replist)
