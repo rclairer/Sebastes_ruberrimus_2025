@@ -889,15 +889,9 @@ all_ages <- do.call(
 
 inputs$dat$agecomp <- all_ages
 
-# Change error type for IPHC index
-# inputs$dat$CPUEinfo$errtype[12] <- -1
-# 
-# # Have to change float option for IPHC index if using normal error
-# inputs$ctl$Q_options$float[8] <- 0
-
 r4ss::SS_write(inputs, dir = here::here("model/2025_update_all_data"), overwrite = TRUE)
 r4ss::get_ss3_exe(here::here("model/2025_update_all_data"))
-# r4ss::run(here::here("model/2025_update_all_data"))
+# r4ss::run(dir = here::here("model/2025_update_all_data"), extras = "-nohess")
 
 replist <- r4ss::SS_output(here::here("model/2025_update_all_data"))
 r4ss::SS_plots(replist)
