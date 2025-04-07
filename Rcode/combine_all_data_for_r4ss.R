@@ -22,6 +22,7 @@ copy_SS_inputs(
 )
 
 inputs <- SS_read(dir = model_2017_path, ss_new = TRUE)
+inputs <-SS_read(dir = file.path(getwd(), "model", "2025_update_all_data"))
 
 # Discard mortality not included for WA recreational fishery so need to figure out
 ##############
@@ -439,7 +440,7 @@ IPHC_ORWA <- read.csv(file.path(
   "Data",
   "processed",
   "IPHC_index",
-  "IPHC_model_based_index_forSS3.csv"
+  "IPHC_model_based_index_forSS3_UNSCALED.csv"
 ))
 IPHC_ORWA_index <- IPHC_ORWA
 colnames(IPHC_ORWA_index) <- colnames_i
@@ -805,7 +806,8 @@ NWFSC_caal_new <- read.csv(file.path(
   "processed",
   "NWFSC.Combo_CAAL",
   "processed_one_sex_caal.csv"
-)) 
+)) |>
+  select(year, month, fleet, sex, partition, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything())
 # |>
 #   filter(year > 2016)
 colnames(NWFSC_caal_new) <- colnames_a
@@ -824,9 +826,10 @@ NWFSC_maal_new <- read.csv(file.path(
   mutate(
     ageerr = 2,
     fleet = -11
-  ) 
+  ) |>
+  select(year, month, fleet, sex, partition, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything())
 # |>
-#   filter(year > 2016)
+#   filter(year > 2016) 
 colnames(NWFSC_maal_new) <- colnames_a
 NWFSC_maal <- NWFSC_maal_new
 # NWFSC_maal <- rbind(NWFSC_maal_old, NWFSC_maal_new)
@@ -886,10 +889,15 @@ all_ages <- do.call(
 
 inputs$dat$agecomp <- all_ages
 
+# Change error type for IPHC index
+# inputs$dat$CPUEinfo$errtype[12] <- -1
+# 
+# # Have to change float option for IPHC index if using normal error
+# inputs$ctl$Q_options$float[8] <- 0
+
 r4ss::SS_write(inputs, dir = here::here("model/2025_update_all_data"), overwrite = TRUE)
-
 r4ss::get_ss3_exe(here::here("model/2025_update_all_data"))
+# r4ss::run(here::here("model/2025_update_all_data"))
 
-# r4ss::run()
 replist <- r4ss::SS_output(here::here("model/2025_update_all_data"))
 r4ss::SS_plots(replist)

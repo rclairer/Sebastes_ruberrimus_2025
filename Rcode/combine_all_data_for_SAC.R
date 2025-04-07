@@ -349,7 +349,7 @@ IPHC_ORWA <- read.csv(file.path(
   "Data", 
   "processed", 
   "IPHC_index",
-  "IPHC_model_based_index_forSS3.csv"
+  "IPHC_model_based_index_forSS3_UNSCALED.csv"
   ))
 IPHC_ORWA_index <- IPHC_ORWA |>
   mutate(Label = "IPHC_ORWA")
@@ -577,12 +577,12 @@ write.csv(all_lengths, file = file.path(getwd(), "Data", "for_SS", "all_lengths_
 colnames_a <- c("Year", "Month", "Fleet", "Sex", "Ageing_error", "Lbin_low", "Lbin_hi", "Nsamps", 0:65)
 
 # CA TWL CAAL and MAAL - fleet 1 and -1
-CA_TWL_ages <- inputs$dat$agecom |>
-  filter(fleet %in% c(-1, 1)) |>
-  select(-part)
-# CA_TWL_ages_new <- 
-# CA_TWL_ages <- rbind(CA_TWL_ages_old, CA_TWL_ages_new)
-colnames(CA_TWL_ages) <- colnames_a
+# CA_TWL_ages <- inputs$dat$agecom |>
+#   filter(fleet %in% c(-1, 1)) |>
+#   select(-part)
+# # CA_TWL_ages_new <- 
+# # CA_TWL_ages <- rbind(CA_TWL_ages_old, CA_TWL_ages_new)
+# colnames(CA_TWL_ages) <- colnames_a
 
 # CA NONTWL CAAL and MAAL - fleet 2 and -2
 CA_NONTWL_ages <- inputs$dat$agecom |>
@@ -711,6 +711,7 @@ NWFSC_caal_new <- read.csv(file.path(
   "NWFSC.Combo_CAAL",
   "processed_one_sex_caal.csv"
 )) |>
+  select(year, month, fleet, sex, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything()) |>
   select(-partition)
 # |>
 #   filter(year > 2016)
@@ -731,6 +732,7 @@ NWFSC_maal_new <- read.csv(file.path(
     ageerr = 2,
     fleet = -11
   ) |>
+  select(year, month, fleet, sex, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything())|>
   select(-partition)
 # |>
 #   filter(year > 2016)

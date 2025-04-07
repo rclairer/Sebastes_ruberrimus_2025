@@ -18,8 +18,8 @@ ctl$Block_Design[[2]][2] <- 2024
 ctl$Block_Design[[3]][2] <- 2024
 ctl$Block_Design[[4]][2] <- 2024
 
-# Do we need to update the prior on M?
-# ctl$MG_parms["NatM_p_1_Fem_GP_1",]$PRIOR <- ?
+# Do we need to update the prior on M? - have to use the Hamel method using max age
+ctl$MG_parms["NatM_p_1_Fem_GP_1",]$PR_SD <- 0.31
 
 # Update weight-length relationship
 ctl$MG_parms["Wtlen_1_Fem_GP_1",]$INIT <- 7.183309e-06
@@ -28,13 +28,27 @@ ctl$MG_parms["Wtlen_2_Fem_GP_1",]$INIT <- 3.244801
 ctl$MG_parms["Wtlen_2_Fem_GP_1",]$PRIOR <-3.244801
 
 # Question: Switch do rec_dev to option 3? It's currently option 1 but I think 
-# most people use option 3
+# most people are using option 2 or 3
+# Answer: We can stick with option 1 for the base model but we can also try it 
+# out with option 2 or 3
+# ctl$do_recdev <- 2
+# ctl$do_recdev <- 3
 
 # Change last year of main rec_dev, for the last assessment this was 2015 so I
 # would assume this would be 2023 for this year?
 ctl$MainRdevYrLast <- 2023
 
+# Change QParams that are hitting bounds
+ctl$Q_params[8,]$LO <- -1
+ctl$Q_params[16,]$HI <- 7
+
 # Selectivity Params if needed - do we need to do this?
+# Change selparm bounds that are being hit
+ctl$size_selex_parms[19,]$LO <- 15
+ctl$size_selex_parms[21,]$HI <- 11
+ctl$size_selex_parms[49,]$HI <- 85
+ctl$size_selex_parms[55,]$HI <- 65
+ctl$size_selex_parms[61,]$HI <- 65
 
 # Fill outfile with directory and file name of the file written
 r4ss::SS_writectl(ctl, outfile = file.path(model_2025_path, "yelloweye_control.ss"), overwrite = TRUE)
