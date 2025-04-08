@@ -62,7 +62,7 @@ ctl$Q_parms[16,]$LO <- -1
 # Selectivity Params if needed - do we need to do this?
 # Change selparm bounds that are being hit
 # Size_DblN_peak_10_TRI_ORWA(10)
-ctl$size_selex_parms[49,]$HI <- 95
+ctl$size_selex_parms[49,]$HI <- 87
 
 # Fill outfile with directory and file name of the file written
 r4ss::SS_writectl(ctl, outfile = file.path(update_ctl_model_path, "yelloweye_control.ss"), overwrite = TRUE)
