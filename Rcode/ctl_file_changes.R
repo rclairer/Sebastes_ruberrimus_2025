@@ -20,7 +20,7 @@ copy_SS_inputs(
   dir.new = update_ctl_model_path,
   create.dir = FALSE,
   overwrite = TRUE,
-  use_ss_new = TRUE,
+  use_ss_new = FALSE,
   verbose = TRUE
 )
 
@@ -67,20 +67,28 @@ ctl$size_selex_parms[49,]$HI <- 87
 # Fill outfile with directory and file name of the file written
 r4ss::SS_writectl(ctl, outfile = file.path(update_ctl_model_path, "yelloweye_control.ss"), overwrite = TRUE)
 
+# Changed convergence criterion to 1.3e-04 from 1e-04 because needed covar file
+# start <- inputs$start
+# start$converge_criterion <- 1.3e-04
+# r4ss::SS_writestarter(start, outfile = file.path(update_ctl_model_path, "starter.ss"), overwrite = TRUE)
+
 r4ss::get_ss3_exe(dir = update_ctl_model_path)
 
+# You have to run this model in full (not using -nohess) because you need the covar file
+# to fit the bias
 #r4ss::run(dir = model_2025_path)
 replist_update_ctl <- r4ss::SS_output(dir = update_ctl_model_path)
 #r4ss::SS_plots(replist_update_ctl)
 
-##### After initial model is run tasks ##### -----------------------------------
 
+
+##### After initial model is run tasks ##### -----------------------------------
 ##### Fit rec bias ramp ##### --------------------------------------------------
 # Need to run model first but after we do, we can change the recruitment bias 
 # adjustment
 # Import output of model run as replist
 dir_fitbias <- here::here("model", "2025_update_all_fitbias")
-  
+
 copy_SS_inputs(
   dir.old = update_ctl_model_path,
   dir.new = dir_fitbias,
@@ -105,23 +113,10 @@ r4ss::get_ss3_exe(dir = dir_fitbias)
 replist_fitbias <- r4ss::SS_output(dir = dir_fitbias)
 
 ##### Tune composition data ##### ----------------------------------------------
-dir_tunecomps <- here::here("model", "2025_update_all_fitbias_tunecomps")
-
-copy_SS_inputs(
-  dir.old = dir_fitbias,
-  dir.new = dir_tunecomps,
-  create.dir = FALSE,
-  overwrite = TRUE,
-  use_ss_new = FALSE,
-  verbose = TRUE
-)
-
-r4ss::get_ss3_exe(dir = dir_tunecomps)
-
 r4ss::tune_comps(replist_fitbias, # use replist from previous run
                  option = "Francis",
                  write = TRUE,
-                 dir = dir,
+                 dir = dir_fitbias,
                  exe = "ss3")
 
 replist_tunecomps <- r4ss::SS_output(dir = dir_tunecomps)
