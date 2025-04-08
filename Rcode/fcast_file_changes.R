@@ -1,7 +1,19 @@
+################################
+### SS3 Forecast File Updates ###
+################################
+
+# Load libraries
+library(dplyr)
+library(tidyr)
+library(r4ss)
+library(here)
+
 inputs <-SS_read(dir = update_ctl_model_path)
 
 fcast <- inputs$fore
 
+
+# Update flimit fraction
 fcast$Flimitfraction <- -1
 
 # update buffer values
