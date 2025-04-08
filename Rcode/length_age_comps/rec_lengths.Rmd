@@ -5,6 +5,8 @@ date: "2025-03-13"
 ---
 
 ```{r setup}
+rm(list = ls())
+
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -40,11 +42,13 @@ names(recfin_bio)[names(recfin_bio) == "RECFIN_LENGTH_MM"] <- "length"
 recfin_bio$length <- recfin_bio$length/10
 
 ## Building Fleet 3 and Fleet 8:
-ca_rec <- recfin_bio %>% filter(state == "CALIFORNIA")
+ca_rec <- recfin_bio |> 
+  filter(state == "CALIFORNIA") |>
+  filter(year != 2020) # Removed the single observation in 2020 (small sample size for that year)
 
-  # Remove CPFV data to make fleets 3 and 8 ################TRY SORTING BY SOURCE CODE INSTERAD OF MODE NAME. WILL THIS FIX THE ISSUES?
+  # Remove CPFV data to make fleets 3 and 8; SORTING BY SOURCE CODE INSTERAD OF MODE NAME.
   # Also, make sure everything is a data.frame!!!
-ca_cpfv <- ca_rec %>% filter(SOURCE_CODE == "CPFV")
+ca_cpfv <- ca_rec |> filter(SOURCE_CODE == "CPFV")
 ca_rec <- ca_rec[ca_rec$SOURCE_CODE != "CPFV", ]
 ca_rec <- as.data.frame(ca_rec)
 ca_cpfv <- as.data.frame(ca_cpfv)
@@ -55,7 +59,7 @@ or_rec <- recfin_bio %>% filter(state == "OREGON")
 
   # Remove CPFV data to make fleets 3 and 8
   # Also, make sure everything is a data.frame!!!
-or_cpfv <- or_rec %>% filter(SOURCE_CODE == "CPFV")
+or_cpfv <- or_rec |> filter(SOURCE_CODE == "CPFV")
 or_rec <- or_rec[or_rec$SOURCE_CODE != "CPFV", ]
 or_rec <- as.data.frame(or_rec)
 or_cpfv <- as.data.frame(or_cpfv)
