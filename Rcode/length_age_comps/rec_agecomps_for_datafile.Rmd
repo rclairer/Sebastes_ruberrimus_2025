@@ -110,7 +110,7 @@ ca_rec_maal_John <- cbind(old_ca_rec_maal_John[,1:8],ca_rec_maal_John[,69],ca_re
 
 7. OR_REC CAAL
   *doubling issue here too* - Also fixing Ageing Error column and adding updated Ages
-  - If Ali or Vlada thinks we should ignore the new ages in 2015, then just use all old data and divide by 2
+  - The extra ages in 2015 were filtered out because they were sex == U, but since that doesnt matter any more, Ali suggests we include them
 ```{r}
 # Use this first section to grab the old data with out any changes! 
 # Bring in old data from 1979-2016
@@ -127,16 +127,13 @@ or_rec_caal[,9:75] <- or_rec_caal[,9:75]/2
 # 2001 = WDFW(40) /unknown (assumed NWFSC) (10)
 # 2002 =WDFW (n = 73)
 # 2009 - 2016 = NWFSC
-or_rec_caal[146:160,6] <- 1 # changing 2002 = WDFW
+or_rec_caal[144:160,6] <- 1 # changing 2001 and 2002 = WDFW
 or_rec_caal[161:193,6] <- 2 # changing 2009-2016 = NWFSC
-### probably just make 2001 1s
 
-#################### Hold off on adding new data until Ali
-
-# Last, Bring in new 2009-2016 data - some of the ages were updated (Check with Ali)
+# Last, Bring in new 2009-2016 data - some ages from 2015 were added
 new_or_rec_caal <- read_csv(file.path("../../Data/processed/rec_comps/or_rec_caal.csv"))
 names(new_or_rec_caal) <- names(or_rec_caal)
-or_rec_caal <- rbind(or_rec_caal,new_or_rec_caal)
+or_rec_caal <- rbind(or_rec_caal|>filter(year<=2002),new_or_rec_caal|>filter(year>=2009))
 ```
 
 8. OR_REC MAAL ghost
