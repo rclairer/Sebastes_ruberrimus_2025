@@ -107,7 +107,7 @@ colnames(ca_rec_lengths) <- gsub("^unsexed\\.", "", colnames(ca_rec_lengths))
 colnames(ca_rec_lengths) <- gsub("^u", "L", colnames(ca_rec_lengths))
 
 # Save
-write.csv(ca_rec_lengths, file.path("../../Data/processed/rec_comps/ca_rec_lengths.csv"))
+write_csv(ca_rec_lengths, file.path("../../Data/processed/rec_comps/ca_rec_lengths.csv"))
 
 # Comparison plots for 2004-2024 showing that the 2017 CA_REC fleet excludes party/charter boats (CPFV)
 
@@ -191,7 +191,7 @@ colnames(or_rec_lengths) <- gsub("^u", "L", colnames(or_rec_lengths))
 or_rec_lengths <- or_rec_lengths[or_rec_lengths$year>=2004,]
 
 # Save
-write.csv(or_rec_lengths, file.path("../../Data/processed/rec_comps/or_rec_lengths.csv"))
+write_csv(or_rec_lengths, file.path("../../Data/processed/rec_comps/or_rec_lengths.csv"))
 
 # Comparison plots for 2004-2024 showing that the 2017 OR_REC fleet excludes party/charter boats (CPFV)
 
@@ -268,7 +268,7 @@ colnames(wa_rec_lengths) <- gsub("^unsexed\\.", "", colnames(wa_rec_lengths))
 colnames(wa_rec_lengths) <- gsub("^u", "L", colnames(wa_rec_lengths))
 
 # Save
-write.csv(wa_rec_lengths, file.path("../../Data/processed/rec_comps/wa_rec_lengths.csv"))
+write_csv(wa_rec_lengths, file.path("../../Data/processed/rec_comps/wa_rec_lengths.csv"))
 
 # Comparison plots for 2004-2024 showing that the 2017 WA_REC fleet excludes party/charter boats (CPFV)
 
@@ -345,7 +345,7 @@ colnames(ca_obs_lengths) <- gsub("^unsexed\\.", "", colnames(ca_obs_lengths))
 colnames(ca_obs_lengths) <- gsub("^u", "L", colnames(ca_obs_lengths))
 
 # Save
-write.csv(ca_obs_lengths, file.path("../../Data/processed/rec_comps/ca_obs_lengths.csv"))
+write_csv(ca_obs_lengths, file.path("../../Data/processed/rec_comps/ca_obs_lengths.csv"))
 
 # Comparison plots for 2004-2024 
 
@@ -417,13 +417,11 @@ or_obs_lengths_list <- get_raw_comps(
 or_obs_lengths <- as.data.frame(or_obs_lengths_list)
 colnames(or_obs_lengths) <- gsub("^unsexed\\.", "", colnames(or_obs_lengths))
 colnames(or_obs_lengths) <- gsub("^u", "L", colnames(or_obs_lengths))
-# Filter out everything before 2004 to avoid MRFSS data
-or_obs_lengths <- or_obs_lengths[or_obs_lengths$year>=2004,]
 
 # Save
-write.csv(or_obs_lengths, file.path("../../Data/processed/rec_comps/or_obs_lengths.csv"))
+write_csv(or_obs_lengths, file.path("../../Data/processed/rec_comps/or_obs_lengths.csv"))
 
-# Comparison plots for 2004-2024, 2023? 
+# Comparison plots for 2003-2024 
 
   # Read new data
 or_obs_lengths_new <- read.csv("../../Data/processed/rec_comps/or_obs_lengths.csv") |>
@@ -454,7 +452,6 @@ or_obs_lengths_old <- inputs_old$dat$lencomp |>
 
   # Put the long data frames together, filter for all data >= 2004, and bubble plot!
 together_obs <- rbind(or_obs_lengths_old, or_obs_lengths_new)
-together_obs <- together_obs[together_obs$year >= 2004,]
 comparison_plot_or <- together_obs |>
   dplyr::filter(freq > 0) |>
   ggplot2::ggplot(aes(x = year, y = length, col = assessment, size = freq)) +
@@ -467,5 +464,83 @@ ggsave(plot = comparison_plot_or, "or_obs_length_comp_comparisons.png", path = f
 
 # Next step is to combine all 2017 OR_obs data with New 2017-2024 data
 ```
+
+
+#########
+Playing with Nsamps predictions
+
+```{r}
+# Get inputs from 2017 assessment that will get carried over to this assessment
+model_2017_path <- file.path("../../model/2017_yelloweye_model_updated_ss3_exe")
+inputs <- SS_read(dir = model_2017_path, ss_new = TRUE)
+
+# CA_REC comparison and lm line
+ca_rec_len <- inputs$dat$lencomp  |>
+  filter(fleet == 3) |>
+  filter(year >= 2004)
+
+new_ca_rec_len <- read_csv(file.path("../../Data/processed/rec_comps/ca_rec_lengths.csv"))
+new_ca_rec_len <- new_ca_rec_len |>
+  filter(year <= 2016)
+
+compare_input_ca <- as.data.frame(cbind(ca_rec_len$Nsamp,new_ca_rec_len$input_n))
+model_ca <- lm(compare_input_ca$V1 ~ compare_input_ca$V2)
+model_ca
+ggplot(compare_input_ca, aes(V2,V1))+
+  geom_point() +
+  geom_smooth(method = lm, se = TRUE, col = 'red')
+
+# OR_REC comparison and lm line
+or_rec_len <- inputs$dat$lencomp  |>
+  filter(fleet == 6) |>
+  filter(year >= 2004)
+
+new_or_rec_len <- read_csv(file.path("../../Data/processed/rec_comps/or_rec_lengths.csv"))
+new_or_rec_len <- new_or_rec_len |>
+  filter(year <= 2016)
+
+compare_input_or <- as.data.frame(cbind(or_rec_len$Nsamp,new_or_rec_len$input_n))
+model_or <- lm(compare_input_or$V1 ~ compare_input_or$V2)
+model_or
+ggplot(compare_input_or, aes(V2,V1))+
+  geom_point() +
+  geom_smooth(method = lm, se = TRUE, col = 'orange')
+
+# WA_REC comparison and lm line
+wa_rec_len <- inputs$dat$lencomp  |>
+  filter(fleet == 7) |>
+  filter(year >= 1998)
+
+new_wa_rec_len <- read_csv(file.path("../../Data/processed/rec_comps/wa_rec_lengths.csv"))
+new_wa_rec_len <- new_wa_rec_len |>
+  filter(year <= 2016 & year >= 1998)
+
+compare_input_wa <- as.data.frame(cbind(wa_rec_len$Nsamp,new_wa_rec_len$input_n))
+model_wa <- lm(compare_input_wa$V1 ~ compare_input_wa$V2)
+model_wa
+ggplot(compare_input_wa, aes(V2,V1))+
+  geom_point() +
+  geom_smooth(method = lm, se = TRUE, col = 'darkgreen')
+
+# CA_OBS comparision lm line
+ca_obs_len <- inputs$dat$lencomp  |>
+  filter(fleet == 8)|>
+  filter(year >= 2008)
+
+new_ca_obs_len <- read_csv(file.path("../../Data/processed/rec_comps/ca_obs_lengths.csv"))
+new_ca_obs_len <- new_ca_obs_len |>
+  filter(year <= 2016 & year >= 2008)
+
+compare_input_ca_obs <- as.data.frame(cbind(ca_obs_len$Nsamp,new_ca_obs_len$input_n))
+model_ca_obs <- lm(compare_input_ca_obs$V1 ~ compare_input_ca_obs$V2)
+model_ca_obs
+ggplot(compare_input_ca_obs, aes(V2,V1))+
+  geom_point() +
+  geom_smooth(method = lm, se = TRUE, col = 'blue')
+
+
+```
+
+
 
 
