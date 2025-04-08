@@ -1,0 +1,1452 @@
+---
+title: "Exploration commercial length/age comp"
+author: "Juliette Champagnat"
+date: "2025-02-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# rm(list=ls())
+library(tidyverse)
+# remotes::install_github("pfmc-assessments/pacfintools")
+library(pacfintools)
+# remotes::install_github("pfmc-assessments/nwfscSurvey")
+library(nwfscSurvey)
+library(r4ss)
+
+```
+
+
+```{r, data loading}
+# getwd()
+load('../../Data/raw/confidential/PacFIN.YEYE.bds.21.Mar.2025.RData') #biological dataset updated
+load('../../Data/raw/confidential/PacFIN.YEYE.CompFT.21.Mar.2025.RData') #landings
+ss_data <- SS_readdat(file="../../model/2017_yelloweye_model_updated_ss3_exe/yelloweye_data.ss")
+
+#path for storing
+file_path = "../../Data/processed/length_age_comps/"
+
+
+```
+
+
+# Quick overview of dataset
+
+```{r}
+bds.pacfin %>% dim()
+bds.pacfin %>% names()
+bds.pacfin %>% summary()
+
+catch.pacfin %>% dim()
+catch.pacfin %>% names()
+catch.pacfin %>% summary()
+```
+
+# 1- TO SPECIFY
+
+# Bins for biological data
+
+from SAFE 2017 
+
+```{r}
+length_bins <- seq(10,74, by = 2) 
+age_bins <- seq(0, 65, by = 1) 
+```
+
+# 2- CHOICES FOR CLEANING DATABASE
+
+## Gear codes
+
+```{r}
+bds.pacfin %>% names() %>% grepl(pattern='GEAR') %>% which()
+bds.pacfin %>% pull(AGENCY_GEAR_CODE) %>% unique()
+bds.pacfin %>% pull(PACFIN_GEAR_CODE) %>% unique()
+bds.pacfin %>% pull(PACFIN_GEAR_NAME) %>% unique()
+
+# names(catch.pacfin)[catch.pacfin %>% names() %>% grepl(pattern='GEAR') %>% which()]
+# catch.pacfin %>% pull(GEAR_CODE) %>% unique()
+# catch.pacfin %>% pull(GEAR_NAME) %>% unique()
+# catch.pacfin %>% pull(ADJUSTED_GEAR_CODE) %>% unique()
+# catch.pacfin %>% pull(PACFIN_GEAR_CODE) %>% unique()
+# catch.pacfin %>% pull(PACFIN_GEAR_DESCRIPTION) %>% unique()
+# catch.pacfin %>% pull(PACFIN_GROUP_GEAR_CODE) %>% unique()
+```
+
+### adding PACFIN_GROUP_GEAR_CODE to bds.pacfin
+
+```{r}
+bds.pacfin2 <- bds.pacfin %>%
+  left_join(catch.pacfin %>% select(PACFIN_GEAR_CODE,PACFIN_GROUP_GEAR_CODE) %>% distinct(),by='PACFIN_GEAR_CODE') %>% 
+  mutate(PACFIN_GROUP_GEAR_CODE = case_when(
+  PACFIN_GEAR_CODE %in% c('ODG','SCD') ~ 'DRG',
+  PACFIN_GEAR_CODE %in% c('DRL','HDL','HLR','JIG','LGL','OHL','POL','STL','VHL') ~ 'HKL',
+  PACFIN_GEAR_CODE %in% c('DVG','OTH','RVT','USP') ~ 'MSP',
+  PACFIN_GEAR_CODE %in% c('DGN','DPN','GLN','ONT','SEN','SGN','STN','TML') ~ 'NET',
+  PACFIN_GEAR_CODE %in% c('CLP','CPT','FPT','LPT','OPT','PRW','SPT') ~ 'POT',
+  PACFIN_GEAR_CODE %in% c('BTR','HTR','PTR','TRL') ~ 'TLS',
+  PACFIN_GEAR_CODE %in%c('BMT','BTT','CBF','CBJ','DNT','FFT','FTS',  
+     'GFL','GFS','GFT','LFZ','MDT','MPT','OTW','PRT','RLT','SFZ','SRM') ~ 'TWL',
+  PACFIN_GEAR_CODE %in% c('DST','PWT','SHT','SST') ~ 'TWS',
+  TRUE ~ NA))
+
+```
+
+
+### display nb of records by GROUP_GEAR
+
+```{r}
+bds.pacfin2 %>% 
+  group_by(PACFIN_GROUP_GEAR_CODE) %>% 
+  # filter(!is.na(age1)) %>% 
+  summarise(n=length(PACFIN_GROUP_GEAR_CODE))
+```
+
+there is NAs, what are these?
+
+```{r}
+bds.pacfin2 %>% 
+  filter(is.na(PACFIN_GROUP_GEAR_CODE)) %>% 
+  group_by(PACFIN_GROUP_GEAR_CODE,PACFIN_GEAR_CODE,PACFIN_GEAR_NAME) %>% 
+  summarise(n=length(PACFIN_GEAR_NAME))
+
+```
+
+* checking here what are they https://reports.psmfc.org/pacfin/f?p=501:804:2720028309398:INITIAL:::: 
+** HKL: ALL HOOK AND LINE GEAR EXCEPT TROLL -> group HKL
+** TWL: ALL TRAWLS EXCEPT SHRIMP TRAWLS -> group TWL
+
+
+### display nb of records by GEAR
+
+```{r}
+bds.pacfin2 %>% 
+  group_by(PACFIN_GROUP_GEAR_CODE,PACFIN_GEAR_CODE,PACFIN_GEAR_NAME) %>% 
+  summarise(n=length(PACFIN_GEAR_CODE)) %>%  arrange(desc(n))
+
+```
+
+### CHOICE : Gear to keep
+
+-> all of them because we don't have a lot of samples
+
+```{r}
+used_gears <- c("HKL", "TWL",'POT','NET','TLS')
+```
+
+
+## Length type
+
+```{r}
+bds.pacfin %>%
+  group_by(AGENCY_CODE,FISH_LENGTH_TYPE_CODE) %>% 
+  summarise(n=length(FISH_LENGTH_TYPE_CODE))
+
+# check what's the unknown -> they don't have FTID so would be dropped anyway
+bds.pacfin %>% 
+  filter(FISH_LENGTH_TYPE_CODE=='U') %>% pull(FTID)
+
+# check what's the NA -> there's age but no length recorded -> drop
+bds.pacfin %>% 
+  filter(is.na(FISH_LENGTH_TYPE_CODE),!is.na(age1)) %>% 
+  select(SAMPLE_ID,FTID,SAMPLE_YEAR,AGENCY_CODE,age1,FISH_LENGTH)
+
+```
+
+What should we do with NAs and Unknow? -> DROP (see explanation above)
+
+### CHOICE: length type
+
+```{r}
+# Keep all alternate (A), fork (F), and unknown (U) length types based on FISH_LENGTH_TYPE_CODE
+good_lengths <- c("F") 
+
+```
+
+## Sample method
+
+```{r}
+bds.pacfin %>%
+  group_by(AGENCY_CODE,SAMPLE_METHOD_CODE) %>% 
+  summarise(n=length(SAMPLE_METHOD_CODE))
+```
+
+
+### CHOICE: sample methods
+
+```{r}
+# Keep only random (R) samples based on SAMPLE_METHOD_CODE. Only random samples
+# should be retained unless specified by a state agency.
+good_methods <- "R"
+```
+
+## Sample type
+
+```{r}
+bds.pacfin %>%
+  group_by(AGENCY_CODE,SAMPLE_TYPE) %>% 
+  summarise(n=length(SAMPLE_TYPE))
+```
+
+'S' is "special project" samples -> drop said instructors
+
+
+### CHOICE: sample type
+
+```{r}
+# Keep commercial on-board (C), market (M), and blank samples based on SAMPLE_TYPE
+good_samples <- c("", "M", "C")
+```
+
+## State
+
+```{r}
+bds.pacfin %>%
+  group_by(AGENCY_CODE) %>% 
+  summarise(n=length(AGENCY_CODE))
+```
+
+### CHOICE: states
+
+```{r}
+# Keep data from all 3 states.
+good_states <- c("WA", "OR", "CA")
+```
+
+
+
+## Ageing method
+
+```{r}
+bds.pacfin %>%
+  filter(!is.na(age1)) %>%
+  group_by(AGENCY_CODE,AGE_METHOD1) %>% 
+  summarise(n=length(AGE_METHOD1))
+```
+
+
+### CHOICE: ageing method
+
+```{r}
+# Keep only break and burn (B, BB), unknown (U), and blank (") age reads based
+# on AGE_METHOD. This decision should be species-specific.
+good_age_method <- c("B", "1")
+```
+
+
+# 3- CLEANING DATABASE
+
+*reminder of filter choice*
+
+used_gears <- c("HKL", "TWL",'POT','NET','TLS')
+good_age_method = c("B","1")
+good_states = c("WA","OR","CA")
+good_samples = c("","M","C")
+good_lengths = "F"
+good_methods = "R"
+
+
+```{r}
+
+bds_cleaned <- cleanPacFIN(
+  Pdata = bds.pacfin,
+  #add all non trawl gear in our analysis -> make them HKL
+  keep_gears = used_gears,
+  CLEAN = TRUE,
+  keep_age_method = good_age_method,
+  keep_sample_type = good_samples,
+  keep_sample_method = good_methods,
+  keep_length_type = good_lengths,
+  keep_states = good_states,
+  spp = "yelloweye") |>
+  mutate(geargroup = ifelse(geargroup!='TWL','NONTWL',geargroup))|>
+  dplyr::mutate(
+    stratification = paste(state, geargroup, sep = "."),
+    # making another stratification corresponding to model area
+    stratification_byarea = ifelse(state=="CA",paste(state, geargroup, sep = "."), 
+                                   paste("ORWA", geargroup, sep = ".")),
+    # the model is not sexed so it is easier to put everything as unsexed for later calculations
+    SEX='U') 
+
+## make the same but keeping al the records so I can see what was removed
+bds_cleaned_full <- cleanPacFIN(
+  Pdata = bds.pacfin,
+  keep_gears = used_gears,
+  CLEAN = FALSE,
+  keep_age_method = good_age_method,
+  keep_sample_type = good_samples,
+  keep_sample_method = good_methods,
+  keep_length_type = good_lengths,
+  keep_states = good_states,
+  spp = "yelloweye") |>
+  mutate(geargroup = ifelse(geargroup!='TWL','NONTWL',geargroup))|>
+  dplyr::mutate(
+    stratification = paste(state, geargroup, sep = "."),
+    # making another stratification corresponding to model area
+    stratification_byarea = ifelse(state=="CA",paste(state, geargroup, sep = "."), 
+                                   paste("ORWA", geargroup, sep = ".")),
+    # the model is not sexed so it is easier to put everything as unsexed for later calculations
+    SEX='U') 
+
+
+```
+
+
+# 4- CLEAN DATABASE EXPLORATION
+
+```{r}
+nrow(bds.pacfin);nrow(bds_cleaned)
+ncol(bds.pacfin);ncol(bds_cleaned)
+names(bds_cleaned)
+```
+
+## gear
+
+```{r}
+bds_cleaned %>% 
+  group_by(geargroup) %>% 
+  summarise(n=length(geargroup))
+
+bds_cleaned %>% 
+  # filter(is.na(PACFIN_GROUP_GEAR_CODE)) %>%
+  group_by(geargroup,PACFIN_GEAR_NAME) %>% 
+    summarise(n=length(PACFIN_GEAR_NAME))
+
+#plot gear along time
+bds_cleaned %>%
+    filter(geargroup=='TWL') %>% 
+    group_by(year,stratification_byarea,geargroup,PACFIN_GEAR_NAME) %>% 
+    summarise(n=length(SAMPLE_NO)) %>% 
+    ggplot()+geom_bar(aes(year,n,fill=PACFIN_GEAR_NAME),position='stack',stat='identity')+facet_wrap(~stratification_byarea,nrow=2)
+
+bds_cleaned %>%
+    filter(!geargroup=='TWL') %>% 
+    group_by(year,stratification_byarea,geargroup,PACFIN_GEAR_NAME) %>% 
+    summarise(n=length(SAMPLE_NO)) %>% 
+    ggplot()+geom_bar(aes(year,n,fill=PACFIN_GEAR_NAME),position='stack',stat='identity')+facet_wrap(~stratification_byarea,nrow=2)
+
+
+bds_cleaned %>%
+    group_by(year,stratification_byarea,PACFIN_GEAR_NAME) %>% 
+    filter(PACFIN_GEAR_NAME%in%c('TRAWLS')) %>% 
+    summarise(n=length(SAMPLE_NO))
+
+
+```
+
+## Nb of length/ages by strate (region x fleet)
+
+```{r}
+# bds_cleaned %>% 
+#   group_by(stratification) %>% 
+#     summarise(n=length(stratification))
+ 
+bds_cleaned %>%
+  group_by(stratification) %>%
+    summarise(n_length=sum(!is.na(length)),n_age=sum(!is.na(Age)))
+
+# bds_cleaned %>% 
+#   filter(!is.na(FISH_LENGTH)) %>% 
+#   group_by(stratification) %>% 
+#     summarise(n=length(stratification))
+
+# bds_cleaned %>% 
+#   filter(!is.na(Age)) %>% 
+#   group_by(stratification) %>% 
+#     summarise(n=length(stratification))
+
+#plot n_fish
+bds_cleaned %>%
+  group_by(stratification,year) %>%
+    summarise(n_length=sum(!is.na(length)),n_age=sum(!is.na(Age))) %>% 
+  ggplot(aes(year, stratification))+geom_text(aes(label=n_length))
+
+
+```
+
+## Trip
+
+```{r}
+
+bds_cleaned %>% pull(FTID) %>% unique() %>% length()
+
+bds_cleaned %>% pull(FTID) %>% is.na() %>% sum()
+
+bds_cleaned %>% pull(SAMPLE_NO) %>% unique() %>% length()
+nrow(bds_cleaned)
+
+bds_cleaned %>% 
+  group_by(stratification_byarea) %>% 
+  summarize(FTID_NA=sum(is.na(FTID)),FTID_nNA=sum(!is.na(FTID)),
+            FTID_tot=length(FTID)) %>% 
+  mutate(verif=FTID_NA+FTID_nNA)
+
+
+bds_cleaned %>%
+  group_by(year,stratification_byarea) %>%
+  filter(!is.na(FTID)) %>% 
+  filter(!is.na(length)) %>% 
+  summarise(n_trips=length(unique(FTID)),n_fish=length(length)) 
+
+
+# df n_fish + n_trip long format
+bds_cleaned %>%
+  group_by(stratification_byarea,year) %>%
+  filter(!is.na(length)) %>% 
+  summarise(n_fish=length(length),
+            n_trips=length(unique(SAMPLE_NO)),
+            n_trips2=length(unique(FTID)),
+            n_trips3=length((FTID))) %>% 
+  mutate(diff=n_trips-n_trips2)
+
+
+# check 2 ways of counting trips -> they match
+bds_cleaned %>% 
+  group_by(stratification_byarea,year) %>%
+  filter(!is.na(FTID)) %>%
+  filter(!is.na(length)) %>% 
+  # first way of computing trips
+  distinct(FTID) %>% 
+  summarize(n_trips=length(FTID)) %>%
+  ## merge with a second one to compare
+  full_join(bds_cleaned %>% 
+  group_by(stratification_byarea,year) %>%
+  filter(!is.na(FTID)) %>%
+  filter(!is.na(length)) %>% 
+  summarize(n_trips2=length(unique(FTID))),
+  by=c('stratification_byarea','year')) %>% 
+  mutate(isequal=n_trips==n_trips2) %>% summary()
+  # filter(!isequal)
+
+bds_cleaned %>% 
+filter(is.na(FTID),!is.na(Age)) %>% nrow()
+
+```
+
+certain nb of NA in FTID -> filter them out?
+
+
+##### check split OR/WA length
+
+```{r}
+
+# df n_fish + n_trip 
+length_sample_effort_ORWAsplit <- bds_cleaned %>%
+  group_by(year,stratification) %>%
+  filter(!is.na(FTID)) %>% 
+  filter(!is.na(length)) %>% 
+  summarise(n_trips=length(unique(FTID)),n_fish=length(length)) 
+
+
+# df n_fish + n_trip large format
+length_sample_effort_ORWAsplit_wide <- length_sample_effort_ORWAsplit %>% 
+  filter(!stratification %in% c('CA.TWL','CA.HKL')) %>% 
+  pivot_wider(id_cols = year,names_from = c(stratification),
+              values_from = c(n_fish),
+              names_glue="{stratification}_{.value}") %>% 
+  relocate(year,OR.TWL_n_fish,WA.TWL_n_fish,
+           OR.HKL_n_fish,WA.HKL_n_fish)
+
+  write.csv(length_sample_effort_ORWAsplit_wide,row.names = FALSE,
+            file =paste0(file_path,"Commercial_length_sampling_effort_ORWAsplit.csv"))
+
+```
+
+
+
+##### check split OR/WA age
+
+```{r}
+
+# df n_fish + n_trip 
+age_sample_effort_ORWAsplit <- bds_cleaned %>%
+  group_by(year,stratification) %>%
+  filter(!is.na(FTID)) %>% 
+  filter(!is.na(Age)) %>% 
+  summarise(n_trips=length(unique(FTID)),n_fish=length(Age)) 
+
+
+# df n_fish + n_trip large format
+age_sample_effort_ORWAsplit_wide <- age_sample_effort_ORWAsplit %>% 
+  filter(!stratification %in% c('CA.TWL','CA.HKL')) %>% 
+  pivot_wider(id_cols = year,names_from = c(stratification),
+              values_from = c(n_fish),
+              names_glue="{stratification}_{.value}") %>% 
+  relocate(year,OR.TWL_n_fish,WA.TWL_n_fish,
+           OR.HKL_n_fish,WA.HKL_n_fish)
+
+  write.csv(age_sample_effort_ORWAsplit_wide,row.names = FALSE,
+            file =paste0(file_path,"Commercial_age_sampling_effort_ORWAsplit.csv"))
+
+```
+
+
+## Plots
+
+### PacFin plots - general
+
+```{r}
+
+plotCleaned(bds_cleaned,savedir = getwd())
+
+```
+
+### PacFIN plot - length/age
+
+```{r}
+plotStrat(data=bds_cleaned,dir = getwd())
+?plotStrat()
+```
+
+function is not working
+
+### length distribution
+
+```{r}
+
+bds_cleaned %>%
+  group_by(stratification_byarea,year) %>%
+  filter(!is.na(length)) %>% 
+  ggplot(aes(year,length))
+
+```
+
+# 5- Add CA age sampling
+
+from Yeye_otos_CA_Traci_provided to IanStewart.xls provide by Julia Coates
+
+## Load data
+
+```{r}
+
+CA_age_samples <- read.csv('../../Data/raw/confidential/Yeye_otos_CA_Traci.csv',blank.lines.skip=TRUE,skipNul = TRUE)
+
+dim(CA_age_samples)
+
+
+CA_age_samples %>% 
+  group_by(year) %>% 
+  summarize(n=length(First.age))
+
+CA_age_samples %>% 
+  filter(year==1988)
+
+CA_age_samples%>% 
+  group_by(year,Sample.date,Port.of.Landing) %>% 
+  summarize(n=length(First.age))#wabds=length(unique("wa.bds..")),
+
+CA_age_samples%>% 
+  filter(!is.na(First.age),
+         year != 1996, #no sampling missing for that year
+         Survey.type != 'Recreational') %>%
+  group_by(year) %>% 
+  summarize(fish=length(First.age),trips=length(unique(Sample.date)))
+
+```
+
+
+looking for what can be a base to compute a trip number
+-> wa.bds..# does not match 2017 numbers
+-> sample.date matches !
+
+
+## Clean database
+
+```{r}
+names(CA_age_samples_cleaned)
+
+CA_age_samples_cleaned <- CA_age_samples %>% 
+  filter(!is.na(First.age), 
+         year != 1996, #no sampling missing for that year
+         Survey.type != 'Recreational') %>% #,
+        # !Gear.type %in%c('TWL')) %>% #,'Gill net'
+         # Gear.type%in%c('HKL')) %>%#,"TWL"
+  dplyr::rename('Age'='First.age',
+                "GEAR"='Gear.type',
+               'length'= "Total.Length..mm." ,  
+               'lengthcm'="len.cm",
+               'FTID'=Sample.date) %>%
+  mutate(state='CA',
+       stratification_byarea='CA.NONTWL',
+       #paste0('CA.',GEAR),
+       stratification='CA.NONTWL')%>% 
+  select(year,state,GEAR,lengthcm,length,Age,
+         stratification,stratification_byarea,FTID) %>% 
+  mutate(SEX='U')
+# 
+# 
+# CA_age_samples_cleaned <- CA_age_samples_cleaned %>% 
+#   mutate(fleet='NONTWL',
+#          geargroup='NONTWL',
+#          fishery=1,
+#          fishyr=year
+#          
+#          )
+
+dim(CA_age_samples_cleaned)
+```
+
+## Compute some metrics about the database
+
+```{r}
+CA_age_samples_cleaned %>% 
+  group_by(year,stratification_byarea) %>% 
+  summarize(n=length(Age))
+
+```
+
+## Add to PACFIN database
+
+```{r}
+# names(bds_cleaned)
+# dim(bds_cleaned)
+
+bds_cleaned_addCAage <- bind_rows(bds_cleaned,CA_age_samples_cleaned)
+```
+
+
+# 6- COMPUTE SAMPLING EFFORT
+
+Need a number of trips and fish samples per year per stratification
+
+a row = a fish
+SAMPLE_NO = sample number (sometime a tow sometime not)
+FTID = a fish ticket = proxy of a trip
+
+```{r}
+fleets_names <- data_frame(
+  fleet_name=c( "CA.TWL","CA.NONTWL","ORWA.TWL","ORWA.NONTWL"),
+  fleet_nb=c(1,2,4,5))
+```
+
+## 6.1- Length sampling effort
+
+
+### Number of trip and sample
+
+#### Computation
+
+```{r}
+
+# df n_fish + n_trip 
+length_sample_effort <- bds_cleaned %>%
+  group_by(year,stratification_byarea) %>%
+  filter(!is.na(FTID)) %>% 
+  filter(!is.na(length)) %>% 
+  summarise(n_trips=length(unique(FTID)),n_fish=length(length)) 
+
+
+# df n_fish + n_trip large format
+length_sample_effort_wide <- length_sample_effort %>% 
+  pivot_wider(id_cols = year,names_from = c(stratification_byarea),
+              values_from = c(n_trips,n_fish),
+              names_glue="{stratification_byarea}_{.value}") %>% 
+  relocate(year,CA.TWL_n_trips,CA.TWL_n_fish,
+           CA.NONTWL_n_trips,CA.NONTWL_n_fish,
+           ORWA.TWL_n_trips,ORWA.TWL_n_fish,
+           ORWA.NONTWL_n_trips,ORWA.NONTWL_n_fish) #%>% 
+
+  write.csv(length_sample_effort_wide,row.names = FALSE,
+            file =paste0(file_path,"Commercial_length_sampling_effort.csv"))
+
+
+```
+
+```{r}
+#plot these numbers
+minmaxy_l <- c(min(length_sample_effort$year),max(length_sample_effort$year))
+
+length_sample_effort_plt <- length_sample_effort_wide %>% 
+  pivot_longer(cols=-year) %>% 
+  ggplot(aes(x="",y=-year))+geom_tile(aes(fill=value))+
+  geom_text(aes(label=value))+facet_wrap(~name,nrow=1)+
+  scale_fill_gradient2()+
+  scale_y_continuous(breaks=-seq(minmaxy_l[1],minmaxy_l[2],1))+
+  labs(x='stratification_byarea*(numbers of trips OR fish)',y='year',
+       title="Updated length sampling effort")+
+  theme(legend.position='bottom') 
+
+length_sample_effort_plt
+ggsave(length_sample_effort_plt,filename=
+         paste0(file_path,"Commercial_length_sampling_effort.png"),
+       width=12,height = 8)
+```
+
+#### Compare w 2017 SAFE
+
+```{r}
+
+# compare with 2017 SAFE
+length_sample_effort_2017 <- read.csv(file=paste0(file_path,"2017SAFE_Table21-22_commercial_length_sampling_effort.csv"))%>% 
+  pivot_longer(cols = -year,values_to = 'prev_value') %>% 
+  separate(name,sep="_",
+           into=c("stratification_byarea","B",'C')) %>% 
+  mutate(var=paste0(B,'_',C),
+         # pre_value=case_when(is.na(prev_value)~0,.default=pre_value)
+         ) %>% 
+  select(year,stratification_byarea,var,prev_value)
+  
+comp_length_sample_effort <- length_sample_effort %>%
+  #convert to long format
+  pivot_longer(cols=c(n_trips,n_fish),
+               values_to = 'new_value',names_to = 'var') %>% 
+  filter(year<2017) %>% #filter most recent year
+  full_join(length_sample_effort_2017,
+            by=c('stratification_byarea','year','var')) %>% 
+  arrange(year) %>% 
+  mutate(prev_value=replace_na(prev_value,0),
+            new_value=replace_na(new_value,0)) %>%
+  # filter(stratification_byarea=='CA.HKL')
+  mutate(diff=new_value-prev_value) %>% #summary()
+  pivot_wider(id_cols = year,
+              names_from = c(stratification_byarea,var),
+              values_from = c(diff)) #%>% #View() 
+  
+  
+# write.csv(comp_length_sample_effort,row.names = FALSE,
+#             file =paste0(file_path,"Commercial_length_sampling_effort_DIFF.csv"))
+  
+```
+
+
+
+```{r}
+minmaxy_lcomp <- c(min(comp_length_sample_effort$year),max(comp_length_sample_effort$year))
+
+# plot diff with scaled color
+comp_length_sample_effort_plt <- comp_length_sample_effort %>%
+  pivot_longer(cols=-year,values_to = 'diff') %>%
+  ggplot(aes(x="",y=-year))+geom_tile(aes(fill=diff))+
+  geom_text(aes(label=diff))+facet_wrap(~name,nrow=1)+
+  geom_hline(yintercept=-2006.5)+
+  scale_fill_gradient2()+
+  scale_y_continuous(breaks=-seq(minmaxy_lcomp[1],minmaxy_lcomp[2],1))+
+  labs(x='stratification_byarea*(numbers of trips OR fish)',y='year',
+       title="Length sampling effort comparison with 2017 (diff=new value - previous value) - line represent 'recent' period that we focus on ")+
+  theme(legend.position='bottom') 
+
+comp_length_sample_effort_plt
+  
+ggsave(comp_length_sample_effort_plt,path=file_path,
+       filename="Commercial_length_sampling_effort_DIFF.png",
+       height=7,width=12)
+```
+
+## 6.2- Age sampling effort
+
+### trips and samples 
+
+#### Computation
+
+```{r}
+
+# df n_fish + n_trip large format
+age_sample_effort <- bds_cleaned_addCAage %>%
+  group_by(year,stratification_byarea) %>%
+  filter(!is.na(FTID)) %>% #remove NA fish tickets
+  filter(!is.na(Age)) %>%  #remove rows with no age samples
+  summarise(n_trips=length(unique(FTID)),n_fish=length(Age)) #compute 
+
+# df n_fish + n_trip large format
+age_sample_effort_wide <- age_sample_effort %>% 
+  pivot_wider(id_cols = year,
+              names_from = c(stratification_byarea),
+              values_from = c(n_trips,n_fish),
+              names_glue="{stratification_byarea}_{.value}") %>% 
+  relocate(year,#CA.TWL_n_trips,CA.TWL_n_fish,
+                CA.NONTWL_n_trips,CA.NONTWL_n_fish,
+                ORWA.TWL_n_trips,ORWA.TWL_n_fish,
+                ORWA.NONTWL_n_trips,ORWA.NONTWL_n_fish) #%>% View()
+  
+  
+write.csv(age_sample_effort_wide,row.names = FALSE,
+            file = paste0(file_path,"Commercial_age_sampling_effort.csv"))
+
+```
+
+
+```{r}
+minmaxy_age <- c(min(age_sample_effort$year),max(age_sample_effort$year))
+
+#plot these numbers
+age_sample_effort_plt <- age_sample_effort %>% 
+  pivot_longer(cols=c(n_trips,n_fish),
+               values_to = 'value',names_to = 'var') %>% 
+  mutate(name=paste0(stratification_byarea,'_',var)) %>% 
+  ggplot(aes(x="",y=-year))+geom_tile(aes(fill=value))+
+  geom_text(aes(label=value))+facet_wrap(~name,nrow=1)+
+  scale_fill_gradient2()+
+  scale_y_continuous(breaks=-seq(minmaxy_age[1],minmaxy_age[2],1))+
+  labs(x='stratification_byarea*(numbers of trips OR fish)',y='year',
+       title="Updated age sampling effort")+
+  theme(legend.position='bottom') 
+
+age_sample_effort_plt
+
+ggsave(age_sample_effort_plt,filename=
+         paste0(file_path,"Commercial_age_sampling_effort.png"),
+       width=8,height = 5)
+```
+
+#### Compare with 2017 SAFE
+
+```{r}
+
+#loading table
+age_sample_effort_2017 <- read.csv(file=paste0(file_path,"/2017SAFE_Table23-24_commercial_age_sampling_effort.csv")) %>% 
+  pivot_longer(cols = -year,values_to = 'prev_value') %>% 
+  separate(name,sep="_",
+           into=c("stratification_byarea","B",'C')) %>% 
+  mutate(var=paste0(B,'_',C),
+         # prev_value=case_when(is.na(pre_value)~0,.default=pre_value)
+         ) %>% 
+  select(year,stratification_byarea,var,prev_value)
+
+## make a df with differences  
+comp_age_sample_effort <- age_sample_effort %>% 
+  #convert to long format
+  pivot_longer(cols=c(n_trips,n_fish),
+               values_to = 'new_value',names_to = 'var') %>% 
+  filter(year<2017) %>% #comparison on past years only
+  # merge with 2017 data
+  full_join(age_sample_effort_2017,
+            by=c('stratification_byarea','year','var')) %>% 
+  arrange(year) %>% 
+  mutate(prev_value=replace_na(prev_value,0),
+            new_value=replace_na(new_value,0)) %>% 
+  mutate(diff=new_value-prev_value) %>% #summary()
+  pivot_wider(id_cols = year,
+              names_from = c(stratification_byarea,var),
+              values_from = c(diff)) #%>% #View()
+  
+ comp_age_sample_effort 
+ # write.csv(comp_age_sample_effort,row.names = FALSE,file =
+ #  paste0(file_path,"Commercial_age_sampling_effort_DIFF.csv")
+
+
+
+```
+
+
+
+```{r}
+minmaxy_agecomp <- c(min(comp_age_sample_effort$year),max(comp_age_sample_effort$year))
+
+# plot diff with scaled color
+comp_age_sample_effort_plt <- comp_age_sample_effort %>% 
+  pivot_longer(cols=-year,values_to = 'diff') %>% 
+  ggplot(aes(x="",y=-year))+geom_tile(aes(fill=diff))+
+  geom_text(aes(label=diff))+facet_wrap(~name,nrow=1)+
+  scale_fill_gradient2()+
+  scale_y_continuous(breaks=-seq(minmaxy_agecomp[1],minmaxy_agecomp[2],1))+
+  geom_hline(yintercept=-2006.5)+
+  labs(x='stratification_byarea*(numbers of trips OR fish)',y='year',
+       title="Age sampling effort comparison with 2017 (diff=new value - previous value) - line represent 'recent' period that we focus on ")+
+  theme(legend.position='bottom') 
+
+comp_age_sample_effort_plt
+  
+ggsave(comp_age_sample_effort_plt,path=file_path,
+       filename="Commercial_age_sampling_effort_DIFF.png",
+       height=6,width=12)
+```
+
+<!-- #### investigate augmented age samples from OR-WA.HKL -->
+
+<!-- ```{r} -->
+<!-- # df n_fish + n_trip large format -->
+<!-- bds_cleaned %>% -->
+<!--   group_by(year,stratification) %>% -->
+<!--   filter(!is.na(Age),state!='CA',geargroup=='HKL') %>%  -->
+<!--   summarise(n_trips=length(unique(SAMPLE_NO)),n_fish=length(Age)) %>%  -->
+<!--   pivot_wider(id_cols = year,names_from = c(stratification),values_from = c(n_trips,n_fish),names_glue="{stratification}_{.value}") %>%  -->
+<!--   filter(year %in% c(2001,2003:2007,2014)) %>%  #filter years where I have discrepencies -->
+<!--   relocate(year,OR.HKL_n_trips,OR.HKL_n_fish, -->
+<!--           WA.HKL_n_trips,WA.HKL_n_fish)  -->
+
+
+<!-- ``` -->
+
+
+# 7- Prepare WCGOP
+
+## Load data
+
+```{r}
+#length
+wcgop_length_comps <- read.csv(file = '../../Data/raw/nonconfidential/wcgop/biological_discard_lengths_raw.csv') %>% 
+  
+  mutate(partition=0,fleet=case_when(fleet=='trawl-WA-OR'~4,#'ORWA.TWL',
+                         fleet=="fixed-CA"~2,#'CA.NONTWL',
+                         fleet=='fixed-OR-WA'~5,#'ORWA.NONTWL',
+                         fleet=='trawl-CA'~1)) %>% #'CA.TWL')) %>% 
+                         dplyr::rename('fleet_nb'=fleet)
+
+#sample size
+wcgop_sample_size <- read.csv(file = '../../Data/raw/nonconfidential/wcgop/wcgop_biological_sample_sizes.csv') %>% 
+  mutate(fleet=case_when(fleet=='trawl-WA-OR'~'ORWA.TWL',
+                         fleet=="fixed-CA"~'CA.NONTWL',
+                         fleet=='fixed-WA-OR'~'ORWA.NONTWL',
+                         fleet=='trawl-CA'~'CA.TWL'))
+
+#age
+wcgop_caal <- read.csv(file = '../../Data/raw/nonconfidential/wcgop/biological_discard_caal.csv') %>% 
+  
+  mutate(partition=0,ageerr=1,
+         fleet=case_when(fleet=='trawl-OR-WA'~4,#'ORWA.TWL',
+                         fleet=="fixed-CA"~2,#'CA.NONTWL',
+                         fleet=='fixed-OR-WA'~5,#'ORWA.NONTWL',
+                         fleet=='trawl-CA'~1)) %>% #'CA.TWL'))
+                         dplyr::rename('fleet_nb'=fleet)
+```
+
+
+## Length
+
+### Sampling effort 
+
+```{r}
+
+WCGOP_length_sample_effort <- wcgop_sample_size %>% 
+  select(-n_age_samples) %>% 
+  dplyr::rename('n_fish'=n_length_samples)
+  
+  
+  
+WCGOP_length_sample_effort_wide <- WCGOP_length_sample_effort %>% 
+  pivot_wider(id_cols = year,names_from = c(fleet),
+              values_from = c(n_trips,n_fish),
+              names_glue="{fleet}_{.value}",values_fn=sum) %>% 
+  relocate(year,CA.TWL_n_trips,CA.TWL_n_fish,
+                CA.NONTWL_n_trips,CA.NONTWL_n_fish,
+                ORWA.TWL_n_trips,ORWA.TWL_n_fish,
+                ORWA.NONTWL_n_trips,ORWA.NONTWL_n_fish)
+
+WCGOP_length_sample_effort_wide %>% View()
+
+write.csv(WCGOP_length_sample_effort_wide,row.names = FALSE,
+            file =paste0(file_path,"WCGOP_length_sampling_effort.csv"))
+```
+
+Check if sample size match passed assessment 
+--> CA TWL ok - new data 2019-2022
+--> CA NONTWL ok until 2015 - new data 2016 onward
+--> ORWA TWL ok until 2015 - new data 2016 onward
+--> ORWA NONTWL ok until 2015 - new data 2016 onward
+
+### Sampling size 
+
+-> Checking the formula they use -> OK
+
+```{r}
+WCGOP_length_sample_effort %>% 
+              mutate(input_n2= round(ifelse(ratio_lengths <44,
+                                      n_trips +0.138*n_fish ,7.06*n_trips ))) %>% #,
+                     # fleet=paste(gear_groups,fleet_groups,sep='-')) %>% 
+  mutate(input_nCHECK=input_n2==input_n2) %>% summary()
+
+```
+
+### Checking comps
+
+```{r}
+View(wcgop_length_comps)
+names(wcgop_length_comps)
+```
+
+
+## Age
+
+### Sampling effort 
+
+```{r}
+
+WCGOP_age_sample_effort <- wcgop_sample_size %>% 
+  select(-c(n_length_samples,ratio_lengths,length_input_n)) %>%
+  # if there is no fish aged, n_trips is set to 0 that year*fleet
+  mutate(n_trips=ifelse(n_age_samples==0,0,n_trips)) %>% 
+  dplyr::rename('n_fish'=n_age_samples) 
+
+
+WCGOP_age_sample_effort_wide <- WCGOP_age_sample_effort %>% 
+  pivot_wider(id_cols = year,names_from = c(fleet),
+              values_from = c(n_trips,n_fish),
+              names_glue="{fleet}_{.value}",values_fn=sum) %>% 
+  relocate(year,CA.TWL_n_trips,CA.TWL_n_fish,
+                CA.NONTWL_n_trips,CA.NONTWL_n_fish,
+                ORWA.TWL_n_trips,ORWA.TWL_n_fish,
+                ORWA.NONTWL_n_trips,ORWA.NONTWL_n_fish)
+
+WCGOP_age_sample_effort_wide %>% View()
+
+write.csv(WCGOP_age_sample_effort_wide,row.names = FALSE,
+            file =paste0(file_path,"WCGOP_age_sampling_effort.csv"))
+```
+
+Check if sample size match passed assessment 
+--> CA TWL n_fish ok, n_trips not
+--> CA NONTWL n_fish ok, n_trips not
+--> ORWA TWL n_fish ok, n_trips not
+--> ORWA NONTWL n_fish ok, n_trips not
+
+### Checking caal
+
+```{r}
+View(wcgop_age_comps)
+```
+
+
+# 8- Sample size (PacFIN+WCGOP)
+
+## Length
+
+### Computation
+
+Formula from 2017 SAFE p41
+
+```{r}
+length_sample_size <- 
+  # take WCGOP + clean and format
+  WCGOP_length_sample_effort %>% select(-c(ratio_lengths,length_input_n)) %>% 
+  dplyr::rename('stratification_byarea'=fleet) %>% 
+
+  # add PacFIN
+  bind_rows(length_sample_effort) %>% 
+
+  #summarise
+  group_by(year, stratification_byarea) %>% 
+  summarize(n_trips=sum(n_trips,na.rm=TRUE),
+            n_fish=sum(n_fish,na.rm=TRUE)) %>% 
+  
+  #compute
+  mutate(n_input = ifelse(n_fish/n_trips<44,n_trips+0.138*n_fish,7.06*n_trips)) %>% 
+  # add lines for every year
+  right_join(expand.grid(year=seq(minmaxy_l[1],minmaxy_l[2]),stratification_byarea=fleets_names$fleet_name),
+             by=c('year','stratification_byarea')) %>% 
+  arrange(year)
+length_sample_size
+```
+
+### Compare w 2017
+
+```{r}
+# ss_data$fleetinfo
+# ss_data$lencomp %>% summary()
+
+comp_length_sample_size <- length_sample_size %>% 
+  mutate(fleet=case_when(
+    stratification_byarea == 'CA.TWL'~ 1,
+     stratification_byarea == 'CA.NONTWL'~ 2,
+     stratification_byarea == 'ORWA.TWL'~ 4,
+      stratification_byarea == 'ORWA.NONTWL'~ 5)) %>%
+  select(-c(n_fish,n_trips)) %>% 
+  full_join(ss_data$lencomp %>% filter(fleet %in% c(1,2,4,5)) %>%
+              select(year,fleet,Nsamp),by=c('year','fleet')) %>%
+  dplyr::rename(update=n_input,SAFE2017 = Nsamp) %>% 
+  pivot_longer(cols=c(update,SAFE2017)) %>% 
+  filter(year<2016) %>% 
+  ggplot()+
+  # geom_point(aes(year,value,col=name),shape=4)+ #,position = position_dodge()
+  geom_bar(aes(year,value,fill=name),stat='identity',position = position_dodge())+
+  facet_wrap(~stratification_byarea)+
+  geom_vline(xintercept=2006.5)+theme(legend.position='bottom')+
+  labs(y='Length sample size',subtitle = 'PacFIN+WCGOP')
+
+comp_length_sample_size
+
+ggsave(comp_length_sample_size,path=file_path,
+       filename="Commercial_length_sampling_size_COMP.png",
+       height=7,width=12)
+
+```
+
+## Age
+
+Not computed here - see in CAAL
+
+# 9- EXPANSION
+
+No expansion is done for this species because of too low samples numbers
+
+p41 of 2017 SAFE
+
+"Due to very sparse sampling (mainly opportunistic, since yelloweye have been landed in very small proportions of mixed species market categories or recreational bag limits) length frequencies are raw, calculated as the count of fish among size bins. This has been the case in previous assessments, and preliminary investigation of alternate weighting procedures revealed little sensitivity to this choice."
+
+
+# 10- COMPUTING COMPS
+
+Instructors advise to use getrawComp from nwfscSurvey
+-> could also use PacFINtools::getComps() to double check -> not done so far
+
+
+## 10.1- LENGTH COMPS
+
+### Compute PacFIN comps with get_raw_comps
+
+```{r}
+
+raw_length_comps <-NULL
+
+# looping over every fleet
+for (f in 1:nrow(fleets_names)){
+  tmp_dat <- bds_cleaned %>% filter(!is.na(lengthcm),stratification_byarea==as.character(fleets_names[f,1])) %>% 
+     mutate(common_name='yelloweye rockfish',total_samples=1,project='A')
+  
+  tmp_length_comps_out <- get_raw_comps(data=tmp_dat,
+    comp_bins = length_bins,
+    comp_column_name = "lengthcm",
+    dir = NULL,#getwd(),
+    printfolder = "",
+    input_n_method='total_samples', 
+    fleet = fleets_names[f,2],
+    month=7, #common 
+    two_sex_comps = FALSE) #single sex model
+  
+  tmp_length_comps <- tmp_length_comps_out$unsexed 
+
+  #combine to make a df w all fleets
+  raw_length_comps <- raw_length_comps %>% bind_rows(tmp_length_comps)
+}
+
+# raw_length_comps %>% summary()
+
+```
+
+### Add WCGOP data
+
+```{r}
+
+# raw_length_comps %>% names() == wcgop_length_comps %>% names()
+# head(raw_length_comps);head(wcgop_length_comps)
+# fleets_names
+
+raw_length_comps_comb <- raw_length_comps  %>%  
+  bind_rows(wcgop_length_comps %>% 
+              # removing WCGOP data not used in 2017 -> CA.TWL in 2005/2008-2010
+              filter(!(fleet_nb==1&year<2011)) %>% 
+              # removing WCGOP data not used in 2017 -> ORWA.TWL in 2007 -> only 1 fish
+              filter(!(fleet_nb==4&year==2007))) %>% 
+  group_by(year,month,fleet_nb,sex,partition) %>% 
+  summarise_at(.vars=vars(input_n:u74),.funs=sum)
+
+raw_length_comps_comb
+
+```
+
+### Add right sample size
+
+```{r}
+# raw_length_comps_comb$input_n
+# length_sample_size$n_input
+
+raw_length_comps_comb <- raw_length_comps_comb %>% 
+  left_join(length_sample_size %>% full_join(fleets_names,
+                 by=join_by('stratification_byarea'=='fleet_name')) %>% 
+                   select(fleet_nb,n_input),
+            by=c('year','fleet_nb')) %>% 
+  mutate(input_n=n_input) %>% select(-n_input)
+  # summary()
+  # filter(is.na(n_input))
+
+
+# length_sample_size %>% filter(stratification_byarea=='CA.TWL',year<1980)
+```
+
+pb with 1978 and 1989 for CA.TWL -> no value (I think FTID is NA so no included in effort computation) -> will not used this part of data so not a pb
+
+### Save file 
+
+```{r}
+write.csv(raw_length_comps_comb,row.names = FALSE,
+          file=paste(file_path,"Commercial_length_comps_PacFIN_WCGOP_forSS.csv"))
+```
+
+
+### Compare w 2017
+
+```{r}
+# ss_data$lencomp %>% summary()
+
+raw_length_comps_long <- raw_length_comps_comb %>% 
+  pivot_longer(cols=-c(year,month,fleet_nb,sex,partition,input_n),
+                                  names_prefix='u',names_to = 'length',values_transform = as.numeric) %>% 
+  mutate(version='update')#name=paste0('l',name),
+
+
+for (f in 1:nrow(fleets_names)){
+  ## COMP
+  tmp_plt <- raw_length_comps_long %>% 
+      bind_rows(ss_data$lencomp %>% filter(fleet %in% c(1,2,4,5)) %>% 
+                  pivot_longer(cols=-c(year,month,fleet,sex,part,Nsamp),names_prefix='l',
+                               names_to = 'length',values_transform = as.numeric) %>%
+                  dplyr::rename('input_n'=Nsamp,'fleet_nb'=fleet,'partition'=part) %>% 
+                  mutate(version='2017')) %>% 
+      left_join(fleets_names,by=join_by('fleet_nb'=='fleet_nb')) %>% 
+    mutate(length=as.numeric(length)) %>% 
+    filter(fleet_nb==fleets_names$fleet_nb[f]) %>% 
+    ggplot(aes(x = year, y = length, col = version, size = value)) +
+                     ggplot2::geom_point(position=position_dodge(0.5))+
+    geom_vline(xintercept=2006.5)+
+    facet_wrap(~fleet_name) 
+
+  ggsave(tmp_plt,filename=paste0("Commercial_",fleets_names[f,1],'_length_compsCOMP.png'),
+         width=10)
+  
+}
+
+# tmp_plt
+```
+
+## 10.2- CONDITIONAL AGE AT LENGTH
+
+
+### Compute w get_raw_caal
+
+```{r}
+raw_age_caal <-NULL
+
+# looping over every fleet
+for (f in 1:nrow(fleets_names)){
+  tmp_dat <- bds_cleaned_addCAage %>% filter(!is.na(Age),stratification_byarea==as.character(fleets_names[f,1])) %>% 
+     mutate(common_name='yelloweye rockfish')
+  
+  if(nrow(tmp_dat)!=0){ #we have some fleet with no age
+    
+    tmp_age_caal <- get_raw_caal(data=tmp_dat,
+      len_bins = length_bins,
+      age_bins = age_bins,
+      length_column_name  = "lengthcm",
+      age_column_name = "Age",
+      dir = NULL,#getwd(),
+      printfolder = "",
+      fleet = fleets_names[f,2],
+      ageerr  = 1, ##WDFW code
+      month=7)
+    
+    #combine to make a df w all fleets
+    raw_age_caal <- raw_age_caal %>% bind_rows(tmp_age_caal)
+  }
+}
+
+# raw_age_caal %>% summary()
+# names(raw_age_caal)[1:10]
+```
+
+
+### Add WCGOP data
+
+```{r}
+raw_age_caal_comb <- raw_age_caal  %>%  
+  bind_rows(wcgop_caal) %>% 
+  group_by(year,month,fleet_nb,sex,partition,ageerr,Lbin_lo,Lbin_hi) %>% 
+  summarise_at(.vars=vars(input_n:u65),.funs=sum) %>% 
+  mutate(ageerr=1) #WDFW is aging everything
+
+
+raw_age_caal_comb
+
+
+```
+
+### Add sample size
+
+```{r}
+summary(raw_age_caal_comb[10:75] %>% rowSums() == raw_age_caal_comb$input_n)
+
+#already ok
+
+```
+### Save file
+
+```{r}
+
+write.csv(raw_age_caal_comb,row.names = FALSE,
+          file = paste0(file_path,'/Commercial_caal_PacFIN_WCGOP_forSS.csv'))
+```
+
+
+### Compare w 2017
+
+#### CAAL
+
+```{r}
+# ss_data$agecomp %>% summary()
+# names(ss_data$agecomp)[1:10]
+
+raw_age_caal_long <- raw_age_caal_comb %>% 
+  dplyr::rename('fleet'=fleet_nb,'part'=partition,'Nsamp'=input_n) %>% 
+  pivot_longer(cols=-c(year,month,fleet,sex,part,Nsamp,ageerr,Lbin_lo,Lbin_hi),
+                                  names_prefix='u',names_to = 'age',values_transform = as.numeric) %>% 
+  mutate(version='update')
+
+
+for (f in 1:nrow(fleets_names)){
+tmp_plt <- raw_age_caal_long %>%
+    bind_rows(ss_data$agecomp %>% filter(fleet %in% c(1,2,4,5)) %>%
+                pivot_longer(cols=-c(year,month,fleet,sex,part,
+                                     Nsamp,ageerr,Lbin_lo,Lbin_hi),
+                             names_prefix='a',names_to = 'age',
+                             values_transform = as.numeric) %>%
+                mutate(version='2017')) %>%#,value=value/2
+    left_join(fleets_names,by=join_by('fleet'=='fleet_nb')) %>%
+  mutate(Lbin_lo=as.numeric(Lbin_lo),age=as.numeric(age),value=ifelse(value==0,NA,value)) %>% 
+  filter(fleet==fleets_names$fleet_nb[f],year<2016) %>%
+  ggplot(aes(y = Lbin_lo, x = age, size = value)) + #, col = year
+                   ggplot2::geom_point()+
+  #facet_wrap(version~fleet_name)
+  facet_grid(version~year)+
+  labs(title=fleets_names$fleet_name[f])+
+  theme(legend.position='bottom')
+
+  ggsave(tmp_plt,filename=paste0("Commercial_",fleets_names[f,1],'_caal_compsCOMP.png'),
+         width=12,height = 6)
+
+}
+
+# tmp_plt
+```
+#### sample size
+ 
+#### Compare w 2017 -> TO DO !!
+
+```{r}
+
+# ss_data$fleetinfo
+# ss_data$agecomp %>% summary()
+
+# comp_age_sample_size <- age_sample_size %>% 
+#   mutate(fleet=case_when(
+#     stratification_byarea == 'CA.TWL'~ 1,
+#      stratification_byarea == 'CA.HKL'~ 2,
+#      stratification_byarea == 'ORWA.TWL'~ 4,
+#       stratification_byarea == 'ORWA.HKL'~ 5)) %>%
+#   select(-c(n_fish,n_trips)) %>% 
+#   full_join(ss_data$agecomp %>% filter(fleet %in% c(1,2,4,5)) %>%
+#               select(year,fleet,Nsamp),by=c('year','fleet')) %>%
+#   dplyr::rename(update=n_input,SAFE2017 = Nsamp) %>% 
+#   pivot_longer(cols=c(update,SAFE2017)) %>% 
+#   ggplot()+
+#   # geom_point(aes(year,value,col=name),shape=4)+ #,position = position_dodge()
+#   geom_bar(aes(year,value,fill=name),stat='identity',position = position_dodge())+
+#   facet_wrap(~stratification_byarea)+
+#   geom_vline(xintercept=2006.5)+theme(legend.position='bottom')
+# 
+# ggsave(comp_age_sample_size,path=file_path,
+#        filename="Commercial_age_sampling_size_COMP.png",
+#        height=7,width=12)
+
+```
+
+## 10.3- GHOST AGE COMPS
+
+not fitted in the stock assessment model but included in data to explore fit/observed better
+
+### Compute w get_raw_comp()
+
+```{r}
+
+raw_age_comps <-NULL
+
+# looping over every fleet
+for (f in 1:nrow(fleets_names)){
+  tmp_dat <- bds_cleaned_addCAage %>% filter(!is.na(Age),stratification_byarea==as.character(fleets_names[f,1])) %>% 
+     mutate(common_name='yelloweye rockfish',total_samples=1,project='A')
+  
+  
+  if(nrow(tmp_dat)!=0){ #some fleet have no age data
+    tmp_age_comps_out <- get_raw_comps(data=tmp_dat,
+      comp_bins = age_bins,
+      comp_column_name = "Age",
+      dir = NULL,#getwd(),
+      printfolder = "",
+      input_n_method='total_samples', 
+      fleet = fleets_names[f,2],
+      month=7, #common 
+      two_sex_comps = FALSE,ageerr = 1) #single sex model
+    
+    tmp_age_comps <- tmp_age_comps_out$unsexed 
+
+    #combine to make a df w all fleets
+    raw_age_comps <- raw_age_comps %>% bind_rows(tmp_age_comps)
+    }
+}
+
+# raw_age_comps %>% summary()
+# names(raw_age_comps)[1:10]
+```
+
+### Add WCGOP data
+
+ WCGOP are caal needs to be transform to maal -> just seting length bin lo/hi to -1 and summing number by year*fleet
+
+```{r}
+raw_age_comps_comb <- raw_age_comps  %>%  
+  bind_rows(wcgop_caal %>%  #filtering out CA_TWL sample in 2005 bc not used in 2017
+            filter(!(fleet_nb==1&year==2005)) %>% mutate(Lbin_lo=-1,Lbin_hi=-1)) %>% 
+  group_by(year,month,fleet_nb,sex,partition,ageerr,Lbin_lo,Lbin_hi) %>% 
+  summarise_at(.vars=vars(input_n:u65),.funs=sum) %>% #summary()
+  mutate(fleet_nb=-fleet_nb) #this is ghost comp, - is telling the model
+
+
+raw_age_comps_comb
+
+# #looking for missing sample for CA.TWL 2005 -> it is here
+# wcgop_caal %>% filter(year==2005,fleet_nb==1)
+# raw_age_comps_comb %>% filter(year==2005,fleet_nb==1)
+
+# sample size is not null -> we don't care about the value because not fitted
+# raw_age_comps_comb$input_n %>% summary()
+
+
+```
+
+### Save file
+
+```{r}
+write.csv(raw_age_comps_comb,row.names = FALSE,
+          file=paste(file_path,"Commercial_age_comps_PacFIN_WCGOP_forSS.csv"))
+```
+
+
+
+### Compare w 2017
+
+```{r}
+# ss_data$agecomp %>% summary()
+# names(ss_data$agecomp)[1:10]
+
+raw_age_comps_long <- raw_age_comps_comb %>% 
+  pivot_longer(cols=-c(year,month,fleet_nb,sex,partition,input_n,ageerr,Lbin_lo,Lbin_hi),
+                                  names_prefix='u',names_to = 'age',values_transform = as.numeric) %>% 
+  mutate(version='update')#name=paste0('l',name),
+
+# raw_age_comps_long %>% filter(year==2005,fleet_nb==1) %>% summary()
+
+for (f in 1:nrow(fleets_names)){
+  if(nrow(raw_age_comps_long %>% filter(fleet_nb==-fleets_names$fleet_nb[f]))!=0|
+     nrow(ss_data$agecomp %>% filter(fleet==-fleets_names$fleet_nb[f]))!=0 ){
+  tmp_plt <- raw_age_comps_long %>% 
+      bind_rows(ss_data$agecomp %>% filter(fleet %in% -c(1,2,4,5)) %>% 
+                  pivot_longer(cols=-c(year,month,fleet,sex,part,Nsamp,ageerr,Lbin_lo,Lbin_hi),names_prefix='a',
+                               names_to = 'age',values_transform = as.numeric) %>%
+                  mutate(version='2017',fleet=fleet) %>% 
+        dplyr::rename('input_n'=Nsamp,'fleet_nb'=fleet,'partition'=part)) %>% 
+      left_join(fleets_names %>% mutate(fleet_nb=-fleet_nb),by=join_by('fleet_nb'=='fleet_nb')) %>% 
+    mutate(age=as.numeric(age)) %>% 
+    # mutate(value=ifelse(value==0,NA,value)) %>%
+    filter(fleet_nb==-fleets_names$fleet_nb[f],year<2016) %>% 
+    ggplot(aes(x = year, y = age, col = version, size = value)) +
+                     ggplot2::geom_point(position=position_dodge(0.5))+
+    facet_wrap(~fleet_name) +
+    geom_vline(xintercept=2006.5)
+  
+    ggsave(tmp_plt,filename=paste0("Commercial_",fleets_names[f,1],'_age_compsCOMP.png'),#_no0
+           width=10)
+  }
+
+}
+
+# tmp_plt
+```
+
+

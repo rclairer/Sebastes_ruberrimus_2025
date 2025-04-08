@@ -5,6 +5,8 @@ date: "2025-03-13"
 ---
 
 ```{r setup}
+rm(list = ls())
+
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -19,12 +21,12 @@ library(pacfintools)
 Load in all data sources
 1. CA ages from Julia: "CRFS_ages_yeye" * no updates
 2. OR ages from Ali: "OR_non_standard_yelloweye_2009-2016_nonconfid" * no updates
-3. WA ages from RecFin * updated in March
+3. WA ages from Fabio * updated in April
 
 Fleets:
-3 - CA_REC *need to calculate sample sizes
-6 - OR_REC *need to calculate sample sizes
-7 - WA_REC (abby)
+3 - CA_REC 
+6 - OR_REC 
+7 - WA_REC 
 
 ```{r}
 # Load CA ages and format
@@ -56,18 +58,18 @@ or_ages_raw$length <- or_ages_raw$length/10
 or_ages_raw <- as.data.frame(or_ages_raw)
 
 # Load WA ages and format
-wa_ages_raw <- read_csv("../../Data/raw/confidential/SD506_1984_2024_march.csv")
+wa_ages_raw <- read_csv("../../Data/raw/nonconfidential/wa_rec_ages_April4.csv")
   
   # Rename columns 
-names(wa_ages_raw)[names(wa_ages_raw) == "SAMPLE_YEAR"] <- "year"
-names(wa_ages_raw)[names(wa_ages_raw) == "RECFIN_SPECIES_NAME"] <- "common_name"
-names(wa_ages_raw)[names(wa_ages_raw) == "RECFIN_SEX_CODE"] <- "sex"
-names(wa_ages_raw)[names(wa_ages_raw) == "USE_THIS_AGE"] <- "age"
-names(wa_ages_raw)[names(wa_ages_raw) == "RECFIN_LENGTH_MM"] <- "length"
+names(wa_ages_raw)[names(wa_ages_raw) == "sample_year"] <- "year"
+names(wa_ages_raw)[names(wa_ages_raw) == "species_name"] <- "common_name"
+names(wa_ages_raw)[names(wa_ages_raw) == "sex_name"] <- "sex"
+names(wa_ages_raw)[names(wa_ages_raw) == "best_age"] <- "age"
+names(wa_ages_raw)[names(wa_ages_raw) == "fish_length_cm"] <- "length"
   # Change the sex column to U and fix length
-wa_ages_raw[,33] = "U"
-wa_ages_raw$length <- wa_ages_raw$length/10
+wa_ages_raw[,18] = "U"
 wa_ages_raw <- as.data.frame(wa_ages_raw)
+wa_ages_raw <- wa_ages_raw |> filter(!is.na(age))
 
 ```
 
