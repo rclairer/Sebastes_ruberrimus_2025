@@ -107,4 +107,14 @@ ca_obs_len <- rbind(ca_obs_len,new_ca_obs_len) #put them together
   There was a perfect match for length data. 
   However, the Nsamps in the 2017 assessment are whole numbers...but they dont add up to the "total samples"
   This is good because it means we probably dont have to recalculate Nsamps using the linear model...but what did they do last year that got the numbers off?
-  
+
+```{r}
+# Use this first section to grab the old data with out any changes!
+or_obs_len <- inputs$dat$lencomp  |>
+  filter(fleet == 9)
+
+## For the Update, use only the new data, so that it has both updated years and updated Nsamps 
+new_or_obs_len <- read_csv(file.path("../../Data/processed/rec_comps/or_obs_lengths.csv"))
+names(new_or_obs_len) <- names(or_obs_len) # Replace col names so they match everything else
+
+```
