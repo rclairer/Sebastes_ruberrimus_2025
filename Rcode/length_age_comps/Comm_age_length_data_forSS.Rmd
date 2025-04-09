@@ -9,10 +9,6 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 # rm(list=ls())
 library(tidyverse)
-# remotes::install_github("pfmc-assessments/pacfintools")
-# library(pacfintools)
-# remotes::install_github("pfmc-assessments/nwfscSurvey")
-# library(nwfscSurvey)
 library(r4ss)
 
 ```
@@ -20,16 +16,35 @@ library(r4ss)
 ## Load data
 
 ```{r}
-#path for data
+# Get inputs from 2017 assessment that will get carried over to this assessment 
+# model_2017_path <- file.path("../../model/2017_yelloweye_model_updated_ss3_exe")
+# inputs <- SS_read(dir = model_2017_path, ss_new = TRUE)
+ss_data <- SS_readdat(file="../../model/2017_yelloweye_model_updated_ss3_exe/yelloweye_data.ss")
+# would using yelloweye_data.ss be different ? with all.equal(ss_data,inputs$dat) they are not exactly equals
+# thought summary(ss_data$lencomp==inputs$dat$lencomp) & summary(ss_data$agecomp==inputs$dat$agecomp) -> TRUE
+
+
+# Get our updated data
+
+## path for data
 file_path = "../../Data/processed/length_age_comps/"
 
-ss_data <- SS_readdat(file="../../model/2017_yelloweye_model_updated_ss3_exe/yelloweye_data.ss")
-# wcgop_age_comps
+## length comps, maal and caal from PacFIN AND WCGOP combined
+raw_length_comps_PacFIN_WCGOP <- read.csv(paste0(file_path,'Commercial_length_comps_PacFIN_WCGOP_forSS.csv'))
+raw_age_caal_PacFIN_WCGOP <- read.csv(paste0(file_path,'Commercial_caal_PacFIN_WCGOP_forSS.csv'))
+raw_age_comps_PacFIN_WCGOP <- read.csv(paste0(file_path,'Commercial_age_comps_PacFIN_WCGOP_forSS.csv'))
 
-# length comps, maal and caal from PacFIN AND WCGOP
-raw_length_comps_comb <- read.csv(paste0(file_path,' Commercial_length_comps_PacFIN_WCGOP_forSS.csv'))
-raw_age_caal_comb <- read.csv(paste0(file_path,'Commercial_caal_PacFIN_WCGOP_forSS.csv'))
-raw_age_comps_comb <- read.csv(paste0(file_path,' Commercial_age_comps_PacFIN_WCGOP_forSS.csv'))
+## length comps, maal and caal from PacFIN only
+raw_length_comps_PacFIN <- read.csv(paste0(file_path,'Commercial_length_comps_PacFIN_forSS.csv'))
+raw_age_caal_PacFIN <- read.csv(paste0(file_path,'Commercial_caal_PacFIN_forSS.csv'))
+raw_age_comps_PacFIN <- read.csv(paste0(file_path,'Commercial_age_comps_PacFIN_forSS.csv'))
+
+## length comps, maal and caal from PacFIN AND WCGOP combined
+raw_length_comps_WCGOP <- read.csv(paste0(file_path,'Commercial_length_comps_WCGOP_forSS.csv'))
+raw_age_caal_WCGOP <- read.csv(paste0(file_path,'Commercial_caal_WCGOP_forSS.csv'))
+raw_age_comps_WCGOP <- read.csv(paste0(file_path,'Commercial_age_comps_WCGOP_forSS.csv'))
+
+
 
 ```
 
@@ -37,19 +52,16 @@ raw_age_comps_comb <- read.csv(paste0(file_path,' Commercial_age_comps_PacFIN_WC
 
 ```{r}
 # length comps
-dim(raw_length_comps_comb);dim(ss_data$lencomp)
-names(raw_length_comps_comb); names(ss_data$lencomp)
-names(raw_length_comps_comb) <- names(ss_data$lencomp)
+ncol(raw_length_comps_PacFIN_WCGOP);ncol(raw_length_comps_PacFIN);ncol(raw_length_comps_WCGOP);ncol(ss_data$lencomp)
+names(raw_length_comps_PacFIN_WCGOP) <- names(raw_length_comps_PacFIN) <- names(raw_length_comps_WCGOP) <- names(ss_data$lencomp)
 
 # caal
-dim(raw_age_caal_comb);dim(ss_data$agecomp)
-names(raw_age_caal_comb); names(ss_data$agecomp)
-names(raw_age_caal_comb) <- names(ss_data$agecomp)
+ncol(raw_age_caal_PacFIN_WCGOP);ncol(raw_age_caal_PacFIN);ncol(raw_age_caal_WCGOP);ncol(ss_data$agecomp)
+names(raw_age_caal_PacFIN_WCGOP) <- names(raw_age_caal_PacFIN) <- names(raw_age_caal_WCGOP) <- names(ss_data$agecomp)
 
 # maal 
-dim(raw_age_comps_comb);dim(ss_data$agecomp)
-names(raw_age_comps_comb); names(ss_data$agecomp)
-names(raw_age_comps_comb) <- names(ss_data$agecomp)
+ncol(raw_age_comps_PacFIN_WCGOP);ncol(raw_age_comps_PacFIN);ncol(raw_age_comps_WCGOP);ncol(ss_data$agecomp)
+names(raw_age_comps_PacFIN_WCGOP) <- names(raw_age_comps_PacFIN) <- names(raw_age_comps_WCGOP) <- names(ss_data$agecomp)
 ```
 
 
@@ -62,85 +74,119 @@ ORWA.NONTWL        5
 
 # LENGHT
 
-## CA_TWL, PacFIN 
+## CA_TWL, PacFIN AND WCGOP
 
 2017 file = 1978-2015
-updated data = 2016-2024
+2025 data update = 2016-2024
 
-READY = no check if we want to mix PacFIN and WCGOP, it's the case for now
+READY for SS = *YES*
+
+NB: previous assessment was having CA_TWL from PacFIN only because there was so few WCGOP (2005/2008/2010 1 sample each year) that they were not used (and we are still no using them). However now WCGOP has new sample from 2019-2022 and PacFIN from 2019-2024, because the years overlap, length comps now are combined.
 
 ```{r}
-CA_TWL_PacFIN_length <- ss_data$lencomp %>% filter(fleet==1,year<=2015) %>% 
-  bind_rows(raw_length_comps_comb %>% 
-  filter(fleet==1,year>2015))
+CA_TWL_PacFIN_WCGOP_length <- ss_data$lencomp %>% filter(fleet==1,year<=2015) %>% 
+  bind_rows(raw_length_comps_PacFIN_WCGOP %>% filter(fleet==1,year>2015))
+View(CA_TWL_PacFIN_WCGOP_length)
 ```
 
 
 ## CA_NONTWL, PacFIN
 
 2017 file = 1979 - 2002
-update data = 
-
-READY = no check if we want to mix PacFIN and WCGOP, it's the case for now
+2025 data update = no new data from PacFIN
 
 ```{r}
-# CA_NONTWL_PacFIN_length <- ss_data$lencomp %>% filter(fleet==2,year<2015) %>% 
-#   bind_rows(raw_length_comps_comb %>% 
-#   filter(fleet==1,year>2015))
+raw_length_comps_PacFIN %>% filter(fleet==2,year>2002) #no new data
+# check if preivous and updated data matches
+raw_length_comps_PacFIN %>% filter(fleet==2,year<=2002) == ss_data$lencomp %>% filter(fleet==2,year<=2002) #yes except for Nsamp
+raw_length_comps_PacFIN %>% filter(fleet==2,year<=2002)  %>% pull(Nsamp) - ss_data$lencomp %>% filter(fleet==2,year<=2002) %>% pull(Nsamp) #some non null differences
+```
 
+READY for SS = *YES* 
+
+NB: Sample size from 2017 does not matches our current computation for unexplained reason. We still uses the 2017 data.
+
+```{r}
+CA_NONTWL_PacFIN_length <- ss_data$lencomp %>% filter(fleet==2,year<=2002) 
+View(CA_NONTWL_PacFIN_length)
 ```
 
 ## CA_NONTWL, WCGOP
 
-2004-2015
+2017 data = 2004-2015
+2025 data update = 2016-2023
+
+```{r}
+raw_length_comps_WCGOP %>% 
+    filter(fleet==2,year>2002)
+
+#check that previous and updated data are equals
+ss_data$lencomp %>% filter(fleet==2,year>2002) == raw_length_comps_WCGOP %>% filter(fleet==2,year>2002,year<2016) # all equals except sample size
+ss_data$lencomp %>% filter(fleet==2,year>2002) %>% pull(Nsamp)-raw_length_comps_WCGOP %>% filter(fleet==2,year>2002,year<2016) %>% pull(Nsamp)
+
+```
+
+READY for SS = *YES*
+
+NB: the sample size used in 2017 does not match our values, whereas we have the exact same number of trips and fish samples. We still uses the 2017 data.
+
+```{r}
+CA_NONTWL_WCGOP_length <- ss_data$lencomp %>% filter(fleet==2,year>2002) %>% 
+  bind_rows(raw_length_comps_WCGOP %>% filter(fleet==2,year>2015))
+```
 
 ## ORWA_TWL, PacFIN and WCGOP combined
 
-2017 file = 1995-2015
-updated data = 2016-2024
+2017 file = 1995-2015 (2016 was included in 2017 but we update it with new data)
+2025 data update = 2016-2024
 
 ```{r}
 # check for overlapping year
-ss_data$lencomp %>% filter(fleet==4,year==2015) == raw_length_comps_comb %>%filter(fleet==4,year==2015) 
+ss_data$lencomp %>% filter(fleet==4,year==2015) == raw_length_comps_PacFIN_WCGOP %>%filter(fleet==4,year==2015) 
 #2015 is identical-> use data from 2017 datafile
-ss_data$lencomp %>% filter(fleet==4,year==2016) == raw_length_comps_comb %>%filter(fleet==4,year==2016) 
+ss_data$lencomp %>% filter(fleet==4,year==2016) == raw_length_comps_PacFIN_WCGOP %>%filter(fleet==4,year==2016) 
 # 2016 is different -> use updated data
 ```
 
-READY for SS = Yes
+READY for SS = *Yes*
 
 ```{r}
 ORWA_TWL_PacFIN_WCGOP_length <- ss_data$lencomp %>% filter(fleet==4,year<=2015) %>% 
-  bind_rows(raw_length_comps_comb %>% 
+  bind_rows(raw_length_comps_PacFIN_WCGOP %>% 
   filter(fleet==4,year>2015))
 ```
 
 ## ORWA_NONTWL, PacFIN and WCGOP combined
 
 2017 file = 1980-2015
-updated data = 2016-2024
+2025 data update = 2016-2024
 
 ```{r}
 # check for overlapping year
-ss_data$lencomp %>% filter(fleet==5,year==2015) == raw_length_comps_comb %>%filter(fleet==5,year==2015) 
+ss_data$lencomp %>% filter(fleet==5,year==2015) == raw_length_comps_PacFIN_WCGOP %>%filter(fleet==5,year==2015) 
 #2015 is identical-> use data from 2017 datafile
 
 ```
 
-ready for SS = YES
+ready for SS = *YES*
 
 ```{r}
 ORWA_NONTWL_PacFIN_WCGOP_length <- ss_data$lencomp %>% filter(fleet==5,year<=2015) %>% 
-  bind_rows(raw_length_comps_comb %>% filter(fleet==5,year>2015))
+  bind_rows(raw_length_comps_PacFIN_WCGOP %>% filter(fleet==5,year>2015))
 ```
 ## Combine everything
 
-TBD when all previous issues are resolved
+ready for SS: *YES*
 
 ```{r}
 
-```
+rbind(CA_TWL_PacFIN_WCGOP_length, 
+      CA_NONTWL_PacFIN_length,
+      CA_NONTWL_WCGOP_length, 
+      ORWA_TWL_PacFIN_WCGOP_length,
+      ORWA_NONTWL_PacFIN_WCGOP_length)
 
+```
 
 
 # AGE 
@@ -150,184 +196,126 @@ TBD when all previous issues are resolved
 ### CA_NONTWL, CAAL, data from CDFW, Traci file
 
 2017 file = 1978-1988
-no updated data
+2025 data update = no new data
 
 ```{r}
 # check for updated data
-raw_age_caal_comb %>% filter(fleet==2,year>1988) #these are WCGOP data
+raw_age_caal_PacFIN %>% filter(fleet==2,year>1988) 
 
 ```
 
-pb of doubling 
+ready for SS = *YES*
+
+NB: because of the doubling issue notices in the 2017 caal we're using caal and maal based on our update.
 
 ```{r}
-raw_age_caal_comb %>% filter(fleet==2,year<=1988) %>% nrow()
-ss_data$agecomp %>% filter(fleet==2,year<=1988) %>% nrow()
-
-# #another length bin in
-# raw_age_caal_comb %>% filter(fleet==2,year==1979) == ss_data$agecomp %>% filter(fleet==2,year==1979) #bin does not match
-# 
-# raw_age_caal_comb %>% filter(fleet==2,year==1979,Lbin_lo==50)
-# ss_data$agecomp %>% filter(fleet==2,year==1979,Lbin_lo==50)
-# 
-# raw_age_caal_comb %>% filter(fleet==2,year!=1979) == ss_data$agecomp %>% filter(fleet==2,year!=1979) %>% mutate_at(vars(-c('year','month','fleet','sex','part','ageerr','Lbin_lo','Lbin_hi')), .funs=function(x){x/2})
-
-#check for which year /2 caal poses pb -> 1979/2005
-ss_data$agecomp %>% filter(fleet==2,year<2016) %>% 
-  pivot_longer(cols=-c(year,month,fleet,sex,part,
-                                     ageerr,Lbin_lo,Lbin_hi,Nsamp),
-                             names_prefix='a',names_to = 'age',
-                             values_transform = as.numeric, values_to = "prev_value") %>% 
-  mutate(bb=prev_value/2) %>% filter(!bb%in%c(0:100)) %>% View()
-
-```
-
-ready = NO
-
-```{r}
-CA_NONTWL_TraciCDFW_caal <- ss_data$agecomp %>% filter(fleet==2,year<=1988) #%>% 
-  mutate_at(vars(-c('year','month','fleet','sex','part','ageerr','Lbin_lo','Lbin_hi')), .funs=function(x){x/2}) 
-  
-CA_NONTWL_TraciCDFW_caal %>% View()
-
+CA_NONTWL_TraciCDFW_caal <- raw_age_caal_PacFIN %>% filter(fleet==2)
+View(CA_NONTWL_TraciCDFW_caal)
 ```
 
 
 ### CA_NONTWL, MAAL ghost, not expanded, data from CDFW, Traci file
 
 2017 file = 1978-1988
-no updated data
+2025 data update = no new data
 
 ```{r}
 # check for updated data
-raw_age_comps_comb %>% filter(fleet==-2,year>1988) #these are WCGOP data
+raw_age_comps_PacFIN %>% filter(fleet==-2,year>1988) 
 ```
 
-ready = YES
+ready for SS = *YES*
+ 
+NB: because of the doubling issue notices in the 2017 caal we're using caal and maal based on our update.
  
 ```{r}
-CA_NONTWL_TraciCDFW_maal <- ss_data$agecomp %>% filter(fleet==-2,year<=1988) 
+CA_NONTWL_TraciCDFW_maal <- raw_age_comps_PacFIN %>% filter(fleet==-2)
+View(CA_NONTWL_TraciCDFW_maal)
 ``` 
 
 ### CA_NONTWL, CAAL, WCGOP
 
 2017 file = 2005
-no updated data 
+2025 data update = no new data
 
 ```{r}
 # check for updated data
-raw_age_caal_comb %>% filter(fleet==2,year>=2005) 
+raw_age_caal_WCGOP %>% filter(fleet==2,year>=2005) 
 ```
 
-no doubling issue
+Ready for SS = *YES*
+
+NB: because of the doubling issue notices in the 2017 caal we're using caal and maal based on our update.
 
 ```{r}
- ss_data$agecomp %>% filter(fleet==2,year==2005) 
-```
-
-ready = YES
-
-```{r}
-CA_NONTWL_WCGOP_caal <- ss_data$agecomp %>% filter(fleet==2,year==2005) 
+CA_NONTWL_WCGOP_caal <- raw_age_caal_WCGOP %>% filter(fleet==2,year==2005)
 ```
 
 ### CA_NONTWL, WCGOP, ghost MAAL
 
 2017 file = 2015
-no updated data
+2025 data update = no new data
 
 ```{r}
 # check for updated data
-raw_age_comps_comb %>% filter(fleet==-2,year>2005) #no new data
-```
+raw_age_comps_WCGOP %>% filter(fleet==-2,year>2005) #no new data
 
-ready = yes 
+# on 2017 data -> caal and maal does not match
+ss_data$agecomp %>% filter(fleet==-2,year==2005) %>% select(a0:a65) %>% sum()
+ss_data$agecomp %>% filter(fleet==2,year==2005) %>% select(a0:a65) %>% sum()
+
+#not this pb with our updated data
+raw_age_comps_WCGOP %>% filter(fleet==-2,year==2005)%>% select(a0:a65) %>% sum()
+raw_age_caal_WCGOP %>% filter(fleet==2,year==2005)%>% select(a0:a65) %>% sum()
+```
+Ready for SS = *YES*
+
+NB: because of the doubling issue notices in the 2017 caal we're using caal and maal based on our update. Also for this fleet in 2017 file there is a mismatch between caal and maal, not explained.
 
 ```{r}
-CA_NONTWL_WCGOP_maal <- ss_data$agecomp %>% filter(fleet==-2,year==2005) 
+CA_NONTWL_WCGOP_maal <- raw_age_comps_WCGOP %>% filter(fleet==-2,year==2005) 
+View(CA_NONTWL_WCGOP_maal)
 ```
 
 ## ORWA_TWL
 
 ### ORWA_TWL, CAAL, PacFIN and WCGOP combined
 
-2017 file = 2001-2015
-updated data = 2016-2024
+2017 file = 2001-2015 (2016 was included in 2017 but we are updating it with new data)
+2025 data update = 2016-2024
 
 ```{r}
 #check overlapping data
-ss_data$agecomp %>% filter(fleet==4,year==2016)
-raw_age_caal_comb %>% filter(fleet==4,year==2016) # new data in 2016 -> use them
+ss_data$agecomp %>% filter(fleet==4,year==2016) 
+raw_age_caal_PacFIN_WCGOP %>% filter(fleet==4,year==2016) # new data in 2016 -> use them
 ```
+data ready for SS = *YES*
 
-doubling problem
+NB: because of the doubling issue notices in the 2017 caal we're using caal and maal based on our update.
 
 ```{r}
-#check Nsamp -> ok
-ss_data$agecomp %>% filter(fleet==4,year<2016) %>% pull(Nsamp) == rowSums(ss_data$agecomp %>% filter(fleet==4,year<2016) %>% select(a0:a65))
-
-#check for which year /2 caal poses pb
-ss_data$agecomp %>% filter(fleet==4,year<2016) %>% 
-  pivot_longer(cols=-c(year,month,fleet,sex,part,
-                                     ageerr,Lbin_lo,Lbin_hi,Nsamp),
-                             names_prefix='a',names_to = 'age',
-                             values_transform = as.numeric, values_to = "prev_value") %>% 
-  mutate(bb=prev_value/2) %>% filter(!bb%in%c(0:100)) %>% View()
-# pb year = 2004/2005/2006
-
-# try to remove wcgop data which are 2004-2006
-ss_data$agecomp %>% filter(fleet==4,year<2016) %>% 
-  #pivot longer ssdata
-  pivot_longer(cols=-c(year,month,fleet,sex,part,
-                                     Nsamp,ageerr,Lbin_lo,Lbin_hi),
-                             names_prefix='a',names_to = 'age',
-                             values_transform = as.numeric, values_to = "prev_value") %>% 
-  #merge with wcgop
-  left_join(wcgop_caal %>% filter(fleet_nb==4,year<2016) %>% 
-              dplyr::rename('fleet'=fleet_nb,'part'=partition,'Nsamp'=input_n) %>% 
-              pivot_longer(cols=-c(year,month,fleet,sex,part,Nsamp,ageerr,Lbin_lo,Lbin_hi),
-                            names_prefix='u',names_to = 'age',
-                            values_transform = as.numeric,values_to = 'wcgop_value') %>% select(-Nsamp),
-            by=c('year','month','fleet','sex','part','ageerr','Lbin_lo','Lbin_hi','age')) %>% 
-  #substract wcgop from initial value
-  mutate(value=ifelse(is.na(wcgop_value),prev_value,prev_value-wcgop_value)) %>% # filter(wcgopvalue!=0) %>% 
-  #divide by 2 now
-  mutate(value=(value/2)) %>% #pull(value) %>% unique()
-  #check which year produce weird values -> STOP HERE
-  filter(abs(value)==0.5) %>% select(-c(month, sex,part,ageerr))
-  # idead was to use this new value to pivot wider and get a good table
-    # pivot_wider(id_cols =c(year,month,fleet,sex,part,ageerr,Lbin_lo,Lbin_hi,Nsamp),
-    #             values_from = 'value',#values_transform=as.integer,
-    #             names_from = 'age',names_prefix = 'a' ) %>% 
-  
-```
-
-
-data ready for SS = NO
-
-```{r}
-ORWA_TWL_PacFIN_WCGOP_caal <- ss_data$agecomp %>% filter(fleet==4,year<2016) %>% 
-  bind_rows(raw_age_caal_comb %>% filter(fleet==4,year>=2016))
-# mutate_at(vars(-c('year','month','fleet','sex','part','ageerr','Lbin_lo','Lbin_hi')), .funs=function(x){x/2}) %>% View()
+ORWA_TWL_PacFIN_WCGOP_caal <- raw_age_caal_PacFIN_WCGOP %>% filter(fleet==4)
+View(ORWA_TWL_PacFIN_WCGOP_caal)
 ```
 
 ### ORWA_TWL, ghost MAAL, PacFIN and WCGOP combined
 
-2017 file = 2001-2016
-updated data = 2016-2024
+2017 file = 2001-2015 (2016 was included in 2017 but we are updating it with new data)
+2025 data update = 2016-2024
 
 ```{r}
 #check overlapping data
-ss_data$agecomp %>% filter(fleet==-4,year==2016)
-raw_age_comps_comb %>% filter(fleet==-4,year==2016) # new data in 2016 -> use them
-raw_age_comps_comb %>% filter(fleet==-4,year>2016)
+ss_data$agecomp %>% filter(fleet==-4,year==2016) == raw_age_comps_PacFIN_WCGOP %>% filter(fleet==-4,year==2016) # new data in 2016 -> use them
+raw_age_comps_PacFIN_WCGOP %>% filter(fleet==-4,year>2016)
 ```
 
-data ready for SS = YES
+data ready for SS = *YES*
+
+NB: because of the doubling issue notices in the 2017 caal we're using caal and maal based on our update.
 
 ```{r}
-ORWA_TWL_PacFIN_WCGOP_maal <- ss_data$agecomp %>% filter(fleet==-4,year<2016) %>% 
-  bind_rows(raw_age_comps_comb %>% filter(fleet==-4,year>=2016))
+ORWA_TWL_PacFIN_WCGOP_maal <-raw_age_comps_PacFIN_WCGOP %>% filter(fleet==-4)
+View(ORWA_TWL_PacFIN_WCGOP_maal)
 ```
 
 ## ORWA_NONTWL
@@ -335,77 +323,41 @@ ORWA_TWL_PacFIN_WCGOP_maal <- ss_data$agecomp %>% filter(fleet==-4,year<2016) %>
 ### ORWA_NONTWL, CAAL, PacFIN and WCGOP combined
 
 2017 data = 2001-2015
-updated data = 2016-2024
+2025 data update = 2016-2024
 
 ```{r}
-#check overlapping data
-ss_data$agecomp %>% filter(fleet==5,year==2015) == raw_age_caal_comb %>% filter(fleet==5,year==2015) 
-# different data in 2015 -> use them ?
-
-raw_age_caal_comb %>% filter(fleet==5,year>2015) 
+#check for new data
+raw_age_caal_PacFIN_WCGOP %>% filter(fleet==5,year>2015) 
 ```
 
+data ready for SS = *YES*
 
-doubling problem
-
-```{r}
-#check for which year /2 caal poses pb
-ss_data$agecomp %>% filter(fleet==5,year<2016) %>% 
-  pivot_longer(cols=-c(year,month,fleet,sex,part,
-                                     Nsamp,ageerr,Lbin_lo,Lbin_hi),
-                             names_prefix='a',names_to = 'age',
-                             values_transform = as.numeric, values_to = "prev_value") %>% 
-  mutate(bb=prev_value/2) %>% filter(!bb%in%c(0:10)) %>% select(-c(month,sex,part)) %>% View()
-
-# check if removing wcgop will solve this /2 pb -> 2004/2006/2007 remain weird
-ss_data$agecomp %>% filter(fleet==5,year<2016) %>% 
-  pivot_longer(cols=-c(year,month,fleet,sex,part,
-                                     Nsamp,ageerr,Lbin_lo,Lbin_hi),
-                             names_prefix='a',names_to = 'age',
-                             values_transform = as.numeric, values_to = "prev_value") %>% 
-  left_join(wcgop_caal %>% filter(fleet_nb==5,year<2016) %>% 
-              dplyr::rename('fleet'=fleet_nb,'part'=partition,'Nsamp'=input_n) %>% 
-              pivot_longer(cols=-c(year,month,fleet,sex,part,Nsamp,ageerr,Lbin_lo,Lbin_hi),
-                            names_prefix='u',names_to = 'age',
-                            values_transform = as.numeric,values_to = 'wcgop_value') %>% select(-Nsamp),
-            by=c('year','month','fleet','sex','part','ageerr','Lbin_lo','Lbin_hi','age')) %>% 
-  mutate(value=ifelse(is.na(wcgop_value),prev_value,prev_value-wcgop_value)) %>% # filter(wcgopvalue!=0) %>% 
-  mutate(value=(value/2)) %>% #pull(value) %>% unique()
-  filter(abs(value)==0.5) %>% select(-c(month, sex,part,ageerr))
-    pivot_wider(id_cols =c(year,month,fleet,sex,part,ageerr,Lbin_lo,Lbin_hi,Nsamp),
-                values_from = 'value',#values_transform=as.integer,
-                names_from = 'age',names_prefix = 'a' ) %>% 
-  
-```
-
-
-data ready for SS = NO -> doubling pb not solve
+NB: because of the doubling issue notices in the 2017 caal we're using caal and maal based on our update.
 
 ```{r}
-ORWA_NONTWL_PacFIN_WCGOP_caal <- ss_data$agecomp %>% filter(fleet==5,year<2016) %>% 
-  bind_rows(raw_age_caal_comb %>% filter(fleet==5,year>=2016))
+ORWA_NONTWL_PacFIN_WCGOP_caal <- raw_age_caal_PacFIN_WCGOP %>% filter(fleet==5)
+View(ORWA_NONTWL_PacFIN_WCGOP_caal)
 ```
 
 ### ORWA_NONTWL, ghost MAAL, PacFIN and WCGOP combined
 
-2017 file = 2001-2014 
-updated data = 2015-2024
+2017 file = 2001-2015 
+2025 data update = 2017-2024
 
 ```{r}
-#check overlapping data
-ss_data$agecomp %>% filter(fleet==-5,year==2015) == raw_age_comps_comb %>% filter(fleet==-5,year==2015) 
 # new data in 2015 -> use them
-raw_age_comps_comb %>% filter(fleet==-5,year>=2016)
+raw_age_comps_PacFIN_WCGOP %>% filter(fleet==-5,year>=2016)
 ```
 
-data ready for SS = YES
+data ready for SS = *YES*
+
+NB: because of the doubling issue notices in the 2017 caal we're using caal and maal based on our update.
 
 ```{r}
-ORWA_NONTWL_PacFIN_WCGOP_maal <- ss_data$agecomp %>% filter(fleet==-5,year<2015) %>% 
-  bind_rows(raw_age_comps_comb %>% filter(fleet==-5,year>=2015))
+ORWA_NONTWL_PacFIN_WCGOP_maal <- raw_age_comps_PacFIN_WCGOP %>% filter(fleet==-5)
 ```
 
-
+data ready for SS = *YES*
 
 ## Combine everything
 
@@ -413,5 +365,10 @@ TBD when all previous issues are resolved
 
 ```{r}
 
+rbind(CA_NONTWL_TraciCDFW_caal,CA_NONTWL_TraciCDFW_maal,
+      CA_NONTWL_WCGOP_caal,CA_NONTWL_WCGOP_maal,
+      ORWA_TWL_PacFIN_WCGOP_caal, ORWA_TWL_PacFIN_WCGOP_maal,
+      ORWA_NONTWL_PacFIN_WCGOP_caal,ORWA_NONTWL_PacFIN_WCGOP_maal
+      )
 ```
 
