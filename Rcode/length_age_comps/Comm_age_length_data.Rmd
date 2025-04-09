@@ -17,21 +17,38 @@ library(r4ss)
 
 ```
 
+# 0- LOAD DATA
+
+
+## Store previous version of database + check diff with new
+
+```{r}
+bds.pacfin_old <- bds.pacfin
+catch.pacfin_old <- catch.pacfin
+```
+
+
+## Load 
 
 ```{r, data loading}
 # getwd()
-load('../../Data/raw/confidential/PacFIN.YEYE.bds.21.Mar.2025.RData') #biological dataset updated
-load('../../Data/raw/confidential/PacFIN.YEYE.CompFT.21.Mar.2025.RData') #landings
+load('../../Data/raw/confidential/PacFIN.YEYE.bds.04.Apr.2025.RData') #biological dataset updated
+load('../../Data/raw/confidential/PacFIN.YEYE.CompFT.04.Apr.2025.RData') #landings
 ss_data <- SS_readdat(file="../../model/2017_yelloweye_model_updated_ss3_exe/yelloweye_data.ss")
 
 #path for storing
 file_path = "../../Data/processed/length_age_comps/"
+```
 
+## Check diff betwwen old and new
 
+```{r}
+nrow(bds.pacfin);nrow(bds.pacfin_old) #no new record
+nrow(catch.pacfin);nrow(catch.pacfin_old) #new records -> but I'm not using this table.
 ```
 
 
-# Quick overview of dataset
+## Quick overview of dataset
 
 ```{r}
 bds.pacfin %>% dim()
@@ -236,6 +253,13 @@ good_age_method <- c("B", "1")
 
 # 3- CLEANING DATABASE
 
+## Store previous version of database
+
+```{r}
+bds_cleaned_old <- bds_cleaned
+
+```
+
 *reminder of filter choice*
 
 used_gears <- c("HKL", "TWL",'POT','NET','TLS')
@@ -289,6 +313,11 @@ bds_cleaned_full <- cleanPacFIN(
     SEX='U') 
 
 
+```
+## Compare with previous
+
+```{r}
+nrow(bds_cleaned_old);nrow(bds_cleaned) #no new record
 ```
 
 
@@ -608,6 +637,15 @@ CA_age_samples_cleaned %>%
 bds_cleaned_addCAage <- bind_rows(bds_cleaned,CA_age_samples_cleaned)
 ```
 
+## Look for oldest fish
+
+```{r}
+bds_cleaned_addCAage %>% 
+  filter(!is.na(Age)) %>% filter(Age==max(Age)) %>% 
+  select(year,stratification_byarea,Age)
+```
+
+
 
 # 6- COMPUTE SAMPLING EFFORT
 
@@ -889,10 +927,15 @@ wcgop_length_comps <- read.csv(file = paste0(wcgop_path,'biological_discard_leng
 
 #sample size
 wcgop_sample_size <- read.csv(file = paste0(wcgop_path,'wcgop_biological_sample_sizes.csv')) %>% 
+    mutate(fleet_nb = case_when(fleet=='trawl-WA-OR'~4,
+                         fleet=="fixed-CA"~2,
+                         fleet=='fixed-WA-OR'~5,
+                         fleet=='trawl-CA'~1)) %>% 
   mutate(fleet=case_when(fleet=='trawl-WA-OR'~'ORWA.TWL',
                          fleet=="fixed-CA"~'CA.NONTWL',
                          fleet=='fixed-WA-OR'~'ORWA.NONTWL',
-                         fleet=='trawl-CA'~'CA.TWL'))
+                         fleet=='trawl-CA'~'CA.TWL')) 
+
 
 #age
 wcgop_caal <- read.csv(file = paste0(wcgop_path,'biological_discard_caal.csv')) %>% 
@@ -944,18 +987,29 @@ Check if sample size match passed assessment
 
 ```{r}
 WCGOP_length_sample_effort %>% 
-              mutate(input_n2= round(ifelse(ratio_lengths <44,
+              mutate(input_n2= (ifelse(ratio_lengths <44,
                                       n_trips +0.138*n_fish ,7.06*n_trips ))) %>% #,
                      # fleet=paste(gear_groups,fleet_groups,sep='-')) %>% 
-  mutate(input_nCHECK=input_n2==input_n2) %>% summary()
+  mutate(input_nCHECK=length_input_n==round(input_n2)) %>% summary()
 
 ```
 
-### Checking comps
+### Checking comps + adding sample size
 
 ```{r}
 View(wcgop_length_comps)
 names(wcgop_length_comps)
+
+
+# adding not rounded comps
+wcgop_length_comps <- wcgop_length_comps %>% 
+  left_join(WCGOP_length_sample_effort %>% 
+              mutate(input_n2= (ifelse(ratio_lengths <44,
+                                      n_trips +0.138*n_fish ,7.06*n_trips ))) %>% 
+              select(year,fleet_nb,input_n2),by=c('year','fleet_nb')) %>% 
+  mutate(input_n=input_n2) %>% 
+  select(-input_n2)
+
 ```
 
 
@@ -1154,6 +1208,12 @@ raw_length_comps_comb <- raw_length_comps_comb %>%
 
 
 # length_sample_size %>% filter(stratification_byarea=='CA.TWL',year<1980)
+
+raw_length_comps <- raw_length_comps %>% left_join(length_sample_size %>% full_join(fleets_names,
+                 by=join_by('stratification_byarea'=='fleet_name')) %>% 
+                   select(fleet_nb,n_input),
+            by=c('year','fleet_nb')) %>% 
+  mutate(input_n=n_input) %>% select(-n_input)
 ```
 
 pb with 1978 and 1989 for CA.TWL -> no value (I think FTID is NA so no included in effort computation) -> will not used this part of data so not a pb
@@ -1161,8 +1221,17 @@ pb with 1978 and 1989 for CA.TWL -> no value (I think FTID is NA so no included 
 ### Save file 
 
 ```{r}
+# PacFIN only
+write.csv(raw_length_comps,row.names = FALSE,
+          file = paste0(file_path,'Commercial_length_comps_PacFIN_forSS.csv'))
+
+# WCGOP only
+write.csv(wcgop_length_comps,row.names = FALSE,
+          file = paste0(file_path,'Commercial_length_comps_WCGOP_forSS.csv'))
+
+# PacFIN and WCGOP combined
 write.csv(raw_length_comps_comb,row.names = FALSE,
-          file=paste(file_path,"Commercial_length_comps_PacFIN_WCGOP_forSS.csv"))
+          file=paste0(file_path,"Commercial_length_comps_PacFIN_WCGOP_forSS.csv"))
 ```
 
 
@@ -1263,9 +1332,17 @@ summary(raw_age_caal_comb[10:75] %>% rowSums() == raw_age_caal_comb$input_n)
 ### Save file
 
 ```{r}
+# PacFIN only
+write.csv(raw_age_caal,row.names = FALSE,
+          file = paste0(file_path,'Commercial_caal_PacFIN_forSS.csv'))
 
+# WCGOP only
+write.csv(wcgop_caal,row.names = FALSE,
+          file = paste0(file_path,'Commercial_caal_WCGOP_forSS.csv'))
+
+# PacFIN and WCGOP combined
 write.csv(raw_age_caal_comb,row.names = FALSE,
-          file = paste0(file_path,'/Commercial_caal_PacFIN_WCGOP_forSS.csv'))
+          file = paste0(file_path,'Commercial_caal_PacFIN_WCGOP_forSS.csv'))
 ```
 
 
@@ -1382,12 +1459,13 @@ for (f in 1:nrow(fleets_names)){
 
 ### Add WCGOP data
 
- WCGOP are caal needs to be transform to maal -> just seting length bin lo/hi to -1 and summing number by year*fleet
+ WCGOP are caal needs to be transform to maal -> just setting length bin lo/hi to -1 and summing number by year*fleet
 
 ```{r}
 raw_age_comps_comb <- raw_age_comps  %>%  
   bind_rows(wcgop_caal %>%  #filtering out CA_TWL sample in 2005 bc not used in 2017
-            filter(!(fleet_nb==1&year==2005)) %>% mutate(Lbin_lo=-1,Lbin_hi=-1)) %>% 
+            filter(!(fleet_nb==1&year==2005)) %>% 
+              mutate(Lbin_lo=-1,Lbin_hi=-1)) %>% 
   group_by(year,month,fleet_nb,sex,partition,ageerr,Lbin_lo,Lbin_hi) %>% 
   summarise_at(.vars=vars(input_n:u65),.funs=sum) %>% #summary()
   mutate(fleet_nb=-fleet_nb) #this is ghost comp, - is telling the model
@@ -1402,14 +1480,26 @@ raw_age_comps_comb %>% View()
 # sample size is not null -> we don't care about the value because not fitted
 # raw_age_comps_comb$input_n %>% summary()
 
-
+#make wcgop age comps
+wcgop_age_comp <- wcgop_caal %>%  mutate(Lbin_lo=-1,Lbin_hi=-1,fleet_nb=-fleet_nb) %>% 
+  group_by(year,month,fleet_nb,sex,partition,ageerr,Lbin_lo,Lbin_hi) %>% 
+  summarise_at(.vars=vars(input_n:u65),.funs=sum)
 ```
 
 ### Save file
 
 ```{r}
+# PacFIN only
+write.csv(raw_age_comps %>% mutate(fleet_nb=-fleet_nb),row.names = FALSE,
+          file = paste0(file_path,'Commercial_age_comps_PacFIN_forSS.csv'))
+
+# WCGOP only
+write.csv(wcgop_age_comp,row.names = FALSE,
+          file = paste0(file_path,'Commercial_age_comps_WCGOP_forSS.csv'))
+
+# PacFIN and WCGOP combined
 write.csv(raw_age_comps_comb,row.names = FALSE,
-          file=paste(file_path,"Commercial_age_comps_PacFIN_WCGOP_forSS.csv"))
+          file=paste0(file_path,"Commercial_age_comps_PacFIN_WCGOP_forSS.csv"))
 ```
 
 
