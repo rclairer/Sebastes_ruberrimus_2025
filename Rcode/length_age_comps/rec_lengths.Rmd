@@ -470,6 +470,11 @@ ggsave(plot = comparison_plot_or, "or_obs_length_comp_comparisons.png", path = f
 Playing with Nsamps predictions
 
 ```{r}
+
+# Get inputs from 2017 assessment that will get carried over to this assessment
+model_2017_path <- file.path("../../model/2017_yelloweye_model_updated_ss3_exe")
+inputs <- SS_read(dir = model_2017_path, ss_new = TRUE)
+
 # CA_REC
 ca_rec_len <- inputs$dat$lencomp |>
   filter(fleet == 3, year >= 2004)
@@ -536,7 +541,7 @@ ggplot(all_data, aes(x = input_n, y = Nsamp, color = group)) +
     parse = TRUE,
     size = 3
   ) +
-  #facet_wrap(~group, scales = "free") +
+  facet_wrap(~group, scales = "free") +
   theme_minimal() +
   labs(
     title = "Individual Linear Models: Nsamp vs input_n",

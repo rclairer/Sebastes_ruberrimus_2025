@@ -51,6 +51,7 @@ ca_rec_len <- rbind(ca_rec_len,new_ca_rec_len) #put them together
   Did adding data from all these sources to RecFin mess some things up?
   Just add the new stuff on top.
   *still need to fix Nsamps*
+  dont worry about it!
 
 ```{r}
 # Use this first section to grab the old data with out any changes!
@@ -71,6 +72,7 @@ or_rec_len <- rbind(or_rec_len,new_or_rec_len) #put them together
   RecFin had a lot more old years that were missing in the last assessment.
   Just add the new stuff on top....Double check with Vlada
   *still need to fix Nsamps*
+  close enough, investigate in future
 ```{r}
 # Use this first section to grab the old data with out any changes!
 wa_rec_len <- inputs$dat$lencomp  |>
@@ -90,6 +92,7 @@ wa_rec_len <- rbind(wa_rec_len,new_wa_rec_len) #put them together
   RecFin was missing a few lengths in the last assessment (2006 and 2007).
   Just add the new stuff on top....Double check with Vlada
   *still need to fix Nsamps*
+  close enough
 ```{r}
 # Use this first section to grab the old data with out any changes!
 ca_obs_len <- inputs$dat$lencomp  |>
