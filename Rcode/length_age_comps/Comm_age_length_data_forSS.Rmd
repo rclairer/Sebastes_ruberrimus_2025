@@ -16,6 +16,7 @@ library(r4ss)
 ## Load data
 
 ```{r}
+
 # Get inputs from 2017 assessment that will get carried over to this assessment 
 # model_2017_path <- file.path("../../model/2017_yelloweye_model_updated_ss3_exe")
 # inputs <- SS_read(dir = model_2017_path, ss_new = TRUE)
@@ -45,7 +46,6 @@ raw_age_caal_WCGOP <- read.csv(paste0(file_path,'Commercial_caal_WCGOP_forSS.csv
 raw_age_comps_WCGOP <- read.csv(paste0(file_path,'Commercial_age_comps_WCGOP_forSS.csv'))
 
 
-
 ```
 
 ## format to good names
@@ -62,6 +62,7 @@ names(raw_age_caal_PacFIN_WCGOP) <- names(raw_age_caal_PacFIN) <- names(raw_age_
 # maal 
 ncol(raw_age_comps_PacFIN_WCGOP);ncol(raw_age_comps_PacFIN);ncol(raw_age_comps_WCGOP);ncol(ss_data$agecomp)
 names(raw_age_comps_PacFIN_WCGOP) <- names(raw_age_comps_PacFIN) <- names(raw_age_comps_WCGOP) <- names(ss_data$agecomp)
+
 ```
 
 
@@ -87,6 +88,7 @@ NB: previous assessment was having CA_TWL from PacFIN only because there was so 
 CA_TWL_PacFIN_WCGOP_length <- ss_data$lencomp %>% filter(fleet==1,year<=2015) %>% 
   bind_rows(raw_length_comps_PacFIN_WCGOP %>% filter(fleet==1,year>2015))
 View(CA_TWL_PacFIN_WCGOP_length)
+
 ```
 
 
@@ -152,8 +154,7 @@ READY for SS = *Yes*
 
 ```{r}
 ORWA_TWL_PacFIN_WCGOP_length <- ss_data$lencomp %>% filter(fleet==4,year<=2015) %>% 
-  bind_rows(raw_length_comps_PacFIN_WCGOP %>% 
-  filter(fleet==4,year>2015))
+  bind_rows(raw_length_comps_PacFIN_WCGOP %>% filter(fleet==4,year>2015))
 ```
 
 ## ORWA_NONTWL, PacFIN and WCGOP combined
@@ -189,6 +190,7 @@ rbind(CA_TWL_PacFIN_WCGOP_length,
 ```
 
 
+
 # AGE 
 
 ## CA_NONTWL
@@ -211,6 +213,7 @@ NB: because of the doubling issue notices in the 2017 caal we're using caal and 
 ```{r}
 CA_NONTWL_TraciCDFW_caal <- raw_age_caal_PacFIN %>% filter(fleet==2)
 View(CA_NONTWL_TraciCDFW_caal)
+
 ```
 
 
@@ -316,6 +319,7 @@ NB: because of the doubling issue notices in the 2017 caal we're using caal and 
 ```{r}
 ORWA_TWL_PacFIN_WCGOP_maal <-raw_age_comps_PacFIN_WCGOP %>% filter(fleet==-4)
 View(ORWA_TWL_PacFIN_WCGOP_maal)
+
 ```
 
 ## ORWA_NONTWL
@@ -337,6 +341,7 @@ NB: because of the doubling issue notices in the 2017 caal we're using caal and 
 ```{r}
 ORWA_NONTWL_PacFIN_WCGOP_caal <- raw_age_caal_PacFIN_WCGOP %>% filter(fleet==5)
 View(ORWA_NONTWL_PacFIN_WCGOP_caal)
+
 ```
 
 ### ORWA_NONTWL, ghost MAAL, PacFIN and WCGOP combined
@@ -358,6 +363,7 @@ ORWA_NONTWL_PacFIN_WCGOP_maal <- raw_age_comps_PacFIN_WCGOP %>% filter(fleet==-5
 ```
 
 data ready for SS = *YES*
+
 
 ## Combine everything
 

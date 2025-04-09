@@ -27,7 +27,7 @@ yelloweye_recent_comm_catch <- read.csv(file.path(
 
 # CA TWL - fleet 1
 # Use CA TWL from 1889-2015 from previous assessment
-CA_1889_2015_TWL <- inputs_catch$dat$catch |>
+CA_1889_2015_TWL <- inputs$dat$catch |>
   filter(fleet == 1) |>
   filter(year < 2016) |>
   select(year, catch) |>
@@ -51,7 +51,7 @@ CA_TWL <- CA_1889_2015_TWL |>
 # Use CA TWL from 1889-2015 from previous assessment
 CA_1889_2015_NONTWL <- inputs$dat$catch |>
   filter(fleet == 2) |>
-  filter(year < 2016)
+  filter(year < 2016) |>
   select(year, catch) |>
   rename(Year = year)
   
@@ -66,22 +66,17 @@ CA_2016_2024_NONTWL <- yelloweye_recent_comm_catch |>
     catch = TOTAL_CATCH
   )
 
-years_no_data <- data.frame(
-  Year = c(2016, 2018, 2019, 2020, 2024),
-  catch = c(0, 0,0,0,0)
-)
-
 CA_NONTWL <- CA_1889_2015_NONTWL |>
   bind_rows(CA_2016_2024_NONTWL) |>
-  bind_rows(years_no_data) |>
   arrange(Year) |>
   rename(CA_NONTWL = catch)
 
 # CA Rec - fleet 3
-CA_hist_catch_REC <- inputs_catch$dat$catch |>
+CA_hist_catch_REC <- inputs$dat$catch |>
   filter(fleet == 3 & year < 2016) |>
   filter(!between(year, 1880, 1927)) |>
-  select(Year, catch)
+  select(year, catch) |>
+  rename(Year = year)
 
 # RecFIN data for 2016 - 2024
 CA_recent_catch_REC <- read.csv(file.path(
@@ -200,7 +195,7 @@ ORWA_NONTWL <- ORWA_NONTWL_until_2015 |>
   rename(ORWA_NONTWL = catch)
 
 # OR Rec - fleet 6
-OR_REC_to_1978 <- inputs_catch$dat$catch |>
+OR_REC_to_1978 <- inputs$dat$catch |>
   filter(fleet == 6) |>
   filter(year <= 1978) |>
   select(year, catch) |>
@@ -214,13 +209,14 @@ OR_REC <- read.csv(file.path(
   "ORRecLandings_457_2024.csv"
   )) |>
   select(Year, Total_MT) |>
-  mutate(catch = round(catch, 2)) |>
+  mutate(catch = round(Total_MT, 2)) |>
+  select(-Total_MT) |>
   bind_rows(OR_REC_to_1978) |>
   arrange(Year) |>
-  rename(OR_REC = Total_MT)
+  rename(OR_REC = catch)
 
 # WA Rec - fleet 7
-WA_hist_catch_REC <- inputs_catch$dat$catch |>
+WA_hist_catch_REC <- inputs$dat$catch |>
   filter(fleet == 7 & year < 2016) |>
   filter(!between(year, 1880, 1974)) |>
   select(year, catch)
@@ -248,7 +244,8 @@ all_catch <- CA_TWL |>
   left_join(ORWA_TWL, by = "Year") |>
   left_join(ORWA_NONTWL, by = "Year") |>
   left_join(OR_REC, by = "Year") |>
-  left_join(WA_REC, by = "Year")
+  left_join(WA_REC, by = "Year") |>
+  filter(Year > 0)
 all_catch[is.na(all_catch)] <- 0
 
 write.csv(all_catch, file = file.path(getwd(), "Data", "for_SS", "all_catch_SAC.csv"), row.names = FALSE)
@@ -338,6 +335,7 @@ NWFSC_ORWA_index <- NWFSC_ORWA |>
   filter(area == "Coastwide") |>
   select(year, est, se) |>
   mutate(
+    Month = 7,
     Fleet = 11,
     Label = "NWFSC_ORWA"
   ) |>
@@ -350,7 +348,8 @@ IPHC_ORWA <- read.csv(file.path(
   getwd(), 
   "Data", 
   "processed", 
-  "IPHC_model_based_index_forSS3.csv"
+  "IPHC_index",
+  "IPHC_model_based_index_forSS3_UNSCALED.csv"
   ))
 IPHC_ORWA_index <- IPHC_ORWA |>
   mutate(Label = "IPHC_ORWA")
@@ -377,24 +376,30 @@ write.csv(all_indices, file = file.path(getwd(), "Data", "for_SS", "all_indices_
 colnames_l <- c("Year", "Month", "Fleet", "Sex", "Nsamps", seq(10, 74, by = 2))
 
 # CA TWL (from PacFIN) - fleet 1
-CA_TWL_lengths_old <- inputs$dat$lencomp |>
+CA_TWL_lengths <- inputs$dat$lencomp |>
   filter(fleet == 1) |>
   select(-part)
-CA_TWL_lengths_new <-
+# CA_TWL_lengths_new <-
+# CA_TWL_lengths <- rbind(CA_TWL_lengths_old, CA_TWL_lengths_new)
+colnames(CA_TWL_lengths) <- colnames_l
   
 # CA NONTWL (from PacFIN) - fleet 2
-CA_NONTWL_lengths_pacfin_old <- inputs$dat$lencomp |>
+CA_NONTWL_lengths <- inputs$dat$lencomp |>
   filter(fleet == 2) |>
   filter(year <= 2002) |>
   select(-part)
-CA_NONTWL_lengths_pacfin_new <- 
+# CA_NONTWL_lengths_new <- 
+# CA_NONTWL_lengths <- rbind(CA_NONTWL_lengths_old, CA_NONTWL_lengths_new)
+colnames(CA_NONTWL_lengths) <- colnames_l
 
 # CA NONTWL (from WCGOP) - fleet 2
-CA_NONTWL_lengths_old <- inputs$dat$lencomp |>
+CA_NONTWL_lengths_wcgop <- inputs$dat$lencomp |>
   filter(fleet == 2) |>
   filter(year > 2002) |>
   select(-part)
-CA_NONTWL_lengths_new <- 
+# CA_NONTWL_lengths_wcgop_new <- 
+# CA_NONTWL_lengths_wcgop <- rbind(CA_NONTWL_lengths_wcgop_old, CA_NONTWL_lengths_wcgop_new)
+colnames(CA_NONTWL_lengths_wcgop) <- colnames_l
 
 # CA Rec - fleet 3
 CA_REC_lengths_old <- inputs$dat$lencomp |>
@@ -415,16 +420,20 @@ colnames(CA_REC_lengths_new) <- colnames_l
 CA_REC_lengths <- rbind(CA_REC_lengths_old, CA_REC_lengths_new)
 
 # ORWA TWL (PacFIN and WCGOP combined) - fleet 4
-ORWA_TWL_lengths_old <- inputs$dat$lencomp |>
+ORWA_TWL_lengths <- inputs$dat$lencomp |>
   filter(fleet == 4) |>
   select(-part)
-ORWA_TWL_lengths_new
+# ORWA_TWL_lengths_new <- 
+# ORWA_TWL_lengths <- rbind(ORWA_TWL_lengths_old, ORWA_TWL_lengths_new)
+colnames(ORWA_TWL_lengths) <- colnames_l
 
 # ORWA NONTWL (PacFIN and WCGOP combined) - fleet 5
-ORWA_NONTWL_lengths_old <- inputs$dat$lencomp |>
+ORWA_NONTWL_lengths <- inputs$dat$lencomp |>
   filter(fleet == 5) |>
   select(-part)
-ORWA_NONTWL_lengths_new
+# ORWA_NONTWL_lengths_new <- 
+# ORWA_NONTWL_lengths <- rbind(ORWA_NONTWL_lengths_old, ORWA_NONTWL_lengths_new)
+colnames(ORWA_NONTWL_lengths) <- colnames_l
 
 # OR REC (MRFSS and ORBS combined, plus data associated with WDFW ages (1979-2002) and ODFW (2009-2016) ages, not included in RecFIN) - fleet 6
 OR_REC_lengths_old <- inputs$dat$lencomp |>
@@ -500,8 +509,8 @@ OR_observer_lengths <- rbind(OR_observer_lengths_old, OR_observer_lengths_new)
 
 # Triennial survey - fleet 10
 TRI_lengths <- inputs$dat$lencom |>
-  filter(fleet == 10)
-  select(-partition)
+  filter(fleet == 10) |>
+  select(-part)
 colnames(TRI_lengths) <- colnames_l
 
 # NWFSC survey - fleet 11
@@ -542,7 +551,12 @@ IPHC_lengths <- rbind(IPHC_lengths_old, IPHC_lengths_new)
 all_lengths <- do.call(
   "rbind",
   list(
+    CA_TWL_lengths,
+    CA_NONTWL_lengths,
+    CA_NONTWL_lengths_wcgop,
     CA_REC_lengths,
+    ORWA_TWL_lengths,
+    ORWA_NONTWL_lengths,
     OR_REC_lengths,
     WA_REC_lengths,
     CA_observer_lengths,
@@ -562,14 +576,29 @@ write.csv(all_lengths, file = file.path(getwd(), "Data", "for_SS", "all_lengths_
 
 colnames_a <- c("Year", "Month", "Fleet", "Sex", "Ageing_error", "Lbin_low", "Lbin_hi", "Nsamps", 0:65)
 
+# CA TWL CAAL and MAAL - fleet 1 and -1
+# CA_TWL_ages <- inputs$dat$agecom |>
+#   filter(fleet %in% c(-1, 1)) |>
+#   select(-part)
+# # CA_TWL_ages_new <- 
+# # CA_TWL_ages <- rbind(CA_TWL_ages_old, CA_TWL_ages_new)
+# colnames(CA_TWL_ages) <- colnames_a
+
 # CA NONTWL CAAL and MAAL - fleet 2 and -2
+CA_NONTWL_ages <- inputs$dat$agecom |>
+  filter(fleet %in% c(-2, 2)) |>
+  filter(year < 2005) |>
+  select(-part)
+# CA_NONTWL_ages_new <- 
+# CA_NONTWL_ages <- rbind(CA_NONTWL_ages_old, CA_NONTWL_ages_new)
+colnames(CA_NONTWL_ages) <- colnames_a
 
 # CA NONTWL WCGOP - fleet -2 and 2
-CA_NONTWL_wcgop <- inputs$dat$agecom |>
+CA_NONTWL_ages_wcgop <- inputs$dat$agecom |>
   filter(fleet %in% c(-2, 2)) |>
   select(-part) |>
   filter(year == 2005)
-colnames(CA_NONTWL_wcgop) <- colnames_a
+colnames(CA_NONTWL_ages_wcgop) <- colnames_a
 
 # CA REC CAAL and MAAL (aged by WDFW, 1983 and 1996 only) - fleet -3 and 3
 CA_REC_wdfw <- inputs$dat$agecom |>
@@ -599,9 +628,20 @@ CA_REC_ages <- rbind(CA_REC_caal, CA_REC_maal)
 colnames(CA_REC_ages) <- colnames_a
 
 # ORWA TWL CAAL and MAAL (PacFIN and WCGOP combined) - fleet 4, -4
+ORWA_TWL_ages <- inputs$dat$agecom |>
+  filter(fleet %in% c(-4, 4)) |>
+  select(-part)
+# ORWA_TWL_ages_new <- 
+# ORWA_TWL_ages <- rbind(ORWA_TWL_ages_old, ORWA_TWL_ages_new)
+colnames(ORWA_TWL_ages) <- colnames_a
 
 # ORWA NONTWL CAAL and MAAL (PacFIN and WCGOP combined) - fleet 5, -5
-
+ORWA_NONTWL_ages <- inputs$dat$agecom |>
+  filter(fleet %in% c(-5, 5)) |>
+  select(-part)
+# ORWA_NONTWL_ages_new <- 
+# ORWA_NONTWL_ages <- rbind(ORWA_NONTWL_ages_old, ORWA_NONTWL_ages_new)
+colnames(ORWA_NONTWL_ages) <- colnames_a
 
 # OR REC CAAL and MAAL - fleet 6, -6
 OR_REC_caal_old <- inputs$dat$agecom |>
@@ -616,7 +656,7 @@ OR_REC_caal_new <- read.csv(file.path(
   "or_rec_caal.csv"
 )) |>
   filter(year > 2016) |>
-  select(-X, -partition)
+  select(-partition)
 colnames(OR_REC_caal_new) <- colnames_a
 OR_REC_caal <- rbind(OR_REC_caal_old, OR_REC_caal_new)
 
@@ -646,7 +686,7 @@ WA_REC_caal <- read.csv(file.path(
   "rec_comps",
   "wa_rec_caal.csv"
 )) |>
-  select(-X, -partition)
+  select(-partition)
 colnames(WA_REC_caal) <- colnames_a
 
 WA_REC_maal <- read.csv(file.path(
@@ -656,7 +696,7 @@ WA_REC_maal <- read.csv(file.path(
   "rec_comps",
   "wa_rec_maal.csv"
 )) |>
-  select(-X, -partition)
+  select(-partition)
 colnames(WA_REC_maal) <- colnames_a
 
 WA_REC_ages <- rbind(WA_REC_caal, WA_REC_maal)
@@ -671,6 +711,7 @@ NWFSC_caal_new <- read.csv(file.path(
   "NWFSC.Combo_CAAL",
   "processed_one_sex_caal.csv"
 )) |>
+  select(year, month, fleet, sex, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything()) |>
   select(-partition)
 # |>
 #   filter(year > 2016)
@@ -691,7 +732,8 @@ NWFSC_maal_new <- read.csv(file.path(
     ageerr = 2,
     fleet = -11
   ) |>
-  select(-parition)
+  select(year, month, fleet, sex, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything())|>
+  select(-partition)
 # |>
 #   filter(year > 2016)
 colnames(NWFSC_maal_new) <- colnames_a
@@ -705,6 +747,7 @@ IPHC_caal_old <- inputs$dat$agecom |>
   filter(fleet == 12) |>
   filter(year <= 2016) |>
   select(-part)
+colnames(IPHC_caal_old) <- colnames_a
 IPHC_caal_new <- read.csv(file.path(
   getwd(),
   "Data",
@@ -721,6 +764,7 @@ IPHC_maal_old <- inputs$dat$agecom |>
   filter(fleet == -12) |>
   filter(year <= 2016) |>
   select(-part)
+colnames(IPHC_maal_old) <- colnames_a
 IPHC_maal_new <- read.csv(file.path(
   getwd(),
   "Data",
@@ -737,11 +781,22 @@ IPHC_ages <- rbind(IPHC_caal, IPHC_maal)
 
 # Combine all ages together
 all_ages <- do.call("rbind", list(
-  ca_nontwl_wcgop,
-  ca_rec_wdfw,
-  ca_rec_don_pearson,
-  nwfsc_ages,
-  iphc_ages
+  CA_TWL_ages,
+  CA_NONTWL_ages,
+  CA_NONTWL_ages_wcgop,
+  CA_REC_wdfw,
+  CA_REC_don_pearson,
+  CA_REC_ages,
+  ORWA_TWL_ages,
+  ORWA_NONTWL_ages,
+  OR_REC_ages,
+  WA_REC_ages,
+  NWFSC_ages,
+  IPHC_ages
 ))
 
 write.csv(all_ages, file = file.path(getwd(), "Data", "for_SS", "all_ages_SAC.csv"), row.names = FALSE)
+
+#L50 selex: 35.6,33.5,32.3,36.9,38.8,30.9,36.9,32,26,2.3,35.1,46
+#Lpeak selex: 49,45,45,55,53,39,47,45,35,81,57,57
+yelloweye_fixed_params
