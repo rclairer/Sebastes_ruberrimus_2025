@@ -186,15 +186,15 @@ names(wa_rec_maal) <- names(old_wa_rec_maal) # Replace col names from another MA
 Finish and put it all together 
 ```{r}
 # Always double check the names we are calling, they may change depending on if we use the old vs the new data
-mod$dat$agecomp <- dplyr::bind_rows(ca_rec_caal_1983_1996,
-                                  ca_rec_maal_1983_1996, 
-                                  ca_rec_caal_Don, 
-                                  ca_rec_caal_John, 
-                                  ca_rec_maal_Don,
-                                  ca_rec_maal_John,
-                                  or_rec_caal,
-                                  or_rec_maal,
-                                  wa_rec_caal,
-                                  wa_rec_maal) 
+# mod$dat$agecomp <- dplyr::bind_rows(ca_rec_caal_1983_1996,
+#                                   ca_rec_maal_1983_1996, 
+#                                   ca_rec_caal_Don, 
+#                                   ca_rec_caal_John, 
+#                                   ca_rec_maal_Don,
+#                                   ca_rec_maal_John,
+#                                   or_rec_caal,
+#                                   or_rec_maal,
+#                                   wa_rec_caal,
+#                                   wa_rec_maal) 
 # list all the dfs that I just made, when we start to add others, make sure to insert Commercial comps in the correct spot
 ```

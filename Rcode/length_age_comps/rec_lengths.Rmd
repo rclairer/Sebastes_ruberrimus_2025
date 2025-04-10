@@ -524,10 +524,21 @@ ca_obs_df <- data.frame(
 )
 
 # OR_OBS
- # Dont need to do OR_OBS because I'm pretty sure they used "total samples" for Nsamps in 2017...but they were wrong...? ask Vlada
+or_obs_len <- inputs$dat$lencomp  |>
+  filter(fleet == 9)
+or_obs_len$Nsamp <- c(2.276,13.898,15.312,30.348,30.176,29.142,18.416,14.76,15.14,41.42,26.658,34.626,18.002,19.864) # The Nsamps were rounded for some reason. Vlada found original data that was not rounded.
+new_or_obs_len <- read_csv("../../Data/processed/rec_comps/or_obs_lengths.csv") |>
+  filter(year <= 2016)
+
+or_obs_df <- data.frame(
+  Nsamp = or_obs_len$Nsamp,
+  input_n = new_or_obs_len$input_n,
+  group = "OR_OBS"
+)
+
 
 # Combine all data
-all_data <- bind_rows(ca_df, or_df, wa_df, ca_obs_df)
+all_data <- bind_rows(ca_df, or_df, wa_df, ca_obs_df, or_obs_df)
 
 # Plot everything in one ggplot
 library(ggpmisc)
