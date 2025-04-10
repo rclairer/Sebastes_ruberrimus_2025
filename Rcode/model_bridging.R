@@ -1,6 +1,11 @@
 # rm(list=ls())
 library(dplyr)
+library(tidyr)
+library(ggplot2)
 library(r4ss)
+library(readr)
+library(nwfscSurvey)
+library(pacfintools)
 
 ###############################################
 #########    2017 BASE MODEL #######################
@@ -703,3 +708,160 @@ SSplotComparisons(models_summary,
 )
 
 
+#################################################################################
+#### UPDATED SS3 EXE, UPDATED HISTORICAL (< YEAR 2017) AND EXTENDED CATCH #######
+####           AND UPDATED INDICES + COMMERCIAL LENCOMP + REC LENCOMP     #######
+#################################################################################
+
+# copy model starters and data file from prev run
+copy_SS_inputs(
+  dir.old = file.path(getwd(), "model", "2025_updated_catch_and_indices_comlencomp_20250410"), 
+  dir.new = file.path(getwd(), "model", "2025_updated_catch_indices_comlencomp_reclencomp_20250410"),
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+inputs <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch_and_indices_comlencomp_20250410"))
+file_path = "Data/processed/rec_comps/"
+
+# CA_REC, RecFin and Don's data, 1979-2024
+  # Remember, we filtered out 2020 data because there was only 1 length available.
+  # There was a perfect match for data, so no updates for old data. 
+  # Just add the new stuff on top, with fixed Nsamps
+
+  # Use this first section to grab the old data with out any changes!
+ca_rec_len <- inputs$dat$lencomp  |>
+  filter(fleet == 3) 
+  # For the Update, add this next section to add data from 2017-2024
+new_ca_rec_len <- read_csv(paste0(file_path,'ca_rec_lengths.csv')) 
+names(new_ca_rec_len) <- names(ca_rec_len) # Replace col names so they match everything else
+new_ca_rec_len <- new_ca_rec_len |>
+  filter(year >= 2017) # only grab newest years
+  # Calculate Nsamps using linear equation y = 4.6 + 0.732x
+x <- new_ca_rec_len$Nsamp
+y <-  4.6 + 0.732*x
+new_ca_rec_len$Nsamp <- y
+  # put them together
+ca_rec_len <- rbind(ca_rec_len,new_ca_rec_len) 
+
+# OR_REC, MRFFS and ORBS combined, 1979-2024
+  # There was a *close* match for data, so no updates for old data. 
+  # Might be worth investigating these data sources for the future assessment.
+  # Just add the new stuff on top, with fixed Nsamps
+
+  # Use this first section to grab the old data with out any changes!
+or_rec_len <- inputs$dat$lencomp  |>
+  filter(fleet == 6)
+  # For the Update, add this next section to add data from 2017-2024
+new_or_rec_len <- read_csv(paste0(file_path,'or_rec_lengths.csv'))
+names(new_or_rec_len) <- names(or_rec_len) # Replace col names so they match everything else
+new_or_rec_len <- new_or_rec_len |>
+  filter(year >= 2017) # only grab newest years
+  # Calculate Nsamps using linear equation y = 0.341 + 1.1x
+x <- new_or_rec_len$Nsamp
+y <-  0.341 + 1.1*x
+new_or_rec_len$Nsamp <- y
+  # put them together
+or_rec_len <- rbind(or_rec_len,new_or_rec_len) 
+
+# WA_REC, 1981, 1987, 1996-2024
+  # There was a *close* match for data, no updates for old data. 
+  # Might be worth investigating these data sources for the future assessment.
+  # Just add the new stuff on top, with fixed Nsamps
+
+  # Use this first section to grab the old data with out any changes!
+wa_rec_len <- inputs$dat$lencomp  |>
+  filter(fleet == 7)
+  # For the Update, add this next section to add data from 2017-2024
+new_wa_rec_len <- read_csv(paste0(file_path,'wa_rec_lengths.csv'))
+names(new_wa_rec_len) <- names(wa_rec_len) # Replace col names so they match everything else
+new_wa_rec_len <- new_wa_rec_len |>
+  filter(year >= 2017) # only grab newest years, no data for 2016
+  # Calculate Nsamps using linear equation y = 2.02 + 0.17x
+x <- new_wa_rec_len$Nsamp
+y <-  2.02 + 0.17*x
+new_wa_rec_len$Nsamp <- y
+  # put them together
+wa_rec_len <- rbind(wa_rec_len,new_wa_rec_len) 
+
+# CA_OBS, 1987-2024
+  # There was a *close* match for data, no updates for old data. 
+  # Might be worth investigating these data sources for the future assessment.
+  # Just add the new stuff on top, with fixed Nsamps
+
+  # Use this first section to grab the old data with out any changes!
+ca_obs_len <- inputs$dat$lencomp  |>
+  filter(fleet == 8)
+  # For the Update, add this next section to add data from 2017-2024
+new_ca_obs_len <- read_csv(paste0(file_path,'ca_obs_lengths.csv'))
+names(new_ca_obs_len) <- names(ca_obs_len) # Replace col names so they match everything else
+new_ca_obs_len <- new_ca_obs_len |>
+  filter(year >= 2017) # only grab newest years
+  # Calculate Nsamps using linear equation y = 1.48 + 0.73x
+x <- new_ca_obs_len$Nsamp
+y <-  1.48 + 0.73*x
+new_ca_obs_len$Nsamp <- y
+  # put them together
+ca_obs_len <- rbind(ca_obs_len,new_ca_obs_len) 
+
+# OR_OBS, 2003-2024
+  # There was a perfect match for length data. 
+  # However, the Nsamps in the 2017 assessment are whole numbers.
+  # For some reason they were rounded. Vlada found the raw Nsamp numbers. So for the update, we will replace them.
+  # Also fix the Nsamps using linear equation
+
+  # Use this first section to grab the old data with out any changes!
+or_obs_len <- inputs$dat$lencomp  |>
+  filter(fleet == 9)
+  # Fix Nsamps so they aren't rounded numbers using Vlada's data
+or_obs_len$Nsamp <- c(2.276,13.898,15.312,30.348,30.176,29.142,18.416,14.76,15.14,41.42,26.658,34.626,18.002,19.864)
+  # For the Update, use only the new data, so that it has both updated years and updated Nsamps 
+new_or_obs_len <- read_csv(paste0(file_path,'or_obs_lengths.csv'))
+names(new_or_obs_len) <- names(or_obs_len) # Replace col names so they match everything else
+new_or_obs_len <- new_or_obs_len |>
+  filter(year >= 2017) # only grab newest years
+  # Calculate Nsamps using linear equation y = 5.76 + 0.415x
+x <- new_or_obs_len$Nsamp
+y <-  5.76 + 0.415*x
+new_or_obs_len$Nsamp <- y
+  # put them together
+or_obs_len <- rbind(or_obs_len,new_or_obs_len) 
+
+# replace all previous rec length comp with the updated data
+# there are some remaining length comps from the survey: fleet 10,11,12
+inputs$dat$lencomp <- inputs$dat$lencomp %>% 
+  filter(!fleet %in%c(3,6,7,8,9)) %>% #remove rec fleets
+  bind_rows(ca_rec_len, #add our updated rec fleets
+            or_rec_len,
+            wa_rec_len, 
+            ca_obs_len,
+            or_obs_len) %>%
+  arrange(fleet,year) # reorder the data so it matches the old datafile structure
+
+# overwrite data file
+SS_write(inputs, dir = file.path(getwd(), "model", "2025_updated_catch_indices_comlencomp_reclencomp_20250410"), overwrite = TRUE)
+
+get_ss3_exe(dir = file.path(getwd(), "model", "2025_updated_catch_indices_comlencomp_reclencomp_20250410"))
+
+run(dir = file.path(getwd(), "model", "2025_updated_catch_indices_comlencomp_reclencomp_20250410"), 
+    show_in_console = TRUE, extras = "-nohess")
+
+replist <- SS_output(dir = file.path(getwd(), "model", "2025_updated_catch_indices_comlencomp_reclencomp_20250410"))
+SS_plots(replist)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "2025_updated_historical_and_extended_catch_20250409")),
+            paste0(file.path(getwd(), "model", "2025_updated_catch_and_indices_20250409")),
+            paste0(file.path(getwd(), "model", "2025_updated_catch_and_indices_comlencomp_20250410")),
+            paste0(file.path(getwd(), "model", "2025_updated_catch_indices_comlencomp_reclencomp_20250410")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", "updatedss3exe_updatedhistoricalcatch_extendedcatch_indices_commlencomp_reclencomp"),
+                  legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", "2025 updated historical and extended catch", "2025 updated extended catch and indices","+ commecial length comps","+ recreational length comps"),
+                  print = TRUE
+)
