@@ -1038,7 +1038,7 @@ ORWA_NONTWL_PacFIN_WCGOP_maal <- raw_age_comps_PacFIN_WCGOP %>% filter(fleet==-5
 
 # replace all previous survey length comp with the updated data
 inputs$dat$agecomp <- inputs$dat$agecomp %>% 
-  filter(!fleet %in%c(1,2,4,5)) %>% #remove commercial fleets
+  filter(!fleet %in%c(1,2,4,5,-1,-2,-4,-5)) %>% #remove commercial fleets
   bind_rows( #add our updated commercial fleets
             CA_NONTWL_TraciCDFW_caal,CA_NONTWL_TraciCDFW_maal,
              CA_NONTWL_WCGOP_caal,CA_NONTWL_WCGOP_maal,
@@ -1048,7 +1048,6 @@ inputs$dat$agecomp <- inputs$dat$agecomp %>%
 
 #because we are changing historical data we first to a run without extending to 2024
 inputs$dat$endyr <- 2016
-
 
 # overwrite data file
 SS_write(inputs, dir = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_upcomagecomp_20250410"), overwrite = TRUE)
@@ -1101,7 +1100,6 @@ inputs <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch_indices_
 #now we are extending to 2024
 inputs$dat$endyr <- 2024
 
-
 # overwrite data file
 SS_write(inputs, dir = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_20250410"), overwrite = TRUE)
 
@@ -1132,4 +1130,155 @@ SSplotComparisons(models_summary,
                                    "+ comm age comps updated and extended"),
                   print = TRUE
 )
+
+
+#################################################################################
+####   UPDATED SS3 EXE, UPDATED HISTORICAL (< YEAR 2017) AND EXTENDED CATCH  ####
+#### AND UPDATED INDICES + COMMERCIAL LENCOMP + REC LENCOMP + SURVEY LENCOMP ####
+####       + COMMERCIAL AGECOMP UPDATED AND EXTENDED (END YEAR=2024)         ####
+####                   + REC AGECOMP UPDATED (YEAR<2016)                     ####
+#################################################################################
+
+# copy model starters and data file from prev run
+copy_SS_inputs(
+  dir.old = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_20250410"), 
+  dir.new = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_upRECagecomp_20250410"),
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+inputs <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_upRECagecomp_20250410"))
+
+#because we are changing historical data we first to a run without extending to 2024
+inputs$dat$endyr <- 2016
+
+# CA_REC CAAL 1983-1996, aged by WDFW
+  # *no change* pull in old data and use in all model runs
+  # Future assessments: find the Traci file and make sure the ages and lengths are correct.
+ca_rec_caal_1983_1996 <- inputs$dat$agecomp |>
+  filter(fleet == 3) |>
+  filter(year == 1983 | year == 1996) |>
+  filter(ageerr == 1)
+
+# CA_REC MAAL Ghost 1983-1996, aged by WDFW
+  # *no change* pull in old data and use in all model runs
+ca_rec_maal_1983_1996 <- inputs$dat$agecomp |>
+  filter(fleet == -3) |>
+  filter(year == 1983 | year == 1996) |>
+  filter(ageerr == 1)
+
+# CA_REC CAAL Don Pearson Data 1979-1984, aged by Betty
+  # *divide all Nsamp and Ages by 2* - everything was doubled by accident in last assessment
+  # Use this first section to grab the old data with out any changes! 
+ca_rec_caal_Don <- inputs$dat$agecomp |>
+  filter(fleet == 3) |>
+  filter(year >= 1979 & year <= 1984) |>
+  filter(ageerr == 2)
+  # For the Update, add this next section to correct for the doubling mistake
+ca_rec_caal_Don[,9:75] <- ca_rec_caal_Don[,9:75]/2
+
+# CA_REC CAAL John Budrick Data 2009-2016, aged by Betty
+  # *divide all Nsamp and Ages by 2* - No new data, all data we got matched perfectly with 2017 assessment data, so just use old data.
+  # Use this first section to grab the old data with out any changes! 
+ca_rec_caal_John <- inputs$dat$agecomp |>
+  filter(fleet == 3) |>
+  filter(year >= 2009 & year <= 2016)
+  # For the Update, add this next section to correct for the doubling mistake
+ca_rec_caal_John[,9:75] <- ca_rec_caal_John[,9:75]/2
+
+# CA_REC MAAL Ghost, Don's data
+  # *need to rebuild from CAAL* - Nsamp column was duplicated (and is wrong), so it shifted all of the ages forward by 1 and dropped the last age column
+  # Use this first section to grab the old data with out any changes! 
+old_ca_rec_maal_Don <- inputs$dat$agecomp |>
+  filter(fleet == -3) |>
+  filter(year >= 1979 & year <= 1984) |>
+  filter(ageerr == 2)
+  # For the Update, add this next section to fix old mistake
+  # Take CAAL and group it so it matches MAAL structure, re-add the correct columns
+ca_rec_maal_Don <- ca_rec_caal_Don %>%
+  group_by(year) %>%  # Retain key columns
+  summarise(across(starts_with("a"), \(x) sum(x, na.rm = TRUE)),  # Sum age columns
+            Nsamp = sum(Nsamp, na.rm = TRUE), .groups = "drop")  # Sum input_n
+ca_rec_maal_Don <- cbind(old_ca_rec_maal_Don[,1:8],ca_rec_maal_Don[,69],ca_rec_maal_Don[,3:68])
+
+# CA_REC MAAL Ghost, John's data
+  # *need to rebuild from CAAL* - Nsamp column is totally wrong, All the age data looks correct, but how they added the Nsamps together is off. Do the same thing as above and just rebuild from CAAL. Confirmed that the data matched the MAAL that I calculated using nwfsc code.
+  # Also, Vlada says that Nsamp column for MAAL data DOES NOT MATTER...but for an update, lets at least make it consistent with everything else in that Nsamp = "total samples".
+  # It is a lot easier to look for mistakes in the data if the Nsamps = total samples, and is consistent throughout the datafile.
+  # Use this first section to grab the old data with out any changes! 
+old_ca_rec_maal_John <- inputs$dat$agecomp |>
+  filter(fleet == -3) |>
+  filter(year >= 2009 & year <= 2016)
+  # For the Update, add this next section to fix old mistake
+  # Take CAAL and group it so it matches MAAL structure, re-add the correct columns
+ca_rec_maal_John <- ca_rec_caal_John %>%
+  group_by(year) %>%  # Retain key columns
+  summarise(across(starts_with("a"), \(x) sum(x, na.rm = TRUE)),  # Sum age columns
+            Nsamp = sum(Nsamp, na.rm = TRUE), .groups = "drop")  # Sum input_n
+ca_rec_maal_John <- cbind(old_ca_rec_maal_John[,1:8],ca_rec_maal_John[,69],ca_rec_maal_John[,3:68])
+
+# OR_REC CAAL
+  # *doubling issue here too* - Also fixing Ageing Error column and adding updated Ages
+  # The extra ages in 2015 were filtered out because they were sex == U, but since that doesnt matter any more, Ali suggests we include them
+  # Use this first section to grab the old data with out any changes! 
+  # Bring in old data from 1979-2016
+or_rec_caal <- inputs$dat$agecomp |>
+  filter(fleet == 6) |>
+  filter(year >= 1979)
+  # Next, fix doubling problem, without adding any new data
+  # Use for a model run where we fix issues before adding new data
+or_rec_caal[,9:75] <- or_rec_caal[,9:75]/2
+  # Next problem is to fix the age column.Below is the correct age location and years according to Ali
+  # 1979 - 2000 = WDFW
+  # 2001 = WDFW(40) /unknown (assumed NWFSC) (10)
+  # 2002 =WDFW (n = 73)
+  # 2009 - 2016 = NWFSC
+or_rec_caal[144:160,6] <- 1 # changing 2001 and 2002 = WDFW
+or_rec_caal[161:193,6] <- 2 # changing 2009-2016 = NWFSC
+  # Last, Bring in new 2009-2016 data - some ages from 2015 were added
+new_or_rec_caal <- read_csv(file.path("../../Data/processed/rec_comps/or_rec_caal.csv"))
+names(new_or_rec_caal) <- names(or_rec_caal)
+or_rec_caal <- rbind(or_rec_caal|>filter(year<=2002),new_or_rec_caal|>filter(year>=2009))
+
+# OR_REC MAAL ghost
+  # *why are Nsamps not whole numbers?* - It doesn't matter...but it is a lot easier to double check the data if Nsamps are "total samples", so rebuild using up to date CAAL data
+  # Use this first section to grab the old data with out any changes!
+  # load old MAAL so we can use the first 8 columns and double check the data
+old_or_rec_maal <- inputs$dat$agecomp |>
+  filter(fleet == -6)
+  # For the Update, add this next section to fix Nsamps
+  # Take CAAL and group it so it matches MAAL structure, re-add the correct columns
+or_rec_maal <- or_rec_caal %>%
+  group_by(year) %>%  # Retain key columns
+  summarise(across(starts_with("a"), \(x) sum(x, na.rm = TRUE)),  # Sum age columns
+            Nsamp = sum(Nsamp, na.rm = TRUE), .groups = "drop")  # Sum input_n
+or_rec_maal <- cbind(old_or_rec_maal[,1:8],or_rec_maal[,69],or_rec_maal[,3:68])
+
+# WA_REC CAAL
+  # *Doubling problem, however, Fabio (state rep) provided new data for the entire time series and recommends we use all new data* - some of the old ages have been updated.
+  # Use this first section to grab the old data with out any changes!
+old_wa_rec_caal <- inputs$dat$agecomp |>
+  filter(fleet == 7)
+  # Use this section to fix the doubling problem for OLD data
+old_wa_rec_caal[,9:75] <- old_wa_rec_caal[,9:75]/2
+  # For the Update, add this next section to use the updated ages (Fabio), ignore all old data
+  # load new processed data from most recent RecFin pull
+wa_rec_caal <- read_csv(file.path("../../Data/processed/rec_comps/wa_rec_caal.csv"))
+names(wa_rec_caal) <- names(old_wa_rec_caal) # Replace col names from another MAAL dataset so they match everything else
+
+
+
+10. WA_REC MAAL
+  *Just use new data* - some of the old ages have been updated.
+
+# Use this first section to grab the old data with out any changes!
+old_wa_rec_maal <- inputs$dat$agecomp |>
+  filter(fleet == -7)
+
+## For the Update, add this next section to use the updated ages (Fabio), ignore all old data
+#load new processed data from most recent RecFin pull
+wa_rec_maal <- read_csv(file.path("../../Data/processed/rec_comps/wa_rec_maal.csv"))
+names(wa_rec_maal) <- names(old_wa_rec_maal) # Replace col names from another MAAL dataset so they match everything else
 
