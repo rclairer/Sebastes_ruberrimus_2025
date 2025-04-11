@@ -55,7 +55,8 @@ models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
-                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", "base_updatedss3exe_updatednsexes"),
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "base_updatedss3exe_updatednsexes"),
                   legendlabels = c("2017 base", "2017 updated SS3 exe (Nsexes = 1)", "2017 updated SS3 exe (Nsexes = -1)"),
                   print = TRUE
 )
@@ -408,7 +409,8 @@ models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
-                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", "updatedss3exe_updatedhistoricalcatch"),
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "updatedss3exe_updatedhistoricalcatch"),
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", "2025 updated historical catch"),
                   print = TRUE
 )
@@ -450,7 +452,8 @@ models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
-                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", "updatedss3exe_updatedhistoricalcatch_extendedcatch"),
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "add_extendedcatch"),
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", "2025 updated historical catch", "2025 updated historical and extended catch"),
                   print = TRUE
 )
@@ -606,7 +609,8 @@ models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
-                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", "updatedss3exe_updatedhistoricalcatch_extendedcatch_indices"),
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "add_indices"),
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", "2025 updated historical catch", "2025 updated historical and extended catch", "2025 updated catch and indices"),
                   print = TRUE
 )
@@ -702,7 +706,8 @@ models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
-                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", "updatedss3exe_updatedhistoricalcatch_extendedcatch_indices_commlencomp"),
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "add_commlencomp"),
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", "2025 updated historical and extended catch", "2025 updated extended catch and indices","+ commecial length comps"),
                   print = TRUE
 )
@@ -862,7 +867,8 @@ models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
-                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", "updatedss3exe_updatedhistoricalcatch_extendedcatch_indices_commlencomp_reclencomp"),
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "add_reclencomp"),
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", "2025 updated historical and extended catch", "2025 updated extended catch and indices","+ commecial length comps","+ recreational length comps"),
                   print = TRUE
 )
@@ -966,7 +972,8 @@ models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
-                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", "updatedss3exe_updatedhistoricalcatch_extendedcatch_indices_commlencomp_reclencomp_surveylencomp"),
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "add_surveylencomp"),
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
                                    #"2025 updated historical and extended catch", 
                                    "2025 updated extended catch and indices",
@@ -1076,7 +1083,7 @@ models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "updatedss3exe_updatedhistoricalcatch_extendedcatch_indices_lencompall_upcomagecomp"),
+                                      "add_upcomagecomp"),
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", "2025 updated historical and extended catch", 
                                    "2025 updated extended catch and indices",
                                    "+ all length comps","+ comm age comps updated"),
@@ -1128,7 +1135,7 @@ models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "updatedss3exe_updatedhistoricalcatch_extendedcatch_indices_lencompall_upextcomagecomp"),
+                                      "add_upextcomagecomp"),
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", "2025 updated historical and extended catch", 
                                    "2025 updated extended catch and indices",
                                    "+ all length comps","+ comm age comps updated",
@@ -1323,7 +1330,7 @@ models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "updatedss3exe_updatedhistoricalcatch_extendedcatch_indices_lencompall_upextcomagecomp_upRECagecomp"),
+                                      "add_upRECagecomp"),
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
                                    "2025 updated historical and extended catch", 
                                    #"2025 updated extended catch and indices",
@@ -1381,7 +1388,7 @@ models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "updatedss3exe_updatedhistoricalcatch_extendedcatch_indices_lencompall_upextcomagecomp_upextRECagecomp"),
+                                      "add_upextRECagecomp"),
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
                                    "2025 updated historical and extended catch", 
                                    #"2025 updated extended catch and indices",
@@ -1516,7 +1523,7 @@ models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "updatedss3exe_updatedhistoricalcatch_extendedcatch_indices_lencompall_upextcomagecomp_upextRECagecomp_surveyagecomp"),
+                                      "add_surveyagecomp"),
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
                                    "2025 updated historical and extended catch", 
                                    #"2025 updated extended catch and indices",
