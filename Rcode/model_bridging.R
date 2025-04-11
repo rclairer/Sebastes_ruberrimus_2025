@@ -724,7 +724,7 @@ copy_SS_inputs(
   verbose = TRUE
 )
 
-inputs <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch_and_indices_comlencomp_20250410"))
+inputs <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch_indices_comlencomp_reclencomp_20250410"))
 file_path = "Data/processed/rec_comps/"
 
 # CA_REC, RecFin and Don's data, 1979-2024
@@ -883,7 +883,7 @@ copy_SS_inputs(
   verbose = TRUE
 )
 
-inputs <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch_indices_comlencomp_reclencomp_20250410"))
+inputs <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250410"))
 
   # Nsamp method used for all survey length comps is the old Stewart Hamel method from the 2017 assessment where
   # Nsamp = n_trips + 0.0707 * n_fish when n_fish/n_tows < 55 and
@@ -957,7 +957,7 @@ SS_plots(replist)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "2025_updated_historical_and_extended_catch_20250409")),
+            #paste0(file.path(getwd(), "model", "2025_updated_historical_and_extended_catch_20250409")),
             paste0(file.path(getwd(), "model", "2025_updated_catch_and_indices_20250409")),
             paste0(file.path(getwd(), "model", "2025_updated_catch_and_indices_comlencomp_20250410")),
             paste0(file.path(getwd(), "model", "2025_updated_catch_indices_comlencomp_reclencomp_20250410")),
@@ -966,8 +966,13 @@ models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
-                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", "updatedss3exe_updatedhistoricalcatch_extendedcatch_indices_commlencomp_reclencomp", "updatedss3exe_updatedhistoricalcatch_extendedcatch_indices_commlencomp_reclencomp_surveylencomp"),
-                  legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", "2025 updated historical and extended catch", "2025 updated extended catch and indices","+ commecial length comps","+ recreational length comps","+ survey length comps"),
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", "updatedss3exe_updatedhistoricalcatch_extendedcatch_indices_commlencomp_reclencomp_surveylencomp"),
+                  legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
+                                   #"2025 updated historical and extended catch", 
+                                   "2025 updated extended catch and indices",
+                                   "+ commecial length comps",
+                                   "+ recreational length comps",
+                                   "+ survey length comps"),
                   print = TRUE
 )
 
@@ -1150,6 +1155,7 @@ copy_SS_inputs(
 )
 
 inputs <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_upRECagecomp_20250410"))
+file_path = "Data/processed/rec_comps/"
 
 #because we are changing historical data we first to a run without extending to 2024
 inputs$dat$endyr <- 2016
@@ -1238,7 +1244,7 @@ or_rec_caal[,9:75] <- or_rec_caal[,9:75]/2
 or_rec_caal[144:160,6] <- 1 # changing 2001 and 2002 = WDFW
 or_rec_caal[161:193,6] <- 2 # changing 2009-2016 = NWFSC
   # Last, Bring in new 2009-2016 data - some ages from 2015 were added
-new_or_rec_caal <- read_csv(file.path("../../Data/processed/rec_comps/or_rec_caal.csv"))
+new_or_rec_caal <- read_csv(paste0(file_path,'or_rec_caal.csv'))
 names(new_or_rec_caal) <- names(or_rec_caal)
 or_rec_caal <- rbind(or_rec_caal|>filter(year<=2002),new_or_rec_caal|>filter(year>=2009))
 
@@ -1265,20 +1271,259 @@ old_wa_rec_caal <- inputs$dat$agecomp |>
 old_wa_rec_caal[,9:75] <- old_wa_rec_caal[,9:75]/2
   # For the Update, add this next section to use the updated ages (Fabio), ignore all old data
   # load new processed data from most recent RecFin pull
-wa_rec_caal <- read_csv(file.path("../../Data/processed/rec_comps/wa_rec_caal.csv"))
+wa_rec_caal <- read_csv(paste0(file_path,'wa_rec_caal.csv'))
 names(wa_rec_caal) <- names(old_wa_rec_caal) # Replace col names from another MAAL dataset so they match everything else
 
-
-
-10. WA_REC MAAL
-  *Just use new data* - some of the old ages have been updated.
-
-# Use this first section to grab the old data with out any changes!
+# WA_REC MAAL
+  # *Just use new data* - some of the old ages have been updated.
+  # Use this first section to grab the old data with out any changes!
 old_wa_rec_maal <- inputs$dat$agecomp |>
   filter(fleet == -7)
-
-## For the Update, add this next section to use the updated ages (Fabio), ignore all old data
-#load new processed data from most recent RecFin pull
-wa_rec_maal <- read_csv(file.path("../../Data/processed/rec_comps/wa_rec_maal.csv"))
+  # For the Update, add this next section to use the updated ages (Fabio), ignore all old data
+  # load new processed data from most recent RecFin pull
+wa_rec_maal <- read_csv(paste0(file_path,'wa_rec_maal.csv'))
 names(wa_rec_maal) <- names(old_wa_rec_maal) # Replace col names from another MAAL dataset so they match everything else
 
+# replace all previous CAAL and MAAL rec age comp with the updated data
+inputs$dat$agecomp <- inputs$dat$agecomp %>% 
+  filter(!fleet %in%c(3,6,7,-3,-6,-7)) %>% #remove all rec fleets
+  bind_rows(ca_rec_caal_1983_1996,
+            ca_rec_maal_1983_1996,
+            ca_rec_caal_Don,
+            ca_rec_maal_Don,
+            ca_rec_caal_John,
+            ca_rec_maal_John,
+            or_rec_caal,
+            or_rec_maal,
+            wa_rec_caal,
+            wa_rec_maal) %>%
+  arrange(fleet,year) # reorder the data so it matches the old datafile structure
+
+# overwrite data file
+SS_write(inputs, dir = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_upRECagecomp_20250410"), overwrite = TRUE)
+
+get_ss3_exe(dir = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_upRECagecomp_20250410"))
+
+run(dir = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_upRECagecomp_20250410"), 
+    show_in_console = TRUE, extras = "-nohess")
+
+replist <- SS_output(dir = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_upRECagecomp_20250410"))
+SS_plots(replist)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "2025_updated_historical_and_extended_catch_20250409")),
+            #paste0(file.path(getwd(), "model", "2025_updated_catch_and_indices_20250409")),
+            paste0(file.path(getwd(), "model", "2025_updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250410")),
+            #paste0(file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_upcomagecomp_20250410")),
+            paste0(file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_20250410")),
+            paste0(file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_upRECagecomp_20250410")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "updatedss3exe_updatedhistoricalcatch_extendedcatch_indices_lencompall_upextcomagecomp_upRECagecomp"),
+                  legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
+                                   "2025 updated historical and extended catch", 
+                                   #"2025 updated extended catch and indices",
+                                   "+ all length comps",
+                                   #"+ comm age comps updated",
+                                   "+ comm age comps updated and extended",
+                                   "+ rec age comps updated"),
+                  print = TRUE)
+
+
+#################################################################################
+####   UPDATED SS3 EXE, UPDATED HISTORICAL (< YEAR 2017) AND EXTENDED CATCH  ####
+#### AND UPDATED INDICES + COMMERCIAL LENCOMP + REC LENCOMP + SURVEY LENCOMP ####
+####       + COMMERCIAL AGECOMP UPDATED AND EXTENDED (END YEAR=2024)         ####
+####         + REC AGECOMP UPDATED AND EXTENDED (END YEAR=2024)              ####
+#################################################################################
+
+# copy model starters and data file from prev run
+copy_SS_inputs(
+  dir.old = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_upRECagecomp_20250410"), 
+  dir.new = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_extRECagecomp_20250410"),
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+inputs <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_extRECagecomp_20250410"))
+
+#extend to 2024
+inputs$dat$endyr <- 2024
+
+# overwrite data file
+SS_write(inputs, dir = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_extRECagecomp_20250410"), overwrite = TRUE)
+
+get_ss3_exe(dir = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_extRECagecomp_20250410"))
+
+run(dir = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_extRECagecomp_20250410"), 
+    show_in_console = TRUE, extras = "-nohess")
+
+replist <- SS_output(dir = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_extRECagecomp_20250410"))
+SS_plots(replist)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "2025_updated_historical_and_extended_catch_20250409")),
+            #paste0(file.path(getwd(), "model", "2025_updated_catch_and_indices_20250409")),
+            paste0(file.path(getwd(), "model", "2025_updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250410")),
+            #paste0(file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_upcomagecomp_20250410")),
+            paste0(file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_20250410")),
+            #paste0(file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_upRECagecomp_20250410")),
+            paste0(file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_extRECagecomp_20250410")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "updatedss3exe_updatedhistoricalcatch_extendedcatch_indices_lencompall_upextcomagecomp_upextRECagecomp"),
+                  legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
+                                   "2025 updated historical and extended catch", 
+                                   #"2025 updated extended catch and indices",
+                                   "+ all length comps",
+                                   #"+ comm age comps updated",
+                                   "+ comm age comps updated and extended",
+                                   #"+ rec age comps updated",
+                                   "+ rec age comps updated and extended"),
+                  print = TRUE)
+
+#################################################################################
+####   UPDATED SS3 EXE, UPDATED HISTORICAL (< YEAR 2017) AND EXTENDED CATCH  ####
+#### AND UPDATED INDICES + COMMERCIAL LENCOMP + REC LENCOMP + SURVEY LENCOMP ####
+####       + COMMERCIAL AGECOMP UPDATED AND EXTENDED (END YEAR=2024)         ####
+####         + REC AGECOMP UPDATED AND EXTENDED (END YEAR=2024)              ####
+####                      + SURVEY AGECOMPS                                  ####
+#################################################################################
+
+# copy model starters and data file from prev run
+copy_SS_inputs(
+  dir.old = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_extRECagecomp_20250410"), 
+  dir.new = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_extRECagecomp_surveyagecomp_20250411"),
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+inputs <- SS_read(dir = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_extRECagecomp_surveyagecomp_20250411"))
+
+# Nsamp method used for all survey maal is the old Stewart Hamel method from the 2017 assessment where
+# Nsamp = n_trips + 0.0707 * n_fish when n_fish/n_tows < 55 and
+# Nsamp = 4.89 * n_trips when n_fish/n_tows >= 55
+
+# NWFSC survey CAAL and MAAL - fleet -11 and 11
+  # QUESTION: The age comps were a little different between the old assessment and the new assessment, are we
+  # going to use updated ages? for all years?
+  # For this run, use all new data, but figure out why Nsamps are whole numbers
+NWFSC_caal_old <- inputs$dat$agecom |>
+   filter(fleet == 11)
+NWFSC_caal_new <- read.csv(file.path(
+  getwd(),
+  "Data",
+  "processed",
+  "NWFSC.Combo_CAAL",
+  "processed_one_sex_caal.csv"
+)) |>
+  select(year, month, fleet, sex, partition, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything())
+# |>
+#   filter(year > 2016)
+colnames(NWFSC_caal_new) <- colnames(NWFSC_caal_old)
+NWFSC_caal <- NWFSC_caal_new
+# NWFSC_caal <- rbind(NWFSC_caal_old, NWFSC_caal_new)
+
+NWFSC_maal_old <- inputs$dat$agecom |>
+   filter(fleet == -11)
+NWFSC_maal_new <- read.csv(file.path(
+  getwd(),
+  "Data",
+  "processed",
+  "NWFSC.Combo_age_comps",
+  "NWFSC.Combo_age_unsexed_raw_0_65_yelloweye rockfish_groundfish_slope_and_shelf_combination_survey.csv"
+)) |>
+  mutate(
+    ageerr = 2,
+    fleet = -11
+  ) |>
+  select(year, month, fleet, sex, partition, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything())
+# |>
+#   filter(year > 2016) 
+colnames(NWFSC_maal_new) <- colnames(NWFSC_maal_old)
+NWFSC_maal <- NWFSC_maal_new
+# NWFSC_maal <- rbind(NWFSC_maal_old, NWFSC_maal_new)
+
+NWFSC_ages <- rbind(NWFSC_caal, NWFSC_maal)
+
+# IPHC survey CAAL and MAAL - fleet -12 and 12
+# Data provided by Fabio, bio comps processed by Elizabeth
+IPHC_caal_old <- inputs$dat$agecom |>
+  filter(fleet == 12) #|>
+  #filter(year <= 2016)
+IPHC_caal_new <- read.csv(file.path(
+  getwd(),
+  "Data",
+  "processed",
+  "IPHC_bio_data",
+  "iphc_caal.csv"
+)) #|>
+  #filter(year > 2016)
+colnames(IPHC_caal_new) <- colnames(IPHC_caal_old)
+IPHC_caal <- rbind(IPHC_caal_old, IPHC_caal_new)
+
+IPHC_maal_old <- inputs$dat$agecom |>
+  filter(fleet == -12) #|>
+  #filter(year <= 2016)
+IPHC_maal_new <- read.csv(file.path(
+  getwd(),
+  "Data",
+  "processed",
+  "IPHC_bio_data",
+  "iphc_marginal_ages.csv"
+)) #|>
+  #filter(year > 2016)
+colnames(IPHC_maal_new) <- colnames(IPHC_maal_old)
+IPHC_maal <- rbind(IPHC_maal_old, IPHC_maal_new)
+
+IPHC_ages <- rbind(IPHC_caal, IPHC_maal)
+
+# overwrite data file
+SS_write(inputs, dir = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_extRECagecomp_surveyagecomp_20250411"), overwrite = TRUE)
+
+get_ss3_exe(dir = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_extRECagecomp_surveyagecomp_20250411"))
+
+run(dir = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_extRECagecomp_surveyagecomp_20250411"), 
+    show_in_console = TRUE, extras = "-nohess")
+
+replist <- SS_output(dir = file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_extRECagecomp_surveyagecomp_20250411"))
+SS_plots(replist)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "2025_updated_historical_and_extended_catch_20250409")),
+            #paste0(file.path(getwd(), "model", "2025_updated_catch_and_indices_20250409")),
+            paste0(file.path(getwd(), "model", "2025_updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250410")),
+            #paste0(file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_upcomagecomp_20250410")),
+            paste0(file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_20250410")),
+            #paste0(file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_upRECagecomp_20250410")),
+            paste0(file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_extRECagecomp_20250410")),
+            paste0(file.path(getwd(), "model", "2025_updated_catch_indices_lencompall_extcomagecomp_extRECagecomp_surveyagecomp_20250411")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "updatedss3exe_updatedhistoricalcatch_extendedcatch_indices_lencompall_upextcomagecomp_upextRECagecomp_surveyagecomp"),
+                  legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
+                                   "2025 updated historical and extended catch", 
+                                   #"2025 updated extended catch and indices",
+                                   "+ all length comps",
+                                   #"+ comm age comps updated",
+                                   "+ comm age comps updated and extended",
+                                   #"+ rec age comps updated",
+                                   "+ rec age comps updated and extended",
+                                   "+ survey age comps"),
+                  print = TRUE)
