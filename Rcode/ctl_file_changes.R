@@ -120,8 +120,8 @@ replist_fitbias <- r4ss::SS_output(dir = dir_fitbias)
 ##### Tune composition data ##### ----------------------------------------------
 r4ss::tune_comps(
   replist_fitbias, # use replist from previous run
+  niters_tuning = 2, 
   option = "Francis",
-  write = TRUE,
   dir = dir_fitbias,
   exe = "ss3"
 )
