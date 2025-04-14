@@ -533,8 +533,8 @@ ORWA_TWL_PacFIN_WCGOP_lengths <- inputs$dat$lencomp |>
 # Provided by Juliette and Morgan
 # using 2017 data for 1980-2015 and 2025 data update for 2016-2024
 ORWA_NONTWL_PacFIN_WCGOP_lengths <- inputs$dat$lencomp |>
-  filter(fleet==5,year<=2015) |>
-  bind_rows(raw_length_comps_PacFIN_WCGOP |> filter(fleet==5,year>2015))
+  filter(fleet == 5, year <= 2015) |>
+  bind_rows(raw_length_comps_PacFIN_WCGOP |> filter(fleet == 5, year > 2015))
 
 # OR REC (MRFSS and ORBS combined, plus data associated with WDFW ages (1979-2002) 
 # and ODFW (2009-2016) ages, not included in RecFIN) - fleet 6
@@ -550,8 +550,8 @@ OR_REC_lengths_new <- read.csv(file.path(
   "rec_comps",
   "or_rec_lengths.csv"
 )) |>
-  filter(year >= 2017) |>
-  colnames(OR_REC_lengths_new) <- colnames_l
+  filter(year >= 2017)
+colnames(OR_REC_lengths_new) <- colnames_l
 # Calculate Nsamps using linear equation y = 0.341 + 1.1x
 x <- OR_REC_lengths_new$Nsamp
 OR_REC_lengths_new$Nsamp <- 0.341 + 1.1*x
@@ -585,8 +585,8 @@ CA_observer_lengths_new <- read.csv(file.path(
   "rec_comps",
   "ca_obs_lengths.csv"
 )) |>
-  filter(year >= 2017) |>
-  colnames(CA_observer_lengths_new) <- colnames_l
+  filter(year >= 2017)
+colnames(CA_observer_lengths_new) <- colnames_l
 x <- CA_observer_lengths_new$Nsamp
 CA_observer_lengths_new$Nsamp <- 1.48 + 0.73*x
 CA_observer_lengths <- rbind(CA_observer_lengths_old, CA_observer_lengths_new)

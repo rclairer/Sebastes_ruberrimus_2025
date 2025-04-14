@@ -32,7 +32,6 @@ yelloweye_recent_comm_catch <- read.csv(file.path(
 # CA TWL - fleet 1
 # Use CA TWL from 1889-2015 from previous assessment
 CA_1889_2015_TWL <- inputs$dat$catch |>
-  CA_1889_2015_TWL <- inputs$dat$catch |>
   filter(fleet == 1) |>
   filter(year < 2016) |>
   select(year, catch) |>
@@ -402,9 +401,9 @@ colnames_l <- c("Year", "Month", "Fleet", "Sex", "Nsamps", seq(10, 74, by = 2))
 raw_length_comps_PacFIN_WCGOP <- read.csv(here::here("Data", "processed", "length_age_comps", 'Commercial_length_comps_PacFIN_WCGOP_forSS.csv')) |>
   select(-part)
 raw_length_comps_PacFIN <- read.csv(here::here("Data", "processed", "length_age_comps", 'Commercial_length_comps_PacFIN_forSS.csv')) |>
-  select(-part)
+  select(-partition)
 raw_length_comps_WCGOP <- read.csv(here::here("Data", "processed", "length_age_comps", 'Commercial_length_comps_WCGOP_forSS.csv')) |>
-  select(-part)
+  select(-partition)
 
 #format to SAC data names
 names(raw_length_comps_PacFIN_WCGOP) <- names(raw_length_comps_PacFIN) <- names(raw_length_comps_WCGOP) <- colnames_l
@@ -416,19 +415,15 @@ names(inputs$dat$lencomp) <- colnames_l
 
 # CA TWL (from PacFIN) - fleet 1
 CA_TWL_PacFIN_WCGOP_lengths <- inputs$dat$lencomp |>
-  filter(fleet == 1,year <= 2015) |> 
-  bind_rows(raw_length_comps_PacFIN_WCGOP |> filter(fleet == 1, year > 2015)) |>
-  select(-part)
-names(CA_TWL_PacFIN_WCGOP_lengths) <- colnames_l
+  filter(Fleet == 1, Year <= 2015) |> 
+  bind_rows(raw_length_comps_PacFIN_WCGOP |> filter(Fleet == 1, Year > 2015))
 
 # CA NONTWL (from PacFIN) up until 2002 - fleet 2
 # Provided by Juliette and Morgan
 # using 2017 data for 1979 - 2002, no new data
 # NB: Sample size from 2017 does not match our updated computation for unexplained reason. We use the 2017 data.
 CA_NONTWL_PacFIN_lengths <- inputs$dat$lencomp |>
-  filter(fleet == 2, year <= 2002) |>
-  select(-part)
-names(CA_NONTWL_PacFIN_lengths) <- colnames_l
+  filter(Fleet == 2, Year <= 2002)
   
 # CA NONTWL (from WCGOP) - fleet 2
 # Provided by Juliette and Morgan
@@ -436,16 +431,12 @@ names(CA_NONTWL_PacFIN_lengths) <- colnames_l
 # NB: the sample size used in 2017 does not match our values, whereas we have the 
 # exact same number of trips and fish samples. We use the 2017 data.
 CA_NONTWL_WCGOP_lengths <-inputs$dat$lencomp |>
-  filter(fleet == 2, year > 2002) |>
-  bind_rows(raw_length_comps_WCGOP |> filter(fleet == 2, year > 2015))
-  select(-part)
-colnames(CA_NONTWL_WCGOP_lengths) <- colnames_l
+  filter(Fleet == 2, Year > 2002) |>
+  bind_rows(raw_length_comps_WCGOP |> filter(Fleet == 2, Year > 2015))
 
 # CA Rec - fleet 3
 CA_REC_lengths_old <- inputs$dat$lencomp |>
-  filter(fleet == 3) |>
-  select(-part)
-colnames(CA_REC_lengths_old) <- colnames_l
+  filter(Fleet == 3)
 CA_REC_lengths_new <- read.csv(file.path(
   getwd(),
   "Data",
@@ -458,8 +449,8 @@ CA_REC_lengths_new <- read.csv(file.path(
 colnames(CA_REC_lengths_new) <- colnames_l
 
 # Calculate Nsamps using linear equation y = 4.6 + 0.732x
-x <- CA_REC_lengths_new$Nsamp
-CA_REC_lengths_new$Nsamp <- 4.6 + 0.732*x
+x <- CA_REC_lengths_new$Nsamps
+CA_REC_lengths_new$Nsamps <- 4.6 + 0.732*x
 # put them together
 CA_REC_lengths <- rbind(CA_REC_lengths_old, CA_REC_lengths_new)
 
@@ -468,28 +459,22 @@ CA_REC_lengths <- rbind(CA_REC_lengths_old, CA_REC_lengths_new)
 # using 2017 data for 1995-2015 (2016 was included in 2017 but we update it with new data) 
 # and 2025 data update for 2016-2024
 ORWA_TWL_PacFIN_WCGOP_lengths <- inputs$dat$lencomp |>
-  filter(fleet == 4,year <= 2015) |>
-  bind_rows(raw_length_comps_PacFIN_WCGOP |> filter(fleet == 4, year > 2015))
-  select(-part)
-colnames(ORWA_TWL_PacFIN_WCGOP_lengthss) <- colnames_l
+  filter(Fleet == 4, Year <= 2015) |>
+  bind_rows(raw_length_comps_PacFIN_WCGOP |> filter(Fleet == 4, Year > 2015))
 
 # ORWA NONTWL (PacFIN and WCGOP combined) - fleet 5
 # Provided by Juliette and Morgan
 # using 2017 data for 1980-2015 and 2025 data update for 2016-2024
 ORWA_NONTWL_PacFIN_WCGOP_lengths <- inputs$dat$lencomp |>
-  filter(fleet==5,year<=2015) |>
-  bind_rows(raw_length_comps_PacFIN_WCGOP |> filter(fleet==5,year>2015))
-  select(-part)
-colnames(ORWA_NONTWL_PacFIN_WCGOP_lengths) <- colnames_l
+  filter(Fleet == 5, Year <= 2015) |>
+  bind_rows(raw_length_comps_PacFIN_WCGOP |> filter(Fleet == 5, Year > 2015))
 
 # OR REC (MRFSS and ORBS combined, plus data associated with WDFW ages (1979-2002) 
 # and ODFW (2009-2016) ages, not included in RecFIN) - fleet 6
 # Provided by Morgan and Abby
 # Previous data until 2016
 OR_REC_lengths_old <- inputs$dat$lencomp |>
-  filter(fleet == 6) |>
-  select(-part)
-colnames(OR_REC_lengths_old) <- colnames_l
+  filter(Fleet == 6)
 OR_REC_lengths_new <- read.csv(file.path(
   getwd(),
   "Data",
@@ -501,15 +486,13 @@ OR_REC_lengths_new <- read.csv(file.path(
   select(-partition)
 colnames(OR_REC_lengths_new) <- colnames_l
 # Calculate Nsamps using linear equation y = 0.341 + 1.1x
-x <- OR_REC_lengths_new$Nsamp
-OR_REC_lengths_new$Nsamp <- 0.341 + 1.1*x
+x <- OR_REC_lengths_new$Nsamps
+OR_REC_lengths_new$Nsamps <- 0.341 + 1.1*x
 OR_REC_lengths <- rbind(OR_REC_lengths_old, OR_REC_lengths_new)
 
 # WA REC (data from WDFW) - fleet 7
 WA_REC_lengths_old <- inputs$dat$lencomp |>
-  filter(fleet == 7) |>
-  select(-part)
-colnames(WA_REC_lengths_old) <- colnames_l
+  filter(Fleet == 7)
 WA_REC_lengths_new <- read.csv(file.path(
   getwd(),
   "Data",
@@ -520,16 +503,14 @@ WA_REC_lengths_new <- read.csv(file.path(
   filter(year >= 2017) |>
   select(-partition)
 colnames(WA_REC_lengths_new) <- colnames_l
-x <- WA_REC_lengths_new$Nsamp
-WA_REC_lengths_new$Nsamp <- 2.02 + 0.17*x
+x <- WA_REC_lengths_new$Nsamps
+WA_REC_lengths_new$Nsamps <- 2.02 + 0.17*x
 WA_REC_lengths <- rbind(WA_REC_lengths_old, WA_REC_lengths_new)
 
 # CA observer - fleet 8
 # Provided by Morgan and Abby
 CA_observer_lengths_old <- inputs$dat$lencomp |>
-  filter(fleet == 8) |>
-  select(-part)
-colnames(CA_observer_lengths_old) <- colnames_l
+  filter(Fleet == 8)
 CA_observer_lengths_new <- read.csv(file.path(
   getwd(),
   "Data",
@@ -540,16 +521,14 @@ CA_observer_lengths_new <- read.csv(file.path(
   filter(year >= 2017) |>
   select(-partition)
 colnames(CA_observer_lengths_new) <- colnames_l
-x <- CA_observer_lengths_new$Nsamp
-CA_observer_lengths_new$Nsamp <- 1.48 + 0.73*x
+x <- CA_observer_lengths_new$Nsamps
+CA_observer_lengths_new$Nsamps <- 1.48 + 0.73*x
 CA_observer_lengths <- rbind(CA_observer_lengths_old, CA_observer_lengths_new)
 
 # OR observer - fleet 9
 # Provided by Morgan and Abby
 OR_observer_lengths_old <- inputs$dat$lencomp |>
-  filter(fleet == 9) |>
-  select(-part)
-colnames(OR_observer_lengths_old) <- colnames_l
+  filter(Fleet == 9)
 OR_observer_lengths_new <- read.csv(file.path(
   getwd(),
   "Data",
@@ -561,21 +540,17 @@ OR_observer_lengths_new <- read.csv(file.path(
   select(-partition)
 colnames(OR_observer_lengths_new) <- colnames_l
 # Calculate Nsamps using linear equation y = 5.76 + 0.415x
-x <- OR_observer_lengths_new$Nsamp
-OR_observer_lengths_new$Nsamp <- 5.76 + 0.415*x
+x <- OR_observer_lengths_new$Nsamps
+OR_observer_lengths_new$Nsamps <- 5.76 + 0.415*x
 OR_observer_lengths <- rbind(OR_observer_lengths_old, OR_observer_lengths_new)
 
 # Triennial survey - fleet 10
 TRI_lengths <- inputs$dat$lencom |>
-  filter(fleet == 10) |>
-  select(-part)
-colnames(TRI_lengths) <- colnames_l
+  filter(Fleet == 10) 
 
 # NWFSC survey - fleet 11
 NWFSC_lengths_old <- inputs$dat$lencom |>
-  filter(fleet == 11) |>
-  select(-part)
-colnames(NWFSC_lengths_old) <- colnames_l
+  filter(Fleet == 11) 
 NWFSC_lengths_new <- read.csv(file.path(
   getwd(),
   "Data",
@@ -590,9 +565,7 @@ NWFSC_lengths <- rbind(NWFSC_lengths_old, NWFSC_lengths_new)
 
 # IPHC ORWA - fleet 12
 IPHC_lengths_old <- inputs$dat$lencom |>
-  filter(fleet == 12) |>
-  select(-part)
-colnames(IPHC_lengths_old) <- colnames_l
+  filter(Fleet == 12)
 IPHC_lengths_new <- read.csv(file.path(
   getwd(),
   "Data",
@@ -699,6 +672,10 @@ CA_REC_don_pearson_caal <- inputs$dat$agecomp |>
 
 # For the Update, add this next section to correct for the doubling mistake
 CA_REC_don_pearson_caal[,9:75] <- CA_REC_don_pearson_caal[,9:75]/2
+CA_REC_don_pearson_caal <- CA_REC_don_pearson_caal |>
+  select(-part)
+colnames(CA_REC_don_pearson_caal) <- colnames_a
+
 
 # *need to rebuild from CAAL* - Nsamp column was duplicated (and is wrong), so it shifted all of the ages forward by 1 and dropped the last age column
 # Use this first section to grab the old data with out any changes! 
@@ -710,14 +687,15 @@ CA_REC_don_pearson_maal_old <- inputs$dat$agecomp |>
 colnames(CA_REC_don_pearson_maal_old) <- colnames_a
 # For the Update, add this next section to fix old mistake
 # Take CAAL and group it so it matches MAAL structure, re-add the correct columns
+### STOPPED HERE
+### Figure out how to look for columns that have numbers to summarize across
 CA_REC_don_pearson_maal <- CA_REC_don_pearson_caal %>%
-  group_by(year) %>%  # Retain key columns
-  summarise(across(starts_with("a"), \(x) sum(x, na.rm = TRUE)), # Sum age columns
-            Nsamp = sum(Nsamp, na.rm = TRUE), .groups = "drop")  # Sum input_n
-CA_REC_don_pearson_maal <- cbind(CA_REC_don_pearson_maal_old[,1:7],CA_REC_don_pearson_maal[,69],CA_REC_don_pearson_maal[,3:68])
+  group_by(Year) %>%  # Retain key columns
+  summarise(across(matches("[:digit:]"), \(x) sum(x, na.rm = TRUE)), # Sum age columns
+            Nsamp = sum(Nsamps, na.rm = TRUE), .groups = "drop")  # Sum input_n
+CA_REC_don_pearson_maal <- cbind(CA_REC_don_pearson_maal_old[,1:7],CA_REC_don_pearson_maal[,68],CA_REC_don_pearson_maal[,3:67])
 CA_REC_don_pearson <- rbind(CA_REC_don_pearson_caal, CA_REC_don_pearson_maal) |>
   select(-part)
-colnames(CA_REC_don_pearson) <- colnames_a
 
 # CA REC CAAL and MAAL from John - fleet -3 and 3
 # *divide all Nsamp and Ages by 2* - No new data, all data we got matched perfectly with 2017 assessment data, so just use old data.

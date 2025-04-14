@@ -1,7 +1,6 @@
 #C Yelloweye 2017 control file
 #C file created using an r4ss function
-#C file write time: 2025-04-07  12:45:25
-#C file write time: 2025-04-07  12:45:25
+#C file write time: 2025-04-14  17:40:36
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -20,9 +19,9 @@
 1 1 1 1 #_blocks_per_pattern
 #_begin and end years of blocks
 1992 2004
-2005 2024
-2002 2024
-2002 2024
+2005 2016
+2002 2016
+2002 2016
 #
 # controls for all timevary parameters 
 1 #_env/block/dev_adjust_method for all time-vary parms (1=warn relative to base parm bounds; 3=no bound check)
@@ -58,8 +57,8 @@
  0.01	     0.2	  0.0649748	       0.05	      99	0	  1	0	0	0	0	0	0	0	#_VonBert_K_Fem_GP_1 
  0.01	     0.5	   0.189443	        0.1	      99	0	  3	0	0	0	0	0	0	0	#_CV_young_Fem_GP_1  
  0.01	     0.5	  0.0547183	        0.1	      99	0	  7	0	0	0	0	0	0	0	#_CV_old_Fem_GP_1    
-   -3	       3	7.18331e-06	7.18331e-06	      99	0	-50	0	0	0	0	0	0	0	#_Wtlen_1_Fem_GP_1   
-   -3	       4	     3.2448	     3.2448	      99	0	-50	0	0	0	0	0	0	0	#_Wtlen_2_Fem_GP_1   
+   -3	       3	7.31281e-06	7.31281e-06	      99	0	-50	0	0	0	0	0	0	0	#_Wtlen_1_Fem_GP_1   
+   -3	       4	    3.24248	    3.24248	      99	0	-50	0	0	0	0	0	0	0	#_Wtlen_2_Fem_GP_1   
    38	      45	    42.0705	     41.765	      99	0	-50	0	0	0	0	0	0	0	#_Mat50%_Fem_GP_1    
    -3	       3	  -0.402214	   -0.36886	      99	0	-50	0	0	0	0	0	0	0	#_Mat_slope_Fem_GP_1 
    -3	   3e+05	7.21847e-08	7.21847e-08	       1	6	 -6	0	0	0	0	0	0	0	#_Eggs_alpha_Fem_GP_1
@@ -89,7 +88,7 @@
 #_no timevary SR parameters
 1 #do_recdev:  0=none; 1=devvector (R=F(SSB)+dev); 2=deviations (R=F(SSB)+dev); 3=deviations (R=R0*dev; dev2=R-f(SSB)); 4=like 3 with sum(dev2) adding penalty
 1980 # first year of main recr_devs; early devs can preceed this era
-2023 # last year of main recr_devs; forecast devs start in following year
+2015 # last year of main recr_devs; forecast devs start in following year
 7 #_recdev phase
 1 # (0/1) to read 13 advanced options
 1889 #_recdev_early_start (0=none; neg value makes relative to recdev_start)
