@@ -478,7 +478,6 @@ names(raw_length_comps_PacFIN_WCGOP) <- names(raw_length_comps_PacFIN) <- names(
 
 # CA TWL (from PacFIN) - fleet 1
 # Provided by Juliette and Morgan
-
 CA_TWL_PacFIN_WCGOP_lengths <- inputs$dat$lencomp |> 
   filter(fleet == 1,year <= 2015) |>
   bind_rows(raw_length_comps_PacFIN_WCGOP |> filter(fleet == 1, year > 2015))
@@ -487,7 +486,8 @@ CA_TWL_PacFIN_WCGOP_lengths <- inputs$dat$lencomp |>
 # Provided by Juliette and Morgan
 # using 2017 data for 1979 - 2002, no new data
 # NB: Sample size from 2017 does not match our updated computation for unexplained reason. We use the 2017 data.
-CA_NONTWL_PacFIN_lengths <- inputs$dat$lencomp %>% filter(fleet==2,year<=2002) 
+CA_NONTWL_PacFIN_lengths <- inputs$dat$lencomp |>
+  filter(fleet == 2, year <= 2002) 
 
 # CA NONTWL (from WCGOP) - fleet 2
 # Provided by Juliette and Morgan
@@ -495,8 +495,8 @@ CA_NONTWL_PacFIN_lengths <- inputs$dat$lencomp %>% filter(fleet==2,year<=2002)
 # NB: the sample size used in 2017 does not match our values, whereas we have the 
 # exact same number of trips and fish samples. We use the 2017 data.
 CA_NONTWL_WCGOP_lengths <-inputs$dat$lencomp |>
-  filter(fleet==2,year>2002) |>
-  bind_rows(raw_length_comps_WCGOP |> filter(fleet==2,year>2015))
+  filter(fleet == 2, year > 2002) |>
+  bind_rows(raw_length_comps_WCGOP |> filter(fleet == 2, year > 2015))
 
 # CA REC - fleet 3
 # Provided by Morgan and Abby
@@ -526,8 +526,8 @@ CA_REC_lengths <- rbind(CA_REC_lengths_old, CA_REC_lengths_new)
 # using 2017 data for 1995-2015 (2016 was included in 2017 but we update it with new data) 
 # and 2025 data update for 2016-2024
 ORWA_TWL_PacFIN_WCGOP_lengths <- inputs$dat$lencomp |>
-  filter(fleet==4,year<=2015) |>
-  bind_rows(raw_length_comps_PacFIN_WCGOP |> filter(fleet==4,year>2015))
+  filter(fleet == 4, year <= 2015) |>
+  bind_rows(raw_length_comps_PacFIN_WCGOP |> filter(fleet == 4, year > 2015))
 
 # ORWA NONTWL (PacFIN and WCGOP combined) - fleet 5
 # Provided by Juliette and Morgan
@@ -568,8 +568,8 @@ WA_REC_lengths_new <- read.csv(file.path(
   "rec_comps",
   "wa_rec_lengths.csv"
 )) |>
-  filter(year >= 2017) |>
-  colnames(WA_REC_lengths_new) <- colnames_l
+  filter(year >= 2017)
+colnames(WA_REC_lengths_new) <- colnames_l
 x <- WA_REC_lengths_new$Nsamp
 WA_REC_lengths_new$Nsamp <- 2.02 + 0.17*x
 WA_REC_lengths <- rbind(WA_REC_lengths_old, WA_REC_lengths_new)
@@ -710,11 +710,7 @@ raw_age_comps_WCGOP <- read.csv(paste0(file_path,'Commercial_age_comps_WCGOP_for
 names(raw_age_caal_PacFIN_WCGOP) <- names(raw_age_caal_PacFIN) <- names(raw_age_caal_WCGOP) <- names(inputs$dat$agecomp)
 names(raw_age_comps_PacFIN_WCGOP) <- names(raw_age_comps_PacFIN) <- names(raw_age_comps_WCGOP) <- names(inputs$dat$agecomp)
 
-# CA TWL CAAL and MAAL - fleet 1 and -1
-# No age data from CA
-CA_TWL_ages <- inputs$dat$agecom |>
-  filter(fleet %in% c(-1, 1))
-
+# No age data from CA TWL fleet
 
 # CA NONTWL CAAL and MAAL - fleet 2 and -2
 # No new data
@@ -729,17 +725,10 @@ CA_NONTWL_ages_wcgop <- inputs$dat$agecom |>
   filter(year == 2005)
 
 # CA REC CAAL and MAAL (aged by WDFW, 1983 and 1996 only) - fleet -3 and 3
-CA_REC_wdfw_caal <- inputs$dat$agecom |>
-  filter(fleet == 3) |>
+CA_REC_wdfw_ages <- inputs$dat$agecom |>
+  filter(fleet %in% c(3, -3)) |>
   filter(year == 1983 | year == 1996) |>
   filter(ageerr == 1)
-
-CA_REC_wdfw_maal <- inputs$dat$agecomp |>
-  filter(fleet == -3) |>
-  filter(year == 1983 | year == 1996) |>
-  filter(ageerr == 1)
-
-CA_REC_wdfw_ages <- rbind(CA_REC_wdfw_caal, CA_REC_wdfw_maal)
 
 # CA REC CAAL and MAAL (data from Don Pearson 1979 - 1984, aged by Betty) - fleet -3 and 3
 # *divide all Nsamp and Ages by 2* - everything was doubled by accident in last assessment
