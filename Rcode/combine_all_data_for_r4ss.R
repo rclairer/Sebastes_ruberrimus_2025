@@ -604,8 +604,8 @@ OR_observer_lengths_new <- read.csv(file.path(
   "rec_comps",
   "or_obs_lengths.csv"
 )) |>
-  filter(year >= 2017) |>
-  colnames(OR_observer_lengths_new) <- colnames_l
+  filter(year >= 2017)
+colnames(OR_observer_lengths_new) <- colnames_l
 # Calculate Nsamps using linear equation y = 5.76 + 0.415x
 x <- OR_observer_lengths_new$Nsamp
 OR_observer_lengths_new$Nsamp <- 5.76 + 0.415*x

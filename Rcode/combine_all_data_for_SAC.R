@@ -660,7 +660,7 @@ CA_REC_wdfw_ages <- inputs$dat$agecom |>
   filter(fleet %in% c(-3, 3)) |>
   filter(year == 1983 | year == 1996) |>
   select(-part)
-colnames(CA_REC_wdfw) <- colnames_a
+colnames(CA_REC_wdfw_ages) <- colnames_a
 
 # CA REC CAAL and MAAL (data from Don Pearson 1979 - 1984, aged by Betty) - fleet -3 and 3
 # *divide all Nsamp and Ages by 2* - everything was doubled by accident in last assessment
@@ -668,13 +668,11 @@ colnames(CA_REC_wdfw) <- colnames_a
 CA_REC_don_pearson_caal <- inputs$dat$agecomp |>
   filter(fleet == 3) |>
   filter(year >= 1979 & year <= 1984) |>
-  filter(ageerr == 2)
-
-# For the Update, add this next section to correct for the doubling mistake
-CA_REC_don_pearson_caal[,9:75] <- CA_REC_don_pearson_caal[,9:75]/2
-CA_REC_don_pearson_caal <- CA_REC_don_pearson_caal |>
+  filter(ageerr == 2) |>
   select(-part)
 colnames(CA_REC_don_pearson_caal) <- colnames_a
+# For the Update, add this next section to correct for the doubling mistake
+CA_REC_don_pearson_caal[,8:74] <- CA_REC_don_pearson_caal[,8:74]/2
 
 
 # *need to rebuild from CAAL* - Nsamp column was duplicated (and is wrong), so it shifted all of the ages forward by 1 and dropped the last age column
@@ -689,22 +687,23 @@ colnames(CA_REC_don_pearson_maal_old) <- colnames_a
 # Take CAAL and group it so it matches MAAL structure, re-add the correct columns
 ### STOPPED HERE
 ### Figure out how to look for columns that have numbers to summarize across
-CA_REC_don_pearson_maal <- CA_REC_don_pearson_caal %>%
-  group_by(Year) %>%  # Retain key columns
-  summarise(across(matches("[:digit:]"), \(x) sum(x, na.rm = TRUE)), # Sum age columns
-            Nsamp = sum(Nsamps, na.rm = TRUE), .groups = "drop")  # Sum input_n
-CA_REC_don_pearson_maal <- cbind(CA_REC_don_pearson_maal_old[,1:7],CA_REC_don_pearson_maal[,68],CA_REC_don_pearson_maal[,3:67])
-CA_REC_don_pearson <- rbind(CA_REC_don_pearson_caal, CA_REC_don_pearson_maal) |>
-  select(-part)
+CA_REC_don_pearson_maal <- CA_REC_don_pearson_caal |>
+  group_by(Year) |>  # Retain key columns
+  summarise(across(matches("^\\d+$"), \(x) sum(x, na.rm = TRUE)), # Sum numeric columns
+            Nsamps = sum(Nsamps, na.rm = TRUE), .groups = "drop") # Sum input_n
+CA_REC_don_pearson_maal <- cbind(CA_REC_don_pearson_maal_old[,1:7],CA_REC_don_pearson_maal[,68],CA_REC_don_pearson_maal[,2:67])
+CA_REC_don_pearson <- rbind(CA_REC_don_pearson_caal, CA_REC_don_pearson_maal)
 
 # CA REC CAAL and MAAL from John - fleet -3 and 3
 # *divide all Nsamp and Ages by 2* - No new data, all data we got matched perfectly with 2017 assessment data, so just use old data.
 # Use this first section to grab the old data with out any changes! 
 CA_REC_caal <- inputs$dat$agecomp |>
   filter(fleet == 3) |>
-  filter(year >= 2009 & year <= 2016) 
+  filter(year >= 2009 & year <= 2016) |>
+  select(-part)
+colnames(CA_REC_caal) <- colnames_a
 # For the Update, add this next section to correct for the doubling mistake
-CA_REC_caal[,9:75] <- CA_REC_caal[,9:75]/2
+CA_REC_caal[,8:74] <- CA_REC_caal[,8:74]/2
 
 # *need to rebuild from CAAL* - Nsamp column is totally wrong, All the age data looks correct, but how they added the Nsamps together is off. Do the same thing as above and just rebuild from CAAL. Confirmed that the data matched the MAAL that I calculated using nwfsc code.
 # Also, Vlada says that Nsamp column for MAAL data DOES NOT MATTER...but for an update, lets at least make it consistent with everything else in that Nsamp = "total samples".
@@ -718,14 +717,11 @@ colnames(CA_REC_maal_old) <- colnames_a
 # For the Update, add this next section to fix old mistake
 # Take CAAL and group it so it matches MAAL structure, re-add the correct columns
 CA_REC_maal <- CA_REC_caal %>%
-  group_by(year) %>%  # Retain key columns
-  summarise(across(starts_with("a"), \(x) sum(x, na.rm = TRUE)),  # Sum age columns
-            Nsamp = sum(Nsamp, na.rm = TRUE), .groups = "drop")  # Sum input_n
-CA_REC_maal <- cbind(CA_REC_maal_old[,1:7],CA_REC_maal[,69],CA_REC_maal[,3:68])
-
-CA_REC_ages <- rbind(CA_REC_caal, CA_REC_maal) |>
-  select(-part)
-colnames(CA_REC_ages) <- colnames_a
+  group_by(Year) %>%  # Retain key columns
+  summarise(across(matches("^\\d+$"), \(x) sum(x, na.rm = TRUE)), # Sum numeric columns
+            Nsamps = sum(Nsamps, na.rm = TRUE), .groups = "drop") # Sum input_n
+CA_REC_maal <- cbind(CA_REC_maal_old[,1:7],CA_REC_maal[,68],CA_REC_maal[,2:67])
+CA_REC_ages <- rbind(CA_REC_caal, CA_REC_maal)
 
 # ORWA TWL CAAL and MAAL (PacFIN and WCGOP combined) - fleet 4 and -4
 # Provided by Juliette and Morgan
@@ -752,18 +748,20 @@ colnames(ORWA_NONTWL_ages) <- colnames_a
 # The extra ages in 2015 were filtered out because they were sex == U, but since that doesnt matter any more, Ali suggests we include them
 # Use this first section to grab the old data with out any changes! 
 # Bring in old data from 1979-2016
-OR_REC_caal_old <- inputs$dat$agecom |>
-  filter(fleet == 6)
+OR_REC_caal_old <- inputs$dat$agecomp |>
+  filter(fleet == 6) |>
+  select(-part)
 # Next, fix doubling problem, without adding any new data
 # Use for a model run where we fix issues before adding new data
-OR_REC_caal_old[,9:75] <- OR_REC_caal_old[,9:75]/2
+OR_REC_caal_old[,8:74] <- OR_REC_caal_old[,8:74]/2
 # Next problem is to fix the age column.Below is the correct age location and years according to Ali
 # 1979 - 2000 = WDFW
 # 2001 = WDFW(40) /unknown (assumed NWFSC) (10)
 # 2002 =WDFW (n = 73)
 # 2009 - 2016 = NWFSC
-OR_REC_caal_old[144:160,6] <- 1 # changing 2001 and 2002 = WDFW
-OR_REC_caal_old[161:193,6] <- 2 # changing 2009-2016 = NWFSC
+OR_REC_caal_old[144:160,5] <- 1 # changing 2001 and 2002 = WDFW
+OR_REC_caal_old[161:193,5] <- 2 # changing 2009-2016 = NWFSC
+colnames(OR_REC_caal_old) <- colnames_a
 
 OR_REC_caal_new <- read.csv(file.path(
   getwd(),
@@ -772,12 +770,10 @@ OR_REC_caal_new <- read.csv(file.path(
   "rec_comps",
   "or_rec_caal.csv"
 )) |>
-  filter(year >= 2009)
-
-OR_REC_caal <- rbind(OR_REC_caal_old, OR_REC_caal_new) |>
-  select(-part)
-colnames(OR_REC_caal) <- colnames_a
-OR_REC_caal <- rbind(OR_REC_caal_old |> filter(year<=2002),OR_REC_caal_new)
+  filter(year >= 2009) |>
+  select(-partition)
+colnames(OR_REC_caal_new) <- colnames_a
+OR_REC_caal <- rbind(OR_REC_caal_old |> filter(Year <= 2002), OR_REC_caal_new)
 
 # *why are Nsamps not whole numbers?* - It doesn't matter...but it is a lot easier to double check the data if Nsamps are "total samples", so rebuild using up to date CAAL data
 # Use this first section to grab the old data with out any changes!
@@ -792,11 +788,10 @@ colnames(OR_REC_maal_old) <- colnames_a
 # For the Update, add this next section to fix Nsamps
 # Take CAAL and group it so it matches MAAL structure, re-add the correct columns
 OR_REC_maal <- OR_REC_caal %>%
-  group_by(year) %>%  # Retain key columns
-  summarise(across(starts_with("a"), \(x) sum(x, na.rm = TRUE)),  # Sum age columns
-            Nsamp = sum(Nsamp, na.rm = TRUE), .groups = "drop")  # Sum input_n
-OR_REC_maal <- cbind(OR_REC_maal_old[,1:7],OR_REC_maal[,69],OR_REC_maal[,3:68])
-
+  group_by(Year) %>%  # Retain key columns
+  summarise(across(matches("^\\d+$"), \(x) sum(x, na.rm = TRUE)), # Sum numeric columns
+            Nsamps = sum(Nsamps, na.rm = TRUE), .groups = "drop")  # Sum input_n
+OR_REC_maal <- cbind(OR_REC_maal_old[,1:7],OR_REC_maal[,68],OR_REC_maal[,2:67])
 OR_REC_ages <- rbind(OR_REC_caal, OR_REC_maal)
 
 # WA REC CAAL and MAAL - fleet -7 and 7
@@ -825,8 +820,6 @@ colnames(WA_REC_maal) <- colnames_a
 WA_REC_ages <- rbind(WA_REC_caal, WA_REC_maal)
 
 # NWFSC survey CAAL and MAAL - fleet -11 and 11
-# NWFSC_caal_old <- inputs$dat$agecom |>
-#   filter(fleet == 11)
 NWFSC_caal_new <- read.csv(file.path(
   getwd(),
   "Data",
@@ -846,14 +839,9 @@ NWFSC_caal_new <- read.csv(file.path(
     everything()
   ) |>
   select(-partition)
-# |>
-#   filter(year > 2016)
 colnames(NWFSC_caal_new) <- colnames_a
 NWFSC_caal <- NWFSC_caal_new
-# NWFSC_caal <- rbind(NWFSC_caal_old, NWFSC_caal_new)
 
-# NWFSC_maal_old <- inputs$dat$agecom |>
-#   filter(fleet == -11)
 NWFSC_maal_new <- read.csv(file.path(
   getwd(),
   "Data",
@@ -877,12 +865,8 @@ NWFSC_maal_new <- read.csv(file.path(
     everything()
   ) |>
   select(-partition)
-# |>
-#   filter(year > 2016)
 colnames(NWFSC_maal_new) <- colnames_a
 NWFSC_maal <- NWFSC_maal_new
-# NWFSC_maal <- rbind(NWFSC_maal_old, NWFSC_maal_new)
-
 NWFSC_ages <- rbind(NWFSC_caal, NWFSC_maal)
 
 # IPHC survey CAAL and MAAL - fleet -12 and 12
@@ -927,10 +911,9 @@ IPHC_ages <- rbind(IPHC_caal, IPHC_maal)
 all_ages <- do.call(
   "rbind",
   list(
-    CA_TWL_ages,
     CA_NONTWL_ages,
     CA_NONTWL_ages_wcgop,
-    CA_REC_wdfw,
+    CA_REC_wdfw_ages,
     CA_REC_don_pearson,
     CA_REC_ages,
     ORWA_TWL_ages,
