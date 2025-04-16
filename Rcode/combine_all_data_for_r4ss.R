@@ -21,7 +21,6 @@ copy_SS_inputs(
   verbose = TRUE
 )
 
-inputs <- SS_read(dir = model_2017_path, ss_new = TRUE)
 inputs <-SS_read(dir = file.path(getwd(), "model", "2025_update_all_data"))
 
 # Discard mortality not included for WA recreational fishery so need to figure out
@@ -441,7 +440,8 @@ IPHC_ORWA <- read.csv(file.path(
   "processed",
   "IPHC_index",
   "IPHC_model_based_index_forSS3_UNSCALED.csv"
-))
+)) |>
+  select(-Assessment)
 IPHC_ORWA_index <- IPHC_ORWA
 colnames(IPHC_ORWA_index) <- colnames_i
 
@@ -963,3 +963,93 @@ r4ss::get_ss3_exe(here::here("model/2025_update_all_data"))
 
 replist <- r4ss::SS_output(here::here("model/2025_update_all_data"))
 r4ss::SS_plots(replist)
+
+##### Tune composition data ##### ----------------------------------------------
+tunecomps_dir <- here::here("model/2025_update_data_tune_comps")
+
+copy_SS_inputs(
+  dir.old = here::here("model/2025_update_all_data"),
+  dir.new = tunecomps_dir,
+  copy_exe = TRUE,
+  overwrite = TRUE
+)
+
+other_files <- c("Report.sso", "CompReport.sso", "warning.sso")
+lapply(other_files, function(files){
+  file.copy(
+    from = here::here("model/2025_update_all_data", files),
+    to = here::here(tunecomps_dir, files),
+    overwrite = TRUE
+  )
+})
+
+# file.copy(
+#   from = here::here("model/2025_update_all_data/Report.sso"),
+#   to = here::here(tunecomps_dir, "Report.sso"),
+#   overwrite = TRUE
+# )
+# 
+# file.copy(
+#   from = here::here("model/2025_update_all_data/CompReport.sso"),
+#   to = here::here(tunecomps_dir, "CompReport.sso"),
+#   overwrite = TRUE
+# )
+# 
+# file.copy(
+#   from = here::here("model/2025_update_all_data/warning.sso"),
+#   to = here::here(tunecomps_dir, "warning.sso"),
+#   overwrite = TRUE
+# )
+
+r4ss::tune_comps(
+  replist, # use replist from previous run
+  niters_tuning = 2, 
+  option = "Francis",
+  dir = tunecomps_dir,
+  show_in_console = TRUE,
+  extras = "-nohess",
+  exe = "ss3"
+)
+
+
+# Run model after this with hessian to use for fit bias
+r4ss::run(dir = replist_update_ctl)
+
+replist_tunecomps <- r4ss::SS_output(dir = tunecomps_dir)
+r4ss::SS_plots(replist_tunecomps)
+
+
+##### After initial model is run tasks ##### -----------------------------------
+##### Fit rec bias ramp ##### --------------------------------------------------
+# Need to run model first but after we do, we can change the recruitment bias
+# adjustment
+# Import output of model run as replist
+dir_fitbias <- here::here("model", "2025_update_data_fitbias")
+
+copy_SS_inputs(
+  dir.old = tunecomps_dir,
+  dir.new = dir_fitbias,
+  create.dir = FALSE,
+  overwrite = TRUE,
+  use_ss_new = FALSE,
+  copy_exe = TRUE,
+  verbose = TRUE
+)
+
+# must run oldctl model once before doing this
+r4ss::SS_fitbiasramp(
+  replist_tunecomps, #use replist from previous run
+  plot = FALSE,
+  print = FALSE,
+  oldctl = file.path(tunecomps_dir, "yelloweye_control.ss"),
+  newctl = file.path(dir_fitbias, "yelloweye_control.ss"),
+  startvalues = NULL,
+  method = "BFGS",
+  altmethod = "nlminb"
+)
+
+r4ss::get_ss3_exe(dir = dir_fitbias)
+# Run model after fitbias
+# r4ss::run(dir = dir_fitbias)
+replist_fitbias <- r4ss::SS_output(dir = dir_fitbias)
+SS_plots(replist_fitbias)
