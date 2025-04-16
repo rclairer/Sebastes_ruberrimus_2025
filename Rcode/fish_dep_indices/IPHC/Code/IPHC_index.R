@@ -211,24 +211,7 @@ index_df = data.frame(
 
 write.csv(index_df, file.path(here::here(), "Data", "processed", "IPHC_index", "IPHC_model_based_index_forSS3_SCALED.csv"), row.names = FALSE)
 
-# unscaled index for use in assessment
-index_df$obs = index_df$obs * sd1 + mu1
-index_df$se = index_df$se * sd1
-
-index_df %>%
-  ggplot(aes(x = as.numeric(year), y = obs)) +
-  geom_point(position=position_dodge(width = 0.5)) +
-  geom_errorbar(aes(x    = as.numeric(year),
-                    ymin = obs - 2*se,
-                    ymax = obs + 2*se),
-                width = 0.1,
-                position=position_dodge(width = 0.5)) +
-  geom_line()
-
-write.csv(index_df, file.path(here::here(), "Data", "processed", "IPHC_index", "IPHC_model_based_index_forSS3_UNSCALED.csv"), row.names = FALSE)
-
 # Compare with 2017 index ------------------------------------------------------
-
 model_2017_path = file.path(here::here(), "model", "2017_yelloweye_model_updated_ss3_exe")
 inputs          = SS_read(dir = model_2017_path, ss_new = TRUE)
 
@@ -242,7 +225,8 @@ all_indexes = rbind(index_df, index_2017)
 
 all_indexes %>% 
   ggplot(aes(x = as.numeric(year), y = obs, color = Assessment)) +
-  #  geom_line() +
+  geom_line() +
+  geom_line() +
   geom_point(position=position_dodge(width = 0.5)) +
   geom_errorbar(aes(x    = as.numeric(year),
                     ymin = obs - 1.96*se,
@@ -255,14 +239,22 @@ all_indexes %>%
 
 ggsave("scaled_index_comp.pdf", width = 7.7, height = 4, path = figure_diretory)
 
+# unscaled index for use in assessment -----------------------------------------
+index_df$obs = index_df$obs * sd1 + mu1
+index_df$se = index_df$se
 
+index_df %>%
+  ggplot(aes(x = as.numeric(year), y = obs)) +
+  geom_point(position=position_dodge(width = 0.5)) +
+  geom_errorbar(aes(x    = as.numeric(year),
+                    ymin = obs - 2*se,
+                    ymax = obs + 2*se),
+                width = 0.1,
+                position=position_dodge(width = 0.5)) +
+  geom_line() +
+  theme_minimal()
 
-
-
-
-
-
-
+write.csv(index_df, file.path(here::here(), "Data", "processed", "IPHC_index", "IPHC_model_based_index_forSS3_UNSCALED.csv"), row.names = FALSE)
 
 
 
