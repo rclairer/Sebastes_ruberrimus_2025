@@ -1,6 +1,6 @@
 #C Yelloweye 2017 control file
 #C file created using an r4ss function
-#C file write time: 2025-04-08  09:35:33
+#C file write time: 2025-04-15  16:17:54
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -51,7 +51,7 @@
 #
 #_growth_parms
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env_var&link	dev_link	dev_minyr	dev_maxyr	dev_PH	Block	Block_Fxn
- 0.01	    0.15	  0.0439034	   -3.12576	0.31	3	 -1	0	0	0	0	0	0	0	#_NatM_p_1_Fem_GP_1  
+ 0.01	    0.15	  0.0439034	   -3.12576	0.31	0	 -1	0	0	0	0	0	0	0	#_NatM_p_1_Fem_GP_1  
     1	      35	    8.56252	         30	  99	0	  2	0	0	0	0	0	0	0	#_L_at_Amin_Fem_GP_1 
    40	     120	    63.4537	         66	  99	0	  2	0	0	0	0	0	0	0	#_L_at_Amax_Fem_GP_1 
  0.01	     0.2	  0.0649748	       0.05	  99	0	  1	0	0	0	0	0	0	0	#_VonBert_K_Fem_GP_1 
@@ -61,8 +61,8 @@
    -3	       4	     3.2448	     3.2448	  99	0	-50	0	0	0	0	0	0	0	#_Wtlen_2_Fem_GP_1   
    38	      45	    42.0705	     41.765	  99	0	-50	0	0	0	0	0	0	0	#_Mat50%_Fem_GP_1    
    -3	       3	  -0.402214	   -0.36886	  99	0	-50	0	0	0	0	0	0	0	#_Mat_slope_Fem_GP_1 
-   -3	   3e+05	7.21847e-08	7.21847e-08	   1	6	 -6	0	0	0	0	0	0	0	#_Eggs_alpha_Fem_GP_1
-   -3	   39000	      4.043	      4.043	   1	6	 -6	0	0	0	0	0	0	0	#_Eggs_beta_Fem_GP_1 
+   -3	   3e+05	7.21847e-08	7.21847e-08	   1	0	 -6	0	0	0	0	0	0	0	#_Eggs_alpha_Fem_GP_1
+   -3	   39000	      4.043	      4.043	   1	0	 -6	0	0	0	0	0	0	0	#_Eggs_beta_Fem_GP_1 
     0	       2	          1	          1	  99	0	-50	0	0	0	0	0	0	0	#_RecrDist_GP_1      
    -4	       4	          0	          0	  99	0	-50	0	0	0	0	0	0	0	#_RecrDist_Area_1    
    -4	       4	   0.408889	          0	  99	0	  3	0	0	0	0	0	0	0	#_RecrDist_Area_2    
@@ -81,7 +81,7 @@
 0 # future feature: 0/1 to make realized sigmaR a function of SR curvature
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env-var	use_dev	dev_mnyr	dev_mxyr	dev_PH	Block	Blk_Fxn # parm_name
   3	15	5.37028	    5	   99	0	  3	0	0	0	0	0	0	0	#_SR_LN(R0)  
-0.2	 1	  0.718	0.718	0.158	2	 -3	0	0	0	0	0	0	0	#_SR_BH_steep
+0.2	 1	  0.718	0.718	0.158	0	 -3	0	0	0	0	0	0	0	#_SR_BH_steep
   0	 5	    0.5	  0.5	   99	0	 -2	0	0	0	0	0	0	0	#_SR_sigmaR  
  -5	 5	      0	    0	   99	0	-50	0	0	0	0	0	0	0	#_SR_regime  
  -1	 2	      0	    1	   99	0	-50	0	0	0	0	0	0	0	#_SR_autocorr
@@ -95,11 +95,11 @@
 7 #_recdev_early_phase
 0 #_forecast_recruitment phase (incl. late recr) (0 value resets to maxphase+1)
 1 #_lambda for Fcast_recr_like occurring before endyr+1
-1925.4338 #_last_early_yr_nobias_adj_in_MPD
-2011.0232 #_first_yr_fullbias_adj_in_MPD
-2013.0000 #_last_yr_fullbias_adj_in_MPD
-2023.2742 #_first_recent_yr_nobias_adj_in_MPD
-   0.5731 #_max_bias_adj_in_MPD (1.0 to mimic pre-2009 models)
+1937.608 #_last_yr_nobias_adj_in_MPD; begin of ramp
+2014.1188 #_first_yr_fullbias_adj_in_MPD; begin of plateau
+2014.2201 #_last_yr_fullbias_adj_in_MPD
+2022.5095 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
+0.6355 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
 0 #_period of cycles in recruitment (N parms read below)
 -5 #min rec_dev
 5 #max rec_dev
@@ -138,7 +138,7 @@
 -20	15	 -8.70507	   0	99	0	-1	0	0	0	0	0	0	0	#_LnQ_base_7_WA_REC(7)       
   0	 5	 0.405258	0.01	99	0	 5	0	0	0	0	0	0	0	#_Q_extraSD_7_WA_REC(7)      
 -15	15	 -9.17923	   0	99	0	-1	0	0	0	0	0	0	0	#_LnQ_base_8_CACPFV(8)       
- -1	 5	 0.101839	0.01	99	0	 5	0	0	0	0	0	0	0	#_Q_extraSD_8_CACPFV(8)      
+  0	 5	 0.101839	0.01	99	0	 5	0	0	0	0	0	0	0	#_Q_extraSD_8_CACPFV(8)      
 -15	15	 -8.88446	   0	99	0	-1	0	0	0	0	0	0	0	#_LnQ_base_9_OR_RECOB(9)     
   0	 5	  0.19891	0.01	99	0	 5	0	0	0	0	0	0	0	#_Q_extraSD_9_OR_RECOB(9)    
 -15	15	 -1.36218	   0	99	0	-1	0	0	0	0	0	0	0	#_LnQ_base_10_TRI_ORWA(10)   
@@ -146,7 +146,7 @@
 -15	15	-0.660982	   0	99	0	-1	0	0	0	0	0	0	0	#_LnQ_base_11_NWFSC_ORWA(11) 
   0	 5	        0	0.01	99	0	-5	0	0	0	0	0	0	0	#_Q_extraSD_11_NWFSC_ORWA(11)
 -15	15	 -4.58441	   0	99	0	-1	0	0	0	0	0	0	0	#_LnQ_base_12_IPHC_ORWA(12)  
- -1	 7	 0.127221	0.01	99	0	 5	0	0	0	0	0	0	0	#_Q_extraSD_12_IPHC_ORWA(12) 
+  0	 5	 0.127221	0.01	99	0	 5	0	0	0	0	0	0	0	#_Q_extraSD_12_IPHC_ORWA(12) 
 # timevary Q parameters
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE
 -4	4	-0.599842	0	99	-1	1	#_LnQ_base_6_OR_REC(6)_BLK2add_2005
@@ -232,7 +232,7 @@
   -1	30	     20	   9	99	0	-5	0	0	0	0	0	0	0	#_SizeSel_P_4_9_OR_RECOB(9)    
 -999	 9	   -999	  -5	99	0	-4	0	0	0	0	0	0	0	#_SizeSel_P_5_9_OR_RECOB(9)    
 -999	 9	   -999	   9	99	0	-5	0	0	0	0	0	0	0	#_SizeSel_P_6_9_OR_RECOB(9)    
-  20	87	79.9735	  30	99	0	 4	0	0	0	0	0	0	0	#_SizeSel_P_1_10_TRI_ORWA(10)  
+  20	80	79.9735	  30	99	0	 4	0	0	0	0	0	0	0	#_SizeSel_P_1_10_TRI_ORWA(10)  
  -15	 4	    -15	 -15	99	0	-5	0	0	0	0	0	0	0	#_SizeSel_P_2_10_TRI_ORWA(10)  
   -1	 9	6.99415	   6	99	0	 4	0	0	0	0	0	0	0	#_SizeSel_P_3_10_TRI_ORWA(10)  
   -1	30	     12	   9	99	0	-5	0	0	0	0	0	0	0	#_SizeSel_P_4_10_TRI_ORWA(10)  
@@ -262,27 +262,27 @@
 #
 # Input variance adjustments factors: 
 #_factor	fleet	value
-    4	 1	  0.84204	#_Variance_adjustment_list1 
-    4	 2	  0.35975	#_Variance_adjustment_list2 
-    4	 3	 0.600663	#_Variance_adjustment_list3 
-    4	 4	 0.182385	#_Variance_adjustment_list4 
-    4	 5	 0.486995	#_Variance_adjustment_list5 
-    4	 6	 0.395623	#_Variance_adjustment_list6 
-    4	 7	 0.892214	#_Variance_adjustment_list7 
-    4	 8	 0.705075	#_Variance_adjustment_list8 
-    4	 9	 0.780701	#_Variance_adjustment_list9 
-    4	10	 0.537479	#_Variance_adjustment_list10
-    4	11	 0.654133	#_Variance_adjustment_list11
-    4	12	        1	#_Variance_adjustment_list12
-    5	 2	 0.555438	#_Variance_adjustment_list13
-    5	 3	 0.587597	#_Variance_adjustment_list14
-    5	 4	  0.47074	#_Variance_adjustment_list15
-    5	 5	 0.478139	#_Variance_adjustment_list16
-    5	 6	  0.36123	#_Variance_adjustment_list17
-    5	 7	        1	#_Variance_adjustment_list18
-    5	11	        1	#_Variance_adjustment_list19
-    5	12	0.0277953	#_Variance_adjustment_list20
--9999	 0	        0	#_terminator                
+    4	 1	0.536923	#_Variance_adjustment_list1 
+    4	 2	0.295601	#_Variance_adjustment_list2 
+    4	 3	0.535827	#_Variance_adjustment_list3 
+    4	 4	 0.23854	#_Variance_adjustment_list4 
+    4	 5	0.356671	#_Variance_adjustment_list5 
+    4	 6	0.388903	#_Variance_adjustment_list6 
+    4	 7	0.997274	#_Variance_adjustment_list7 
+    4	 8	 0.54422	#_Variance_adjustment_list8 
+    4	 9	0.550109	#_Variance_adjustment_list9 
+    4	10	0.501464	#_Variance_adjustment_list10
+    4	11	0.513607	#_Variance_adjustment_list11
+    4	12	0.361988	#_Variance_adjustment_list12
+    5	 2	 0.55508	#_Variance_adjustment_list13
+    5	 3	       1	#_Variance_adjustment_list14
+    5	 4	       1	#_Variance_adjustment_list15
+    5	 5	0.146753	#_Variance_adjustment_list16
+    5	 6	0.909084	#_Variance_adjustment_list17
+    5	 7	       1	#_Variance_adjustment_list18
+    5	11	       1	#_Variance_adjustment_list19
+    5	12	0.020301	#_Variance_adjustment_list20
+-9999	 0	       0	#_terminator                
 #
 1 #_maxlambdaphase
 1 #_sd_offset; must be 1 if any growthCV, sigmaR, or survey extraSD is an estimated parameter
