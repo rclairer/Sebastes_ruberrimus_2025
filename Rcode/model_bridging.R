@@ -1633,3 +1633,120 @@ SSplotComparisons(models_summary,
                                    "+ updated historical and extended rec age comps",
                                    "+ extended survey age comps"),
                   print = TRUE)
+
+
+###################################################################
+#######                  TUNE COMPS                       #########
+###################################################################
+
+# copy model starters and data file from prev run
+copy_SS_inputs(
+  dir.old = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250414"), 
+  dir.new = file.path(getwd(), "model", "updated_alldata_tunecomps_20250416"),
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+#inputs <- SS_read(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250416"))
+
+get_ss3_exe(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250416"))
+
+run(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250416"), 
+    show_in_console = TRUE, extras = "-nohess")
+
+replist <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250416"))
+
+
+##### Tune composition data ##### ----------------------------------------------
+tunecomps_dir <- here::here("model/updated_alldata_tunecomps_20250416")
+
+r4ss::tune_comps(
+  replist, # use replist from previous run
+  write = TRUE,
+  niters_tuning = 2, 
+  option = "Francis",
+  dir = tunecomps_dir,
+  show_in_console = TRUE,
+  #extras = "-nohess", #run with hessian so we can run fitbias next
+  exe = "ss3"
+)
+
+replist_tunecomps <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250416"))
+
+SS_plots(replist_tunecomps)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250414")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250416")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "14_alldata_tunecomps"),
+                  legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
+                                   "2025 updated all data",
+                                   "+ tuned comps"),
+                  print = TRUE)
+
+
+###################################################################
+#######       FIT RECRUITMENT BIAS RAMP                   #########
+###################################################################
+
+# change the recruitment bias adjustment
+
+fitbias_dir <- here::here("model/updated_alldata_tunecomps_fitbias_20250416")
+
+copy_SS_inputs(
+  dir.old = tunecomps_dir,
+  dir.new = fitbias_dir,
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+#fitbias_plots <- here::here("model/updated_alldata_tunecomps_fitbias_20250416/plots")
+#add this folder manually
+
+r4ss::SS_fitbiasramp(
+  replist_tunecomps, #use replist from previous run
+  plot = FALSE,
+  print = TRUE,
+  #plotdir = fitbias_plots,
+  oldctl = file.path(tunecomps_dir, "yelloweye_control.ss"),
+  newctl = file.path(fitbias_dir, "yelloweye_control.ss"),
+  startvalues = NULL,
+  method = "BFGS",
+  altmethod = "nlminb"
+)
+
+# Run model after fitbias
+r4ss::get_ss3_exe(dir = fitbias_dir)
+
+run(dir = fitbias_dir, show_in_console = TRUE)
+
+replist_fitbias <- r4ss::SS_output(dir = fitbias_dir)
+
+SS_plots(replist_fitbias)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250414")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250416")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250416")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "15_alldata_tunecomps_fitbias"),
+                  legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
+                                   "2025 updated all data",
+                                   "+ tuned comps",
+                                   "+ recruitment dev bias adj"),
+                  print = TRUE)
