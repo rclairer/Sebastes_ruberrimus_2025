@@ -881,8 +881,6 @@ NWFSC_caal_new <- read.csv(file.path(
   "processed_one_sex_caal.csv"
 )) |>
   select(year, month, fleet, sex, partition, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything())
-# |>
-#   filter(year > 2016)
 colnames(NWFSC_caal_new) <- colnames_a
 NWFSC_caal <- NWFSC_caal_new
 # NWFSC_caal <- rbind(NWFSC_caal_old, NWFSC_caal_new)
@@ -901,11 +899,9 @@ NWFSC_maal_new <- read.csv(file.path(
     fleet = -11
   ) |>
   select(year, month, fleet, sex, partition, ageerr, Lbin_lo, Lbin_hi, Nsamp, everything())
-# |>
-#   filter(year > 2016) 
 colnames(NWFSC_maal_new) <- colnames_a
 NWFSC_maal <- NWFSC_maal_new
-# NWFSC_maal <- rbind(NWFSC_maal_old, NWFSC_maal_new)
+
 
 NWFSC_ages <- rbind(NWFSC_caal, NWFSC_maal)
 
@@ -945,10 +941,9 @@ IPHC_ages <- rbind(IPHC_caal, IPHC_maal)
 all_ages <- do.call(
   "rbind",
   list(
-    CA_TWL_ages,
     CA_NONTWL_ages,
     CA_NONTWL_ages_wcgop,
-    CA_REC_wdfw,
+    CA_REC_wdfw_ages,
     CA_REC_don_pearson,
     CA_REC_ages,
     ORWA_TWL_ages,

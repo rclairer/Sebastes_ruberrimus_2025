@@ -54,16 +54,18 @@ ctl$MG_parms["Wtlen_2_Fem_GP_1", ]$PRIOR <- 3.244801
 ctl$MainRdevYrLast <- 2023
 
 # Change QParams that are hitting bounds
-# Q_extraSD_8_CACPFV(8)
-ctl$Q_parms[8, ]$LO <- -1
 # Q_extraSD_12_IPHC_ORWA(12)
-ctl$Q_parms[16, ]$HI <- 7
 ctl$Q_parms[16, ]$LO <- -1
 
-# Selectivity Params if needed - do we need to do this?
 # Change selparm bounds that are being hit
 # Size_DblN_peak_10_TRI_ORWA(10)
 ctl$size_selex_parms[49, ]$HI <- 87
+
+# Remove 4 params that have priors but are not estimated by changing prior type to 0
+ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$PR_type <- 0
+ctl$MG_parms["Eggs_alpha_Fem_GP_1", ]$PR_type <- 0
+ctl$MG_parms["Eggs_beta_Fem_GP_1", ]$PR_type <- 0
+ctl$SR_parms["SR_BH_steep", ]$PR_type <- 0
 
 # Fill outfile with directory and file name of the file written
 r4ss::SS_writectl(
@@ -123,7 +125,8 @@ r4ss::tune_comps(
   niters_tuning = 2, 
   option = "Francis",
   dir = dir_fitbias,
+  show_in_console = TRUE,
   exe = "ss3"
 )
-
-replist_tunecomps <- r4ss::SS_output(dir = dir_tunecomps)
+replist_tunecomps <- r4ss::SS_output(dir = dir_fitbias)
+r4ss::SS_plots(replist_tunecomps)
