@@ -21,7 +21,6 @@ copy_SS_inputs(
   verbose = TRUE
 )
 
-inputs <- SS_read(dir = model_2017_path, ss_new = TRUE)
 inputs <-SS_read(dir = file.path(getwd(), "model", "2025_update_all_data"))
 
 # Discard mortality not included for WA recreational fishery so need to figure out
