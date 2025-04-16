@@ -574,7 +574,7 @@ getwd(),
   "IPHC_index",
   "IPHC_model_based_index_forSS3_UNSCALED.csv" ##UPDATE THIS IN COMBINE_ALL_DATA files
 ))
-IPHC_ORWA_index <- IPHC_ORWA
+IPHC_ORWA_index <- select(IPHC_ORWA, -Assessment) #UPDATE THIS IN COMBINE_ALL_DATA FILES
 colnames(IPHC_ORWA_index) <- colnames_i
 
 all_indices <- do.call(
@@ -1385,7 +1385,7 @@ inputs$dat$agecomp <- inputs$dat$agecomp %>%
             wa_rec_maal) %>%
   arrange(fleet,year) # reorder the data so it matches the old datafile structure
 
-all_agecomp <- inputs$dat$agecomp
+comm_rec_agecomp <- inputs$dat$agecomp
 
 # overwrite data file
 SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250414"), overwrite = TRUE)
@@ -1448,7 +1448,7 @@ inputs$dat$CPUE <- all_indices
 
 inputs$dat$lencomp <- all_lencomp
 
-inputs$dat$agecomp <- all_agecomp
+inputs$dat$agecomp <- comm_rec_agecomp
 
 # overwrite data file
 SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250414"), overwrite = TRUE)
@@ -1581,6 +1581,24 @@ colnames(IPHC_maal_new) <- colnames(IPHC_maal_old)
 IPHC_maal <- rbind(IPHC_maal_old, IPHC_maal_new)
 
 IPHC_ages <- rbind(IPHC_caal, IPHC_maal)
+
+##########################
+#need to add something like this
+
+############################
+# replace all previous CAAL and MAAL rec age comp with the updated data
+inputs$dat$agecomp <- inputs$dat$agecomp %>% 
+  filter(!fleet %in%c(11,12,-11,-12)) %>% #remove all rec fleets
+  bind_rows(NWFSC_ages,
+            IPHC_ages) %>%
+  arrange(fleet,year) # reorder the data so it matches the old datafile structure
+
+all_agecomp <- inputs$dat$agecomp
+
+##################
+#need to add something like this
+
+######################################
 
 # overwrite data file
 SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250414"), overwrite = TRUE)
