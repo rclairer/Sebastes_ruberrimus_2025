@@ -5,11 +5,11 @@
 #_User_info_available_at:https://vlab.noaa.gov/group/stock-synthesis
 #_Source_code_at:_https://github.com/nmfs-ost/ss3-source-code
 
-#_Start_time: Mon Apr 14 22:01:13 2025
+#_Start_time: Tue Apr 15 23:54:16 2025
 #_echo_input_data
 #C Data file for 2017 yelloweye assessment
 #C file created using an r4ss function
-#C file write time: 2025-04-14  21:59:27
+#C file write time: 2025-04-15  23:52:28
 #V3.30.23.1;_safe;_compile_date:_Dec  5 2024;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_13.2
 1889 #_StartYr
 2024 #_EndYr
