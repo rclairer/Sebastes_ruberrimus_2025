@@ -86,11 +86,6 @@ r4ss::get_ss3_exe(dir = update_ctl_model_path)
 #r4ss::run(dir = model_2025_path)
 replist_update_ctl <- r4ss::SS_output(dir = update_ctl_model_path)
 #r4ss::SS_plots(replist_update_ctl)
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
 
 ##### After initial model is run tasks ##### -----------------------------------
 ##### Fit rec bias ramp ##### --------------------------------------------------
@@ -135,7 +130,3 @@ r4ss::tune_comps(
 )
 replist_tunecomps <- r4ss::SS_output(dir = dir_fitbias)
 r4ss::SS_plots(replist_tunecomps)
-<<<<<<< Updated upstream
-=======
->>>>>>> b39062e9ef426588c704d98c72b568b4a8f23ac6
->>>>>>> Stashed changes

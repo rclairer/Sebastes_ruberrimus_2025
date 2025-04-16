@@ -440,7 +440,8 @@ IPHC_ORWA <- read.csv(file.path(
   "processed",
   "IPHC_index",
   "IPHC_model_based_index_forSS3_UNSCALED.csv"
-))
+)) |>
+  select(-Assessment)
 IPHC_ORWA_index <- IPHC_ORWA
 colnames(IPHC_ORWA_index) <- colnames_i
 
@@ -962,10 +963,6 @@ r4ss::get_ss3_exe(here::here("model/2025_update_all_data"))
 
 replist <- r4ss::SS_output(here::here("model/2025_update_all_data"))
 r4ss::SS_plots(replist)
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-
 
 ##### Tune composition data ##### ----------------------------------------------
 tunecomps_dir <- here::here("model/2025_update_data_tune_comps")
