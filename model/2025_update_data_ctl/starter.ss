@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-04-07  12:45:24
+#C file write time: 2025-04-15  10:34:02
 #
 yelloweye_data.ss #_datfile
 yelloweye_control.ss #_ctlfile
@@ -19,7 +19,7 @@ yelloweye_control.ss #_ctlfile
 -1 #_minyr_sdreport
 -2 #_maxyr_sdreport
 0 #_N_STD_yrs
-1.3e-04 #_converge_criterion
+1e-04 #_converge_criterion
 0 #_retro_yr
 8 #_min_age_summary_bio
 1 #_depl_basis
