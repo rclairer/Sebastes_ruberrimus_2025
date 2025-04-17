@@ -1848,12 +1848,78 @@ models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "16_alldata_tunecomps_fitbias_updatedctlfile"),
+                                      "16_alldata_tunecomps_fitbias_upctl"),
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
                                    "2025 updated all data",
                                    "+ tuned comps",
                                    "+ recruitment dev bias adj",
                                    "+ updated ctl file"),
+                  print = TRUE)
+
+###################################################################
+#######               STARTER FILE CHANGES                 #########
+###################################################################
+updated_ctlfile_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_20250416")
+
+updated_startfile_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_start_20250416")
+
+
+copy_SS_inputs(
+  dir.old = updated_ctlfile_dir,
+  dir.new = updated_startfile_dir,
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+inputs <- SS_read(dir = updated_startfile_dir)
+#start <- inputs$start
+
+inputs$start$prior_like <- 1 #changing from 0 to 1
+
+#no other changes necessary for now
+
+start <- inputs$start
+#start <- SS_readstarter(file.path(updated_startfile_dir, "starter.ss"), verbose = TRUE)
+# Fill outfile with directory and file name of the file written
+r4ss::SS_writestarter(
+  start,
+  dir = updated_startfile_dir,
+  file = "starter.ss",
+#  outfile = file.path(updated_startfile_dir, "starter.ss"),
+  overwrite = TRUE
+)
+
+r4ss::get_ss3_exe(dir = updated_startfile_dir)
+
+# You have to run this model in full (not using -nohess) because you need the covar file
+# to fit the bias
+r4ss::run(dir = updated_startfile_dir, show_in_console = TRUE)
+
+replist_updated_startfile <- r4ss::SS_output(dir = updated_startfile_dir)
+
+r4ss::SS_plots(replist_updated_startfile)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250414")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250416")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250416")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250416")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_start_20250416")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "17_alldata_tunecomps_fitbias_upctl_upstart"),
+                  legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
+                                   "2025 updated all data",
+                                   "+ tuned comps",
+                                   "+ recruitment dev bias adj",
+                                   "+ updated ctl file",
+                                   "+ updated start file"),
                   print = TRUE)
 
 
