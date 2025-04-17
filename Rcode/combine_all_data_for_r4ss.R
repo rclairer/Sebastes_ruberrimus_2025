@@ -1052,6 +1052,3 @@ r4ss::get_ss3_exe(dir = dir_fitbias)
 # Run model after fitbias
 # r4ss::run(dir = dir_fitbias)
 replist_fitbias <- r4ss::SS_output(dir = dir_fitbias)
-=======
->>>>>>> b39062e9ef426588c704d98c72b568b4a8f23ac6
->>>>>>> Stashed changes
