@@ -1,7 +1,7 @@
 #V3.30.23.1;_safe;_compile_date:_Dec  5 2024;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_13.2
 yelloweye_data.ss #_DataFile 
 yelloweye_control.ss #_Control 
-Run_Date: Wed Apr 16 18:13:43 2025
+Run_Date: Wed Apr 16 21:57:19 2025
 Final_phase: 8  N_iterations: 1420
 #_LIKELIHOOD 
 Label logL*Lambda
@@ -13,7 +13,7 @@ Recruitment 14.0561
 InitEQ_regime 0
 Sum_recdevs -1.86403
 Forecast_Recruitment 0
-Parm_priors 0
+Parm_priors 6.42155e-11
 Parm_softbounds 0.00915015
 Parm_devs 0
 F_Ballpark 0.497869

@@ -1881,9 +1881,11 @@ inputs$start$prior_like <- 1 #changing from 0 to 1
 #no other changes necessary for now
 
 start <- inputs$start
+#start <- SS_readstarter(file.path(updated_startfile_dir, "starter.ss"), verbose = TRUE)
 # Fill outfile with directory and file name of the file written
 r4ss::SS_writestarter(
   start,
+  dir = updated_startfile_dir,
   file = "starter.ss",
 #  outfile = file.path(updated_startfile_dir, "starter.ss"),
   overwrite = TRUE
