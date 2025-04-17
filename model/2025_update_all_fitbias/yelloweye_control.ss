@@ -1,6 +1,6 @@
 #C Yelloweye 2017 control file
 #C file created using an r4ss function
-#C file write time: 2025-04-15  16:17:54
+#C file write time: 2025-04-16  16:53:19
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -19,9 +19,9 @@
 1 1 1 1 #_blocks_per_pattern
 #_begin and end years of blocks
 1992 2004
-2005 2024
-2002 2024
-2002 2024
+2005 2016
+2002 2016
+2002 2016
 #
 # controls for all timevary parameters 
 1 #_env/block/dev_adjust_method for all time-vary parms (1=warn relative to base parm bounds; 3=no bound check)
@@ -51,24 +51,24 @@
 #
 #_growth_parms
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env_var&link	dev_link	dev_minyr	dev_maxyr	dev_PH	Block	Block_Fxn
- 0.01	    0.15	  0.0439034	   -3.12576	0.31	0	 -1	0	0	0	0	0	0	0	#_NatM_p_1_Fem_GP_1  
-    1	      35	    8.56252	         30	  99	0	  2	0	0	0	0	0	0	0	#_L_at_Amin_Fem_GP_1 
-   40	     120	    63.4537	         66	  99	0	  2	0	0	0	0	0	0	0	#_L_at_Amax_Fem_GP_1 
- 0.01	     0.2	  0.0649748	       0.05	  99	0	  1	0	0	0	0	0	0	0	#_VonBert_K_Fem_GP_1 
- 0.01	     0.5	   0.189443	        0.1	  99	0	  3	0	0	0	0	0	0	0	#_CV_young_Fem_GP_1  
- 0.01	     0.5	  0.0547183	        0.1	  99	0	  7	0	0	0	0	0	0	0	#_CV_old_Fem_GP_1    
-   -3	       3	7.18331e-06	7.18331e-06	  99	0	-50	0	0	0	0	0	0	0	#_Wtlen_1_Fem_GP_1   
-   -3	       4	     3.2448	     3.2448	  99	0	-50	0	0	0	0	0	0	0	#_Wtlen_2_Fem_GP_1   
-   38	      45	    42.0705	     41.765	  99	0	-50	0	0	0	0	0	0	0	#_Mat50%_Fem_GP_1    
-   -3	       3	  -0.402214	   -0.36886	  99	0	-50	0	0	0	0	0	0	0	#_Mat_slope_Fem_GP_1 
-   -3	   3e+05	7.21847e-08	7.21847e-08	   1	0	 -6	0	0	0	0	0	0	0	#_Eggs_alpha_Fem_GP_1
-   -3	   39000	      4.043	      4.043	   1	0	 -6	0	0	0	0	0	0	0	#_Eggs_beta_Fem_GP_1 
-    0	       2	          1	          1	  99	0	-50	0	0	0	0	0	0	0	#_RecrDist_GP_1      
-   -4	       4	          0	          0	  99	0	-50	0	0	0	0	0	0	0	#_RecrDist_Area_1    
-   -4	       4	   0.408889	          0	  99	0	  3	0	0	0	0	0	0	0	#_RecrDist_Area_2    
-    0	       2	          1	          1	  99	0	-50	0	0	0	0	0	0	0	#_RecrDist_month_1   
-    0	       2	          1	          1	  99	0	-50	0	0	0	0	0	0	0	#_CohortGrowDev      
-1e-06	0.999999	        0.5	        0.5	 0.5	0	-99	0	0	0	0	0	0	0	#_FracFemale_GP_1    
+ 0.01	    0.15	  0.0439034	   -3.12576	0.438438	3	 -1	0	0	0	0	0	0	0	#_NatM_p_1_Fem_GP_1  
+    1	      35	    8.56252	         30	      99	0	  2	0	0	0	0	0	0	0	#_L_at_Amin_Fem_GP_1 
+   40	     120	    63.4537	         66	      99	0	  2	0	0	0	0	0	0	0	#_L_at_Amax_Fem_GP_1 
+ 0.01	     0.2	  0.0649748	       0.05	      99	0	  1	0	0	0	0	0	0	0	#_VonBert_K_Fem_GP_1 
+ 0.01	     0.5	   0.189443	        0.1	      99	0	  3	0	0	0	0	0	0	0	#_CV_young_Fem_GP_1  
+ 0.01	     0.5	  0.0547183	        0.1	      99	0	  7	0	0	0	0	0	0	0	#_CV_old_Fem_GP_1    
+   -3	       3	7.31281e-06	7.31281e-06	      99	0	-50	0	0	0	0	0	0	0	#_Wtlen_1_Fem_GP_1   
+   -3	       4	    3.24248	    3.24248	      99	0	-50	0	0	0	0	0	0	0	#_Wtlen_2_Fem_GP_1   
+   38	      45	    42.0705	     41.765	      99	0	-50	0	0	0	0	0	0	0	#_Mat50%_Fem_GP_1    
+   -3	       3	  -0.402214	   -0.36886	      99	0	-50	0	0	0	0	0	0	0	#_Mat_slope_Fem_GP_1 
+   -3	   3e+05	7.21847e-08	7.21847e-08	       1	6	 -6	0	0	0	0	0	0	0	#_Eggs_alpha_Fem_GP_1
+   -3	   39000	      4.043	      4.043	       1	6	 -6	0	0	0	0	0	0	0	#_Eggs_beta_Fem_GP_1 
+    0	       2	          1	          1	      99	0	-50	0	0	0	0	0	0	0	#_RecrDist_GP_1      
+   -4	       4	          0	          0	      99	0	-50	0	0	0	0	0	0	0	#_RecrDist_Area_1    
+   -4	       4	   0.408889	          0	      99	0	  3	0	0	0	0	0	0	0	#_RecrDist_Area_2    
+    0	       2	          1	          1	      99	0	-50	0	0	0	0	0	0	0	#_RecrDist_month_1   
+    0	       2	          1	          1	      99	0	-50	0	0	0	0	0	0	0	#_CohortGrowDev      
+1e-06	0.999999	        0.5	        0.5	     0.5	0	-99	0	0	0	0	0	0	0	#_FracFemale_GP_1    
 #_no timevary MG parameters
 #
 #_seasonal_effects_on_biology_parms
@@ -81,25 +81,25 @@
 0 # future feature: 0/1 to make realized sigmaR a function of SR curvature
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env-var	use_dev	dev_mnyr	dev_mxyr	dev_PH	Block	Blk_Fxn # parm_name
   3	15	5.37028	    5	   99	0	  3	0	0	0	0	0	0	0	#_SR_LN(R0)  
-0.2	 1	  0.718	0.718	0.158	0	 -3	0	0	0	0	0	0	0	#_SR_BH_steep
+0.2	 1	  0.718	0.718	0.158	2	 -3	0	0	0	0	0	0	0	#_SR_BH_steep
   0	 5	    0.5	  0.5	   99	0	 -2	0	0	0	0	0	0	0	#_SR_sigmaR  
  -5	 5	      0	    0	   99	0	-50	0	0	0	0	0	0	0	#_SR_regime  
  -1	 2	      0	    1	   99	0	-50	0	0	0	0	0	0	0	#_SR_autocorr
 #_no timevary SR parameters
 1 #do_recdev:  0=none; 1=devvector (R=F(SSB)+dev); 2=deviations (R=F(SSB)+dev); 3=deviations (R=R0*dev; dev2=R-f(SSB)); 4=like 3 with sum(dev2) adding penalty
 1980 # first year of main recr_devs; early devs can preceed this era
-2023 # last year of main recr_devs; forecast devs start in following year
+2015 # last year of main recr_devs; forecast devs start in following year
 7 #_recdev phase
 1 # (0/1) to read 13 advanced options
 1889 #_recdev_early_start (0=none; neg value makes relative to recdev_start)
 7 #_recdev_early_phase
 0 #_forecast_recruitment phase (incl. late recr) (0 value resets to maxphase+1)
 1 #_lambda for Fcast_recr_like occurring before endyr+1
-1937.608 #_last_yr_nobias_adj_in_MPD; begin of ramp
-2014.1188 #_first_yr_fullbias_adj_in_MPD; begin of plateau
-2014.2201 #_last_yr_fullbias_adj_in_MPD
-2022.5095 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
-0.6355 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
+1917 #_last_yr_nobias_adj_in_MPD; begin of ramp
+1975 #_first_yr_fullbias_adj_in_MPD; begin of plateau
+2013 #_last_yr_fullbias_adj_in_MPD
+2014 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
+0.36 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
 0 #_period of cycles in recruitment (N parms read below)
 -5 #min rec_dev
 5 #max rec_dev
@@ -262,26 +262,26 @@
 #
 # Input variance adjustments factors: 
 #_factor	fleet	value
-    4	 1	0.536923	#_Variance_adjustment_list1 
-    4	 2	0.295601	#_Variance_adjustment_list2 
-    4	 3	0.535827	#_Variance_adjustment_list3 
-    4	 4	 0.23854	#_Variance_adjustment_list4 
-    4	 5	0.356671	#_Variance_adjustment_list5 
-    4	 6	0.388903	#_Variance_adjustment_list6 
-    4	 7	0.997274	#_Variance_adjustment_list7 
-    4	 8	 0.54422	#_Variance_adjustment_list8 
-    4	 9	0.550109	#_Variance_adjustment_list9 
-    4	10	0.501464	#_Variance_adjustment_list10
-    4	11	0.513607	#_Variance_adjustment_list11
-    4	12	0.361988	#_Variance_adjustment_list12
-    5	 2	 0.55508	#_Variance_adjustment_list13
+    4	 1	0.540385	#_Variance_adjustment_list1 
+    4	 2	0.295192	#_Variance_adjustment_list2 
+    4	 3	0.541182	#_Variance_adjustment_list3 
+    4	 4	 0.24095	#_Variance_adjustment_list4 
+    4	 5	 0.35213	#_Variance_adjustment_list5 
+    4	 6	0.385631	#_Variance_adjustment_list6 
+    4	 7	       1	#_Variance_adjustment_list7 
+    4	 8	0.542573	#_Variance_adjustment_list8 
+    4	 9	0.546402	#_Variance_adjustment_list9 
+    4	10	0.500241	#_Variance_adjustment_list10
+    4	11	0.522918	#_Variance_adjustment_list11
+    4	12	 0.36117	#_Variance_adjustment_list12
+    5	 2	0.555732	#_Variance_adjustment_list13
     5	 3	       1	#_Variance_adjustment_list14
     5	 4	       1	#_Variance_adjustment_list15
-    5	 5	0.146753	#_Variance_adjustment_list16
-    5	 6	0.909084	#_Variance_adjustment_list17
+    5	 5	0.147368	#_Variance_adjustment_list16
+    5	 6	0.911765	#_Variance_adjustment_list17
     5	 7	       1	#_Variance_adjustment_list18
     5	11	       1	#_Variance_adjustment_list19
-    5	12	0.020301	#_Variance_adjustment_list20
+    5	12	0.020348	#_Variance_adjustment_list20
 -9999	 0	       0	#_terminator                
 #
 1 #_maxlambdaphase

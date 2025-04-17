@@ -967,11 +967,45 @@ r4ss::SS_plots(replist)
 ##### Tune composition data ##### ----------------------------------------------
 tunecomps_dir <- here::here("model/2025_update_data_tune_comps")
 
+copy_SS_inputs(
+  dir.old = here::here("model/2025_update_all_data"),
+  dir.new = tunecomps_dir,
+  copy_exe = TRUE,
+  overwrite = TRUE
+)
+
+other_files <- c("Report.sso", "CompReport.sso", "warning.sso")
+lapply(other_files, function(files){
+  file.copy(
+    from = here::here("model/2025_update_all_data", files),
+    to = here::here(tunecomps_dir, files),
+    overwrite = TRUE
+  )
+})
+
+# file.copy(
+#   from = here::here("model/2025_update_all_data/Report.sso"),
+#   to = here::here(tunecomps_dir, "Report.sso"),
+#   overwrite = TRUE
+# )
+# 
+# file.copy(
+#   from = here::here("model/2025_update_all_data/CompReport.sso"),
+#   to = here::here(tunecomps_dir, "CompReport.sso"),
+#   overwrite = TRUE
+# )
+# 
+# file.copy(
+#   from = here::here("model/2025_update_all_data/warning.sso"),
+#   to = here::here(tunecomps_dir, "warning.sso"),
+#   overwrite = TRUE
+# )
+
 r4ss::tune_comps(
   replist, # use replist from previous run
   niters_tuning = 2, 
   option = "Francis",
-  dir = replist,
+  dir = tunecomps_dir,
   show_in_console = TRUE,
   extras = "-nohess",
   exe = "ss3"
@@ -981,7 +1015,7 @@ r4ss::tune_comps(
 # Run model after this with hessian to use for fit bias
 # r4ss::run(dir = replist_update_ctl)
 
-replist_tunecomps <- r4ss::SS_output(dir = replist_update_ctl)
+replist_tunecomps <- r4ss::SS_output(dir = tunecomps_dir)
 r4ss::SS_plots(replist_tunecomps)
 
 
@@ -998,6 +1032,7 @@ copy_SS_inputs(
   create.dir = FALSE,
   overwrite = TRUE,
   use_ss_new = FALSE,
+  copy_exe = TRUE,
   verbose = TRUE
 )
 
