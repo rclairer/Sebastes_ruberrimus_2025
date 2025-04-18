@@ -9,7 +9,7 @@ library(r4ss)
 library(here)
 
 # Get inputs from 2025 assessment that ran with updated data
-dir_fitbias <- here::here("model", "2025_update_all_fitbias")
+dir_fitbias <- here::here("model", "2025_update_data_fitbias")
 
 
 ##### Update CTL file for 2025 assessment ##### ----------------------------------------
@@ -77,7 +77,7 @@ r4ss::get_ss3_exe(dir = update_ctl_model_path)
 # to fit the bias
 #r4ss::run(dir = model_2025_path)
 replist_update_ctl <- r4ss::SS_output(dir = update_ctl_model_path)
-#r4ss::SS_plots(replist_update_ctl)
+r4ss::SS_plots(replist_update_ctl)
 
 ##### After initial model is run tasks ##### -----------------------------------
 ##### Fit rec bias ramp ##### --------------------------------------------------
@@ -88,11 +88,11 @@ dir_ctl_fitbias <- here::here("model", "2025_update_ctl_fitbias")
 
 copy_SS_inputs(
   dir.old = update_ctl_model_path,
-  dir.new = dir_fitbias,
+  dir.new = dir_ctl_fitbias,
   create.dir = FALSE,
   overwrite = TRUE,
   copy_exe = TRUE,
-  use_ss_new = FALSE,
+  use_ss_new = TRUE,
   verbose = TRUE
 )
 
@@ -102,7 +102,7 @@ r4ss::SS_fitbiasramp(
   plot = FALSE,
   print = FALSE,
   oldctl = file.path(update_ctl_model_path, "yelloweye_control.ss"),
-  newctl = file.path(dir_fitbias, "yelloweye_control.ss"),
+  newctl = file.path(dir_ctl_fitbias, "yelloweye_control.ss"),
   startvalues = NULL,
   method = "BFGS",
   altmethod = "nlminb"
@@ -111,3 +111,4 @@ r4ss::SS_fitbiasramp(
 r4ss::get_ss3_exe(dir = dir_fitbias)
 # r4ss::run(dir = dir_fitbias)
 replist_fitbias <- r4ss::SS_output(dir = dir_fitbias)
+r4ss::SS_plots(replist_fitbias)

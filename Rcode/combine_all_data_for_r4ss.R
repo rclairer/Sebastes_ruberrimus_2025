@@ -1024,7 +1024,7 @@ r4ss::SS_plots(replist_tunecomps)
 # Need to run model first but after we do, we can change the recruitment bias
 # adjustment
 # Import output of model run as replist
-dir_fitbias <- here::here("model", "2025_update_all_fitbias")
+dir_fitbias <- here::here("model", "2025_update_data_fitbias")
 
 copy_SS_inputs(
   dir.old = tunecomps_dir,

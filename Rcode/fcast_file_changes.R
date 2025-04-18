@@ -16,9 +16,10 @@ update_forecast <- here::here("model", "2025_update_forecast")
 copy_SS_inputs(
   dir.old = fitbias,
   dir.new = update_forecast,
-  create.dir = TRUE,
+  create.dir = FALSE,
   overwrite = TRUE,
-  use_ss_new = FALSE,
+  use_ss_new = TRUE,
+  copy_exe = TRUE,
   verbose = TRUE
 )
 
@@ -41,7 +42,7 @@ fcast$Flimitfraction_m <- PEPtools::get_buffer(2025:2036, sigma = 0.5, pstar = 0
 # change "stddev of log(realized catch/target catch) in forecast" to 0
 fcast$stddev_of_log_catch_ratio <- 0
 
-# update fixed forcast catches at the bottom for assumed catches in 2025 and 2026 
+# update fixed forecast catches at the bottom for assumed catches in 2025 and 2026 
 # (values will likely be provided by Groundfish Management Team)
 # fcast$ForeCatch <- data.frame(
 #   year = rep(2025:2026, each = 3),
@@ -51,9 +52,7 @@ fcast$stddev_of_log_catch_ratio <- 0
 # )
 
 inputs$fore <- fcast
-SS_write(inputs, dir = update_forecast)
-
-get_ss3_exe(dir = update_forecast)
+SS_write(inputs, dir = update_forecast, overwrite = TRUE)
 
 replist <- SS_output(dir = update_forecast)
 SS_plots(replist)
