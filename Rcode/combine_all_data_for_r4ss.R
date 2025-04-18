@@ -1013,7 +1013,7 @@ r4ss::tune_comps(
 
 
 # Run model after this with hessian to use for fit bias
-# r4ss::run(dir = replist_update_ctl)
+r4ss::run(dir = replist_update_ctl)
 
 replist_tunecomps <- r4ss::SS_output(dir = tunecomps_dir)
 r4ss::SS_plots(replist_tunecomps)
@@ -1052,3 +1052,4 @@ r4ss::get_ss3_exe(dir = dir_fitbias)
 # Run model after fitbias
 # r4ss::run(dir = dir_fitbias)
 replist_fitbias <- r4ss::SS_output(dir = dir_fitbias)
+SS_plots(replist_fitbias)
