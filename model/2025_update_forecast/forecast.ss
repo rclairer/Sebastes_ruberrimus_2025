@@ -1,12 +1,12 @@
 #C file created using an r4ss function
-#C file write time: 2025-04-15  10:34:02
+#C file write time: 2025-04-18  14:22:31
 #
 1 #_benchmarks
 2 #_MSY
 0.5 #_SPRtarget
 0.4 #_Btarget
 #_Bmark_years: beg_bio, end_bio, beg_selex, end_selex, beg_relF, end_relF,  beg_recr_dist, end_recr_dist, beg_SRparm, end_SRparm (enter actual year, or values of 0 or -integer to be rel. endyr)
-2010 2010 2010 2010 2010 2010 1916 2010 1916 2010
+0 0 0 0 0 0 1916 0 1916 0
 1 #_Bmark_relF_Basis
 1 #_Forecast
 12 #_Nforecastyrs
@@ -27,14 +27,28 @@
 1 #_ControlRuleMethod
 0.4 #_BforconstantF
 0.1 #_BfornoF
-1 #_Flimitfraction
+-1 #_Flimitfraction
+ #_year buffer
+   2025  1.000
+   2026  1.000
+   2027  0.935
+   2028  0.930
+   2029  0.926
+   2030  0.922
+   2031  0.917
+   2032  0.913
+   2033  0.909
+   2034  0.904
+   2035  0.900
+   2036  0.896
+-9999 0
 3 #_N_forecast_loops
 3 #_First_forecast_loop_with_stochastic_recruitment
 0 #_fcast_rec_option
 1 #_fcast_rec_val
 0 #_Fcast_loop_control_5
 2013 #_FirstYear_for_caps_and_allocations
-1e-04 #_stddev_of_log_catch_ratio
+0 #_stddev_of_log_catch_ratio
 1 #_Do_West_Coast_gfish_rebuilder_output
 2013 #_Ydecl
 2011 #_Yinit

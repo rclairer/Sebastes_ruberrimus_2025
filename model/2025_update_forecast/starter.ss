@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-04-15  10:34:02
+#C file write time: 2025-04-18  14:22:30
 #
 yelloweye_data.ss #_datfile
 yelloweye_control.ss #_ctlfile
