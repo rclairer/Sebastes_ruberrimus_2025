@@ -1,6 +1,6 @@
 #C Yelloweye 2017 control file
 #C file created using an r4ss function
-#C file write time: 2025-04-15  11:37:32
+#C file write time: 2025-04-18  11:31:04
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -95,11 +95,11 @@
 7 #_recdev_early_phase
 0 #_forecast_recruitment phase (incl. late recr) (0 value resets to maxphase+1)
 1 #_lambda for Fcast_recr_like occurring before endyr+1
-1917 #_last_yr_nobias_adj_in_MPD; begin of ramp
-1975 #_first_yr_fullbias_adj_in_MPD; begin of plateau
-2013 #_last_yr_fullbias_adj_in_MPD
-2014 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
-0.36 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
+1930.5071 #_last_yr_nobias_adj_in_MPD; begin of ramp
+2014.7134 #_first_yr_fullbias_adj_in_MPD; begin of plateau
+2014.8302 #_last_yr_fullbias_adj_in_MPD
+2021.8188 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
+0.6433 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
 0 #_period of cycles in recruitment (N parms read below)
 -5 #min rec_dev
 5 #max rec_dev
@@ -262,27 +262,27 @@
 #
 # Input variance adjustments factors: 
 #_factor	fleet	value
-    4	 1	  0.84204	#_Variance_adjustment_list1 
-    4	 2	  0.35975	#_Variance_adjustment_list2 
-    4	 3	 0.600663	#_Variance_adjustment_list3 
-    4	 4	 0.182385	#_Variance_adjustment_list4 
-    4	 5	 0.486995	#_Variance_adjustment_list5 
-    4	 6	 0.395623	#_Variance_adjustment_list6 
-    4	 7	 0.892214	#_Variance_adjustment_list7 
-    4	 8	 0.705075	#_Variance_adjustment_list8 
-    4	 9	 0.780701	#_Variance_adjustment_list9 
-    4	10	 0.537479	#_Variance_adjustment_list10
-    4	11	 0.654133	#_Variance_adjustment_list11
-    4	12	        1	#_Variance_adjustment_list12
-    5	 2	 0.555438	#_Variance_adjustment_list13
-    5	 3	 0.587597	#_Variance_adjustment_list14
-    5	 4	  0.47074	#_Variance_adjustment_list15
-    5	 5	 0.478139	#_Variance_adjustment_list16
-    5	 6	  0.36123	#_Variance_adjustment_list17
-    5	 7	        1	#_Variance_adjustment_list18
-    5	11	        1	#_Variance_adjustment_list19
-    5	12	0.0277953	#_Variance_adjustment_list20
--9999	 0	        0	#_terminator                
+    4	 1	0.540385	#_Variance_adjustment_list1 
+    4	 2	0.295192	#_Variance_adjustment_list2 
+    4	 3	0.541182	#_Variance_adjustment_list3 
+    4	 4	 0.24095	#_Variance_adjustment_list4 
+    4	 5	 0.35213	#_Variance_adjustment_list5 
+    4	 6	0.385631	#_Variance_adjustment_list6 
+    4	 7	       1	#_Variance_adjustment_list7 
+    4	 8	0.542573	#_Variance_adjustment_list8 
+    4	 9	0.546402	#_Variance_adjustment_list9 
+    4	10	0.500241	#_Variance_adjustment_list10
+    4	11	0.522918	#_Variance_adjustment_list11
+    4	12	 0.36117	#_Variance_adjustment_list12
+    5	 2	0.555732	#_Variance_adjustment_list13
+    5	 3	       1	#_Variance_adjustment_list14
+    5	 4	       1	#_Variance_adjustment_list15
+    5	 5	0.147368	#_Variance_adjustment_list16
+    5	 6	0.911765	#_Variance_adjustment_list17
+    5	 7	       1	#_Variance_adjustment_list18
+    5	11	       1	#_Variance_adjustment_list19
+    5	12	0.020348	#_Variance_adjustment_list20
+-9999	 0	       0	#_terminator                
 #
 1 #_maxlambdaphase
 1 #_sd_offset; must be 1 if any growthCV, sigmaR, or survey extraSD is an estimated parameter
