@@ -1633,3 +1633,293 @@ SSplotComparisons(models_summary,
                                    "+ updated historical and extended rec age comps",
                                    "+ extended survey age comps"),
                   print = TRUE)
+
+
+###################################################################
+#######                  TUNE COMPS                       #########
+###################################################################
+
+# copy model starters and data file from prev run
+copy_SS_inputs(
+  dir.old = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250414"), 
+  dir.new = file.path(getwd(), "model", "updated_alldata_tunecomps_20250416"),
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+#inputs <- SS_read(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250416"))
+
+get_ss3_exe(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250416"))
+
+run(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250416"), 
+    show_in_console = TRUE, extras = "-nohess")
+
+replist <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250416"))
+
+
+##### Tune composition data ##### ----------------------------------------------
+tunecomps_dir <- here::here("model/updated_alldata_tunecomps_20250416")
+
+r4ss::tune_comps(
+  replist, # use replist from previous run
+  write = TRUE,
+  niters_tuning = 2, 
+  option = "Francis",
+  dir = tunecomps_dir,
+  show_in_console = TRUE,
+  #extras = "-nohess", #run with hessian so we can run fitbias next
+  exe = "ss3"
+)
+
+replist_tunecomps <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250416"))
+
+SS_plots(replist_tunecomps)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250414")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250416")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "14_alldata_tunecomps"),
+                  legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
+                                   "2025 updated all data",
+                                   "+ tuned comps"),
+                  print = TRUE)
+
+
+###################################################################
+#######       FIT RECRUITMENT BIAS RAMP                   #########
+###################################################################
+
+# change the recruitment bias adjustment
+
+fitbias_dir <- here::here("model/updated_alldata_tunecomps_fitbias_20250416")
+
+copy_SS_inputs(
+  dir.old = tunecomps_dir,
+  dir.new = fitbias_dir,
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+#fitbias_plots <- here::here("model/updated_alldata_tunecomps_fitbias_20250416/plots")
+#add this folder manually
+
+r4ss::SS_fitbiasramp(
+  replist_tunecomps, #use replist from previous run
+  plot = FALSE,
+  print = TRUE,
+  #plotdir = fitbias_plots,
+  oldctl = file.path(tunecomps_dir, "yelloweye_control.ss"),
+  newctl = file.path(fitbias_dir, "yelloweye_control.ss"),
+  startvalues = NULL,
+  method = "BFGS",
+  altmethod = "nlminb"
+)
+
+# Run model after fitbias
+r4ss::get_ss3_exe(dir = fitbias_dir)
+
+run(dir = fitbias_dir, show_in_console = TRUE)
+
+replist_fitbias <- r4ss::SS_output(dir = fitbias_dir)
+
+SS_plots(replist_fitbias)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250414")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250416")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250416")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "15_alldata_tunecomps_fitbias"),
+                  legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
+                                   "2025 updated all data",
+                                   "+ tuned comps",
+                                   "+ recruitment dev bias adj"),
+                  print = TRUE)
+
+###################################################################
+#######               CTL FILE CHANGES                   #########
+###################################################################
+
+# Get inputs from 2025 assessment that ran with updated data
+updated_alldata_tunecomps_fitbias_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_20250416")
+
+##### Update CTL file for 2025 assessment ##### ----------------------------------------
+updated_ctlfile_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_20250416")
+
+copy_SS_inputs(
+  dir.old = updated_alldata_tunecomps_fitbias_dir,
+  dir.new = updated_ctlfile_dir,
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+inputs <- SS_read(dir = updated_ctlfile_dir)
+#ctl <- inputs$ctl
+
+# Update block end year (selectivity and biology (if used) time blocks)
+# Update block end year (selectivity and biology (if used) time blocks)
+inputs$ctl$Block_Design[[2]][2] <- 2024
+inputs$ctl$Block_Design[[3]][2] <- 2024
+inputs$ctl$Block_Design[[4]][2] <- 2024
+
+# Need to update the Prior SD for M for Hamel method
+inputs$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$PR_SD <- 0.31
+
+# Update weight-length relationship
+inputs$ctl$MG_parms["Wtlen_1_Fem_GP_1", ]$INIT <- 7.183309e-06 #update with standard_filtering = FALSE
+inputs$ctl$MG_parms["Wtlen_1_Fem_GP_1", ]$PRIOR <- 7.183309e-06 #update with standard_filtering = FALSE
+inputs$ctl$MG_parms["Wtlen_2_Fem_GP_1", ]$INIT <- 3.244801 #update with standard_filtering = FALSE
+inputs$ctl$MG_parms["Wtlen_2_Fem_GP_1", ]$PRIOR <- 3.244801 #update with standard_filtering = FALSE
+
+# Question: Switch do rec_dev to option 3? It's currently option 1 but I think
+# most people are using option 2 or 3
+# Answer: We can stick with option 1 for the base model but we can also try it
+# out with option 2 or 3
+# ctl$do_recdev <- 2
+# ctl$do_recdev <- 3
+
+# Change last year of main rec_dev, for the last assessment this was 2015 so I
+# would assume this would be 2023 for this year?
+inputs$ctl$MainRdevYrLast <- 2023
+
+# Change QParams that are hitting bounds
+# Q_extraSD_12_IPHC_ORWA(12)
+#ctl$Q_parms[16, ]$LO <- -1
+
+# Change selparm bounds that are being hit
+# Size_DblN_peak_10_TRI_ORWA(10)
+#ctl$size_selex_parms[49, ]$HI <- 87
+
+# Remove 4 params that have priors but are not estimated by changing prior type to 0
+#ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$PR_type <- 0
+#ctl$MG_parms["Eggs_alpha_Fem_GP_1", ]$PR_type <- 0
+#ctl$MG_parms["Eggs_beta_Fem_GP_1", ]$PR_type <- 0
+#ctl$SR_parms["SR_BH_steep", ]$PR_type <- 0
+
+
+ctl <- inputs$ctl
+# Fill outfile with directory and file name of the file written
+r4ss::SS_writectl(
+  ctl,
+  outfile = file.path(updated_ctlfile_dir, "yelloweye_control.ss"),
+  overwrite = TRUE
+)
+
+# Changed convergence criterion to 1.3e-04 from 1e-04 because needed covar file
+# start <- inputs$start
+# start$converge_criterion <- 1.3e-04
+# r4ss::SS_writestarter(start, outfile = file.path(update_ctl_model_path, "starter.ss"), overwrite = TRUE)
+
+r4ss::get_ss3_exe(dir = updated_ctlfile_dir)
+
+# You have to run this model in full (not using -nohess) because you need the covar file
+# to fit the bias
+r4ss::run(dir = updated_ctlfile_dir, show_in_console = TRUE)
+
+replist_updated_ctlfile <- r4ss::SS_output(dir = updated_ctlfile_dir)
+
+r4ss::SS_plots(replist_updated_ctlfile)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250414")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250416")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250416")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250416")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "16_alldata_tunecomps_fitbias_upctl"),
+                  legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
+                                   "2025 updated all data",
+                                   "+ tuned comps",
+                                   "+ recruitment dev bias adj",
+                                   "+ updated ctl file"),
+                  print = TRUE)
+
+###################################################################
+#######               STARTER FILE CHANGES                 #########
+###################################################################
+updated_ctlfile_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_20250416")
+
+updated_startfile_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_start_20250416")
+
+
+copy_SS_inputs(
+  dir.old = updated_ctlfile_dir,
+  dir.new = updated_startfile_dir,
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+inputs <- SS_read(dir = updated_startfile_dir)
+#start <- inputs$start
+
+inputs$start$prior_like <- 1 #changing from 0 to 1
+
+#no other changes necessary for now
+
+start <- inputs$start
+#start <- SS_readstarter(file.path(updated_startfile_dir, "starter.ss"), verbose = TRUE)
+# Fill outfile with directory and file name of the file written
+r4ss::SS_writestarter(
+  start,
+  dir = updated_startfile_dir,
+  file = "starter.ss",
+#  outfile = file.path(updated_startfile_dir, "starter.ss"),
+  overwrite = TRUE
+)
+
+r4ss::get_ss3_exe(dir = updated_startfile_dir)
+
+# You have to run this model in full (not using -nohess) because you need the covar file
+# to fit the bias
+r4ss::run(dir = updated_startfile_dir, show_in_console = TRUE)
+
+replist_updated_startfile <- r4ss::SS_output(dir = updated_startfile_dir)
+
+r4ss::SS_plots(replist_updated_startfile)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250414")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250416")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250416")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250416")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_start_20250416")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "17_alldata_tunecomps_fitbias_upctl_upstart"),
+                  legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
+                                   "2025 updated all data",
+                                   "+ tuned comps",
+                                   "+ recruitment dev bias adj",
+                                   "+ updated ctl file",
+                                   "+ updated start file"),
+                  print = TRUE)
+
+
