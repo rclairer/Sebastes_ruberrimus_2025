@@ -1,54 +1,37 @@
-## Executive Summary {#sec-exec-sum}
+# Executive Summary{-}
 
-<!--- Where possible, the executive summary should paraphrase the shared content of the body of the report to minimize redundancy.--->
+<!-- 
+Note r4ss::table_exec_summary() will create the required tables. 
+It currently makes them as csv files. 
+sa4ss::es_table_tex will convert them to text files formatted as LaTeX tables if you prefer.
+-->
 
-#below sections follow the format of a recent update assessment
+Checking to see if this works \gls{s-tri}
 
-### Stock
+## Stock{-}
 
+## Catches{-}
 
-### Landings
+## Data and Assessment{-}
 
+## Stock biomass and dynamics{-}
 
-### Data and assessment
+## Recruitment{-}
 
+## Exploitation status{-}
 
-### Stock biomass
+## Ecosystem considerations{-}
 
+## Reference points{-}
 
-### Recruitment
+## Management performance{-}
 
+## Harvest projections{-}
 
-### Exploitation status
+## Decision table{-}
 
+## Scientific uncertainty{-}
 
-### Ecosystem considerations
+## Research and data needs{-}
 
-
-### Reference points
-
-
-### Management performance
-
-
-### Unresolved problems and major uncertainties
-
-
-### Decision table
-
-
-### Research and data needs
-
-
-
-
-#below are the sections that were included in the default quarto file
-
-### Assessment Model
-
-<!-- Include a short statement describing the assessment model used for the current management cycle and any data updates. -->
-
-### Reference Points, Stock Status, and Projections
-
-<!-- Short summary of reference points, stock status, and projections. When using `asar`, tables of reference points and projections will be automatically generated. -->
-
+## Rebuilding projections{-}
