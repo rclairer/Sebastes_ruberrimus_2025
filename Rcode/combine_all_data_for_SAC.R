@@ -934,3 +934,16 @@ write.csv(
 #L50 selex: 35.6,33.5,32.3,36.9,38.8,30.9,36.9,32,26,2.3,35.1,46
 #Lpeak selex: 49,45,45,55,53,39,47,45,35,81,57,57
 # yelloweye_fixed_params
+# M = 0.0439034
+# k = 0700988
+# Linf = 63.4537
+# t0 = 8.56493
+# CV at length (young) = 0.189443
+# CV at length (old) = 0.0547183
+# L at 50% maturity = 42.0705
+# L at 95% maturity = 49.39108
+# Wtlen a = 0.000007183309
+# Wtlen b = 3.244801
+# Egg a = 0.0000000721847 
+# Egg b = 4.043
+# h = 0.718

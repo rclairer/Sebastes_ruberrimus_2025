@@ -1,6 +1,6 @@
 #C Yelloweye 2017 control file
 #C file created using an r4ss function
-#C file write time: 2025-04-16  16:53:19
+#C file write time: 2025-04-21  11:51:10
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -95,11 +95,11 @@
 7 #_recdev_early_phase
 0 #_forecast_recruitment phase (incl. late recr) (0 value resets to maxphase+1)
 1 #_lambda for Fcast_recr_like occurring before endyr+1
-1930.5071 #_last_early_yr_nobias_adj_in_MPD
-2014.7134 #_first_yr_fullbias_adj_in_MPD
-2014.8302 #_last_yr_fullbias_adj_in_MPD
-2021.8188 #_first_recent_yr_nobias_adj_in_MPD
-   0.6433 #_max_bias_adj_in_MPD (1.0 to mimic pre-2009 models)
+1926.8017 #_last_early_yr_nobias_adj_in_MPD
+2014.4287 #_first_yr_fullbias_adj_in_MPD
+2014.7405 #_last_yr_fullbias_adj_in_MPD
+2022.0791 #_first_recent_yr_nobias_adj_in_MPD
+   0.6487 #_max_bias_adj_in_MPD (1.0 to mimic pre-2009 models)
 0 #_period of cycles in recruitment (N parms read below)
 -5 #min rec_dev
 5 #max rec_dev
@@ -262,26 +262,26 @@
 #
 # Input variance adjustments factors: 
 #_factor	fleet	value
-    4	 1	0.540385	#_Variance_adjustment_list1 
-    4	 2	0.295192	#_Variance_adjustment_list2 
-    4	 3	0.541182	#_Variance_adjustment_list3 
-    4	 4	 0.24095	#_Variance_adjustment_list4 
-    4	 5	 0.35213	#_Variance_adjustment_list5 
-    4	 6	0.385631	#_Variance_adjustment_list6 
+    4	 1	0.536897	#_Variance_adjustment_list1 
+    4	 2	0.293676	#_Variance_adjustment_list2 
+    4	 3	0.531395	#_Variance_adjustment_list3 
+    4	 4	0.239546	#_Variance_adjustment_list4 
+    4	 5	0.359966	#_Variance_adjustment_list5 
+    4	 6	 0.38474	#_Variance_adjustment_list6 
     4	 7	       1	#_Variance_adjustment_list7 
-    4	 8	0.542573	#_Variance_adjustment_list8 
-    4	 9	0.546402	#_Variance_adjustment_list9 
-    4	10	0.500241	#_Variance_adjustment_list10
-    4	11	0.522918	#_Variance_adjustment_list11
-    4	12	 0.36117	#_Variance_adjustment_list12
-    5	 2	0.555732	#_Variance_adjustment_list13
+    4	 8	0.540517	#_Variance_adjustment_list8 
+    4	 9	0.551575	#_Variance_adjustment_list9 
+    4	10	0.499582	#_Variance_adjustment_list10
+    4	11	0.517069	#_Variance_adjustment_list11
+    4	12	0.402798	#_Variance_adjustment_list12
+    5	 2	0.551628	#_Variance_adjustment_list13
     5	 3	       1	#_Variance_adjustment_list14
     5	 4	       1	#_Variance_adjustment_list15
-    5	 5	0.147368	#_Variance_adjustment_list16
-    5	 6	0.911765	#_Variance_adjustment_list17
+    5	 5	0.145435	#_Variance_adjustment_list16
+    5	 6	0.758288	#_Variance_adjustment_list17
     5	 7	       1	#_Variance_adjustment_list18
     5	11	       1	#_Variance_adjustment_list19
-    5	12	0.020348	#_Variance_adjustment_list20
+    5	12	 0.02106	#_Variance_adjustment_list20
 -9999	 0	       0	#_terminator                
 #
 1 #_maxlambdaphase

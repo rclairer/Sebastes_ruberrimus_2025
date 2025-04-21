@@ -692,19 +692,20 @@ inputs$dat$lencomp <- all_lengths
 ########################
 
 colnames_a <- colnames(inputs$dat$agecom)
+file_path <- file.path(getwd(), "Data", "processed", "length_age_comps")
 
 # Load in age comps for commercial fisheries
 ## length comps, maal and caal from PacFIN AND WCGOP combined
-raw_age_caal_PacFIN_WCGOP <- read.csv(paste0(file_path,'Commercial_caal_PacFIN_WCGOP_forSS.csv'))
-raw_age_comps_PacFIN_WCGOP <- read.csv(paste0(file_path,'Commercial_age_comps_PacFIN_WCGOP_forSS.csv'))
+raw_age_caal_PacFIN_WCGOP <- read.csv(paste0(file_path,'/Commercial_caal_PacFIN_WCGOP_forSS.csv'))
+raw_age_comps_PacFIN_WCGOP <- read.csv(paste0(file_path,'/Commercial_age_comps_PacFIN_WCGOP_forSS.csv'))
 
 ## length comps, maal and caal from PacFIN only
-raw_age_caal_PacFIN <- read.csv(paste0(file_path,'Commercial_caal_PacFIN_forSS.csv'))
-raw_age_comps_PacFIN <- read.csv(paste0(file_path,'Commercial_age_comps_PacFIN_forSS.csv'))
+raw_age_caal_PacFIN <- read.csv(paste0(file_path,'/Commercial_caal_PacFIN_forSS.csv'))
+raw_age_comps_PacFIN <- read.csv(paste0(file_path,'/Commercial_age_comps_PacFIN_forSS.csv'))
 
 ## length comps, maal and caal from PacFIN AND WCGOP combined
-raw_age_caal_WCGOP <- read.csv(paste0(file_path,'Commercial_caal_WCGOP_forSS.csv'))
-raw_age_comps_WCGOP <- read.csv(paste0(file_path,'Commercial_age_comps_WCGOP_forSS.csv'))
+raw_age_caal_WCGOP <- read.csv(paste0(file_path,'/Commercial_caal_WCGOP_forSS.csv'))
+raw_age_comps_WCGOP <- read.csv(paste0(file_path,'/Commercial_age_comps_WCGOP_forSS.csv'))
 
 # arrange naming
 names(raw_age_caal_PacFIN_WCGOP) <- names(raw_age_caal_PacFIN) <- names(raw_age_caal_WCGOP) <- names(inputs$dat$agecomp)
@@ -982,24 +983,6 @@ lapply(other_files, function(files){
     overwrite = TRUE
   )
 })
-
-# file.copy(
-#   from = here::here("model/2025_update_all_data/Report.sso"),
-#   to = here::here(tunecomps_dir, "Report.sso"),
-#   overwrite = TRUE
-# )
-# 
-# file.copy(
-#   from = here::here("model/2025_update_all_data/CompReport.sso"),
-#   to = here::here(tunecomps_dir, "CompReport.sso"),
-#   overwrite = TRUE
-# )
-# 
-# file.copy(
-#   from = here::here("model/2025_update_all_data/warning.sso"),
-#   to = here::here(tunecomps_dir, "warning.sso"),
-#   overwrite = TRUE
-# )
 
 r4ss::tune_comps(
   replist, # use replist from previous run

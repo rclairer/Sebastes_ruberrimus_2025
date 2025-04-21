@@ -20,15 +20,14 @@ copy_SS_inputs(
   dir.new = update_ctl_model_path,
   create.dir = FALSE,
   overwrite = TRUE,
-  use_ss_new = FALSE,
+  use_ss_new = TRUE,
   verbose = TRUE
 )
 
 inputs <- SS_read(dir = update_ctl_model_path)
 ctl <- inputs$ctl
 
-# Update block end year (selectivity and biology (if used) time blocks)
-# Update block end year (selectivity and biology (if used) time blocks)
+# Update block end year 
 ctl$Block_Design[[2]][2] <- 2024
 ctl$Block_Design[[3]][2] <- 2024
 ctl$Block_Design[[4]][2] <- 2024
@@ -59,6 +58,15 @@ ctl$MG_parms["Eggs_alpha_Fem_GP_1", ]$PR_type <- 0
 ctl$MG_parms["Eggs_beta_Fem_GP_1", ]$PR_type <- 0
 ctl$SR_parms["SR_BH_steep", ]$PR_type <- 0
 
+# Change size selex types for these two fleets to 0 because they appear to be ignored
+# by the model anyways
+ctl$size_selex_types["4_ORWA_TWL",]$Special <- 0
+ctl$size_selex_types["5_ORWA_NONTWL",]$Special <- 0
+
+# Change the growth age for L1 from 1 to 0 because at 1 it produces a funny growth curve
+# as Vlada showed us
+ctl$Growth_Age_for_L1 <- 0
+
 # Fill outfile with directory and file name of the file written
 r4ss::SS_writectl(
   ctl,
@@ -66,10 +74,6 @@ r4ss::SS_writectl(
   overwrite = TRUE
 )
 
-# Changed convergence criterion to 1.3e-04 from 1e-04 because needed covar file
-# start <- inputs$start
-# start$converge_criterion <- 1.3e-04
-# r4ss::SS_writestarter(start, outfile = file.path(update_ctl_model_path, "starter.ss"), overwrite = TRUE)
 
 r4ss::get_ss3_exe(dir = update_ctl_model_path)
 
@@ -108,7 +112,7 @@ r4ss::SS_fitbiasramp(
   altmethod = "nlminb"
 )
 
-r4ss::get_ss3_exe(dir = dir_fitbias)
-# r4ss::run(dir = dir_fitbias)
-replist_fitbias <- r4ss::SS_output(dir = dir_fitbias)
-r4ss::SS_plots(replist_fitbias)
+r4ss::get_ss3_exe(dir = dir_ctl_fitbias)
+# r4ss::run(dir = dir_ctl_fitbias)
+replist_ctl_fitbias <- r4ss::SS_output(dir = dir_ctl_fitbias)
+r4ss::SS_plots(replist_ctl_fitbias)
