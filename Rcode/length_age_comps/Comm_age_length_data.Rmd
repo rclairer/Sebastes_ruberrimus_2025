@@ -577,6 +577,7 @@ CA_age_samples%>%
   group_by(year) %>% 
   summarize(fish=length(First.age),trips=length(unique(Sample.date)))
 
+```
 
 
 looking for what can be a base to compute a trip number
@@ -618,6 +619,7 @@ CA_age_samples_cleaned <- CA_age_samples %>%
 #          )
 
 dim(CA_age_samples_cleaned)
+
 ```
 
 ## Compute some metrics about the database
@@ -786,7 +788,8 @@ ggsave(comp_length_sample_effort_plt,path=file_path,
 # df n_fish + n_trip large format
 age_sample_effort <- bds_cleaned_addCAage %>%
   group_by(year,stratification_byarea) %>%
-  filter(!is.na(FTID)) %>% #remove NA fish tickets
+  #filter(!is.na(FTID)) %>% #remove NA fish tickets
+  filter(!is.na(lengthcm)) %>%  #remove fish w no length, cause we need them to produce caal
   filter(!is.na(Age)) %>%  #remove rows with no age samples
   summarise(n_trips=length(unique(FTID)),n_fish=length(Age)) #compute 
 
@@ -1289,8 +1292,9 @@ raw_age_caal <-NULL
 
 # looping over every fleet
 for (f in 1:nrow(fleets_names)){
-  tmp_dat <- bds_cleaned_addCAage %>% filter(!is.na(Age),stratification_byarea==as.character(fleets_names[f,1])) %>% 
-     mutate(common_name='yelloweye rockfish')
+  tmp_dat <- bds_cleaned_addCAage %>% filter(!is.na(Age),!is.na(lengthcm),stratification_byarea==as.character(fleets_names[f,1])) %>% 
+     mutate(common_name='yelloweye rockfish') %>% 
+    mutate(lengthcm=ifelse(is.na(lengthcm),length/10,lengthcm))
   
   if(nrow(tmp_dat)!=0){ #we have some fleet with no age
     
@@ -1338,6 +1342,7 @@ summary(raw_age_caal_comb[10:75] %>% rowSums() == raw_age_caal_comb$input_n)
 #already ok
 
 ```
+
 ### Save file
 
 ```{r}
@@ -1442,7 +1447,7 @@ raw_age_comps <-NULL
 
 # looping over every fleet
 for (f in 1:nrow(fleets_names)){
-  tmp_dat <- bds_cleaned_addCAage %>% filter(!is.na(Age),stratification_byarea==as.character(fleets_names[f,1])) %>% 
+  tmp_dat <- bds_cleaned_addCAage %>% filter(!is.na(Age),!is.na(lengthcm),stratification_byarea==as.character(fleets_names[f,1])) %>% 
      mutate(common_name='yelloweye rockfish',total_samples=1,project='A')
   
   
