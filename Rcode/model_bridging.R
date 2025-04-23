@@ -1710,17 +1710,17 @@ copy_SS_inputs(
   verbose = TRUE
 )
 
-fitbias_plots <- here::here("model/updated_alldata_tunecomps_fitbias_20250416/plots")
+#fitbias_plots <- here::here("model/updated_alldata_tunecomps_fitbias_20250416/plots")
 #add this folder manually
 
 r4ss::SS_fitbiasramp(
   replist_tunecomps, #use replist from previous run
   plot = FALSE,
-  print = TRUE,
-  plotdir = fitbias_plots,
-  shownew = TRUE, #try this
+  #print = TRUE,
+  #plotdir = fitbias_plots,
+  #shownew = TRUE,
   oldctl = file.path(tunecomps_dir, "yelloweye_control.ss"),
-  newctl = file.path(fitbias_dir, "yelloweye_control.ss"),#this incorporates the suggested changes from the last run. I suppose it could be run twice to be even better. So then we will run it again below.
+  newctl = file.path(fitbias_dir, "yelloweye_control.ss"),#this incorporates the suggested changes from the last run
   startvalues = NULL,
   method = "BFGS",
   altmethod = "nlminb"
@@ -1754,76 +1754,13 @@ SSplotComparisons(models_summary,
 
 
 ###################################################################
-#######       FIT RECRUITMENT BIAS RAMP SECOND TIME       #########
-###################################################################
-
-# change the recruitment bias adjustment AGAIN
-
-fitbias_2_dir <- here::here("model/updated_alldata_tunecomps_fitbias_2_20250416")
-
-copy_SS_inputs(
-  dir.old = fitbias_dir,
-  dir.new = fitbias_2_dir,
-  create.dir = TRUE,
-  overwrite = TRUE,
-  use_ss_new = TRUE,
-  verbose = TRUE
-)
-
-fitbias_2_plots <- here::here("model/updated_alldata_tunecomps_fitbias_2_20250416/plots")
-#add this folder manually
-
-r4ss::SS_fitbiasramp(
-  replist_fitbias, #use replist from previous run
-  plot = FALSE,
-  print = TRUE,
-  plotdir = fitbias_2_plots,
-  shownew = TRUE, #try this
-  oldctl = file.path(fitbias_dir, "yelloweye_control.ss"),
-  newctl = file.path(fitbias_2_dir, "yelloweye_control.ss"),#this incorporates the suggested changes from the last run. I suppose it could be run twice to be even better. So then we will run it again below.
-  startvalues = NULL,
-  method = "BFGS",
-  altmethod = "nlminb"
-)
-
-# Run model after fitbias
-r4ss::get_ss3_exe(dir = fitbias_2_dir)
-
-run(dir = fitbias_2_dir, show_in_console = TRUE)
-
-replist_fitbias_2 <- r4ss::SS_output(dir = fitbias_2_dir)
-
-SS_plots(replist_fitbias_2)
-
-#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
-models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250414")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250416")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250416")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_2_20250416")))
-models
-models_output <- SSgetoutput(dirvec = models)
-models_summary <- SSsummarize(models_output)
-SSplotComparisons(models_summary,
-                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "15_alldata_tunecomps_fitbias"),
-                  legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
-                                   "2025 updated all data",
-                                   "+ tuned comps",
-                                   "+ recruitment dev bias adj",
-                                   "+ recruitment dev bias adj x 2"),
-                  print = TRUE)
-
-
-
-###################################################################
 #######               CTL FILE CHANGES                   #########
 ###################################################################
 
 #check if the control file updated from the previous run with the rec dev bias adj
 
 # Get inputs from 2025 assessment that ran with updated data
-updated_alldata_tunecomps_fitbias_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_2_20250416")
+updated_alldata_tunecomps_fitbias_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_20250416")
 
 ##### Update CTL file for 2025 assessment ##### ----------------------------------------
 updated_ctlfile_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_20250416")
@@ -1913,7 +1850,7 @@ r4ss::SS_plots(replist_updated_ctlfile)
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
             paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250414")),
             paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250416")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_2_20250416")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250416")),
             paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250416")))
 models
 models_output <- SSgetoutput(dirvec = models)
@@ -1924,7 +1861,7 @@ SSplotComparisons(models_summary,
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
                                    "2025 updated all data",
                                    "+ tuned comps",
-                                   "+ recruitment dev bias adj x 2",
+                                   "+ recruitment dev bias adj",
                                    "+ updated ctl file"),
                   print = TRUE)
 
@@ -1982,7 +1919,7 @@ models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "14_alldata_tunecomps"),
+                                      "17_alldata_tunecomps_fitbias_upctl_tuned"),
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
                                    "2025 updated all data",
                                    "+ tuned comps",
@@ -2050,7 +1987,7 @@ models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "17_alldata_tunecomps_fitbias_upctl_upstart"),
+                                      "18_alldata_tunecomps_fitbias_upctl_tuned_upstart"),
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
                                    "2025 updated all data",
                                    "+ tuned comps",
