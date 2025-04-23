@@ -1,13 +1,13 @@
-#V3.30.23.1;_safe;_compile_date:_Dec  5 2024;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_13.2
+#V3.30.23.2;_safe;_compile_date:_Apr 17 2025;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_13.2
 #_Stock_Synthesis_is_a_work_of_the_U.S._Government_and_is_not_subject_to_copyright_protection_in_the_United_States.
 #_Foreign_copyrights_may_apply._See_copyright.txt_for_more_information.
-#_User_support_available_at:NMFS.Stock.Synthesis@noaa.gov
-#_User_info_available_at:https://vlab.noaa.gov/group/stock-synthesis
+#_User_support_available_at:_https://groups.google.com/g/ss3-forum_and_NMFS.Stock.Synthesis@noaa.gov
+#_User_info_available_at:_https://nmfs-ost.github.io/ss3-website/
 #_Source_code_at:_https://github.com/nmfs-ost/ss3-source-code
 
 #C Yelloweye 2017 control file
 #C file created using an r4ss function
-#C file write time: 2025-04-14  16:42:18
+#C file write time: 2025-04-22  21:06:19
 #_data_and_control_files: yelloweye_data.ss // yelloweye_control.ss
 0  # 0 means do not read wtatage.ss; 1 means read and use wtatage.ss and also read and use growth parameters
 1  #_N_Growth_Patterns (Growth Patterns, Morphs, Bio Patterns, GP are terms used interchangeably in SS3)
