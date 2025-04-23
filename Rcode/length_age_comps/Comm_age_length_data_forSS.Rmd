@@ -292,6 +292,7 @@ View(CA_NONTWL_WCGOP_maal)
 ss_data$agecomp %>% filter(fleet==4,year==2016) 
 raw_age_caal_PacFIN_WCGOP %>% filter(fleet==4,year==2016) # new data in 2016 -> use them
 ```
+
 data ready for SS = *YES*
 
 NB: because of the doubling issue notices in the 2017 caal we're using caal and maal based on our update.
