@@ -1716,10 +1716,11 @@ copy_SS_inputs(
 r4ss::SS_fitbiasramp(
   replist_tunecomps, #use replist from previous run
   plot = FALSE,
-  print = TRUE,
+  #print = TRUE,
   #plotdir = fitbias_plots,
+  #shownew = TRUE,
   oldctl = file.path(tunecomps_dir, "yelloweye_control.ss"),
-  newctl = file.path(fitbias_dir, "yelloweye_control.ss"),
+  newctl = file.path(fitbias_dir, "yelloweye_control.ss"),#this incorporates the suggested changes from the last run
   startvalues = NULL,
   method = "BFGS",
   altmethod = "nlminb"
@@ -1751,9 +1752,12 @@ SSplotComparisons(models_summary,
                                    "+ recruitment dev bias adj"),
                   print = TRUE)
 
+
 ###################################################################
 #######               CTL FILE CHANGES                   #########
 ###################################################################
+
+#check if the control file updated from the previous run with the rec dev bias adj
 
 # Get inputs from 2025 assessment that ran with updated data
 updated_alldata_tunecomps_fitbias_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_20250416")
@@ -1797,21 +1801,26 @@ inputs$ctl$MG_parms["Wtlen_2_Fem_GP_1", ]$PRIOR <- 3.244801 #update with standar
 
 # Change last year of main rec_dev, for the last assessment this was 2015 so I
 # would assume this would be 2023 for this year?
-inputs$ctl$MainRdevYrLast <- 2023
-
-# Change QParams that are hitting bounds
-# Q_extraSD_12_IPHC_ORWA(12)
-#ctl$Q_parms[16, ]$LO <- -1
+inputs$ctl$MainRdevYrLast <- 2023 #Aaron Berger recommended changing this to ~2019, because recruitment isn't that informed close to the end year
 
 # Change selparm bounds that are being hit
 # Size_DblN_peak_10_TRI_ORWA(10)
 #ctl$size_selex_parms[49, ]$HI <- 87
 
 # Remove 4 params that have priors but are not estimated by changing prior type to 0
-#ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$PR_type <- 0
-#ctl$MG_parms["Eggs_alpha_Fem_GP_1", ]$PR_type <- 0
-#ctl$MG_parms["Eggs_beta_Fem_GP_1", ]$PR_type <- 0
-#ctl$SR_parms["SR_BH_steep", ]$PR_type <- 0
+inputs$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$PR_type <- 0
+inputs$ctl$MG_parms["Eggs_alpha_Fem_GP_1", ]$PR_type <- 0
+inputs$ctl$MG_parms["Eggs_beta_Fem_GP_1", ]$PR_type <- 0
+inputs$ctl$SR_parms["SR_BH_steep", ]$PR_type <- 0
+
+# Change size selex types for these two fleets to 0 because they appear to be ignored
+# by the model anyways
+inputs$ctl$size_selex_types["4_ORWA_TWL",]$Special <- 0
+inputs$ctl$size_selex_types["5_ORWA_NONTWL",]$Special <- 0
+
+# Change the growth age for L1 from 1 to 0 because at 1 it produces a funny growth curve
+# as Vlada showed us
+inputs$ctl$Growth_Age_for_L1 <- 0
 
 
 ctl <- inputs$ctl
@@ -1855,6 +1864,71 @@ SSplotComparisons(models_summary,
                                    "+ recruitment dev bias adj",
                                    "+ updated ctl file"),
                   print = TRUE)
+
+###################################################################
+#######                  TUNE COMPS AGAIN                 #########
+###################################################################
+
+# copy model starters and data file from prev run
+copy_SS_inputs(
+  dir.old = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250416"), 
+  dir.new = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250416"),
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+#inputs <- SS_read(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250416"))
+
+get_ss3_exe(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250416"))
+
+run(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250416"), 
+    show_in_console = TRUE, extras = "-nohess")
+
+replist <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250416"))
+
+
+##### Tune composition data ##### ----------------------------------------------
+tunecomps_dir <- here::here("model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250416")
+
+r4ss::tune_comps(
+  replist, # use replist from previous run
+  write = TRUE,
+  niters_tuning = 2, 
+  option = "Francis",
+  dir = tunecomps_dir,
+  show_in_console = TRUE,
+  #extras = "-nohess", #run with hessian so we can run fitbias next
+  exe = "ss3"
+)
+
+replist_tunecomps <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250416"))
+
+SS_plots(replist_tunecomps)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250414")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250416")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_2_20250416")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250416")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomops_20250416")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "17_alldata_tunecomps_fitbias_upctl_tuned"),
+                  legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
+                                   "2025 updated all data",
+                                   "+ tuned comps",
+                                   "+ recruitment dev bias adj x 2",
+                                   "+ updated ctl file",
+                                   "+ tuned comps again"),
+                  print = TRUE)
+
+
 
 ###################################################################
 #######               STARTER FILE CHANGES                 #########
@@ -1913,7 +1987,7 @@ models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "17_alldata_tunecomps_fitbias_upctl_upstart"),
+                                      "18_alldata_tunecomps_fitbias_upctl_tuned_upstart"),
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
                                    "2025 updated all data",
                                    "+ tuned comps",
@@ -1922,4 +1996,7 @@ SSplotComparisons(models_summary,
                                    "+ updated start file"),
                   print = TRUE)
 
+###################################################################
+#######               FORECAST FILE CHANGES               #########
+###################################################################
 

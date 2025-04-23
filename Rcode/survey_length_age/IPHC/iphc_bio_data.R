@@ -12,6 +12,8 @@ iphc_bio <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "iphc_
 # Nsamp = n_trips + 0.0707 * n_fish when n_fish/n_tows < 55 and
 # Nsamp = 4.89 * n_trips when n_fish/n_tows >= 55
 N_samp <- iphc_bio |>
+  filter(!is.na(STLKEY)) |>
+  filter(STLKEY != "NA") |>
   group_by(sample_year, STLKEY) |>
   summarize(n_fish_stlkey = n()) |>
   ungroup() |>
@@ -35,6 +37,8 @@ iphc_bio$l_bin <- as.numeric(l_bins_inf[findInterval(iphc_bio[, "fish_length"], 
 
 # get length comps by year and bin
 length_comps <- iphc_bio |>
+  filter(!is.na(STLKEY)) |>
+  filter(STLKEY != "NA") |>
   filter(!is.na(best_age)) |>
   dplyr::filter(!is.na(best_age)) |>
   dplyr::filter(!is.na(l_bin)) |>
@@ -80,6 +84,8 @@ iphc_bio$a_bin <- a_bins_inf[findInterval(iphc_bio$best_age, a_bins_inf, all.ins
 early_age_values <- as.character(0:(min(iphc_bio$a_bin, na.rm = TRUE) - 1))
 
 caal <- iphc_bio |>
+  filter(!is.na(STLKEY)) |>
+  filter(STLKEY != "NA") |>
   dplyr::filter(!is.na(l_bin)) |>
   dplyr::filter(!is.na(a_bin)) |>
   dplyr::group_by(sample_year, l_bin, a_bin) |>
@@ -111,6 +117,8 @@ write.csv(caal, file.path(getwd(), "Data", "processed", "IPHC_bio_data", "iphc_c
 
 ### MAAL ###
 maal <- iphc_bio |>
+  filter(!is.na(STLKEY)) |>
+  filter(STLKEY != "NA") |>
   dplyr::filter(!is.na(l_bin)) |>
   dplyr::filter(!is.na(a_bin)) |>
   dplyr::group_by(sample_year, a_bin) |>
