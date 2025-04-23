@@ -1979,12 +1979,15 @@ r4ss::SS_plots(replist_updated_startfile)
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
             paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250414")),
             paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250416")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250416")),
+            #paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250416")),
             paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250416")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomops_20250416")),
             paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_start_20250416")))
+#Claire I added the second tune comps line here to show that the problem is with that. otherwise if you dont plot the second tune comps then they all plot.
+
 models
 models_output <- SSgetoutput(dirvec = models)
-models_summary <- SSsummarize(models_output)
+models_summary <- SSsummarize(models_output) #######something is wrong here
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
                                       "18_alldata_tunecomps_fitbias_upctl_tuned_upstart"),
