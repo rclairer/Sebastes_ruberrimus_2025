@@ -577,7 +577,6 @@ CA_age_samples%>%
   group_by(year) %>% 
   summarize(fish=length(First.age),trips=length(unique(Sample.date)))
 
-```
 
 
 looking for what can be a base to compute a trip number
