@@ -1,0 +1,9 @@
+ reading from starter.ss
+ reading from data file
+Data read successful 999
+
+ reading forecast file 
+ reading from control file
+Warning 2 Fatal Error! do_recdev option 1=devvector should not be used with MCMC, recommend option 2=simple deviations. For more detail see https://github.com/admb-project/admb/issues/107.
+Also see warning.sso
+Exiting SS3! 
