@@ -38,3 +38,4 @@ Data/raw/confidential
 */plots/*
 
 Data/discards/
+*.tmp
