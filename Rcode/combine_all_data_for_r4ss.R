@@ -122,6 +122,13 @@ OR_comm_all <- read.csv(file.path(
   "nonconfidential",
   "ORCommLandings_457_2024.csv"
 ))
+# Get OR catches landed in CA
+OR_landed_in_CA_TWL <- read.csv(file.path(
+  getwd(),
+  "Data",
+  "processed",
+  "OR_landed_in_CA_TWL.csv"
+))
 
 OR_TWL <- OR_comm_all |>
   select(YEAR, FLEET, TOTAL) |>
@@ -137,7 +144,16 @@ OR_TWL <- OR_comm_all |>
     catch = TOTAL,
     catch_se = 0.01
   ) |>
-  select(-TOTAL)
+  select(-TOTAL) |>
+  bind_rows(OR_landed_in_CA_TWL) |>
+  group_by(year) |>
+  summarize(
+    seas = unique(seas),
+    fleet = unique(fleet),
+    catch = sum(catch),
+    catch_se = unique(catch_se)
+  )
+  
 
 # WA historical catch with unchanged reconstruction provided from Fabio which Theresa
 # gave to the last assessment
@@ -196,6 +212,14 @@ ORWA_TWL <- start_line |>
   arrange(year)
 
 # ORWA NONTWL - fleet 5
+# Get OR catches landed in CA
+OR_landed_in_CA_NONTWL <- read.csv(file.path(
+  getwd(),
+  "Data",
+  "processed",
+  "OR_landed_in_CA_NONTWL.csv"
+))
+
 # All OR data provided from Ali with updated historical catch reconstruction
 OR_NONTWL <- OR_comm_all |>
   select(YEAR, FLEET, TOTAL) |>
@@ -211,7 +235,15 @@ OR_NONTWL <- OR_comm_all |>
     catch = TOTAL,
     catch_se = 0.01
   ) |>
-  select(-TOTAL)
+  select(-TOTAL) |>
+  bind_rows(OR_landed_in_CA_TWL) |>
+  group_by(year) |>
+  summarize(
+    seas = unique(seas),
+    fleet = unique(fleet),
+    catch = sum(catch),
+    catch_se = unique(catch_se)
+  )
 
 # WA historical catch with unchanged reconstruction provided from Fabio
 WA_NONTWL <- read.csv(file.path(
