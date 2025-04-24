@@ -20,7 +20,7 @@ directory <- here::here("model","2025_base_model")
 base_model_name <- "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250424"
 ```
 
-#### Profiles ####
+#### Profile Info ####
 
 ```{r}
 # Specify parameters to profile over along with the parameter range and step size:
@@ -35,18 +35,7 @@ profile_info <- get_settings_profile(
   param_space = c('multiplier', 'real', 'relative')
   )
 
-# Next, specify the settings for running the profiles, within r4ss
 
-# DON"T DO PROFILE IN PARALLEL...if there are convergence issues. 
-# we dont have that problem so its okay to run in parallel
-model_settings <- get_settings(
-  settings = list(
-    base_name = base_model_name,
-    run = c("profile"),
-    profile_details = profile_info )
-)
-
-run_diagnostics(mydir = directory, model_settings = model_settings)
 ```
 
 #### MCMC ####
@@ -94,8 +83,11 @@ future::plan(future::multisession, workers = ncores)
 model_settings <- get_settings(
   settings = list(
     base_name = base_model_name,
-    run = c("jitter", "retro"),
+    run = c("profile", "jitter", "retro"),
 
+    # Profile Settings
+    profile_details = profile_info,
+    
     # Jitter Settings
     extras = "-nohess",
     Njitter = 50,
