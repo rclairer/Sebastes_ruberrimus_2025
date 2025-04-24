@@ -11,11 +11,13 @@ knitr::opts_chunk$set(echo = TRUE)
 #remotes::install_github("pfmc-assessments/nwfscDiag")
 library(nwfscDiag)
 library(r4ss)
+library(parallelly)
+library(future)
 
 # Set directory and pull in best model
 
-directory <- here::here("model")
-base_model_name <- "MJ_last_run_updated_alldata_tunecomps_fitbias_ctl_start_20250416"
+directory <- here::here("model","2025_base_model")
+base_model_name <- "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250424"
 ```
 
 #### Profiles ####
@@ -35,7 +37,8 @@ profile_info <- get_settings_profile(
 
 # Next, specify the settings for running the profiles, within r4ss
 
-# DON"T DO PROFILE IN PARALLEL
+# DON"T DO PROFILE IN PARALLEL...if there are convergence issues. 
+# we dont have that problem so its okay to run in parallel
 model_settings <- get_settings(
   settings = list(
     base_name = base_model_name,
@@ -49,17 +52,17 @@ run_diagnostics(mydir = directory, model_settings = model_settings)
 #### MCMC ####
 
 ```{r}
-path <- here::here("model", "MJ_last_run_updated_alldata_tunecomps_fitbias_ctl_start_20250416")
-
-run_mcmc_diagnostics(
-  dir_wd = path,
-  model = "ss3",
-  extension = ".exe",
-  iter = 10,
-  chains = 2,
-  interactive = FALSE,
-  verbose = TRUE
-)
+# path <- here::here("model", "MJ_last_run_updated_alldata_tunecomps_fitbias_ctl_start_20250416")
+# 
+# run_mcmc_diagnostics(
+#   dir_wd = path,
+#   model = "ss3",
+#   extension = ".exe",
+#   iter = 10,
+#   chains = 2,
+#   interactive = FALSE,
+#   verbose = TRUE
+# )
 
 ```
 
@@ -74,15 +77,15 @@ compare_catch <- compare_model_gemm_catch(
 
 ```
 
-#### Jitter and Retrospective ####
+#### Profile and Jitter and Retrospective in Parallel ####
 
 ```{r}
 
 ### usepar = FALSE
 # THIS IS DEFAULT
 
-install.packages("parallelly")
-install.packages("future")
+#install.packages("parallelly")
+#install.packages("future")
 
 ncores <- parallelly::availableCores(omit = 1)
 future::plan(future::multisession, workers = ncores)
