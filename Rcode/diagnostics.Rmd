@@ -18,6 +18,8 @@ library(future)
 
 directory <- here::here("model","2025_base_model")
 base_model_name <- "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250424"
+
+get_ss3_exe(dir = here::here("model", "2025_base_model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250424"))
 ```
 
 #### Profile Info ####
@@ -58,11 +60,11 @@ profile_info <- get_settings_profile(
 ### Compare Model Catch to GEMM catch estimates###
 
 ```{r}
-replist <- r4ss::SS_output(path)
-compare_catch <- compare_model_gemm_catch(
-  replist = replist,
-  common_name = "yelloweye rockfish"
-)
+# replist <- r4ss::SS_output(path)
+# compare_catch <- compare_model_gemm_catch(
+#   replist = replist,
+#   common_name = "yelloweye rockfish"
+# )
 
 ```
 
