@@ -19,7 +19,9 @@ library(future)
 directory <- here::here("model","2025_base_model")
 base_model_name <- "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250424"
 
-get_ss3_exe(dir = here::here("model", "2025_base_model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250424"))
+get_ss3_exe(dir = here::here("model", "2025_base_model"))
+
+exe_loc <- here::here(directory, 'ss3.exe')
 ```
 
 #### Profile Info ####
@@ -38,6 +40,20 @@ profile_info <- get_settings_profile(
   )
 
 
+# profile_info <- get_settings_profile(
+#   parameters =  c("NatM_break_1_Fem_GP_1"),
+#   low =  c(0.4),
+#   high = c(0.4),
+#   step_size = c(0.005),
+#   param_space = c('multiplier')
+#   )
+# model_settings <- get_settings(
+#   settings = list(
+#     base_name = base_model_name,
+#       run = c("profile"),
+#       profile_details = profile_info )
+#     )
+# run_diagnostics(mydir = directory, model_settings = model_settings)
 ```
 
 #### MCMC ####
@@ -86,6 +102,7 @@ model_settings <- get_settings(
   settings = list(
     base_name = base_model_name,
     run = c("profile", "jitter", "retro"),
+    exe = exe_loc,
 
     # Profile Settings
     profile_details = profile_info,
