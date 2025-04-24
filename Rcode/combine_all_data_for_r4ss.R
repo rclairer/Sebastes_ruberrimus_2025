@@ -997,6 +997,7 @@ r4ss::get_ss3_exe(here::here("model/2025_update_all_data"))
 replist <- r4ss::SS_output(here::here("model/2025_update_all_data"))
 r4ss::SS_plots(replist)
 
+
 ##### Tune composition data ##### ----------------------------------------------
 tunecomps_dir <- here::here("model/2025_update_data_tune_comps")
 
@@ -1004,7 +1005,8 @@ copy_SS_inputs(
   dir.old = here::here("model/2025_update_all_data"),
   dir.new = tunecomps_dir,
   copy_exe = TRUE,
-  overwrite = TRUE
+  overwrite = TRUE,
+  use_ss_new = TRUE
 )
 
 other_files <- c("Report.sso", "CompReport.sso", "warning.sso")
@@ -1046,7 +1048,7 @@ copy_SS_inputs(
   dir.new = dir_fitbias,
   create.dir = FALSE,
   overwrite = TRUE,
-  use_ss_new = FALSE,
+  use_ss_new = TRUE,
   copy_exe = TRUE,
   verbose = TRUE
 )
