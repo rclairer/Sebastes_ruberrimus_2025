@@ -27,9 +27,9 @@ base_model_name <- "MJ_last_run_updated_alldata_tunecomps_fitbias_ctl_start_2025
 
 profile_info <- get_settings_profile(
   parameters =  c("NatM_break_1_Fem_GP_1", "SR_BH_steep", "SR_LN(R0)"),
-  low =  c(0.04, 0.2, -2),
-  high = c(0.04, 1.0, 2),
-  step_size = c(0.0005, 0.05, 0.25),
+  low =  c(0.4, 0.25, -2),
+  high = c(0.4, 1.0, 2),
+  step_size = c(0.005, 0.05, 0.25),
   param_space = c('multiplier', 'real', 'relative')
   )
 
@@ -77,6 +77,10 @@ compare_catch <- compare_model_gemm_catch(
 #### Jitter and Retrospective ####
 
 ```{r}
+
+### usepar = FALSE
+# THIS IS DEFAULT
+
 install.packages("parallelly")
 install.packages("future")
 
