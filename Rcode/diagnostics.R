@@ -2,20 +2,22 @@
 
 install.packages("remotes")
 remotes::install_github("pfmc-assessments/nwfscDiag")
+library(nwfscDiag)
 
-directory <- here::here("models")
-base_model_name <- "base model"
+directory <- here::here("model")
+base_model_name <- "2025_update_forecast"
 
 
 #### Profiles ####
 
-profile_info <- get_settings_profile( 
+profile_info <- get_settings_profile(
   parameters =  c("NatM_uniform_Fem_GP_1", "SR_BH_steep", "SR_LN(R0)"),
-  low =  c(0.020, 0.25, -2),
-  high = c(0.060, 1.0,  2),
-  step_size = c(0.005, 0.05, 0.25),
+  low =  c(0.04, 0.25, -2),
+  high = c(0.04, 1.0, 2),
+  step_size = c(0.0005, 0.05, 0.25),
   param_space = c('multiplier', 'real', 'relative')
   )
+
 
 # DON"T DO PROFILE IN PARALLEL
 model_settings <- get_settings(
@@ -27,10 +29,12 @@ model_settings <- get_settings(
 
 run_diagnostics(mydir = directory, model_settings = model_settings)
 
+
 #### Jitter ####
 
 ncores <- parallelly::availableCores(omit = 1)
 future::plan(future::multisession, workers = ncores)
+
 # YOU CAN USE THIS IN PARALLEL
 model_settings <- get_settings(
   settings = list(
@@ -40,11 +44,10 @@ model_settings <- get_settings(
     # Jitter Settings
     extras = "-nohess",
     Njitter = 100,
-    jitter_fraction = 0.05,
+    jitter_fraction = 0.1,
     jitter_init_values_src = NULL,
     
     # Retrospective Settings
-    oldsubdir = "",
     newsubdir = "retro",
     retro_yrs = -1:-5,
     
@@ -56,3 +59,17 @@ model_settings <- get_settings(
 run_diagnostics(mydir = directory, model_settings = model_settings)
 
 future::plan(future::sequential)
+
+
+#### MCMC ####
+path <- here::here("model", "2025_update_forecast")
+
+un_mcmc_diagnostics(
+  dir_wd = path,
+  model = "ss3",
+  extension = ".exe",
+  iter = 200,
+  chains = 2,
+  interactive = FALSE,
+  verbose = FALSE
+)
