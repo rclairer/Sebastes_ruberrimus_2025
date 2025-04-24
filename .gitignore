@@ -39,3 +39,4 @@ Data/raw/confidential
 
 Data/discards/
 *.tmp
+*.Rdata
