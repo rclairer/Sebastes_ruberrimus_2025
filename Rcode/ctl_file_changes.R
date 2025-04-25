@@ -21,6 +21,7 @@ copy_SS_inputs(
   create.dir = FALSE,
   overwrite = TRUE,
   use_ss_new = TRUE,
+  copy_exe = TRUE,
   verbose = TRUE
 )
 
@@ -122,7 +123,7 @@ r4ss::SS_plots(replist_ctl_fitbias)
 tunecomps_dir <- here::here("model/2025_update_ctl_tune_comps")
 
 copy_SS_inputs(
-  dir.old = here::here("model/2025_update_ctl_fitbias"),
+  dir.old = dir_ctl_fitbias,
   dir.new = tunecomps_dir,
   copy_exe = TRUE,
   overwrite = TRUE
@@ -131,7 +132,7 @@ copy_SS_inputs(
 other_files <- c("Report.sso", "CompReport.sso", "warning.sso")
 lapply(other_files, function(files){
   file.copy(
-    from = here::here("model/2025_update_ctl_fitbias", files),
+    from = here::here(dir_ctl_fitbias, files),
     to = here::here(tunecomps_dir, files),
     overwrite = TRUE
   )
@@ -146,7 +147,6 @@ r4ss::tune_comps(
   extras = "-nohess",
   exe = "ss3"
 )
-
 
 # Run model after this with hessian to use for fit bias
 r4ss::run(dir = tunecomps_dir)
