@@ -1818,10 +1818,12 @@ inputs$ctl$SR_parms["SR_BH_steep", ]$PR_type <- 0
 inputs$ctl$size_selex_types["4_ORWA_TWL",]$Special <- 0
 inputs$ctl$size_selex_types["5_ORWA_NONTWL",]$Special <- 0
 
+############################################################
 # Change the growth age for L1 from 1 to 0 because at 1 it produces a funny growth curve
 # as Vlada showed us
-inputs$ctl$Growth_Age_for_L1 <- 0
-
+inputs$ctl$Growth_Age_for_L1 <- 0 #I think this change is causing problems?? because l at amin parameter bound, I wonder if tune comps fixed this but I dont think so???? have to change lower bound to 0.01 says Ian
+inputs$ctl$MG_parms[2, ]$LO <- 0.01
+##############################################################
 
 ctl <- inputs$ctl
 # Fill outfile with directory and file name of the file written
@@ -1890,30 +1892,30 @@ replist <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomp
 
 
 ##### Tune composition data ##### ----------------------------------------------
-tunecomps_dir <- here::here("model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250416")
+tunecomps_again_dir <- here::here("model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250416")
 
 r4ss::tune_comps(
   replist, # use replist from previous run
   write = TRUE,
   niters_tuning = 2, 
   option = "Francis",
-  dir = tunecomps_dir,
+  dir = tunecomps_again_dir,
   show_in_console = TRUE,
   #extras = "-nohess", #run with hessian so we can run fitbias next
   exe = "ss3"
 )
 
-replist_tunecomps <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250416"))
+replist_tunecomps_again <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250416"))
 
-SS_plots(replist_tunecomps)
+SS_plots(replist_tunecomps_again)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
             paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250414")),
             paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250416")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_2_20250416")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250416")),
             paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250416")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomops_20250416")))
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250416")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -1923,7 +1925,7 @@ SSplotComparisons(models_summary,
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
                                    "2025 updated all data",
                                    "+ tuned comps",
-                                   "+ recruitment dev bias adj x 2",
+                                   "+ recruitment dev bias adj",
                                    "+ updated ctl file",
                                    "+ tuned comps again"),
                   print = TRUE)
@@ -1933,13 +1935,13 @@ SSplotComparisons(models_summary,
 ###################################################################
 #######               STARTER FILE CHANGES                 #########
 ###################################################################
-updated_ctlfile_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_20250416")
+updated_ctlfile_tuned_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250416")
 
-updated_startfile_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_start_20250416")
+updated_startfile_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250416")
 
 
 copy_SS_inputs(
-  dir.old = updated_ctlfile_dir,
+  dir.old = updated_ctlfile_tuned_dir,
   dir.new = updated_startfile_dir,
   create.dir = TRUE,
   overwrite = TRUE,
@@ -1981,8 +1983,8 @@ models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3
             paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250416")),
             #paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250416")),
             paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250416")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomops_20250416")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_start_20250416")))
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250416")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250416")))
 #Claire I added the second tune comps line here to show that the problem is with that. otherwise if you dont plot the second tune comps then they all plot.
 
 models
@@ -2002,4 +2004,53 @@ SSplotComparisons(models_summary,
 ###################################################################
 #######               FORECAST FILE CHANGES               #########
 ###################################################################
+#remotes::install_github("pfmc-assessments/PEPtools")
 
+#library(PEPtools)
+
+#updated_startfile_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250416")
+#updated_forecast_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250423")
+
+#copy_SS_inputs(
+#  dir.old = updated_startfile_dir,
+#  dir.new = update_forecast,
+#  create.dir = FALSE,
+#  overwrite = TRUE,
+#  use_ss_new = TRUE,
+#  copy_exe = TRUE,
+#  verbose = TRUE
+#)
+
+#inputs <- SS_read(dir = update_forecast)
+#fcast <- inputs$fore
+
+# Update benchmark years, convert to negative value representing years before the ending year of the model
+#fcast$Bmark_years <- c(0, 0, 0, 0, 0, 0, 1916, 0, 1916, 0)
+
+# Update flimit fraction
+#fcast$Flimitfraction <- -1
+
+# update buffer values
+#fcast$Flimitfraction_m <- PEPtools::get_buffer(2025:2036, sigma = 0.5, pstar = 0.45)
+
+# These may not need to change; either way this is something to do with the rebuilder stuff
+# fcast$Ydecl <- 0
+# fcast$Yinit <- 0
+
+# change "stddev of log(realized catch/target catch) in forecast" to 0
+#fcast$stddev_of_log_catch_ratio <- 0
+
+# update fixed forecast catches at the bottom for assumed catches in 2025 and 2026 
+# (values will likely be provided by Groundfish Management Team)
+# fcast$ForeCatch <- data.frame(
+#   year = rep(2025:2026, each = 3),
+#   seas = 1,
+#   fleet = rep(1:12, 2),
+#   catch_or_F = c(???) 
+# )
+
+#inputs$fore <- fcast
+#SS_write(inputs, dir = update_forecast, overwrite = TRUE)
+
+#replist <- SS_output(dir = update_forecast)
+#SS_plots(replist)
