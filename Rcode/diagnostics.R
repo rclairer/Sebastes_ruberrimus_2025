@@ -1,7 +1,8 @@
 #### Diagnostics ####
 
-install.packages("remotes")
-remotes::install_github("pfmc-assessments/nwfscDiag")
+#install.packages("remotes")
+remotes::install_github("pfmc-assessments/nwfscDiag", ref = "m-param-check")
+#remotes::install_github("pfmc-assessments/nwfscDiag")
 library(nwfscDiag)
 
 directory <- here::here("model")
@@ -11,7 +12,9 @@ base_model_name <- "2025_update_forecast"
 #### Profiles ####
 
 profile_info <- get_settings_profile(
-  parameters =  c("NatM_uniform_Fem_GP_1", "SR_BH_steep", "SR_LN(R0)"),
+
+  parameters =  c("NatM_break_1_Fem_GP_1", "SR_BH_steep", "SR_LN(R0)"),
+
   low =  c(0.04, 0.25, -2),
   high = c(0.04, 1.0, 2),
   step_size = c(0.0005, 0.05, 0.25),
