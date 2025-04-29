@@ -133,15 +133,15 @@ Do this if some done converge?
 
 ```{r}
 #base model datafile
-dat <- here::here("model", "MJ_last_run_updated_alldata_tunecomps_fitbias_ctl_start_20250416", "yelloweye_data")
-
-rerun_profile_vals(
-  mydir = path,
-  model_settings = model_settings, # make sure this is ther correct model settings
-  para_name = "SR_LN(R0)",
-  run_num = c(6,4,3,2), # the runs that didnt converge?
-  data_file_nm = dat
-)
+# dat <- here::here("model", "MJ_last_run_updated_alldata_tunecomps_fitbias_ctl_start_20250416", "yelloweye_data")
+# 
+# rerun_profile_vals(
+#   mydir = path,
+#   model_settings = model_settings, # make sure this is ther correct model settings
+#   para_name = "SR_LN(R0)",
+#   run_num = c(6,4,3,2), # the runs that didnt converge?
+#   data_file_nm = dat
+# )
 
 ```
 
