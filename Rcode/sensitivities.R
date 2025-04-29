@@ -1,7 +1,7 @@
 ### RUN SENSITIVITIES FOR YELLOWEYE 2025 UPDATE ASSESSMENT
-# CODE ADAPTED BY A. WHITMAN (ODFW) FROM K. OKEN (NWFSC)
+# CODE ADAPTED BY A. WHITMAN (ODFW) & E. PERL (NMFS OST) FROM K. OKEN (NWFSC)
 
-# LAST UPDATE: 4/28/2025
+# LAST UPDATE: 4/29/2025
 
 library(here)
 library(r4ss)
@@ -12,7 +12,10 @@ library(furrr)
 # dir<-"C:/Users/daubleal/OneDrive - Oregon/Desktop/Sebastes_ruberrimus_2025"
 
 model_directory <- here::here('model')
-base_model_name <- here::here('model', 'updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250427')
+base_model_name <- here::here(
+  'model',
+  'updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250427'
+)
 exe_loc <- here::here('model/ss3_win.exe')
 base_model <- SS_read(base_model_name, ss_new = TRUE)
 base_out <- SS_output(base_model_name)
@@ -28,10 +31,23 @@ sensi_mod <- base_model
 sensi_mod$dat$CPUE <- sensi_mod$dat$CPUE |>
   filter(index != 3)
 
-sensi_mod$ctl$Q_options <- sensi_mod$ctl$Q_options[-grep('CA_REC', rownames(sensi_mod$ctl$Q_options)),]
-sensi_mod$ctl$Q_parms <- sensi_mod$ctl$Q_parms[-grep('CA_REC', rownames(sensi_mod$ctl$Q_parms)),]
+sensi_mod$ctl$Q_options <- sensi_mod$ctl$Q_options[
+  -grep('CA_REC', rownames(sensi_mod$ctl$Q_options)),
+]
+sensi_mod$ctl$Q_parms <- sensi_mod$ctl$Q_parms[
+  -grep('CA_REC', rownames(sensi_mod$ctl$Q_parms)),
+]
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '01_no_CA_dockside'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '01_no_CA_dockside'
+  ),
+  overwrite = TRUE
+)
 
 ## remove OR dockside (OR_REC)
 
@@ -40,11 +56,24 @@ sensi_mod <- base_model
 sensi_mod$dat$CPUE <- sensi_mod$dat$CPUE |>
   filter(index != 6)
 
-sensi_mod$ctl$Q_options <- sensi_mod$ctl$Q_options[-grep('OR_REC', rownames(sensi_mod$ctl$Q_options)),]
-sensi_mod$ctl$Q_parms <- sensi_mod$ctl$Q_parms[-grep('OR_REC', rownames(sensi_mod$ctl$Q_parms)),]
+sensi_mod$ctl$Q_options <- sensi_mod$ctl$Q_options[
+  -grep('OR_REC', rownames(sensi_mod$ctl$Q_options)),
+]
+sensi_mod$ctl$Q_parms <- sensi_mod$ctl$Q_parms[
+  -grep('OR_REC', rownames(sensi_mod$ctl$Q_parms)),
+]
 sensi_mod$ctl$Q_parms_tv <- NULL
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '02_no_OR_dockside'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '02_no_OR_dockside'
+  ),
+  overwrite = TRUE
+)
 
 ## remove WA dockside
 
@@ -53,10 +82,23 @@ sensi_mod <- base_model
 sensi_mod$dat$CPUE <- sensi_mod$dat$CPUE |>
   filter(index != 7)
 
-sensi_mod$ctl$Q_options <- sensi_mod$ctl$Q_options[-grep('WA_REC', rownames(sensi_mod$ctl$Q_options)),]
-sensi_mod$ctl$Q_parms <- sensi_mod$ctl$Q_parms[-grep('WA_REC', rownames(sensi_mod$ctl$Q_parms)),]
+sensi_mod$ctl$Q_options <- sensi_mod$ctl$Q_options[
+  -grep('WA_REC', rownames(sensi_mod$ctl$Q_options)),
+]
+sensi_mod$ctl$Q_parms <- sensi_mod$ctl$Q_parms[
+  -grep('WA_REC', rownames(sensi_mod$ctl$Q_parms)),
+]
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '03_no_WA_dockside'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '03_no_WA_dockside'
+  ),
+  overwrite = TRUE
+)
 
 ## remove CA CPFV
 
@@ -65,19 +107,36 @@ sensi_mod <- base_model
 sensi_mod$dat$CPUE <- sensi_mod$dat$CPUE |>
   filter(index != 8)
 
-sensi_mod$ctl$Q_options <- sensi_mod$ctl$Q_options[-grep('CACPFV', rownames(sensi_mod$ctl$Q_options)),]
-sensi_mod$ctl$Q_parms <- sensi_mod$ctl$Q_parms[-grep('CACPFV', rownames(sensi_mod$ctl$Q_parms)),]
+sensi_mod$ctl$Q_options <- sensi_mod$ctl$Q_options[
+  -grep('CACPFV', rownames(sensi_mod$ctl$Q_options)),
+]
+sensi_mod$ctl$Q_parms <- sensi_mod$ctl$Q_parms[
+  -grep('CACPFV', rownames(sensi_mod$ctl$Q_parms)),
+]
 
 # Need to remove length data, age data, and selectivities. If no catch or index, you can't have length or age data
 sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
-  filter(index != 8)
+  filter(fleet != 8)
 sensi_mod$dat$agecomp <- sensi_mod$dat$agecomp |>
-  filter(index != 8)
+  filter(fleet != 8)
 
-sensi_mod$ctl$size_selex_types <- sensi_mod$ctl$size_selex_types[!grepl("8_", rownames(sensi_mod$ctl$size_selex_types)),]
-sensi_mod$ctl$size_selex_parms <- sensi_mod$ctl$size_selex_parms[!grepl("(8)", rownames(sensi_mod$ctl$size_selex_parms)),]
+sensi_mod$ctl$size_selex_types <- sensi_mod$ctl$size_selex_types[
+  !grepl("8_", rownames(sensi_mod$ctl$size_selex_types)),
+]
+sensi_mod$ctl$size_selex_parms <- sensi_mod$ctl$size_selex_parms[
+  !grepl("(8)", rownames(sensi_mod$ctl$size_selex_parms)),
+]
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '04_no_CA_CPFV'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '04_no_CA_CPFV'
+  ),
+  overwrite = TRUE
+)
 
 ## remove OR onboard (OR_RECOB)
 
@@ -86,20 +145,36 @@ sensi_mod <- base_model
 sensi_mod$dat$CPUE <- sensi_mod$dat$CPUE |>
   filter(index != 9)
 
-sensi_mod$ctl$Q_options <- sensi_mod$ctl$Q_options[-grep('OR_RECOB', rownames(sensi_mod$ctl$Q_options)),]
-sensi_mod$ctl$Q_parms <- sensi_mod$ctl$Q_parms[-grep('OR_RECOB', rownames(sensi_mod$ctl$Q_parms)),]
-
+sensi_mod$ctl$Q_options <- sensi_mod$ctl$Q_options[
+  -grep('OR_RECOB', rownames(sensi_mod$ctl$Q_options)),
+]
+sensi_mod$ctl$Q_parms <- sensi_mod$ctl$Q_parms[
+  -grep('OR_RECOB', rownames(sensi_mod$ctl$Q_parms)),
+]
 
 # Need to remove length data, age data, and selectivities. If no catch or index, you can't have length or age data
 sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
-  filter(index != 9)
+  filter(fleet != 9)
 sensi_mod$dat$agecomp <- sensi_mod$dat$agecomp |>
-  filter(index != 9)
+  filter(fleet != 9)
 
-sensi_mod$ctl$size_selex_types <- sensi_mod$ctl$size_selex_types[!grepl("9_", rownames(sensi_mod$ctl$size_selex_types)),]
-sensi_mod$ctl$size_selex_parms <- sensi_mod$ctl$size_selex_parms[!grepl("(9)", rownames(sensi_mod$ctl$size_selex_parms)),]
+sensi_mod$ctl$size_selex_types <- sensi_mod$ctl$size_selex_types[
+  !grepl("9_", rownames(sensi_mod$ctl$size_selex_types)),
+]
+sensi_mod$ctl$size_selex_parms <- sensi_mod$ctl$size_selex_parms[
+  !grepl("(9)", rownames(sensi_mod$ctl$size_selex_parms)),
+]
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '05_no_OR_onboard'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '05_no_OR_onboard'
+  ),
+  overwrite = TRUE
+)
 
 ## remove AFSC triennial
 
@@ -108,17 +183,34 @@ sensi_mod <- base_model
 sensi_mod$dat$CPUE <- sensi_mod$dat$CPUE |>
   filter(index != 10)
 
-sensi_mod$ctl$Q_options <- sensi_mod$ctl$Q_options[-grep('TRI_ORWA', rownames(sensi_mod$ctl$Q_options)),]
-sensi_mod$ctl$Q_parms <- sensi_mod$ctl$Q_parms[-grep('TRI_ORWA', rownames(sensi_mod$ctl$Q_parms)),]
+sensi_mod$ctl$Q_options <- sensi_mod$ctl$Q_options[
+  -grep('TRI_ORWA', rownames(sensi_mod$ctl$Q_options)),
+]
+sensi_mod$ctl$Q_parms <- sensi_mod$ctl$Q_parms[
+  -grep('TRI_ORWA', rownames(sensi_mod$ctl$Q_parms)),
+]
 
 # Need to remove length data, age data, and selectivities. If no catch or index, you can't have length or age data
 sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
-  filter(index != 10)
+  filter(fleet != 10)
 
-sensi_mod$ctl$size_selex_types <- sensi_mod$ctl$size_selex_types[!grepl("10_", rownames(sensi_mod$ctl$size_selex_types)),]
-sensi_mod$ctl$size_selex_parms <- sensi_mod$ctl$size_selex_parms[!grepl("(10)", rownames(sensi_mod$ctl$size_selex_parms)),]
+sensi_mod$ctl$size_selex_types <- sensi_mod$ctl$size_selex_types[
+  !grepl("10_", rownames(sensi_mod$ctl$size_selex_types)),
+]
+sensi_mod$ctl$size_selex_parms <- sensi_mod$ctl$size_selex_parms[
+  !grepl("(10)", rownames(sensi_mod$ctl$size_selex_parms)),
+]
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '06_no_AFSC_triennial'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '06_no_AFSC_triennial'
+  ),
+  overwrite = TRUE
+)
 
 ## remove NWFSC trawl
 
@@ -127,19 +219,36 @@ sensi_mod <- base_model
 sensi_mod$dat$CPUE <- sensi_mod$dat$CPUE |>
   filter(index != 11)
 
-sensi_mod$ctl$Q_options <- sensi_mod$ctl$Q_options[-grep('NWFSC_ORWA', rownames(sensi_mod$ctl$Q_options)),]
-sensi_mod$ctl$Q_parms <- sensi_mod$ctl$Q_parms[-grep('NWFSC_ORWA', rownames(sensi_mod$ctl$Q_parms)),]
+sensi_mod$ctl$Q_options <- sensi_mod$ctl$Q_options[
+  -grep('NWFSC_ORWA', rownames(sensi_mod$ctl$Q_options)),
+]
+sensi_mod$ctl$Q_parms <- sensi_mod$ctl$Q_parms[
+  -grep('NWFSC_ORWA', rownames(sensi_mod$ctl$Q_parms)),
+]
 
 # Need to remove length data, age data, and selectivities. If no catch or index, you can't have length or age data
 sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
-  filter(index != 11)
+  filter(fleet != 11)
 sensi_mod$dat$agecomp <- sensi_mod$dat$agecomp |>
-  filter(index != 11)
+  filter(fleet != 11)
 
-sensi_mod$ctl$size_selex_types <- sensi_mod$ctl$size_selex_types[!grepl("11_", rownames(sensi_mod$ctl$size_selex_types)),]
-sensi_mod$ctl$size_selex_parms <- sensi_mod$ctl$size_selex_parms[!grepl("(11)", rownames(sensi_mod$ctl$size_selex_parms)),]
+sensi_mod$ctl$size_selex_types <- sensi_mod$ctl$size_selex_types[
+  !grepl("11_", rownames(sensi_mod$ctl$size_selex_types)),
+]
+sensi_mod$ctl$size_selex_parms <- sensi_mod$ctl$size_selex_parms[
+  !grepl("(11)", rownames(sensi_mod$ctl$size_selex_parms)),
+]
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '07_no_NWFSC_trawl'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '07_no_NWFSC_trawl'
+  ),
+  overwrite = TRUE
+)
 
 ## remove IPHC
 
@@ -148,19 +257,36 @@ sensi_mod <- base_model
 sensi_mod$dat$CPUE <- sensi_mod$dat$CPUE |>
   filter(index != 12)
 
-sensi_mod$ctl$Q_options <- sensi_mod$ctl$Q_options[-grep('IPHC_ORWA', rownames(sensi_mod$ctl$Q_options)),]
-sensi_mod$ctl$Q_parms <- sensi_mod$ctl$Q_parms[-grep('IPHC_ORWA', rownames(sensi_mod$ctl$Q_parms)),]
+sensi_mod$ctl$Q_options <- sensi_mod$ctl$Q_options[
+  -grep('IPHC_ORWA', rownames(sensi_mod$ctl$Q_options)),
+]
+sensi_mod$ctl$Q_parms <- sensi_mod$ctl$Q_parms[
+  -grep('IPHC_ORWA', rownames(sensi_mod$ctl$Q_parms)),
+]
 
 # Need to remove length data, age data, and selectivities. If no catch or index, you can't have length or age data
 sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
-  filter(index != 12)
+  filter(fleet != 12)
 sensi_mod$dat$agecomp <- sensi_mod$dat$agecomp |>
-  filter(index != 12)
+  filter(fleet != 12)
 
-sensi_mod$ctl$size_selex_types <- sensi_mod$ctl$size_selex_types[!grepl("12_", rownames(sensi_mod$ctl$size_selex_types)),]
-sensi_mod$ctl$size_selex_parms <- sensi_mod$ctl$size_selex_parms[!grepl("(12)", rownames(sensi_mod$ctl$size_selex_parms)),] 
+sensi_mod$ctl$size_selex_types <- sensi_mod$ctl$size_selex_types[
+  !grepl("12_", rownames(sensi_mod$ctl$size_selex_types)),
+]
+sensi_mod$ctl$size_selex_parms <- sensi_mod$ctl$size_selex_parms[
+  !grepl("(12)", rownames(sensi_mod$ctl$size_selex_parms)),
+]
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '08_no_IPHC'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '08_no_IPHC'
+  ),
+  overwrite = TRUE
+)
 
 ## remove all indices
 
@@ -180,17 +306,34 @@ sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
 sensi_mod$dat$agecomp <- sensi_mod$dat$agecomp |>
   filter(!fleet %in% indices_no_catches)
 
-sensi_mod$ctl$size_selex_types <- sensi_mod$ctl$size_selex_types[!grepl(paste(indices_und, collapse = "|"), rownames(sensi_mod$ctl$size_selex_types)),]
-sensi_mod$ctl$size_selex_parms <- sensi_mod$ctl$size_selex_parms[!grepl(paste(indices_chr, collapse = "|"), rownames(sensi_mod$ctl$size_selex_parms)),]
+sensi_mod$ctl$size_selex_types <- sensi_mod$ctl$size_selex_types[
+  !grepl(
+    paste(indices_und, collapse = "|"),
+    rownames(sensi_mod$ctl$size_selex_types)
+  ),
+]
+sensi_mod$ctl$size_selex_parms <- sensi_mod$ctl$size_selex_parms[
+  !grepl(
+    paste(indices_chr, collapse = "|"),
+    rownames(sensi_mod$ctl$size_selex_parms)
+  ),
+]
 
-
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '09_no_indices'), overwrite = TRUE)
-
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '09_no_indices'
+  ),
+  overwrite = TRUE
+)
 
 # Remove length comps -----------------------------------------------------
 
 ## remove CA trawl lengths
-# We don't need to remove the selex params if we are removing length comps from 
+# We don't need to remove the selex params if we are removing length comps from
 # data that has catch
 
 sensi_mod <- base_model
@@ -198,7 +341,16 @@ sensi_mod <- base_model
 sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
   filter(fleet != 1)
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '10_no_CA_trawl_lengths'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '10_no_CA_trawl_lengths'
+  ),
+  overwrite = TRUE
+)
 
 
 ## remove CA non-trawl lengths
@@ -208,7 +360,16 @@ sensi_mod <- base_model
 sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
   filter(fleet != 2)
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '11_no_CA_nontrawl_lengths'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '11_no_CA_nontrawl_lengths'
+  ),
+  overwrite = TRUE
+)
 
 
 ## remove CA dockside lengths
@@ -218,7 +379,16 @@ sensi_mod <- base_model
 sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
   filter(fleet != 3)
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '12_no_CA_dockside_lengths'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '12_no_CA_dockside_lengths'
+  ),
+  overwrite = TRUE
+)
 
 ## remove OR-WA trawl lengths
 
@@ -227,7 +397,16 @@ sensi_mod <- base_model
 sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
   filter(fleet != 4)
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '13_no_ORWA_trawl_lengths'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '13_no_ORWA_trawl_lengths'
+  ),
+  overwrite = TRUE
+)
 
 
 ## remove OR-WA non-trawl lengths
@@ -237,7 +416,16 @@ sensi_mod <- base_model
 sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
   filter(fleet != 5)
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '14_no_ORWA_non-trawl_lengths'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '14_no_ORWA_non-trawl_lengths'
+  ),
+  overwrite = TRUE
+)
 
 # remove OR dockside lengths
 sensi_mod <- base_model
@@ -245,7 +433,16 @@ sensi_mod <- base_model
 sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
   filter(fleet != 6)
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '15_no_OR_dockside_lengths'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '15_no_OR_dockside_lengths'
+  ),
+  overwrite = TRUE
+)
 
 ## remove WA dockside lengths
 
@@ -254,7 +451,16 @@ sensi_mod <- base_model
 sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
   filter(fleet != 7)
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '16_no_WA_dockside_lengths'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '16_no_WA_dockside_lengths'
+  ),
+  overwrite = TRUE
+)
 
 ## remove CA CPFV lengths # note - mirrored to CA_REC
 
@@ -265,7 +471,16 @@ sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
 
 # Ian said we shouldn't need to remove the mirroring selex type
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '17_no_CA_CPFV_lengths'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '17_no_CA_CPFV_lengths'
+  ),
+  overwrite = TRUE
+)
 
 ## remove OR onboard lengths
 
@@ -275,10 +490,26 @@ sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
   filter(fleet != 9)
 
 # Fix params by *-1 instead of removing them for indices - says Ian
-sensi_mod$ctl$size_selex_parms[grepl('OR_RECOB', rownames(sensi_mod$ctl$size_selex_parms)),]$PHASE <- 
-  abs(sensi_mod$ctl$size_selex_parms[grepl('OR_RECOB', rownames(sensi_mod$ctl$size_selex_parms)),]$PHASE)*-1
+sensi_mod$ctl$size_selex_parms[
+  grepl('OR_RECOB', rownames(sensi_mod$ctl$size_selex_parms)),
+]$PHASE <-
+  abs(
+    sensi_mod$ctl$size_selex_parms[
+      grepl('OR_RECOB', rownames(sensi_mod$ctl$size_selex_parms)),
+    ]$PHASE
+  ) *
+  -1
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '18_no_OR_onboard_lengths'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '18_no_OR_onboard_lengths'
+  ),
+  overwrite = TRUE
+)
 
 ## remove AFSC triennial lengths
 
@@ -287,10 +518,26 @@ sensi_mod <- base_model
 sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
   filter(fleet != 10)
 
-sensi_mod$ctl$size_selex_parms[grepl('TRI_ORWA', rownames(sensi_mod$ctl$size_selex_parms)),]$PHASE <- 
-  abs(sensi_mod$ctl$size_selex_parms[grepl('TRI_ORWA', rownames(sensi_mod$ctl$size_selex_parms)),]$PHASE)*-1
+sensi_mod$ctl$size_selex_parms[
+  grepl('TRI_ORWA', rownames(sensi_mod$ctl$size_selex_parms)),
+]$PHASE <-
+  abs(
+    sensi_mod$ctl$size_selex_parms[
+      grepl('TRI_ORWA', rownames(sensi_mod$ctl$size_selex_parms)),
+    ]$PHASE
+  ) *
+  -1
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '19_no_AFSC_TRI_lengths'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '19_no_AFSC_TRI_lengths'
+  ),
+  overwrite = TRUE
+)
 
 ## remove NWFSC trawl lengths
 
@@ -299,10 +546,26 @@ sensi_mod <- base_model
 sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
   filter(fleet != 11)
 
-sensi_mod$ctl$size_selex_parms[grepl('NWFSC_ORWA', rownames(sensi_mod$ctl$size_selex_parms)),]$PHASE <- 
-  abs(sensi_mod$ctl$size_selex_parms[grepl('NWFSC_ORWA', rownames(sensi_mod$ctl$size_selex_parms)),]$PHASE)*-1
+sensi_mod$ctl$size_selex_parms[
+  grepl('NWFSC_ORWA', rownames(sensi_mod$ctl$size_selex_parms)),
+]$PHASE <-
+  abs(
+    sensi_mod$ctl$size_selex_parms[
+      grepl('NWFSC_ORWA', rownames(sensi_mod$ctl$size_selex_parms)),
+    ]$PHASE
+  ) *
+  -1
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '20_no_NWFSC_lengths'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '20_no_NWFSC_lengths'
+  ),
+  overwrite = TRUE
+)
 
 ## remove IPHC lengths
 
@@ -311,16 +574,32 @@ sensi_mod <- base_model
 sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
   filter(fleet != 12)
 
-sensi_mod$ctl$size_selex_parms[grepl('IPHC_ORWA', rownames(sensi_mod$ctl$size_selex_parms)),]$PHASE <- 
-  abs(sensi_mod$ctl$size_selex_parms[grepl('IPHC_ORWA', rownames(sensi_mod$ctl$size_selex_parms)),]$PHASE)*-1
+sensi_mod$ctl$size_selex_parms[
+  grepl('IPHC_ORWA', rownames(sensi_mod$ctl$size_selex_parms)),
+]$PHASE <-
+  abs(
+    sensi_mod$ctl$size_selex_parms[
+      grepl('IPHC_ORWA', rownames(sensi_mod$ctl$size_selex_parms)),
+    ]$PHASE
+  ) *
+  -1
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '21_no_IPHC_lengths'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '21_no_IPHC_lengths'
+  ),
+  overwrite = TRUE
+)
 
 ## remove all length comps
 
 sensi_mod <- base_model
 
-sensi_mod$ctl$lambdas <- sensi_mod$ctl$lambdas |> 
+sensi_mod$ctl$lambdas <- sensi_mod$ctl$lambdas |>
   bind_rows(data.frame(
     like_comp = 4,
     fleet = 1:12,
@@ -332,11 +611,33 @@ sensi_mod$ctl$lambdas <- sensi_mod$ctl$lambdas |>
 sensi_mod$ctl$N_lambdas <- nrow(sensi_mod$ctl$lambdas)
 
 # Turn size selex phase to -1 for indices that don't have catch or aren't mirroring catch selectivity
-indices_list <- paste0("OR_RECOB", "TRI_ORWA", "NWFSC_ORWA", "IPHC_ORWA", collapse = "|")
-sensi_mod$ctl$size_selex_parms[grepl(indices_list, rownames(sensi_mod$ctl$size_selex_parms)),]$PHASE <- 
-  abs(sensi_mod$ctl$size_selex_parms[grepl(indices_list, rownames(sensi_mod$ctl$size_selex_parms)),]$PHASE)*-1
+indices_list <- paste0(
+  "OR_RECOB",
+  "TRI_ORWA",
+  "NWFSC_ORWA",
+  "IPHC_ORWA",
+  collapse = "|"
+)
+sensi_mod$ctl$size_selex_parms[
+  grepl(indices_list, rownames(sensi_mod$ctl$size_selex_parms)),
+]$PHASE <-
+  abs(
+    sensi_mod$ctl$size_selex_parms[
+      grepl(indices_list, rownames(sensi_mod$ctl$size_selex_parms)),
+    ]$PHASE
+  ) *
+  -1
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '22_no_length_comps'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '22_no_length_comps'
+  ),
+  overwrite = TRUE
+)
 
 
 # Remove age comps --------------------------------------------------------
@@ -348,7 +649,16 @@ sensi_mod <- base_model
 sensi_mod$dat$agecomp <- sensi_mod$dat$agecomp |>
   filter(fleet != 2)
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '23_no_CA_NONTWL_ages'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '23_no_CA_NONTWL_ages'
+  ),
+  overwrite = TRUE
+)
 
 ## remove CA dockside ages
 
@@ -357,7 +667,16 @@ sensi_mod <- base_model
 sensi_mod$dat$agecomp <- sensi_mod$dat$agecomp |>
   filter(fleet != 3)
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '24_no_CA_REC_ages'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '24_no_CA_REC_ages'
+  ),
+  overwrite = TRUE
+)
 
 ## remove OR-WA trawl ages
 
@@ -366,7 +685,16 @@ sensi_mod <- base_model
 sensi_mod$dat$agecomp <- sensi_mod$dat$agecomp |>
   filter(fleet != 4)
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '25_no_ORWA_TWL_ages'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '25_no_ORWA_TWL_ages'
+  ),
+  overwrite = TRUE
+)
 
 ## remove OR-WA non-trawl ages
 
@@ -375,7 +703,16 @@ sensi_mod <- base_model
 sensi_mod$dat$agecomp <- sensi_mod$dat$agecomp |>
   filter(fleet != 5)
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '26_no_ORWA_NON-TWL_ages'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '26_no_ORWA_NON-TWL_ages'
+  ),
+  overwrite = TRUE
+)
 
 ## remove OR dockside ages
 
@@ -384,7 +721,16 @@ sensi_mod <- base_model
 sensi_mod$dat$agecomp <- sensi_mod$dat$agecomp |>
   filter(fleet != 6)
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '27_no_OR_dockside_ages'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '27_no_OR_dockside_ages'
+  ),
+  overwrite = TRUE
+)
 
 ## remove WA dockside ages
 
@@ -393,7 +739,16 @@ sensi_mod <- base_model
 sensi_mod$dat$agecomp <- sensi_mod$dat$agecomp |>
   filter(fleet != 7)
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '28_no_WA_dockside_ages'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '28_no_WA_dockside_ages'
+  ),
+  overwrite = TRUE
+)
 
 ## remove NWFSC trawl ages
 
@@ -402,7 +757,16 @@ sensi_mod <- base_model
 sensi_mod$dat$agecomp <- sensi_mod$dat$agecomp |>
   filter(fleet != 11)
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '29_no_NWFSC_ages'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '29_no_NWFSC_ages'
+  ),
+  overwrite = TRUE
+)
 
 ## remove IPHC trawl ages
 
@@ -411,7 +775,16 @@ sensi_mod <- base_model
 sensi_mod$dat$agecomp <- sensi_mod$dat$agecomp |>
   filter(fleet != 12)
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '30_no_IPHC_ages'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '30_no_IPHC_ages'
+  ),
+  overwrite = TRUE
+)
 
 ## remove all ages
 
@@ -428,7 +801,16 @@ sensi_mod$ctl$lambdas <- sensi_mod$ctl$lambdas |>
 
 sensi_mod$ctl$N_lambdas <- nrow(sensi_mod$ctl$lambdas)
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'index_and_comp_data', '31_no_age_comps'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data',
+    '31_no_age_comps'
+  ),
+  overwrite = TRUE
+)
 
 
 # Change aging error  -----------------------------------------------------
@@ -448,7 +830,16 @@ sensi_mod <- base_model
 
 sensi_mod$ctl$SR_parms$PHASE[2] <- 3 # left it in phase 3
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'model_specs', '39_est_steepness'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'model_specs',
+    '39_est_steepness'
+  ),
+  overwrite = TRUE
+)
 
 
 ## use 2017 L-W relationship - not run yet
@@ -457,7 +848,11 @@ sensi_mod <- base_model
 
 # they don't seem to be different!!
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'model_specs', '41_2017_LW'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(model_directory, 'sensitivities', 'model_specs', '41_2017_LW'),
+  overwrite = TRUE
+)
 
 # Try do_recdev option 2
 
@@ -465,14 +860,22 @@ sensi_mod <- base_model
 
 sensi_mod$ctl$do_recdev <- 2
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'model_specs', '42_do_redev2'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(model_directory, 'sensitivities', 'model_specs', '42_do_recdev2'),
+  overwrite = TRUE
+)
 
-# Try do_recdev option 
+# Try do_recdev option
 sensi_mod <- base_model
 
 sensi_mod$ctl$do_recdev <- 3
 
-SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'model_specs', '43_do_redev3'), overwrite = TRUE)
+SS_write(
+  sensi_mod,
+  file.path(model_directory, 'sensitivities', 'model_specs', '43_do_recdev3'),
+  overwrite = TRUE
+)
 
 # Change removal history --------------------------------------------------
 
@@ -497,24 +900,21 @@ SS_write(sensi_mod, file.path(model_directory, 'sensitivities', 'model_specs', '
 ## M-I weighting - not sure if this one worked? got a warning "-nohess had status 1" ?
 
 copy_SS_inputs(
-  dir.old = file.path(dir, model_directory, base_model_name),
+  dir.old = file.path(base_model_name),
   dir.new = file.path(
-    dir,
     model_directory,
     'sensitivities',
     'model_specs',
     '54_M_I_weighting'
-  )
+  ),
+  overwrite = TRUE
 )
 file.copy(
   from = file.path(
-    dir,
-    model_directory,
     base_model_name,
     c('Report.sso', 'CompReport.sso', 'warning.sso')
   ),
   to = file.path(
-    dir,
     model_directory,
     'sensitivities',
     'model_specs',
@@ -527,7 +927,6 @@ tune_comps(
   option = 'MI',
   niters_tuning = 3,
   dir = file.path(
-    dir,
     model_directory,
     'sensitivities',
     'model_specs',
@@ -551,7 +950,14 @@ tune_comps(
 
 # Run stuff ---------------------------------------------------------------
 
-sensi_dirs <- list.files(file.path(model_directory, 'sensitivities'))
+sensi_dirs <- c(
+  list.files(file.path(
+    model_directory,
+    'sensitivities',
+    'index_and_comp_data'
+  )),
+  list.files(file.path(model_directory, 'sensitivities', 'model_specs'))
+)
 
 tuning_mods <- grep('weighting', sensi_mods)
 
@@ -559,9 +965,15 @@ future::plan(future::multisession(
   workers = parallelly::availableCores(omit = 1)
 ))
 
-furrr::future_map(sensi_dirs[-tuning_mods], \(x)
-                  run(file.path(model_directory, 'sensitivities', x),
-                      exe = exe_loc, extras = '-nohess', skipfinished = FALSE)
+furrr::future_map(
+  sensi_dirs[-tuning_mods],
+  \(x)
+    run(
+      file.path(model_directory, 'sensitivities', x),
+      exe = exe_loc,
+      extras = '-nohess',
+      skipfinished = FALSE
+    )
 )
 
 # furrr::future_map(
@@ -642,55 +1054,95 @@ make_detailed_sensitivites <- function(biglist, mods, outdir, grp_name) {
 
 modeling <- data.frame(
   dir = c(
-    'breakpoint_m',
-    'no_sex_selex',
-    'sex_selex',
-    'single_m',
-    'tv_wl',
-    'hybrid_f',
-    'nonlinear_q'
+    'model_specs/39_est_steepness',
+    'model_specs/41_2017_LW',
+    'model_specs/42_do_recdev2',
+    'model_specs/43_do_recdev3'
   ),
   pretty = c(
-    'Breakpoint M',
-    'No sex selectivity',
-    'Sex selectivity all fleets',
-    'Single M',
-    'Time-vary weight-length',
-    'Hybrid F method',
-    'Nonlinear WCGBTS Q'
+    'Estimate steepness',
+    '2017 length-weight relationship',
+    'do_recdev option 2',
+    'do_recdev option 3'
   )
 )
 
 indices <- data.frame(
   dir = c(
-    'no_indices',
-    'no_smurf',
-    'observer_index',
-    'oceanographic_index',
-    'ORBS',
-    'ORBS_SE',
-    'RREAS',
-    'upweight_wcgbts'
+    'index_and_comp_data/01_no_CA_dockside',
+    'index_and_comp_data/02_no_OR_dockside',
+    'index_and_comp_data/03_no_WA_dockside',
+    'index_and_comp_data/04_no_CA_CPFV',
+    'index_and_comp_data/05_no_OR_onboard',
+    'index_and_comp_data/06_no_AFSC_triennial',
+    'index_and_comp_data/07_no_NWFSC_trawl',
+    'index_and_comp_data/08_no_IPHC',
+    'index_and_comp_data/09_no_indices'
   ),
   pretty = c(
-    'No indices',
-    '- SMURF index',
-    '+ WCGOP index',
-    '+ Oceanographic index',
-    '+ ORBS index',
-    '+ ORBS w/added SE',
-    '+ RREAS index',
-    'Decrease WCGBTS CV'
+    '- CA REC index',
+    '- OR REC index',
+    '- WA REC index',
+    '- CA CPFV index',
+    '- ORBS index',
+    '- AFSC triennial index',
+    '- NWFSC bottom trawl index',
+    '- IPHC index',
+    'No indices'
   )
 )
 
 
 comp_data <- data.frame(
-  dir = c('M_I_weighting', 'no_fishery_len', 'unsexed_lengths'),
+  dir = c(
+    'index_and_comp_data/10_no_CA_trawl_lengths',
+    'index_and_comp_data/11_no_CA_nontrawl_lengths',
+    'index_and_comp_data/12_no_CA_dockside_lengths',
+    'index_and_comp_data/13_no_ORWA_trawl_lengths',
+    'index_and_comp_data/14_no_ORWA_non-trawl_lengths',
+    'index_and_comp_data/15_no_OR_dockside_lengths',
+    'index_and_comp_data/16_no_WA_dockside_lengths',
+    'index_and_comp_data/17_no_CA_CPFV_lengths',
+    'index_and_comp_data/18_no_OR_onboard_lengths',
+    'index_and_comp_data/19_no_AFSC_TRI_lengths',
+    'index_and_comp_data/20_no_NWFSC_lengths',
+    'index_and_comp_data/21_no_IPHC_lengths',
+    'index_and_comp_data/22_no__length_comps',
+    'index_and_comp_data/23_no_CA_NONTWL_ages',
+    'index_and_comp_data/24_no_CA_REC_ages',
+    'index_and_comp_data/25_no_ORWA_TWL_ages',
+    'index_and_comp_data/26_no_ORWA_NON-TWL_ages',
+    'index_and_comp_data/27_no_OR_dockside_ages',
+    'index_and_comp_data/28_no_WA_dockside_ages',
+    'index_and_comp_data/29_no_NWFSC_ages',
+    'index_and_comp_data/30_no_IPHC_ages',
+    'index_and_comp_data/31_no_ages',
+    'model_specs/M_I_weighting'
+  ),
   pretty = c(
-    'McAllister & Ianelli',
-    '- Fishery lengths',
-    '+ Unsexed commercial lengths'
+    '- CA TWL length comps',
+    '- CA NONTWL lengths comps',
+    '- CA REC lengths comps',
+    '- ORWA TWL length comps',
+    '- ORWA NONTWL length comps',
+    '- OR REC length comps',
+    '- WA REC length comps',
+    '- CA CPFV length comps',
+    '- ORBS length comps',
+    '- AFSC triennial length comps',
+    '- NWFSC bottom trawl length comps',
+    '- IPHC length comps',
+    '- No length comps',
+    '- CA NONTWL age comps',
+    '- CA REC age comps',
+    '- ORWA TWL age comps',
+    '- ORWA NONTWL age comps',
+    '- OR REC age comps',
+    '- WA REC age comps',
+    '- NWFSC bottom trawl age comps',
+    '- IPHC age comps',
+    '- No age comps',
+    'McAllister & Ianelli weighting'
   )
 )
 
