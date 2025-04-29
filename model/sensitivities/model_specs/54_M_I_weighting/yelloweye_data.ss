@@ -5,7 +5,7 @@
 #_User_info_available_at:_https://nmfs-ost.github.io/ss3-website/
 #_Source_code_at:_https://github.com/nmfs-ost/ss3-source-code
 
-#_Start_time: Sun Apr 27 23:57:50 2025
+#_Start_time: Mon Apr 28 02:54:02 2025
 #_echo_input_data
 #C Data file for 2017 yelloweye assessment
 #C file created using an r4ss function
