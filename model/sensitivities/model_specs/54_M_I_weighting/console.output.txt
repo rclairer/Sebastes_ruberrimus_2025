@@ -1,6 +1,6 @@
 ###
 console output
-2025-04-29 13:42:44.054938
+2025-04-29 16:23:02.381735
 ###
  
  reading from starter.ss
@@ -12,7 +12,7 @@ Data read successful 999
 End of control file successful! 999
 Begin setting up parameters ...  end of parameter section 
 Evaluating biology calculations once ... done
-Starting optimization of 'ss3_win' in phase 1 of 8 at Tue Apr 29 13:35:07 2025
+Starting optimization of 'ss3_win' in phase 1 of 8 at Tue Apr 29 16:17:22 2025
 1 1 -log(L): 8548.33  Spbio: 1131.22 355.863
 phase= 1 | nvar=  2 | iter=  0 | nll=8.55e+03 | mag=4.20e+03 | par[  1]=MGparm[4]
 1 2 -log(L): 8548.31  Spbio: 1131.21 355.849
@@ -665,7 +665,7 @@ phase= 8 | nvar=200 | iter=  0 | nll=7.64e+03 | mag=9.45e-04 | par[  7]=SR_parm[
 8 621 -log(L): 7642.97  Spbio: 1212.17 496.298
 8 622 -log(L): 7642.97  Spbio: 1212.17 496.298
 phase= 8 | nvar=200 | iter=  1 | nll=7.64e+03 | mag=9.45e-04 | par[  7]=SR_parm[1]
-Optimization completed after 6 m 57 s with final statistics:
+Optimization completed after 5 m 13 s with final statistics:
   nll=7642.973204 | mag=9.45227e-04 | par[  7]=SR_parm[1]
 
 Warning: the following parameters had issues
@@ -687,4 +687,4 @@ Begin writing *.ss_new output files ... Finished writing *.ss_new output files
 !!  Run has completed  !! 
 !!  See warning.sso for 3 warnings  and 3 notes 
 
-Finished running model 'ss3_win' after 7 m 36 s.
+Finished running model 'ss3_win' after 5 m 40 s.
