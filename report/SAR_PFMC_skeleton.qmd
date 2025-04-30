@@ -1,5 +1,5 @@
 ---
-title: 'Status of  SPECIES off the U.S. West Coast in 2025'
+title: 'Status of  Yelloweye Rockfish (Sebastes rubberimus) off the U.S. West Coast in 2025'
 author:
 # add authors in order
   - name: 'Kiva L. Oken'
@@ -24,7 +24,7 @@ format:
     include-in-header:
       - 'support_files/in-header.tex'
       - 'support_files/pfmc.tex'
-      - text: '\lohead{SPECIES assessment 2025}'
+      - text: '\lohead{Yelloweye rockfish assessment 2025}'
     toc: true
     lof: false
     lot: false

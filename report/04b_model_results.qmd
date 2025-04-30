@@ -19,3 +19,9 @@
 
 <!-- Time-series of total biomass, summary biomass, and spawning biomass (and/or spawning output), depletion relative to B0, recruitment and fishing mortality (1-SPR) (or exploitation rate estimates if fishing mortality not available) (table and figures).  -->
 
+This is the trend in biomass. See @fig-Bratio. This is the trend looking good (@fig-Bratio).
+
+Reference to a figures that is cool (@fig-sberr).
+
+
+in text ref @fig-sbratio

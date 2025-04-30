@@ -18,3 +18,31 @@ library(flextable)
 
 ``` 
 
+```{r}
+#| label: 'tbl-indices'
+#| echo: false
+#| eval: true
+#| warning: false
+#| include: true
+
+library(flextable)
+
+csv.res |>
+  flextable() |>
+  set_header_labels(
+    Year = "Year",
+    Obs = "Observed",
+    Exp = "Expected",
+    Resid = "Residuals",
+    Std.Resid = "Standardized Residuals"
+  ) |>
+  add_header(
+    Year = "Fleet 2",
+    Obs = "Fleet 2",
+    Exp = "Fleet 1",
+    Resid = "Fleet 1",
+    Std.Resid = ""
+  ) |> 
+  merge_at()
+```
+
