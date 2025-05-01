@@ -1,6 +1,6 @@
 #C Yelloweye 2017 control file
 #C file created using an r4ss function
-#C file write time: 2025-04-29  15:57:27
+#C file write time: 2025-05-01  12:01:08
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -123,6 +123,7 @@
     3	1	0	1	0	1	#_3_CA_REC     
     7	1	0	1	0	1	#_7_WA_REC     
     8	1	0	1	0	1	#_8_CACPFV     
+    9	1	0	1	0	1	#_9_OR_RECOB   
    10	1	0	1	0	1	#_10_TRI_ORWA  
    11	1	0	1	0	1	#_11_NWFSC_ORWA
    12	1	0	1	0	1	#_12_IPHC_ORWA 
@@ -135,6 +136,8 @@
   0	 5	 0.445255	0.01	99	0	 5	0	0	0	0	0	0	0	#_Q_extraSD_7_WA_REC(7)      
 -15	15	 -9.14864	   0	99	0	-1	0	0	0	0	0	0	0	#_LnQ_base_8_CACPFV(8)       
   0	 5	0.0715353	0.01	99	0	 5	0	0	0	0	0	0	0	#_Q_extraSD_8_CACPFV(8)      
+-15	15	 -11.1833	   0	99	0	-1	0	0	0	0	0	0	0	#_LnQ_base_9_OR_RECOB(9)     
+  0	 5	 0.170138	0.01	99	0	 5	0	0	0	0	0	0	0	#_Q_extraSD_9_OR_RECOB(9)    
 -15	15	 -1.38179	   0	99	0	-1	0	0	0	0	0	0	0	#_LnQ_base_10_TRI_ORWA(10)   
   0	 5	 0.110461	0.01	99	0	 5	0	0	0	0	0	0	0	#_Q_extraSD_10_TRI_ORWA(10)  
 -15	15	-0.697815	   0	99	0	-1	0	0	0	0	0	0	0	#_LnQ_base_11_NWFSC_ORWA(11) 
@@ -252,7 +255,7 @@
 #_Cond -6 6 1 1 2 0.01 -4 0 0 0 0 0 0 0  #_placeholder if no parameters
 #
 # Input variance adjustments factors: 
-#_factor	fleet	value
+#_Data_type	Fleet	Value
     4	 1	0.528263	#_Variance_adjustment_list1 
     4	 2	0.293236	#_Variance_adjustment_list2 
     4	 3	0.527574	#_Variance_adjustment_list3 

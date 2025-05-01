@@ -1,6 +1,6 @@
 #C Yelloweye 2017 control file
 #C file created using an r4ss function
-#C file write time: 2025-04-29  15:57:40
+#C file write time: 2025-05-01  12:01:10
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -162,6 +162,7 @@
 24	0	0	0	#_9 9_OR_RECOB    
 24	0	0	0	#_10 10_TRI_ORWA  
 24	0	0	0	#_11 11_NWFSC_ORWA
+24	0	0	0	#_12 12_IPHC_ORWA 
 #
 #_age_selex_patterns
 #_Pattern	Discard	Male	Special
@@ -240,6 +241,12 @@
   -1	30	     20	   9	99	0	-5	0	0	0	0	0	0	0	#_SizeSel_P_4_11_NWFSC_ORWA(11)
 -999	 9	   -999	  -5	99	0	-4	0	0	0	0	0	0	0	#_SizeSel_P_5_11_NWFSC_ORWA(11)
 -999	 9	   -999	   9	99	0	-5	0	0	0	0	0	0	0	#_SizeSel_P_6_11_NWFSC_ORWA(11)
+  20	60	54.4069	  40	99	0	 4	0	0	0	0	0	0	0	#_SizeSel_P_1_12_IPHC_ORWA(12) 
+ -15	 4	    -15	 -15	99	0	-5	0	0	0	0	0	0	0	#_SizeSel_P_2_12_IPHC_ORWA(12) 
+  -1	 9	4.18904	   6	99	0	 4	0	0	0	0	0	0	0	#_SizeSel_P_3_12_IPHC_ORWA(12) 
+  -1	30	     20	   9	99	0	-5	0	0	0	0	0	0	0	#_SizeSel_P_4_12_IPHC_ORWA(12) 
+-999	 9	   -999	  -5	99	0	-4	0	0	0	0	0	0	0	#_SizeSel_P_5_12_IPHC_ORWA(12) 
+-999	 9	   -999	   9	99	0	-5	0	0	0	0	0	0	0	#_SizeSel_P_6_12_IPHC_ORWA(12) 
 #_AgeSelex
 #_No age_selex_parm
 #_no timevary selex parameters
@@ -251,7 +258,7 @@
 #_Cond -6 6 1 1 2 0.01 -4 0 0 0 0 0 0 0  #_placeholder if no parameters
 #
 # Input variance adjustments factors: 
-#_factor	fleet	value
+#_Data_type	Fleet	Value
     4	 1	0.528263	#_Variance_adjustment_list1 
     4	 2	0.293236	#_Variance_adjustment_list2 
     4	 3	0.527574	#_Variance_adjustment_list3 
