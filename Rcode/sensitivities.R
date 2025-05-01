@@ -24,7 +24,7 @@ base_out <- SS_output(base_model_name)
 
 # Remove Indices ----------------------------------------------------------
 
-## remove CA dockside (CA_REC)
+## 1) remove CA dockside (CA_REC)
 
 sensi_mod <- base_model
 
@@ -49,7 +49,7 @@ SS_write(
   overwrite = TRUE
 )
 
-## remove OR dockside (OR_REC)
+## 2) remove OR dockside (OR_REC)
 
 sensi_mod <- base_model
 
@@ -57,10 +57,10 @@ sensi_mod$dat$CPUE <- sensi_mod$dat$CPUE |>
   filter(index != 6)
 
 sensi_mod$ctl$Q_options <- sensi_mod$ctl$Q_options[
-  -grep('OR_REC', rownames(sensi_mod$ctl$Q_options)),
+  -grep('6_OR_REC', rownames(sensi_mod$ctl$Q_options)),
 ]
 sensi_mod$ctl$Q_parms <- sensi_mod$ctl$Q_parms[
-  -grep('OR_REC', rownames(sensi_mod$ctl$Q_parms)),
+  -grep('6_OR_REC', rownames(sensi_mod$ctl$Q_parms)),
 ]
 sensi_mod$ctl$Q_parms_tv <- NULL
 
@@ -75,7 +75,7 @@ SS_write(
   overwrite = TRUE
 )
 
-## remove WA dockside
+## 3) remove WA dockside
 
 sensi_mod <- base_model
 
@@ -100,7 +100,7 @@ SS_write(
   overwrite = TRUE
 )
 
-## remove CA CPFV
+## 4) remove CA CPFV
 
 sensi_mod <- base_model
 
@@ -120,12 +120,7 @@ sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
 sensi_mod$dat$agecomp <- sensi_mod$dat$agecomp |>
   filter(fleet != 8)
 
-sensi_mod$ctl$size_selex_types <- sensi_mod$ctl$size_selex_types[
-  !grepl("8_", rownames(sensi_mod$ctl$size_selex_types)),
-]
-sensi_mod$ctl$size_selex_parms <- sensi_mod$ctl$size_selex_parms[
-  !grepl("(8)", rownames(sensi_mod$ctl$size_selex_parms)),
-]
+## DON"T NEED TO REMOVE SIZE SELEX
 
 SS_write(
   sensi_mod,
@@ -158,13 +153,6 @@ sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
 sensi_mod$dat$agecomp <- sensi_mod$dat$agecomp |>
   filter(fleet != 9)
 
-sensi_mod$ctl$size_selex_types <- sensi_mod$ctl$size_selex_types[
-  !grepl("9_", rownames(sensi_mod$ctl$size_selex_types)),
-]
-sensi_mod$ctl$size_selex_parms <- sensi_mod$ctl$size_selex_parms[
-  !grepl("(9)", rownames(sensi_mod$ctl$size_selex_parms)),
-]
-
 SS_write(
   sensi_mod,
   file.path(
@@ -193,13 +181,6 @@ sensi_mod$ctl$Q_parms <- sensi_mod$ctl$Q_parms[
 # Need to remove length data, age data, and selectivities. If no catch or index, you can't have length or age data
 sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
   filter(fleet != 10)
-
-sensi_mod$ctl$size_selex_types <- sensi_mod$ctl$size_selex_types[
-  !grepl("10_", rownames(sensi_mod$ctl$size_selex_types)),
-]
-sensi_mod$ctl$size_selex_parms <- sensi_mod$ctl$size_selex_parms[
-  !grepl("(10)", rownames(sensi_mod$ctl$size_selex_parms)),
-]
 
 SS_write(
   sensi_mod,
@@ -232,12 +213,6 @@ sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
 sensi_mod$dat$agecomp <- sensi_mod$dat$agecomp |>
   filter(fleet != 11)
 
-sensi_mod$ctl$size_selex_types <- sensi_mod$ctl$size_selex_types[
-  !grepl("11_", rownames(sensi_mod$ctl$size_selex_types)),
-]
-sensi_mod$ctl$size_selex_parms <- sensi_mod$ctl$size_selex_parms[
-  !grepl("(11)", rownames(sensi_mod$ctl$size_selex_parms)),
-]
 
 SS_write(
   sensi_mod,
@@ -270,13 +245,6 @@ sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
 sensi_mod$dat$agecomp <- sensi_mod$dat$agecomp |>
   filter(fleet != 12)
 
-sensi_mod$ctl$size_selex_types <- sensi_mod$ctl$size_selex_types[
-  !grepl("12_", rownames(sensi_mod$ctl$size_selex_types)),
-]
-sensi_mod$ctl$size_selex_parms <- sensi_mod$ctl$size_selex_parms[
-  !grepl("(12)", rownames(sensi_mod$ctl$size_selex_parms)),
-]
-
 SS_write(
   sensi_mod,
   file.path(
@@ -305,19 +273,6 @@ sensi_mod$dat$lencomp <- sensi_mod$dat$lencomp |>
   filter(!fleet %in% indices_no_catches)
 sensi_mod$dat$agecomp <- sensi_mod$dat$agecomp |>
   filter(!fleet %in% indices_no_catches)
-
-sensi_mod$ctl$size_selex_types <- sensi_mod$ctl$size_selex_types[
-  !grepl(
-    paste(indices_und, collapse = "|"),
-    rownames(sensi_mod$ctl$size_selex_types)
-  ),
-]
-sensi_mod$ctl$size_selex_parms <- sensi_mod$ctl$size_selex_parms[
-  !grepl(
-    paste(indices_chr, collapse = "|"),
-    rownames(sensi_mod$ctl$size_selex_parms)
-  ),
-]
 
 SS_write(
   sensi_mod,
