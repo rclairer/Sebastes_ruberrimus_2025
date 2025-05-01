@@ -12,7 +12,7 @@ author:
 date: today
 lang: en 
 keep-tex: true 
-cover: 
+cover: support_files/Yelloweye_rockfish.png
 pdf-engine: lualatex
 format: 
   pdf: 
@@ -33,11 +33,11 @@ format:
       - bottom=1in
       - right=1in
       - left=1in
-output-file: 'SPECIES_SAR_2025' 
+output-file: 'Yelloweye_rockfish_SAR_2025' 
 params:
    office: 'NWFSC'
-   species: 'COMMON NAME'
-   spp_latin: 'LATIN NAME'
+   species: 'Yelloweye rockfish'
+   spp_latin: 'Sebastes rubberimus'
    region: 'U.S. West Coast'
 bibliography: 
 -  asar_references.bib 
