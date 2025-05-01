@@ -1,6 +1,6 @@
 #C Yelloweye 2017 control file
 #C file created using an r4ss function
-#C file write time: 2025-04-29  15:57:36
+#C file write time: 2025-05-01  12:01:09
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -160,8 +160,9 @@
 24	0	0	0	#_7 7_WA_REC      
 15	0	0	3	#_8 8_CACPFV      
 24	0	0	0	#_9 9_OR_RECOB    
-24	0	0	0	#_10 11_NWFSC_ORWA
-24	0	0	0	#_11 12_IPHC_ORWA 
+24	0	0	0	#_10 10_TRI_ORWA  
+24	0	0	0	#_11 11_NWFSC_ORWA
+24	0	0	0	#_12 12_IPHC_ORWA 
 #
 #_age_selex_patterns
 #_Pattern	Discard	Male	Special
@@ -228,6 +229,12 @@
   -1	30	     20	   9	99	0	-5	0	0	0	0	0	0	0	#_SizeSel_P_4_9_OR_RECOB(9)    
 -999	 9	   -999	  -5	99	0	-4	0	0	0	0	0	0	0	#_SizeSel_P_5_9_OR_RECOB(9)    
 -999	 9	   -999	   9	99	0	-5	0	0	0	0	0	0	0	#_SizeSel_P_6_9_OR_RECOB(9)    
+  20	80	79.9712	  30	99	0	 4	0	0	0	0	0	0	0	#_SizeSel_P_1_10_TRI_ORWA(10)  
+ -15	 4	    -15	 -15	99	0	-5	0	0	0	0	0	0	0	#_SizeSel_P_2_10_TRI_ORWA(10)  
+  -1	 9	 7.0713	   6	99	0	 4	0	0	0	0	0	0	0	#_SizeSel_P_3_10_TRI_ORWA(10)  
+  -1	30	     12	   9	99	0	-5	0	0	0	0	0	0	0	#_SizeSel_P_4_10_TRI_ORWA(10)  
+-999	 9	   -999	  -5	99	0	-4	0	0	0	0	0	0	0	#_SizeSel_P_5_10_TRI_ORWA(10)  
+-999	 9	   -999	   9	99	0	-5	0	0	0	0	0	0	0	#_SizeSel_P_6_10_TRI_ORWA(10)  
   20	60	49.5608	  40	99	0	 4	0	0	0	0	0	0	0	#_SizeSel_P_1_11_NWFSC_ORWA(11)
  -15	 4	    -15	 -15	99	0	-5	0	0	0	0	0	0	0	#_SizeSel_P_2_11_NWFSC_ORWA(11)
   -1	 9	6.24854	   6	99	0	 4	0	0	0	0	0	0	0	#_SizeSel_P_3_11_NWFSC_ORWA(11)
@@ -251,7 +258,7 @@
 #_Cond -6 6 1 1 2 0.01 -4 0 0 0 0 0 0 0  #_placeholder if no parameters
 #
 # Input variance adjustments factors: 
-#_factor	fleet	value
+#_Data_type	Fleet	Value
     4	 1	0.528263	#_Variance_adjustment_list1 
     4	 2	0.293236	#_Variance_adjustment_list2 
     4	 3	0.527574	#_Variance_adjustment_list3 

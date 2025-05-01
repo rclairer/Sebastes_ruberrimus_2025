@@ -8,6 +8,7 @@ library(r4ss)
 library(dplyr)
 library(purrr)
 library(furrr)
+library(ggplot2)
 
 # dir<-"C:/Users/daubleal/OneDrive - Oregon/Desktop/Sebastes_ruberrimus_2025"
 
@@ -133,7 +134,7 @@ SS_write(
   overwrite = TRUE
 )
 
-## remove OR onboard (OR_RECOB)
+## 5) remove OR onboard (OR_RECOB)
 
 sensi_mod <- base_model
 
@@ -164,7 +165,7 @@ SS_write(
   overwrite = TRUE
 )
 
-## remove AFSC triennial
+## 6) remove AFSC triennial
 
 sensi_mod <- base_model
 
@@ -193,7 +194,7 @@ SS_write(
   overwrite = TRUE
 )
 
-## remove NWFSC trawl
+## 7) remove NWFSC trawl
 
 sensi_mod <- base_model
 
@@ -225,7 +226,7 @@ SS_write(
   overwrite = TRUE
 )
 
-## remove IPHC
+## 8) remove IPHC
 
 sensi_mod <- base_model
 
@@ -256,7 +257,7 @@ SS_write(
   overwrite = TRUE
 )
 
-## remove all indices
+## 9) remove all indices
 
 sensi_mod <- base_model
 
@@ -1009,12 +1010,14 @@ make_detailed_sensitivites <- function(biglist, mods, outdir, grp_name) {
 
 modeling <- data.frame(
   dir = c(
+    'model_specs/38_est_M',
     'model_specs/39_est_steepness',
     'model_specs/41_2017_LW',
     'model_specs/42_do_recdev2',
     'model_specs/43_do_recdev3'
   ),
   pretty = c(
+    'Estimate natural mortality',
     'Estimate steepness',
     '2017 length-weight relationship',
     'do_recdev option 2',
@@ -1062,7 +1065,7 @@ comp_data <- data.frame(
     'index_and_comp_data/19_no_AFSC_TRI_lengths',
     'index_and_comp_data/20_no_NWFSC_lengths',
     'index_and_comp_data/21_no_IPHC_lengths',
-    'index_and_comp_data/22_no__length_comps',
+    # 'index_and_comp_data/22_no__length_comps',
     'index_and_comp_data/23_no_CA_NONTWL_ages',
     'index_and_comp_data/24_no_CA_REC_ages',
     'index_and_comp_data/25_no_ORWA_TWL_ages',
@@ -1071,8 +1074,8 @@ comp_data <- data.frame(
     'index_and_comp_data/28_no_WA_dockside_ages',
     'index_and_comp_data/29_no_NWFSC_ages',
     'index_and_comp_data/30_no_IPHC_ages',
-    'index_and_comp_data/31_no_ages',
-    'model_specs/M_I_weighting'
+    # 'index_and_comp_data/31_no_ages',
+    'model_specs/54_M_I_weighting'
   ),
   pretty = c(
     '- CA TWL length comps',
@@ -1087,7 +1090,7 @@ comp_data <- data.frame(
     '- AFSC triennial length comps',
     '- NWFSC bottom trawl length comps',
     '- IPHC length comps',
-    '- No length comps',
+    # '- No length comps',
     '- CA NONTWL age comps',
     '- CA REC age comps',
     '- ORWA TWL age comps',
@@ -1096,7 +1099,7 @@ comp_data <- data.frame(
     '- WA REC age comps',
     '- NWFSC bottom trawl age comps',
     '- IPHC age comps',
-    '- No age comps',
+    # '- No age comps',
     'McAllister & Ianelli weighting'
   )
 )
@@ -1104,10 +1107,8 @@ comp_data <- data.frame(
 sens_names <- bind_rows(modeling, indices, comp_data)
 
 big_sensitivity_output <- SSgetoutput(
-  dirvec = file.path(
+  dirvec = c(base_model_name, file.path(
     model_directory,
-    c(
-      base_model_name,
       glue::glue("sensitivities/{subdir}", subdir = sens_names$dir)
     )
   )
@@ -1117,6 +1118,7 @@ big_sensitivity_output <- SSgetoutput(
 
 # test to make sure they all read correctly:
 which(sapply(big_sensitivity_output, length) < 180) # all lengths should be >180
+# big_sensitivity_output <- big_sensitivity_output[c(-28, -37)]
 
 sens_names_ls <- list(
   modeling = modeling,
@@ -1124,7 +1126,8 @@ sens_names_ls <- list(
   comp_data = comp_data
 )
 
-outdir <- 'report/figures/sensitivities'
+dir.create(here::here('report/plots_for_report/sensitivities'))
+outdir <- here::here('report/plots_for_report/sensitivities')
 
 purrr::imap(
   sens_names_ls,
