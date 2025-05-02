@@ -1,6 +1,6 @@
 #C Yelloweye 2017 control file
 #C file created using an r4ss function
-#C file write time: 2025-05-01  12:01:08
+#C file write time: 2025-05-01  21:38:41
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -258,7 +258,7 @@
 #_Cond -6 6 1 1 2 0.01 -4 0 0 0 0 0 0 0  #_placeholder if no parameters
 #
 # Input variance adjustments factors: 
-#_Data_type	Fleet	Value
+#_factor	fleet	value
     4	 1	0.528263	#_Variance_adjustment_list1 
     4	 2	0.293236	#_Variance_adjustment_list2 
     4	 3	0.527574	#_Variance_adjustment_list3 
