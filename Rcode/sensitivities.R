@@ -1,7 +1,7 @@
 ### RUN SENSITIVITIES FOR YELLOWEYE 2025 UPDATE ASSESSMENT
 # CODE ADAPTED BY A. WHITMAN (ODFW) & E. PERL (NMFS OST) FROM K. OKEN (NWFSC)
 
-# LAST UPDATE: 4/29/2025
+# LAST UPDATE: 4/30/2025
 
 library(here)
 library(r4ss)
@@ -17,7 +17,7 @@ base_model_name <- here::here(
   'model',
   'updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250427'
 )
-exe_loc <- here::here('model/ss3_win.exe')
+exe_loc <- here::here('model/ss3')
 base_model <- SS_read(base_model_name, ss_new = TRUE)
 base_out <- SS_output(base_model_name)
 
@@ -134,7 +134,7 @@ SS_write(
   overwrite = TRUE
 )
 
-## 5) remove OR onboard (OR_RECOB)
+## remove OR onboard (OR_RECOB)
 
 sensi_mod <- base_model
 
@@ -165,7 +165,7 @@ SS_write(
   overwrite = TRUE
 )
 
-## 6) remove AFSC triennial
+## remove AFSC triennial
 
 sensi_mod <- base_model
 
@@ -194,7 +194,7 @@ SS_write(
   overwrite = TRUE
 )
 
-## 7) remove NWFSC trawl
+## remove NWFSC trawl
 
 sensi_mod <- base_model
 
@@ -226,7 +226,7 @@ SS_write(
   overwrite = TRUE
 )
 
-## 8) remove IPHC
+## remove IPHC
 
 sensi_mod <- base_model
 
@@ -257,7 +257,7 @@ SS_write(
   overwrite = TRUE
 )
 
-## 9) remove all indices
+## remove all indices
 
 sensi_mod <- base_model
 
@@ -776,7 +776,20 @@ SS_write(
 
 # Natural Mortality -------------------------------------------------------
 
-# Matheus signed up for these...
+sensi_mod = base_model
+
+sensi_mod$ctl$MG_parms$PHASE[1] = 3
+
+SS_write(
+  sensi_mod,
+  file.path(
+    model_directory,
+    'sensitivities',
+    'model_specs',
+    '38_est_M'
+  ),
+  overwrite = TRUE
+)
 
 # Steepness ---------------------------------------------------------------
 
@@ -911,25 +924,35 @@ sensi_dirs <- c(
     model_directory,
     'sensitivities',
     'index_and_comp_data'
-  )),
-  list.files(file.path(model_directory, 'sensitivities', 'model_specs'))
+  ), full.names = TRUE),
+  list.files(file.path(model_directory, 'sensitivities', 'model_specs'), full.names = TRUE)
 )
 
-tuning_mods <- grep('weighting', sensi_mods)
+tuning_mods <- grep('weighting', sensi_dirs)
 
 future::plan(future::multisession(
   workers = parallelly::availableCores(omit = 1)
 ))
 
-furrr::future_map(
-  sensi_dirs[-tuning_mods],
-  \(x)
-    run(
-      file.path(model_directory, 'sensitivities', x),
-      exe = exe_loc,
-      extras = '-nohess',
-      skipfinished = FALSE
-    )
+# furrr::future_map(
+#   sensi_dirs[-tuning_mods],
+#   \(x)
+#     run(
+#       file.path(model_directory, 'sensitivities', x),
+#       exe = exe_loc,
+#       extras = '-nohess',
+#       skipfinished = FALSE
+#     )
+# )
+
+results <- future_map(
+  sensi_dirs,
+  ~ r4ss::run(
+    dir = .x,
+    exe = exe_loc,
+    extras = '-nohess',
+    skipfinished = TRUE
+  )
 )
 
 # furrr::future_map(
@@ -953,7 +976,7 @@ future::plan(future::sequential)
 make_detailed_sensitivites <- function(biglist, mods, outdir, grp_name) {
   shortlist <- big_sensitivity_output[c('base', mods$dir)] |>
     r4ss::SSsummarize()
-
+  
   r4ss::SSplotComparisons(
     shortlist,
     subplots = c(2, 4, 18),
@@ -964,7 +987,7 @@ make_detailed_sensitivites <- function(biglist, mods, outdir, grp_name) {
     legendlabels = c('Base', mods$pretty),
     endyrvec = 2036
   )
-
+  
   SStableComparisons(
     shortlist,
     modelnames = c('Base', mods$pretty),
@@ -1017,7 +1040,7 @@ modeling <- data.frame(
     'model_specs/43_do_recdev3'
   ),
   pretty = c(
-    'Estimate natural mortality',
+    'Estimate Natural Mortality',
     'Estimate steepness',
     '2017 length-weight relationship',
     'do_recdev option 2',
@@ -1065,7 +1088,7 @@ comp_data <- data.frame(
     'index_and_comp_data/19_no_AFSC_TRI_lengths',
     'index_and_comp_data/20_no_NWFSC_lengths',
     'index_and_comp_data/21_no_IPHC_lengths',
-    # 'index_and_comp_data/22_no__length_comps',
+    'index_and_comp_data/22_no_length_comps',
     'index_and_comp_data/23_no_CA_NONTWL_ages',
     'index_and_comp_data/24_no_CA_REC_ages',
     'index_and_comp_data/25_no_ORWA_TWL_ages',
@@ -1074,7 +1097,7 @@ comp_data <- data.frame(
     'index_and_comp_data/28_no_WA_dockside_ages',
     'index_and_comp_data/29_no_NWFSC_ages',
     'index_and_comp_data/30_no_IPHC_ages',
-    # 'index_and_comp_data/31_no_ages',
+    'index_and_comp_data/31_no_age_comps',
     'model_specs/54_M_I_weighting'
   ),
   pretty = c(
@@ -1090,7 +1113,7 @@ comp_data <- data.frame(
     '- AFSC triennial length comps',
     '- NWFSC bottom trawl length comps',
     '- IPHC length comps',
-    # '- No length comps',
+    '- No length comps',
     '- CA NONTWL age comps',
     '- CA REC age comps',
     '- ORWA TWL age comps',
@@ -1099,7 +1122,7 @@ comp_data <- data.frame(
     '- WA REC age comps',
     '- NWFSC bottom trawl age comps',
     '- IPHC age comps',
-    # '- No age comps',
+    '- No age comps',
     'McAllister & Ianelli weighting'
   )
 )
@@ -1107,18 +1130,20 @@ comp_data <- data.frame(
 sens_names <- bind_rows(modeling, indices, comp_data)
 
 big_sensitivity_output <- SSgetoutput(
-  dirvec = c(base_model_name, file.path(
+  dirvec = file.path(
     model_directory,
+    c(
+      base_model_name,
       glue::glue("sensitivities/{subdir}", subdir = sens_names$dir)
     )
   )
 ) |>
   `names<-`(c('base', sens_names$dir))
 
+big_sensitivity_output$base = base_out
 
 # test to make sure they all read correctly:
 which(sapply(big_sensitivity_output, length) < 180) # all lengths should be >180
-# big_sensitivity_output <- big_sensitivity_output[c(-28, -37)]
 
 sens_names_ls <- list(
   modeling = modeling,
@@ -1126,20 +1151,18 @@ sens_names_ls <- list(
   comp_data = comp_data
 )
 
-dir.create(here::here('report/plots_for_report/sensitivities'))
-outdir <- here::here('report/plots_for_report/sensitivities')
+outdir <- 'report/plots_for_report/sensitivities'
 
-purrr::imap(
-  sens_names_ls,
-  \(sens_df, grp_name)
-    make_detailed_sensitivites(
-      biglist = big_sensitivity_output,
-      mods = sens_df,
-      outdir = outdir,
-      grp_name = grp_name
-    )
-)
-
+# purrr::imap(
+#   sens_names_ls,
+#   \(sens_df, grp_name)
+#     make_detailed_sensitivites(
+#       biglist = big_sensitivity_output,
+#       mods = sens_df,
+#       outdir = outdir,
+#       grp_name = grp_name
+#     )
+# )
 
 ## big plot ----------------------------------------------------------------
 
@@ -1258,14 +1281,13 @@ ggplot(dev.quants, aes(x = relErr, y = mod_num, col = Metric, pch = Metric)) +
     # name = "",
     labels = metric.labs
   ) +
-  # scale_color_discrete(labels = metric.labs) +
   scale_y_continuous(
     breaks = 1:nrow(sens_names),
     name = '',
     labels = sens_names$pretty,
     limits = c(1, nrow(sens_names) + 2),
     minor_breaks = NULL
-  ) +
+  ) + 
   xlab("Relative change") +
   viridis::scale_color_viridis(discrete = TRUE, labels = metric.labs)
 ggsave(
