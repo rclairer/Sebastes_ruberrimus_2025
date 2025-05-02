@@ -1041,16 +1041,18 @@ modeling <- data.frame(
   dir = c(
     'model_specs/38_est_M',
     'model_specs/39_est_steepness',
-    'model_specs/41_2017_LW',
-    'model_specs/42_do_recdev2',
-    'model_specs/43_do_recdev3'
+    'model_specs/41_2017_LW'
+    # ,
+    # 'model_specs/42_do_recdev2',
+    # 'model_specs/43_do_recdev3'
   ),
   pretty = c(
     'Estimate Natural Mortality',
     'Estimate steepness',
-    '2017 length-weight relationship',
-    'do_recdev option 2',
-    'do_recdev option 3'
+    '2017 length-weight relationship'
+    # ,
+    # 'do_recdev option 2',
+    # 'do_recdev option 3'
   )
 )
 
