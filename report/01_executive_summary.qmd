@@ -30,6 +30,8 @@ Checking to see if this works \gls{s-tri}
 
 ## Decision table{-}
 
+ADW - decision tables not needed until after review
+
 ## Scientific uncertainty{-}
 
 ## Research and data needs{-}

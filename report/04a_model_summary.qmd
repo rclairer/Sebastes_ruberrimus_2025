@@ -15,7 +15,7 @@ To be completed after review.
 
 <!-- Description of new modeling approaches and changes made from the last assessment, with rationale. This should include bridging analyses that highlight the data and model changes that were most influential with respect to changes between the assessment being reviewed and the most recent adopted assessment. 
 
-KLO: The TOR says this is not required for updates. I am doubtful the SSC will be ok with that. -->
+KLO: The TOR says this is not required for updates. I am doubtful the SSC will be ok with that. ADW - agreed. We will need to discuss bridging.  -->
 
 
 ### Modeling Platform and Structure
