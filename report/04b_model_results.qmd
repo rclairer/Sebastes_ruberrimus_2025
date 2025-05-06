@@ -1,5 +1,6 @@
 ## Base Model Results
 
+Evidence of search for balance between realism/parsimony - not needed for update, refer to previous assessment.
 
 ### Parameter Estimates
 
