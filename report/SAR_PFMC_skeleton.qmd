@@ -24,7 +24,6 @@ format:
     include-in-header:
       - 'support_files/in-header.tex'
       - 'support_files/pfmc.tex'
-      - text: '\lohead{Yelloweye rockfish assessment 2025}'
     toc: true
     lof: false
     lot: false
@@ -268,7 +267,7 @@ cat(a, sep = '\n')
 
 ```{r, results='asis'}
 #| label: 'tables'
-#| eval: true
+#| eval: false
 #| echo: false
 #| warning: false
 a <- knitr::knit_child('08_tables.qmd', quiet = TRUE)

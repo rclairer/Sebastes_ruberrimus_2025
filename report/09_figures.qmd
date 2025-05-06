@@ -8,7 +8,7 @@ Example:
 -->
 
 <!-- method 1 to add in figures -->
-![Figure of comparisons for Biomass ratio. \label{fig:Bratio}](plots_for_report/compare3_Bratio.png){alt="This is good alternative text"} 
+![Figure of comparisons for Biomass ratio. \label{fig-Bratio}](plots_for_report/compare3_Bratio.png){alt="This is good alternative text"} 
 <!-- method 2 to add in figures -->
 ![Figures of comparisons of SB uncertainty.](plots_for_report/compare2_spawnbio_uncertainty.png){#fig-sberr}
 
