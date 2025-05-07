@@ -27,7 +27,7 @@ ADW - NEED TO ADD FIGURES FOR THESE DATA BRIDGING STEPS, ALSO, IS THERE ANYTHING
 - Recruitment
     - The bias adjustment ramp was updated to end with the last year of removals (2024) and begin to ramp to zero two years prior (2022)
 - Software and Workflow
-    - Update SS3 3.30.23.2 - As seen in Figures @compare2_spawnbio_uncertainty and @compare3_Bratio, updating to the most recent version of the SS3 executable had no discernable impact on model results. 
+    - Update SS3 3.30.23.2 - As seen in Figures @fig-compare2_spawnbio_uncertainty and @fig-compare3_Bratio, updating to the most recent version of the SS3 executable had no discernable impact on model results. 
     - Use most up-to-date R packages to process input and output files for the assessment, including **nwfscDiag, r4ss, and pacfintools**. 
     - Created a public github repository for Yelloweye Rockfish ("sebastes_ruberrimus_2025") to provide a transparent and reproducible system for processing the data and creating the model and assessment document
 
