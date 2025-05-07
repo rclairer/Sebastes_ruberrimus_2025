@@ -1,24 +1,28 @@
 # Introduction
 
+Yelloweye rockfish (**Sebastes ruberrimus**) are found from the Gulf of Alaska to northern Baja California in Mexico across the northeastern Pacific Ocean (@hart_pacific_1973, @love_rockfishes_2002). Their core distribution is from southeast Alaska to central California on the west coast of the United States (@love_rockfishes_2002). Yelloweye rockfish in Puget Sound are considered isolated from the coastal waters population (Stewart et al. 2009) and have been listed as threatened under the Endangered Species Act since 2010 (Drake et al. 2010). 
+
+Yelloweye rockfish are strongly assocaited with rocky bottom habtiat, particularly areas of high relief (@love_rockfishes_2002)
+
 <!-- Scientific name, distribution, the basis for the choice of stock structure, including regional differences in life history or other biological characteristics that should form the basis of management units.  -->
 
 Map of scope of assessment - not needed for update
 
 ## Life History
 
-Refer to the most recent full assessment for additional information.
+This section is not required for an update assessment; please refer to the most recent full assessment (@gertseva_stock_2017) for additional information.
 
 ## Ecosystem considerations
 
-Refer to the most recent full assessment for additional information.
+This section is not required for an update assessment; please refer to the most recent full assessment (@gertseva_stock_2017) for additional information.
 
 ## Fishery description
 
-Refer to the most recent full assessment for additional information.
+ This section is not required for an update assessment; please refer to the most recent full assessment (@gertseva_stock_2017) for additional information.
 
 ## Management History
 
-Refer to the most recent full assessment for additional information.
+This section is not required for an update assessment; please refer to the most recent full assessment (@gertseva_stock_2017) for additional information.
 
 ## Management performance
 
@@ -26,4 +30,4 @@ Refer to the most recent full assessment for additional information.
 
 ## Fisheries off Canada and Alaska
 
-Refer to the most recent full assessment for additional information.
+This section is not required for an update assessment; please refer to the most recent full assessment (@gertseva_stock_2017) for additional information.
