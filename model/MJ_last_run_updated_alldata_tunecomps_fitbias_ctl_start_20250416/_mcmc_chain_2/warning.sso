@@ -1,4 +1,0 @@
-Note 1 Information: Max data length bin: 74  < max pop len bins: 88; so will accumulate larger pop len bins
-Note 2 Suggestion:  recr_dist_method 3 is simpler and takes 1 parm for each settlement
-Warning 1 : At least one block pattern ends in endyr. Check the output parameter value time series to see if the values in forecast years are as intended.
-Warning 2 Fatal Error! do_recdev option 1=devvector should not be used with MCMC, recommend option 2=simple deviations. For more detail see https://github.com/admb-project/admb/issues/107.
