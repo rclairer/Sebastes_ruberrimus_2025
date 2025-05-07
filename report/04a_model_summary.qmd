@@ -2,16 +2,34 @@
 
 ## History of modeling approaches
 
-Refer to the most recent full assessment for additional information.
+This section is not required for an update assessment; please refer to the most recent full assessment (@gertseva_stock_2017) for additional information.
 
 ## Responses to SSC Groundfish Subcommittee requests
 
-To be completed after review.
+To be completed after SSC GFSC review.
 
 ## Model Structure and Assumptions
 
 
-### Model Changes from the Last Assessment
+### Model Changes from the Last Assessment{#sec-changes}
+
+A list of changes that were made to the model compared to the previous assessment (@gertseva_stock_2017) are listed below. 
+
+ADW - NEED TO ADD FIGURES FOR THESE DATA BRIDGING STEPS, ALSO, IS THERE ANYTHING I'M MISSING IN THIS LIST?
+
+- Data 
+    - Detailed information on specific updates and changes to the data incldued in the model are included in Section 2 but are summarized below. 
+    - The landings time series was corrected and updated through the end of 2024 for California, Oregon and Washington. 
+    - Length and age compositions from all fishery removal and index fleets were updated through 2024.
+    - All indices of abundance were updated with recent data, where available, and analyzed using more up-to-date methods. The exception is the MRFSS index, which covers the time period of 1980 - 2000 in the Oregon recreational index, for which no new data were available and methodology was not updated. 
+- Biology
+    - No changes were made to the biological parameterization of the model; however, the length-weight relationship was updated to include the most recent data.
+- Recruitment
+    - The bias adjustment ramp was updated to end with the last year of removals (2024) and begin to ramp to zero two years prior (2022)
+- Software and Workflow
+    - Update SS3 3.30.23.1 - As seen in Figures @compare2_spawnbio_uncertainty and @compare3_Bratio, this update had no discernable impact on model results. 
+    - Use most up-to-date R packages to process input and output files for the assessment, including **nwfscDiag, r4ss, and pacfintools**. 
+    - Created a public github repository for Yelloweye Rockfish ("sebastes_ruberrimus_2025") to provide a transparent and reproducible system for processing the data and creating the model and assessment document
 
 <!-- Description of new modeling approaches and changes made from the last assessment, with rationale. This should include bridging analyses that highlight the data and model changes that were most influential with respect to changes between the assessment being reviewed and the most recent adopted assessment. 
 
@@ -19,6 +37,10 @@ KLO: The TOR says this is not required for updates. I am doubtful the SSC will b
 
 
 ### Modeling Platform and Structure
+
+The assessment was updated to use the most recent version of Stock Synthesis 3 (Version 3.30.23.1 - (NOTE - DOUBLE CHECK VERSION) available [online](https://github.com/nmfs-ost/ss3-source-code/releases/tag/v3.30.23.1)). Bridging between SS versions is discussed in Section @sec-changes. 
+
+Briefly, the Yelloweye Rockfish model is a coastwide, single-sex two-area model. California is Area 1, and Oregon and Washington are combined into Area 2, due to differences in potential exploitation rates by area over time. Yelloweye Rockfish compositional data are primarily reported as both sexes combined, and therefore, the previous assessment used a single sex model to facilitate the use of all available data. Growth is assumed to be the same in both areas, though future benchmark assessments may want to re-evaluate this assumption if more spatially-explicit data become available. The modeling period starts in the first year of available catches from historical reconstructions (1889) and the stock is assumed to be at an unfished equilibrium prior to that time. No changes were made to the fleet structure of the model. Fishery removals were divided among seven area- and sector-specific fleets. Estimated discard mortality was added to landings and included in the model as fleet-specific total removals. Length compositions for discarded and retained fish were combined as well. Data weighting was done using the Francis method but the McAllister-Ianelli method was explored as a sensitivity. More detailed information on the model structure and justification is available in @gertseva_stock_2017 and summarized in @tbl-table_config. (ADW - DO WE NEED MORE DETAIL HERE?)
 
 <!-- Assessment program and its version used for the assessment (i.e., date executable program file was compiled), description of model structure, definitions of fleets and areas. Description of how the first year that is included in the model was selected and how the population state at the time is defined (e.g., B0, stable age structure). -->
 
@@ -29,4 +51,4 @@ KLO: The TOR says this is not required for updates. I am doubtful the SSC will b
 
 ### Key Assumptions and Structural Choices
 
-Refer to the most recent full assessment for additional information.
+This section is not required for an update assessment; please refer to the most recent full assessment (@gertseva_stock_2017) for additional information.
