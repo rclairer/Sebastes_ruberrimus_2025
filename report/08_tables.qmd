@@ -7,6 +7,7 @@
 #| eval: true 
 #| include: false
 library(flextable)
+library(gt)
 
 # You can save tables to read in as csv or rda files.
 # stockplotr generally uses rda files.
@@ -18,3 +19,234 @@ library(flextable)
 
 ``` 
 
+<!-- Load tables produced from r4ss::table_all() -->
+
+```{r}
+#| echo: false
+replist <- r4ss::SS_output(here::here("model", "2025_base_model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250427"))
+
+tables <-r4ss::table_all(replist, dir = here::here("report"))
+
+if (file.exists(here::here("report/tables"))) {
+  all_files <- list.files(here::here("report/tables"), full.names = TRUE)
+  all_rda_files <- all_files[grep(".rda", all_files)]
+  for (a in 1:length(all_rda_files)) {
+    load(all_rda_files[a])
+  }
+    # process all executive summary tables
+  catches_es_table <- catches_es$table
+  catches_es_cap <- catches_es$cap
+  rm(catches_es)
+  
+  ssb_es_table <- ssb_es$table
+  ssb_es_cap <- ssb_es$cap
+  ssb_es_cap <- gsub("fraction unfished", "fraction of unfished spawning output", ssb_es_cap)
+  rm(ssb_es)
+  
+  spr_es_table <- spr_es$table
+  spr_es_cap <- spr_es$cap
+  rm(spr_es)
+  
+  recr_es_table <- recr_es$table
+  recr_es_cap <- recr_es$cap
+  rm(recr_es)
+  
+  reference_points_table <- reference_points$table
+  reference_points_cap <- reference_points$cap
+  rm(reference_points)
+  
+  recent_management_table <- recent_management$table
+  recent_management_cap <- recent_management$cap
+  rm(recent_management)
+    
+  projections_table <- projections$table
+  projections_cap <- projections$cap
+  projections_cap <- gsub("fraction unfished", "fraction of unfished spawning output", projections_cap)
+  rm(projections)
+  
+  compweight_table <- table_compweight$table
+  compweight_cap <- table_compweight$cap
+  rm(table_compweight)
+  
+  config_table <- table_config$table
+  config_cap <- table_config$cap
+  rm(table_config)
+  
+  parcount_table <- table_parcounts$table
+  parcount_cap <- table_parcounts$cap
+  rm(table_parcounts)
+  
+  pars_table <- table_pars$table
+  pars_cap <- table_pars$cap
+  rm(table_pars)
+
+  # table from r4ss::table_exec_summary()
+  time_series_table <- time_series$table
+  time_series_cap <- time_series$cap
+  rm(time_series)
+
+  time_series_table <- time_series_table |>
+    dplyr::mutate(dplyr::across(dplyr::everything(), ~ dplyr::case_when(
+      grepl("Spawning", dplyr::cur_column()) ~ round(.x, 2),
+      grepl("Total", dplyr::cur_column()) ~ round(.x, 0),
+      grepl("Fraction", dplyr::cur_column()) ~ round(.x, 3),
+      grepl("Recruits", dplyr::cur_column()) ~ round(.x, 0),
+      grepl("Mortality", dplyr::cur_column()) ~ round(.x, 0),
+      TRUE ~ round(.x, 3)
+    )))
+
+  # table from r4ss::table_ts() (not used currently)
+  ts_table <- table_ts$table
+  ts_cap <- table_ts$cap
+  rm(table_ts)
+
+  eval_tables <- TRUE
+} else {
+  eval_tables <- FALSE
+}
+```
+
+
+<!-- Fishery Dependent Data -->
+
+<!-- Fishery Independent Data -->
+
+### Model results
+ 
+```{r}
+#| label: tbl-model-config
+#| warning: false
+#| echo: false
+#| tbl-cap: !expr if(eval_tables) config_cap
+
+config_table |>
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+
+```{r}
+#| label: tbl-n-param
+#| warning: false
+#| echo: false
+#| tbl-cap: !expr if(eval_tables) parcount_cap
+
+parcount_table |>
+  dplyr::filter(Count > 0) |>
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+
+::: {.landscape}
+
+```{r}
+#| label: tbl-pars
+#| warning: false
+#| echo: false
+#| tbl-cap: !expr if(eval_tables) pars_cap
+
+pars_table |>
+  mutate(SD = ifelse(Status == 'fixed', NA, SD)) |>
+  gt() |>
+  sub_missing(missing_text = '') |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+:::
+
+```{r}
+#| label: tbl-compweight
+#| warning: false
+#| echo: false
+#| tbl-cap: !expr if(eval_tables) compweight_cap
+
+compweight_table |>
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+
+
+```{r, results = "asis"}
+#| label: tbl-ts
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) time_series_cap 
+#| tbl-pos: H
+
+time_series_table |>
+kableExtra::kable(
+  format = "latex", 
+  longtable = TRUE,
+  booktabs = TRUE,
+  caption = "Time series of population estimates from the base model.",
+  linesep = "") |>
+  kableExtra::kable_styling(
+    latex_options = "repeat_header",
+    font_size = 8) |>
+  kableExtra::column_spec(
+    column = 1:9,
+    width = "0.5in"
+  )
+```
+
+
+### Management
+
+\pagebreak
+
+::: {.landscape}
+
+```{r, results = "asis"}
+#| label: tbl-projections
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) projections_cap 
+#| tbl-pos: H
+
+projections_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = c(2:5, 7:9),
+    decimals = 0
+  ) |>
+  gt::fmt_number(
+    columns = c(6, 10),
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
+  ) |>
+  gt::sub_missing(
+    columns = tidyselect::everything(),
+    missing_text = "---"
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::cols_width(
+    tidyselect::everything() ~ px(75)
+  ) |>
+  gt::as_latex()
+
+```
+
+:::
+
+\pagebreak
