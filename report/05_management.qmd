@@ -10,6 +10,8 @@
 
 ## Harvest Projections and Decision Tables
 
+ADW - Decision tables not required for draft assessment. 
+
 ## Evaluation of Scientific Uncertainty
 
 ## Regional management considerations
