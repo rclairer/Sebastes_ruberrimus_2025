@@ -1,26 +1,59 @@
 # Data
 
+<!--- Provide temporal and spatial resolutions or sample size where appropriate for each of the subsections, below.--->
+
+A summary of available data by type and fleet is available in @fig-data.
+
 ## Fishery-Dependent Data 
+
+<!-- Commercial fisheries landings by state, year, and gear (PacFIN is the standard source for recent domestic commercial landings), historical catch estimates, discards, recreational fisheries catches, foreign removals; sample size information for length- and age-composition data by state, year and gear, including both the number of trips and fish sampled. Description of methods to estimate abundance indices, sample size information by survey and year. Include complete tables and figures and date of data extraction. -->
 
 ### Landings
 
 #### Commercial 
 
+The time series of California historical commercial catches (1889-1980) of yelloweye rockfish remained unchanged from the 2017 assessment. Yelloweye rockfish landings estimates for 1981 through 2015 that were obtained by PacFIN and supplemented by WCGOP also remained unchanged.
+Estimates of landings of yelloweye rockfish up to 2016 were unchanged from the previous assessment. Recent landings (2017-2024) were obtained from **PacFIN (www.pacfin.com)**. Landings data were extracted by gear type and state on and then combined into the area-specific fishing fleets used in the assessment. For the period from 2002 forward, when catch limits and area closures were implemented, year-specific PacFIN landings were supplemented with the discard amounts of yelloweye rockfish estimated by the WCGOP. The proportion of observed area-specific fleet discards in WCGOP were calculated and used to identify total fleet-specific discards from the GEMM. Estimated total discard amount of yelloweye rockfish were combined with year-specific PacFIN Landings to obtain the total catch of yelloweye rockfish within commercial fleets.
+
+Historical commercial landings for yelloweye rockfish in Oregon were unchanged from the previous 2017 assessment. These include a comprehensive commercial catch reconstruction (1892-1986; **Karnowski et al. 2014**) and a reconstruction of the URCK/POP categories in PacFIN (ODFW 2017) that supplements PacFIN landings during 1987 through 1999. A small amount of historical yelloweye removals caught in Oregon waters but landed in California were provided by SWFSC (John Field, pers. comm.). These were included in the assessment by calculating the proportion of Oregon trawl catch and Oregon non trawl catch out of the total Oregon commercial catch and applying those proportions to the removals caught in Oregon but landed in California. 
+
+PacFIN landings were rolled over from 1987 through 2016 and updated from 2017 through 2024. As the case with California, for the period from 2016 through 2023, updated WCGOP discard estimates were added to PacFIN landings by calculating the proportion of observed area-specific fleet WCGOP discards expanded from the fleet-specific GEMM total recorded discards to obtain the total catch of yelloweye rockfish within commercial fleets. 
+
+For this assessment, historical commercial catches (1889-1980) of yelloweye rockfish in Washington were provided by Washington Department of Fish and Wildlife (WDFW), based on the historical reconstruction of rockfish landings in Washington (Theresa Tsou, and Fabio Caltabellotta pers. comm.). Commercial landings from 1981 through 2016 provided by WDFW in the last assessment and were used in this assessment. 
+
+Recent commercial landings (2017-2024) were obtained from PacFIN. As the case with California and Oregon, landings were supplemented with the discard amount estimated by WCGOP using the proportion of observed discards multiplied by the total discards recorded by the GEMM, to obtain the total catch of yelloweye rockfish within commercial fleets.
+
 #### Recreational 
+
+A time series of historical California recreational catches of yelloweye rockfish (1928-1979) were also reconstructed by the NMFS’s SWFSC **(Ralston et al. 2010)** for the 2017 assessment, and these remained unchanged for this assessment. Removal data from 1980 to 2016 were carried over from the previous assessment and updated to include data from years 2017 through 2024 obtained from the **RecFIN database (www.recfin.com)**. Differential mortality rates according to depth of capture were accounted for in these estimates, where depth-specific release information was available. 
+
+Updated historical recreational removals from 1979 through 2000 were provided by ODFW (**Whitman 2024**). Removals from 1973 - 1978 were rolled over from the 2017 assessment. Recreational removals from RecFIN were updated from 2017 - 2024 and rolled over from 2001 - 2016. RecFIN removals include an estimate of discard mortality and represent total estimated removals. 
+
+For the 2017 assessment, recreational removals for the period between 1975 and 2016 were provided by WDFW (Theresa Tsou, per. comm.), mortality by depth estimates for yelloweye rockfish were provided by the PFMC Groundfish Management Team (Lynn Mattes, pers. comm.), and the removals were adjusted accordingly, where depth-specific release information was available. Differential mortality rates according to depth of capture are now accounted for in these estimates in the RecFIN database from 2005 through 2024. Since the RecFIN removal data from 2005 through 2016 were very similar to the estimates in the previous assessment, removals during this time period were unchanged and updated with data from 2017 through 2024 from RecFIN.
+
+#### Bycatch in the Foreign POP Fishery
+
+#### Bycatch in the At-Sea Pacific Hake Fishery
 
 ### Discards
 
 ### Biological Compositions 
 
-### Indices of Abundance 
+### Indices of Abundance
 
 ## Fishery-Independent Data
 
+### Triennial Survey
+
 ### WCBTS 
 
-### IPHC 
+### IPHC  
 
-### Do we have other FI index data I'm forgetting? 
+The IPHC has conducted an annual longline survey for Pacific halibut off the coast of Oregon and Washington (IPHC area “2A”) since 1997 (no surveys were performed in 1998 or 2000). Beginning in 1999, this has been a fixed station design, with roughly 1,800 hooks deployed at each of 84 locations. Before 1999, station locations were not fixed, and, therefore, those years are not used in the index. Rockfish bycatch, mainly yelloweye, was recorded during this survey, although values for 1999 and 2001 are estimates based on subsampling the first 20 hooks of each 100-hook skate. The gear used to conduct this survey, while designed specifically to efficiently sample Pacific halibut, is similar to that used in some earlier line fisheries that targeted adult yelloweye rockfish. Some variability in exact sampling location is unavoidable, and leeway is given in the IPHC methods to center the set on the target coordinates but to allow wind and currents to dictate the actual direction in which the gear is deployed. This can result in different habitats accessed at each fixed location among years. The number of skates used can also differ somewhat from year to year; skates hauled (i.e., 100 hooks/skate) is thus used as the unit of effort for all years. This has been the standard effort used in past yelloweye rockfish stock assessments. 
+
+New to this assessment is the consideration of eight additional survey stations conducted by WDFW (2007-2016). These stations are arranged around IPHC station 1082 (one of the more notable stations to encounter yelloweye rockfish) and are conducted during spring, summer, and fall months. Only summer months were considered here in order to match the time of year 37 sampled by the IPHC survey. Survey sets at the WDFW stations used 3 skates with 100 hooks each, a departure from that used by the IPHC survey. Like the IPHC survey, effort was standardized as 100 hooks/skate. These stations were added to the IPHC stations when calculating the index of abundance. The full survey used in this assessment combined all stations in Oregon and Washington, fitting the area of the stock, instead of using state-specific indices. Data were filtered first to remove all depths with no or few encounters, then we removed stations that also rarely encountered yelloweye (average less than encounter a year). This left 11 stations for analysis. Both filtering levels improved the percent positive from an initial 11% to 80%. 
+
+A log-normal generalized linear model with a log link in the “sdmTMB” R package was used to standardize the CPUE. Model selection using the Akaike Information Criteria for small samples (AICc) was conducted to select which variables were included in the model. The final model included year, station, and depth as explanatory variables. Diagnostic tools to ensure the model fit was satisfactory included checking whether the hessian matrix is positive definite, the presence of extreme eigenvalues, and if the non-linear minimizer suggests convergence. These diagnostics were conducted with the “sanity( )” function in the sdmTMB package. Lastly, the index was centered at zero to facilitate comparisons with the index used for the 2017 assessment.
 
 ## Aging Error
 
@@ -40,6 +73,7 @@
 
 
 
+<!--- ADW - commented out all the old text below, moved new relevant text to above outline, re-wrote some sections.
 2 Assessment
 2.1 Data
 **Data used in the yelloweye rockfish assessment are summarized in **Figure X**. These data include both fishery-dependent and fishery-independent sources. Types of data that inform the model include catch, length and age frequency data from seven commercial and recreational fishing fleets. Fishery-dependent biological data used in the assessment originated from both port-based and on-board observer sampling programs. Recreational observer data from Oregon and California were used to construct indices of relative abundance. Yelloweye rockfish catch in the International Pacific Halibut Commission’s (IPHC) long-line survey is also included in an index of relative abundance for Washington and Oregon; IPHC length and age frequency data are also used. Relative biomass indices and information from biological sampling from trawl surveys were included as well; these trawl surveys were conducted by the Northwest Fisheries Science Center and the Alaska Fisheries Science Center of the National Marine Fisheries Service (NMFS).**
@@ -172,4 +206,4 @@ The parameters derived from this analysis were as follows: ⍺ = 7.183309·10-6,
 2.1.5.3 Fecundity
 2.1.5.4 Natural Mortality
 2.1.5.5 Ageing Error
-2.1.6 Environmental or Ecosystem Data
+2.1.6 Environmental or Ecosystem Data --->
