@@ -2046,28 +2046,24 @@ SSplotComparisons(models_summary,
 ###################################################################
 #######               FORECAST FILE CHANGES               #########
 ###################################################################
-#remotes::install_github("pfmc-assessments/PEPtools")
 
+#remotes::install_github("pfmc-assessments/PEPtools")
 library(PEPtools)
 
 mod <- SS_read(here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250427"))
 
-# Update benchmark years, convert to negative value representing years before the ending year of the model
-## Keep working on this...
-mod$fore$Bmark_years <- c(0, 0, 0, 0, 0, 0, -999, 0, -999, 0)
-
 # Update flimit fraction
 mod$fore$Flimitfraction <- -1
 
-# update buffer values
-mod$fore$Flimitfraction_m <- PEPtools::get_buffer(2025:2036, sigma = 0.5, pstar = 0.4)
+# change "stddev of log(realized catch/target catch) in forecast" to 0
+mod$fore$stddev_of_log_catch_ratio <- 0
 
 # These may not need to change; either way this is something to do with the rebuilder stuff
 mod$fore$Ydecl <- 0
 mod$fore$Yinit <- 0
 
-# change "stddev of log(realized catch/target catch) in forecast" to 0
-mod$fore$stddev_of_log_catch_ratio <- 0
+# update buffer values
+mod$fore$Flimitfraction_m <- PEPtools::get_buffer(2025:2036, sigma = 0.5, pstar = 0.4)
 
 # update fixed forecast catches at the bottom for assumed catches in 2025 and 2026
 mod$fore$ForeCatch <- data.frame(
@@ -2079,14 +2075,19 @@ mod$fore$ForeCatch <- data.frame(
 ## Kiva said to change the control rule method from 1, to 3.
 mod$fore$ControlRuleMethod <- 3
 
-mod$fore$Fcast_selex <- -12345
+# set rebuilder to 0 for now, need to fix for future us.
+mod$fore$Do_West_Coast_gfish_rebuilder_output <- 0
+
+# Update benchmark years, convert to negative value representing years before the ending year of the model
+## Keep working on this...
+mod$fore$Bmark_years <- c(0, 0, 0, 0, 0, 0, -999, 0, -999, 0)
 
 # inputs$fore <- fcast
 # SS_write(inputs, dir = updated_forecast_dir, overwrite = TRUE)
 SS_write(mod, here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250507"), overwrite = TRUE)
 
-run(dir = 'model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250507', exe = exe_loc, show_in_console = TRUE, extras = '-nohess', skipfinished = FALSE)
+run(dir = 'model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250507', exe = exe_loc, show_in_console = TRUE, skipfinished = FALSE)
 
 # store plots in figures folder so that we can pull easily into report
-SS_plots(replist = SS_output('model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250507'),dir = here::here("figures","2025_base_model_r4ss_plots"))
+SS_plots(replist = SS_output('model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250507'),dir = here::here("figures","r4ss_plots","2025_base_model_r4ss_plots"))
 
