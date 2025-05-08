@@ -8,7 +8,11 @@ A summary of available data by type and fleet is available in @fig-data.
 
 <!-- Commercial fisheries landings by state, year, and gear (PacFIN is the standard source for recent domestic commercial landings), historical catch estimates, discards, recreational fisheries catches, foreign removals; sample size information for length- and age-composition data by state, year and gear, including both the number of trips and fish sampled. Description of methods to estimate abundance indices, sample size information by survey and year. Include complete tables and figures and date of data extraction. -->
 
+ADW - need to add a summary of FD data by fleet (one paragraph)
+
 ### Landings
+
+A summary of total removals are provided in @tbl-all_removals and @fig-catch.
 
 #### Commercial 
 
@@ -33,9 +37,19 @@ For the 2017 assessment, recreational removals for the period between 1975 and 2
 
 #### Bycatch in the Foreign POP Fishery
 
+Bycatch in the foreign POP fishery was unchanged from the previous assessment and included in the trawl fleets for California and Oregon/Washington. Please refer to the most recent full assessment [@gertseva_stock_2017] for additional information.
+
+**ADW - Sam, please review the above. **
+
 #### Bycatch in the At-Sea Pacific Hake Fishery
 
+Bycatch for the At-Sea Pacific Hake fleet (ASHOP) was updated from 2017 through 2024 and included in the trawl fleets for California and Oregon/Washington. 
+
+**ADW - Sam, please review the above. **
+
 ### Discards
+
+** ADW - who was in charge of WCGOP data? I couldn't a write-up for this section. 
 
 ### Biological Compositions 
 
@@ -73,7 +87,11 @@ Age composition data from Washington commercial fisheries were obtained from Pac
 
 ### Indices of Abundance
 
+ADW - add a summary paragraph describing the FD indices.
+
 #### California MRFSS Dockside CPUE, 1980-1999
+
+This index was unchanged from the previous assessment; please refer to the most recent full assessment [@gertseva_stock_2017] for additional information.
 
 #### California Onboard Observer CPUE, 1988-1998
 
@@ -100,21 +118,33 @@ Covariates evaluated included year, month, port, the open depths to fishing (all
 
 #### Oregon MRFSS Dockside CPUE, 1982-1999
 
+This index was unchanged from the previous assessment; please refer to the most recent full assessment [@gertseva_stock_2017] for additional information.
+
 #### Oregon ORBS Dockside (release only) CPUE, 2004-2024
 
 The Ocean Recreational Boat Survey (ORBS) dockside index for Oregon was updated for this assessment. CPUE, expressed in terms of fish per angler-hour, was calculated by multiplying the number of anglers and the total trip time, minus the boat type-specific travel time. The database contains information on released fish by species (number of angler-reported released fish), effort (angler hours), sample location (port where data were collected), date, bag limits and other relevant regulations, boat type (charter or private), and trip type (e.g., bottom associated fish). 
+
 The unfiltered data set contained 504,128 trips from 2001 - 2024. Since the previous yelloweye assessment, multiple data filters have been standardized, which are very similar to the 2017 assessment, and are applied to ORBS trip-level data to remove outliers and data unsuitable for an index. For this index, the time period was restricted to years when retention of yelloweye rockfish was prohibited, which began on January 1, 2004. There were two differences in the filtering in this updated index. One, the previous index began in 2005, which was determined to be an error in the timing of the implementation of prohibited status for yelloweye. Given that prohibition was in effect on January 1, the year 2004 is included in this updated index. The second difference in filtering is the elimination of the Stephens-MacCall filter in the updated index. This filter has not been used for several assessment cycles, based on a recommendation from NWFSC staff (pers. comm. A. Whitman, ODFW). The final dataset included 133,039 trips (TABLE “percent_pos.csv”) from 2004 – 2024 with an overall encounter rate of 7.4%.
+
 Covariates evaluated included year, month, port, the open depths to fishing (all depths or inside 20/30/40 fm), and boat type. These are the same covariates evaluated in the 2017 ORBS index, apart from the open depths of the fishery. The final model in 2017 included boat type, port and year. Negative binomial models were fit in sdmTMB (Version 0.6.0) to the trip-level data (catch with a log offset for adjusted angler hours). The final model selected includes year, month, port, boat type and open fishery depths, which was the best fit model by AIC in this series (TABLE “model_selection.csv”). Acceptable diagnostics for the model were achieved (FIGURE – qqplot). The index of abundance in shown in Figure XXX and Table XXXX. ODFW no longer maintains the deltaGLM code that was used to develop the 2017 index and so the index was updated to use the currently accepted modeling approach for PFMC groundfish assessments (sdmTMB). To bridge this change, the 2017 model index structure was applied to the current dataset using sdmTMB and compared to the deltaGLM index used in the 2017 assessment and the current recommended updated index in Figure XX (“ORBS index comparison”). There are some differences observed in 2005 – 2009 between the deltaGLM index and the two sdmTMB indices; however, this appears to be largely driven by the updated modeling approach. A comparison to the ORFS index used in the previous assessment indicates that despite the change in modeling approach and the covariates included, most years overlap between the two indices and similar trends are observed (Figure “ORFS index comparison”). The updated index has reduced within-year variance and a lack of extreme swings in the standardized index value (e.g. 2013). 
 
 #### Washington Dockside CPUE, 1982-2001
 
+This index was unchanged from the previous assessment; please refer to the most recent full assessment [@gertseva_stock_2017] for additional information.
+
 ## Fishery-Independent Data
 
-### Triennial Survey
+ADW - add summary paragraph of FI data. 
 
-### WCBTS 
+### Triennial Bottom Trawl Survey
 
-### IPHC  
+** Claire updated these - write-up?**
+
+### West Coast Bottom Trawl Survey 
+
+** Claire updated these - write-up?**
+
+### IPHC Setline Survey
 
 The IPHC has conducted an annual longline survey for Pacific halibut off the coast of Oregon and Washington (IPHC area “2A”) since 1997 (no surveys were performed in 1998 or 2000). Beginning in 1999, this has been a fixed station design, with roughly 1,800 hooks deployed at each of 84 locations. Before 1999, station locations were not fixed, and, therefore, those years are not used in the index. Rockfish bycatch, mainly yelloweye, was recorded during this survey, although values for 1999 and 2001 are estimates based on subsampling the first 20 hooks of each 100-hook skate. The gear used to conduct this survey, while designed specifically to efficiently sample Pacific halibut, is similar to that used in some earlier line fisheries that targeted adult yelloweye rockfish. Some variability in exact sampling location is unavoidable, and leeway is given in the IPHC methods to center the set on the target coordinates but to allow wind and currents to dictate the actual direction in which the gear is deployed. This can result in different habitats accessed at each fixed location among years. The number of skates used can also differ somewhat from year to year; skates hauled (i.e., 100 hooks/skate) is thus used as the unit of effort for all years. This has been the standard effort used in past yelloweye rockfish stock assessments. 
 
@@ -137,9 +167,15 @@ Age composition data were available from the NWFSC trawl survey and IPHC surveys
 
 ## Aging Error
 
+** Morgan was going to write up **
+
 ## Biological Parameters 
 
 ### Natural Mortality 
+
+The approach to natural mortality was unchanged from the previous assessment (@gertseva_stock_2017). M is fixed at 0.0439. 
+
+ADW - do we need more than this? 
 
 ### Weight at Length 
 
@@ -153,13 +189,19 @@ The parameters derived from this analysis were as follows: ⍺ = 7.183309·10-6,
 
 ### Maturity 
 
+The approach to maturity was unchanged from the previous assessment (@gertseva_stock_2017).
+
 ### Fecundity 
+
+The approach to fecundity was unchanged from the previous assessment (@gertseva_stock_2017).
 
 ## Environmental and Ecosystem Data 
 
+As with the previous assessment (@gertseva_stock_2017), there are no environmental or ecosystem data explicitly included in this update assessment due to the lack of information regarding environmental drivers of Yelloweye Rockfish population dynamics. 
+
 ## Data Considered but not Used in Assessment 
 
-
+No new sources of data were considered in this update assessment. 
 
 <!--- ADW - commented out all the old text below, moved new relevant text to above outline, re-wrote some sections.
 2 Assessment
