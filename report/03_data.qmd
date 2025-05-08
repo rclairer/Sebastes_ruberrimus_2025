@@ -1,3 +1,45 @@
+# Data
+
+## Fishery-Dependent Data 
+
+### Landings
+
+#### Commercial 
+
+#### Recreational 
+
+### Discards
+
+### Biological Compositions 
+
+### Indices of Abundance 
+
+## Fishery-Independent Data
+
+### WCBTS 
+
+### IPHC 
+
+### Do we have other FI index data I'm forgetting? 
+
+## Aging Error
+
+## Biological Parameters 
+
+### Natural Mortality 
+
+### Weight at Length 
+
+### Maturity 
+
+### Fecundity 
+
+## Environmental and Ecosystem Data 
+
+## Data Considered but not Used in Assessment 
+
+
+
 2 Assessment
 2.1 Data
 **Data used in the yelloweye rockfish assessment are summarized in **Figure X**. These data include both fishery-dependent and fishery-independent sources. Types of data that inform the model include catch, length and age frequency data from seven commercial and recreational fishing fleets. Fishery-dependent biological data used in the assessment originated from both port-based and on-board observer sampling programs. Recreational observer data from Oregon and California were used to construct indices of relative abundance. Yelloweye rockfish catch in the International Pacific Halibut Commission’s (IPHC) long-line survey is also included in an index of relative abundance for Washington and Oregon; IPHC length and age frequency data are also used. Relative biomass indices and information from biological sampling from trawl surveys were included as well; these trawl surveys were conducted by the Northwest Fisheries Science Center and the Alaska Fisheries Science Center of the National Marine Fisheries Service (NMFS).**
