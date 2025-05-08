@@ -158,32 +158,69 @@ data_wide |>
 ```
 
 ```{r}
-#| label: tbl-sampling-effort-CA
+#| label: tbl-sampling-effort-length-CA
 #| echo: false
 #| warning: false
 #| tbl-cap: "Summary of fishery sampling effort (number of trips and fish sampled) used to create length frequency distributions of the California fleets."
 ```
 
 ```{r}
-#| label: tbl-sampling-effort-ORWA
+#| label: tbl-sampling-effort-length-ORWA
 #| echo: false
 #| warning: false
 #| tbl-cap: "Summary of fishery sampling effort (number of trips and fish sampled) used to create length frequency distributions of the Oregon and Washington fleets."
 ```
 
 ```{r}
-#| label: tbl-sampling-effort-ORWA
+#| label: tbl-sampling-effort-age-CA
 #| echo: false
 #| warning: false
 #| tbl-cap: "Summary of fishery sampling effort (number of trips and fish sampled) used to create age frequency distributions of the California fleets."
 ```
 
 ```{r}
-#| label: tbl-sampling-effort-ORWA
+#| label: tbl-sampling-effort-age-ORWA
 #| echo: false
 #| warning: false
 #| tbl-cap: "Summary of fishery sampling effort (number of trips and fish sampled) used to create age frequency distributions of the Oregon and Washington fleets."
 ```
+
+```{r}
+#| label: tbl-sampling-effort-length-wcgop
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of WCGOP sampling effort (number of trips and fish sampled) of yelloweye rockfish lengths within the commercial fleets."
+```
+
+```{r}
+#| label: tbl-sampling-effort-age-wcgop
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of WCGOP sampling effort (number of trips and fish sampled) of yelloweye rockfish ages within the commercial fleets."
+```
+
+```{r}
+#| label: tbl-sampling-effort-length-fish-ind
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of sampling effort (number of hauls and fish sampled) used to create length frequency distributions of the fishery-independent surveys."
+```
+
+```{r}
+#| label: tbl-sampling-effort-age-fish-ind
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of sampling effort (number of hauls and fish sampled) used to create age frequency distributions of the fishery-independent surveys."
+```
+
+```{r}
+#| label: tbl-age-error
+#| echo: false
+#| warning: false
+#| tbl-cap: "Ageing error models and resultant model selection (AICc) values for 9 models of bias and precision explored for each lab used in the yelloweye rockfish assessments. Gray bars indicate the chosen model. Model codes: 0= unbiased; 1 = Constant CV; 2 = Curvilinear SD; 3= Curvilinear CV."
+```
+
+
 
 ### Model results
  
@@ -278,6 +315,81 @@ kableExtra::kable(
   )
 ```
 
+
+```{r}
+#| label: tbl-sensitivities-like-comps
+#| echo: false
+#| warning: false
+#| tbl-cap: "Base model sensitivity to the removal of data sources."
+source(here::here("Rcode/table_sens.R"))
+indices <- read.csv(here::here("report", "plots_for_report", "sensitivities", "indices_table.csv"))
+comps <- read.csv(here::here("report", "plots_for_report", "sensitivities", "comp_data_table.csv"))
+
+indices_and_comps <- inner_join(indices, comps, by = c("Label", "Base"))
+names(indices_and_comps) <- gsub("X..", "", names(indices_and_comps))
+
+table_sens(indices_and_comps)
+
+# There is still an error here because of the latex option in the kableExtra conditional color call
+```
+
+
+```{r}
+#| label: tbl-sensitivities-model-specs
+#| echo: false
+#| warning: false
+#| tbl-cap: "Base model sensitivity to model parameters and specifications."
+modeling <- read.csv(here::here("report", "plots_for_report", "sensitivities", "modeling_table.csv"))
+table_sens(indices_and_comps)
+# There is still an error here because of the latex option in the kableExtra conditional color call
+```
+
+
+```{r, tbl-ref-points-es, results = "asis"}
+#| label: tbl-ref-points-es
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) reference_points_cap 
+#| tbl-pos: H
+
+reference_points_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:4,
+    rows = c(2:4, 7, 10, 12, 15, 17, 20),
+    decimals = 0
+  ) |>
+  gt::fmt_number(
+    columns = 2:4,
+    rows = 1,
+    decimals = 1
+  ) |>
+  gt::fmt_number(
+    columns = 2:4,
+    rows = c(5, 8, 9, 13:14, 18:19),
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
+  ) |>  
+  gt::tab_style(
+    style = list(
+      gt::cell_text(style = "italic")
+    ),
+    locations = gt::cells_body(
+      columns = "Reference Point",
+      rows = dplyr::starts_with("Reference")
+    )
+  ) |>
+  gt::sub_missing(
+    columns = tidyselect::everything(),
+    missing_text = "---"
+  ) |>
+  gt::as_latex()
+
+```
 
 ### Management
 
