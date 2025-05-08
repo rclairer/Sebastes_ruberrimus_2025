@@ -171,6 +171,8 @@ Age composition data were available from the NWFSC trawl survey and IPHC surveys
 
 ## Biological Parameters 
 
+ADW - need summary statement for bio parms. 
+
 ### Natural Mortality 
 
 The approach to natural mortality was unchanged from the previous assessment (@gertseva_stock_2017). M is fixed at 0.0439. 
