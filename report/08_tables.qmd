@@ -8,7 +8,9 @@
 #| include: false
 library(flextable)
 library(gt)
-
+library(tidyverse)
+library(dplyr)
+library(r4ss)
 # You can save tables to read in as csv or rda files.
 # stockplotr generally uses rda files.
 # I (Kiva) prefer csv files because they are text files that are easier to track and preview with version control.
@@ -22,8 +24,166 @@ library(gt)
 ### Data
 
 <!-- Fishery Dependent Data -->
+```{r}
+#| label: tbl-all_removals
+#| echo: false
+#| warning: false
+#| tbl-cap: "Time series of yelloweye rockfish catches by fleet used in the assessment. Trawl fleets include yelloweye bycatch in foreign POP and in at-sea Pacific hake fisheries."
 
-<!-- Fishery Independent Data -->
+inputs <- SS_read(here::here("model", "2025_base_model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250427"))
+
+WA_weights_new <- read.csv(here::here("Data", "raw", "nonconfidential", "CTE001-Washington-1990---2024.csv")) |>
+  group_by(RECFIN_YEAR) |>
+  summarise(
+    WA.sport..mt. = sum(SUM_TOTAL_MORTALITY_MT, na.rm = TRUE),
+  ) |>
+  ungroup() |>
+  filter(RECFIN_YEAR > 2016) |>
+  rename(Year = RECFIN_YEAR)
+  
+WA_weights_all <- read.csv(here::here("report", "tables", "old_catch_table.csv")) |>
+  select(Year, WA.sport..mt.) |>
+  bind_rows(WA_weights_new) |>
+  mutate(WA.sport..mt. = round(WA.sport..mt., 3)) |>
+  rename(year = Year,
+         `7` = `WA.sport..mt.`)
+
+inputs$dat$catch |>
+  dplyr::select(year, fleet, catch) |>
+  tidyr::pivot_wider(names_from = fleet, values_from = catch) |>
+  dplyr::filter(year > 1) |>
+  rename(`8` = `7`) |>
+  dplyr::inner_join(WA_weights_all) |>
+  select(year, `1`:`6`, `7`, `8`) |>
+  mutate(Total = round(rowSums(across(`1`:`7`)), 3)) |>
+  gt() |>
+ cols_label(
+    year = "Year",
+    `1` = "CA trawl (mt)",
+    `2` = "CA non-trawl (mt)",
+    `3` = "CA sport (mt)",
+    `4` = "OR-WA trawl (mt)",
+    `5` = "OR-WA non-trawl (mt)",
+    `6` = "OR sport (mt)",
+    `7` = "WA sport (mt)",
+    `8` = "WA sport (1000s fish)",
+    Total = "Total Catch (mt)"
+  ) |> 
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+
+
+```{r}
+#| label: tbl-srvy-lat-depth
+#| echo: false
+#| warning: false
+#| tbl-cap: "Latitudinal and depth ranges by year of two bottom trawl surveys used in the assessment"
+```
+
+
+```{r}
+#| label: tbl-sampling-effort-triennial
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of sampling effort within triennial survey, with total and yelloweye positive hauls summarized by area."
+sampling_tri <- data.frame(
+  year = c(1980, 1983, 1986, 1989, 1992, 1995, 1998, 2001, 2004, 1980, 1983, 1986, 1989, 1992, 1995, 1998, 2001, 2004),
+  state = c("CA", "CA", "CA", "CA", "CA", "CA", "CA", "CA", "CA", "OR-WA", "OR-WA", "OR-WA", "OR-WA", "OR-WA", "OR-WA", "OR-WA", "OR-WA", "OR-WA"),
+  number.hauls = c(68, 96, 95, 147, 135, 123, 129, 129, 103, 263, 416, 389, 300, 310, 241, 260, 246, 185),
+  number.positive = c(1, 1, 2, 7, 2, 1, 0, 0, 3, 13, 26, 27, 30, 25, 7, 14, 15, 9)
+)
+
+cols_order <- unlist(lapply(c("CA", "OR-WA"), function(x) paste(x, c("number.hauls", "number.positive"), sep = "_")))
+
+data_wide <- sampling_tri |>
+  pivot_wider(names_from = "state", values_from = c(number.hauls, number.positive), names_glue = "{state}_{.value}") |>
+  select(all_of(c("year", cols_order)))
+
+data_wide |> 
+  gt(sampling_tri, rowname_col = "year") |>
+  tab_spanner_delim(
+    delim = "_",
+    split = "first"
+  ) |>
+  cols_label_with(
+    fn = function(x) gsub("number.hauls", "Number of hauls", x)
+  ) |>
+  cols_label_with(
+    fn = function(x) gsub("number.positive", "Number of positive hauls", x)
+  ) |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+
+```{r}
+#| label: tbl-sampling-effort-nwfsc
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of sampling effort within NWFSC trawl survey, with total and yelloweye positive hauls summarized by area."
+```
+
+```{r}
+#| label: tbl-sampling-effort-nwfsc
+#| echo: false
+#| warning: false
+#| tbl-cap: "Filtering levels and resultant data from the IPHC halibut survey index."
+```
+
+```{r}
+#| label: tbl-filtering-iphc
+#| echo: false
+#| warning: false
+#| tbl-cap: "Filtering levels and resultant data from the IPHC halibut survey index."
+```
+
+```{r}
+#| label: tbl-iphc-model-selection
+#| echo: false
+#| warning: false
+#| tbl-cap: "sdmTMB model selection for the IPHC halibut survey index. Gray bar indicates selected model."
+```
+
+```{r}
+#| label: tbl-ts-indices
+#| echo: false
+#| warning: false
+#| tbl-cap: "Time series of relative abundance indices and uncertainty (CVs) for the Washington-Oregon fishery independent surveys."
+```
+
+```{r}
+#| label: tbl-sampling-effort-CA
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of fishery sampling effort (number of trips and fish sampled) used to create length frequency distributions of the California fleets."
+```
+
+```{r}
+#| label: tbl-sampling-effort-ORWA
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of fishery sampling effort (number of trips and fish sampled) used to create length frequency distributions of the Oregon and Washington fleets."
+```
+
+```{r}
+#| label: tbl-sampling-effort-ORWA
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of fishery sampling effort (number of trips and fish sampled) used to create age frequency distributions of the California fleets."
+```
+
+```{r}
+#| label: tbl-sampling-effort-ORWA
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of fishery sampling effort (number of trips and fish sampled) used to create age frequency distributions of the Oregon and Washington fleets."
+```
 
 ### Model results
  
