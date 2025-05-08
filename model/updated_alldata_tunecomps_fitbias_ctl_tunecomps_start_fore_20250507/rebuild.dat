@@ -1,0 +1,32 @@
+#Title, #runnumber: 3 yelloweye_data.ss yelloweye_control.ss 7244.86 1131.22 390.39 StartTime: Wed May  7 23:15:30 2025
+SSv3_default_rebuild.dat
+# Number of sexes
+1
+# Age range to consider (minimum age; maximum age)
+0 100
+# Number of fleets
+7
+# First year of projection (Yinit)
+0
+# First Year of rebuilding period (Ydecl)
+0
+# Number of simulations
+1000
+# Maximum number of years
+500
+# Conduct projections with multiple starting values (0=No;else yes)
+0
+# Number of parameter vectors
+1000
+# Is the maximum age a plus-group (1=Yes;2=No)
+1
+# Generate future recruitments using historical recruitments (1)  historical recruits/spawner (2)  or a stock-recruitment (3)
+3
+# Constant fishing mortality (1) or constant Catch (2) projections
+1
+# Fishing mortality based on SPR (1) or actual rate (2)
+1
+# Pre-specify the year of recovery (or -1) to ignore
+-1
+# Fecundity-at-age
+# 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 #runnumber: 3 yelloweye_data.ss yelloweye_control.ss 7244.86 1131.22 390.39

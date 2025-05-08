@@ -6,8 +6,10 @@ library(ggplot2)
 library(r4ss)
 library(readr)
 library(nwfscSurvey)
+library(here)
 #remotes::install_github("pfmc-assessments/pacfintools")
 library(pacfintools)
+exe_loc <- here::here('model/ss3.exe')
 
 ###############################################
 #########    2017 BASE MODEL #######################
@@ -2044,54 +2046,47 @@ SSplotComparisons(models_summary,
 ###################################################################
 #######               FORECAST FILE CHANGES               #########
 ###################################################################
-remotes::install_github("pfmc-assessments/PEPtools")
+#remotes::install_github("pfmc-assessments/PEPtools")
 
 library(PEPtools)
 
-# make sure this is pulling from the base model!!!!
-updated_startfile_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250416")
-updated_forecast_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250423")
-
-copy_SS_inputs(
-  dir.old = updated_startfile_dir,
-  dir.new = update_forecast,
-  create.dir = FALSE,
-  overwrite = TRUE,
-  use_ss_new = TRUE,
-  copy_exe = TRUE,
-  verbose = TRUE
-)
-
-inputs <- SS_read(dir = update_forecast)
-fcast <- inputs$fore
+mod <- SS_read(here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250427"))
 
 # Update benchmark years, convert to negative value representing years before the ending year of the model
-fcast$Bmark_years <- c(0, 0, 0, 0, 0, 0, 1916, 0, 1916, 0)
+## Keep working on this...
+mod$fore$Bmark_years <- c(0, 0, 0, 0, 0, 0, -999, 0, -999, 0)
 
 # Update flimit fraction
-fcast$Flimitfraction <- -1
+mod$fore$Flimitfraction <- -1
 
 # update buffer values
-fcast$Flimitfraction_m <- PEPtools::get_buffer(2025:2036, sigma = 0.5, pstar = 0.45)
+mod$fore$Flimitfraction_m <- PEPtools::get_buffer(2025:2036, sigma = 0.5, pstar = 0.4)
 
 # These may not need to change; either way this is something to do with the rebuilder stuff
- fcast$Ydecl <- 0
- fcast$Yinit <- 0
+mod$fore$Ydecl <- 0
+mod$fore$Yinit <- 0
 
 # change "stddev of log(realized catch/target catch) in forecast" to 0
-fcast$stddev_of_log_catch_ratio <- 0
+mod$fore$stddev_of_log_catch_ratio <- 0
 
 # update fixed forecast catches at the bottom for assumed catches in 2025 and 2026
-# (values will likely be provided by Groundfish Management Team)
- fcast$ForeCatch <- data.frame(
-   year = rep(2025:2026, each = 3),
-   seas = 1,
-   fleet = rep(1:12, 2),
-   catch_or_F = c(???)
- )
+mod$fore$ForeCatch <- data.frame(
+  year = rep(2025:2026, each = 7),
+  seas = 1,
+  fleet = rep(1:7,2),
+  catch_or_F = c(0.14,10,9,7.76,8.88,6.6,3.22,0.14,10,9,7.76,9.58,6.6,3.22)) # Sent by Christian Heath 5/5/25
+ 
+## Kiva said to change the control rule method from 1, to 3.
+mod$fore$ControlRuleMethod <- 3
 
-inputs$fore <- fcast
-SS_write(inputs, dir = update_forecast, overwrite = TRUE)
+mod$fore$Fcast_selex <- -12345
 
-replist <- SS_output(dir = update_forecast)
-SS_plots(replist)
+# inputs$fore <- fcast
+# SS_write(inputs, dir = updated_forecast_dir, overwrite = TRUE)
+SS_write(mod, here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250507"), overwrite = TRUE)
+
+run(dir = 'model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250507', exe = exe_loc, show_in_console = TRUE, extras = '-nohess', skipfinished = FALSE)
+
+# store plots in figures folder so that we can pull easily into report
+SS_plots(replist = SS_output('model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250507'),dir = here::here("figures","2025_base_model_r4ss_plots"))
+

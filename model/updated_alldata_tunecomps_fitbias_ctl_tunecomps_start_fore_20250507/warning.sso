@@ -1,0 +1,20 @@
+Note 1 Information: Max data length bin: 74  < max pop len bins: 88; so will accumulate larger pop len bins
+Warning 1 : Input catches in 2025 can be overridden by caps or allocations
+Warning 2 : Input catches in 2025 can be overridden by caps or allocations
+Warning 3 : Input catches in 2025 can be overridden by caps or allocations
+Warning 4 : Input catches in 2025 can be overridden by caps or allocations
+Warning 5 : Input catches in 2025 can be overridden by caps or allocations
+Warning 6 : Input catches in 2025 can be overridden by caps or allocations
+Warning 7 : Input catches in 2025 can be overridden by caps or allocations
+Warning 8 : Input catches in 2026 can be overridden by caps or allocations
+Warning 9 : Input catches in 2026 can be overridden by caps or allocations
+Warning 10 : Input catches in 2026 can be overridden by caps or allocations
+Warning 11 : Input catches in 2026 can be overridden by caps or allocations
+Warning 12 : Input catches in 2026 can be overridden by caps or allocations
+Warning 13 : Input catches in 2026 can be overridden by caps or allocations
+Warning 14 : Input catches in 2026 can be overridden by caps or allocations
+Note 2 Suggestion:  recr_dist_method 3 is simpler and takes 1 parm for each settlement
+Warning 15 : At least one block pattern ends in endyr. Check the output parameter value time series to see if the values in forecast years are as intended.
+Warning 16 : Minimum pop size bin:_8; is > L at Amin for sex: 1; Gpat: 1; L= 0.880881
+Warning 17 : Final gradient: 0.000143848 is larger than final_conv: 0.0001
+Warning 18 Adjustment: setting positive forecast relF for forecast only fleet: 2
