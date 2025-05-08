@@ -1,6 +1,6 @@
 # Introduction
 
-Yelloweye Rockfish (**Sebastes ruberrimus**) are found from the Gulf of Alaska to northern Baja California in Mexico across the northeastern Pacific Ocean [@hart_pacific_1973, @love_rockfishes_2002]. Their core distribution is from southeast Alaska to central California on the west coast of the United States [@love_rockfishes_2002]. Yelloweye Rockfish in Puget Sound are considered isolated from the coastal waters population [@stewart_status_2009] and have been listed as threatened under the Endangered Species Act since 2010 [@drake_status_2010]. 
+Yelloweye Rockfish (*Sebastes ruberrimus*) are found from the Gulf of Alaska to northern Baja California in Mexico across the northeastern Pacific Ocean [@hart_pacific_1973, @love_rockfishes_2002]. Their core distribution is from southeast Alaska to central California on the west coast of the United States [@love_rockfishes_2002]. Yelloweye Rockfish in Puget Sound are considered isolated from the coastal waters population [@stewart_status_2009] and have been listed as threatened under the Endangered Species Act since 2010 [@drake_status_2010]. 
 
 Yelloweye Rockfish are strongly associated with rocky bottom habtiat, particularly areas of high relief [@love_rockfishes_2002], and adults are considered to be solitary and sedentary after settlement [@coombs_1979, @demott_1983]. However, new tagging studies suggest that adult Yelloweye Rockfish exhibit larger scale movement patterns more commonly than preivously considered [@hannah_movement_2011,@rasmuson_movement_2025]. 
 
@@ -36,4 +36,4 @@ Recent trends in total catch relative to managment guidelines is available in (T
 
 ## Fisheries off Canada and Alaska
 
-This section is not required for an update assessment; please refer to the most recent full assessment (@gertseva_stock_2017) for additional information.
+This section is not required for an update assessment; please refer to the most recent full assessment [@gertseva_stock_2017] for additional information.
