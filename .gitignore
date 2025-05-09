@@ -40,3 +40,9 @@ Data/raw/confidential
 Data/discards/
 *.tmp
 *.Rdata
+
+# Ignore files made on render
+report/*.upa
+report/*.upb
+report/*.tex
+report/*.pdf

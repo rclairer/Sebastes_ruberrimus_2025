@@ -1,18 +1,67 @@
 ---
-title: 'Status of  SPECIES off the U.S. West Coast in 2025'
+title: 'Status of Yelloweye rockfish off the U.S. West Coast in 2025'
 author:
 # add authors in order
-  - name: 'Kiva L. Oken'
+  - name: 'Morgan Johnston'
+    affiliations:
+      - name: 'Oregon State University'
+        address: '1500 SW Jefferson Way'
+        city: 'Corvallis, OR'
+        state: 'OR'
+        postal-code: '97331'
+  - name: 'Claire Rosemond'
     affiliations:
       - name: 'NOAA Fisheries Northwest Fisheries Science Center'
-        address: '2725 Montlake Boulevard East'
-        city: 'Seattle'
-        state: 'WA'
+        address: '2032 SE OSU Drive Building 955' 
+        city: 'Newport, OR' 
+        state: 'OR' 
         postal-code: '98112-2097'
+  - name: 'Elizabeth Perl'
+    affiliations:
+      - name: 'ECS Federal in support of NMFS OST'
+        address: 'East-West Hwy'
+        city: 'Silver Spring, MD'
+        state: 'MD'
+        postal-code: '22031'
+  - name: 'Alison Whitman'
+    affiliations:
+      - name: 'Oregon Department of Fish and Wildlife'
+        address: '2040 SE Marine Science Drive'
+        city: 'Newport, OR'
+        state: 'OR'
+        postal-code: '97365'
+  - name: 'Matheus de Barros'
+    affiliations:
+      - name: 'University of Washington'
+        address: '1410 NE Campus Pkwy'
+        city: 'Seattle, WA'
+        state: 'WA'
+        postal-code: '98195'
+  - name: 'Juliette Champagnat'
+    affiliations:
+      - name: 'University of Washington'
+        address: '1410 NE Campus Pkwy'
+        city: 'Seattle, WA'
+        state: 'WA'
+        postal-code: '98195'
+  - name: 'Abby Schamp'
+    affiliations:
+      - name: 'University of Washington'
+        address: '1410 NE Campus Pkwy'
+        city: 'Seattle, WA'
+        state: 'WA'
+        postal-code: '98195'
+  - name: 'Samantha Schiano'
+    affiliations:
+      - name: 'ECS Federal in support of NMFS OST'
+        address: '2750 Prosperity Ave #600'
+        city: 'Fairfax, VA'
+        state: 'VA'
+        postal-code: '22031'
 date: today
 lang: en 
 keep-tex: true 
-cover: 
+cover: support_files/Yelloweye_Rockfish.png
 pdf-engine: lualatex
 format: 
   pdf: 
@@ -24,7 +73,6 @@ format:
     include-in-header:
       - 'support_files/in-header.tex'
       - 'support_files/pfmc.tex'
-      - text: '\lohead{SPECIES assessment 2025}'
     toc: true
     lof: false
     lot: false
@@ -33,11 +81,11 @@ format:
       - bottom=1in
       - right=1in
       - left=1in
-output-file: 'SPECIES_SAR_2025' 
-params:
+output-file: 'Yelloweye_rockfish_SAR_2025' 
+params: 
    office: 'NWFSC'
-   species: 'COMMON NAME'
-   spp_latin: 'LATIN NAME'
+   species: 'Yelloweye rockfish'
+   spp_latin: 'Sebastes ruberrimus'
    region: 'U.S. West Coast'
 bibliography: 
 -  asar_references.bib 
@@ -140,7 +188,7 @@ R0 <- output |>
 
 Please cite this publication as: 
 
-AUTHORS. (2025) Status of  SPECIES off the U.S. West Coast in 2025. Pacific Fishery Management Council. [XX] p.
+Johnston, M., Rosemond, C., Perl, E., Whitman, A., Barros, M., Champagnat, J., Schamp, A., and Schiano, S. (2025) Status of Yelloweye rockfish off the U.S. West Coast in 2025. Pacific Fishery Management Council. [XX] p.
 
 {{< pagebreak >}} 
 
