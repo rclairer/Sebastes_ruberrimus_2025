@@ -1,6 +1,6 @@
 #V3.30.23.2;_safe;_compile_date:_Apr 17 2025;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_13.2
 #C file created using an r4ss function
-#C file write time: 2025-05-08  17:06:40
+#C file write time: 2025-05-09  10:01:59
 # for all year entries except rebuilder; enter either: actual year, -999 for styr, 0 for endyr, neg number for rel. endyr
 1 # Benchmarks: 0=skip; 1=calc F_spr,F_btgt,F_msy; 2=calc F_spr,F0.1,F_msy; 3=add F_Blimit; 
 2 # Do_MSY: 1= set to F(SPR); 2=calc F(MSY); 3=set to F(Btgt) or F0.1; 4=set to F(endyr); 5=calc F(MEY) with MSY_unit options
@@ -47,7 +47,7 @@
 0 # not used
 #
 2013  # FirstYear for caps and allocations (should be after years with fixed inputs) 
-0.0001 # stddev of log(realized catch/target catch) in forecast (set value>0.0 to cause active impl_error)
+0 # stddev of log(realized catch/target catch) in forecast (set value>0.0 to cause active impl_error)
 1 # Do West Coast gfish rebuilder output: 0=no; 1=yes 
 2013 # Rebuilder:  first year catch could have been set to zero (Ydecl)(-1 to set to 1999)
 2011 # Rebuilder:  year for current age structure (Yinit) (-1 to set to endyear+1)
