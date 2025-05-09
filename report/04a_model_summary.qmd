@@ -21,7 +21,7 @@ ADW - NEED TO ADD FIGURES FOR THESE DATA BRIDGING STEPS, ALSO, IS THERE ANYTHING
     - Detailed information on specific updates and changes to the data incldued in the model are included in Section 2 but are summarized below. 
     - The landings time series was corrected and updated through the end of 2024 for California, Oregon and Washington. 
     - Length and age compositions from all fishery removal and index fleets were updated through 2024.
-    - All indices of abundance were updated with recent data, where available, and analyzed using more up-to-date methods. The exception is the MRFSS index, which covers the time period of 1980 - 2000 in the Oregon recreational index, for which no new data were available and methodology was not updated. 
+    - Most indices of abundance were updated with recent data, where available, and re-analyzed using more up-to-date methods. Two indices were not updated, including the Oregon MRFSS index, which covers 1980 - 2000, and the California MRFSS index, which covers 1980 - 1999, for which no new data were available and methodology was not updated. 
 - Biology
     - No changes were made to the biological parameterization of the model; however, the length-weight relationship was updated to include the most recent data.
     -No changes were made to the aging error matrices estimated for the previous assessment; however, the designated matrix for several years of Oregon recreational ages were corrected. 
