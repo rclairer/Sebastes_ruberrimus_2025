@@ -16,6 +16,7 @@ knitr::include_graphics(
 )
 ```
 
+<!-- 03_Data -->
 
 ```{r}
 #| label: fig-data
@@ -112,4 +113,104 @@ knitr::include_graphics(
     "figures/indices/ORBS index comparison_ORBSonly_errbars.png"
 )
 ```
+
+<!-- NEED TO ADD THE NWFSC INDEX FIGURES HERE -->
+
+```{r}
+#| label: fig-IPHC_index
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index1_cpuedata_12_IPHC_ORWA.png"
+)
+```
+
+```{r}
+#| label: fig-NWFSC_lencomps
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_lendat_flt11mkt0.png"
+)
+```
+
+```{r}
+#| label: fig-IPHC_lencomps
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png"
+)
+```
+
+```{r}
+#| label: fig-NWFSC_agecomps1
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page1.png"
+)
+```
+
+```{r}
+#| label: fig-NWFSC_agecomps2
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page2.png"
+)
+```
+
+```{r}
+#| label: fig-IPHC_agecomps1
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page1.png"
+)
+```
+
+```{r}
+#| label: fig-IPHC_agecomps2
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png"
+)
+```
+
+```{r}
+#| label: fig-LWrel
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/bio5_weightatsize.png"
+)
+```
+
+<!-- 04a_model_summary -->
 
