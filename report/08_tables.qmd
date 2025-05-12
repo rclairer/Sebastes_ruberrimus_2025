@@ -30,7 +30,7 @@ library(r4ss)
 #| warning: false
 #| tbl-cap: "Time series of yelloweye rockfish catches by fleet used in the assessment. Trawl fleets include yelloweye bycatch in foreign POP and in at-sea Pacific hake fisheries."
 
-inputs <- SS_read(here::here("model", "2025_base_model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250427"))
+inputs <- SS_read(here::here("model", "2025_base_model"))
 
 WA_weights_new <- read.csv(here::here("Data", "raw", "nonconfidential", "CTE001-Washington-1990---2024.csv")) |>
   group_by(RECFIN_YEAR) |>
@@ -322,8 +322,8 @@ kableExtra::kable(
 #| warning: false
 #| tbl-cap: "Base model sensitivity to the removal of data sources."
 source(here::here("Rcode/table_sens.R"))
-indices <- read.csv(here::here("report", "plots_for_report", "sensitivities", "indices_table.csv"))
-comps <- read.csv(here::here("report", "plots_for_report", "sensitivities", "comp_data_table.csv"))
+indices <- read.csv(here::here("report", "figures", "sensitivities", "indices_table.csv"))
+comps <- read.csv(here::here("report", "figures", "sensitivities", "comp_data_table.csv"))
 
 indices_and_comps <- inner_join(indices, comps, by = c("Label", "Base"))
 names(indices_and_comps) <- gsub("X..", "", names(indices_and_comps))
@@ -339,7 +339,7 @@ table_sens(indices_and_comps)
 #| echo: false
 #| warning: false
 #| tbl-cap: "Base model sensitivity to model parameters and specifications."
-modeling <- read.csv(here::here("report", "plots_for_report", "sensitivities", "modeling_table.csv"))
+modeling <- read.csv(here::here("report", "figures", "sensitivities", "modeling_table.csv"))
 table_sens(indices_and_comps)
 # There is still an error here because of the latex option in the kableExtra conditional color call
 ```
