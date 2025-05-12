@@ -12,11 +12,14 @@ Checking to see if this works \gls{s-tri}
 
 ```{r}
 #| echo: false
-#| 
+#| warning: false
+#| message: false
 library(flextable)
 library(gt)
+library(r4ss)
+library(here)
 
-replist <- r4ss::SS_output(here::here("model", "2025_base_model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250427"))
+replist <- r4ss::SS_output(here::here("model", "2025_base_model"))
 
 tables <-r4ss::table_all(replist, dir = here::here("report"))
 

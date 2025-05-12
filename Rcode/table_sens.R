@@ -138,7 +138,7 @@ table_sens <- function(dat,
     dplyr::filter(!grepl("Forecast", Label)) |> # remove VonBert K to fit on page
     dplyr::rename_with(~ gsub(" & ", "-", .x)) |>
     table_convert_vals() |>
-    table_convert_offsets() |>
+    # table_convert_offsets() |>
     table_clean_labels()
   
   tt <- kableExtra::kbl(
