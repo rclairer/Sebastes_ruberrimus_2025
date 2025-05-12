@@ -4,7 +4,7 @@
 #| label: 'set-rda-dir-tbls'
 #| echo: false 
 #| warning: false 
-#| eval: false 
+#| eval: true 
 #| include: false
 library(flextable)
 library(gt)
@@ -30,7 +30,7 @@ library(r4ss)
 #| warning: false
 #| tbl-cap: "Time series of yelloweye rockfish catches by fleet used in the assessment. Trawl fleets include yelloweye bycatch in foreign POP and in at-sea Pacific hake fisheries."
 
-inputs <- SS_read(here::here("model", "2025_base_model"))
+inputs <- r4ss::SS_read(here::here("model", "2025_base_model"))
 
 WA_weights_new <- read.csv(here::here("Data", "raw", "nonconfidential", "CTE001-Washington-1990---2024.csv")) |>
   group_by(RECFIN_YEAR) |>
@@ -90,6 +90,8 @@ inputs$dat$catch |>
 #| echo: false
 #| warning: false
 #| tbl-cap: "Summary of sampling effort within triennial survey, with total and yelloweye positive hauls summarized by area."
+
+# This data is directly taken from the pdf of the last assessment report
 sampling_tri <- data.frame(
   year = c(1980, 1983, 1986, 1989, 1992, 1995, 1998, 2001, 2004, 1980, 1983, 1986, 1989, 1992, 1995, 1998, 2001, 2004),
   state = c("CA", "CA", "CA", "CA", "CA", "CA", "CA", "CA", "CA", "OR-WA", "OR-WA", "OR-WA", "OR-WA", "OR-WA", "OR-WA", "OR-WA", "OR-WA", "OR-WA"),
@@ -130,13 +132,6 @@ data_wide |>
 ```
 
 ```{r}
-#| label: tbl-sampling-effort-nwfsc
-#| echo: false
-#| warning: false
-#| tbl-cap: "Filtering levels and resultant data from the IPHC halibut survey index."
-```
-
-```{r}
 #| label: tbl-filtering-iphc
 #| echo: false
 #| warning: false
@@ -148,6 +143,86 @@ data_wide |>
 #| echo: false
 #| warning: false
 #| tbl-cap: "sdmTMB model selection for the IPHC halibut survey index. Gray bar indicates selected model."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-filtering-CA-MRFSS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Filtering levels and resultant data from the California MRFSS recreational index."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-model-selection-CA-MRFSS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Delta-GLM model selection for the California MRFSS recreational index. Gray bar indicates selected model."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-filtering-CA-CPFV
+#| echo: false
+#| warning: false
+#| tbl-cap: "Filtering levels and resultant data from the California CPFV recreational index."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-model-selection-CA-MRFSS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Delta-GLM model selection for the California CPFV recreational index. Gray bar indicates selected model."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-filtering-OR-onboard
+#| echo: false
+#| warning: false
+#| tbl-cap: "Filtering levels and resultant data from the Oregon onboard recreational index."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-filtering-OR-MRFSS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Filtering levels and resultant data from the Oregon MRFSS recreational index."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-filtering-OR-ORBS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Filtering levels and resultant data from the Oregon ORBS dockside index."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-model-selection-ORBS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Delta-GLM model selection for the Oregon ORBS dockside index. Gray bar indicates selected model."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-filtering-WA-dockside
+#| echo: false
+#| warning: false
+#| tbl-cap: "Filtering levels and resultant data from the Washington dockside recreational index."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-model-selection-WA-dockside
+#| echo: false
+#| warning: false
+#| tbl-cap: "Delta-GLM model selection for the Washington dockside recreational index. Gray bar indicates selected model."
 ```
 
 ```{r}
@@ -219,7 +294,6 @@ data_wide |>
 #| warning: false
 #| tbl-cap: "Ageing error models and resultant model selection (AICc) values for 9 models of bias and precision explored for each lab used in the yelloweye rockfish assessments. Gray bars indicate the chosen model. Model codes: 0= unbiased; 1 = Constant CV; 2 = Curvilinear SD; 3= Curvilinear CV."
 ```
-
 
 
 ### Model results
@@ -329,8 +403,6 @@ indices_and_comps <- inner_join(indices, comps, by = c("Label", "Base"))
 names(indices_and_comps) <- gsub("X..", "", names(indices_and_comps))
 
 table_sens(indices_and_comps)
-
-# There is still an error here because of the latex option in the kableExtra conditional color call
 ```
 
 
