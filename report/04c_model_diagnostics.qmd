@@ -9,7 +9,15 @@ If possible, ranges depicting uncertainty should include at least three runs: (a
 
 ### Sensitivity Analyses
 
-<!-- Sensitivity to assumptions about model structure, i.e., model specification uncertainty.  -->
+#### Sensitivity to assumptions about model structure
+
+Sensitivity analysis to examine the impact of different assumptions about model structure on management quantities included a model with an estimated baseline Natural Mortality rate (M), one with estimated steepness (h) of the stock-recruit relationship, and one using the 2017 length-weight relationship. 
+
+The Natural Mortality rate (M) estimated by the first model was higher than that of the base model (~ 0.055 $year^-1$ compared to ~ 0.044 $year^-1$ from the base model). The second model estimated steepness at a higher value of ~ 0.905, which indicates recruitment is more dependent on spawning stock biomass, as opposed from the fixed value of 0.718 from the base model.
+
+As shown in **Figure X** to **Figure X**, the base model is considerably sensitive to whether the Natural Mortality rate is estimated or fixed, with the alternative model estimating a higher spawning output compared to the base model. Similar outcomes are shown for the model with estimated steepness, which estimated a higher spawning output compared to the base model. Contrastingly, outputs of the model using the 2017 length-weight relationship showed the base model is not sensititive to this modelling choice, with very similar spawning outputs between the base and alternative model (**Figure X** to **Figure X**).   
+
+#### Sensitivity to data set choice and weighting schemes
 
 <!-- Sensitivity to data set choice (e.g., using emphasis factors to selectively remove data sources) and weighting schemes (e.g., MacAllister & Ianelli weighting versus Francis weighting vs. Dirichlet weighting for compositional data), which may also include a consideration of recent patterns in recruitment.  -->
  
