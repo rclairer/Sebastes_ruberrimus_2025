@@ -208,6 +208,16 @@ cat(a, sep = '\n')
 ```
 
  {{< pagebreak >}} 
+ 
+```{r, results='asis'}
+#| label: 'load_tables'
+#| eval: true
+#| echo: false
+#| warning: false
+a <- knitr::knit_child('002_load_tables.qmd', quiet = TRUE)
+cat(a, sep = '\n')
+```
+
 
 ```{r, results='asis'}
 #| label: 'executive_summary'

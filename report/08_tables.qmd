@@ -6,11 +6,6 @@
 #| warning: false 
 #| eval: true 
 #| include: false
-library(flextable)
-library(gt)
-library(tidyverse)
-library(dplyr)
-library(r4ss)
 # You can save tables to read in as csv or rda files.
 # stockplotr generally uses rda files.
 # I (Kiva) prefer csv files because they are text files that are easier to track and preview with version control.
@@ -23,7 +18,6 @@ library(r4ss)
 
 ### Data
 
-
 ```{r}
 #| label: tbl-all_removals
 #| echo: false
@@ -31,10 +25,6 @@ library(r4ss)
 #| tbl-cap: "Time series of yelloweye rockfish catches by fleet used in the assessment. Trawl fleets include yelloweye bycatch in foreign POP and in at-sea Pacific hake fisheries."
 
 # This table needs to be redone once the WA sport catches are updated
-
-# 
-# inputs <- r4ss::SS_read(here::here("model", "2025_base_model"))
-# 
 # WA_weights_new <- read.csv(here::here("Data", "raw", "nonconfidential", "CTE001-Washington-1990---2024.csv")) |>
 #   group_by(RECFIN_YEAR) |>
 #   summarise(
@@ -132,6 +122,35 @@ data_wide |>
 #| echo: false
 #| warning: false
 #| tbl-cap: "Summary of sampling effort within NWFSC trawl survey, with total and yelloweye positive hauls summarized by area."
+
+data_wide <- readRDS(here::here("report", "tables", "tbl-sampling-effort-nwfsc.rds")) |>
+  tidyr::pivot_wider(names_from = "area", values_from = c(trawl.count, positive.trawl.count), names_glue = "{area}_{.value}") |>
+  mutate(
+    across(
+      c(CA_trawl.count, ORWA_trawl.count, CA_positive.trawl.count, ORWA_positive.trawl.count),
+      ~ replace_na(.x, 0)
+    )
+  ) |>
+  select(year, CA_trawl.count, CA_positive.trawl.count, ORWA_trawl.count, ORWA_positive.trawl.count)
+
+data_wide |> 
+  gt(sampling_tri, rowname_col = "year") |>
+  tab_spanner_delim(
+    delim = "_",
+    split = "first"
+  ) |>
+  cols_label_with(
+    fn = function(x) gsub("trawl.count", "Number of hauls", x)
+  ) |>
+  cols_label_with(
+    fn = function(x) gsub("positive.trawl.count", "Number of positive hauls", x)
+  ) |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+
 ```
 
 ```{r}
@@ -396,6 +415,7 @@ kableExtra::kable(
 ```{r}
 #| label: tbl-sensitivities-like-comps
 #| echo: false
+#| message: false
 #| warning: false
 #| tbl-cap: "Base model sensitivity to the removal of data sources."
 source(here::here("Rcode/table_sens.R"))
@@ -416,7 +436,6 @@ table_sens(indices_and_comps)
 #| tbl-cap: "Base model sensitivity to model parameters and specifications."
 modeling <- read.csv(here::here("report", "figures", "sensitivities", "modeling_table.csv"))
 table_sens(indices_and_comps)
-# There is still an error here because of the latex option in the kableExtra conditional color call
 ```
 
 
@@ -517,7 +536,6 @@ projections_table |>
 #| eval: !expr eval_tables 
 #| tbl-cap: !expr if(eval_tables) decision_table_cap 
 #| tbl-pos: H
-source(here::here("Rcode", "decision_table.R"))
 table_decision(
   list(mod_low_A, mod_base_A, mod_high_A),
   list(mod_low_B, mod_base_B, mod_high_B),
