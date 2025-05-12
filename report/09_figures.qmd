@@ -1,8 +1,17 @@
 ## Figures
 
-<!-- 
-Example: 
+## Figures
 
-![Figure caption \label{fig:tag_name}](file.png){alt="alt text"} 
+<!-- FIGURES SHOULD BE ADDED HERE IN THE ORDER THAT THEY APPEAR IN THE REPORT -->
+<!-- USE THIS TEMPLATE -->
+```{r}
+#| label: fig-sbratio
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
 
--->
+knitr::include_graphics(
+    "figures/compare1_spawnbio.png"
+)
+```
