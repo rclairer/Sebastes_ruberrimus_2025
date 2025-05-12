@@ -133,8 +133,49 @@ hist_wa_rec_catch_comps <- ggplot(wa_rec_comparison, aes(x = year, y = catch, fi
 hist_wa_rec_catch_comps
 
 ###########################
-# After comparing all the data with Fabio (state rep), we decided how the WA rec catch data should be included:
+# After comparing all the data with Fabio (state rep), we decided to replace all recent and historical data with the most recent RecFin pull (May):
+# 1. 1967-2024, use most recent CTE 503, updated in May
+# 2. For the missing years (71, 74, 79), assign the average of the two previous and two post years together
 
+# Call newest raw data files
+wa_rec_hist_recfin_may <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE503-1967---2002_may.csv"))
+wa_rec_recfin_1990_2024_may <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE501_WA_1990_2024_may.csv"))
+
+# Add missing Years averages to historic data
+wa_rec_hist_to_1989_may <- wa_rec_hist_recfin_may |>
+  filter(AREA < 5) |>
+  group_by(RECFIN_YEAR) |>
+  summarise(catch = sum(RETAINED_NUM) / 1000) |>
+  rename(year = RECFIN_YEAR)
+# Compute averages for specific ranges
+yr71 <- wa_rec_hist_to_1989_may |> filter(year >= 1969 & year <= 1973) |> summarise(catch = mean(catch)) |> pull()
+yr74 <- wa_rec_hist_to_1989_may |> filter(year >= 1972 & year <= 1976) |> summarise(catch = mean(catch)) |> pull()
+yr79 <- wa_rec_hist_to_1989_may |> filter(year >= 1977 & year <= 1981) |> summarise(catch = mean(catch)) |> pull()
+# Create a tibble with the missing years and corresponding average catch
+missing_years <- tibble(
+  year = c(1971, 1974, 1979),
+  catch = c(yr71, yr74, yr79)
+)
+# Combine the original data with the missing years
+wa_rec_hist_to_1989_may <- bind_rows(wa_rec_hist_to_1989_may, missing_years) |>
+  arrange(year)
+
+# make current catch data set
+wa_rec_1990_to_2024_may <- wa_rec_recfin_1990_2024_may |>
+  group_by(Year) |>
+  summarise(catch = sum(Numbers.of.Fish) / 1000) |>
+  rename(year = Year)
+
+# Put both data sets together
+WA_REC <- bind_rows(wa_rec_hist_to_1989_may,wa_rec_1990_to_2024_may) |>
+  mutate(
+    seas = 1,
+    fleet = 7,
+    catch_se = 0.01
+  )|>
+  select(year, seas, fleet, catch, catch_se) |>
+  mutate(catch = round(catch, 3)) |>
+  arrange(year)
 
 
 
