@@ -129,7 +129,7 @@ projections_table[1:2, "Adopted ACL (mt)"] <- GMT016 |>
 ```
 
 
-<!-- Create table for nwfsc survey hauls -->
+<!-- Create table for nwfsc survey hauls and save as rds file -->
 ```{r}
 #| echo: false
 #| eval: false
