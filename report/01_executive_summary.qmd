@@ -105,6 +105,33 @@ if (file.exists(here::here("report/tables"))) {
 yelloweye_management <- read.csv(here::here("report", "tables", "yelloweye_management.csv"))
 ```
 
+```{r}
+#| echo: false
+#| eval: true
+
+decision_table_cap <- "TODO: UPDATE PLACEHOLDER DECISION TABLE CAPTION COPIED FROM PETRALE SOLE. Decision table with 10-year projections. 'Mgmt' refers to the three management scenarios (A) the default harvest control rule $P^* = 0.45$, (B) harvest control rule with a lower $P^* = 0.40$. In each case the 2023 and 2024 catches are fixed at the ACLs which have been set for that year with estimated fleet allocation provided  by the GMT. The alternative states of nature ('Low', 'Base', and 'High' as discussed in the text) are provided in the columns, with Spawning Output ('Spawn', in trillions of eggs) and Fraction of unfished spawning output ('Frac') provided for each state."
+
+# # replace mod_out below with calls like
+# mod_low_A <- SS_output(dir_low_A,
+#     verbose = FALSE,
+#     printstats = FALSE,
+#     SpawnOutputLabel = "Spawning Output (trillions of eggs)"
+# )
+
+mod_low_A <- mod_out
+mod_low_B <- mod_out
+mod_low_C <- mod_out
+
+mod_base_A <- mod_out
+mod_base_B <- mod_out
+mod_base_C <- mod_out
+
+mod_high_A <- mod_out
+mod_high_B <- mod_out
+mod_high_C <- mod_out 
+
+```
+
 
 ## Stock{-}
 
@@ -350,6 +377,22 @@ projections_table |>
 :::
 
 ## Decision table{-}
+
+```{r, results = "asis"}
+#| label: tbl-es-decision
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) decision_table_cap 
+#| tbl-pos: H
+source(here::here("Rcode", "decision_table.R"))
+table_decision(
+  list(mod_low_A, mod_base_A, mod_high_A),
+  list(mod_low_B, mod_base_B, mod_high_B),
+  list(mod_low_C, mod_base_C, mod_high_C)
+)
+
+```
 
 ADW - decision tables not needed until after review
 
