@@ -101,13 +101,42 @@ if (file.exists(here::here("report/tables"))) {
   eval_tables <- FALSE
 }
 
+# GMT016 table is downloaded from https://reports.psmfc.org/
+# This will need to be fixed once Ian gets back, I think r4ss is getting confused because we have some catch 
+# reported in MT and some in numbers of fish
+GMT016 <- read.csv(here::here("report", "tables", "GMT016-final specifications-.csv"))
+es_10_years <- recent_management_table$Year
+recent_management_table[, "OFL (mt)"] <- GMT016 |>
+  dplyr::filter(SPECIFICATION_TYPE == "OFL", YEAR %in% es_10_years) |>
+  dplyr::arrange(YEAR) |>
+  dplyr::select(VAL)
 
-yelloweye_management <- read.csv(here::here("report", "tables", "yelloweye_management.csv"))
+recent_management_table[, "ABC (mt)"] <- GMT016 |>
+  dplyr::filter(SPECIFICATION_TYPE == "ABC", YEAR %in% es_10_years) |>
+  dplyr::arrange(YEAR) |>
+  dplyr::select(VAL)
+recent_management_table[, "ACL (mt)"] <- GMT016 |>
+  dplyr::filter(SPECIFICATION_TYPE == "ACL", YEAR %in% es_10_years) |>
+  dplyr::arrange(YEAR) |>
+  dplyr::select(VAL)
+recent_management_table <- round(recent_management_table)
+  
+projections_table[1:2, "Adopted OFL (mt)"] <- GMT016 |>
+  dplyr::filter(SPECIFICATION_TYPE == "OFL", YEAR %in% projections_table$Year) |>
+  dplyr::arrange(YEAR) |>
+  dplyr::select(VAL)
+projections_table[1:2, "Adopted ACL (mt)"] <- GMT016 |>
+  dplyr::filter(SPECIFICATION_TYPE == "ACL", YEAR %in% projections_table$Year) |>
+  dplyr::arrange(YEAR) |>
+  dplyr::select(VAL)
+  
+# yelloweye_management <- read.csv(here::here("report", "tables", "yelloweye_management.csv"))
 ```
+
 
 ```{r}
 #| echo: false
-#| eval: true
+#| eval: false
 
 decision_table_cap <- "TODO: UPDATE PLACEHOLDER DECISION TABLE CAPTION COPIED FROM PETRALE SOLE. Decision table with 10-year projections. 'Mgmt' refers to the three management scenarios (A) the default harvest control rule $P^* = 0.45$, (B) harvest control rule with a lower $P^* = 0.40$. In each case the 2023 and 2024 catches are fixed at the ACLs which have been set for that year with estimated fleet allocation provided  by the GMT. The alternative states of nature ('Low', 'Base', and 'High' as discussed in the text) are provided in the columns, with Spawning Output ('Spawn', in trillions of eggs) and Fraction of unfished spawning output ('Frac') provided for each state."
 
@@ -323,7 +352,8 @@ reference_points_table |>
 #| tbl-cap: "Recent trend in the overfishing limits (OFL), the acceptable biological catches (ABCs), the annual catch limits (ACLs), and the total dead catch (landings + discards) all in metric tons (mt)."
 #| tbl-pos: H
 
-yelloweye_management |>
+# yelloweye_management |>
+recent_management_table |>
   rename(`Total dead catch (mt)` = `Catch (mt)`) |>
   gt::gt() |>
   gt::tab_options(
