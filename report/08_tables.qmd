@@ -23,57 +23,60 @@ library(r4ss)
 
 ### Data
 
-<!-- Fishery Dependent Data -->
+
 ```{r}
 #| label: tbl-all_removals
 #| echo: false
 #| warning: false
 #| tbl-cap: "Time series of yelloweye rockfish catches by fleet used in the assessment. Trawl fleets include yelloweye bycatch in foreign POP and in at-sea Pacific hake fisheries."
 
-inputs <- r4ss::SS_read(here::here("model", "2025_base_model"))
+# This table needs to be redone once the WA sport catches are updated
 
-WA_weights_new <- read.csv(here::here("Data", "raw", "nonconfidential", "CTE001-Washington-1990---2024.csv")) |>
-  group_by(RECFIN_YEAR) |>
-  summarise(
-    WA.sport..mt. = sum(SUM_TOTAL_MORTALITY_MT, na.rm = TRUE),
-  ) |>
-  ungroup() |>
-  filter(RECFIN_YEAR > 2016) |>
-  rename(Year = RECFIN_YEAR)
-  
-WA_weights_all <- read.csv(here::here("report", "tables", "old_catch_table.csv")) |>
-  select(Year, WA.sport..mt.) |>
-  bind_rows(WA_weights_new) |>
-  mutate(WA.sport..mt. = round(WA.sport..mt., 3)) |>
-  rename(year = Year,
-         `7` = `WA.sport..mt.`)
-
-inputs$dat$catch |>
-  dplyr::select(year, fleet, catch) |>
-  tidyr::pivot_wider(names_from = fleet, values_from = catch) |>
-  dplyr::filter(year > 1) |>
-  rename(`8` = `7`) |>
-  dplyr::inner_join(WA_weights_all) |>
-  select(year, `1`:`6`, `7`, `8`) |>
-  mutate(Total = round(rowSums(across(`1`:`7`)), 3)) |>
-  gt() |>
- cols_label(
-    year = "Year",
-    `1` = "CA trawl (mt)",
-    `2` = "CA non-trawl (mt)",
-    `3` = "CA sport (mt)",
-    `4` = "OR-WA trawl (mt)",
-    `5` = "OR-WA non-trawl (mt)",
-    `6` = "OR sport (mt)",
-    `7` = "WA sport (mt)",
-    `8` = "WA sport (1000s fish)",
-    Total = "Total Catch (mt)"
-  ) |> 
-  tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE
-  ) |>
-  as_latex()
+# 
+# inputs <- r4ss::SS_read(here::here("model", "2025_base_model"))
+# 
+# WA_weights_new <- read.csv(here::here("Data", "raw", "nonconfidential", "CTE001-Washington-1990---2024.csv")) |>
+#   group_by(RECFIN_YEAR) |>
+#   summarise(
+#     WA.sport..mt. = sum(SUM_TOTAL_MORTALITY_MT, na.rm = TRUE),
+#   ) |>
+#   ungroup() |>
+#   filter(RECFIN_YEAR > 2016) |>
+#   rename(Year = RECFIN_YEAR)
+#   
+# WA_weights_all <- read.csv(here::here("report", "tables", "old_catch_table.csv")) |>
+#   select(Year, WA.sport..mt.) |>
+#   bind_rows(WA_weights_new) |>
+#   mutate(WA.sport..mt. = round(WA.sport..mt., 3)) |>
+#   rename(year = Year,
+#          `7` = `WA.sport..mt.`)
+# 
+# inputs$dat$catch |>
+#   dplyr::select(year, fleet, catch) |>
+#   tidyr::pivot_wider(names_from = fleet, values_from = catch) |>
+#   dplyr::filter(year > 1) |>
+#   rename(`8` = `7`) |>
+#   dplyr::inner_join(WA_weights_all) |>
+#   select(year, `1`:`6`, `7`, `8`) |>
+#   mutate(Total = round(rowSums(across(`1`:`7`)), 3)) |>
+#   gt() |>
+#  cols_label(
+#     year = "Year",
+#     `1` = "CA trawl (mt)",
+#     `2` = "CA non-trawl (mt)",
+#     `3` = "CA sport (mt)",
+#     `4` = "OR-WA trawl (mt)",
+#     `5` = "OR-WA non-trawl (mt)",
+#     `6` = "OR sport (mt)",
+#     `7` = "WA sport (mt)",
+#     `8` = "WA sport (1000s fish)",
+#     Total = "Total Catch (mt)"
+#   ) |> 
+#   tab_options(
+#     table.font.size = 12,
+#     latex.use_longtable = TRUE
+#   ) |>
+#   as_latex()
 ```
 
 
@@ -506,5 +509,21 @@ projections_table |>
 ```
 
 :::
+
+```{r, results = "asis"}
+#| label: tbl-es-decision
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) decision_table_cap 
+#| tbl-pos: H
+source(here::here("Rcode", "decision_table.R"))
+table_decision(
+  list(mod_low_A, mod_base_A, mod_high_A),
+  list(mod_low_B, mod_base_B, mod_high_B),
+  list(mod_low_C, mod_base_C, mod_high_C)
+)
+
+```
 
 \pagebreak
