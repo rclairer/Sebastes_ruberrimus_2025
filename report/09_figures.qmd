@@ -15,3 +15,101 @@ knitr::include_graphics(
     "figures/compare1_spawnbio.png"
 )
 ```
+
+
+```{r}
+#| label: fig-data
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/data_plot.png"
+)
+```
+
+```{r}
+#| label: fig-catch
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/catch2_landings_stacked.png"
+)
+```
+
+```{r}
+#| label: fig-orfs_qqplot
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/indices/ORFS_qq.png"
+)
+```
+
+```{r}
+#| label: fig-ORFS_index
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index1_cpuedata_9_OR_RECOB.png"
+)
+```
+
+```{r}
+#| label: fig-ORFS_comp
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/indices/ORFS index comparison_errbars.png"
+)
+```
+
+```{r}
+#| label: fig-orbs_qq
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/indices/ORBS_qq.png"
+)
+```
+
+```{r}
+#| label: fig-ORBS_index
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index1_cpuedata_6_OR_REC.png"
+)
+```
+
+```{r}
+#| label: fig-ORBS_comp
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/indices/ORBS index comparison_ORBSonly_errbars.png"
+)
+```
+
