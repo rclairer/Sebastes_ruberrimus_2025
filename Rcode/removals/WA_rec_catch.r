@@ -92,15 +92,49 @@ hist_wa_rec_catch_comps
 # since Jason and Vlada did their own calculation for the 2017 assessment but now
 # RecFIN has that calculation in it for those years.
 
-
-
-
 #########################
 # Down here I will load in the most recent data that Fabio provided.
 # According to his emails, it looks like the historic data was updated and they think the last assessment used MT instead of Number of Fish
 # So he thinks the total catch numbers for 1990-2002 need to be way lower and recalculated.
 
 # read in 
-wa_rec_hist_recfin <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "WA_rec_historical_catch_CTE503-1967---2002.csv"))
-wa_rec_recfin_1990_2024 <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE001-Washington-1990---2024.csv"))
+wa_rec_hist_recfin_may <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE503-1967---2002_may.csv"))
+wa_rec_recfin_1990_2024_may <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE501_WA_1990_2024_may.csv"))
+
+wa_rec_hist_to_1989_may <- wa_rec_hist_recfin_may |>
+  filter(AREA < 5) |>
+  #filter(RECFIN_YEAR >= 1975) |>
+  group_by(RECFIN_YEAR) |>
+  summarise(catch = sum(RETAINED_NUM) / 1000) |>
+  rename(year = RECFIN_YEAR)
+
+wa_rec_1990_to_2024_may <- wa_rec_recfin_1990_2024_may |>
+  group_by(Year) |>
+  summarise(catch = sum(Numbers.of.Fish) / 1000) |>
+  rename(year = Year)
+
+# Comparison plot of new data given to us in May
+wa_rec_new_may <- rec_new_may_all <- as.data.frame(rbind(wa_rec_hist_to_1989_may,wa_rec_1990_to_2024_may)) |>
+  mutate(
+    type = "may data"
+  ) |>
+  select(year, catch, type)
+
+wa_rec_comparison <- rbind(wa_rec_new, wa_rec_old, wa_rec_new_may)
+
+hist_wa_rec_catch_comps <- ggplot(wa_rec_comparison, aes(x = year, y = catch, fill = type)) +
+  geom_bar(stat = "identity" , alpha = .8, position = "dodge") +
+  scale_x_continuous(n.breaks = 10) +
+  xlab("Years") +
+  ylab("Catch (in numbers/1000)") +
+  labs(
+    title = "WA Recreational Catch Comparison",
+  )
+hist_wa_rec_catch_comps
+
+###########################
+# After comparing all the data with Fabio (state rep), we decided how the WA rec catch data should be included:
+
+
+
 
