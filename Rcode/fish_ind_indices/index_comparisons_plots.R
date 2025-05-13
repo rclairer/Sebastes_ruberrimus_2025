@@ -70,7 +70,7 @@ NWFSC_ORWA_index <- NWFSC_ORWA |>
 colnames(NWFSC_ORWA_index) <- colnames_i
 
 # IPHC ORWA - fleet 12
-IPHC_ORWA <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_index", "IPHC_model_based_index_forSS3.csv"))
+IPHC_ORWA <- read.csv(file.path(getwd(), "Data", "processed", "IPHC_index", "IPHC_model_based_index_forSS3_UNSCALED.csv"))
 IPHC_ORWA_index <- IPHC_ORWA
 colnames(IPHC_ORWA_index) <- colnames_i
 
@@ -133,7 +133,7 @@ tibble(all_indices_2017_2025)%>%
 
 
 #Plot WCGBTS
-tibble(all_indices_2017_2025)%>%
+wcgbts_index <- tibble(all_indices_2017_2025)%>%
   #filter(year >= 1900)%>% #remove the VAST index (negative years)
   filter(index == 11)%>%
   #mutate(index = "NWFSC")%>% 
@@ -146,8 +146,9 @@ tibble(all_indices_2017_2025)%>%
   #ggtitle("NWFSC/WCGBTS")+
   scale_color_manual(values = c("2017_assessment" = "black", "2025_assessment" = "cyan"),
                      labels = c("2017_assessment" = "2017 assessment", "2025_assessment" = "2025 assessment"))+
-  labs(color = "Assessment")+
+  labs(color = "Assessment", y = "Index (mt)")+
   theme_minimal()
+ggsave(plot = wcgbts_index, "wcgbts_index_comparison.png", path = file.path(getwd(), "Rcode", "fish_ind_indices"))
 
 #Plot IPHC
 tibble(all_indices_2017_2025)%>%
