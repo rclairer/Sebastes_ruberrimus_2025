@@ -73,14 +73,14 @@ SSplotComparisons(models_summary,
 
 copy_SS_inputs(
   dir.old = model_2017_updatedexe_path, 
-  dir.new = file.path(getwd(), "model", "updated_historical_catch_20250427"),
+  dir.new = file.path(getwd(), "model", "updated_historical_catch_20250512"),
   create.dir = TRUE,
   overwrite = TRUE,
   use_ss_new = TRUE,
   verbose = TRUE
 )
 
-inputs <- SS_read(dir = file.path(getwd(), "model", "updated_historical_catch_20250427"))
+inputs <- SS_read(dir = file.path(getwd(), "model", "updated_historical_catch_20250512"))
 
 #inputs$dat$endyr <- 2016
 
@@ -392,30 +392,92 @@ OR_REC <- read.csv(file.path(
   arrange(year)
 
 # WA REC - fleet 7
-# Data provided by Fabio and RecFin, data compiled by Elizabeth
-# WA Rec data from RecFIN - See Rcode > removals > WA_rec_catch.r file for how this was compiled
-# Discards are included unlike they were in the 2017 assessment and I think we should use those
-# but it's not that much different from the previous assessment so also good with using this assessment
-WA_hist_catch_REC <- inputs$dat$catch |>
-  filter(fleet == 7 & year <= 2016) |>
-  filter(!between(year, 1880, 1974))
+# Data provided by Fabio and RecFin, data compiled by Elizabeth, Morgan, and Claire
+# code below builds the new WA REC data set from raw files
+# Call newest raw data files
+wa_rec_hist_recfin_may <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE503-1967---2002_may.csv"))
+wa_rec_recfin_1990_2024_may <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE501_WA_1990_2024_may.csv"))
 
-WA_REC <- read.csv(file.path(
-  getwd(),
-  "Data",
-  "processed",
-  "WA_historical_to_recent_rec_catch.csv"
-)) |>
+# Add missing Years averages to historic data
+wa_rec_hist_to_1989_may <- wa_rec_hist_recfin_may |>
+  filter(AREA < 5) |>
+  group_by(RECFIN_YEAR) |>
+  summarise(catch = sum(RETAINED_NUM) / 1000) |>
+  rename(year = RECFIN_YEAR)
+# Compute averages for specific ranges
+yr71 <- wa_rec_hist_to_1989_may |> filter(year >= 1969 & year <= 1973) |> summarise(catch = mean(catch)) |> pull()
+yr74 <- wa_rec_hist_to_1989_may |> filter(year >= 1972 & year <= 1976) |> summarise(catch = mean(catch)) |> pull()
+yr79 <- wa_rec_hist_to_1989_may |> filter(year >= 1977 & year <= 1981) |> summarise(catch = mean(catch)) |> pull()
+# Create a tibble with the missing years and corresponding average catch
+missing_years <- tibble(
+  year = c(1971, 1974, 1979),
+  catch = c(yr71, yr74, yr79)
+)
+# Combine the original data with the missing years
+wa_rec_hist_to_1989_may <- bind_rows(wa_rec_hist_to_1989_may, missing_years) |>
+  arrange(year)
+
+# make current catch data set
+wa_rec_1990_to_2024_may <- wa_rec_recfin_1990_2024_may |>
+  group_by(Year) |>
+  summarise(catch = sum(Numbers.of.Fish) / 1000) |>
+  rename(year = Year)
+
+# Fix 2002, 2003, and 2004 data according to Fabio and Thereasa 
+# The problem is that Thereasa has 
+t_data <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "Theresa_2017_YEYE.csv"))
+cte001 <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE001-Washington-1990---2024_Final_Data.csv"))
+cte001 <- cte001 |> mutate(across(13:16, as.numeric)) 
+
+# take raw CTE001 data file and summarize retained, released, and total mortality by Year
+cte001_summarized <- cte001 |> group_by(RecFIN.Year) |> summarise(summed_retained = sum(Retained....fish.), summed_released_alive = sum(Released.Alive....fish.), summed_released_dead = sum(Released.Dead....fish.), total_mort = sum(Total.Mortality....fish.))
+
+# Now we need to calculate the proportion of dead released fish if the total released (alive and dead) for 2002, 2003, and 2004 = 1356, 846, and 1641 fish
+# we do this by taking the average proportion of dead released fish for the following 5 years
+# Total Mortality ≈ Retained + (Released × mortality rate)
+
+cte001_summarized_proportion <- cte001_summarized |> 
+  filter(RecFIN.Year >= 2005) |> 
+  mutate(total_released = summed_released_alive + summed_released_dead) |>
+  mutate(mortality_rate = (total_mort - summed_retained) / total_released)
+
+mort_rate <- cte001_summarized_proportion |> filter(RecFIN.Year <= 2009) 
+mortality_rate <- mean(mort_rate$mortality_rate)
+
+# Now to get the Total Mortality for 2002-2004
+# Total Mortality ≈ Total Retained + (Total Released × mortality rate)
+
+d <- tibble(year = c(2002,2003,2004),
+            total_retained = c(55,136,80),
+            total_released = c(1356,846,1641))
+d <- d |> 
+  mutate(total_mortality = total_retained + (total_released*mortality_rate)) |>
+  mutate(catch = total_mortality / 1000) |>
+  select(-c(2:4))
+
+# Now that we have total mortality for 2002-4, take the old dataframe, get rid of those years, and add it the new calculated years
+wa_rec_1990_to_2024_may_test <- wa_rec_1990_to_2024_may |>
+  filter(year < 2002 | year > 2004)
+
+wa_rec_1990_to_2024_may <- bind_rows(wa_rec_1990_to_2024_may_test,d) |>
+  arrange(year)
+
+# Put both data sets together
+WA_REC <- bind_rows(wa_rec_hist_to_1989_may,wa_rec_1990_to_2024_may) |>
   mutate(
     seas = 1,
     fleet = 7,
     catch_se = 0.01
-  ) |>
+  )|>
   select(year, seas, fleet, catch, catch_se) |>
-  filter(year >= 2017) |>
-  mutate(catch = round(catch, 2)) |>
-  bind_rows(WA_hist_catch_REC) |>
+  mutate(catch = round(catch, 3)) |>
   arrange(year)
+
+ WA_REC_to_1967 <- inputs$dat$catch |> #just adding start line and zeros
+   filter(fleet == 7) |>
+   filter(year <= 1966)
+ 
+ WA_REC <- bind_rows(WA_REC_to_1967, WA_REC)
 
 # Combine all catch data
 all_catch <- do.call(
@@ -433,20 +495,20 @@ all_catch <- do.call(
 
 inputs$dat$catch <- all_catch
 
-SS_write(inputs, dir = file.path(getwd(), "model", "updated_historical_catch_20250427"), overwrite = TRUE)
+SS_write(inputs, dir = file.path(getwd(), "model", "updated_historical_catch_20250512"), overwrite = TRUE)
 
-get_ss3_exe(dir = file.path(getwd(), "model", "updated_historical_catch_20250427"))
+get_ss3_exe(dir = file.path(getwd(), "model", "updated_historical_catch_20250512"))
 
-run(dir = file.path(getwd(), "model", "updated_historical_catch_20250427"), show_in_console = TRUE, extras = "-nohess")
+run(dir = file.path(getwd(), "model", "updated_historical_catch_20250512"), show_in_console = TRUE, extras = "-nohess")
 
-replist <- SS_output(dir = file.path(getwd(), "model", "updated_historical_catch_20250427"))
+replist <- SS_output(dir = file.path(getwd(), "model", "updated_historical_catch_20250512"))
 SS_plots(replist)
 
 #compare updataed ss3 exe and updated historical catch
 #models <- list.dirs(file.path(getwd(), "model"), recursive = FALSE)
 #models <- models[c(5,12)] #CHECK THIS EVERY TIME
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_historical_catch_20250427")))
+            paste0(file.path(getwd(), "model", "updated_historical_catch_20250512")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -462,8 +524,8 @@ SSplotComparisons(models_summary,
 #################################################################################
 
 copy_SS_inputs(
-  dir.old = file.path(getwd(), "model", "updated_historical_catch_20250427"), 
-  dir.new = file.path(getwd(), "model", "updated_historical_and_extended_catch_20250427"),
+  dir.old = file.path(getwd(), "model", "updated_historical_catch_20250512"), 
+  dir.new = file.path(getwd(), "model", "updated_historical_and_extended_catch_20250512"),
   create.dir = TRUE,
   overwrite = TRUE,
   use_ss_new = TRUE,
@@ -471,27 +533,27 @@ copy_SS_inputs(
 )
 
 
-inputs <- SS_read(dir = file.path(getwd(), "model", "updated_historical_and_extended_catch_20250427"))
+inputs <- SS_read(dir = file.path(getwd(), "model", "updated_historical_and_extended_catch_20250512"))
 
 inputs$dat$endyr <- 2024
 
 inputs$dat$catch <- all_catch
 
-SS_write(inputs, dir = file.path(getwd(), "model", "updated_historical_and_extended_catch_20250427"), overwrite = TRUE)
+SS_write(inputs, dir = file.path(getwd(), "model", "updated_historical_and_extended_catch_20250512"), overwrite = TRUE)
 
-get_ss3_exe(dir = file.path(getwd(), "model", "updated_historical_and_extended_catch_20250427"))
+get_ss3_exe(dir = file.path(getwd(), "model", "updated_historical_and_extended_catch_20250512"))
 
-run(dir = file.path(getwd(), "model", "updated_historical_and_extended_catch_20250427"), show_in_console = TRUE, extras = "-nohess")
+run(dir = file.path(getwd(), "model", "updated_historical_and_extended_catch_20250512"), show_in_console = TRUE, extras = "-nohess")
 
-replist <- SS_output(dir = file.path(getwd(), "model", "updated_historical_and_extended_catch_20250427"))
+replist <- SS_output(dir = file.path(getwd(), "model", "updated_historical_and_extended_catch_20250512"))
 SS_plots(replist)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 #models <- list.dirs(file.path(getwd(), "model"), recursive = FALSE)
 #models <- models[c(5,12,11)] #CHECK THIS EVERY TIME
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_historical_catch_20250427")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250427")))
+            paste0(file.path(getwd(), "model", "updated_historical_catch_20250512")),
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250512")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -508,15 +570,15 @@ SSplotComparisons(models_summary,
 #################################################################################
 
 copy_SS_inputs(
-  dir.old = file.path(getwd(), "model", "updated_historical_and_extended_catch_20250427"), 
-  dir.new = file.path(getwd(), "model", "updated_historical_indices_20250427"),
+  dir.old = file.path(getwd(), "model", "updated_historical_and_extended_catch_20250512"), 
+  dir.new = file.path(getwd(), "model", "updated_historical_indices_20250512"),
   create.dir = TRUE,
   overwrite = TRUE,
   use_ss_new = TRUE,
   verbose = TRUE
 )
 
-inputs <- SS_read(dir = file.path(getwd(), "model", "updated_historical_indices_20250427"))
+inputs <- SS_read(dir = file.path(getwd(), "model", "updated_historical_indices_20250512"))
 
 inputs$dat$endyr <- 2016
 
@@ -636,22 +698,22 @@ all_indices <- do.call(
 
 inputs$dat$CPUE <- all_indices
 
-SS_write(inputs, dir = file.path(getwd(), "model", "updated_historical_indices_20250427"), overwrite = TRUE)
+SS_write(inputs, dir = file.path(getwd(), "model", "updated_historical_indices_20250512"), overwrite = TRUE)
 
-get_ss3_exe(dir = file.path(getwd(), "model", "updated_historical_indices_20250427"))
+get_ss3_exe(dir = file.path(getwd(), "model", "updated_historical_indices_20250512"))
 
-run(dir = file.path(getwd(), "model", "updated_historical_indices_20250427"), show_in_console = TRUE, extras = "-nohess")
+run(dir = file.path(getwd(), "model", "updated_historical_indices_20250512"), show_in_console = TRUE, extras = "-nohess")
 
-replist <- SS_output(dir = file.path(getwd(), "model", "updated_historical_indices_20250427"))
+replist <- SS_output(dir = file.path(getwd(), "model", "updated_historical_indices_20250512"))
 SS_plots(replist)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 #models <- list.dirs(file.path(getwd(), "model"), recursive = FALSE)
 #models <- models[c(5,12,11)] #CHECK THIS EVERY TIME
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_historical_catch_20250427")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250427")),
-            paste0(file.path(getwd(), "model", "updated_historical_indices_20250427")))
+            paste0(file.path(getwd(), "model", "updated_historical_catch_20250512")),
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250512")),
+            paste0(file.path(getwd(), "model", "updated_historical_indices_20250512")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -668,8 +730,8 @@ SSplotComparisons(models_summary,
 #################################################################################
 
 copy_SS_inputs(
-  dir.old = file.path(getwd(), "model", "updated_historical_indices_20250427"), 
-  dir.new = file.path(getwd(), "model", "updated_historical_and_extended_indices_20250427"),
+  dir.old = file.path(getwd(), "model", "updated_historical_indices_20250512"), 
+  dir.new = file.path(getwd(), "model", "updated_historical_and_extended_indices_20250512"),
   create.dir = TRUE,
   overwrite = TRUE,
   use_ss_new = TRUE,
@@ -677,7 +739,7 @@ copy_SS_inputs(
 )
 
 
-inputs <- SS_read(dir = file.path(getwd(), "model", "updated_historical_and_extended_indices_20250427"))
+inputs <- SS_read(dir = file.path(getwd(), "model", "updated_historical_and_extended_indices_20250512"))
 
 inputs$dat$endyr <- 2024
 
@@ -685,22 +747,22 @@ inputs$dat$catch <- all_catch
 
 inputs$dat$CPUE <- all_indices
 
-SS_write(inputs, dir = file.path(getwd(), "model", "updated_historical_and_extended_indices_20250427"), overwrite = TRUE)
+SS_write(inputs, dir = file.path(getwd(), "model", "updated_historical_and_extended_indices_20250512"), overwrite = TRUE)
 
-get_ss3_exe(dir = file.path(getwd(), "model", "updated_historical_and_extended_indices_20250427"))
+get_ss3_exe(dir = file.path(getwd(), "model", "updated_historical_and_extended_indices_20250512"))
 
-run(dir = file.path(getwd(), "model", "updated_historical_and_extended_indices_20250427"), show_in_console = TRUE, extras = "-nohess")
+run(dir = file.path(getwd(), "model", "updated_historical_and_extended_indices_20250512"), show_in_console = TRUE, extras = "-nohess")
 
-replist <- SS_output(dir = file.path(getwd(), "model", "updated_historical_and_extended_indices_20250427"))
+replist <- SS_output(dir = file.path(getwd(), "model", "updated_historical_and_extended_indices_20250512"))
 SS_plots(replist)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 #models <- list.dirs(file.path(getwd(), "model"), recursive = FALSE)
 #models <- models[c(5,12,11)] #CHECK THIS EVERY TIME
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250427")),
-            paste0(file.path(getwd(), "model", "updated_historical_indices_20250427")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250427")))
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250512")),
+            paste0(file.path(getwd(), "model", "updated_historical_indices_20250512")),
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250512")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -722,8 +784,8 @@ SSplotComparisons(models_summary,
 
 # copy model starters and data file from prev run
 copy_SS_inputs(
-  dir.old = file.path(getwd(), "model", "updated_historical_and_extended_indices_20250427"), 
-  dir.new = file.path(getwd(), "model", "updated_catch_indices_comlencomp_20250427"),
+  dir.old = file.path(getwd(), "model", "updated_historical_and_extended_indices_20250512"), 
+  dir.new = file.path(getwd(), "model", "updated_catch_indices_comlencomp_20250512"),
   create.dir = TRUE,
   overwrite = TRUE,
   use_ss_new = TRUE,
@@ -731,7 +793,7 @@ copy_SS_inputs(
 )
 
 
-inputs <- SS_read(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_20250427"))
+inputs <- SS_read(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_20250512"))
 
 # read our new length comp (3 files: PacFIN, WCGOP and PacFIN+WCGOP combined
 file_path = "Data/processed/length_age_comps/"
@@ -784,23 +846,23 @@ inputs$dat$lencomp <- inputs$dat$lencomp %>%
       ORWA_NONTWL_PacFIN_WCGOP_length)
 
 # overwrite data file
-SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_20250427"), overwrite = TRUE)
+SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_20250512"), overwrite = TRUE)
 
-get_ss3_exe(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_20250427"))
+get_ss3_exe(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_20250512"))
 
-run(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_20250427"), 
+run(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_20250512"), 
     show_in_console = TRUE, extras = "-nohess")
 
-replist <- SS_output(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_20250427"))
+replist <- SS_output(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_20250512"))
 SS_plots(replist)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 #models <- list.dirs(file.path(getwd(), "model"), recursive = FALSE)
 #models <- models[c(5,12,11)] #CHECK THIS EVERY TIME
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250427")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_20250427")))
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250512")),
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_20250512")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -823,15 +885,15 @@ SSplotComparisons(models_summary,
 
 # copy model starters and data file from prev run
 copy_SS_inputs(
-  dir.old = file.path(getwd(), "model", "updated_catch_indices_comlencomp_20250427"), 
-  dir.new = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_20250427"),
+  dir.old = file.path(getwd(), "model", "updated_catch_indices_comlencomp_20250512"), 
+  dir.new = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_20250512"),
   create.dir = TRUE,
   overwrite = TRUE,
   use_ss_new = TRUE,
   verbose = TRUE
 )
 
-inputs <- SS_read(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_20250427"))
+inputs <- SS_read(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_20250512"))
 file_path = "Data/processed/rec_comps/"
 
 # CA_REC, RecFin and Don's data, 1979-2024
@@ -949,22 +1011,22 @@ inputs$dat$lencomp <- inputs$dat$lencomp %>%
   arrange(fleet,year) # reorder the data so it matches the old datafile structure
 
 # overwrite data file
-SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_20250427"), overwrite = TRUE)
+SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_20250512"), overwrite = TRUE)
 
-get_ss3_exe(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_20250427"))
+get_ss3_exe(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_20250512"))
 
-run(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_20250427"), 
+run(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_20250512"), 
     show_in_console = TRUE, extras = "-nohess")
 
-replist <- SS_output(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_20250427"))
+replist <- SS_output(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_20250512"))
 SS_plots(replist)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250427")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_20250427")))
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250512")),
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_20250512")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -988,15 +1050,15 @@ SSplotComparisons(models_summary,
 
 # copy model starters and data file from prev run
 copy_SS_inputs(
-  dir.old = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_20250427"), 
-  dir.new = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250427"),
+  dir.old = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_20250512"), 
+  dir.new = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250512"),
   create.dir = TRUE,
   overwrite = TRUE,
   use_ss_new = TRUE,
   verbose = TRUE
 )
 
-inputs <- SS_read(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250427"))
+inputs <- SS_read(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250512"))
 
   # Nsamp method used for all survey length comps is the old Stewart Hamel method from the 2017 assessment where
   # Nsamp = n_trips + 0.0707 * n_fish when n_fish/n_tows < 55 and
@@ -1060,22 +1122,22 @@ inputs$dat$lencomp <- inputs$dat$lencomp %>%
 all_lencomp <- inputs$dat$lencomp
 
 # overwrite data file
-SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250427"), overwrite = TRUE)
+SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250512"), overwrite = TRUE)
 
-get_ss3_exe(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250427"))
+get_ss3_exe(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250512"))
 
-run(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250427"), 
+run(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250512"), 
     show_in_console = TRUE, extras = "-nohess")
 
-replist <- SS_output(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250427"))
+replist <- SS_output(dir = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250512"))
 SS_plots(replist)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250427")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250427")))
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250512")),
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250512")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -1099,15 +1161,15 @@ SSplotComparisons(models_summary,
 
 # copy model starters and data file from prev run
 copy_SS_inputs(
-  dir.old = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250427"), 
-  dir.new = file.path(getwd(), "model", "updated_catch_indices_lencompall_upcomagecomp_20250427"),
+  dir.old = file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250512"), 
+  dir.new = file.path(getwd(), "model", "updated_catch_indices_lencompall_upcomagecomp_20250512"),
   create.dir = TRUE,
   overwrite = TRUE,
   use_ss_new = TRUE,
   verbose = TRUE
 )
 
-inputs <- SS_read(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upcomagecomp_20250427"))
+inputs <- SS_read(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upcomagecomp_20250512"))
 
 #because we are changing historical data we first to a run without extending to 2024
 inputs$dat$endyr <- 2016
@@ -1171,22 +1233,22 @@ inputs$dat$agecomp <- inputs$dat$agecomp %>%
 comm_agecomp <- inputs$dat$agecomp
 
 # overwrite data file
-SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upcomagecomp_20250427"), overwrite = TRUE)
+SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upcomagecomp_20250512"), overwrite = TRUE)
 
-get_ss3_exe(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upcomagecomp_20250427"))
+get_ss3_exe(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upcomagecomp_20250512"))
 
-run(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upcomagecomp_20250427"), 
+run(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upcomagecomp_20250512"), 
     show_in_console = TRUE, extras = "-nohess")
 
-replist <- SS_output(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upcomagecomp_20250427"))
+replist <- SS_output(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upcomagecomp_20250512"))
 SS_plots(replist)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250427")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upcomagecomp_20250427")))
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250512")),
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upcomagecomp_20250512")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -1209,15 +1271,15 @@ SSplotComparisons(models_summary,
 
 # copy model starters and data file from prev run
 copy_SS_inputs(
-  dir.old = file.path(getwd(), "model", "updated_catch_indices_lencompall_upcomagecomp_20250427"), 
-  dir.new = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250427"),
+  dir.old = file.path(getwd(), "model", "updated_catch_indices_lencompall_upcomagecomp_20250512"), 
+  dir.new = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250512"),
   create.dir = TRUE,
   overwrite = TRUE,
   use_ss_new = TRUE,
   verbose = TRUE
 )
 
-inputs <- SS_read(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250427"))
+inputs <- SS_read(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250512"))
 
 #now we are extending to 2024
 inputs$dat$endyr <- 2024
@@ -1231,23 +1293,23 @@ inputs$dat$lencomp <- all_lencomp
 inputs$dat$agecomp <- comm_agecomp
 
 # overwrite data file
-SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250427"), overwrite = TRUE)
+SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250512"), overwrite = TRUE)
 
-get_ss3_exe(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250427"))
+get_ss3_exe(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250512"))
 
-run(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250427"), 
+run(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250512"), 
     show_in_console = TRUE, extras = "-nohess")
 
-replist <- SS_output(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250427"))
+replist <- SS_output(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250512"))
 SS_plots(replist)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250427")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upcomagecomp_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250427")))
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250512")),
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upcomagecomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250512")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -1273,15 +1335,15 @@ SSplotComparisons(models_summary,
 
 # copy model starters and data file from prev run
 copy_SS_inputs(
-  dir.old = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250427"), 
-  dir.new = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250427"),
+  dir.old = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250512"), 
+  dir.new = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250512"),
   create.dir = TRUE,
   overwrite = TRUE,
   use_ss_new = TRUE,
   verbose = TRUE
 )
 
-inputs <- SS_read(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250427"))
+inputs <- SS_read(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250512"))
 file_path = "Data/processed/rec_comps/"
 
 #because we are changing historical data we first to a run without extending to 2024
@@ -1430,23 +1492,23 @@ inputs$dat$agecomp <- inputs$dat$agecomp %>%
 comm_rec_agecomp <- inputs$dat$agecomp
 
 # overwrite data file
-SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250427"), overwrite = TRUE)
+SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250512"), overwrite = TRUE)
 
-get_ss3_exe(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250427"))
+get_ss3_exe(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250512"))
 
-run(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250427"), 
+run(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250512"), 
     show_in_console = TRUE, extras = "-nohess")
 
-replist <- SS_output(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250427"))
+replist <- SS_output(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250512"))
 SS_plots(replist)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250427")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250427")))
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250512")),
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250512")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -1471,15 +1533,15 @@ SSplotComparisons(models_summary,
 
 # copy model starters and data file from prev run
 copy_SS_inputs(
-  dir.old = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250427"), 
-  dir.new = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250427"),
+  dir.old = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250512"), 
+  dir.new = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250512"),
   create.dir = TRUE,
   overwrite = TRUE,
   use_ss_new = TRUE,
   verbose = TRUE
 )
 
-inputs <- SS_read(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250427"))
+inputs <- SS_read(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250512"))
 
 #extend to 2024
 inputs$dat$endyr <- 2024
@@ -1493,24 +1555,24 @@ inputs$dat$lencomp <- all_lencomp
 inputs$dat$agecomp <- comm_rec_agecomp
 
 # overwrite data file
-SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250427"), overwrite = TRUE)
+SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250512"), overwrite = TRUE)
 
-get_ss3_exe(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250427"))
+get_ss3_exe(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250512"))
 
-run(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250427"), 
+run(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250512"), 
     show_in_console = TRUE, extras = "-nohess")
 
-replist <- SS_output(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250427"))
+replist <- SS_output(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250512"))
 SS_plots(replist)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250427")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250427")))
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250512")),
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_uprecagecomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250512")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -1536,15 +1598,15 @@ SSplotComparisons(models_summary,
 
 # copy model starters and data file from prev run
 copy_SS_inputs(
-  dir.old = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250427"), 
-  dir.new = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250427"),
+  dir.old = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250512"), 
+  dir.new = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250512"),
   create.dir = TRUE,
   overwrite = TRUE,
   use_ss_new = TRUE,
   verbose = TRUE
 )
 
-inputs <- SS_read(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250427"))
+inputs <- SS_read(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250512"))
 
 # Nsamp method used for all survey maal is the old Stewart Hamel method from the 2017 assessment where
 # Nsamp = n_trips + 0.0707 * n_fish when n_fish/n_tows < 55 and
@@ -1643,24 +1705,24 @@ all_agecomp <- inputs$dat$agecomp
 ######################################
 
 # overwrite data file
-SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250427"), overwrite = TRUE)
+SS_write(inputs, dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250512"), overwrite = TRUE)
 
-get_ss3_exe(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250427"))
+get_ss3_exe(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250512"))
 
-run(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250427"), 
+run(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250512"), 
     show_in_console = TRUE, extras = "-nohess")
 
-replist <- SS_output(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250427"))
+replist <- SS_output(dir = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250512"))
 SS_plots(replist)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250427")),
-            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250427")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250427")))
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_catch_20250512")),
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_comlencomp_reclencomp_surveylencomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250512")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -1683,8 +1745,8 @@ SSplotComparisons(models_summary,
 
 # copy model starters and data file from prev run
 copy_SS_inputs(
-  dir.old = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250427"), 
-  dir.new = file.path(getwd(), "model", "updated_alldata_tunecomps_20250427"),
+  dir.old = file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250512"), 
+  dir.new = file.path(getwd(), "model", "updated_alldata_tunecomps_20250512"),
   create.dir = TRUE,
   overwrite = TRUE,
   use_ss_new = TRUE,
@@ -1693,16 +1755,16 @@ copy_SS_inputs(
 
 #inputs <- SS_read(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250416"))
 
-get_ss3_exe(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250427"))
+get_ss3_exe(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250512"))
 
-run(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250427"), 
+run(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250512"), 
     show_in_console = TRUE, extras = "-nohess")
 
-replist <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250427"))
+replist <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250512"))
 
 
 ##### Tune composition data ##### ----------------------------------------------
-tunecomps_dir <- here::here("model/updated_alldata_tunecomps_20250427")
+tunecomps_dir <- here::here("model/updated_alldata_tunecomps_20250512")
 
 r4ss::tune_comps(
   replist, # use replist from previous run
@@ -1715,14 +1777,14 @@ r4ss::tune_comps(
   exe = "ss3"
 )
 
-replist_tunecomps <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250427"))
+replist_tunecomps <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250512"))
 
 SS_plots(replist_tunecomps)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250427")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250427")))
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250512")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -1741,7 +1803,7 @@ SSplotComparisons(models_summary,
 
 # change the recruitment bias adjustment
 
-fitbias_dir <- here::here("model/updated_alldata_tunecomps_fitbias_20250427")
+fitbias_dir <- here::here("model/updated_alldata_tunecomps_fitbias_20250512")
 
 copy_SS_inputs(
   dir.old = tunecomps_dir,
@@ -1779,9 +1841,9 @@ SS_plots(replist_fitbias)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250427")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250427")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250427")))
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250512")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -1802,10 +1864,10 @@ SSplotComparisons(models_summary,
 #check if the control file updated from the previous run with the rec dev bias adj
 
 # Get inputs from 2025 assessment that ran with updated data
-updated_alldata_tunecomps_fitbias_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_20250427")
+updated_alldata_tunecomps_fitbias_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_20250512")
 
 ##### Update CTL file for 2025 assessment ##### ----------------------------------------
-updated_ctlfile_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_20250427")
+updated_ctlfile_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_20250512")
 
 copy_SS_inputs(
   dir.old = updated_alldata_tunecomps_fitbias_dir,
@@ -1892,10 +1954,10 @@ r4ss::SS_plots(replist_updated_ctlfile)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250427")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250427")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250427")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250427")))
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250512")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -1915,8 +1977,8 @@ SSplotComparisons(models_summary,
 
 # copy model starters and data file from prev run
 copy_SS_inputs(
-  dir.old = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250427"), 
-  dir.new = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250427"),
+  dir.old = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250512"), 
+  dir.new = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512"),
   create.dir = TRUE,
   overwrite = TRUE,
   use_ss_new = TRUE,
@@ -1925,16 +1987,16 @@ copy_SS_inputs(
 
 #inputs <- SS_read(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250416"))
 
-get_ss3_exe(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250427"))
+get_ss3_exe(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512"))
 
-run(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250427"), 
+run(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512"), 
     show_in_console = TRUE, extras = "-nohess")
 
-replist <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250427"))
+replist <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512"))
 
 
 ##### Tune composition data ##### ----------------------------------------------
-tunecomps_again_dir <- here::here("model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250427")
+tunecomps_again_dir <- here::here("model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512")
 
 r4ss::tune_comps(
   replist, # use replist from previous run
@@ -1947,17 +2009,17 @@ r4ss::tune_comps(
   exe = "ss3"
 )
 
-replist_tunecomps_again <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250427"))
+replist_tunecomps_again <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512"))
 
 SS_plots(replist_tunecomps_again)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250427")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250427")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250427")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250427")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250427")))
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -1977,9 +2039,9 @@ SSplotComparisons(models_summary,
 ###################################################################
 #######               STARTER FILE CHANGES                 #########
 ###################################################################
-updated_ctlfile_tuned_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250427")
+updated_ctlfile_tuned_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512")
 
-updated_startfile_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250427")
+updated_startfile_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512")
 
 
 copy_SS_inputs(
@@ -2021,12 +2083,12 @@ r4ss::SS_plots(replist_updated_startfile)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250427")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250427")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250512")),
             #paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250416")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250427")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250427")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250427")))
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512")))
 #Claire I added the second tune comps line here to show that the problem is with that. otherwise if you dont plot the second tune comps then they all plot.
 
 models
@@ -2055,7 +2117,7 @@ library(PEPtools)
 # step 3. make the final edit based on Ian's recommendation to average the last 5 years to avoid an end year with 0 catch.
 
 # Step 1.
-mod <- SS_read(here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250427"))
+mod <- SS_read(here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512"))
 
 ### Vlada provided a forecast.ss file based on the rougheye one she made and including our buffer and fixed forecast catches. 
 ### It includes some of our changes in the code below, the rest are listed below. 
@@ -2095,17 +2157,17 @@ mod <- SS_read(here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tuneco
 # mod$fore$Bmark_years <- c(0, 0, 0, 0, 0, 0, -999, 0, -999, 0)
 
 # Step 1. continued..
-SS_write(mod, here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250507"), overwrite = TRUE)
+SS_write(mod, here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512"), overwrite = TRUE)
 
 # Step 2. Go copy in forecast file, and re assign "mod" to the updated files
-mod <- SS_read(here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250427"))
+mod <- SS_read(here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512"))
 
 # Step 3. Change the end years: https://github.com/pfmc-assessments/Assessment_Class/discussions/72
 mod$fore$Fcast_years$st_year <- c(-4,-4,-4)
 
 # Now write again and run
-SS_write(mod, here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250507"), overwrite = TRUE)
-run(dir = 'model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250507', exe = exe_loc, show_in_console = TRUE, skipfinished = FALSE)
+SS_write(mod, here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512"), overwrite = TRUE)
+run(dir = 'model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512', exe = exe_loc, show_in_console = TRUE, skipfinished = FALSE)
 
 # store plots in figures folder so that we can pull easily into report
-SS_plots(replist = SS_output('model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250507'),dir = here::here("report","figures","r4ss_plots"))
+SS_plots(replist = SS_output('model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512'),dir = here::here("report","figures","r4ss_plots"))
