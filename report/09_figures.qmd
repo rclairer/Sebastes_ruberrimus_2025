@@ -125,6 +125,17 @@ knitr::include_graphics(
     "figures/indices/wcgbts_index_comparison.png"
 )
 ```
+```{r}
+#| label: fig-wcgbtsindex
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/indices/index1_cpuedata_11_NWFSC_ORWA.png"
+)
+```
 
 ```{r}
 #| label: fig-IPHC_index
