@@ -2109,9 +2109,6 @@ SSplotComparisons(models_summary,
 #######               FORECAST FILE CHANGES               #########
 ###################################################################
 
-#remotes::install_github("pfmc-assessments/PEPtools")
-library(PEPtools)
-
 # step 1. read last model file
 # step 2. manually copy in Vlada's forecast file
 # step 3. make the final edit based on Ian's recommendation to average the last 5 years to avoid an end year with 0 catch.
@@ -2160,7 +2157,7 @@ mod <- SS_read(here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tuneco
 SS_write(mod, here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512"), overwrite = TRUE)
 
 # Step 2. Go copy in forecast file, and re assign "mod" to the updated files
-mod <- SS_read(here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512"))
+mod <- SS_read(here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512"))
 
 # Step 3. Change the end years: https://github.com/pfmc-assessments/Assessment_Class/discussions/72
 mod$fore$Fcast_years$st_year <- c(-4,-4,-4)
@@ -2170,4 +2167,24 @@ SS_write(mod, here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecom
 run(dir = 'model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512', exe = exe_loc, show_in_console = TRUE, skipfinished = FALSE)
 
 # store plots in figures folder so that we can pull easily into report
-SS_plots(replist = SS_output('model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512'),dir = here::here("report","figures","r4ss_plots"))
+SS_plots(replist = SS_output('model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512'),dir = here::here("model","updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512"))
+
+# plot the forecast years
+SS_plots(replist = SS_output('model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512'),dir = here::here("model","updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512","forecast_plots"), forecastplot = TRUE)
+
+### Final Comparison Plots
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512")))
+
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "19_alldata_tunecomps_fitbias_upctl_tuned_upstart_fore"),
+                  legendlabels = c("2017 updated SS3 exe", 
+                                   "2025 updated all data and tuned",
+                                   "2025 updated ctl file and tuned",
+                                   "2025 updated start and forecast"),
+                  print = TRUE)
