@@ -374,7 +374,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Spawning output at length."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/bio10_spawningoutput_len.png"
@@ -386,7 +386,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Stock-recruit curve. Point colors indicate year, with warmer colors indicating earlier years and cooler colors in showing later years."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/SR_curve.png"
@@ -398,7 +398,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Estimated recruitment deviations with 95% intervals."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/recdevs2_withbars.png"
@@ -410,7 +410,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Estimated selectivity for California commercial trawl fleet (Fleet 1)."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/sel09_len_flt1sex1.png"
@@ -422,7 +422,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Estimated selectivity for California commercial non-trawl fleet (Fleet 2)."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/sel09_len_flt2sex1.png"
@@ -434,7 +434,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Estimated selectivity for California recreational fleet (Fleet 3)."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/sel09_len_flt3sex1.png"
@@ -446,7 +446,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Estimated selectivity for Oregon/Washington trawl fleet (Fleet 4)."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/sel09_len_flt4sex1.png"
@@ -458,7 +458,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Estimated selectivity for Oregon/Washington non-trawl fleet (Fleet 5)."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/sel09_len_flt5sex1.png"
@@ -470,7 +470,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Estimated selectivity for Oregon recreational fleet (Fleet 6)."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/sel09_len_flt6sex1.png"
@@ -482,7 +482,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Estimated selectivity for Washington recreational fleet (Fleet 7)."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/sel09_len_flt7sex1.png"
@@ -494,7 +494,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Estimated selectivity for California recreational CPFV fleet (Fleet 8)."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/sel09_len_flt8sex1.png"
@@ -506,7 +506,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Estimated selectivity for Oregon onboard observer fleet (ORFS; Fleet 9)."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/sel09_len_flt9sex1.png"
@@ -518,7 +518,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Estimated selectivity for the Triennial bottom trawl survey for Oregon/Washington (Fleet 10)."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/sel09_len_flt10sex1.png"
@@ -530,7 +530,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Estimated selectivity for the WCBTS for Oregon/Washington (Fleet 11)."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/sel09_len_flt11sex1.png"
@@ -542,7 +542,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Estimated selectivity for the IPHC longline survey for Oregon/Washington (Fleet 12)."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/sel09_len_flt12sex1.png"
@@ -555,7 +555,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Fit to the California MRFSS recreational index."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index2_cpuefit_3_CA_REC.png"
@@ -567,7 +567,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Fit to the Oregon recreational index."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index2_cpuefit_6_OR_REC.png"
@@ -579,7 +579,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Fit to the Washington recreational index."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index2_cpuefit_7_WA_REC.png"
@@ -591,7 +591,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Fit to the California CPFV observer index."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index2_cpuefit_8_CACPFV.png"
@@ -603,7 +603,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Fit to the Oregon onboard observer (ORFS) index."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index2_cpuefit_9_OR_RECOB.png"
@@ -615,7 +615,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Fit to the Triennial survey index."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index2_cpuefit_10_TRI_ORWA.png"
@@ -627,7 +627,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Fit to the WCBTS index."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index2_cpuefit_11_NWFSC_ORWA.png"
@@ -639,7 +639,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Fit to the IPHC survey index."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index2_cpuefit_12_IPHC_ORWA.png"
@@ -653,7 +653,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Pearson residuals, comparing across fleets, for length composition data (1 of 2). Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/comp_lenfit_page1_multi-fleet_comparison.png"
@@ -665,7 +665,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Pearson residuals, comparing across fleets, for length composition data (2 of 2). Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/comp_lenfit_page2_multi-fleet_comparison.png"
@@ -677,10 +677,88 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Fit to length composition data, aggregated across time by fleet."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/comp_lenfit_aggregated_across_time.png"
+)
+```
+
+<!-- add mean length fits here if needed -->
+
+<!-- add ghost age comps here if needed -->
+
+<!-- add CAAL fits here if needed -->
+
+```{r}
+#| label: fig-spout_area
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimated spawning output over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png"
+)
+```
+
+```{r}
+#| label: fig-status_area
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Relative spawning output over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts10_Relative_spawning_output_by_area.png"
+)
+```
+
+```{r}
+#| label: fig-totalbio
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Total biomass (t) over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts2_Total_biomass_(t)_by_area.png"
+)
+```
+
+```{r}
+#| label: fig-summbio
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Summary biomass (t) over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png"
+)
+```
+
+```{r}
+#| label: fig-tsrecuits
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Age 0 recruits (1000s) over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts12_Age-0_recruits_(1000s)_by_area.png"
+)
+```
+
+```{r}
+#| label: fig-spout_combined
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Relative spawning output over time for both areas combined."
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png"
 )
 ```
 
