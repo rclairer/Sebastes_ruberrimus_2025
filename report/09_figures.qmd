@@ -369,6 +369,148 @@ knitr::include_graphics(
 
 <!-- 04b_model_results -->
 
+```{r}
+#| label: fig-spoutlen
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
 
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/bio10_spawningoutput_len.png"
+)
+```
+
+```{r}
+#| label: fig-SRcurve
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/SR_curve.png"
+)
+```
+
+```{r}
+#| label: fig-recdevs_err
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/recdevs2_withbars.png"
+)
+```
+
+```{r}
+#| label: fig-sel01
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/sel09_len_flt1sex1.png"
+)
+```
+
+```{r}
+#| label: fig-sel02
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/sel09_len_flt2sex1.png"
+)
+```
+
+```{r}
+#| label: fig-sel03
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/sel09_len_flt3sex1.png"
+)
+```
+
+```{r}
+#| label: fig-sel04
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/sel09_len_flt4sex1.png"
+)
+```
+
+```{r}
+#| label: fig-sel05
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/sel09_len_flt5sex1.png"
+)
+```
+
+```{r}
+#| label: fig-sel06
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/sel09_len_flt6sex1.png"
+)
+```
+
+```{r}
+#| label: fig-sel07
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/sel09_len_flt7sex1.png"
+)
+```
+
+```{r}
+#| label: fig-sel08
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/sel09_len_flt8sex1.png"
+)
+```
+
+```{r}
+#| label: fig-sel09
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/sel09_len_flt9sex1.png"
+)
+```
 
 <!-- 04c_model_diagnostics -->
