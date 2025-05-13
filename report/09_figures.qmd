@@ -240,7 +240,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Comparison of the spawning output for the 2017 model with the updated SS3 executable and a single-sex model."
 
 knitr::include_graphics(
     "figures/bridging/1_SS3exe/compare2_spawnbio_uncertainty.png"
@@ -252,7 +252,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Comparison of the stock status for the 2017 model with the updated SS3 executable and a single-sex model."
 
 knitr::include_graphics(
     "figures/bridging/1_SS3exe/compare4_Bratio_uncertainty.png"
@@ -264,7 +264,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated catch data (dark green), updated indices (light green), new fishery length composition data (orange), and survey length composition data (red)."
 
 knitr::include_graphics(
     "figures/bridging/8_newlencomps/compare2_spawnbio_uncertainty.png"
@@ -276,7 +276,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), updated catch data (dark green), updated indices (light green), new fishery length composition data (orange), and survey length composition data (red)."
 
 knitr::include_graphics(
     "figures/bridging/8_newlencomps/compare4_Bratio_uncertainty.png"
@@ -288,7 +288,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated catch data (light blue), updated indices (dark green), new fishery length composition data (light green), and commercial (yellow), recreational (orange), and survey (red) age composition data."
 
 knitr::include_graphics(
     "figures/bridging/13_newagecomps/compare2_spawnbio_uncertainty.png"
@@ -300,7 +300,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), updated catch data (light blue), updated indices (dark green), new fishery length composition data (light green), and commercial (yellow), recreational (orange), and survey (red) age composition data."
 
 knitr::include_graphics(
     "figures/bridging/13_newagecomps/compare4_Bratio_uncertainty.png"
@@ -312,7 +312,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), 2025 model with all available updated data (green), with tuned compositional data (yellow), and with the updated recruitment bias adjustment ramp (red)."
 
 knitr::include_graphics(
     "figures/bridging/15_fitbias/compare2_spawnbio_uncertainty.png"
@@ -324,7 +324,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), 2025 model with all available updated data (green), with tuned compositional data (yellow), and with the updated recruitment bias adjustment ramp (red)."
 
 knitr::include_graphics(
     "figures/bridging/15_fitbias/compare4_Bratio_uncertainty.png"
@@ -336,7 +336,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Length at age in the beginning of the year in the ending year of the model."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/bio1_sizeatage.png"
@@ -348,7 +348,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Points are transformed variances. Red line shows current settings for bias adjustment specified in the control file. Blue line shows least squares estimate of alternative bias adjustment relationship for recruitment deviations."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/recruit_fit_bias_adjust.png"
@@ -360,7 +360,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Estimated selectivity at length for all fleets."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/sel01_multiple_fleets_length1.png"
