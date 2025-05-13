@@ -11,7 +11,7 @@
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Summary of data sources used in the base model."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/data_plot.png"
@@ -23,7 +23,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Landings (mt) by year and fleet."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/catch2_landings_stacked.png"
@@ -35,7 +35,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Quantile-quantile plot for the sdmTMB model fit for the Oregon Onboard Observer (ORFS) index."
 
 knitr::include_graphics(
     "figures/indices/ORFS_qq.png"
@@ -47,7 +47,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Annual relative index of abundance for the Oregon Onboard Observer (ORFS) index."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index1_cpuedata_9_OR_RECOB.png"
@@ -59,7 +59,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Comparison of Oregon Onboard Observer indices from the 2017 and the current assessment."
 
 knitr::include_graphics(
     "figures/indices/ORFS index comparison_errbars.png"
@@ -71,7 +71,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Quantile-quantile plot for the sdmTMB model fit for the updated portion of the Oregon recreational (ORBS) index."
 
 knitr::include_graphics(
     "figures/indices/ORBS_qq.png"
@@ -83,7 +83,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Annual relative index of abundance for the Oregon recreational index, including both MRFSS (1980 - 1999) and ORBS (2004 - 2024) indices."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index1_cpuedata_6_OR_REC.png"
@@ -95,7 +95,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Comparison of the 2017 ORBS index (delta-GLM), the 2017 ORBS model (implemented in sdmTMB), and the current ORBS index (sdmTMB)."
 
 knitr::include_graphics(
     "figures/indices/ORBS index comparison_ORBSonly_errbars.png"
@@ -107,7 +107,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Comparison of the 2017 WCBTS and the current WCBTS index of abundance."
 
 knitr::include_graphics(
     "figures/indices/wcgbts_index_comparison.png"
@@ -118,7 +118,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Annual relative index of abundance for the WCBTS."
 
 knitr::include_graphics(
     "figures/indices/index1_cpuedata_11_NWFSC_ORWA.png"
@@ -130,7 +130,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Annual relative index of abundance for the IPHC longline survey."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index1_cpuedata_12_IPHC_ORWA.png"
@@ -142,7 +142,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Comparison of the 2017 and the current IPHC index of abundance."
 
 knitr::include_graphics(
     "figures/indices/IPHC_index_comparison.png"
@@ -154,7 +154,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Annual length composition data for the WCBTS."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/comp_lendat_flt11mkt0.png"
@@ -166,7 +166,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Annual length composition data from the IPHC longline survey."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png"
@@ -178,7 +178,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Annual unsexed conditional age-at-length data for the WCBTS (1 of 2)."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page1.png"
@@ -190,7 +190,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Annual unsexed conditional age-at-length data for the WCBTS (2 of 2)."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page2.png"
@@ -202,7 +202,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Annual unsexed conditional age-at-length data for the IPHC (1 of 2)."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page1.png"
@@ -214,7 +214,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "nnual unsexed conditional age-at-length data for the IPHC (1 of 2)."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png"
@@ -226,7 +226,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "EXAMPLE caption"
+#| fig-cap: "Updated weight-at-length relationship."
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/bio5_weightatsize.png"
