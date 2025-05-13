@@ -646,4 +646,42 @@ knitr::include_graphics(
 )
 ```
 
+<!-- add length comps by fleet and year -->
+
+```{r}
+#| label: fig-pearsonlenfit1
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_lenfit_page1_multi-fleet_comparison.png"
+)
+```
+
+```{r}
+#| label: fig-pearsonlenfit2
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_lenfit_page2_multi-fleet_comparison.png"
+)
+```
+
+```{r}
+#| label: fig-agglencomps
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_lenfit_aggregated_across_time.png"
+)
+```
+
 <!-- 04c_model_diagnostics -->
