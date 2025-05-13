@@ -513,4 +513,137 @@ knitr::include_graphics(
 )
 ```
 
+```{r}
+#| label: fig-sel10
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/sel09_len_flt10sex1.png"
+)
+```
+
+```{r}
+#| label: fig-sel11
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/sel09_len_flt11sex1.png"
+)
+```
+
+```{r}
+#| label: fig-sel12
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/sel09_len_flt12sex1.png"
+)
+```
+
+
+```{r}
+#| label: fig-indexfit3
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index2_cpuefit_3_CA_REC.png"
+)
+```
+
+```{r}
+#| label: fig-indexfit6
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index2_cpuefit_6_OR_REC.png"
+)
+```
+
+```{r}
+#| label: fig-indexfit7
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index2_cpuefit_7_WA_REC.png"
+)
+```
+
+```{r}
+#| label: fig-indexfit8
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index2_cpuefit_8_CACPFV.png"
+)
+```
+
+```{r}
+#| label: fig-indexfit9
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index2_cpuefit_9_OR_RECOB.png"
+)
+```
+
+```{r}
+#| label: fig-indexfit10
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index2_cpuefit_10_TRI_ORWA.png"
+)
+```
+
+```{r}
+#| label: fig-indexfit11
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index2_cpuefit_11_NWFSC_ORWA.png"
+)
+```
+
+```{r}
+#| label: fig-indexfit12
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index2_cpuefit_12_IPHC_ORWA.png"
+)
+```
+
 <!-- 04c_model_diagnostics -->
