@@ -2219,7 +2219,9 @@ SS_plots(replist = SS_output('model/base_waRECcatch_20250512'),dir = here::here(
 
 
 #compare the base and this model
-models <- c(paste0(file.path(getwd(), "model", "2025_base_model")),
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250427")),
+            paste0(file.path(getwd(), "model", "2025_base_model")),
             paste0(file.path(getwd(), "model", "base_waRECcatch_20250512")))
 
 models_output <- SSgetoutput(dirvec = models)
@@ -2227,6 +2229,8 @@ models_summary <- SSsummarize(models_output) #######something is wrong here
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
                                       "19_base_vs_WArecData"),
-                  legendlabels = c("Base Model", 
+                  legendlabels = c("2017 Base",
+                                    "All Data and Tuned",
+                                   "Base Model", 
                                    "Updated WA REC catches"),
                   print = TRUE)
