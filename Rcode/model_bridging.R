@@ -2109,3 +2109,110 @@ run(dir = 'model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_2025
 
 # store plots in figures folder so that we can pull easily into report
 SS_plots(replist = SS_output('model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250507'),dir = here::here("report","figures","r4ss_plots"))
+
+###################################################################
+#######      Final WDFW changes to WA Rec Catch Data      #########
+###################################################################
+
+mod <- SS_read(here::here("model", "2025_base_model"))
+
+# code below builds the new WA REC data set from raw files
+# Call newest raw data files
+wa_rec_hist_recfin_may <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE503-1967---2002_may.csv"))
+wa_rec_recfin_1990_2024_may <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE501_WA_1990_2024_may.csv"))
+
+# Add missing Years averages to historic data
+wa_rec_hist_to_1989_may <- wa_rec_hist_recfin_may |>
+  filter(AREA < 5) |>
+  group_by(RECFIN_YEAR) |>
+  summarise(catch = sum(RETAINED_NUM) / 1000) |>
+  rename(year = RECFIN_YEAR)
+# Compute averages for specific ranges
+yr71 <- wa_rec_hist_to_1989_may |> filter(year >= 1969 & year <= 1973) |> summarise(catch = mean(catch)) |> pull()
+yr74 <- wa_rec_hist_to_1989_may |> filter(year >= 1972 & year <= 1976) |> summarise(catch = mean(catch)) |> pull()
+yr79 <- wa_rec_hist_to_1989_may |> filter(year >= 1977 & year <= 1981) |> summarise(catch = mean(catch)) |> pull()
+# Create a tibble with the missing years and corresponding average catch
+missing_years <- tibble(
+  year = c(1971, 1974, 1979),
+  catch = c(yr71, yr74, yr79)
+)
+# Combine the original data with the missing years
+wa_rec_hist_to_1989_may <- bind_rows(wa_rec_hist_to_1989_may, missing_years) |>
+  arrange(year)
+
+# make current catch data set
+wa_rec_1990_to_2024_may <- wa_rec_recfin_1990_2024_may |>
+  group_by(Year) |>
+  summarise(catch = sum(Numbers.of.Fish) / 1000) |>
+  rename(year = Year)
+
+# Fix 2002, 2003, and 2004 data according to Fabio and Thereasa 
+# The problem is that Thereasa has 
+t_data <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "Theresa_2017_YEYE.csv"))
+cte001 <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE001-Washington-1990---2024_Final_Data.csv"))
+cte001 <- cte001 |> mutate(across(13:16, as.numeric)) 
+
+# take raw CTE001 data file and summarize retained, released, and total mortality by Year
+cte001_summarized <- cte001 |> group_by(RecFIN.Year) |> summarise(summed_retained = sum(Retained....fish.), summed_released_alive = sum(Released.Alive....fish.), summed_released_dead = sum(Released.Dead....fish.), total_mort = sum(Total.Mortality....fish.))
+
+# Now we need to calculate the proportion of dead released fish if the total released (alive and dead) for 2002, 2003, and 2004 = 1356, 846, and 1641 fish
+# we do this by taking the average proportion of dead released fish for the following 5 years
+# Total Mortality ≈ Retained + (Released × mortality rate)
+
+cte001_summarized_proportion <- cte001_summarized |> 
+  filter(RecFIN.Year >= 2005) |> 
+  mutate(total_released = summed_released_alive + summed_released_dead) |>
+  mutate(mortality_rate = (total_mort - summed_retained) / total_released)
+
+mort_rate <- cte001_summarized_proportion |> filter(RecFIN.Year <= 2009) 
+mortality_rate <- mean(mort_rate$mortality_rate)
+
+# Now to get the Total Mortality for 2002-2004
+# Total Mortality ≈ Total Retained + (Total Released × mortality rate)
+
+d <- tibble(year = c(2002,2003,2004),
+            total_retained = c(55,136,80),
+            total_released = c(1356,846,1641))
+d <- d |> 
+  mutate(total_mortality = total_retained + (total_released*mortality_rate)) |>
+  mutate(catch = total_mortality / 1000) |>
+  select(-c(2:4))
+
+# Now that we have total mortality for 2002-4, take the old dataframe, get rid of those years, and add it the new calculated years
+wa_rec_1990_to_2024_may_test <- wa_rec_1990_to_2024_may |>
+  filter(year < 2002 | year > 2004)
+
+wa_rec_1990_to_2024_may <- bind_rows(wa_rec_1990_to_2024_may_test,d) |>
+  arrange(year)
+
+# Put both data sets together
+WA_REC <- bind_rows(wa_rec_hist_to_1989_may,wa_rec_1990_to_2024_may) |>
+  mutate(
+    seas = 1,
+    fleet = 7,
+    catch_se = 0.01
+  )|>
+  select(year, seas, fleet, catch, catch_se) |>
+  mutate(catch = round(catch, 3)) |>
+  arrange(year)
+
+### Now we have new WA_REC data, remove old fleet 7 and add in the new fleet 7
+
+all_catch <- mod$dat$catch |> filter(fleet != 7)
+mod$dat$catch <- rbind(all_catch,WA_REC)
+
+
+# add back in start line because starting from scratch it isn't there
+# start_line <- data.frame(
+#   year = -999,
+#   seas = 1,
+#   fleet = 4,
+#   catch = 0,
+#   catch_se = 0.01
+# )
+
+SS_write(mod, here::here("model", "base_waRECcatch_20250512"), overwrite = TRUE)
+run(dir = 'model/base_waRECcatch_20250512', exe = exe_loc, show_in_console = TRUE, skipfinished = FALSE)
+
+# store plots in figures folder so that we can pull easily into report
+SS_plots(replist = SS_output('model/base_waRECcatch_20250512'),dir = here::here("model","base_waRECcatch_20250512"))
