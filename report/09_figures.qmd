@@ -114,7 +114,17 @@ knitr::include_graphics(
 )
 ```
 
-<!-- NEED TO ADD THE NWFSC INDEX FIGURES HERE -->
+```{r}
+#| label: fig-wcgbtsindex
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/indices/wcgbts_index_comparison.png"
+)
+```
 
 ```{r}
 #| label: fig-IPHC_index
