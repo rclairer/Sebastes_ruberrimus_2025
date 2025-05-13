@@ -2109,3 +2109,9 @@ run(dir = 'model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_2025
 
 # store plots in figures folder so that we can pull easily into report
 SS_plots(replist = SS_output('model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250507'),dir = here::here("report","figures","r4ss_plots"))
+
+###################################################################
+#######      Final WDFW changes to WA Rec Catch Data      #########
+###################################################################
+
+mod <- SS_read(here::here("model", "2025_base_model"))

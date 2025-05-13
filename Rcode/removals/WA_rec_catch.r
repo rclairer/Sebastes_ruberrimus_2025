@@ -116,7 +116,7 @@ wa_rec_1990_to_2024_may <- wa_rec_recfin_1990_2024_may |>
 # Comparison plot of new data given to us in May
 wa_rec_new_may <- rec_new_may_all <- as.data.frame(rbind(wa_rec_hist_to_1989_may,wa_rec_1990_to_2024_may)) |>
   mutate(
-    type = "may data"
+    type = "raw may data"
   ) |>
   select(year, catch, type)
 
@@ -136,6 +136,7 @@ hist_wa_rec_catch_comps
 # After comparing all the data with Fabio (state rep), we decided to replace all recent and historical data with the most recent RecFin pull (May):
 # 1. 1967-2024, use most recent CTE 503, updated in May
 # 2. For the missing years (71, 74, 79), assign the average of the two previous and two post years together
+# 3. Calculate the total mortality for 2002-2004 based on Theresa's numbers for Total Retained and Total Released 
 
 # Call newest raw data files
 wa_rec_hist_recfin_may <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE503-1967---2002_may.csv"))
@@ -166,6 +167,45 @@ wa_rec_1990_to_2024_may <- wa_rec_recfin_1990_2024_may |>
   summarise(catch = sum(Numbers.of.Fish) / 1000) |>
   rename(year = Year)
 
+# Fix 2002, 2003, and 2004 data according to Fabio and Thereasa 
+# The problem is that Thereasa has 
+t_data <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "Theresa_2017_YEYE.csv"))
+cte001 <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE001-Washington-1990---2024_Final_Data.csv"))
+cte001 <- cte001 |> mutate(across(13:16, as.numeric)) 
+
+# take raw CTE001 data file and summarize retained, released, and total mortality by Year
+cte001_summarized <- cte001 |> group_by(RecFIN.Year) |> summarise(summed_retained = sum(Retained....fish.), summed_released_alive = sum(Released.Alive....fish.), summed_released_dead = sum(Released.Dead....fish.), total_mort = sum(Total.Mortality....fish.))
+
+# Now we need to calculate the proportion of dead released fish if the total released (alive and dead) for 2002, 2003, and 2004 = 1356, 846, and 1641 fish
+# we do this by taking the average proportion of dead released fish for the following 5 years
+# Total Mortality ≈ Retained + (Released × mortality rate)
+
+cte001_summarized_proportion <- cte001_summarized |> 
+  filter(RecFIN.Year >= 2005) |> 
+  mutate(total_released = summed_released_alive + summed_released_dead) |>
+  mutate(mortality_rate = (total_mort - summed_retained) / total_released)
+
+mort_rate <- cte001_summarized_proportion |> filter(RecFIN.Year <= 2009) 
+mortality_rate <- mean(mort_rate$mortality_rate)
+
+# Now to get the Total Mortality for 2002-2004
+# Total Mortality ≈ Total Retained + (Total Released × mortality rate)
+
+d <- tibble(year = c(2002,2003,2004),
+            total_retained = c(55,136,80),
+            total_released = c(1356,846,1641))
+d <- d |> 
+  mutate(total_mortality = total_retained + (total_released*mortality_rate)) |>
+  mutate(catch = total_mortality / 1000) |>
+  select(-c(2:4))
+
+# Now that we have total mortality for 2002-4, take the old dataframe, get rid of those years, and add it the new calculated years
+wa_rec_1990_to_2024_may_test <- wa_rec_1990_to_2024_may |>
+  filter(year < 2002 | year > 2004)
+
+wa_rec_1990_to_2024_may <- bind_rows(wa_rec_1990_to_2024_may_test,d) |>
+  arrange(year)
+
 # Put both data sets together
 WA_REC <- bind_rows(wa_rec_hist_to_1989_may,wa_rec_1990_to_2024_may) |>
   mutate(
@@ -177,5 +217,30 @@ WA_REC <- bind_rows(wa_rec_hist_to_1989_may,wa_rec_1990_to_2024_may) |>
   mutate(catch = round(catch, 3)) |>
   arrange(year)
 
+##### Wohoo!! now plot the comparison to 2017 to make sure we have filled in all the gaps
 
+input_files <- r4ss::SS_read(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe"))
+wa_rec_old_all <- input_files$dat$catch |>
+  filter(fleet == 7) |>
+  filter(year > 0 ) |>
+  select(year, catch)
+wa_rec_old <- wa_rec_old_all |>
+  mutate(type = "previous assessment") |>
+  select(year, catch, type)
 
+wa_rec_new <- WA_REC |>
+  mutate(type = "May RecFin Data") |>
+  select(year, catch, type)
+
+wa_rec_comparison <- rbind(wa_rec_new, wa_rec_old)
+
+hist_wa_rec_catch_comps <- ggplot(wa_rec_comparison, aes(x = year, y = catch, fill = type)) +
+  geom_bar(stat = "identity" , alpha = .8, position = "dodge") +
+  scale_x_continuous(n.breaks = 10) +
+  xlab("Years") +
+  ylab("Catch (in numbers/1000)") +
+  labs(
+    title = "WA Recreational Catch Comparison",
+  )
+hist_wa_rec_catch_comps
+ggsave(plot = hist_wa_rec_catch_comps, "wa_rec_catch_comparison_WDFW_data.png", width = 11, height = 6, path = file.path(getwd(), "Rcode", "removals"))
