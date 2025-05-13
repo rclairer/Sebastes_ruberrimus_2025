@@ -2199,20 +2199,38 @@ WA_REC <- bind_rows(wa_rec_hist_to_1989_may,wa_rec_1990_to_2024_may) |>
 ### Now we have new WA_REC data, remove old fleet 7 and add in the new fleet 7
 
 all_catch <- mod$dat$catch |> filter(fleet != 7)
-mod$dat$catch <- rbind(all_catch,WA_REC)
-
 
 # add back in start line because starting from scratch it isn't there
-# start_line <- data.frame(
-#   year = -999,
-#   seas = 1,
-#   fleet = 4,
-#   catch = 0,
-#   catch_se = 0.01
-# )
+start_line <- data.frame(
+  year = -999,
+  seas = 1,
+  fleet = 7,
+  catch = 0,
+  catch_se = 0.01
+)
+
+mod$dat$catch <- rbind(all_catch,start_line,WA_REC)
 
 SS_write(mod, here::here("model", "base_waRECcatch_20250512"), overwrite = TRUE)
 run(dir = 'model/base_waRECcatch_20250512', exe = exe_loc, show_in_console = TRUE, skipfinished = FALSE)
 
 # store plots in figures folder so that we can pull easily into report
 SS_plots(replist = SS_output('model/base_waRECcatch_20250512'),dir = here::here("model","base_waRECcatch_20250512"))
+
+
+#compare the base and this model
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250427")),
+            paste0(file.path(getwd(), "model", "2025_base_model")),
+            paste0(file.path(getwd(), "model", "base_waRECcatch_20250512")))
+
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output) #######something is wrong here
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "19_base_vs_WArecData"),
+                  legendlabels = c("2017 Base",
+                                    "All Data and Tuned",
+                                   "Base Model", 
+                                   "Updated WA REC catches"),
+                  print = TRUE)
