@@ -138,6 +138,18 @@ knitr::include_graphics(
 ```
 
 ```{r}
+#| label: fig-IPHC_comparison
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "EXAMPLE caption"
+
+knitr::include_graphics(
+    "figures/indices/IPHC_index_comparison.png"
+)
+```
+
+```{r}
 #| label: fig-NWFSC_lencomps
 #| echo: false
 #| warning: false
