@@ -103,22 +103,35 @@ knitr::include_graphics(
 ```
 
 ```{r}
+#| label: fig-wcgbts_qq
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Quantile-quantile plot for the sdmTMB model fit for the NWFSC West Coast Groundfish Bottom Trawl Survey (WCGBTS) index."
+
+knitr::include_graphics(
+    "figures/indices/wcgbts_qq.png"
+)
+```
+
+```{r}
 #| label: fig-wcgbtsindexcomparison
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Comparison of the 2017 WCBTS and the current WCBTS index of abundance."
+#| fig-cap: "Comparison of the 2017 NWFSC West Coast Groundfish Bottom Trawl Survey (WCGBTS) and the current WCBTS index of abundance."
 
 knitr::include_graphics(
     "figures/indices/wcgbts_index_comparison.png"
 )
 ```
+
 ```{r}
 #| label: fig-wcgbtsindex
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Annual relative index of abundance for the WCBTS."
+#| fig-cap: "Annual relative index of abundance for the West Coast Groundfish Bottom Trawl Survey (WCGBTS)."
 
 knitr::include_graphics(
     "figures/indices/index1_cpuedata_11_NWFSC_ORWA.png"
