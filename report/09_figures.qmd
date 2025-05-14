@@ -679,3 +679,15 @@ knitr::include_graphics(
 ```
 
 <!-- 04c_model_diagnostics -->
+
+```{r}
+#| label: fig-status_assmtns
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Relative depletion (spawning output) across Yelloweye Rockfish assessments over time."
+
+knitr::include_graphics(
+    "figures/bridging/Timeseries_comp_previous_assessments.png"
+)
+```
