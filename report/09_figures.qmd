@@ -419,122 +419,14 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-sel01
+#| label: fig-sel12
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimated selectivity for California commercial trawl fleet (Fleet 1)."
+#| fig-cap: "Estimated selectivity for the IPHC longline survey for Oregon/Washington (Fleet 12)."
 
 knitr::include_graphics(
-    "figures/r4ss_plots/plots/sel09_len_flt1sex1.png"
-)
-```
-
-```{r}
-#| label: fig-sel02
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for California commercial non-trawl fleet (Fleet 2)."
-
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/sel09_len_flt2sex1.png"
-)
-```
-
-```{r}
-#| label: fig-sel03
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for California recreational fleet (Fleet 3)."
-
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/sel09_len_flt3sex1.png"
-)
-```
-
-```{r}
-#| label: fig-sel04
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for Oregon/Washington trawl fleet (Fleet 4)."
-
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/sel09_len_flt4sex1.png"
-)
-```
-
-```{r}
-#| label: fig-sel05
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for Oregon/Washington non-trawl fleet (Fleet 5)."
-
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/sel09_len_flt5sex1.png"
-)
-```
-
-```{r}
-#| label: fig-sel06
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for Oregon recreational fleet (Fleet 6)."
-
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/sel09_len_flt6sex1.png"
-)
-```
-
-```{r}
-#| label: fig-sel07
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for Washington recreational fleet (Fleet 7)."
-
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/sel09_len_flt7sex1.png"
-)
-```
-
-```{r}
-#| label: fig-sel08
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for California recreational CPFV fleet (Fleet 8)."
-
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/sel09_len_flt8sex1.png"
-)
-```
-
-```{r}
-#| label: fig-sel09
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for Oregon onboard observer fleet (ORFS; Fleet 9)."
-
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/sel09_len_flt9sex1.png"
-)
-```
-
-```{r}
-#| label: fig-sel10
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for the Triennial bottom trawl survey for Oregon/Washington (Fleet 10)."
-
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/sel09_len_flt10sex1.png"
+    "figures/r4ss_plots/plots/sel09_len_flt12sex1.png"
 )
 ```
 
@@ -551,17 +443,16 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-sel12
+#| label: fig-sel10
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimated selectivity for the IPHC longline survey for Oregon/Washington (Fleet 12)."
+#| fig-cap: "Estimated selectivity for the Triennial bottom trawl survey for Oregon/Washington (Fleet 10)."
 
 knitr::include_graphics(
-    "figures/r4ss_plots/plots/sel09_len_flt12sex1.png"
+    "figures/r4ss_plots/plots/sel09_len_flt10sex1.png"
 )
 ```
-
 
 ```{r}
 #| label: fig-indexfit3
@@ -659,7 +550,19 @@ knitr::include_graphics(
 )
 ```
 
-<!-- add length comps by fleet and year -->
+<!-- add length comps by fleet and year, if needed -->
+
+```{r}
+#| label: fig-agglencomps
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Fit to length composition data, aggregated across time by fleet."
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_lenfit_aggregated_across_time.png"
+)
+```
 
 ```{r}
 #| label: fig-pearsonlenfit1
@@ -685,23 +588,23 @@ knitr::include_graphics(
 )
 ```
 
-```{r}
-#| label: fig-agglencomps
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Fit to length composition data, aggregated across time by fleet."
-
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/comp_lenfit_aggregated_across_time.png"
-)
-```
-
 <!-- add mean length fits here if needed -->
 
 <!-- add ghost age comps here if needed -->
 
 <!-- add CAAL fits here if needed -->
+
+```{r}
+#| label: fig-spout_combined
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Estimated spawning output over time for both areas combined."
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png"
+)
+```
 
 ```{r}
 #| label: fig-spout_area
@@ -712,6 +615,18 @@ knitr::include_graphics(
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png"
+)
+```
+
+```{r}
+#| label: fig-status_combined
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Relative spawning output over time for both areas combined."
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png"
 )
 ```
 
@@ -760,18 +675,6 @@ knitr::include_graphics(
 
 knitr::include_graphics(
     "figures/r4ss_plots/plots/ts12_Age-0_recruits_(1000s)_by_area.png"
-)
-```
-
-```{r}
-#| label: fig-spout_combined
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Relative spawning output over time for both areas combined."
-
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png"
 )
 ```
 
