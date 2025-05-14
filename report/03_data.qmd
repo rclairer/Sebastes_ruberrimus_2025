@@ -10,8 +10,8 @@ A new Oregon historical recreational catch reconstruction was incorporated.
 A new Washington historical recreational catch reconstruction was provided by WDFW and included changes to data from 1990-2016.
 
 Composition Data: 
-Length and age composition data were updated from 2017 - 2024 for all states for the commercial and recreational fleets 
-Length and age composition data were also updated for two of the fishery-independent surveys, including the NWFSC Bottom Trawl survey and the IPHC Longline survey
+Length and age composition data were updated from 2017 - 2024 for all states for the commercial and recreational fleets. 
+Length and age composition data were also updated for two of the fishery-independent surveys, including the NWFSC Bottom Trawl survey and the IPHC Longline survey.
 Some length and age composition data from the 2017 assessment had minor errors in how sample numbers were calculated, ageing error assignment, and doubled age samples and thus needed to be fixed. See fleet specific details below.   
 
 Indices of Abundance: 
@@ -22,7 +22,7 @@ NWFSC Bottom Trawl Survey
 IPHC Longline Survey
 
 Biological Data: 
-Length-weight relationship parameters were updated to include all the recent (2017 - 2024) fishery-independent data
+Length-weight relationship parameters were updated to include all the recent (2017 - 2024) fishery-independent data.
 Ageing error matrices were unchanged but some Oregon recreation ages were assigned the wrong ageing error and were corrected based on ODFW recommendations. 
 
 ## Fishery-Dependent Data 
@@ -96,10 +96,14 @@ Covariates evaluated included year, month, port, the open depths to fishing (all
 Two sources of fishery-independent data were updated. These include the NWFSC West Coast Bottom Trawl Survey and the IPHC Longline survey. 
 
 ### NWFSC West Coast Bottom Trawl Survey (WCGBTS)
+
 The WCGBTS survey methods are most recently described in detail in @keller2017northwest.
 Geostatistical models of biomass density were fit to survey data from the WCGBTS using \gls{tmb} [@kristensen_tmb:_2016] via the \gls{sdmtmb} R package [@Anderson_2024_SRP] as configured within the \gls{indexwc} R package [@Johnson_indexwc]. Code to reproduce the analysis is available [online](https://github.com/pfmc-assessments/indexwc). These models can account for latent spatial factors with a constant spatial Gaussian random field and spatiotemporal deviations to evolve as a random walk Guassian random field [@thorson_geostatistical_2015]. Delta-gamma and delta-lognormal distributions were investigated. Results are only shown for the model that led to the best model diagnostics, e.g., similar distributions of theoretical normal quantiles and model quantiles (@fig-wcgbts_qq), high precision, lack of extreme predictions, and low \gls{aic}. Estimates of biomass from this best model were predicted using a grid based on available survey locations.
+
 The final model used a delta model with a lognormal distribution for the catch-rate component. A logit-link was used for encounter probability and a log-link for positive catch rates. The response variable was catch (mt) with an offset of area (km^2^) to account for differences in effort. Fixed effects were estimated for each year and pass. The index was estimated for the area north of $42^{\circ}10'$ (Oregon and Washington) to be consistent with the previous assessment. The data were truncated to depths less than 325 m prior to modeling given that there were zero positive encounters in depths deeper than 325 m. The prediction grid was also truncated to only include available survey locations in depths between 55--325 m to limit extrapolating beyond the data and edge effects. Spatial variation was included in the encounter probability and the positive catch rate model. Spatial variation was approximated using 200 knots, where more knots led to non-estimable standard errors because the positive encounters are too sparse to support the dense spatiotemporal structure. Anisotropy was not estimated.
+
 The biomass estimates produced for this assessment using sdmTMB are comparable to the biomass estimates produced in the previous benchmark assessment (@fig-wcgbtsindexcomparison). The index is relatively flat with a peak in 2014, but variation is high throughout the time series (@fig-wcgbtsindex).
+
 ### IPHC Setline Survey
 
 The IPHC has conducted an annual longline survey for Pacific halibut off the coast of Oregon and Washington (IPHC area “2A”) since 1997 (no surveys were performed in 1998 or 2000). Beginning in 1999, this has been a fixed station design, with roughly 1,800 hooks deployed at each of 84 locations. Before 1999, station locations were not fixed, and, therefore, those years are not used in the index. Rockfish bycatch, mainly yelloweye, was recorded during this survey, although values for 1999 and 2001 are estimates based on subsampling the first 20 hooks of each 100-hook skate. The gear used to conduct this survey, while designed specifically to efficiently sample Pacific halibut, is similar to that used in some earlier line fisheries that targeted adult yelloweye rockfish. Some variability in exact sampling location is unavoidable, and leeway is given in the IPHC methods to center the set on the target coordinates but to allow wind and currents to dictate the actual direction in which the gear is deployed. This can result in different habitats accessed at each fixed location among years. The number of skates used can also differ from year to year; skates hauled (i.e., 100 hooks/skate) are thus used as the unit of effort for all years. This has been the standard effort used in past yelloweye rockfish stock assessments. 
