@@ -5,8 +5,10 @@ library(tidyr)
 library(ggplot2)
 library(r4ss)
 
-iphc_bio <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "iphc_biodata_final.csv"))
-
+#iphc_bio <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "iphc_biodata_final.csv"))
+iphc_bio <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "iphc_biodata_final.csv"))|>
+  mutate(fish_length = case_when(project_code == "ODFW-IPHC" & sample_year == 2022 ~ fish_length/10,
+                                 TRUE ~ fish_length))
 
 # Nsamp method is the Stewart Hammel method where
 # Nsamp = n_trips + 0.0707 * n_fish when n_fish/n_tows < 55 and

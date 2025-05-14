@@ -6,7 +6,7 @@
 #_Source_code_at:_https://github.com/nmfs-ost/ss3-source-code
 
 #C file created using an r4ss function
-#C file write time: 2025-05-13  01:25:42
+#C file write time: 2025-05-13  16:47:57
 yelloweye_data.ss
 yelloweye_control.ss
 0 # 0=use init values in control file; 1=use ss.par
@@ -41,5 +41,5 @@ yelloweye_control.ss
 0 # F_std_scaling: 0=no scaling; 1=F/Fspr; 2=F/Fmsy; 3=F/Fbtgt; where F means annual F_std, Fmsy means F_std@msy; values >=11 invoke N multiyr using 10s and 100s digit; append .1 to invoke log(ratio)
 0 # MCMC output detail: integer part (0=default; 1=adds obj func components; 2= +write_report_for_each_mceval); and decimal part (added to SR_LN(R0) on first call to mcmc)
 0 # ALK tolerance ***disabled in code
--1 # random number seed for bootstrap data (-1 to use long(time) as seed): # 1747124895
+-1 # random number seed for bootstrap data (-1 to use long(time) as seed): # 1747180204
 3.30 # check value for end of file and for version control

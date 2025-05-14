@@ -1,6 +1,6 @@
 #C Data file for 2017 yelloweye assessment
 #C file created using an r4ss function
-#C file write time: 2025-05-13  00:55:28
+#C file write time: 2025-05-13  16:24:18
 #
 1889 #_styr
 2024 #_endyr

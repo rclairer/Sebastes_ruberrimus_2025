@@ -1,8 +1,8 @@
 #V3.30.23.2;_safe;_compile_date:_Apr 17 2025;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_13.2
 yelloweye_data.ss #_DataFile 
 yelloweye_control.ss #_Control 
-Run_Date: Tue May 13 01:45:28 2025
-Final_phase: 8  N_iterations: 527
+Run_Date: Tue May 13 17:40:21 2025
+Final_phase: 8  N_iterations: 574
 #_LIKELIHOOD 
 Label logL*Lambda
 TOTAL_LogL 4203.88
@@ -10,11 +10,11 @@ Survey 1.77272
 Length_comp 1222.12
 Age_comp 2976.11
 Recruitment 3.45251
-InitEQ_regime 0
+InitEQ_regime 1.22342e-29
 Sum_recdevs -2.64882
 Forecast_Recruitment 0
 Parm_priors 0
-Parm_softbounds 0.011189
+Parm_softbounds 0.0111891
 Parm_devs 0
 F_Ballpark 0.418539
 Crash_Pen 0
@@ -45,50 +45,50 @@ SR_BH_steep 0.718 0 Fix 0.647499
 SR_sigmaR 0.5 0 Fix 0.1
 SR_regime 0 0 Fix 0.5
 SR_autocorr 0 0 Fix 0.333333
-Early_RecrDev_1889 -0.00443538 0 Act 0.499556
-Early_RecrDev_1890 -0.00457939 0 Act 0.499542
-Early_RecrDev_1891 -0.00472641 0 Act 0.499527
-Early_RecrDev_1892 -0.00487829 0 Act 0.499512
-Early_RecrDev_1893 -0.00503095 0 Act 0.499497
-Early_RecrDev_1894 -0.00518952 0 Act 0.499481
-Early_RecrDev_1895 -0.00535357 0 Act 0.499465
-Early_RecrDev_1896 -0.00552391 0 Act 0.499448
-Early_RecrDev_1897 -0.00570301 0 Act 0.49943
-Early_RecrDev_1898 -0.00588477 0 Act 0.499411
-Early_RecrDev_1899 -0.00607357 0 Act 0.499393
-Early_RecrDev_1900 -0.00627639 0 Act 0.499372
-Early_RecrDev_1901 -0.0064805 0 Act 0.499352
-Early_RecrDev_1902 -0.00670905 0 Act 0.499329
-Early_RecrDev_1903 -0.00695322 0 Act 0.499305
-Early_RecrDev_1904 -0.00720749 0 Act 0.499279
-Early_RecrDev_1905 -0.00746618 0 Act 0.499253
-Early_RecrDev_1906 -0.00773779 0 Act 0.499226
-Early_RecrDev_1907 -0.00798616 0 Act 0.499201
-Early_RecrDev_1908 -0.0082339 0 Act 0.499177
-Early_RecrDev_1909 -0.00848904 0 Act 0.499151
-Early_RecrDev_1910 -0.00875298 0 Act 0.499125
-Early_RecrDev_1911 -0.00904502 0 Act 0.499095
-Early_RecrDev_1912 -0.00937095 0 Act 0.499063
-Early_RecrDev_1913 -0.00978782 0 Act 0.499021
+Early_RecrDev_1889 -0.00443533 0 Act 0.499556
+Early_RecrDev_1890 -0.00457938 0 Act 0.499542
+Early_RecrDev_1891 -0.00472655 0 Act 0.499527
+Early_RecrDev_1892 -0.00487812 0 Act 0.499512
+Early_RecrDev_1893 -0.00503107 0 Act 0.499497
+Early_RecrDev_1894 -0.0051895 0 Act 0.499481
+Early_RecrDev_1895 -0.00535352 0 Act 0.499465
+Early_RecrDev_1896 -0.00552386 0 Act 0.499448
+Early_RecrDev_1897 -0.00570314 0 Act 0.49943
+Early_RecrDev_1898 -0.00588461 0 Act 0.499411
+Early_RecrDev_1899 -0.00607358 0 Act 0.499393
+Early_RecrDev_1900 -0.0062764 0 Act 0.499372
+Early_RecrDev_1901 -0.00648036 0 Act 0.499352
+Early_RecrDev_1902 -0.00670904 0 Act 0.499329
+Early_RecrDev_1903 -0.00695327 0 Act 0.499305
+Early_RecrDev_1904 -0.00720761 0 Act 0.499279
+Early_RecrDev_1905 -0.00746603 0 Act 0.499253
+Early_RecrDev_1906 -0.007738 0 Act 0.499226
+Early_RecrDev_1907 -0.00798599 0 Act 0.499201
+Early_RecrDev_1908 -0.00823377 0 Act 0.499177
+Early_RecrDev_1909 -0.00848933 0 Act 0.499151
+Early_RecrDev_1910 -0.00875272 0 Act 0.499125
+Early_RecrDev_1911 -0.00904513 0 Act 0.499095
+Early_RecrDev_1912 -0.00937087 0 Act 0.499063
+Early_RecrDev_1913 -0.00978779 0 Act 0.499021
 Early_RecrDev_1914 -0.0103498 0 Act 0.498965
-Early_RecrDev_1915 -0.0111557 0 Act 0.498884
+Early_RecrDev_1915 -0.0111558 0 Act 0.498884
 Early_RecrDev_1916 -0.0123008 0 Act 0.49877
 Early_RecrDev_1917 -0.0139139 0 Act 0.498609
-Early_RecrDev_1918 -0.0161476 0 Act 0.498385
+Early_RecrDev_1918 -0.0161475 0 Act 0.498385
 Early_RecrDev_1919 -0.0191569 0 Act 0.498084
 Early_RecrDev_1920 -0.0230591 0 Act 0.497694
-Early_RecrDev_1921 -0.0279111 0 Act 0.497209
+Early_RecrDev_1921 -0.0279112 0 Act 0.497209
 Early_RecrDev_1922 -0.0337036 0 Act 0.49663
 Early_RecrDev_1923 -0.0403477 0 Act 0.495965
 Early_RecrDev_1924 -0.0476651 0 Act 0.495233
-Early_RecrDev_1925 -0.0553996 0 Act 0.49446
+Early_RecrDev_1925 -0.0553997 0 Act 0.49446
 Early_RecrDev_1926 -0.0631983 0 Act 0.49368
-Early_RecrDev_1927 -0.0706315 0 Act 0.492937
+Early_RecrDev_1927 -0.0706314 0 Act 0.492937
 Early_RecrDev_1928 -0.0772747 0 Act 0.492272
-Early_RecrDev_1929 -0.0827627 0 Act 0.491724
-Early_RecrDev_1930 -0.0869062 0 Act 0.491309
+Early_RecrDev_1929 -0.0827626 0 Act 0.491724
+Early_RecrDev_1930 -0.0869063 0 Act 0.491309
 Early_RecrDev_1931 -0.0898272 0 Act 0.491017
-Early_RecrDev_1932 -0.0920031 0 Act 0.4908
+Early_RecrDev_1932 -0.092003 0 Act 0.4908
 Early_RecrDev_1933 -0.09422 0 Act 0.490578
 Early_RecrDev_1934 -0.0974041 0 Act 0.49026
 Early_RecrDev_1935 -0.102283 0 Act 0.489772
@@ -101,12 +101,12 @@ Early_RecrDev_1941 -0.129743 0 Act 0.487026
 Early_RecrDev_1942 -0.1197 0 Act 0.48803
 Early_RecrDev_1943 -0.101033 0 Act 0.489897
 Early_RecrDev_1944 -0.0718667 0 Act 0.492813
-Early_RecrDev_1945 -0.0314222 0 Act 0.496858
-Early_RecrDev_1946 0.0179247 0 Act 0.501792
+Early_RecrDev_1945 -0.0314223 0 Act 0.496858
+Early_RecrDev_1946 0.0179248 0 Act 0.501792
 Early_RecrDev_1947 0.0680092 0 Act 0.506801
 Early_RecrDev_1948 0.103851 0 Act 0.510385
 Early_RecrDev_1949 0.106689 0 Act 0.510669
-Early_RecrDev_1950 0.0651828 0 Act 0.506518
+Early_RecrDev_1950 0.0651827 0 Act 0.506518
 Early_RecrDev_1951 -0.0132658 0 Act 0.498673
 Early_RecrDev_1952 -0.105903 0 Act 0.48941
 Early_RecrDev_1953 -0.189268 0 Act 0.481073
@@ -121,16 +121,16 @@ Early_RecrDev_1961 -0.165904 0 Act 0.48341
 Early_RecrDev_1962 -0.25558 0 Act 0.474442
 Early_RecrDev_1963 -0.329905 0 Act 0.467009
 Early_RecrDev_1964 -0.335336 0 Act 0.466466
-Early_RecrDev_1965 -0.256023 0 Act 0.474398
+Early_RecrDev_1965 -0.256022 0 Act 0.474398
 Early_RecrDev_1966 -0.143212 0 Act 0.485679
 Early_RecrDev_1967 -0.0289229 0 Act 0.497108
 Early_RecrDev_1968 0.141758 0 Act 0.514176
 Early_RecrDev_1969 0.301107 0 Act 0.530111
 Early_RecrDev_1970 0.491111 0 Act 0.549111
-Early_RecrDev_1971 0.622334 0 Act 0.562233
+Early_RecrDev_1971 0.622335 0 Act 0.562233
 Early_RecrDev_1972 0.270877 0 Act 0.527088
 Early_RecrDev_1973 0.0452748 0 Act 0.504527
-Early_RecrDev_1974 0.014694 0 Act 0.501469
+Early_RecrDev_1974 0.0146941 0 Act 0.501469
 Early_RecrDev_1975 0.249554 0 Act 0.524955
 Early_RecrDev_1976 0.259572 0 Act 0.525957
 Early_RecrDev_1977 0.158809 0 Act 0.515881
@@ -214,18 +214,18 @@ LnQ_base_11_NWFSC_ORWA(11) -0.406781 0 Fix 0.486441
 Q_extraSD_11_NWFSC_ORWA(11) 0 0 Fix 0
 LnQ_base_12_IPHC_ORWA(12) -0.268841 0 Fix 0.491039
 Q_extraSD_12_IPHC_ORWA(12) 0.658406 0 Act 0.131681
-LnQ_base_6_OR_REC(6)_BLK2add_2005 -0.598742 0 Act 0.425157
+LnQ_base_6_OR_REC(6)_BLK2add_2005 -0.598717 0 Act 0.42516
 #_Selectivity
 Size_DblN_peak_1_CA_TWL(1) 45.8666 0 Act 0.646665
 Size_DblN_top_logit_1_CA_TWL(1) -15 0 Fix 0
 Size_DblN_ascend_se_1_CA_TWL(1) 5.07925 0 Act 0.607925
-Size_DblN_descend_se_1_CA_TWL(1) 18.4032 0 Act 0.625909
+Size_DblN_descend_se_1_CA_TWL(1) 18.4047 0 Act 0.625958
 Size_DblN_start_logit_1_CA_TWL(1) -999 0 Fix 0
 Size_DblN_end_logit_1_CA_TWL(1) -999 0 Fix 0
 Size_DblN_peak_2_CA_NONTWL(2) 44.2756 0 Act 0.60689
 Size_DblN_top_logit_2_CA_NONTWL(2) -15 0 Fix 0
 Size_DblN_ascend_se_2_CA_NONTWL(2) 5.09445 0 Act 0.609445
-Size_DblN_descend_se_2_CA_NONTWL(2) 16.168 0 Act 0.553805
+Size_DblN_descend_se_2_CA_NONTWL(2) 16.168 0 Act 0.553807
 Size_DblN_start_logit_2_CA_NONTWL(2) -999 0 Fix 0
 Size_DblN_end_logit_2_CA_NONTWL(2) -999 0 Fix 0
 Size_DblN_peak_3_CA_REC(3) 43.367 0 Act 0.584176
@@ -236,8 +236,8 @@ Size_DblN_start_logit_3_CA_REC(3) -999 0 Fix 0
 Size_DblN_end_logit_3_CA_REC(3) -999 0 Fix 0
 Size_DblN_peak_4_ORWA_TWL(4) 50.3756 0 Act 0.75939
 Size_DblN_top_logit_4_ORWA_TWL(4) -15 0 Fix 0
-Size_DblN_ascend_se_4_ORWA_TWL(4) 5.88822 0 Act 0.688821
-Size_DblN_descend_se_4_ORWA_TWL(4) 17.0037 0 Act 0.580763
+Size_DblN_ascend_se_4_ORWA_TWL(4) 5.88821 0 Act 0.688821
+Size_DblN_descend_se_4_ORWA_TWL(4) 17.0036 0 Act 0.580762
 Size_DblN_start_logit_4_ORWA_TWL(4) -999 0 Fix 0
 Size_DblN_end_logit_4_ORWA_TWL(4) -999 0 Fix 0
 Size_DblN_peak_5_ORWA_NONTWL(5) 52.2526 0 Act 0.806314
@@ -270,7 +270,7 @@ Size_DblN_ascend_se_10_TRI_ORWA(10) 6.9664 0 Act 0.79664
 Size_DblN_descend_se_10_TRI_ORWA(10) 12 0 Fix 0.419355
 Size_DblN_start_logit_10_TRI_ORWA(10) -999 0 Fix 0
 Size_DblN_end_logit_10_TRI_ORWA(10) -999 0 Fix 0
-Size_DblN_peak_11_NWFSC_ORWA(11) 57.624 0 Act 0.940599
+Size_DblN_peak_11_NWFSC_ORWA(11) 57.624 0 Act 0.9406
 Size_DblN_top_logit_11_NWFSC_ORWA(11) -15 0 Fix 0
 Size_DblN_ascend_se_11_NWFSC_ORWA(11) 6.48045 0 Act 0.748045
 Size_DblN_descend_se_11_NWFSC_ORWA(11) 20 0 Fix 0.677419
@@ -370,7 +370,7 @@ SSB_1969 868.055 0
 SSB_1970 854.424 0
 SSB_1971 845.564 0
 SSB_1972 833.548 0
-SSB_1973 818.387 0
+SSB_1973 818.386 0
 SSB_1974 801.856 0
 SSB_1975 783.724 0
 SSB_1976 766.567 0
@@ -433,7 +433,7 @@ Recr_1889 216.391 0
 Recr_1890 216.36 0
 Recr_1891 216.328 0
 Recr_1892 216.294 0
-Recr_1893 216.253 0
+Recr_1893 216.252 0
 Recr_1894 216.21 0
 Recr_1895 216.165 0
 Recr_1896 216.125 0
@@ -450,7 +450,7 @@ Recr_1906 215.618 0
 Recr_1907 215.559 0
 Recr_1908 215.5 0
 Recr_1909 215.436 0
-Recr_1910 215.372 0
+Recr_1910 215.373 0
 Recr_1911 215.302 0
 Recr_1912 215.224 0
 Recr_1913 215.126 0
@@ -510,7 +510,7 @@ Recr_1966 176.668 0
 Recr_1967 197.82 0
 Recr_1968 234.295 0
 Recr_1969 274.375 0
-Recr_1970 330.884 0
+Recr_1970 330.883 0
 Recr_1971 376.497 0
 Recr_1972 264.242 0
 Recr_1973 210.215 0
@@ -519,13 +519,13 @@ Recr_1975 255.994 0
 Recr_1976 257.796 0
 Recr_1977 232.241 0
 Recr_1978 199.544 0
-Recr_1979 221.629 0
+Recr_1979 221.63 0
 Recr_1980 246.522 0
 Recr_1981 284.784 0
 Recr_1982 268.322 0
 Recr_1983 239.835 0
 Recr_1984 317.147 0
-Recr_1985 229.963 0
+Recr_1985 229.964 0
 Recr_1986 152.347 0
 Recr_1987 124.023 0
 Recr_1988 108.924 0
@@ -1164,7 +1164,7 @@ SmryBio_2010 2235.85 0.0
 SmryBio_2011 2352.51 0.0
 SmryBio_2012 2448.62 0.0
 SmryBio_2013 2547.25 0.0
-SmryBio_2014 2657.01 0.0
+SmryBio_2014 2657 0.0
 SmryBio_2015 2782.03 0.0
 SmryBio_2016 2937.94 0.0
 SmryBio_2017 3085.83 0.0
@@ -1220,7 +1220,7 @@ TotBio_1922 9646.59 0.0
 TotBio_1923 9640.14 0.0
 TotBio_1924 9632.75 0.0
 TotBio_1925 9620.51 0.0
-TotBio_1926 9604.96 0.0
+TotBio_1926 9604.95 0.0
 TotBio_1927 9582.35 0.0
 TotBio_1928 9553.36 0.0
 TotBio_1929 9524.66 0.0
@@ -1307,7 +1307,7 @@ TotBio_2009 2237.99 0.0
 TotBio_2010 2342.48 0.0
 TotBio_2011 2457.5 0.0
 TotBio_2012 2576.04 0.0
-TotBio_2013 2697.73 0.0
+TotBio_2013 2697.72 0.0
 TotBio_2014 2825.45 0.0
 TotBio_2015 2957.71 0.0
 TotBio_2016 3088.39 0.0
