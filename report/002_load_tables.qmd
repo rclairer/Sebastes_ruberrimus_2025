@@ -1,0 +1,251 @@
+<!-- Load tables produced from r4ss::table_all() -->
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+library(flextable)
+library(gt)
+library(r4ss)
+library(here)
+library(tidyverse)
+library(dplyr)
+
+source(here::here("Rcode", "decision_table.R"))
+
+replist <- r4ss::SS_output(here::here("model", "2025_base_model"))
+inputs <- r4ss::SS_read(here::here("model", "2025_base_model"))
+
+tables <-r4ss::table_all(replist, dir = here::here("report"))
+
+
+if (file.exists(here::here("report/tables"))) {
+  all_files <- list.files(here::here("report/tables"), full.names = TRUE)
+  all_rda_files <- all_files[grep(".rda", all_files)]
+  for (a in 1:length(all_rda_files)) {
+    load(all_rda_files[a])
+  }
+    # process all executive summary tables
+  catches_es_table <- catches_es$table
+  catches_es_cap <- catches_es$cap
+  rm(catches_es)
+  
+  ssb_es_table <- ssb_es$table
+  ssb_es_cap <- ssb_es$cap
+  ssb_es_cap <- gsub("fraction unfished", "fraction of unfished spawning output", ssb_es_cap)
+  rm(ssb_es)
+  
+  spr_es_table <- spr_es$table
+  spr_es_cap <- spr_es$cap
+  rm(spr_es)
+  
+  recr_es_table <- recr_es$table
+  recr_es_cap <- recr_es$cap
+  rm(recr_es)
+  
+  reference_points_table <- reference_points$table
+  reference_points_cap <- reference_points$cap
+  rm(reference_points)
+  
+  recent_management_table <- recent_management$table
+  recent_management_cap <- recent_management$cap
+  rm(recent_management)
+    
+  projections_table <- projections$table
+  projections_cap <- projections$cap
+  projections_cap <- gsub("fraction unfished", "fraction of unfished spawning output", projections_cap)
+  rm(projections)
+  
+  compweight_table <- table_compweight$table
+  compweight_cap <- table_compweight$cap
+  rm(table_compweight)
+  
+  config_table <- table_config$table
+  config_cap <- table_config$cap
+  rm(table_config)
+  
+  parcount_table <- table_parcounts$table
+  parcount_cap <- table_parcounts$cap
+  rm(table_parcounts)
+  
+  pars_table <- table_pars$table
+  pars_cap <- table_pars$cap
+  rm(table_pars)
+
+  # table from r4ss::table_exec_summary()
+  time_series_table <- time_series$table
+  time_series_cap <- time_series$cap
+  rm(time_series)
+
+  time_series_table <- time_series_table |>
+    dplyr::mutate(dplyr::across(dplyr::everything(), ~ dplyr::case_when(
+      grepl("Spawning", dplyr::cur_column()) ~ round(.x, 2),
+      grepl("Total", dplyr::cur_column()) ~ round(.x, 0),
+      grepl("Fraction", dplyr::cur_column()) ~ round(.x, 3),
+      grepl("Recruits", dplyr::cur_column()) ~ round(.x, 0),
+      grepl("Mortality", dplyr::cur_column()) ~ round(.x, 0),
+      TRUE ~ round(.x, 3)
+    )))
+
+  # table from r4ss::table_ts() (not used currently)
+  ts_table <- table_ts$table
+  ts_cap <- table_ts$cap
+  rm(table_ts)
+
+  eval_tables <- TRUE
+} else {
+  eval_tables <- FALSE
+}
+
+# GMT016 table is downloaded from https://reports.psmfc.org/
+# This will need to be fixed once Ian gets back, I think r4ss is getting confused because we have some catch 
+# reported in MT and some in numbers of fish
+GMT016 <- read.csv(here::here("report", "tables", "GMT016-final specifications-.csv"))
+es_10_years <- recent_management_table$Year
+
+# Had to switch the way this is done from what Yellowtail had because our GMT016
+# didn't have the year 2022
+GMT_filt <- GMT016 |>
+  select(YEAR, SPECIFICATION_TYPE, VAL) |>
+  pivot_wider(names_from = SPECIFICATION_TYPE,
+              values_from = VAL) |>
+  select(YEAR, OFL, ABC, ACL) |>
+  dplyr::filter(YEAR %in% es_10_years) |>
+  arrange(YEAR) |>
+  rename(Year = YEAR,
+         `OFL (mt)` = OFL,
+         `ABC (mt)` = ABC,
+         `ACL (mt)` = ACL)
+recent_management_table <- recent_management_table |>
+  full_join(try, by = c("Year")) |>
+  select(Year, `OFL (mt).y`, `ABC (mt).y`, `ACL (mt).y`, `Catch (mt)`) |>
+  rename(`OFL (mt)` = `OFL (mt).y`,
+         `ABC (mt)` = `ABC (mt).y`,
+         `ACL (mt)` = `ACL (mt).y`)
+recent_management_table <- round(recent_management_table)
+
+
+projections_table[1:2, "Adopted OFL (mt)"] <- GMT016 |>
+  dplyr::filter(SPECIFICATION_TYPE == "OFL", YEAR %in% projections_table$Year) |>
+  dplyr::arrange(YEAR) |>
+  dplyr::select(VAL)
+projections_table[1:2, "Adopted ACL (mt)"] <- GMT016 |>
+  dplyr::filter(SPECIFICATION_TYPE == "ACL", YEAR %in% projections_table$Year) |>
+  dplyr::arrange(YEAR) |>
+  dplyr::select(VAL)
+  
+```
+
+```{r}
+#| eval: true
+#| warning: false
+#| echo: false
+#| message: false
+
+# produce catch_table
+
+# Get WA catch MT for where that info is available and create catch table
+# 1967-1974 - no weights in MT
+# 1975-1978 - use previous assessment MT
+# 1979 - no weights in MT
+# 1980-1989 - use previous assessment MT
+# 1990 - 2001 - use wa_rec_recfin_1990_2024_may
+# 2002 - 2004 - dont have this in MT
+# 2005 - 2024 - use wa_rec_recfin_1990_2024_may
+
+wa_rec_recfin_1990_2024_may <- read.csv(file.path(getwd(), "Data", "raw", "nonconfidential", "CTE501_WA_1990_2024_may.csv"))
+
+# years we don't have MT for
+mt_na <- data.frame(
+  year = c(1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1979, 2002, 2003, 2004),
+  catch = c(NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA)
+)
+
+# same as previous assessment - these are from the 2017 catch table
+mt_same_previous <- data.frame(
+  year = c(1975, 1976, 1977, 1978, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989),
+  catch = c(4.39, 4.57, 9.33, 4.57, 2.61, 4.77, 6.76, 9.15, 15.24, 11.46, 10.99, 13.66, 10.57, 18.39)
+)
+
+mt_1990_2001 <- wa_rec_recfin_1990_2024_may |>
+  filter(Year >= 1990 & Year <= 2001) |>
+  group_by(Year) |>
+  summarise(catch = sum(MT)) |>
+  rename(year = Year)
+
+mt_2005_2024 <- wa_rec_recfin_1990_2024_may |>
+  filter(Year >= 2005) |>
+  group_by(Year) |>
+  summarise(catch = sum(MT)) |>
+  rename(year = Year)
+
+all_wa_mt <- bind_rows(mt_na, mt_same_previous, mt_1990_2001, mt_2005_2024) |>
+  mutate(catch = round(catch, 3)) |>
+  arrange(year)|>
+  rename(`7` = catch)
+
+catch_table <- inputs$dat$catch |>
+  dplyr::select(year, fleet, catch) |>
+  tidyr::pivot_wider(names_from = fleet, values_from = catch) |>
+  dplyr::filter(year > 1) |>
+  rename(`8` = `7`) |>
+  dplyr::full_join(all_wa_mt) |>
+  mutate(`7` = case_when(year < 1967 ~ 0,
+                         TRUE ~ `7`)) |>
+  select(year, `1`:`6`, `7`, `8`) |>
+  mutate(Total = round(rowSums(across(`1`:`7`), na.rm = TRUE), 3)) |>
+  mutate(`7` = case_when(is.na(`7`) ~ " - ",
+                         TRUE ~ `7`))
+```
+
+<!-- Create table for nwfsc survey hauls and save as rds file -->
+```{r}
+#| echo: false
+#| eval: false
+#| message: false
+#| warning: false
+
+haul <- nwfscSurvey::PullHaul.fn(
+  YearRange = c(2003, 2024),
+  SurveyName = "NWFSC.Combo")
+
+bio = nwfscSurvey::pull_bio(
+  common_name = "yelloweye rockfish",
+  survey = "NWFSC.Combo")
+
+haul_orwa <- haul |>
+  filter(latitude_dd >= 42) |>
+  dplyr::group_by(year) |>
+  summarise(trawl.count = n_distinct(trawl_id)) |>
+  mutate(area = "ORWA")
+
+haul_ca <- haul |>
+  filter(latitude_dd < 42) |>
+  dplyr::group_by(year) |>
+  summarise(trawl.count = n_distinct(trawl_id)) |>
+  mutate(area = "CA")
+
+haul_all <- haul_orwa |>
+  bind_rows(haul_ca)
+
+bio_orwa <- bio |>
+  filter(Latitude_dd >= 42) |>
+  dplyr::group_by(Year) |>
+  summarise(positive.trawl.count = n_distinct(Trawl_id)) |>
+  mutate(area = "ORWA") |>
+  rename(year = Year)
+
+bio_ca <- bio |>
+  filter(Latitude_dd < 42) |>
+  dplyr::group_by(Year) |>
+  summarise(positive.trawl.count = n_distinct(Trawl_id)) |>
+  mutate(area = "CA") |>
+  rename(year = Year)
+
+bio_all <- bio_orwa |>
+  bind_rows(bio_ca)
+
+all <- haul_all |>
+  inner_join(bio_all, by = c("year", "area")) |>
+  saveRDS(here::here("report", "tables", "tbl-sampling-effort-nwfsc.rds"))
+```
