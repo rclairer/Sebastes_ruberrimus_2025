@@ -1,6 +1,0 @@
-Note 1 Information: Max data length bin: 74  < max pop len bins: 88; so will accumulate larger pop len bins
-Note 2 Suggestion:  recr_dist_method 3 is simpler and takes 1 parm for each settlement
-Warning 1 : At least one block pattern ends in endyr. Check the output parameter value time series to see if the values in forecast years are as intended.
-Warning 2 : Final gradient: 10660.2 is larger than final_conv: 0.0001
-Note 3 Information:  N parameters that are on or within 1% of min-max bound: 1; check results, variance may be suspect
- 2 warnings  and 3 notes 
