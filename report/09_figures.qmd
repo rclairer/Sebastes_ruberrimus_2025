@@ -680,6 +680,96 @@ knitr::include_graphics(
 
 <!-- 04c_model_diagnostics -->
 
+
+
+<!-- 04c_model_diagnostics - Sensitivities -->
+
+```{r}
+#| label: fig-sens_model_spout
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Spawning output across model structure sensitivities."
+
+knitr::include_graphics(
+    "figures/sensitivities/modelingcompare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-sens_model_status
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Relative spawning output across model structure sensitivities."
+
+knitr::include_graphics(
+    "figures/sensitivities/modelingcompare4_Bratio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-sens_data_spout
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Spawning output across dataset inclusion sensitivities."
+
+knitr::include_graphics(
+    "figures/sensitivities/datacompare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-sens_data_status
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Relative spawning output across dataset inclusion sensitivities."
+
+knitr::include_graphics(
+    "figures/sensitivities/datacompare4_Bratio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-sens_indices_spout
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Spawning output across index inclusion sensitivities."
+
+knitr::include_graphics(
+    "figures/sensitivities/indicescompare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-sens_indices_status
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Relative spawning output across index inclusion sensitivities."
+
+knitr::include_graphics(
+    "figures/sensitivities/indicescompare4_Bratio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-sens_sum
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Relative change in management quantities across models conducted as sensitivities."
+
+knitr::include_graphics(
+    "figures/sensitivities/sens_summary.png"
+)
+```
+
+<!-- add retro figures here -->
+
 ```{r}
 #| label: fig-status_assmtns
 #| echo: false
