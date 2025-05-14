@@ -15,7 +15,7 @@ library(ggplot2)
 model_directory <- here::here('model')
 base_model_name <- here::here(
   'model',
-  'updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250427'
+  '2025_base_model'
 )
 exe_loc <- here::here('model/ss3')
 base_model <- SS_read(base_model_name, ss_new = TRUE)
@@ -895,6 +895,7 @@ file.copy(
 tune_comps(
   option = 'MI',
   niters_tuning = 3,
+  init_run = TRUE,
   dir = file.path(
     model_directory,
     'sensitivities',
@@ -957,7 +958,7 @@ results <- future_map(
     dir = .x,
     exe = exe_loc,
     extras = '-nohess',
-    skipfinished = TRUE
+    skipfinished = FALSE
   )
 )
 
@@ -1148,7 +1149,7 @@ big_sensitivity_output <- SSgetoutput(
 ) |>
   `names<-`(c('base', sens_names$dir))
 
-# big_sensitivity_output$base = base_out
+big_sensitivity_output$base = base_out
 
 # test to make sure they all read correctly:
 which(sapply(big_sensitivity_output, length) < 180) # all lengths should be >180
