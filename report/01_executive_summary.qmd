@@ -257,7 +257,7 @@ projections_table |>
 #| warning: false
 #| echo: false
 #| eval: !expr eval_tables 
-#| tbl-cap: !expr if(eval_tables) decision_table_cap 
+#| tbl-cap: "!expr if(eval_tables) decision_table_cap" 
 #| tbl-pos: H
 table_decision(
   list(mod_low_A, mod_base_A, mod_high_A),

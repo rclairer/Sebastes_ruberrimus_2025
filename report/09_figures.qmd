@@ -11,7 +11,6 @@
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Summary of data sources used in the base model."
 
 knitr::include_graphics(
@@ -25,7 +24,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Landings (mt) by year and fleet."
 
 knitr::include_graphics(
@@ -38,7 +36,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Quantile-quantile plot for the sdmTMB model fit for the Oregon Onboard Observer (ORFS) index."
 
 knitr::include_graphics(
@@ -51,7 +48,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Annual relative index of abundance for the Oregon Onboard Observer (ORFS) index."
 
 knitr::include_graphics(
@@ -64,7 +60,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Comparison of Oregon Onboard Observer indices from the 2017 and the current assessment."
 
 knitr::include_graphics(
@@ -77,7 +72,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Quantile-quantile plot for the sdmTMB model fit for the updated portion of the Oregon recreational (ORBS) index."
 
 knitr::include_graphics(
@@ -90,7 +84,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Annual relative index of abundance for the Oregon recreational index, including both MRFSS (1980 - 1999) and ORBS (2004 - 2024) indices."
 
 knitr::include_graphics(
@@ -105,7 +98,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Comparison of the 2017 ORBS index (delta-GLM), the 2017 ORBS model (implemented in sdmTMB), and the current ORBS index (sdmTMB)."
 
 knitr::include_graphics(
@@ -118,7 +110,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Quantile-quantile plot for the sdmTMB model fit for the NWFSC West Coast Groundfish Bottom Trawl Survey (WCGBTS) index."
 
 knitr::include_graphics(
@@ -131,7 +122,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Comparison of the 2017 NWFSC West Coast Groundfish Bottom Trawl Survey (WCGBTS) and the current WCBTS index of abundance."
 
 knitr::include_graphics(
@@ -144,7 +134,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Annual relative index of abundance for the West Coast Groundfish Bottom Trawl Survey (WCGBTS)."
 
 knitr::include_graphics(
@@ -157,7 +146,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Annual relative index of abundance for the IPHC longline survey."
 
 knitr::include_graphics(
@@ -170,7 +158,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Comparison of the 2017 and the current IPHC index of abundance."
 #
 knitr::include_graphics(
@@ -183,7 +170,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Annual length composition data for the WCBTS."
 #
 knitr::include_graphics(
@@ -196,7 +182,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Annual length composition data from the IPHC longline survey."
 #
 knitr::include_graphics(
@@ -211,7 +196,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Annual unsexed conditional age-at-length data for the WCBTS (1 of 2)."
 #
 knitr::include_graphics(
@@ -224,7 +208,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Annual unsexed conditional age-at-length data for the WCBTS (2 of 2)."
 #
 knitr::include_graphics(
@@ -237,7 +220,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Annual unsexed conditional age-at-length data for the IPHC (1 of 2)."
 #
 knitr::include_graphics(
@@ -250,7 +232,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "nnual unsexed conditional age-at-length data for the IPHC (1 of 2)."
 #
 knitr::include_graphics(
@@ -263,7 +244,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Updated weight-at-length relationship."
 #
 knitr::include_graphics(
@@ -278,7 +258,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Comparison of the spawning output for the 2017 model with the updated SS3 executable and a single-sex model."
 #
 knitr::include_graphics(
@@ -291,7 +270,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Comparison of the stock status for the 2017 model with the updated SS3 executable and a single-sex model."
 #
 knitr::include_graphics(
@@ -306,7 +284,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated catch data (dark green), updated indices (light green), new fishery length composition data (orange), and survey length composition data (red)."
 #
 knitr::include_graphics(
@@ -319,7 +296,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), updated catch data (dark green), updated indices (light green), new fishery length composition data (orange), and survey length composition data (red)."
 #
 knitr::include_graphics(
@@ -332,7 +308,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated catch data (light blue), updated indices (dark green), new fishery length composition data (light green), and commercial (yellow), recreational (orange), and survey (red) age composition data."
 #
 knitr::include_graphics(
@@ -345,7 +320,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), updated catch data (light blue), updated indices (dark green), new fishery length composition data (light green), and commercial (yellow), recreational (orange), and survey (red) age composition data."
 #
 knitr::include_graphics(
@@ -358,7 +332,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), 2025 model with all available updated data (green), with tuned compositional data (yellow), and with the updated recruitment bias adjustment ramp (red)."
 #
 knitr::include_graphics(
@@ -371,7 +344,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), 2025 model with all available updated data (green), with tuned compositional data (yellow), and with the updated recruitment bias adjustment ramp (red)."
 #
 knitr::include_graphics(
@@ -384,7 +356,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Length at age in the beginning of the year in the ending year of the model."
 #
 knitr::include_graphics(
@@ -397,7 +368,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Points are transformed variances. Red line shows current settings for bias adjustment specified in the control file. Blue line shows least squares estimate of alternative bias adjustment relationship for recruitment deviations."
 #
 knitr::include_graphics(
@@ -412,7 +382,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Estimated selectivity at length for all fleets."
 #
 knitr::include_graphics(
@@ -427,7 +396,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Spawning output at length."
 #
 knitr::include_graphics(
@@ -440,7 +408,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Stock-recruit curve. Point colors indicate year, with warmer colors indicating earlier years and cooler colors in showing later years."
 #
 knitr::include_graphics(
@@ -453,7 +420,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Estimated recruitment deviations with 95% intervals."
 #
 knitr::include_graphics(
@@ -466,7 +432,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Estimated selectivity for the IPHC longline survey for Oregon/Washington (Fleet 12)."
 #
 knitr::include_graphics(
@@ -479,7 +444,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Estimated selectivity for the WCBTS for Oregon/Washington (Fleet 11)."
 #
 knitr::include_graphics(
@@ -492,7 +456,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Estimated selectivity for the Triennial bottom trawl survey for Oregon/Washington (Fleet 10)."
 #
 knitr::include_graphics(
@@ -507,7 +470,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Fit to the California MRFSS recreational index."
 #
 knitr::include_graphics(
@@ -520,7 +482,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Fit to the Oregon recreational index."
 #
 knitr::include_graphics(
@@ -533,7 +494,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Fit to the Washington recreational index."
 #
 knitr::include_graphics(
@@ -546,7 +506,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Fit to the California CPFV observer index."
 #
 knitr::include_graphics(
@@ -559,7 +518,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Fit to the Oregon onboard observer (ORFS) index."
 #
 knitr::include_graphics(
@@ -572,7 +530,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Fit to the Triennial survey index."
 #
 knitr::include_graphics(
@@ -585,7 +542,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Fit to the WCBTS index."
 #
 knitr::include_graphics(
@@ -598,7 +554,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Fit to the IPHC survey index."
 #
 knitr::include_graphics(
@@ -615,7 +570,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Fit to length composition data, aggregated across time by fleet."
 #
 knitr::include_graphics(
@@ -628,7 +582,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Pearson residuals, comparing across fleets, for length composition data (1 of 2). Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
 #
 knitr::include_graphics(
@@ -641,7 +594,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Pearson residuals, comparing across fleets, for length composition data (2 of 2). Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
 #
 knitr::include_graphics(
@@ -660,7 +612,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Estimated spawning output over time for both areas combined."
 #
 knitr::include_graphics(
@@ -673,7 +624,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Estimated spawning output over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
 #
 knitr::include_graphics(
@@ -686,7 +636,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Total biomass (t) over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
 #
 knitr::include_graphics(
@@ -699,7 +648,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Summary biomass (t) over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
 #
 knitr::include_graphics(
@@ -714,7 +662,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Age 0 recruits (1000s) over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
 #
 knitr::include_graphics(
@@ -724,7 +671,17 @@ knitr::include_graphics(
 
 <!-- 04c_model_diagnostics -->
 
-
+```{r}
+#| label: fig-full-jitter
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Plot showing 50 jitters with 78% returning to the base model likelihood."
+#
+knitr::include_graphics(
+    "figures/diagnostics/2025_base_model_jitter_0.1/jitter.png"
+)
+```
 
 <!-- 04c_model_diagnostics - Sensitivities -->
 
@@ -733,7 +690,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Spawning output across model structure sensitivities."
 #
 knitr::include_graphics(
@@ -746,7 +702,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Relative spawning output across model structure sensitivities."
 #
 knitr::include_graphics(
@@ -759,7 +714,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Spawning output across dataset inclusion sensitivities."
 #
 knitr::include_graphics(
@@ -772,7 +726,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Relative spawning output across dataset inclusion sensitivities."
 #
 knitr::include_graphics(
@@ -785,7 +738,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Spawning output across index inclusion sensitivities."
 #
 knitr::include_graphics(
@@ -798,7 +750,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Relative spawning output across index inclusion sensitivities."
 #
 knitr::include_graphics(
@@ -813,7 +764,6 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Relative change in management quantities across models conducted as sensitivities."
 #
 knitr::include_graphics(
@@ -828,10 +778,12 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| out-width: 80%
 #| fig-cap: "Relative depletion (spawning output) across Yelloweye Rockfish assessments over time."
 #
 knitr::include_graphics(
     "figures/bridging/Timeseries_comp_previous_assessments.png"
 )
 ```
+
+<!-- keep this at end -->
+\pagebreak

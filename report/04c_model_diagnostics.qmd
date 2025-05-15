@@ -5,32 +5,51 @@ If possible, ranges depicting uncertainty should include at least three runs: (a
 
 ### Convergence
 
-<!-- Convergence status and convergence criteria for the base-run model (or proposed base run). Randomization of starting parameter value run (e.g., jitter) results or other evidence of search for global best estimates.  -->
+Model convergence was evaluated by starting the minimization process from dispersed values of the maximum likelihood estimates to determine if the model found a better minimum. Starting parameters were jittered using the jitter function built into Stock Synthesis, using a jitter input of 0.10. This was repeated 50 times with 78% of runs returning to the base model likelihood. A better, lower negative log-likelihood, model fit was not found. The spread of this search indicates that the jitter was sufficient to search a large portion of the likelihood surface, and that the base model is at a global minimum (@fig-full-jitter). Through the jittering and the likelihood profiles, we are confident that the base model, as presented, represents the best fit to the data given the assumptions made. There were no difficulties in inverting the Hessian to obtain estimates of variability. The final gradient was 0.00087.
 
 ### Sensitivity Analyses
 
 #### Sensitivity to assumptions about model structure
 
-Sensitivity analysis to examine the impact of different assumptions about model structure on management quantities included a model with an estimated baseline Natural Mortality rate (M), one with estimated steepness (h) of the stock-recruit relationship, and one using the 2017 length-weight relationship. 
+Sensitivity analyses to examine the impact of different assumptions about model structure on management quantities included a model with an estimated natural mortality rate (M), one with estimated steepness (h) of the stock-recruit relationship, and one using the 2017 length-weight relationship. Summaries of model results for these sensitivities are presented in Table XX. 
 
-The Natural Mortality rate (M) estimated by the first model was higher than that of the base model (~ 0.055 $year^-1$ compared to ~ 0.044 $year^-1$ from the base model). The second model estimated steepness at a higher value of ~ 0.905, which indicates recruitment is more dependent on spawning stock biomass, as opposed from the fixed value of 0.718 from the base model.
+The estimated natural mortality was higher than that of the base model (~ 0.053 $year^-1$ compared to ~ 0.044 $year^-1$ from the base model). Estimated steepness is also higher (0.905), indicating recruitment is more dependent on spawning stock biomass, as opposed to the fixed value of 0.718 from the base model. These results combined suggest that the Yelloweye Rockfish stock may be more productive than assumed in the base model. 
 
-As shown in **Figure X** to **Figure X**, the base model is considerably sensitive to whether the Natural Mortality rate is estimated or fixed, with the alternative model estimating a higher spawning output compared to the base model. Similar outcomes are shown for the model with estimated steepness, which estimated a higher spawning output compared to the base model. Contrastingly, outputs of the model using the 2017 length-weight relationship showed the base model is not sensititive to this modelling choice, with very similar spawning outputs between the base and alternative model (**Figure X** to **Figure X**).   
+As shown in @fig-sens_model_spout and @fig-sens_model_status, model results are considerably sensitive to whether natural mortality or steepness are estimated or fixed, with the alternative models estimating a higher spawning output and a lower depletion status when compared to the base model. Contrastingly, outputs of the model using the 2017 length-weight relationship showed the base model is not sensitive to this update, with very similar spawning outputs between the base and alternative model (@fig-sens_model_spout to @fig-sens_model_status).   
 
 #### Sensitivity to data set choice and weighting schemes
 
-<!-- Sensitivity to data set choice (e.g., using emphasis factors to selectively remove data sources) and weighting schemes (e.g., MacAllister & Ianelli weighting versus Francis weighting vs. Dirichlet weighting for compositional data), which may also include a consideration of recent patterns in recruitment.  -->
+Sensitivity analyses to dataset choices to examine the impact of including different data streams were conducted by selectively removing each data source using emphasis factors, as well as by including different weighting schemes for compositional data. Summaries of model results for these sensitivities are presented in Tables XX to XX. Among these, the base model appears to be most sensitive to removing length compositions, which show a significantly different biomass trajectory and a more optimistic estimate of stock status at the end of the time series (@fig-sens_data_spout and @fig-sens_data_status). Removing all age compositions, IPHC age compositions only, and applying the McAllister & Ianelli weighting scheme also result in slightly more optimistic estimates of stock status at the end of the time series compared to the base model (@fig-sens_data_spout and @fig-sens_data_status). Furthermore, models without all abundance indices and without the IPHC index resulted in slightly less optimistic estimates of spawning output and stock status at the end of the time series (@fig-sens_indices_spout and @fig-sens_indices_status. Models removing the remaining indices consecutively did not show large differences in the final stock status estimate. A summary of the relative changes in management quantities from all sensitivity models is shown in @fig-sens_sum.
  
 ### Retrospective Analysis
 
-<!-- Retrospective analysis, where the model is fitted to a series of shortened input data sets, with the most recent years of input data being dropped.  -->
+A retrospective analysis was conducted by running the base model with data removed for the past 5 years. Comparisons of the time series of absolute and relative spawning output
+and recruitment deviations time series for the runs are shown in Figure X, Figure Y and
+Figure Z (Spawning output plot, relative spawning biomass, recruitment deviations), respectively. Recruitment deviations were more positive as years were removed. However, the change is not large, indicating that the new data are consistent with previous values or the sample sizes are too small to have any impact.
  
-<!-- Historical analysis (plot of actual estimates from current and previous assessments).  -->
+General trends in relative depletion (or spawning output) have been relatively stable across assessments (@fig-status_assmnts), with a decline throughout the later half of the 1900’s as the stock was fished down, followed by a reversal in the overall status after substantial catch restrictions were implemented in 2002. Across the most recent assessments, the 2017 assessment [@gertseva_stock_2017] appears to have the most pessimistic depletion across the stock decline in the 1900s but otherwise, the relative depletion trend appears to be similar across the 2011, 2017 and the 2025 assessment as the stock has rebounded from its lowest status. 
 
 ### Likelihood Profiles
 
 <!-- Evaluation of model parameters. Likelihood profile for the base model over key parameters (typically natural morality, stock-recruit steepness, and equilibrium recruitment, or R0). The profile should indicate all likelihood values for individual components (e.g., indices by survey, compositional data for each type and fleet).   -->
 
+Likelihood profiles were conducted for natural mortality (𝑀), stock-recruit steepness (ℎ), and equilibrium recruitment (ln𝑅0). These likelihood profiles were conducted by fixing the parameter of interest at specific values and estimating the remaining parameters based on the fixed parameter value.
+
+In the assessment, the 𝑀 was fixed at the value of 0.044, based on Hamel’s prior. The profile analysis over 𝑀 showed that the negative log-likelihood was minimized with a value around 0.052 (Figure NatM piner panel), which is close to what was assumed in the assessment. The time series of absolute and relative spawning output associated with different values of 𝑀 ranging from 0.03 to 0.06 are shown in Figure (NatM Bratio plot).
+
+In the base model ℎ is fixed at 0.718, like the 2017 assessment, because higher values are implausible given the life-history of slow growing rockfish. The likelihood profile for ℎ shows that the negative log-likelihood for the base model declines with increasing steepness to a value around 0.7 (Figure h piner panel). Time series of relative unfished biomass associated with different values of steepness ranging from 0.25 to 1.0 are shown in Figure (h bratio).
+
+lnR0
+
+A likelihood profile analysis for ln(R0) shows a strongly informed initial recruitment value in the base model (Figure 177 and Figure 178). Most of the information for this parameter is coming
+from the length data, with the recruitment likelihood also contributing (Figure 177). Within the length composition likelihood component, all sources of length compositions support the MLE value. The index data support a higher ln(R0), whereas the age data are relatively uninformative. Small changes in ln(R0) results in large changes in the scale of the population (Figure 178 and Figure 179). The rate of change is quicker in the current biomass estimate, leading to higher stock status as ln(R0) increases. Stock status is relatively flat when ln(R0) is decreased below the MLE estimate.
+As in the case with ln(R0), a likelihood profile analysis for the estimated parameter that controls distribution of recruits between areas shows the value in the reference model is heavily informed by the length composition data (Figure 181), with overall support coming from multiple length components (Figure 182), but particularly the California recreational fleets. The reference model is also lower in both stock scale (Figure 183) and relative status (Figure 184). This occurs because in order for each profiled model outside the reference model to obtain the fixed area recruitment apportionments, the scale must be greatly increased. The catch then has a lower relative effect on the stock, thus the resultant relative statuses are more optimistic.
+
+
+
+
 ## Unresolved Problems and Major Uncertainties
 
 <!-- Describe any special issues (e.g., unbalanced or questionable data, missing survey data) that complicate scientific assessment, questions about the best model scenario. -->
+
+None. Great job.

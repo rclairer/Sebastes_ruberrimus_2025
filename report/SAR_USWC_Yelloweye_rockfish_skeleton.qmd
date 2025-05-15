@@ -1,15 +1,15 @@
 ---
-title: 'Status of Yelloweye rockfish off the U.S. West Coast in 2025'
+title: 'Status of Yelloweye Rockfish off the U.S. West Coast in 2025'
 author:
 # add authors in order
-  - name: 'Morgan Johnston'
+  - name: 'Morgan Johnston*'
     affiliations:
       - name: 'Oregon State University'
         address: '1500 SW Jefferson Way'
         city: 'Corvallis, OR'
         state: 'OR'
         postal-code: '97331'
-  - name: 'R. Claire Rosemond'
+  - name: 'R. Claire Rosemond*'
     affiliations:
       - name: 'NOAA Fisheries Northwest Fisheries Science Center'
         address: '2032 SE OSU Drive Building 955' 
@@ -65,6 +65,7 @@ author:
         city: 'Olympia, WA'
         state: 'WA'
         postal-code: '98504-3150'
+author-note: "*These authors contributed equally to this work."
 date: today
 lang: en 
 keep-tex: true 
@@ -97,6 +98,31 @@ params:
 bibliography: 
 -  asar_references.bib 
 ---
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+\renewcommand{\thetable}{\roman{table}}
+\renewcommand{\thefigure}{\roman{figure}}
+
+```{r}
+#| label: 'read_base_model'
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+
+library(here)
+library(dplyr)
+
+source(here::here('Rcode/table_sens.R'))
+source(here::here('Rcode/decision_table.R'))
+
+base_mod <- 'model/2025_base_model'
+mod_in <- r4ss::SS_read(here(base_mod))
+mod_out <- r4ss::SS_output(here(base_mod), verbose = FALSE, printstats = FALSE)
+
+```
+
 ```{r} 
 #| label: 'output_and_quantities'
 #| echo: false 
@@ -231,8 +257,8 @@ cat(a, sep = '\n')
 #| eval: true
 #| echo: false
 #| warning: false
-# a <- knitr::knit_child('01_executive_summary.qmd', quiet = TRUE)
-# cat(a, sep = '\n')
+ a <- knitr::knit_child('01_executive_summary.qmd', quiet = TRUE)
+ cat(a, sep = '\n')
 ```
 
  {{< pagebreak >}} 
