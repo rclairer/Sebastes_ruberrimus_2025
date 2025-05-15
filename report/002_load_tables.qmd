@@ -116,13 +116,15 @@ GMT_filt <- GMT016 |>
          `OFL (mt)` = OFL,
          `ABC (mt)` = ABC,
          `ACL (mt)` = ACL)
-# recent_management_table <- recent_management_table |>
-#   full_join(try, by = c("Year")) |>
-#   select(Year, `OFL (mt).y`, `ABC (mt).y`, `ACL (mt).y`, `Catch (mt)`) |>
-#   rename(`OFL (mt)` = `OFL (mt).y`,
-#          `ABC (mt)` = `ABC (mt).y`,
-#          `ACL (mt)` = `ACL (mt).y`)
-# recent_management_table <- round(recent_management_table)
+
+recent_management_table <- recent_management_table |>
+  full_join(GMT_filt, by = c("Year")) |>
+  select(Year, `OFL (mt).y`, `ABC (mt).y`, `ACL (mt).y`, `Catch (mt)`) |>
+  rename(`OFL (mt)` = `OFL (mt).y`,
+         `ABC (mt)` = `ABC (mt).y`,
+         `ACL (mt)` = `ACL (mt).y`)
+
+recent_management_table <- round(recent_management_table)
 
 
 projections_table[1:2, "Adopted OFL (mt)"] <- GMT016 |>
@@ -184,18 +186,38 @@ all_wa_mt <- bind_rows(mt_na, mt_same_previous, mt_1990_2001, mt_2005_2024) |>
   arrange(year)|>
   rename(`7` = catch)
 
- catch_table <- inputs$dat$catch |>
-   dplyr::select(year, fleet, catch) |>
-   tidyr::pivot_wider(names_from = fleet, values_from = catch) #|>
-#   dplyr::filter(year > 1) |>
-#   rename(`8` = `7`) |>
-#   dplyr::full_join(all_wa_mt) |>
-#   mutate(`7` = case_when(year < 1967 ~ 0,
-#                          TRUE ~ `7`)) |>
-#   select(year, `1`:`6`, `7`, `8`) |>
-#   mutate(Total = round(rowSums(across(`1`:`7`), na.rm = TRUE), 3)) |>
-#   mutate(`7` = case_when(is.na(`7`) ~ " - ",
-#                          TRUE ~ `7`))
+# Catch table using actual weights from WA
+catch_table <- inputs$dat$catch |>
+  dplyr::select(year, fleet, catch) |>
+  tidyr::pivot_wider(names_from = fleet, values_from = catch) |>
+  dplyr::filter(year > 1) |>
+  rename(`8` = `7`) |>
+  dplyr::full_join(all_wa_mt) |>
+  mutate(`7` = case_when(year < 1967 ~ 0,
+                         TRUE ~ `7`)) |>
+  select(year, `1`:`6`, `7`, `8`) |>
+  mutate(Total = round(rowSums(across(`1`:`7`), na.rm = TRUE), 3)) |>
+  mutate(`7` = case_when(is.na(`7`) ~ " - ",
+                         TRUE ~ as.character(`7`)))
+ 
+# Catch table using weights output from SS3 using weight relationship
+WA_rec_weights <- replist$catch |>
+  filter(Fleet == 7) |>
+  select(Yr, dead_bio) |>
+  mutate(dead_bio = round(dead_bio, 3)) |>
+  rename(`7` = dead_bio,
+         year = Yr) |>
+  filter(year > 1888)
+
+catch_table_est_weights <- inputs$dat$catch |>
+  dplyr::select(year, fleet, catch) |>
+  tidyr::pivot_wider(names_from = fleet, values_from = catch) |>
+  dplyr::filter(year > 1) |>
+  rename(`8` = `7`) |>
+  dplyr::full_join(WA_rec_weights, by = "year") |>
+  select(year, `1`:`6`, `7`, `8`) |>
+  mutate(Total = round(rowSums(across(`1`:`7`), na.rm = TRUE), 3))
+  
 ```
 
 <!-- Create table for nwfsc survey hauls and save as rds file -->
