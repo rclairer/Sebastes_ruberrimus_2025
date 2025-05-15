@@ -6,8 +6,6 @@
 #| warning: false 
 #| eval: true 
 #| include: false
-library(flextable)
-
 # You can save tables to read in as csv or rda files.
 # stockplotr generally uses rda files.
 # I (Kiva) prefer csv files because they are text files that are easier to track and preview with version control.
@@ -18,3 +16,509 @@ library(flextable)
 
 ``` 
 
+### Data
+
+```{r}
+#| label: tbl-all_removals
+#| echo: false
+#| warning: false
+#| tbl-cap: "Time series of yelloweye rockfish catches by fleet used in the assessment. Trawl fleets include yelloweye bycatch in foreign POP and in at-sea Pacific hake fisheries. Years 1967 - 1974, 1979, and 2002 - 2004 do not include WA Sport Catch in MT as that information is not available."
+
+# This table needs to be redone once the WA sport catches are updated
+catch_table |> # produced in 002_load_tables.qmd
+  gt() |>
+ cols_label(
+    year = "Year",
+    `1` = "CA trawl (mt)",
+    `2` = "CA non-trawl (mt)",
+    `3` = "CA sport (mt)",
+    `4` = "OR-WA trawl (mt)",
+    `5` = "OR-WA non-trawl (mt)",
+    `6` = "OR sport (mt)",
+    `7` = "WA sport (mt)",
+    `8` = "WA sport (1000s fish)",
+    Total = "Total Catch (mt)"
+  ) |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+
+
+```{r}
+#| label: tbl-srvy-lat-depth
+#| echo: false
+#| warning: false
+#| tbl-cap: "Latitudinal and depth ranges by year of two bottom trawl surveys used in the assessment"
+```
+
+
+```{r}
+#| label: tbl-sampling-effort-triennial
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of sampling effort within triennial survey, with total and yelloweye positive hauls summarized by area."
+
+# This data is directly taken from the pdf of the last assessment report
+sampling_tri <- data.frame(
+  year = c(1980, 1983, 1986, 1989, 1992, 1995, 1998, 2001, 2004, 1980, 1983, 1986, 1989, 1992, 1995, 1998, 2001, 2004),
+  state = c("CA", "CA", "CA", "CA", "CA", "CA", "CA", "CA", "CA", "OR-WA", "OR-WA", "OR-WA", "OR-WA", "OR-WA", "OR-WA", "OR-WA", "OR-WA", "OR-WA"),
+  number.hauls = c(68, 96, 95, 147, 135, 123, 129, 129, 103, 263, 416, 389, 300, 310, 241, 260, 246, 185),
+  number.positive = c(1, 1, 2, 7, 2, 1, 0, 0, 3, 13, 26, 27, 30, 25, 7, 14, 15, 9)
+)
+
+cols_order <- unlist(lapply(c("CA", "OR-WA"), function(x) paste(x, c("number.hauls", "number.positive"), sep = "_")))
+
+data_wide <- sampling_tri |>
+  pivot_wider(names_from = "state", values_from = c(number.hauls, number.positive), names_glue = "{state}_{.value}") |>
+  select(all_of(c("year", cols_order)))
+
+data_wide |> 
+  gt(sampling_tri, rowname_col = "year") |>
+  tab_spanner_delim(
+    delim = "_",
+    split = "first"
+  ) |>
+  cols_label_with(
+    fn = function(x) gsub("number.hauls", "Number of hauls", x)
+  ) |>
+  cols_label_with(
+    fn = function(x) gsub("number.positive", "Number of positive hauls", x)
+  ) |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+
+```{r}
+#| label: tbl-sampling-effort-nwfsc
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of sampling effort within NWFSC trawl survey, with total and yelloweye positive hauls summarized by area."
+
+data_wide <- readRDS(here::here("report", "tables", "tbl-sampling-effort-nwfsc.rds")) |>
+  tidyr::pivot_wider(names_from = "area", values_from = c(trawl.count, positive.trawl.count), names_glue = "{area}_{.value}") |>
+  mutate(
+    across(
+      c(CA_trawl.count, ORWA_trawl.count, CA_positive.trawl.count, ORWA_positive.trawl.count),
+      ~ replace_na(.x, 0)
+    )
+  ) |>
+  select(year, CA_trawl.count, CA_positive.trawl.count, ORWA_trawl.count, ORWA_positive.trawl.count)
+
+data_wide |> 
+  gt(sampling_tri, rowname_col = "year") |>
+  tab_spanner_delim(
+    delim = "_",
+    split = "first"
+  ) |>
+  cols_label_with(
+    fn = function(x) gsub("trawl.count", "Number of hauls", x)
+  ) |>
+  cols_label_with(
+    fn = function(x) gsub("positive.trawl.count", "Number of positive hauls", x)
+  ) |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+
+```
+
+```{r}
+#| label: tbl-filtering-iphc
+#| echo: false
+#| warning: false
+#| tbl-cap: "Filtering levels and resultant data from the IPHC halibut survey index."
+```
+
+```{r}
+#| label: tbl-iphc-model-selection
+#| echo: false
+#| warning: false
+#| tbl-cap: "sdmTMB model selection for the IPHC halibut survey index. Gray bar indicates selected model."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-filtering-CA-MRFSS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Filtering levels and resultant data from the California MRFSS recreational index."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-model-selection-CA-MRFSS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Delta-GLM model selection for the California MRFSS recreational index. Gray bar indicates selected model."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-filtering-CA-CPFV
+#| echo: false
+#| warning: false
+#| tbl-cap: "Filtering levels and resultant data from the California CPFV recreational index."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-model-selection-CA-MRFSS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Delta-GLM model selection for the California CPFV recreational index. Gray bar indicates selected model."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-filtering-OR-onboard
+#| echo: false
+#| warning: false
+#| tbl-cap: "Filtering levels and resultant data from the Oregon onboard recreational index."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-filtering-OR-MRFSS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Filtering levels and resultant data from the Oregon MRFSS recreational index."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-filtering-OR-ORBS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Filtering levels and resultant data from the Oregon ORBS dockside index."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-model-selection-ORBS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Delta-GLM model selection for the Oregon ORBS dockside index. Gray bar indicates selected model."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-filtering-WA-dockside
+#| echo: false
+#| warning: false
+#| tbl-cap: "Filtering levels and resultant data from the Washington dockside recreational index."
+```
+
+```{r}
+# Do we need this?
+#| label: tbl-model-selection-WA-dockside
+#| echo: false
+#| warning: false
+#| tbl-cap: "Delta-GLM model selection for the Washington dockside recreational index. Gray bar indicates selected model."
+```
+
+```{r}
+#| label: tbl-ts-indices
+#| echo: false
+#| warning: false
+#| tbl-cap: "Time series of relative abundance indices and uncertainty (CVs) for the Washington-Oregon fishery independent surveys."
+```
+
+```{r}
+#| label: tbl-sampling-effort-length-CA
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of fishery sampling effort (number of trips and fish sampled) used to create length frequency distributions of the California fleets."
+```
+
+```{r}
+#| label: tbl-sampling-effort-length-ORWA
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of fishery sampling effort (number of trips and fish sampled) used to create length frequency distributions of the Oregon and Washington fleets."
+```
+
+```{r}
+#| label: tbl-sampling-effort-age-CA
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of fishery sampling effort (number of trips and fish sampled) used to create age frequency distributions of the California fleets."
+```
+
+```{r}
+#| label: tbl-sampling-effort-age-ORWA
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of fishery sampling effort (number of trips and fish sampled) used to create age frequency distributions of the Oregon and Washington fleets."
+```
+
+```{r}
+#| label: tbl-sampling-effort-length-wcgop
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of WCGOP sampling effort (number of trips and fish sampled) of yelloweye rockfish lengths within the commercial fleets."
+```
+
+```{r}
+#| label: tbl-sampling-effort-age-wcgop
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of WCGOP sampling effort (number of trips and fish sampled) of yelloweye rockfish ages within the commercial fleets."
+```
+
+```{r}
+#| label: tbl-sampling-effort-length-fish-ind
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of sampling effort (number of hauls and fish sampled) used to create length frequency distributions of the fishery-independent surveys."
+```
+
+```{r}
+#| label: tbl-sampling-effort-age-fish-ind
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of sampling effort (number of hauls and fish sampled) used to create age frequency distributions of the fishery-independent surveys."
+```
+
+```{r}
+#| label: tbl-age-error
+#| echo: false
+#| warning: false
+#| tbl-cap: "Ageing error models and resultant model selection (AICc) values for 9 models of bias and precision explored for each lab used in the yelloweye rockfish assessments. Gray bars indicate the chosen model. Model codes: 0= unbiased; 1 = Constant CV; 2 = Curvilinear SD; 3= Curvilinear CV."
+```
+
+
+### Model results
+ 
+```{r}
+#| label: tbl-model-config
+#| warning: false
+#| echo: false
+#| tbl-cap: !expr if(eval_tables) config_cap
+
+config_table |>
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+
+```{r}
+#| label: tbl-n-param
+#| warning: false
+#| echo: false
+#| tbl-cap: !expr if(eval_tables) parcount_cap
+
+parcount_table |>
+  dplyr::filter(Count > 0) |>
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+
+::: {.landscape}
+
+```{r}
+#| label: tbl-pars
+#| warning: false
+#| echo: false
+#| tbl-cap: !expr if(eval_tables) pars_cap
+
+pars_table |>
+  mutate(SD = ifelse(Status == 'fixed', NA, SD)) |>
+  gt() |>
+  sub_missing(missing_text = '') |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+:::
+
+```{r}
+#| label: tbl-compweight
+#| warning: false
+#| echo: false
+#| tbl-cap: !expr if(eval_tables) compweight_cap
+
+compweight_table |>
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+
+
+```{r, results = "asis"}
+#| label: tbl-ts
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) time_series_cap 
+#| tbl-pos: H
+
+time_series_table |>
+kableExtra::kable(
+  format = "latex", 
+  longtable = TRUE,
+  booktabs = TRUE,
+  caption = "Time series of population estimates from the base model.",
+  linesep = "") |>
+  kableExtra::kable_styling(
+    latex_options = "repeat_header",
+    font_size = 8) |>
+  kableExtra::column_spec(
+    column = 1:9,
+    width = "0.5in"
+  )
+```
+
+
+```{r}
+#| label: tbl-sensitivities-like-comps
+#| echo: false
+#| message: false
+#| warning: false
+#| tbl-cap: "Base model sensitivity to the removal of data sources."
+source(here::here("Rcode/table_sens.R"))
+indices <- read.csv(here::here("report", "figures", "sensitivities", "indices_table.csv"))
+comps <- read.csv(here::here("report", "figures", "sensitivities", "comp_data_table.csv"))
+
+indices_and_comps <- inner_join(indices, comps, by = c("Label", "Base"))
+names(indices_and_comps) <- gsub("X..", "", names(indices_and_comps))
+
+table_sens(indices_and_comps)
+```
+
+
+```{r}
+#| label: tbl-sensitivities-model-specs
+#| echo: false
+#| warning: false
+#| tbl-cap: "Base model sensitivity to model parameters and specifications."
+modeling <- read.csv(here::here("report", "figures", "sensitivities", "modeling_table.csv"))
+table_sens(indices_and_comps)
+```
+
+
+```{r, tbl-ref-points-es, results = "asis"}
+#| label: tbl-ref-points-es
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) reference_points_cap 
+#| tbl-pos: H
+
+reference_points_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:4,
+    rows = c(2:4, 7, 10, 12, 15, 17, 20),
+    decimals = 0
+  ) |>
+  gt::fmt_number(
+    columns = 2:4,
+    rows = 1,
+    decimals = 1
+  ) |>
+  gt::fmt_number(
+    columns = 2:4,
+    rows = c(5, 8, 9, 13:14, 18:19),
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
+  ) |>  
+  gt::tab_style(
+    style = list(
+      gt::cell_text(style = "italic")
+    ),
+    locations = gt::cells_body(
+      columns = "Reference Point",
+      rows = dplyr::starts_with("Reference")
+    )
+  ) |>
+  gt::sub_missing(
+    columns = tidyselect::everything(),
+    missing_text = "---"
+  ) |>
+  gt::as_latex()
+
+```
+
+### Management
+
+\pagebreak
+
+::: {.landscape}
+
+```{r, results = "asis"}
+#| label: tbl-projections
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) projections_cap 
+#| tbl-pos: H
+
+projections_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = c(2:5, 7:9),
+    decimals = 0
+  ) |>
+  gt::fmt_number(
+    columns = c(6, 10),
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
+  ) |>
+  gt::sub_missing(
+    columns = tidyselect::everything(),
+    missing_text = "---"
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::cols_width(
+    tidyselect::everything() ~ px(75)
+  ) |>
+  gt::as_latex()
+
+```
+
+:::
+
+```{r, results = "asis"}
+#| label: tbl-es-decision
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) decision_table_cap 
+#| tbl-pos: H
+table_decision(
+  list(mod_low_A, mod_base_A, mod_high_A),
+  list(mod_low_B, mod_base_B, mod_high_B),
+  list(mod_low_C, mod_base_C, mod_high_C)
+)
+
+```
+
+\pagebreak

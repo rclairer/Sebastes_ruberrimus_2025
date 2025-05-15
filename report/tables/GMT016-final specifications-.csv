@@ -1,0 +1,286 @@
+"SPECIFICATION_TYPE","SPECIFICATION_NAME","YEAR","VAL","STOCK_NAME","AREA_NAME","OUTPUT_ORDER"
+"OFL","Overfishing Limit",2017,56.9,"Yelloweye Rockfish","CW",1
+"OFL","Overfishing Limit",2018,57.5,"Yelloweye Rockfish","CW",1
+"OFL","Overfishing Limit",2012,48,"Yelloweye Rockfish","CW",1
+"OFL","Overfishing Limit",2011,48,"Yelloweye Rockfish","CW",1
+"OFL","Overfishing Limit",2014,51,"Yelloweye Rockfish","CW",1
+"OFL","Overfishing Limit",2013,51,"Yelloweye Rockfish","CW",1
+"OFL","Overfishing Limit",2016,52,"Yelloweye Rockfish","CW",1
+"OFL","Overfishing Limit",2015,52,"Yelloweye Rockfish","CW",1
+"OFL","Overfishing Limit",2019,81.5,"Yelloweye Rockfish","CW",1
+"OFL","Overfishing Limit",2020,84.2,"Yelloweye Rockfish","CW",1
+"OFL","Overfishing Limit",2026,108.3,"Yelloweye Rockfish","CW",1
+"OFL","Overfishing Limit",2025,105.8,"Yelloweye Rockfish","CW",1
+"OFL","Overfishing Limit",2021,97.49,"Yelloweye Rockfish","CW",1
+"OFL","Overfishing Limit",2023,89.6,"Yelloweye Rockfish","CW",1
+"OFL","Overfishing Limit",2024,91.2,"Yelloweye Rockfish","CW",1
+"ABC","Acceptable Bio Catch",2017,47.3977,"Yelloweye Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2018,47.8975,"Yelloweye Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2012,46,"Yelloweye Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2011,46,"Yelloweye Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2014,43,"Yelloweye Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2013,43,"Yelloweye Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2016,43,"Yelloweye Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2015,43,"Yelloweye Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2019,74.4095,"Yelloweye Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2020,76.8746,"Yelloweye Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2026,88.5,"Yelloweye Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2025,87.2,"Yelloweye Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2021,83.45144,"Yelloweye Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2023,75.264,"Yelloweye Rockfish","CW",2
+"ABC","Acceptable Bio Catch",2024,75.8784,"Yelloweye Rockfish","CW",2
+"ACL","Annual Catch Limit",2017,20,"Yelloweye Rockfish","CW",3
+"ACL","Annual Catch Limit",2018,20,"Yelloweye Rockfish","CW",3
+"ACL","Annual Catch Limit",2012,17,"Yelloweye Rockfish","CW",3
+"ACL","Annual Catch Limit",2011,17,"Yelloweye Rockfish","CW",3
+"ACL","Annual Catch Limit",2014,18,"Yelloweye Rockfish","CW",3
+"ACL","Annual Catch Limit",2013,18,"Yelloweye Rockfish","CW",3
+"ACL","Annual Catch Limit",2016,19,"Yelloweye Rockfish","CW",3
+"ACL","Annual Catch Limit",2015,18,"Yelloweye Rockfish","CW",3
+"ACL","Annual Catch Limit",2019,48,"Yelloweye Rockfish","CW",3
+"ACL","Annual Catch Limit",2020,49,"Yelloweye Rockfish","CW",3
+"ACL","Annual Catch Limit",2026,56.6,"Yelloweye Rockfish","CW",3
+"ACL","Annual Catch Limit",2025,55.8,"Yelloweye Rockfish","CW",3
+"ACL","Annual Catch Limit",2021,50,"Yelloweye Rockfish","CW",3
+"ACL","Annual Catch Limit",2023,52,"Yelloweye Rockfish","CW",3
+"ACL","Annual Catch Limit",2024,53.3,"Yelloweye Rockfish","CW",3
+"TRI","Tribal",2017,2.3,"Yelloweye Rockfish","CW",4
+"TRI","Tribal",2018,2.3,"Yelloweye Rockfish","CW",4
+"TRI","Tribal",2012,2.3,"Yelloweye Rockfish","CW",4
+"TRI","Tribal",2011,2.3,"Yelloweye Rockfish","CW",4
+"TRI","Tribal",2014,2.3,"Yelloweye Rockfish","CW",4
+"TRI","Tribal",2013,2.3,"Yelloweye Rockfish","CW",4
+"TRI","Tribal",2016,2.3,"Yelloweye Rockfish","CW",4
+"TRI","Tribal",2015,2.3,"Yelloweye Rockfish","CW",4
+"TRI","Tribal",2019,2.3,"Yelloweye Rockfish","CW",4
+"TRI","Tribal",2020,2.3,"Yelloweye Rockfish","CW",4
+"TRI","Tribal",2026,8,"Yelloweye Rockfish","CW",4
+"TRI","Tribal",2025,8,"Yelloweye Rockfish","CW",4
+"TRI","Tribal",2021,5,"Yelloweye Rockfish","CW",4
+"TRI","Tribal",2023,5,"Yelloweye Rockfish","CW",4
+"TRI","Tribal",2024,5,"Yelloweye Rockfish","CW",4
+"EFP","EFP",2017,.03,"Yelloweye Rockfish","CW",5
+"EFP","EFP",2018,.03,"Yelloweye Rockfish","CW",5
+"EFP","EFP",2012,.1,"Yelloweye Rockfish","CW",5
+"EFP","EFP",2011,.1,"Yelloweye Rockfish","CW",5
+"EFP","EFP",2014,.02,"Yelloweye Rockfish","CW",5
+"EFP","EFP",2013,.02,"Yelloweye Rockfish","CW",5
+"EFP","EFP",2016,.03,"Yelloweye Rockfish","CW",5
+"EFP","EFP",2015,.03,"Yelloweye Rockfish","CW",5
+"EFP","EFP",2019,.24,"Yelloweye Rockfish","CW",5
+"EFP","EFP",2020,.24,"Yelloweye Rockfish","CW",5
+"EFP","EFP",2026,0,"Yelloweye Rockfish","CW",5
+"EFP","EFP",2025,0,"Yelloweye Rockfish","CW",5
+"EFP","EFP",2021,.24,"Yelloweye Rockfish","CW",5
+"EFP","EFP",2023,.12,"Yelloweye Rockfish","CW",5
+"EFP","EFP",2024,.12,"Yelloweye Rockfish","CW",5
+"RSCH","Research",2017,2.7,"Yelloweye Rockfish","CW",6
+"RSCH","Research",2018,3.27,"Yelloweye Rockfish","CW",6
+"RSCH","Research",2012,3.3,"Yelloweye Rockfish","CW",6
+"RSCH","Research",2011,3.3,"Yelloweye Rockfish","CW",6
+"RSCH","Research",2014,3.3,"Yelloweye Rockfish","CW",6
+"RSCH","Research",2013,3.3,"Yelloweye Rockfish","CW",6
+"RSCH","Research",2016,3.33,"Yelloweye Rockfish","CW",6
+"RSCH","Research",2015,3.3,"Yelloweye Rockfish","CW",6
+"RSCH","Research",2019,2.92,"Yelloweye Rockfish","CW",6
+"RSCH","Research",2020,2.92,"Yelloweye Rockfish","CW",6
+"RSCH","Research",2026,2.92,"Yelloweye Rockfish","CW",6
+"RSCH","Research",2025,2.92,"Yelloweye Rockfish","CW",6
+"RSCH","Research",2021,2.92,"Yelloweye Rockfish","CW",6
+"RSCH","Research",2023,2.92,"Yelloweye Rockfish","CW",6
+"RSCH","Research",2024,2.92,"Yelloweye Rockfish","CW",6
+"OA","Incidental OA",2017,.37,"Yelloweye Rockfish","CW",7
+"OA","Incidental OA",2018,.37,"Yelloweye Rockfish","CW",7
+"OA","Incidental OA",2012,.2,"Yelloweye Rockfish","CW",7
+"OA","Incidental OA",2011,.2,"Yelloweye Rockfish","CW",7
+"OA","Incidental OA",2014,.2,"Yelloweye Rockfish","CW",7
+"OA","Incidental OA",2013,.2,"Yelloweye Rockfish","CW",7
+"OA","Incidental OA",2016,.2,"Yelloweye Rockfish","CW",7
+"OA","Incidental OA",2015,.2,"Yelloweye Rockfish","CW",7
+"OA","Incidental OA",2019,.62,"Yelloweye Rockfish","CW",7
+"OA","Incidental OA",2020,.62,"Yelloweye Rockfish","CW",7
+"OA","Incidental OA",2026,3.9,"Yelloweye Rockfish","CW",7
+"OA","Incidental OA",2025,3.9,"Yelloweye Rockfish","CW",7
+"OA","Incidental OA",2021,.69,"Yelloweye Rockfish","CW",7
+"OA","Incidental OA",2023,2.66,"Yelloweye Rockfish","CW",7
+"OA","Incidental OA",2024,2.66,"Yelloweye Rockfish","CW",7
+"SAT","Set-aside Total",2017,5.4,"Yelloweye Rockfish","CW",11
+"SAT","Set-aside Total",2018,5.97,"Yelloweye Rockfish","CW",11
+"SAT","Set-aside Total",2012,5.9,"Yelloweye Rockfish","CW",11
+"SAT","Set-aside Total",2011,5.9,"Yelloweye Rockfish","CW",11
+"SAT","Set-aside Total",2014,5.82,"Yelloweye Rockfish","CW",11
+"SAT","Set-aside Total",2013,5.82,"Yelloweye Rockfish","CW",11
+"SAT","Set-aside Total",2016,5.83,"Yelloweye Rockfish","CW",11
+"SAT","Set-aside Total",2015,5.83,"Yelloweye Rockfish","CW",11
+"SAT","Set-aside Total",2019,6.08,"Yelloweye Rockfish","CW",11
+"SAT","Set-aside Total",2020,6.08,"Yelloweye Rockfish","CW",11
+"SAT","Set-aside Total",2026,14.82,"Yelloweye Rockfish","CW",11
+"SAT","Set-aside Total",2025,14.82,"Yelloweye Rockfish","CW",11
+"SAT","Set-aside Total",2021,8.85,"Yelloweye Rockfish","CW",11
+"SAT","Set-aside Total",2023,10.7,"Yelloweye Rockfish","CW",11
+"SAT","Set-aside Total",2024,10.7,"Yelloweye Rockfish","CW",11
+"FHG","Fishery Harvest Guideline",2017,14.6,"Yelloweye Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2018,14.03,"Yelloweye Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2012,11.1,"Yelloweye Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2011,11.1,"Yelloweye Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2014,12.2,"Yelloweye Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2013,12.2,"Yelloweye Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2016,13.2,"Yelloweye Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2015,12.2,"Yelloweye Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2019,41.92,"Yelloweye Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2020,42.92,"Yelloweye Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2026,41.78,"Yelloweye Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2025,40.98,"Yelloweye Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2021,41.15,"Yelloweye Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2023,41.6,"Yelloweye Rockfish","CW",12
+"FHG","Fishery Harvest Guideline",2024,42.6,"Yelloweye Rockfish","CW",12
+"ACT","Annual Catch Target",2020,39.9,"Yelloweye Rockfish","CW",12.5
+"ACT","Annual Catch Target",2019,38.7,"Yelloweye Rockfish","CW",12.5
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2017,7.53424657534247,"Yelloweye Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2018,7.84034212401996,"Yelloweye Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2012,5.40540540540541,"Yelloweye Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2011,5.40540540540541,"Yelloweye Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2014,8.19672131147541,"Yelloweye Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2013,8.19672131147541,"Yelloweye Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2016,8.33333333333333,"Yelloweye Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2015,8.19672131147541,"Yelloweye Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2019,8,"Yelloweye Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2020,8,"Yelloweye Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2026,8,"Yelloweye Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2025,8,"Yelloweye Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2021,8,"Yelloweye Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2023,8,"Yelloweye Rockfish","CW",13.2
+"ALLOC_TWL_PCT","Allocation Trawl Percent",2024,8,"Yelloweye Rockfish","CW",13.2
+"ALLOC_TWL_MT","Allocation Trawl MT",2017,1.1,"Yelloweye Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2024,3.408,"Yelloweye Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2012,.6,"Yelloweye Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2011,.6,"Yelloweye Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2014,1,"Yelloweye Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2013,1,"Yelloweye Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2016,1.1,"Yelloweye Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2015,1,"Yelloweye Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2019,3.3536,"Yelloweye Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2020,3.4336,"Yelloweye Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2026,3.3424,"Yelloweye Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2025,3.2784,"Yelloweye Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2021,3.292,"Yelloweye Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2023,3.328,"Yelloweye Rockfish","CW",13.3
+"ALLOC_TWL_MT","Allocation Trawl MT",2018,1.1,"Yelloweye Rockfish","CW",13.3
+"SBIFQ","SB IFQ Total",2020,3.43,"Yelloweye Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2019,3.35,"Yelloweye Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2024,3.41,"Yelloweye Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2012,.6,"Yelloweye Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2015,1,"Yelloweye Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2011,.6,"Yelloweye Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2014,1,"Yelloweye Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2016,1.1,"Yelloweye Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2018,1.1,"Yelloweye Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2023,3.33,"Yelloweye Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2013,1,"Yelloweye Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2017,1.1,"Yelloweye Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2025,3.2,"Yelloweye Rockfish","CW",14.2
+"SBIFQ","SB IFQ Total",2026,3.34,"Yelloweye Rockfish","CW",14.2
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2020,92,"Yelloweye Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2019,92,"Yelloweye Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2012,94.5945945945946,"Yelloweye Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2015,91.8032786885246,"Yelloweye Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2016,91.6666666666667,"Yelloweye Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2017,89.7260273972603,"Yelloweye Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2013,91.8032786885246,"Yelloweye Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2026,92,"Yelloweye Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2011,94.5945945945946,"Yelloweye Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2025,92,"Yelloweye Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2021,92,"Yelloweye Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2023,92,"Yelloweye Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2014,91.8032786885246,"Yelloweye Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2018,91.9458303635068,"Yelloweye Rockfish","CW",14.3
+"ALLOC_NTWL_PCT","Allocation Non Trawl Percent",2024,92,"Yelloweye Rockfish","CW",14.3
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2024,39.192,"Yelloweye Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2023,38.272,"Yelloweye Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2021,37.858,"Yelloweye Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2025,37.7016,"Yelloweye Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2026,38.46,"Yelloweye Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2020,39.4864,"Yelloweye Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2019,38.5664,"Yelloweye Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2015,11.2,"Yelloweye Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2016,12.1,"Yelloweye Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2013,11.2,"Yelloweye Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2014,11.2,"Yelloweye Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2011,10.5,"Yelloweye Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2012,10.5,"Yelloweye Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2018,12.8505747126437,"Yelloweye Rockfish","CW",14.4
+"ALLOC_NTWL_MT","Allocation Non Trawl MT",2017,13.1,"Yelloweye Rockfish","CW",14.4
+"NNSR","Non-nearshore",2017,.8,"Yelloweye Rockfish","CW",17
+"NNSR","Non-nearshore",2018,.688423645320197,"Yelloweye Rockfish","CW",17
+"NNSR","Non-nearshore",2012,1.3,"Yelloweye Rockfish","CW",17
+"NNSR","Non-nearshore",2011,1.3,"Yelloweye Rockfish","CW",17
+"NNSR","Non-nearshore",2014,1.1,"Yelloweye Rockfish","CW",17
+"NNSR","Non-nearshore",2013,1.1,"Yelloweye Rockfish","CW",17
+"NNSR","Non-nearshore",2016,1.18940886699507,"Yelloweye Rockfish","CW",17
+"NNSR","Non-nearshore",2015,1.09909688013136,"Yelloweye Rockfish","CW",17
+"NNSR","Non-nearshore",2019,2,"Yelloweye Rockfish","CW",17
+"NNSR","Non-nearshore",2020,2.1,"Yelloweye Rockfish","CW",17
+"NNSR","Non-nearshore",2026,8.04,"Yelloweye Rockfish","CW",17
+"NNSR","Non-nearshore",2025,7.88,"Yelloweye Rockfish","CW",17
+"NNSR","Non-nearshore",2021,1.6,"Yelloweye Rockfish","CW",17
+"NNSR","Non-nearshore",2023,2,"Yelloweye Rockfish","CW",17
+"NNSR","Non-nearshore",2024,2,"Yelloweye Rockfish","CW",17
+"NSR","Nearshore",2017,2.1,"Yelloweye Rockfish","CW",18
+"NSR","Nearshore",2018,1.95053366174056,"Yelloweye Rockfish","CW",18
+"NSR","Nearshore",2012,1.1,"Yelloweye Rockfish","CW",18
+"NSR","Nearshore",2011,1.1,"Yelloweye Rockfish","CW",18
+"NSR","Nearshore",2014,1.2,"Yelloweye Rockfish","CW",18
+"NSR","Nearshore",2013,1.2,"Yelloweye Rockfish","CW",18
+"NSR","Nearshore",2016,1.29753694581281,"Yelloweye Rockfish","CW",18
+"NSR","Nearshore",2015,1.19901477832512,"Yelloweye Rockfish","CW",18
+"NSR","Nearshore",2019,6,"Yelloweye Rockfish","CW",18
+"NSR","Nearshore",2020,6.2,"Yelloweye Rockfish","CW",18
+"NSR","Nearshore",2025,0,"Yelloweye Rockfish","CW",18
+"NSR","Nearshore",2021,4.6,"Yelloweye Rockfish","CW",18
+"NSR","Nearshore",2023,6,"Yelloweye Rockfish","CW",18
+"NSR","Nearshore",2024,6.2,"Yelloweye Rockfish","CW",18
+"WREC","WA Rec",2017,3.3,"Yelloweye Rockfish","CW",19
+"WREC","WA Rec",2018,3.32738095238095,"Yelloweye Rockfish","CW",19
+"WREC","WA Rec",2012,2.6,"Yelloweye Rockfish","CW",19
+"WREC","WA Rec",2011,2.6,"Yelloweye Rockfish","CW",19
+"WREC","WA Rec",2014,2.9,"Yelloweye Rockfish","CW",19
+"WREC","WA Rec",2013,2.9,"Yelloweye Rockfish","CW",19
+"WREC","WA Rec",2016,3.1,"Yelloweye Rockfish","CW",19
+"WREC","WA Rec",2015,2.9,"Yelloweye Rockfish","CW",19
+"WREC","WA Rec",2019,10,"Yelloweye Rockfish","CW",19
+"WREC","WA Rec",2020,10.2,"Yelloweye Rockfish","CW",19
+"WREC","WA Rec",2026,9.84,"Yelloweye Rockfish","CW",19
+"WREC","WA Rec",2025,9.6,"Yelloweye Rockfish","CW",19
+"WREC","WA Rec",2021,7.5,"Yelloweye Rockfish","CW",19
+"WREC","WA Rec",2023,9.8,"Yelloweye Rockfish","CW",19
+"WREC","WA Rec",2024,10,"Yelloweye Rockfish","CW",19
+"OREC","OR Rec",2017,3,"Yelloweye Rockfish","CW",20
+"OREC","OR Rec",2018,2.98316912972085,"Yelloweye Rockfish","CW",20
+"OREC","OR Rec",2012,2.4,"Yelloweye Rockfish","CW",20
+"OREC","OR Rec",2011,2.4,"Yelloweye Rockfish","CW",20
+"OREC","OR Rec",2014,2.6,"Yelloweye Rockfish","CW",20
+"OREC","OR Rec",2013,2.6,"Yelloweye Rockfish","CW",20
+"OREC","OR Rec",2016,2.8,"Yelloweye Rockfish","CW",20
+"OREC","OR Rec",2015,2.6,"Yelloweye Rockfish","CW",20
+"OREC","OR Rec",2019,8.9,"Yelloweye Rockfish","CW",20
+"OREC","OR Rec",2020,9.1,"Yelloweye Rockfish","CW",20
+"OREC","OR Rec",2026,8.96,"Yelloweye Rockfish","CW",20
+"OREC","OR Rec",2025,8.79,"Yelloweye Rockfish","CW",20
+"OREC","OR Rec",2021,6.9,"Yelloweye Rockfish","CW",20
+"OREC","OR Rec",2023,8.9,"Yelloweye Rockfish","CW",20
+"OREC","OR Rec",2024,9.1,"Yelloweye Rockfish","CW",20
+"CREC","CA Rec",2017,3.9,"Yelloweye Rockfish","CW",21
+"CREC","CA Rec",2018,3.90106732348112,"Yelloweye Rockfish","CW",21
+"CREC","CA Rec",2012,3.1,"Yelloweye Rockfish","CW",21
+"CREC","CA Rec",2011,3.1,"Yelloweye Rockfish","CW",21
+"CREC","CA Rec",2014,3.4,"Yelloweye Rockfish","CW",21
+"CREC","CA Rec",2013,3.4,"Yelloweye Rockfish","CW",21
+"CREC","CA Rec",2016,3.7,"Yelloweye Rockfish","CW",21
+"CREC","CA Rec",2015,3.4,"Yelloweye Rockfish","CW",21
+"CREC","CA Rec",2019,11.6,"Yelloweye Rockfish","CW",21
+"CREC","CA Rec",2020,11.9,"Yelloweye Rockfish","CW",21
+"CREC","CA Rec",2026,11.61,"Yelloweye Rockfish","CW",21
+"CREC","CA Rec",2025,11.4,"Yelloweye Rockfish","CW",21
+"CREC","CA Rec",2021,8.9,"Yelloweye Rockfish","CW",21
+"CREC","CA Rec",2023,11.6,"Yelloweye Rockfish","CW",21
+"CREC","CA Rec",2024,11.8,"Yelloweye Rockfish","CW",21
