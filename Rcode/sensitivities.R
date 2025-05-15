@@ -1160,7 +1160,7 @@ sens_names_ls <- list(
   comp_data = comp_data
 )
 
-outdir <- 'report/plots_for_report/sensitivities'
+outdir <- 'report/figures/sensitivities'
 
 purrr::imap(
   sens_names_ls,
