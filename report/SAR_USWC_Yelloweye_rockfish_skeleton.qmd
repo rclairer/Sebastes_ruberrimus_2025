@@ -9,7 +9,7 @@ author:
         city: 'Corvallis, OR'
         state: 'OR'
         postal-code: '97331'
-  - name: 'Claire Rosemond'
+  - name: 'R. Claire Rosemond'
     affiliations:
       - name: 'NOAA Fisheries Northwest Fisheries Science Center'
         address: '2032 SE OSU Drive Building 955' 
@@ -58,6 +58,13 @@ author:
         city: 'Fairfax, VA'
         state: 'VA'
         postal-code: '22031'
+  - name: 'Fabio Prior Caltabellotta'
+    affiliations:
+      - name: 'Washington Department of Fish and Wildlife '
+        address: '1111 Washington St SE'
+        city: 'Olympia, WA'
+        state: 'WA'
+        postal-code: '98504-3150'
 date: today
 lang: en 
 keep-tex: true 
@@ -188,7 +195,7 @@ R0 <- output |>
 
 Please cite this publication as: 
 
-Johnston, M., Rosemond, C., Perl, E., Whitman, A., Barros, M., Champagnat, J., Schamp, A., and Schiano, S. (2025) Status of Yelloweye rockfish off the U.S. West Coast in 2025. Pacific Fishery Management Council. [XX] p.
+Johnston, M., Rosemond, R. C., Perl, E., Whitman, A., Barros, M., Champagnat, J., Schamp, A., Schiano, S., and  Prior Caltabellotta, F. (2025) Status of Yelloweye rockfish off the U.S. West Coast in 2025. Pacific Fishery Management Council. [XX] p.
 
 {{< pagebreak >}} 
 
