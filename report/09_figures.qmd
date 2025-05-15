@@ -763,7 +763,7 @@ knitr::include_graphics(
 #| fig-cap: "Spawning output across dataset inclusion sensitivities."
 #
 knitr::include_graphics(
-    "figures/sensitivities/datacompare2_spawnbio_uncertainty.png"
+    "figures/sensitivities/comp_datacompare2_spawnbio_uncertainty.png"
 )
 ```
 
@@ -776,7 +776,7 @@ knitr::include_graphics(
 #| fig-cap: "Relative spawning output across dataset inclusion sensitivities."
 #
 knitr::include_graphics(
-    "figures/sensitivities/datacompare4_Bratio_uncertainty.png"
+    "figures/sensitivities/comp_datacompare4_Bratio_uncertainty.png"
 )
 ```
 
