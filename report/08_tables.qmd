@@ -1,7 +1,7 @@
 ## Tables 
  
 ```{r} 
-#| label: 'set-rda-dir-tbls'
+#| label: tbl-set-rda-dir-tbls
 #| echo: false 
 #| warning: false 
 #| eval: true 

@@ -671,7 +671,17 @@ knitr::include_graphics(
 
 <!-- 04c_model_diagnostics -->
 
-
+```{r}
+#| label: fig-full-jitter
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Plot showing 50 jitters with 78% returning to the base model likelihood."
+#
+knitr::include_graphics(
+    "figures/diagnostics/2025_base_model_jitter_0.1/jitter.png"
+)
+```
 
 <!-- 04c_model_diagnostics - Sensitivities -->
 
