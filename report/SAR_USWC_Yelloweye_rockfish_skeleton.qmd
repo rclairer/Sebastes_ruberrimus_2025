@@ -89,10 +89,10 @@ format:
       - bottom=1in
       - right=1in
       - left=1in
-output-file: 'Yelloweye_Rockfish_SAR_2025' 
+output-file: 'Yelloweye_rockfish_SAR_2025' 
 params: 
    office: 'NWFSC'
-   species: 'Yelloweye Rockfish'
+   species: 'Yelloweye rockfish'
    spp_latin: 'Sebastes ruberrimus'
    region: 'U.S. West Coast'
 bibliography: 
