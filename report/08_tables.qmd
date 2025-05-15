@@ -1,6 +1,7 @@
 ## Tables 
 ### Data
 
+::: {.landscape}
 ```{r}
 #| label: tbl-all_removals
 #| echo: false
@@ -29,7 +30,8 @@ catch_table |> # produced in 002_load_tables.qmd
   ) |>
   as_latex()
 ```
-
+:::
+{{< pagebreak >}}
 
 ```{r}
 #| label: tbl-srvy-lat-depth
@@ -77,6 +79,8 @@ data_wide |>
   ) |>
   as_latex()
 ```
+
+{{< pagebreak >}}
 
 ```{r}
 #| label: tbl-sampling-effort-nwfsc
@@ -296,6 +300,8 @@ config_table |>
   as_latex()
 ```
 
+{{< pagebreak >}}
+
 ```{r}
 #| label: tbl-n-param
 #| warning: false
@@ -312,8 +318,9 @@ parcount_table |>
   as_latex()
 ```
 
-::: {.landscape}
+{{< pagebreak >}}
 
+::: {.landscape}
 ```{r}
 #| label: tbl-pars
 #| warning: false
@@ -332,6 +339,8 @@ pars_table |>
 ```
 :::
 
+{{< pagebreak >}}
+
 ```{r}
 #| label: tbl-compweight
 #| warning: false
@@ -347,6 +356,7 @@ compweight_table |>
   as_latex()
 ```
 
+{{< pagebreak >}}
 
 ```{r, results = "asis"}
 #| label: tbl-ts
@@ -372,7 +382,9 @@ kableExtra::kable(
   )
 ```
 
+{{< pagebreak >}}
 
+::: {.landscape}
 ```{r}
 #| label: tbl-sensitivities-like-comps
 #| echo: false
@@ -388,7 +400,9 @@ names(indices_and_comps) <- gsub("X..", "", names(indices_and_comps))
 
 table_sens(indices_and_comps)
 ```
+:::
 
+{{< pagebreak >}}
 
 ```{r}
 #| label: tbl-sensitivities-model-specs
@@ -399,6 +413,7 @@ modeling <- read.csv(here::here("report", "figures", "sensitivities", "modeling_
 table_sens(indices_and_comps)
 ```
 
+{{< pagebreak >}}
 
 ```{r, tbl-ref-points-es, results = "asis"}
 #| label: tbl-ref-points-es
