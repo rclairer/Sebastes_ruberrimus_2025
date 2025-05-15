@@ -220,6 +220,36 @@ catch_table_est_weights <- inputs$dat$catch |>
   
 ```
 
+
+<!-- Read in models for decision table as well as caption -->
+```{r}
+#| echo: false
+#| eval: true
+
+decision_table_cap <- "TODO: UPDATE PLACEHOLDER DECISION TABLE CAPTION COPIED FROM PETRALE SOLE. Decision table with 10-year projections. 'Mgmt' refers to the three management scenarios (A) the default harvest control rule $P^* = 0.45$, (B) harvest control rule with a lower $P^* = 0.40$. In each case the 2023 and 2024 catches are fixed at the ACLs which have been set for that year with estimated fleet allocation provided  by the GMT. The alternative states of nature ('Low', 'Base', and 'High' as discussed in the text) are provided in the columns, with Spawning Output ('Spawn', in trillions of eggs) and Fraction of unfished spawning output ('Frac') provided for each state."
+
+# # replace mod_out below with calls like
+# mod_low_A <- SS_output(dir_low_A,
+#     verbose = FALSE,
+#     printstats = FALSE,
+#     SpawnOutputLabel = "Spawning Output (trillions of eggs)"
+# )
+
+mod_low_A <- replist
+mod_low_B <- replist
+mod_low_C <- replist
+
+mod_base_A <- replist
+mod_base_B <- replist
+mod_base_C <- replist
+
+mod_high_A <- replist
+mod_high_B <- replist
+mod_high_C <- replist 
+
+```
+
+
 <!-- Create table for nwfsc survey hauls and save as rds file -->
 ```{r}
 #| echo: false
