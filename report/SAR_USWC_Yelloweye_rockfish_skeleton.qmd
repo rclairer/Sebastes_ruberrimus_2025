@@ -89,7 +89,7 @@ format:
       - bottom=1in
       - right=1in
       - left=1in
-output-file: 'Yelloweye_rockfish_SAR_2025' 
+output-file: 'Yelloweye_Rockfish_SAR_2025' 
 params: 
    office: 'NWFSC'
    species: 'Yelloweye rockfish'
@@ -98,6 +98,31 @@ params:
 bibliography: 
 -  asar_references.bib 
 ---
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+\renewcommand{\thetable}{\roman{table}}
+\renewcommand{\thefigure}{\roman{figure}}
+
+```{r}
+#| label: 'read_base_model'
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+
+library(here)
+library(dplyr)
+
+source(here::here('Rcode/table_sens.R'))
+source(here::here('Rcode/table_decision.R'))
+
+base_mod <- 'model/2025_base_model'
+mod_in <- r4ss::SS_read(here('model_runs', base_mod))
+mod_out <- r4ss::SS_output(here('model_runs', base_mod), verbose = FALSE, printstats = FALSE)
+
+```
+
 ```{r} 
 #| label: 'output_and_quantities'
 #| echo: false 
