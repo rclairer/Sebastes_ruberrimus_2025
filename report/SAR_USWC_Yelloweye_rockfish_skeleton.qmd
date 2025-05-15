@@ -1,5 +1,5 @@
 ---
-title: 'Status of Yelloweye rockfish off the U.S. West Coast in 2025'
+title: 'Status of Yelloweye Rockfish off the U.S. West Coast in 2025'
 author:
 # add authors in order
   - name: 'Morgan Johnston'
