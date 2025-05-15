@@ -36,8 +36,8 @@ catch_table |> # produced in 002_load_tables.qmd
     `5` = "OR-WA non-trawl (mt)",
     `6` = "OR sport (mt)",
     `7` = "WA sport (mt)",
-    `8` = "WA sport (1000s fish)",
-    Total = "Total Catch (mt)"
+    #`8` = "WA sport (1000s fish)",
+    #Total = "Total Catch (mt)"
   ) |>
   tab_options(
     table.font.size = 12,
@@ -507,17 +507,17 @@ projections_table |>
 :::
 
 ```{r, results = "asis"}
-#| label: tbl-es-decision
-#| warning: false
-#| echo: false
-#| eval: !expr eval_tables 
-#| tbl-cap: !expr if(eval_tables) decision_table_cap 
-#| tbl-pos: H
-table_decision(
-  list(mod_low_A, mod_base_A, mod_high_A),
-  list(mod_low_B, mod_base_B, mod_high_B),
-  list(mod_low_C, mod_base_C, mod_high_C)
-)
+# #| label: tbl-es-decision
+# #| warning: false
+# #| echo: false
+# #| eval: !expr eval_tables 
+# #| tbl-cap: !expr if(eval_tables) decision_table_cap 
+# #| tbl-pos: H
+# table_decision(
+#   list(mod_low_A, mod_base_A, mod_high_A),
+#   list(mod_low_B, mod_base_B, mod_high_B),
+#   list(mod_low_C, mod_base_C, mod_high_C)
+# )
 
 ```
 

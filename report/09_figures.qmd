@@ -134,7 +134,7 @@ knitr::include_graphics(
 #| fig-cap: "Annual relative index of abundance for the West Coast Groundfish Bottom Trawl Survey (WCGBTS)."
 
 knitr::include_graphics(
-    "figures/indices/index1_cpuedata_11_NWFSC_ORWA.png"
+    "figures/r4ss_plots/plots/index1_cpuedata_11_NWFSC_ORWA.png"
 )
 ```
 
@@ -158,7 +158,7 @@ knitr::include_graphics(
 #| fig-cap: "Comparison of the 2017 and the current IPHC index of abundance."
 
 knitr::include_graphics(
-    "figures/indices/IPHC_index_comparison.png"
+    "figures/indices/IPHC_index_comparison.pdf"
 )
 ```
 
@@ -560,7 +560,7 @@ knitr::include_graphics(
 #| fig-cap: "Fit to length composition data, aggregated across time by fleet."
 
 knitr::include_graphics(
-    "figures/r4ss_plots/plots/comp_lenfit_aggregated_across_time.png"
+    "figures/r4ss_plots/plots/comp_lenfit__aggregated_across_time.png"
 )
 ```
 
@@ -572,7 +572,7 @@ knitr::include_graphics(
 #| fig-cap: "Pearson residuals, comparing across fleets, for length composition data (1 of 2). Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
 
 knitr::include_graphics(
-    "figures/r4ss_plots/plots/comp_lenfit_page1_multi-fleet_comparison.png"
+    "figures/r4ss_plots/plots/comp_lenfit__page1_multi-fleet_comparison.png"
 )
 ```
 
@@ -584,7 +584,7 @@ knitr::include_graphics(
 #| fig-cap: "Pearson residuals, comparing across fleets, for length composition data (2 of 2). Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
 
 knitr::include_graphics(
-    "figures/r4ss_plots/plots/comp_lenfit_page2_multi-fleet_comparison.png"
+    "figures/r4ss_plots/plots/comp_lenfit__page2_multi-fleet_comparison.png"
 )
 ```
 
@@ -630,7 +630,7 @@ knitr::include_graphics(
 )
 ```
 
-```{r}
+#```{r}
 #| label: fig-status_area
 #| echo: false
 #| warning: false
@@ -638,9 +638,9 @@ knitr::include_graphics(
 #| fig-cap: "Relative spawning output over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
 
 knitr::include_graphics(
-    "figures/r4ss_plots/plots/ts10_Relative_spawning_output_by_area.png"
+    "figures/r4ss_plots/plots/ts10_Relative_spawning_output.png"
 )
-```
+#```
 
 ```{r}
 #| label: fig-totalbio

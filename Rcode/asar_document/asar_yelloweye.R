@@ -45,3 +45,22 @@ asar::create_template(
   ###custom = TRUE, #use if only need certain sections
   ###custom_sections = c("executive_summary") #specify needed sections here
   )
+
+
+# Update citation
+author <- c(
+  "Morgan Johnston",
+  "Claire Rosemond",
+  "Elizabeth Perl",
+  "Alison Whitman",
+  "Matheus de Barros",
+  "Juliette Champagnat",
+  "Abby Schamp",
+  "Samantha Schiano"
+)
+
+asar::create_citation(
+  author = authors,
+  year = 2025,
+  title = 'Status of Yelloweye rockfish off the U.S. West Coast in 2025'
+)
