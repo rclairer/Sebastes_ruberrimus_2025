@@ -153,7 +153,7 @@ projections_table[1:2, "Adopted ACL (mt)"] <- GMT016 |>
 # 2002 - 2004 - dont have this in MT
 # 2005 - 2024 - use wa_rec_recfin_1990_2024_may
 
-wa_rec_recfin_1990_2024_may <- read.csv("C:\\Morgan's Stuff\\Sebastes_ruberrimus_2025\\Data\\raw\\nonconfidential\\CTE501_WA_1990_2024_may.csv")
+wa_rec_recfin_1990_2024_may <- read.csv(here::here("Data","raw","nonconfidential","CTE501_WA_1990_2024_may.csv"))
 # 
 # # years we don't have MT for
 mt_na <- data.frame(
