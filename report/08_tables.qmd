@@ -491,12 +491,12 @@ projections_table |>
 :::
 
 ```{r, results = "asis"}
-# #| label: tbl-es-decision
-# #| warning: false
-# #| echo: false
-# #| eval: !expr eval_tables 
-# #| tbl-cap: !expr if(eval_tables) decision_table_cap 
-# #| tbl-pos: H
+#| label: tbl-es-decision
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) decision_table_cap 
+#| tbl-pos: H
  table_decision(
    list(mod_low_A, mod_base_A, mod_high_A),
    list(mod_low_B, mod_base_B, mod_high_B),
