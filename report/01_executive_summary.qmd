@@ -6,29 +6,266 @@ It currently makes them as csv files.
 sa4ss::es_table_tex will convert them to text files formatted as LaTeX tables if you prefer.
 -->
 
-Checking to see if this works \gls{s-tri}
-
 ## Stock{-}
 
 ## Catches{-}
+
+```{r, tbl-es-catches, results = "asis"}
+#| label: tbl-es-catches
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) catches_es_cap 
+#| tbl-pos: H
+
+catches_es_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:9, # depends on number of fleets with catch
+    decimals = 2
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    # if want to not have tables the width of the page include the below option:
+    latex.use_longtable = TRUE 
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::as_latex()
+
+```
 
 ## Data and Assessment{-}
 
 ## Stock biomass and dynamics{-}
 
+```{r, tbl-es-sb, results = "asis"}
+#| label: tbl-es-sb
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) ssb_es_cap 
+#| tbl-pos: H
+
+ssb_es_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:4,
+    decimals = 2
+  ) |>
+  gt::fmt_number(
+    columns = 5:7,
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::cols_width(
+    tidyselect::everything() ~ px(75)
+  ) |>
+  gt::as_latex()
+```
+
+
 ## Recruitment{-}
 
+```{r, tbl-es-recr, results = "asis"}
+#| label: tbl-es-recr
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) recr_es_cap 
+#| tbl-pos: H
+
+recr_es_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:4,
+    decimals = 0
+  ) |>
+  gt::fmt_number(
+    columns = 5:7,
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::cols_width(
+    tidyselect::everything() ~ px(75)
+  ) |>
+  gt::as_latex()
+
+```
+
+
 ## Exploitation status{-}
+
+```{r, tbl-es-spr, results = "asis"}
+#| label: tbl-es-spr
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) spr_es_cap 
+#| tbl-pos: H
+
+spr_es_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:7,
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::cols_width(
+    tidyselect::everything() ~ px(80)
+  ) |>
+  gt::as_latex()
+```
 
 ## Ecosystem considerations{-}
 
 ## Reference points{-}
 
+```{r, tbl-ref-points-es, results = "asis"}
+#| label: tbl-ref-points-es
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) reference_points_cap 
+#| tbl-pos: H
+
+reference_points_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:4,
+    rows = c(2:4, 7, 10, 12, 15, 17, 20),
+    decimals = 0
+  ) |>
+  gt::fmt_number(
+    columns = 2:4,
+    rows = 1,
+    decimals = 1
+  ) |>
+  gt::fmt_number(
+    columns = 2:4,
+    rows = c(5, 8, 9, 13:14, 18:19),
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
+  ) |>  
+  gt::tab_style(
+    style = list(
+      gt::cell_text(style = "italic")
+    ),
+    locations = gt::cells_body(
+      columns = "Reference Point",
+      rows = dplyr::starts_with("Reference")
+    )
+  ) |>
+  gt::sub_missing(
+    columns = tidyselect::everything(),
+    missing_text = "---"
+  ) |>
+  gt::as_latex()
+
+```
+
 ## Management performance{-}
+
+```{r, tbl-es-management, results = "asis"}
+#| label: tbl-es-management
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: "Recent trend in the overfishing limits (OFL), the acceptable biological catches (ABCs), the annual catch limits (ACLs), and the total dead catch (landings + discards) all in metric tons (mt)."
+#| tbl-pos: H
+
+# yelloweye_management |>
+recent_management_table |>
+  rename(`Total dead catch (mt)` = `Catch (mt)`) |>
+  gt::gt() |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
+  ) |>
+  gt::as_latex()
+
+```
 
 ## Harvest projections{-}
 
+::: {.landscape}
+
+```{r, tbl-es-projections, results = "asis"}
+#| label: tbl-es-projections
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) projections_cap 
+#| tbl-pos: H
+
+projections_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = c(2:5, 7:8),
+    decimals = 0
+  ) |>
+  gt::fmt_number(
+    columns = c(6, 9:10),
+    decimals = 3
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
+  ) |>
+  gt::sub_missing(
+    columns = tidyselect::everything(),
+    missing_text = "---"
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::cols_width(
+    everything() ~ px(75)
+  ) |>
+  gt::as_latex()
+
+```
+
+:::
+
 ## Decision table{-}
+
+```{r, results = "asis"}
+#| label: tbl-es-decision
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) decision_table_cap 
+#| tbl-pos: H
+table_decision(
+  list(mod_low_A, mod_base_A, mod_high_A),
+  list(mod_low_B, mod_base_B, mod_high_B),
+  list(mod_low_C, mod_base_C, mod_high_C)
+)
+
+```
 
 ADW - decision tables not needed until after review
 
