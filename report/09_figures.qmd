@@ -98,6 +98,8 @@ knitr::include_graphics(
 )
 ```
 
+\clearpage
+
 ```{r}
 #| label: fig-ORBS_comp
 #| echo: false
@@ -202,6 +204,8 @@ knitr::include_graphics(
 )
 ```
 
+\clearpage
+
 ```{r}
 #| label: fig-NWFSC_agecomps1
 #| echo: false
@@ -294,6 +298,8 @@ knitr::include_graphics(
     "figures/bridging/1_SS3exe/compare4_Bratio_uncertainty.png"
 )
 ```
+
+\clearpage
 
 ```{r}
 #| label: fig-newdata_1
@@ -399,6 +405,8 @@ knitr::include_graphics(
 )
 ```
 
+\clearpage
+
 ```{r}
 #| label: fig-selex_allfleets
 #| echo: false
@@ -491,6 +499,8 @@ knitr::include_graphics(
     "figures/r4ss_plots/plots/sel09_len_flt10sex1.png"
 )
 ```
+
+\clearpage
 
 ```{r}
 #| label: fig-indexfit3
@@ -596,6 +606,8 @@ knitr::include_graphics(
 )
 ```
 
+\clearpage
+
 <!-- add length comps by fleet and year, if needed -->
 
 ```{r}
@@ -695,6 +707,8 @@ knitr::include_graphics(
 )
 ```
 
+\clearpage
+
 ```{r}
 #| label: fig-tsrecuits
 #| echo: false
@@ -791,6 +805,8 @@ knitr::include_graphics(
     "figures/sensitivities/indicescompare4_Bratio_uncertainty.png"
 )
 ```
+
+\clearpage
 
 ```{r}
 #| label: fig-sens_sum
