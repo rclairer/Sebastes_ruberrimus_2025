@@ -56,7 +56,8 @@ author <- c(
   "Matheus de Barros",
   "Juliette Champagnat",
   "Abby Schamp",
-  "Samantha Schiano"
+  "Samantha Schiano",
+  "Fabio Prior Caltabellotta"
 )
 
 asar::create_citation(
