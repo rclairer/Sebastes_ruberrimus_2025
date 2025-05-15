@@ -2,14 +2,14 @@
 title: 'Status of Yelloweye Rockfish off the U.S. West Coast in 2025'
 author:
 # add authors in order
-  - name: 'Morgan Johnston'
+  - name: 'Morgan Johnston*'
     affiliations:
       - name: 'Oregon State University'
         address: '1500 SW Jefferson Way'
         city: 'Corvallis, OR'
         state: 'OR'
         postal-code: '97331'
-  - name: 'R. Claire Rosemond'
+  - name: 'R. Claire Rosemond*'
     affiliations:
       - name: 'NOAA Fisheries Northwest Fisheries Science Center'
         address: '2032 SE OSU Drive Building 955' 
@@ -65,6 +65,7 @@ author:
         city: 'Olympia, WA'
         state: 'WA'
         postal-code: '98504-3150'
+author-note: "*These authors contributed equally to this work."
 date: today
 lang: en 
 keep-tex: true 
