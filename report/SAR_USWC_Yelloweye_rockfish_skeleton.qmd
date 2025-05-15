@@ -92,7 +92,7 @@ format:
 output-file: 'Yelloweye_Rockfish_SAR_2025' 
 params: 
    office: 'NWFSC'
-   species: 'Yelloweye rockfish'
+   species: 'Yelloweye Rockfish'
    spp_latin: 'Sebastes ruberrimus'
    region: 'U.S. West Coast'
 bibliography: 
@@ -118,8 +118,8 @@ source(here::here('Rcode/table_sens.R'))
 source(here::here('Rcode/decision_table.R'))
 
 base_mod <- 'model/2025_base_model'
-mod_in <- r4ss::SS_read(here('model_runs', base_mod))
-mod_out <- r4ss::SS_output(here('model_runs', base_mod), verbose = FALSE, printstats = FALSE)
+mod_in <- r4ss::SS_read(here(base_mod))
+mod_out <- r4ss::SS_output(here(base_mod), verbose = FALSE, printstats = FALSE)
 
 ```
 
