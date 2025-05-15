@@ -1,6 +1,6 @@
-## Figures
+#Figures
 
-## Figures
+#Figures
 
 <!-- FIGURES SHOULD BE ADDED HERE IN THE ORDER THAT THEY APPEAR IN THE REPORT -->
 
@@ -98,6 +98,8 @@ knitr::include_graphics(
 )
 ```
 
+\clearpage
+
 ```{r}
 #| label: fig-ORBS_comp
 #| echo: false
@@ -163,659 +165,673 @@ knitr::include_graphics(
 )
 ```
 
-# ```{r}
-# #| label: fig-IPHC_comparison
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Comparison of the 2017 and the current IPHC index of abundance."
-# 
-# knitr::include_graphics(
-#     "figures/indices/IPHC_index_comparison.pdf"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-NWFSC_lencomps
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Annual length composition data for the WCBTS."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/comp_lendat_flt11mkt0.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-IPHC_lencomps
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Annual length composition data from the IPHC longline survey."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-NWFSC_agecomps1
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Annual unsexed conditional age-at-length data for the WCBTS (1 of 2)."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page1.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-NWFSC_agecomps2
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Annual unsexed conditional age-at-length data for the WCBTS (2 of 2)."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page2.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-IPHC_agecomps1
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Annual unsexed conditional age-at-length data for the IPHC (1 of 2)."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page1.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-IPHC_agecomps2
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "nnual unsexed conditional age-at-length data for the IPHC (1 of 2)."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-LWrel
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Updated weight-at-length relationship."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/bio5_weightatsize.png"
-# )
-# ```
-# 
-# <!-- 04a_model_summary -->
-# 
-# ```{r}
-# #| label: fig-ss3exe_1
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Comparison of the spawning output for the 2017 model with the updated SS3 executable and a single-sex model."
-# 
-# knitr::include_graphics(
-#     "figures/bridging/1_SS3exe/compare2_spawnbio_uncertainty.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-ss3exe_2
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Comparison of the stock status for the 2017 model with the updated SS3 executable and a single-sex model."
-# 
-# knitr::include_graphics(
-#     "figures/bridging/1_SS3exe/compare4_Bratio_uncertainty.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-newdata_1
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated catch data (dark green), updated indices (light green), new fishery length composition data (orange), and survey length composition data (red)."
-# 
-# knitr::include_graphics(
-#     "figures/bridging/8_newlencomps/compare2_spawnbio_uncertainty.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-newdata_2
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), updated catch data (dark green), updated indices (light green), new fishery length composition data (orange), and survey length composition data (red)."
-# 
-# knitr::include_graphics(
-#     "figures/bridging/8_newlencomps/compare4_Bratio_uncertainty.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-newdata_3
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated catch data (light blue), updated indices (dark green), new fishery length composition data (light green), and commercial (yellow), recreational (orange), and survey (red) age composition data."
-# 
-# knitr::include_graphics(
-#     "figures/bridging/13_newagecomps/compare2_spawnbio_uncertainty.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-newdata_4
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), updated catch data (light blue), updated indices (dark green), new fishery length composition data (light green), and commercial (yellow), recreational (orange), and survey (red) age composition data."
-# 
-# knitr::include_graphics(
-#     "figures/bridging/13_newagecomps/compare4_Bratio_uncertainty.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-newdata_5
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), 2025 model with all available updated data (green), with tuned compositional data (yellow), and with the updated recruitment bias adjustment ramp (red)."
-# 
-# knitr::include_graphics(
-#     "figures/bridging/15_fitbias/compare2_spawnbio_uncertainty.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-newdata_6
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), 2025 model with all available updated data (green), with tuned compositional data (yellow), and with the updated recruitment bias adjustment ramp (red)."
-# 
-# knitr::include_graphics(
-#     "figures/bridging/15_fitbias/compare4_Bratio_uncertainty.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-growth
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Length at age in the beginning of the year in the ending year of the model."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/bio1_sizeatage.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-biasadj
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Points are transformed variances. Red line shows current settings for bias adjustment specified in the control file. Blue line shows least squares estimate of alternative bias adjustment relationship for recruitment deviations."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/recruit_fit_bias_adjust.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-selex_allfleets
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Estimated selectivity at length for all fleets."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/sel01_multiple_fleets_length1.png"
-# )
-# ```
-# 
-# <!-- 04b_model_results -->
-# 
-# ```{r}
-# #| label: fig-spoutlen
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Spawning output at length."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/bio10_spawningoutput_len.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-SRcurve
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Stock-recruit curve. Point colors indicate year, with warmer colors indicating earlier years and cooler colors in showing later years."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/SR_curve.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-recdevs_err
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Estimated recruitment deviations with 95% intervals."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/recdevs2_withbars.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-sel12
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Estimated selectivity for the IPHC longline survey for Oregon/Washington (Fleet 12)."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/sel09_len_flt12sex1.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-sel11
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Estimated selectivity for the WCBTS for Oregon/Washington (Fleet 11)."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/sel09_len_flt11sex1.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-sel10
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Estimated selectivity for the Triennial bottom trawl survey for Oregon/Washington (Fleet 10)."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/sel09_len_flt10sex1.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-indexfit3
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Fit to the California MRFSS recreational index."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/index2_cpuefit_3_CA_REC.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-indexfit6
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Fit to the Oregon recreational index."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/index2_cpuefit_6_OR_REC.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-indexfit7
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Fit to the Washington recreational index."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/index2_cpuefit_7_WA_REC.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-indexfit8
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Fit to the California CPFV observer index."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/index2_cpuefit_8_CACPFV.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-indexfit9
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Fit to the Oregon onboard observer (ORFS) index."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/index2_cpuefit_9_OR_RECOB.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-indexfit10
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Fit to the Triennial survey index."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/index2_cpuefit_10_TRI_ORWA.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-indexfit11
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Fit to the WCBTS index."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/index2_cpuefit_11_NWFSC_ORWA.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-indexfit12
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Fit to the IPHC survey index."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/index2_cpuefit_12_IPHC_ORWA.png"
-# )
-# ```
-# 
-# <!-- add length comps by fleet and year, if needed -->
-# 
-# ```{r}
-# #| label: fig-agglencomps
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Fit to length composition data, aggregated across time by fleet."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/comp_lenfit__aggregated_across_time.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-pearsonlenfit1
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Pearson residuals, comparing across fleets, for length composition data (1 of 2). Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/comp_lenfit__page1_multi-fleet_comparison.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-pearsonlenfit2
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Pearson residuals, comparing across fleets, for length composition data (2 of 2). Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/comp_lenfit__page2_multi-fleet_comparison.png"
-# )
-# ```
-# 
-# <!-- add mean length fits here if needed -->
-# 
-# <!-- add ghost age comps here if needed -->
-# 
-# <!-- add CAAL fits here if needed -->
-# 
-# ```{r}
-# #| label: fig-spout_combined
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Estimated spawning output over time for both areas combined."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-spout_area
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Estimated spawning output over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-totalbio
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Total biomass (t) over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/ts2_Total_biomass_(t)_by_area.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-summbio
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Summary biomass (t) over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-tsrecuits
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Age 0 recruits (1000s) over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
-# 
-# knitr::include_graphics(
-#     "figures/r4ss_plots/plots/ts12_Age-0_recruits_(1000s)_by_area.png"
-# )
-# ```
-# 
-# <!-- 04c_model_diagnostics -->
-# 
-# 
-# 
-# <!-- 04c_model_diagnostics - Sensitivities -->
-# 
-# ```{r}
-# #| label: fig-sens_model_spout
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Spawning output across model structure sensitivities."
-# 
-# knitr::include_graphics(
-#     "figures/sensitivities/modelingcompare2_spawnbio_uncertainty.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-sens_model_status
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Relative spawning output across model structure sensitivities."
-# 
-# knitr::include_graphics(
-#     "figures/sensitivities/modelingcompare4_Bratio_uncertainty.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-sens_data_spout
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Spawning output across dataset inclusion sensitivities."
-# 
-# knitr::include_graphics(
-#     "figures/sensitivities/datacompare2_spawnbio_uncertainty.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-sens_data_status
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Relative spawning output across dataset inclusion sensitivities."
-# 
-# knitr::include_graphics(
-#     "figures/sensitivities/datacompare4_Bratio_uncertainty.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-sens_indices_spout
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Spawning output across index inclusion sensitivities."
-# 
-# knitr::include_graphics(
-#     "figures/sensitivities/indicescompare2_spawnbio_uncertainty.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-sens_indices_status
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Relative spawning output across index inclusion sensitivities."
-# 
-# knitr::include_graphics(
-#     "figures/sensitivities/indicescompare4_Bratio_uncertainty.png"
-# )
-# ```
-# 
-# ```{r}
-# #| label: fig-sens_sum
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Relative change in management quantities across models conducted as sensitivities."
-# 
-# knitr::include_graphics(
-#     "figures/sensitivities/sens_summary.png"
-# )
-# ```
-# 
-# <!-- add retro figures here -->
-# 
-# ```{r}
-# #| label: fig-status_assmtns
-# #| echo: false
-# #| warning: false
-# #| eval: true
-# #| out-width: 80%
-# #| fig-cap: "Relative depletion (spawning output) across Yelloweye Rockfish assessments over time."
-# 
-# knitr::include_graphics(
-#     "figures/bridging/Timeseries_comp_previous_assessments.png"
-# )
-# ```
+```{r}
+#| label: fig-IPHC_comparison
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Comparison of the 2017 and the current IPHC index of abundance."
+#
+knitr::include_graphics(
+    "figures/indices/IPHC_index_comparison.pdf"
+)
+```
+
+```{r}
+#| label: fig-NWFSC_lencomps
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Annual length composition data for the WCBTS."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_lendat_flt11mkt0.png"
+)
+```
+
+```{r}
+#| label: fig-IPHC_lencomps
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Annual length composition data from the IPHC longline survey."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png"
+)
+```
+
+\clearpage
+
+```{r}
+#| label: fig-NWFSC_agecomps1
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Annual unsexed conditional age-at-length data for the WCBTS (1 of 2)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page1.png"
+)
+```
+
+```{r}
+#| label: fig-NWFSC_agecomps2
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Annual unsexed conditional age-at-length data for the WCBTS (2 of 2)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page2.png"
+)
+```
+
+```{r}
+#| label: fig-IPHC_agecomps1
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Annual unsexed conditional age-at-length data for the IPHC (1 of 2)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page1.png"
+)
+```
+
+```{r}
+#| label: fig-IPHC_agecomps2
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "nnual unsexed conditional age-at-length data for the IPHC (1 of 2)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png"
+)
+```
+
+```{r}
+#| label: fig-LWrel
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Updated weight-at-length relationship."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/bio5_weightatsize.png"
+)
+```
+#
+<!-- 04a_model_summary -->
+
+```{r}
+#| label: fig-ss3exe_1
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Comparison of the spawning output for the 2017 model with the updated SS3 executable and a single-sex model."
+#
+knitr::include_graphics(
+    "figures/bridging/1_SS3exe/compare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-ss3exe_2
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Comparison of the stock status for the 2017 model with the updated SS3 executable and a single-sex model."
+#
+knitr::include_graphics(
+    "figures/bridging/1_SS3exe/compare4_Bratio_uncertainty.png"
+)
+```
+
+\clearpage
+
+```{r}
+#| label: fig-newdata_1
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated catch data (dark green), updated indices (light green), new fishery length composition data (orange), and survey length composition data (red)."
+#
+knitr::include_graphics(
+    "figures/bridging/8_newlencomps/compare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-newdata_2
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), updated catch data (dark green), updated indices (light green), new fishery length composition data (orange), and survey length composition data (red)."
+#
+knitr::include_graphics(
+    "figures/bridging/8_newlencomps/compare4_Bratio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-newdata_3
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated catch data (light blue), updated indices (dark green), new fishery length composition data (light green), and commercial (yellow), recreational (orange), and survey (red) age composition data."
+#
+knitr::include_graphics(
+    "figures/bridging/13_newagecomps/compare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-newdata_4
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), updated catch data (light blue), updated indices (dark green), new fishery length composition data (light green), and commercial (yellow), recreational (orange), and survey (red) age composition data."
+#
+knitr::include_graphics(
+    "figures/bridging/13_newagecomps/compare4_Bratio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-newdata_5
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), 2025 model with all available updated data (green), with tuned compositional data (yellow), and with the updated recruitment bias adjustment ramp (red)."
+#
+knitr::include_graphics(
+    "figures/bridging/15_fitbias/compare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-newdata_6
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), 2025 model with all available updated data (green), with tuned compositional data (yellow), and with the updated recruitment bias adjustment ramp (red)."
+#
+knitr::include_graphics(
+    "figures/bridging/15_fitbias/compare4_Bratio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-growth
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Length at age in the beginning of the year in the ending year of the model."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/bio1_sizeatage.png"
+)
+```
+
+```{r}
+#| label: fig-biasadj
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Points are transformed variances. Red line shows current settings for bias adjustment specified in the control file. Blue line shows least squares estimate of alternative bias adjustment relationship for recruitment deviations."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/recruit_fit_bias_adjust.png"
+)
+```
+
+\clearpage
+
+```{r}
+#| label: fig-selex_allfleets
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Estimated selectivity at length for all fleets."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/sel01_multiple_fleets_length1.png"
+)
+```
+
+<!-- 04b_model_results -->
+
+```{r}
+#| label: fig-spoutlen
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Spawning output at length."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/bio10_spawningoutput_len.png"
+)
+```
+
+```{r}
+#| label: fig-SRcurve
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Stock-recruit curve. Point colors indicate year, with warmer colors indicating earlier years and cooler colors in showing later years."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/SR_curve.png"
+)
+```
+
+```{r}
+#| label: fig-recdevs_err
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Estimated recruitment deviations with 95% intervals."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/recdevs2_withbars.png"
+)
+```
+
+```{r}
+#| label: fig-sel12
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Estimated selectivity for the IPHC longline survey for Oregon/Washington (Fleet 12)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/sel09_len_flt12sex1.png"
+)
+```
+
+```{r}
+#| label: fig-sel11
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Estimated selectivity for the WCBTS for Oregon/Washington (Fleet 11)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/sel09_len_flt11sex1.png"
+)
+```
+
+```{r}
+#| label: fig-sel10
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Estimated selectivity for the Triennial bottom trawl survey for Oregon/Washington (Fleet 10)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/sel09_len_flt10sex1.png"
+)
+```
+
+\clearpage
+
+```{r}
+#| label: fig-indexfit3
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Fit to the California MRFSS recreational index."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index2_cpuefit_3_CA_REC.png"
+)
+```
+
+```{r}
+#| label: fig-indexfit6
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Fit to the Oregon recreational index."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index2_cpuefit_6_OR_REC.png"
+)
+```
+
+```{r}
+#| label: fig-indexfit7
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Fit to the Washington recreational index."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index2_cpuefit_7_WA_REC.png"
+)
+```
+
+```{r}
+#| label: fig-indexfit8
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Fit to the California CPFV observer index."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index2_cpuefit_8_CACPFV.png"
+)
+```
+
+```{r}
+#| label: fig-indexfit9
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Fit to the Oregon onboard observer (ORFS) index."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index2_cpuefit_9_OR_RECOB.png"
+)
+```
+
+```{r}
+#| label: fig-indexfit10
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Fit to the Triennial survey index."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index2_cpuefit_10_TRI_ORWA.png"
+)
+```
+
+```{r}
+#| label: fig-indexfit11
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Fit to the WCBTS index."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index2_cpuefit_11_NWFSC_ORWA.png"
+)
+```
+
+```{r}
+#| label: fig-indexfit12
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Fit to the IPHC survey index."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/index2_cpuefit_12_IPHC_ORWA.png"
+)
+```
+
+\clearpage
+
+<!-- add length comps by fleet and year, if needed -->
+
+```{r}
+#| label: fig-agglencomps
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Fit to length composition data, aggregated across time by fleet."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_lenfit__aggregated_across_time.png"
+)
+```
+
+```{r}
+#| label: fig-pearsonlenfit1
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Pearson residuals, comparing across fleets, for length composition data (1 of 2). Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_lenfit__page1_multi-fleet_comparison.png"
+)
+```
+
+```{r}
+#| label: fig-pearsonlenfit2
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Pearson residuals, comparing across fleets, for length composition data (2 of 2). Closed bubbles are positive residuals (observed > expected) and open bubbles are negative residuals (observed < expected)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_lenfit__page2_multi-fleet_comparison.png"
+)
+```
+
+<!-- add mean length fits here if needed -->
+
+<!-- add ghost age comps here if needed -->
+
+<!-- add CAAL fits here if needed -->
+
+```{r}
+#| label: fig-spout_combined
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Estimated spawning output over time for both areas combined."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png"
+)
+```
+
+```{r}
+#| label: fig-spout_area
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Estimated spawning output over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png"
+)
+```
+
+```{r}
+#| label: fig-totalbio
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Total biomass (t) over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts2_Total_biomass_(t)_by_area.png"
+)
+```
+
+```{r}
+#| label: fig-summbio
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Summary biomass (t) over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png"
+)
+```
+
+\clearpage
+
+```{r}
+#| label: fig-tsrecuits
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Age 0 recruits (1000s) over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts12_Age-0_recruits_(1000s)_by_area.png"
+)
+```
+
+<!-- 04c_model_diagnostics -->
+
+
+
+<!-- 04c_model_diagnostics - Sensitivities -->
+
+```{r}
+#| label: fig-sens_model_spout
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Spawning output across model structure sensitivities."
+#
+knitr::include_graphics(
+    "figures/sensitivities/modelingcompare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-sens_model_status
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Relative spawning output across model structure sensitivities."
+#
+knitr::include_graphics(
+    "figures/sensitivities/modelingcompare4_Bratio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-sens_data_spout
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Spawning output across dataset inclusion sensitivities."
+#
+knitr::include_graphics(
+    "figures/sensitivities/comp_datacompare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-sens_data_status
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Relative spawning output across dataset inclusion sensitivities."
+#
+knitr::include_graphics(
+    "figures/sensitivities/comp_datacompare4_Bratio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-sens_indices_spout
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Spawning output across index inclusion sensitivities."
+#
+knitr::include_graphics(
+    "figures/sensitivities/indicescompare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-sens_indices_status
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Relative spawning output across index inclusion sensitivities."
+#
+knitr::include_graphics(
+    "figures/sensitivities/indicescompare4_Bratio_uncertainty.png"
+)
+```
+
+\clearpage
+
+```{r}
+#| label: fig-sens_sum
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Relative change in management quantities across models conducted as sensitivities."
+#
+knitr::include_graphics(
+    "figures/sensitivities/sens_summary.png"
+)
+```
+
+<!-- add retro figures here -->
+
+```{r}
+#| label: fig-status_assmtns
+#| echo: false
+#| warning: false
+#| eval: true
+#| out-width: 80%
+#| fig-cap: "Relative depletion (spawning output) across Yelloweye Rockfish assessments over time."
+#
+knitr::include_graphics(
+    "figures/bridging/Timeseries_comp_previous_assessments.png"
+)
+```
