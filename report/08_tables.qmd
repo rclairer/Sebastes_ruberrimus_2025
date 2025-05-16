@@ -415,8 +415,8 @@ table_sens(indices_and_comps)
 
 {{< pagebreak >}}
 
-```{r, tbl-ref-points-es, results = "asis"}
-#| label: tbl-ref-points-es
+```{r, tbl-ref-points-es-2, results = "asis"}
+#| label: tbl-ref-points-es-2
 #| warning: false
 #| echo: false
 #| eval: !expr eval_tables 
@@ -505,8 +505,8 @@ projections_table |>
 
 :::
 
-```{r, results = "asis"}
-#| label: tbl-es-decision
+```{r, 2, results = "asis"}
+#| label: tbl-es-decision-2
 #| warning: false
 #| echo: false
 #| eval: !expr eval_tables 

@@ -140,8 +140,8 @@ spr_es_table |>
 
 ## Reference points{-}
 
-```{r, tbl-ref-points-es, results = "asis"}
-#| label: tbl-ref-points-es
+```{r, tbl-ref-points-es-1, results = "asis"}
+#| label: tbl-ref-points-es-1
 #| warning: false
 #| echo: false
 #| eval: !expr eval_tables 
@@ -252,8 +252,8 @@ projections_table |>
 
 ## Decision table{-}
 
-```{r, results = "asis"}
-#| label: tbl-es-decision
+```{r, 1, results = "asis"}
+#| label: tbl-es-decision-1
 #| warning: false
 #| echo: false
 #| eval: !expr eval_tables 
