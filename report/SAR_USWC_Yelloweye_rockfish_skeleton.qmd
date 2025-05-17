@@ -2,7 +2,7 @@
 title: 'Status of Yelloweye Rockfish off the U.S. West Coast in 2025'
 author:
 # add authors in order
-  - name: 'Morgan Johnston*'
+  - name: 'Morgan A. Johnston*'
     affiliations:
       - name: 'Oregon State University'
         address: '1500 SW Jefferson Way'
