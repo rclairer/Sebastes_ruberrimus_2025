@@ -909,5 +909,23 @@ knitr::include_graphics(
 )
 ```
 
+\clearpage
+<!-- management section -->
+
+```{r}
+#| label: fig-status-area
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Stock status relative to managment benchmarks in area 1 and area 2."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts10_Relative_spawning_output.png"
+)
+```
+
+
+
+
 <!-- keep this at end -->
 \pagebreak
