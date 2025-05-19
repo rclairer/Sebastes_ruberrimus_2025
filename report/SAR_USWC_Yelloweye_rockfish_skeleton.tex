@@ -118,17 +118,15 @@
 \makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
-\newsavebox\pandoc@box
-\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
-  \sbox\pandoc@box{#1}%
-  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
-  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
-  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
-  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
-  \else\usebox{\pandoc@box}%
-  \fi%
-}
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
 % Set default figure placement to htbp
+\makeatletter
 \def\fps@figure{htbp}
 \makeatother
 % definitions for citeproc citations
@@ -262,9 +260,6 @@
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \makeatother
 \makeatletter
-\usepackage{pdflscape}
-\makeatother
-\makeatletter
 \makeatother
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
@@ -281,7 +276,7 @@
 \let\LanguageShortHands\languageshorthands
 \def\languageshorthands#1{}
 \ifLuaTeX
-  \usepackage[english]{selnolig} % disable illegal ligatures
+  \usepackage{selnolig}  % disable illegal ligatures
 \fi
 \usepackage{bookmark}
 
@@ -590,7 +585,7 @@ Year & 1\_CA\_TWL (mt) & 2\_CA\_NONTWL (mt) & 3\_CA\_REC (mt) & 4\_ORWA\_TWL (mt
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/catch2_landings_stacked.png}
+\includegraphics{figures/r4ss_plots/plots/catch2_landings_stacked.png}
 
 }
 
@@ -661,7 +656,7 @@ Year & Spawning output & Lower Interval (mt) & Upper Interval (mt) & Fraction Un
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png}
+\includegraphics{figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png}
 
 }
 
@@ -809,26 +804,16 @@ tons (mt).}
 \toprule
 Year & OFL (mt) & ABC (mt) & ACL (mt) & Total dead catch (mt) \\ 
 \midrule\addlinespace[2.5pt]
-2015 & 52 & 43 & 18 & 2 \\ 
-2016 & 52 & 43 & 19 & 1 \\ 
-2017 & 57 & 47 & 20 & 6 \\ 
-2018 & 58 & 48 & 20 & 5 \\ 
-2019 & 82 & 74 & 48 & 6 \\ 
-2020 & 84 & 77 & 49 & 2 \\ 
-2021 & 97 & 83 & 50 & 7 \\ 
-2022 & NA & NA & NA & 9 \\ 
-2023 & 90 & 75 & 52 & 12 \\ 
-2024 & 91 & 76 & 53 & 5 \\ 
-2015 & 52 & 43 & 18 & 10 \\ 
-2016 & 52 & 43 & 19 & 8 \\ 
-2017 & 57 & 47 & 20 & 14 \\ 
-2018 & 58 & 48 & 20 & 14 \\ 
-2019 & 82 & 74 & 48 & 17 \\ 
-2020 & 84 & 77 & 49 & 16 \\ 
-2021 & 97 & 83 & 50 & 14 \\ 
-2022 & NA & NA & NA & 24 \\ 
-2023 & 90 & 75 & 52 & 28 \\ 
-2024 & 91 & 76 & 53 & 10 \\ 
+2015 & 52 & 43 & 18 & 12 \\ 
+2016 & 52 & 43 & 19 & 9 \\ 
+2017 & 57 & 47 & 20 & 20 \\ 
+2018 & 58 & 48 & 20 & 19 \\ 
+2019 & 82 & 74 & 48 & 24 \\ 
+2020 & 84 & 77 & 49 & 18 \\ 
+2021 & 97 & 83 & 50 & 21 \\ 
+2022 & NA & NA & NA & 34 \\ 
+2023 & 90 & 75 & 52 & 39 \\ 
+2024 & 91 & 76 & 53 & 15 \\ 
 \bottomrule
 
 \end{longtable}
@@ -837,8 +822,6 @@ Year & OFL (mt) & ABC (mt) & ACL (mt) & Total dead catch (mt) \\
 
 \subsection*{Harvest projections}\label{harvest-projections}
 \addcontentsline{toc}{subsection}{Harvest projections}
-
-\begin{landscape}
 
 \begingroup
 \fontsize{9.0pt}{10.8pt}\selectfont
@@ -872,8 +855,6 @@ Year & Adopted OFL (mt) & Adopted ACL (mt) & Assumed Catch (mt) & OFL (mt) & Buf
 \end{longtable}
 
 \endgroup
-
-\end{landscape}
 
 \clearpage
 
@@ -1067,12 +1048,12 @@ information.
 \subsection{Management performance}\label{management-performance-1}
 
 Yelloweye Rockfish removals have been substantially reduced since its
-designation as overfished in 2002 through a variety of managment
+designation as overfished in 2002 through a variety of management
 measures that eliminated retention in recreational fisheries, limited
 commercial retention, created broad spatial closures, and implemented
 new gear restrictions that reduced trawling in rocky habitats. Many of
 these restrictions remain in effect, though as Yelloweye Rockfish and
-other groundfish stocks have begun to rebuild, some managment measures
+other groundfish stocks have begun to rebuild, some manaegment measures
 have been modified or removed in recent years. These include some
 additional allocations to recreational fisheries that remain constrained
 by Yelloweye Rockfish estimated discard mortality, the recent removal of
@@ -1080,15 +1061,16 @@ the Yelloweye Rockfish Conservation Areas (RCA) for the trawl sector off
 of California and Oregon, and eliminating some gear restrictions in the
 RCAs for the non-trawl sector.
 
-Recent trends in total catch relative to managment guidelines is
-available in \textbf{?@tbl-recent\_management} and shows that total
+Recent trends in total catch relative to management guidelines is
+available in Table~\ref{tbl-yelloweye_management} and shows that total
 catch of Yelloweye Rockfish has remained below both the OFLs and ACLs in
 each year since the previous assessment. Catch in
-\textbf{?@tbl-recent\_management} combines the two areas in this model
-as catch limits for Yelloweye Rockfish are managed as a single coastwide
-unit and includes both landings and estimated discard mortality. As in
-the previous assessment, total catches for each fleet in this update
-include both landings and estimated dead discard mortality.
+Table~\ref{tbl-yelloweye_management} combines the two areas in this
+model as catch limits for Yelloweye Rockfish are managed as a single
+coastwide unit and includes both landings and estimated discard
+mortality. As in the previous assessment, total catches for each fleet
+in this update include both landings and estimated dead discard
+mortality.
 
 \subsection{Fisheries off Canada and
 Alaska}\label{fisheries-off-canada-and-alaska}
@@ -1368,7 +1350,7 @@ Additionally, years with extremely low sample sizes (\textless50) were
 excluded. Finally, drifts on charters from Port Orford were removed due
 to small sample sizes. The final filtered data set included 6,839 trips
 with a 6.1\% encounter rate for Yelloweye Rockfish
-\textbf{?@tbl-yelloweye\_percent\_pos\_ORFS}.
+Table~\ref{tbl-yelloweye_percent_pos_ORFS}.
 
 Covariates evaluated included year, month, port, the open depths to
 fishing (all depths or inside 20/30/40fm), and a five fm-binned depth of
@@ -1379,7 +1361,7 @@ binomial models were fit using sdmTMB (version 0.6.0; Anderson et al.
 (2024)) to the drift-level data (catch with a log offset for adjusted
 angler hours). A model without the open fishing depths or month was
 selected as the best fit model by AIC
-\textbf{?@tbl-yelloweye\_model\_selection\_ORFS}. Acceptable diagnostics
+Table~\ref{tbl-yelloweye_model_selection_ORFS}. Acceptable diagnostics
 for the model were achieved, as evidenced by passing the sanity function
 in sdmTMB (Figure~\ref{fig-orfs_qqplot}). The index of abundance is
 shown in Figure~\ref{fig-ORFS_index}. A comparison to the ORFS index
@@ -1419,7 +1401,7 @@ filter in the updated index. This filter has not been used for several
 assessment cycles, based on a recommendation from NWFSC staff (pers.
 comm. A. Whitman, ODFW). The final dataset included 133,039 trips from
 2004 -- 2024 with an overall encounter rate of 7.4\%
-\textbf{?@tbl-yelloweye\_percent\_pos\_ORBS}.
+Table~\ref{tbl-yelloweye_percent_pos_ORBS}.
 
 Covariates evaluated included year, month, port, the open depths to
 fishing (all depths or inside 20/30/40 fm), and boat type. These are the
@@ -1429,7 +1411,7 @@ and year. Negative binomial models were fit in sdmTMB (Version 0.6.0) to
 the trip-level data (catch with a log offset for adjusted angler hours).
 The final model selected includes year, month, port, boat type and open
 fishery depths, which was the best fit model by AIC in this series
-\textbf{?@tbl-yelloweye\_model\_selection\_ORBS}. Acceptable diagnostics
+Table~\ref{tbl-yelloweye_model_selection_ORBS}. Acceptable diagnostics
 for the model were achieved, as evidenced by passing the sanity function
 in sdmTMB.(Figure~\ref{fig-orbs_qq}). The index of abundance in shown in
 Figure~\ref{fig-ORBS_index}. ODFW no longer maintains the deltaGLM code
@@ -2298,9 +2280,42 @@ Reconstruction (1979-2000).''} ODFW Science Bulletin 2024-09.
 
 \section{Tables}\label{tables}
 
-\subsection{Data}\label{data-1}
+\subsection{Introduction}\label{introduction-1}
 
-\begin{landscape}
+\begingroup
+\fontsize{9.0pt}{10.8pt}\selectfont
+
+\begin{longtable}{rrrrr}
+
+\caption{\label{tbl-yelloweye_management}Recent trend in the overfishing
+limits (OFL), the acceptable biological catches (ABCs), the annual catch
+limits (ACLs), and the total dead catch (landings + discards) all in
+metric tons (mt).}
+
+\tabularnewline
+
+\toprule
+Year & OFL..mt. & ABC..mt. & ACL..mt. & Catch..mt. \\ 
+\midrule\addlinespace[2.5pt]
+2015 & 52.0 & 43.0 & 18.0 & 12.6 \\ 
+2016 & 52.0 & 43.0 & 19.0 & 9.6 \\ 
+2017 & 56.9 & 47.4 & 20.0 & 19.9 \\ 
+2018 & 57.5 & 47.9 & 20.0 & 18.7 \\ 
+2019 & 81.5 & 74.4 & 48.0 & 23.6 \\ 
+2020 & 84.2 & 76.9 & 49.0 & 18.2 \\ 
+2021 & 97.5 & 83.5 & 50.0 & 20.8 \\ 
+2022 & 98.1 & 83.2 & 51.0 & 33.7 \\ 
+2023 & 89.6 & 75.3 & 52.0 & 39.4 \\ 
+2024 & 91.2 & 75.9 & 53.3 & 15.1 \\ 
+\bottomrule
+
+\end{longtable}
+
+\endgroup
+
+\newpage{}
+
+\subsection{Data}\label{data-1}
 
 \begingroup
 \fontsize{9.0pt}{10.8pt}\selectfont
@@ -2460,7 +2475,147 @@ Year & CA trawl (mt) & CA non-trawl (mt) & CA sport (mt) & OR-WA trawl (mt) & OR
 
 \endgroup
 
-\end{landscape}
+\newpage{}
+
+\begingroup
+\fontsize{9.0pt}{10.8pt}\selectfont
+
+\begin{longtable}{rrrrr}
+
+\caption{\label{tbl-yelloweye_percent_pos_ORFS}Summary of trips with and
+without yellowtail rockfish from ORFS index}
+
+\tabularnewline
+
+\toprule
+year & tripsWithTarget & tripsWOTarget & totalTrips & percentpos \\ 
+\midrule\addlinespace[2.5pt]
+2001 & 11 & 334 & 345 & 0.03 \\ 
+2004 & 12 & 334 & 346 & 0.03 \\ 
+2005 & 10 & 392 & 402 & 0.02 \\ 
+2006 & 24 & 385 & 409 & 0.06 \\ 
+2007 & 20 & 478 & 498 & 0.04 \\ 
+2008 & 29 & 449 & 478 & 0.06 \\ 
+2009 & 23 & 285 & 308 & 0.07 \\ 
+2010 & 12 & 324 & 336 & 0.04 \\ 
+2011 & 20 & 317 & 337 & 0.06 \\ 
+2012 & 46 & 519 & 565 & 0.08 \\ 
+2013 & 31 & 391 & 422 & 0.07 \\ 
+2014 & 29 & 367 & 396 & 0.07 \\ 
+2015 & 10 & 312 & 322 & 0.03 \\ 
+2017 & 23 & 388 & 411 & 0.06 \\ 
+2022 & 11 & 216 & 227 & 0.05 \\ 
+2023 & 25 & 418 & 443 & 0.06 \\ 
+2024 & 54 & 540 & 594 & 0.09 \\ 
+\bottomrule
+
+\end{longtable}
+
+\endgroup
+
+\newpage{}
+
+\begingroup
+\fontsize{9.0pt}{10.8pt}\selectfont
+
+\begin{longtable}{llllllrrrr}
+
+\caption{\label{tbl-yelloweye_model_selection_ORFS}Model selection for
+top model covariate combinations considered for the ORFS index}
+
+\tabularnewline
+
+\toprule
+Gf\_opendepth & Lgdepthbin & Month & Port & Year & Effort.Offset & Df & Log.Likelihood & AICc & Delta \\ 
+\midrule\addlinespace[2.5pt]
+- & Incl. & - & Incl. & Incl. & Incl. & 28 & -1401.1 & 2858.5 & 0.0 \\ 
+- & Incl. & Incl. & Incl. & Incl. & Incl. & 35 & -1394.6 & 2859.6 & 1.2 \\ 
+Incl. & Incl. & - & Incl. & Incl. & Incl. & 31 & -1399.3 & 2861.0 & 2.5 \\ 
+Incl. & Incl. & Incl. & Incl. & Incl. & Incl. & 38 & -1394.3 & 2865.1 & 6.7 \\ 
+- & Incl. & Incl. & - & Incl. & Incl. & 29 & -1464.0 & 2986.3 & 127.8 \\ 
+- & Incl. & - & - & Incl. & Incl. & 22 & -1473.2 & 2990.5 & 132.1 \\ 
+Incl. & Incl. & Incl. & - & Incl. & Incl. & 32 & -1463.7 & 2991.7 & 133.2 \\ 
+Incl. & Incl. & - & - & Incl. & Incl. & 25 & -1472.2 & 2994.5 & 136.1 \\ 
+- & - & Incl. & Incl. & Incl. & Incl. & 31 & -1497.3 & 3056.9 & 198.5 \\ 
+Incl. & - & - & Incl. & Incl. & Incl. & 27 & -1502.7 & 3059.6 & 201.1 \\ 
+\bottomrule
+
+\end{longtable}
+
+\endgroup
+
+\newpage{}
+
+\begingroup
+\fontsize{9.0pt}{10.8pt}\selectfont
+
+\begin{longtable}{rrrrr}
+
+\caption{\label{tbl-yelloweye_percent_pos_ORBS}Summary of trips with and
+without yellowtail rockfish from ORBS index}
+
+\tabularnewline
+
+\toprule
+year & tripsWithTarget & tripsWOTarget & totalTrips & percentpos \\ 
+\midrule\addlinespace[2.5pt]
+2004 & 111 & 3399 & 3510 & 0.03 \\ 
+2005 & 281 & 6561 & 6842 & 0.04 \\ 
+2006 & 278 & 6729 & 7007 & 0.04 \\ 
+2007 & 262 & 4588 & 4850 & 0.05 \\ 
+2008 & 273 & 5342 & 5615 & 0.05 \\ 
+2009 & 219 & 5430 & 5649 & 0.04 \\ 
+2010 & 287 & 5948 & 6235 & 0.05 \\ 
+2011 & 337 & 5203 & 5540 & 0.06 \\ 
+2012 & 415 & 5067 & 5482 & 0.08 \\ 
+2013 & 602 & 6655 & 7257 & 0.08 \\ 
+2014 & 429 & 5426 & 5855 & 0.07 \\ 
+2015 & 483 & 7945 & 8428 & 0.06 \\ 
+2016 & 328 & 6608 & 6936 & 0.05 \\ 
+2017 & 642 & 6653 & 7295 & 0.09 \\ 
+2018 & 681 & 6530 & 7211 & 0.09 \\ 
+2019 & 693 & 5610 & 6303 & 0.11 \\ 
+2020 & 802 & 6369 & 7171 & 0.11 \\ 
+2021 & 582 & 5256 & 5838 & 0.10 \\ 
+2022 & 628 & 5896 & 6524 & 0.10 \\ 
+2023 & 840 & 5992 & 6832 & 0.12 \\ 
+2024 & 680 & 5979 & 6659 & 0.10 \\ 
+\bottomrule
+
+\end{longtable}
+
+\endgroup
+
+\newpage{}
+
+\begingroup
+\fontsize{9.0pt}{10.8pt}\selectfont
+
+\begin{longtable}{lllllllrrrr}
+
+\caption{\label{tbl-yelloweye_model_selection_ORBS}Model selection for
+top model covariate combinations considered for the ORFS index}
+
+\tabularnewline
+
+\toprule
+Boattype & Gf\_opendepth & Month & Port & Tgt.bag & Year & Effort.Offset & Df & Log.Likelihood & AICc & Delta \\ 
+\midrule\addlinespace[2.5pt]
+Incl. & Incl. & Incl. & Incl. & Incl. & Incl. & Incl. & 48 & -45351.5 & 90799.1 & 0.0 \\ 
+Incl. & Incl. & Incl. & Incl. & - & Incl. & Incl. & 44 & -45369.4 & 90826.8 & 27.7 \\ 
+Incl. & - & Incl. & Incl. & Incl. & Incl. & Incl. & 45 & -45389.1 & 90868.2 & 69.2 \\ 
+Incl. & Incl. & - & Incl. & Incl. & Incl. & Incl. & 37 & -45414.1 & 90902.2 & 103.1 \\ 
+Incl. & - & Incl. & Incl. & - & Incl. & Incl. & 41 & -45413.6 & 90909.2 & 110.2 \\ 
+Incl. & Incl. & - & Incl. & - & Incl. & Incl. & 33 & -45427.8 & 90921.6 & 122.6 \\ 
+Incl. & - & - & Incl. & Incl. & Incl. & Incl. & 34 & -45554.1 & 91176.1 & 377.1 \\ 
+Incl. & - & - & Incl. & - & Incl. & Incl. & 30 & -45583.4 & 91226.9 & 427.8 \\ 
+- & Incl. & Incl. & Incl. & Incl. & Incl. & Incl. & 47 & -45634.6 & 91363.3 & 564.3 \\ 
+- & Incl. & Incl. & Incl. & - & Incl. & Incl. & 43 & -45650.9 & 91387.7 & 588.7 \\ 
+\bottomrule
+
+\end{longtable}
+
+\endgroup
 
 \newpage{}
 
@@ -2701,8 +2856,6 @@ Size selectivity & 25 \\
 \endgroup
 
 \newpage{}
-
-\begin{landscape}
 
 \begingroup
 \fontsize{9.0pt}{10.8pt}\selectfont
@@ -2977,8 +3130,6 @@ Size\_DblN\_end\_logit\_12\_IPHC\_ORWA(12) & -999 & -5 & (-1000, 9) & fixed &  &
 \end{longtable}
 
 \endgroup
-
-\end{landscape}
 
 \newpage{}
 
@@ -3353,8 +3504,6 @@ Year & Total Biomass (mt) & Spawning output & Total Biomass 8+ (mt) & Fraction U
 
 \newpage{}
 
-\begin{landscape}
-
 \begingroup\fontsize{9}{11}\selectfont
 
 \begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}}
@@ -3393,8 +3542,6 @@ Label & Base & CA.REC.index & OR.REC.index & WA.REC.index & CA.CPFV.index & ORBS
 \end{longtable}
 
 \endgroup{}
-
-\end{landscape}
 
 \newpage{}
 
@@ -3484,8 +3631,6 @@ MSY (mt) & 121 & 106 & 136 \\
 
 \pagebreak
 
-\begin{landscape}
-
 \begingroup
 \fontsize{9.0pt}{10.8pt}\selectfont
 
@@ -3518,8 +3663,6 @@ Year & Adopted OFL (mt) & Adopted ACL (mt) & Assumed Catch (mt) & OFL (mt) & Buf
 \end{longtable}
 
 \endgroup
-
-\end{landscape}
 
 \begin{table}[H]
 
@@ -3638,7 +3781,7 @@ Mgmt & Year & Catch & Low Spawn & Low Frac & Base Spawn & Base Frac & High Spawn
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/data_plot.png}
+\includegraphics{figures/r4ss_plots/plots/data_plot.png}
 
 }
 
@@ -3651,7 +3794,7 @@ model.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/catch2_landings_stacked.png}
+\includegraphics{figures/r4ss_plots/plots/catch2_landings_stacked.png}
 
 }
 
@@ -3663,7 +3806,7 @@ model.}
 
 \centering{
 
-\includegraphics[width=7in,height=\textheight,keepaspectratio]{figures/indices/ORFS_qq.png}
+\includegraphics{figures/indices/ORFS_qq.png}
 
 }
 
@@ -3676,7 +3819,7 @@ model fit for the Oregon Onboard Observer (ORFS) index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index1_cpuedata_9_OR_RECOB.png}
+\includegraphics{figures/r4ss_plots/plots/index1_cpuedata_9_OR_RECOB.png}
 
 }
 
@@ -3689,7 +3832,7 @@ the Oregon Onboard Observer (ORFS) index.}
 
 \centering{
 
-\includegraphics[width=10in,height=\textheight,keepaspectratio]{figures/indices/ORFS index comparison_errbars.png}
+\includegraphics{figures/indices/ORFS index comparison_errbars.png}
 
 }
 
@@ -3702,7 +3845,7 @@ indices from the 2017 and the current assessment.}
 
 \centering{
 
-\includegraphics[width=7in,height=\textheight,keepaspectratio]{figures/indices/ORBS_qq.png}
+\includegraphics{figures/indices/ORBS_qq.png}
 
 }
 
@@ -3715,7 +3858,7 @@ fit for the updated portion of the Oregon recreational (ORBS) index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index1_cpuedata_6_OR_REC.png}
+\includegraphics{figures/r4ss_plots/plots/index1_cpuedata_6_OR_REC.png}
 
 }
 
@@ -3731,7 +3874,7 @@ ORBS (2004 - 2024) indices.}
 
 \centering{
 
-\includegraphics[width=10in,height=\textheight,keepaspectratio]{figures/indices/ORBS index comparison_ORBSonly_errbars.png}
+\includegraphics{figures/indices/ORBS index comparison_ORBSonly_errbars.png}
 
 }
 
@@ -3745,7 +3888,7 @@ current ORBS index (sdmTMB).}
 
 \centering{
 
-\includegraphics[width=7in,height=\textheight,keepaspectratio]{figures/indices/wcgbts_qq.png}
+\includegraphics{figures/indices/wcgbts_qq.png}
 
 }
 
@@ -3759,7 +3902,7 @@ model fit for the NWFSC West Coast Groundfish Bottom Trawl Survey
 
 \centering{
 
-\includegraphics[width=5.05in,height=\textheight,keepaspectratio]{figures/indices/wcgbts_index_comparison.png}
+\includegraphics{figures/indices/wcgbts_index_comparison.png}
 
 }
 
@@ -3773,7 +3916,7 @@ index of abundance.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index1_cpuedata_11_NWFSC_ORWA.png}
+\includegraphics{figures/r4ss_plots/plots/index1_cpuedata_11_NWFSC_ORWA.png}
 
 }
 
@@ -3786,7 +3929,7 @@ the West Coast Groundfish Bottom Trawl Survey (WCGBTS).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index1_cpuedata_12_IPHC_ORWA.png}
+\includegraphics{figures/r4ss_plots/plots/index1_cpuedata_12_IPHC_ORWA.png}
 
 }
 
@@ -3799,7 +3942,7 @@ the IPHC longline survey.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/indices/IPHC_index_comparison.pdf}}
+\includegraphics{figures/indices/IPHC_index_comparison.pdf}
 
 }
 
@@ -3812,7 +3955,7 @@ current IPHC index of abundance.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/comp_lendat_flt11mkt0.png}
+\includegraphics{figures/r4ss_plots/plots/comp_lendat_flt11mkt0.png}
 
 }
 
@@ -3825,7 +3968,7 @@ the WCBTS.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png}
+\includegraphics{figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png}
 
 }
 
@@ -3840,7 +3983,7 @@ the IPHC longline survey.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page1.png}
+\includegraphics{figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page1.png}
 
 }
 
@@ -3853,7 +3996,7 @@ age-at-length data for the WCBTS (1 of 2).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page2.png}
+\includegraphics{figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page2.png}
 
 }
 
@@ -3866,7 +4009,7 @@ age-at-length data for the WCBTS (2 of 2).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page1.png}
+\includegraphics{figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page1.png}
 
 }
 
@@ -3879,7 +4022,7 @@ age-at-length data for the IPHC (1 of 2).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png}
+\includegraphics{figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png}
 
 }
 
@@ -3892,7 +4035,7 @@ age-at-length data for the IPHC (1 of 2).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/bio5_weightatsize.png}
+\includegraphics{figures/r4ss_plots/plots/bio5_weightatsize.png}
 
 }
 
@@ -3906,7 +4049,7 @@ age-at-length data for the IPHC (1 of 2).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/bridging/1_SS3exe/compare2_spawnbio_uncertainty.png}
+\includegraphics{figures/bridging/1_SS3exe/compare2_spawnbio_uncertainty.png}
 
 }
 
@@ -3919,7 +4062,7 @@ age-at-length data for the IPHC (1 of 2).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/bridging/1_SS3exe/compare4_Bratio_uncertainty.png}
+\includegraphics{figures/bridging/1_SS3exe/compare4_Bratio_uncertainty.png}
 
 }
 
@@ -3934,7 +4077,7 @@ model with the updated SS3 executable and a single-sex model.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/bridging/8_newlencomps/compare2_spawnbio_uncertainty.png}
+\includegraphics{figures/bridging/8_newlencomps/compare2_spawnbio_uncertainty.png}
 
 }
 
@@ -3949,7 +4092,7 @@ composition data (orange), and survey length composition data (red).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/bridging/8_newlencomps/compare4_Bratio_uncertainty.png}
+\includegraphics{figures/bridging/8_newlencomps/compare4_Bratio_uncertainty.png}
 
 }
 
@@ -3964,7 +4107,7 @@ data (orange), and survey length composition data (red).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/bridging/13_newagecomps/compare2_spawnbio_uncertainty.png}
+\includegraphics{figures/bridging/13_newagecomps/compare2_spawnbio_uncertainty.png}
 
 }
 
@@ -3980,7 +4123,7 @@ composition data (light green), and commercial (yellow), recreational
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/bridging/13_newagecomps/compare4_Bratio_uncertainty.png}
+\includegraphics{figures/bridging/13_newagecomps/compare4_Bratio_uncertainty.png}
 
 }
 
@@ -3996,7 +4139,7 @@ survey (red) age composition data.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/bridging/15_fitbias/compare2_spawnbio_uncertainty.png}
+\includegraphics{figures/bridging/15_fitbias/compare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4011,7 +4154,7 @@ and with the updated recruitment bias adjustment ramp (red).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/bridging/15_fitbias/compare4_Bratio_uncertainty.png}
+\includegraphics{figures/bridging/15_fitbias/compare4_Bratio_uncertainty.png}
 
 }
 
@@ -4026,7 +4169,7 @@ and with the updated recruitment bias adjustment ramp (red).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/bio1_sizeatage.png}
+\includegraphics{figures/r4ss_plots/plots/bio1_sizeatage.png}
 
 }
 
@@ -4039,7 +4182,7 @@ the ending year of the model.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/recruit_fit_bias_adjust.png}
+\includegraphics{figures/r4ss_plots/plots/recruit_fit_bias_adjust.png}
 
 }
 
@@ -4056,7 +4199,7 @@ adjustment relationship for recruitment deviations.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/sel01_multiple_fleets_length1.png}
+\includegraphics{figures/r4ss_plots/plots/sel01_multiple_fleets_length1.png}
 
 }
 
@@ -4069,7 +4212,7 @@ all fleets.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/bio10_spawningoutput_len.png}
+\includegraphics{figures/r4ss_plots/plots/bio10_spawningoutput_len.png}
 
 }
 
@@ -4081,7 +4224,7 @@ all fleets.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/SR_curve.png}
+\includegraphics{figures/r4ss_plots/plots/SR_curve.png}
 
 }
 
@@ -4095,7 +4238,7 @@ showing later years.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/recdevs2_withbars.png}
+\includegraphics{figures/r4ss_plots/plots/recdevs2_withbars.png}
 
 }
 
@@ -4108,7 +4251,7 @@ showing later years.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/sel09_len_flt12sex1.png}
+\includegraphics{figures/r4ss_plots/plots/sel09_len_flt12sex1.png}
 
 }
 
@@ -4121,7 +4264,7 @@ survey for Oregon/Washington (Fleet 12).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/sel09_len_flt11sex1.png}
+\includegraphics{figures/r4ss_plots/plots/sel09_len_flt11sex1.png}
 
 }
 
@@ -4134,7 +4277,7 @@ Oregon/Washington (Fleet 11).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/sel09_len_flt10sex1.png}
+\includegraphics{figures/r4ss_plots/plots/sel09_len_flt10sex1.png}
 
 }
 
@@ -4149,7 +4292,7 @@ trawl survey for Oregon/Washington (Fleet 10).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index2_cpuefit_3_CA_REC.png}
+\includegraphics{figures/r4ss_plots/plots/index2_cpuefit_3_CA_REC.png}
 
 }
 
@@ -4162,7 +4305,7 @@ index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index2_cpuefit_6_OR_REC.png}
+\includegraphics{figures/r4ss_plots/plots/index2_cpuefit_6_OR_REC.png}
 
 }
 
@@ -4174,7 +4317,7 @@ index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index2_cpuefit_7_WA_REC.png}
+\includegraphics{figures/r4ss_plots/plots/index2_cpuefit_7_WA_REC.png}
 
 }
 
@@ -4186,7 +4329,7 @@ index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index2_cpuefit_8_CACPFV.png}
+\includegraphics{figures/r4ss_plots/plots/index2_cpuefit_8_CACPFV.png}
 
 }
 
@@ -4199,7 +4342,7 @@ index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index2_cpuefit_9_OR_RECOB.png}
+\includegraphics{figures/r4ss_plots/plots/index2_cpuefit_9_OR_RECOB.png}
 
 }
 
@@ -4212,7 +4355,7 @@ index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index2_cpuefit_10_TRI_ORWA.png}
+\includegraphics{figures/r4ss_plots/plots/index2_cpuefit_10_TRI_ORWA.png}
 
 }
 
@@ -4224,7 +4367,7 @@ index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index2_cpuefit_11_NWFSC_ORWA.png}
+\includegraphics{figures/r4ss_plots/plots/index2_cpuefit_11_NWFSC_ORWA.png}
 
 }
 
@@ -4236,7 +4379,7 @@ index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index2_cpuefit_12_IPHC_ORWA.png}
+\includegraphics{figures/r4ss_plots/plots/index2_cpuefit_12_IPHC_ORWA.png}
 
 }
 
@@ -4250,7 +4393,7 @@ index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/comp_lenfit__aggregated_across_time.png}
+\includegraphics{figures/r4ss_plots/plots/comp_lenfit__aggregated_across_time.png}
 
 }
 
@@ -4263,7 +4406,7 @@ aggregated across time by fleet.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/comp_lenfit__page1_multi-fleet_comparison.png}
+\includegraphics{figures/r4ss_plots/plots/comp_lenfit__page1_multi-fleet_comparison.png}
 
 }
 
@@ -4278,7 +4421,7 @@ are negative residuals (observed \textless{} expected).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/comp_lenfit__page2_multi-fleet_comparison.png}
+\includegraphics{figures/r4ss_plots/plots/comp_lenfit__page2_multi-fleet_comparison.png}
 
 }
 
@@ -4293,7 +4436,7 @@ are negative residuals (observed \textless{} expected).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png}
+\includegraphics{figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png}
 
 }
 
@@ -4306,7 +4449,7 @@ for both areas combined.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png}
+\includegraphics{figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png}
 
 }
 
@@ -4319,7 +4462,7 @@ by area (Area 1 is California, Area 2 is Oregon/Washington combined).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/ts2_Total_biomass_(t)_by_area.png}
+\includegraphics{figures/r4ss_plots/plots/ts2_Total_biomass_(t)_by_area.png}
 
 }
 
@@ -4332,7 +4475,7 @@ by area (Area 1 is California, Area 2 is Oregon/Washington combined).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png}
+\includegraphics{figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png}
 
 }
 
@@ -4347,7 +4490,7 @@ by area (Area 1 is California, Area 2 is Oregon/Washington combined).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/ts12_Age-0_recruits_(1000s)_by_area.png}
+\includegraphics{figures/r4ss_plots/plots/ts12_Age-0_recruits_(1000s)_by_area.png}
 
 }
 
@@ -4360,7 +4503,7 @@ area (Area 1 is California, Area 2 is Oregon/Washington combined).}
 
 \centering{
 
-\includegraphics[width=9in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_jitter_0.1/jitter.png}
+\includegraphics{figures/diagnostics/2025_base_model_jitter_0.1/jitter.png}
 
 }
 
@@ -4374,7 +4517,7 @@ indicates base model value.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/sensitivities/modelingcompare2_spawnbio_uncertainty.png}
+\includegraphics{figures/sensitivities/modelingcompare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4387,7 +4530,7 @@ structure sensitivities.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/sensitivities/modelingcompare4_Bratio_uncertainty.png}
+\includegraphics{figures/sensitivities/modelingcompare4_Bratio_uncertainty.png}
 
 }
 
@@ -4400,7 +4543,7 @@ model structure sensitivities.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/sensitivities/comp_datacompare2_spawnbio_uncertainty.png}
+\includegraphics{figures/sensitivities/comp_datacompare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4413,7 +4556,7 @@ inclusion sensitivities.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/sensitivities/comp_datacompare4_Bratio_uncertainty.png}
+\includegraphics{figures/sensitivities/comp_datacompare4_Bratio_uncertainty.png}
 
 }
 
@@ -4426,7 +4569,7 @@ dataset inclusion sensitivities.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/sensitivities/indicescompare2_spawnbio_uncertainty.png}
+\includegraphics{figures/sensitivities/indicescompare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4439,7 +4582,7 @@ inclusion sensitivities.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/sensitivities/indicescompare4_Bratio_uncertainty.png}
+\includegraphics{figures/sensitivities/indicescompare4_Bratio_uncertainty.png}
 
 }
 
@@ -4454,7 +4597,7 @@ index inclusion sensitivities.}
 
 \centering{
 
-\includegraphics[width=6in,height=\textheight,keepaspectratio]{figures/sensitivities/sens_summary.png}
+\includegraphics{figures/sensitivities/sens_summary.png}
 
 }
 
@@ -4467,7 +4610,7 @@ across models conducted as sensitivities.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare2_spawnbio_uncertainty.png}
+\includegraphics{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4481,7 +4624,7 @@ Spawning output time series of this assesment base model are proved with
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare4_Bratio_uncertainty.png}
+\includegraphics{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare4_Bratio_uncertainty.png}
 
 }
 
@@ -4495,7 +4638,7 @@ proved with \textasciitilde95\% interval.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare12_recdevs_uncertainty.png}
+\includegraphics{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare12_recdevs_uncertainty.png}
 
 }
 
@@ -4508,7 +4651,7 @@ for each scenario of the retrospective analysis.}
 
 \centering{
 
-\includegraphics[width=7.6in,height=\textheight,keepaspectratio]{figures/bridging/Timeseries_comp_previous_assessments.png}
+\includegraphics{figures/bridging/Timeseries_comp_previous_assessments.png}
 
 }
 
@@ -4521,7 +4664,7 @@ across Yelloweye Rockfish assessments over time.}
 
 \centering{
 
-\includegraphics[width=7in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/piner_panel_NatM_break_1_Fem_GP_1.png}
+\includegraphics{figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/piner_panel_NatM_break_1_Fem_GP_1.png}
 
 }
 
@@ -4537,7 +4680,7 @@ ranging from 0.03 to 0.06 in increments of 0.002.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/NatM_break_1_Fem_GP_1_trajectories_compare3_Bratio.png}
+\includegraphics{figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/NatM_break_1_Fem_GP_1_trajectories_compare3_Bratio.png}
 
 }
 
@@ -4551,7 +4694,7 @@ ranging from 0.03 to 0.06 in increments of 0.002.}
 
 \centering{
 
-\includegraphics[width=7in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_profile_SR_BH_steep/piner_panel_SR_BH_steep.png}
+\includegraphics{figures/diagnostics/2025_base_model_profile_SR_BH_steep/piner_panel_SR_BH_steep.png}
 
 }
 
@@ -4565,7 +4708,7 @@ steepness ranging from 0.25 to 1.0 by increments of 0.05.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_profile_SR_BH_steep/SR_BH_steep_trajectories_compare3_Bratio.png}
+\includegraphics{figures/diagnostics/2025_base_model_profile_SR_BH_steep/SR_BH_steep_trajectories_compare3_Bratio.png}
 
 }
 
@@ -4579,7 +4722,7 @@ from 0.25 to 1.0 in increments of 0.05.}
 
 \centering{
 
-\includegraphics[width=7in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png}
+\includegraphics{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png}
 
 }
 
@@ -4593,7 +4736,7 @@ recruitment (lnR0) ranging from 4.5 to 6.0 by increments of 0.15.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare1_spawnbio.png}
+\includegraphics{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare1_spawnbio.png}
 
 }
 
@@ -4606,7 +4749,7 @@ values of lnR0.}
 
 \centering{
 
-\includegraphics[width=7in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/parameter_panel_SR_LN(R0).png}
+\includegraphics{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/parameter_panel_SR_LN(R0).png}
 
 }
 
