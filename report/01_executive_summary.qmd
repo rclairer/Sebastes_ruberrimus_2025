@@ -49,7 +49,7 @@ catches_es_table |>
 #| eval: true 
 #| fig-cap: "Landings in metric tons (mt) by year for each fleet."
 
-knitr::include_graphics("r4ss_plots/plots/catch2_landings_stacked.png")
+knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 
 ```
 
@@ -107,7 +107,7 @@ ssb_es_table |>
 #| fig-alt: "See table 26 for values."
 #| fig-pos: H
 
-knitr::include_graphics("r4ss_plots/ts9_Relative_spawning_output_intervals.png")
+knitr::include_graphics("figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png")
 
 ```
 
