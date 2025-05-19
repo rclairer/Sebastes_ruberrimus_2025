@@ -8,13 +8,23 @@
 #| warning: false
 #| tbl-cap: "Recent trend in the overfishing limits (OFL), the acceptable biological catches (ABCs), the annual catch limits (ACLs), and the total dead catch (landings + discards) all in metric tons (mt)."
 
-read.csv("Tables/yelloweye_management.csv") |> 
-  gt() |>
-  tab_options(
+# yelloweye_management |>
+recent_management_table |>
+  dplyr::rename(`Total dead catch (mt)` = `Catch (mt)`) |>
+  gt::gt() |>
+  gt::tab_options(
     table.font.size = 12,
-    latex.use_longtable = TRUE
+    latex.use_longtable = TRUE 
   ) |>
-  as_latex()
+  gt::as_latex()
+
+# read.csv("Tables/yelloweye_management.csv") |> 
+#   gt() |>
+#   tab_options(
+#     table.font.size = 12,
+#     latex.use_longtable = TRUE
+#   ) |>
+#   as_latex()
 ```
 
 {{< pagebreak >}}
