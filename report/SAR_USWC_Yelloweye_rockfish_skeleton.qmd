@@ -69,6 +69,7 @@ author-note: "*These authors contributed equally to this work."
 date: today
 lang: en 
 keep-tex: true 
+mainfont: 'Latin Modern Sans' 
 cover: support_files/Yelloweye_Rockfish.png
 pdf-engine: lualatex
 format: 
@@ -81,7 +82,12 @@ format:
     include-in-header:
       - 'support_files/in-header.tex'
       - 'support_files/pfmc.tex'
+    include-after-body:
+      text: |
+        \newpage{}
+        \printnoidxglossaries
     toc: true
+    sansfont: 'Latin Modern Sans'
     lof: false
     lot: false
     titlepage-geometry: 
@@ -89,7 +95,7 @@ format:
       - bottom=1in
       - right=1in
       - left=1in
-output-file: 'Yelloweye_rockfish_SAR_2025' 
+output-file: 'Yelloweye_rockfish_SAR_2025_ss' 
 params: 
    office: 'NWFSC'
    species: 'Yelloweye rockfish'
