@@ -1,4 +1,24 @@
 # Tables 
+
+## Introduction 
+
+```{r, yelloweye_management}
+#| label: tbl-yelloweye_management
+#| echo: false
+#| warning: false
+#| tbl-cap: "Recent trend in the overfishing limits (OFL), the acceptable biological catches (ABCs), the annual catch limits (ACLs), and the total dead catch (landings + discards) all in metric tons (mt)."
+
+read.csv("Tables/yelloweye_management.csv") |> 
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+
+{{< pagebreak >}}
+
 ## Data
 
 ::: {.landscape}
@@ -31,6 +51,90 @@ catch_table |> # produced in 002_load_tables.qmd
   as_latex()
 ```
 :::
+{{< pagebreak >}}
+
+```{r, yelloweye_percent_pos_ORFS}
+#| label: tbl-yelloweye_percent_pos_ORFS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of trips with and without yellowtail rockfish from ORFS index"
+
+
+read.csv("Tables/yelloweye_percent_pos_ORFS.csv") |> 
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+
+{{< pagebreak >}}
+
+::: {.landscape}
+
+```{r, yelloweye_model_selection_ORFS}
+#| label: tbl-yelloweye_model_selection_ORFS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Model selection for top model covariate combinations considered for the ORFS index"
+
+
+orfs_modselect <- read.csv("Tables/yelloweye_model_selection_ORFS.csv")[1:10, ]
+orfs_modselect[orfs_modselect == "Included"] <- "Incl."
+orfs_modselect[is.na(orfs_modselect)] <- '-'
+orfs_modselect |>
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+:::
+
+{{< pagebreak >}}
+
+```{r, yelloweye_percent_pos_ORBS}
+#| label: tbl-yelloweye_percent_pos_ORBS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of trips with and without yellowtail rockfish from ORBS index"
+
+
+read.csv("Tables/yelloweye_percent_pos_ORBS.csv") |> 
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+
+{{< pagebreak >}}
+
+::: {.landscape}
+
+```{r, yelloweye_model_selection_ORFS}
+#| label: tbl-yelloweye_model_selection_ORBS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Model selection for top model covariate combinations considered for the ORFS index"
+
+
+orbs_modselect <- read.csv("Tables/yelloweye_model_selection_ORBS.csv")[1:10, ]
+orbs_modselect[orbs_modselect == "Included"] <- "Incl."
+orbs_modselect[is.na(orbs_modselect)] <- '-'
+orbs_modselect |>
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+:::
+
 {{< pagebreak >}}
 
 ```{r}
