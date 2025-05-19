@@ -1,6 +1,6 @@
-# Tables 
+# Tables
 
-## Introduction 
+## Introduction
 
 ```{r, yelloweye_management}
 #| label: tbl-yelloweye_management
@@ -31,7 +31,7 @@ recent_management_table |>
 
 ## Data
 
-::: {.landscape}
+::: landscape
 ```{r}
 #| label: tbl-all_removals
 #| echo: false
@@ -61,6 +61,7 @@ catch_table |> # produced in 002_load_tables.qmd
   as_latex()
 ```
 :::
+
 {{< pagebreak >}}
 
 ```{r, yelloweye_percent_pos_ORFS}
@@ -81,8 +82,7 @@ read.csv("Tables/yelloweye_percent_pos_ORFS.csv") |>
 
 {{< pagebreak >}}
 
-::: {.landscape}
-
+::: landscape
 ```{r, yelloweye_model_selection_ORFS}
 #| label: tbl-yelloweye_model_selection_ORFS
 #| echo: false
@@ -123,8 +123,7 @@ read.csv("Tables/yelloweye_percent_pos_ORBS.csv") |>
 
 {{< pagebreak >}}
 
-::: {.landscape}
-
+::: landscape
 ```{r, yelloweye_model_selection_ORFS}
 #| label: tbl-yelloweye_model_selection_ORBS
 #| echo: false
@@ -153,7 +152,6 @@ orbs_modselect |>
 #| warning: false
 #| tbl-cap: "Latitudinal and depth ranges by year of two bottom trawl surveys used in the assessment"
 ```
-
 
 ```{r}
 #| label: tbl-sampling-effort-triennial
@@ -396,9 +394,8 @@ data_wide |>
 #| tbl-cap: "Ageing error models and resultant model selection (AICc) values for 9 models of bias and precision explored for each lab used in the yelloweye rockfish assessments. Gray bars indicate the chosen model. Model codes: 0= unbiased; 1 = Constant CV; 2 = Curvilinear SD; 3= Curvilinear CV."
 ```
 
-
 ## Model results
- 
+
 ```{r}
 #| label: tbl-model-config
 #| warning: false
@@ -434,7 +431,7 @@ parcount_table |>
 
 {{< pagebreak >}}
 
-::: {.landscape}
+::: landscape
 ```{r}
 #| label: tbl-pars
 #| warning: false
@@ -498,7 +495,7 @@ kableExtra::kable(
 
 {{< pagebreak >}}
 
-::: {.landscape}
+::: landscape
 ```{r}
 #| label: tbl-sensitivities-like-comps
 #| echo: false
@@ -579,8 +576,7 @@ reference_points_table |>
 
 \pagebreak
 
-::: {.landscape}
-
+::: landscape
 ```{r, results = "asis"}
 #| label: tbl-projections
 #| warning: false
@@ -616,7 +612,6 @@ projections_table |>
   gt::as_latex()
 
 ```
-
 :::
 
 ```{r, 2, results = "asis"}
