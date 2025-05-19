@@ -8,7 +8,13 @@ sa4ss::es_table_tex will convert them to text files formatted as LaTeX tables if
 
 ## Stock{-}
 
+<!-- Species/area, including an evaluation of any potential biological basis for regional management -->
+
+Yelloweye Rockfish (*Sebastes ruberrimus*) are found from the Gulf of Alaska to northern Baja California in Mexico across the northeastern Pacific Ocean. Their core distribution is from southeast Alaska to central California on the west coast of the United States. Yelloweye Rockfish are strongly associated with rocky bottom habtiat and adults are considered to be solitary and sedentary after settlement. Given the general perception of the sedentary nature of Yelloweye Rockfish adults and the moderate amount of mixing that occurs during the pelagic larval stage, the previous Yelloweye Rockfish assessment modeled the West coast population as a two-area assessment (California and a combined Oregon-Washington area) with a common stock recruitment relationship. This update assessment maintains this basic structure. 
+
 ## Catches{-}
+
+Catches for Yelloweye Rockfish have averaged over 20 mt in recent years (@fig-es-landings, @tbl-es-catches **not sure if correct table?**). Yelloweye Rockfish was declared overfished in 2002 and remains under a rebuilding plan that substantially limits catch. However, as other rockfish stocks have rebuilt and Yelloweye Rockfish has progressed under it's rebuilding plan, catches have slowly increased in recent years, primarily in the Oregon-Washington non-trawl fleet and the recreational fleets. 
 
 ```{r, tbl-es-catches, results = "asis"}
 #| label: tbl-es-catches
@@ -36,9 +42,30 @@ catches_es_table |>
 
 ```
 
+```{r, fig-es-landings} 
+#| label: fig-es-landings
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Landings in metric tons (mt) by year for each fleet."
+
+knitr::include_graphics("r4ss_plots/plots/catch2_landings_stacked.png")
+
+```
+
+\clearpage
+
 ## Data and Assessment{-}
 
+<!-- Date of last assessment, type of assessment model, data available, new information, and information lacking. -->
+
+The last assessment for Yelloweye Rockfish occurred in 2017. This update assessment extends the data used in the 2017 assessment through 2024. Data includes catch, length and age data from seven fishery fleets and multiple indices of abundance in California and Oregon/Washington. Two new historical catch reconstructions from Oregon and Washington were incorporated. Four indices of abundance were updated for this assessment, including two recreational fishery indices in Oregon, the West Coast Groundfish Bottom Trawl Survey, and the IPHC longline survey. In addition, sample sizes and assignment of aging error were corrected in the compositional data. No new data were considered in this update assessment. 
+
 ## Stock biomass and dynamics{-}
+
+The model estimates that the stock was below the minimum stock size threshold in the late 1990s and was lowest in the early 2000s before increasing over the last 20 years (@fig-es-sb). The 2024 relative estimated spawning output is just below the management target threshold. 
+
+<!-- Trends and current levels relative to virgin or historic levels, description of uncertainty-include table for last 10 years and graph with long term estimates. -->
 
 ```{r, tbl-es-sb, results = "asis"}
 #| label: tbl-es-sb
@@ -71,8 +98,25 @@ ssb_es_table |>
   gt::as_latex()
 ```
 
+```{r} 
+#| label: fig-es-sb
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated time series of relative spawning output for the base model."
+#| fig-alt: "See table 26 for values."
+#| fig-pos: H
+
+knitr::include_graphics("r4ss_plots/ts9_Relative_spawning_output_intervals.png")
+
+```
+
+\clearpage
 
 ## Recruitment{-}
+
+<!-- Trends and current levels relative to virgin or historic levels-include table for last 10 years and graph with long term estimates. -->
+
 
 ```{r, tbl-es-recr, results = "asis"}
 #| label: tbl-es-recr
@@ -106,8 +150,11 @@ recr_es_table |>
 
 ```
 
+\clearpage
 
 ## Exploitation status{-}
+
+<!-- Exploitation rates (i.e., total catch divided by exploitable biomass, or the annual SPR harvest rate) - include a table with the last 10 years of data and a graph showing the trend in fishing mortality relative to the target (y-axis) plotted against the trend in biomass relative to the target (x-axis). -->
 
 ```{r, tbl-es-spr, results = "asis"}
 #| label: tbl-es-spr
@@ -139,6 +186,8 @@ spr_es_table |>
 ## Ecosystem considerations{-}
 
 ## Reference points{-}
+
+<!-- Management targets and definitions of overfishing, including the harvest rate that brings the stock to equilibrium at B24% for flatfishes and B40% for all other groundfish stocks (BMSY proxies) and the equilibrium stock size that results from fishing at the default harvest rate (the FMSY proxy). Include a summary table that compares estimated reference points for SSB, SPR, Exploitation Rate and Yield based on SSB proxy for MSY, SPR proxy for MSY, and estimated MSY values. -->
 
 ```{r, tbl-ref-points-es-1, results = "asis"}
 #| label: tbl-ref-points-es-1
@@ -186,7 +235,11 @@ reference_points_table |>
 
 ```
 
+\clearpage
+
 ## Management performance{-}
+
+<!-- Catches in comparison to OFL, ABC, HG, and OY/ACL values for the most recent 10 years (when available), overfishing levels, actual catch and discard. Include OFL (encountered), OFL (retained) and OFL (dead) if different due to discard and discard mortality. -->
 
 ```{r, tbl-es-management, results = "asis"}
 #| label: tbl-es-management
@@ -209,6 +262,7 @@ recent_management_table |>
 ```
 
 ## Harvest projections{-}
+
 
 ::: {.landscape}
 
@@ -250,6 +304,8 @@ projections_table |>
 
 :::
 
+\clearpage
+
 ## Decision table{-}
 
 ```{r, 1, results = "asis"}
@@ -274,3 +330,7 @@ ADW - decision tables not needed until after review
 ## Research and data needs{-}
 
 ## Rebuilding projections{-}
+
+
+
+{{< pagebreak >}}
