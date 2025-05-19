@@ -28,14 +28,14 @@ The model estimated uncertainty around the 2025 spawning biomass for the model *
 
 ## Regional management considerations
 
-Yelloweye Rockfish is modelled in two areas (California and Oregon-Washington) in this assessment. Current population status does differ by area and may be valuable information for making management and allocation decisions (**ts10_Relative_spawning_output**).
+Yelloweye Rockfish is modeled in two areas (California and Oregon-Washington) in this assessment. Current population status does differ by area and may be valuable information for making management and allocation decisions (@fig-status-area).
 
 ## Research and Data Needs
 
 <!-- 1. Describe progress on Research and Data Needs items identified in the most recent previous stock assessment document and associated STAR panel report.  -->
 <!-- 2. Describe new research and data needs and specify their priority (high, medium, low).  -->
 
-Please refer to the 2017 benchmark assessment for a detailed list of research and data needs for Yelloweye Rockfish (**cite last assessment**). In addition to those, the following research and recommendations could improve the ability of future stock assessments to determine the status and productivity of the Yelloweye Rockfish population:
+Please refer to the 2017 benchmark assessment for a detailed list of research and data needs for Yelloweye Rockfish (@gertseva_stock_2017). In addition to those, the following research and recommendations could improve the ability of future stock assessments to determine the status and productivity of the Yelloweye Rockfish population:
 
 -	USE ONLY ONE INDEX FOR OR REC (CHOOSE ORFS?) and refinement of the ORFS index analysis. Choosing orfs over orbs because it’s a longer time period and orfs and orbs sample the same fishery. 
 -	Continue using the methods that we developed for the IPHC index (using sdmTMB).
