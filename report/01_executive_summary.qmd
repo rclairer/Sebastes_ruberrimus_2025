@@ -251,7 +251,7 @@ reference_points_table |>
 
 # yelloweye_management |>
 recent_management_table |>
-  rename(`Total dead catch (mt)` = `Catch (mt)`) |>
+  dplyr::rename(`Total dead catch (mt)` = `Catch (mt)`) |>
   gt::gt() |>
   gt::tab_options(
     table.font.size = 12,
