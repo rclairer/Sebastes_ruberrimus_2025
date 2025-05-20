@@ -1783,7 +1783,7 @@ SS_plots(replist_tunecomps)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_historical_and_extended_indices_20250512")),
             paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250512")))
 models
 models_output <- SSgetoutput(dirvec = models)
@@ -1792,8 +1792,8 @@ SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
                                       "14_alldata_tunecomps"),
                   legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
-                                   "2025 updated all data",
-                                   "+ tuned comps"),
+                                   "2025 updated catch and indices",
+                                   "+ tuned all comps"),
                   print = TRUE)
 
 
