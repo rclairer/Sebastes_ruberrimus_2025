@@ -125,7 +125,7 @@ A log-normal generalized linear model with a log link in the \gls{sdmtmb} R pack
 
 Updated length and age composition data were available for the two updated fishery-independent surveys. Compositional data from 2017 through 2024 were updated for \gls{indexwc} were obtained using functions from the [indexwc](https://github.com/pfmc-assessments/indexwc) R package [@Johnson_indexwc]. The \gls{iphc} survey compositional data were provided by \gls{wdfw}. 
 
-A summary of sampling efforts (number of hauls and number of individual fish) in all surveys is provided in **Table X** and **Table X**. Updated year-specific length frequency distributions generated for each survey are shown in @fig-NWFSC_lencomps and @fig-IPHC_lencomps, respectively. Updated year-specific \gls{caal} frequencies for each survey are shown in @fig-NWFSC_agecomps1 and @fig-NWFSC_agecomps2 for the \gls{indexwc} and @fig-IPHC_agecomps1 and @fig-IPHC_agecomps2. 
+A summary of sampling efforts (number of hauls and number of individual fish) in all surveys is provided in @tbl-sampling-effort-triennial and @tbl-sampling-effort-nwfsc. Updated year-specific length frequency distributions generated for each survey are shown in @fig-NWFSC_lencomps and @fig-IPHC_lencomps, respectively. Updated year-specific \gls{caal} frequencies for each survey are shown in @fig-NWFSC_agecomps1 and @fig-NWFSC_agecomps2 for the \gls{indexwc} and @fig-IPHC_agecomps1 and @fig-IPHC_agecomps2. 
 
 ## Biological Parameters and Data
 
