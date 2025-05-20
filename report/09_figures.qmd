@@ -415,42 +415,6 @@ knitr::include_graphics(
 )
 ```
 
-```{r}
-#| label: fig-sel12
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for the IPHC longline survey for Oregon/Washington (Fleet 12)."
-#
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/sel09_len_flt12sex1.png"
-)
-```
-
-```{r}
-#| label: fig-sel11
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for the WCBTS for Oregon/Washington (Fleet 11)."
-#
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/sel09_len_flt11sex1.png"
-)
-```
-
-```{r}
-#| label: fig-sel10
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for the Triennial bottom trawl survey for Oregon/Washington (Fleet 10)."
-#
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/sel09_len_flt10sex1.png"
-)
-```
-
 \clearpage
 
 ```{r}
