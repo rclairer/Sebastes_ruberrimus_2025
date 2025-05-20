@@ -14,34 +14,9 @@ Yelloweye Rockfish (*Sebastes ruberrimus*) are found from the Gulf of Alaska to 
 
 ## Catches{-}
 
-Catches for Yelloweye Rockfish have averaged over 20 mt in recent years (@fig-es-landings, @tbl-es-catches **not sure if correct table?**). Yelloweye Rockfish was declared overfished in 2002 and remains under a rebuilding plan that substantially limits catch. However, as other rockfish stocks have rebuilt and Yelloweye Rockfish has progressed under it's rebuilding plan, catches have slowly increased in recent years, primarily in the Oregon-Washington non-trawl fleet and the recreational fleets. 
+Catches for Yelloweye Rockfish have averaged over 20 mt in recent years (@fig-es-landings, @tbl-es-catches). Yelloweye Rockfish was declared overfished in 2002 and remains under a rebuilding plan that substantially limits catch. However, as other rockfish stocks have rebuilt and Yelloweye Rockfish has progressed under it's rebuilding plan, catches have slowly increased in recent years, primarily in the Oregon-Washington non-trawl fleet and the recreational fleets. 
 
-```{r, tbl-es-catches, results = "asis"}
-#| label: tbl-es-catches
-#| warning: false
-#| echo: false
-#| eval: !expr eval_tables 
-#| tbl-cap: !expr if(eval_tables) catches_es_cap 
-#| tbl-pos: H
-
-catches_es_table |>
-  # aggregate(catches_es_table[,2:9], by = list("Year" = catches_es_table$Year), FUN = sum) |> # years were doubled probably because of the two areas
-  gt::gt() |>
-  gt::fmt_number(
-    columns = 2:9, # depends on number of fleets with catch
-    decimals = 2
-  ) |>
-  gt::tab_options(
-    table.font.size = 12,
-    # if want to not have tables the width of the page include the below option:
-    latex.use_longtable = TRUE 
-  ) |>
-  gt::cols_align(
-    align = "center"
-  ) |>
-  gt::as_latex()
-
-```
+**ADW - table es-catches still doubles up the years probably because of the two areas in the model - needs to be fixed**
 
 ```{r, fig-es-landings} 
 #| label: fig-es-landings
@@ -53,6 +28,39 @@ catches_es_table |>
 knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 
 ```
+
+{{< pagebreak >}}
+
+::: landscape
+```{r, tbl-es-catches, results = "asis"}
+#| label: tbl-es-catches
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) catches_es_cap 
+#| tbl-pos: H
+
+catches_es_table |>
+  gt::gt() |>
+  gt::fmt_number(
+    columns = 2:9, # depends on number of fleets with catch
+    decimals = 2
+  ) |>
+  gt::tab_options(
+    table.font.size = 12,
+    # if want to not have tables the width of the page include the below option:
+    latex.use_longtable = TRUE,
+    table.width = pct(80) # trying to make it fit to page width 
+  ) |>
+  gt::cols_align(
+    align = "center"
+  ) |>
+  gt::as_latex()
+
+```
+:::
+
+{{< pagebreak >}}
 
 \clearpage
 
@@ -116,6 +124,8 @@ knitr::include_graphics("figures/r4ss_plots/plots/ts9_Relative_spawning_output_i
 
 ## Recruitment{-}
 
+The largest estimated recruitment events were in 1971, followed by more recently, in 2013 and 2008 (@fig-es-recruits, @tbl-es-recr). Trends in recruitment are largely consistent with the previous assessment, apart from the most recent elevated time period that is more informed with additional length composition data. Recruits for this assessment appear to have extended this more recent time period starting in 2005, with a peak in 2008 and 2013 and shifts the peak in 2001 to 2002. Recruitment in the late 2010s was estimated to be lower, but a more recent increase is seen starting in 2020.
+
 <!-- Trends and current levels relative to virgin or historic levels-include table for last 10 years and graph with long term estimates. -->
 
 
@@ -151,11 +161,39 @@ recr_es_table |>
 
 ```
 
+```{r} 
+#| label: fig-es-recruits
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Estimated time series of age-0 recruits for the base model."
+#| fig-alt: ""
+#| fig-pos: H
+
+knitr::include_graphics("figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png")
+
+```
+
 \clearpage
 
 ## Exploitation status{-}
 
+This assessment estimates that the stock of Yelloweye Rockfish off the continental U.S. Pacific Coast is currently at `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="Bratio_2024")], 3)*100`% of its unexploited level. This is above the overfished threshold of SB25%, but below the management target of SB40% of unfished spawning biomass. Fishing intensity increased throughout the 1900s as the stock was fished down, until stablizing at peak intensity between the mid1980s and late 1990s and substantially decreasing in the late 1990s and early 2000s. Fishing intensity has since been relatively stable (@fig-es-kobe, @tbl-es-spr). 
+
 <!-- Exploitation rates (i.e., total catch divided by exploitable biomass, or the annual SPR harvest rate) - include a table with the last 10 years of data and a graph showing the trend in fishing mortality relative to the target (y-axis) plotted against the trend in biomass relative to the target (x-axis). -->
+
+```{r} 
+#| label: fig-es-kobe
+#| echo: false 
+#| warning: false 
+#| eval: true 
+#| fig-cap: "Phase plot of fishing intensity versus fraction unfished."
+#| fig-alt: "See table @tbl-ts for the values of the fraction unfished and fishing intensity which are related in this figure."
+#| fig-pos: H
+
+knitr::include_graphics("figures/r4ss_plots/plots/SPR4_phase.png")
+
+```
 
 ```{r, tbl-es-spr, results = "asis"}
 #| label: tbl-es-spr
@@ -186,7 +224,11 @@ spr_es_table |>
 
 ## Ecosystem considerations{-}
 
+No ecosystem or environmental data was used in the previous Yelloweye Rockfish assessment and no new data were considered for this update assessment. 
+
 ## Reference points{-}
+
+A list of estimates of the current state of the population, as well as reference points based on 1) a target unfished spawning output of 40%, 2) a spawning potential ratio of 0.5, and 3) the model estimate of maximum sustainable yield, are all listed in @tbl-ref-points-es. Unfished spawning stock output for Yelloweye Rockfish was estimated to be `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="SSB_Virgin")], 3)` million eggs (95% confidence interval: 999.2-1267.2 million eggs). The management target for Yelloweye Rockfish is defined as 40% of the unfished spawning output (SB40%), which is estimated by the model to be 452 million eggs (95% confidence interval: 397-507), which corresponds to an exploitation rate of 0.025. This harvest rate provides an equilibrium yield of 115 mt at SB40% (95% confidence interval: 101-130 mt).
 
 <!-- Management targets and definitions of overfishing, including the harvest rate that brings the stock to equilibrium at B24% for flatfishes and B40% for all other groundfish stocks (BMSY proxies) and the equilibrium stock size that results from fishing at the default harvest rate (the FMSY proxy). Include a summary table that compares estimated reference points for SSB, SPR, Exploitation Rate and Yield based on SSB proxy for MSY, SPR proxy for MSY, and estimated MSY values. -->
 
@@ -240,6 +282,10 @@ reference_points_table |>
 
 ## Management performance{-}
 
+Recent trends in total catch relative to managment guidelines is available in @tbl-yelloweye_management and shows that total catch of Yelloweye Rockfish has remained below both the \gls{ofl} and \gls{acl} in each year since the previous assessment. Catch in @tbl-yelloweye_management combines the two areas in this model as catch limits for Yelloweye Rockfish are managed as a single coastwide unit and includes both landings and estimated discard mortality.
+
+** ADW - this table also doesn't work (doubled years again) - we could switch it to the yelloweye_managment csv or fix **
+
 <!-- Catches in comparison to OFL, ABC, HG, and OY/ACL values for the most recent 10 years (when available), overfishing levels, actual catch and discard. Include OFL (encountered), OFL (retained) and OFL (dead) if different due to discard and discard mortality. -->
 
 ```{r, tbl-es-management, results = "asis"}
@@ -263,6 +309,7 @@ recent_management_table |>
 ```
 
 ## Harvest projections{-}
+
 
 
 ::: {.landscape}
@@ -332,6 +379,6 @@ ADW - decision tables not needed until after review
 
 ## Rebuilding projections{-}
 
-
+TBD following GFSC review.
 
 {{< pagebreak >}}
