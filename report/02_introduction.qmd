@@ -8,8 +8,6 @@ There has been little advancement on information pertaining to the stock structu
 
 <!-- Scientific name, distribution, the basis for the choice of stock structure, including regional differences in life history or other biological characteristics that should form the basis of management units.  -->
 
-Map of scope of assessment - not needed for update
-
 ## Life History
 
 This section is not required for an update assessment; please refer to the most recent full assessment [@gertseva_stock_2017] for additional information.
