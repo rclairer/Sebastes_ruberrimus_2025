@@ -18,8 +18,6 @@ This assessment estimates that the 2024 SPR is `r round(mod_out$derived_quants$V
 
 The base model estimate for 2025 spawning depletion is `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="Bratio_2025")], 3)*100`%. The primary axis of uncertainty about this estimate used in the decision table was based on natural mortality. Natural mortality in the assessment model is fixed at the median of the Hamel prior (0.044 y-1), estimated using the maximum age of 123 years. Natural mortality value for high state of nature was calculated to correspond to 97 years of age, which is the 99th percentile of the age data available for the assessment; this value was 0.056 y-1. The natural mortality value for low state of nature was calculated to correspond to 147 years of age, which is the maximum age reported for the Yelloweye Rockfish; this value was 0.037 y-1.
 
-**We explored different approaches to identify alternative natural mortality values, including using the 12.5 and 87.5 percentiles of the Hamel prior distribution. However, this approach yielded values that were considered to be not realistic. For instance, the 12.5 percentile value of 0.031y-1 corresponded to an age of 175 years, which substantially exceeds the oldest Yelloweye Rockfish individual ever reported.**
-
 Twelve-year forecasts for each state of nature were calculated for two catch scenarios (@tbl-es-decision-2). One scenario assumes 2025-2026 catches to be 60% of year-specific \gls{acl} values, and 2027-2036 catches to be 60% of removals calculated using current rebuilding SPR of 76% applied to the base model. The second catch scenario assumes 2025-2026 removals to be equal to year-specific \gls{acl}s, and 2027-2036 catches calculated using current rebuilding SPR of 76% applied to the base model.
 
 ## Evaluation of Scientific Uncertainty
@@ -37,6 +35,5 @@ Yelloweye Rockfish is modeled in two areas (California and Oregon-Washington) in
 
 Please refer to the 2017 benchmark assessment for a detailed list of research and data needs for Yelloweye Rockfish (@gertseva_stock_2017). In addition to those, the following research and recommendations could improve the ability of future stock assessments to determine the status and productivity of the Yelloweye Rockfish population:
 
--	USE ONLY ONE INDEX FOR OR REC (CHOOSE ORFS?) and refinement of the ORFS index analysis. Choosing orfs over orbs because it’s a longer time period and orfs and orbs sample the same fishery. 
--	Continue using the methods that we developed for the IPHC index (using sdmTMB).
--	In the model structure, consider expanding age bins for the IPHC data to capture the population dynamics of a long-lived species. (max age in model?) (max age in data)?
+-	Continue refining the ORFS index analysis and ultimately use either the ORBS or ORFS index to describe the CPUE trends in the Oregon recreational fishery after 2000.
+-	Expand the IPHC age composition bins to an older maximum age for the IPHC age composition data to spread out the distribution of length data in the oldest age bins for conditional age-at-length.
