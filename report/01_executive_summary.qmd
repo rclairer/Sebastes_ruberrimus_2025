@@ -310,7 +310,7 @@ recent_management_table |>
 
 ## Harvest projections{-}
 
-This section will be updated after GFSC review.
+This section will be updated after SSC GFSC review.
 
 ::: {.landscape}
 
@@ -371,7 +371,7 @@ table_decision(
 
 ```
 
-This section will be updated after GFSC review.
+This section will be updated after SSC GFSC review.
 
 ## Scientific uncertainty{-}
 
@@ -386,6 +386,6 @@ Please refer to the 2017 benchmark assessment for a detailed list of research an
 
 ## Rebuilding projections{-}
 
-This section will be updated after GFSC review.
+This section will be updated after SSC GFSC review.
 
 {{< pagebreak >}}
