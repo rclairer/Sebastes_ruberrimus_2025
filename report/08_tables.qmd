@@ -1,7 +1,37 @@
-# Tables 
+# Tables
+
+## Introduction
+
+```{r, yelloweye_management}
+#| label: tbl-yelloweye_management
+#| echo: false
+#| warning: false
+#| tbl-cap: "Recent trend in the overfishing limits (OFL), the acceptable biological catches (ABCs), the annual catch limits (ACLs), and the total dead catch (landings + discards) all in metric tons (mt)."
+
+# yelloweye_management |>
+recent_management_table |>
+  dplyr::rename(`Total dead catch (mt)` = `Catch (mt)`) |>
+  gt::gt() |>
+  gt::tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE 
+  ) |>
+  gt::as_latex()
+
+# read.csv("Tables/yelloweye_management.csv") |> 
+#   gt() |>
+#   tab_options(
+#     table.font.size = 12,
+#     latex.use_longtable = TRUE
+#   ) |>
+#   as_latex()
+```
+
+{{< pagebreak >}}
+
 ## Data
 
-::: {.landscape}
+::: landscape
 ```{r}
 #| label: tbl-all_removals
 #| echo: false
@@ -31,6 +61,89 @@ catch_table |> # produced in 002_load_tables.qmd
   as_latex()
 ```
 :::
+
+{{< pagebreak >}}
+
+```{r, yelloweye_percent_pos_ORFS}
+#| label: tbl-yelloweye_percent_pos_ORFS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of trips with and without yellowtail rockfish from ORFS index"
+
+
+read.csv("Tables/yelloweye_percent_pos_ORFS.csv") |> 
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+
+{{< pagebreak >}}
+
+::: landscape
+```{r, yelloweye_model_selection_ORFS}
+#| label: tbl-yelloweye_model_selection_ORFS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Model selection for top model covariate combinations considered for the ORFS index"
+
+
+orfs_modselect <- read.csv("Tables/yelloweye_model_selection_ORFS.csv")[1:10, ]
+orfs_modselect[orfs_modselect == "Included"] <- "Incl."
+orfs_modselect[is.na(orfs_modselect)] <- '-'
+orfs_modselect |>
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+:::
+
+{{< pagebreak >}}
+
+```{r, yelloweye_percent_pos_ORBS}
+#| label: tbl-yelloweye_percent_pos_ORBS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Summary of trips with and without yellowtail rockfish from ORBS index"
+
+
+read.csv("Tables/yelloweye_percent_pos_ORBS.csv") |> 
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+
+{{< pagebreak >}}
+
+::: landscape
+```{r, yelloweye_model_selection_ORFS}
+#| label: tbl-yelloweye_model_selection_ORBS
+#| echo: false
+#| warning: false
+#| tbl-cap: "Model selection for top model covariate combinations considered for the ORFS index"
+
+
+orbs_modselect <- read.csv("Tables/yelloweye_model_selection_ORBS.csv")[1:10, ]
+orbs_modselect[orbs_modselect == "Included"] <- "Incl."
+orbs_modselect[is.na(orbs_modselect)] <- '-'
+orbs_modselect |>
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+:::
+
 {{< pagebreak >}}
 
 ```{r}
@@ -39,7 +152,6 @@ catch_table |> # produced in 002_load_tables.qmd
 #| warning: false
 #| tbl-cap: "Latitudinal and depth ranges by year of two bottom trawl surveys used in the assessment"
 ```
-
 
 ```{r}
 #| label: tbl-sampling-effort-triennial
@@ -118,173 +230,8 @@ data_wide |>
 
 ```
 
-```{r}
-#| label: tbl-filtering-iphc
-#| echo: false
-#| warning: false
-#| tbl-cap: "Filtering levels and resultant data from the IPHC halibut survey index."
-```
-
-```{r}
-#| label: tbl-iphc-model-selection
-#| echo: false
-#| warning: false
-#| tbl-cap: "sdmTMB model selection for the IPHC halibut survey index. Gray bar indicates selected model."
-```
-
-```{r}
-# Do we need this?
-#| label: tbl-filtering-CA-MRFSS
-#| echo: false
-#| warning: false
-#| tbl-cap: "Filtering levels and resultant data from the California MRFSS recreational index."
-```
-
-```{r}
-# Do we need this?
-#| label: tbl-model-selection-CA-MRFSS
-#| echo: false
-#| warning: false
-#| tbl-cap: "Delta-GLM model selection for the California MRFSS recreational index. Gray bar indicates selected model."
-```
-
-```{r}
-# Do we need this?
-#| label: tbl-filtering-CA-CPFV
-#| echo: false
-#| warning: false
-#| tbl-cap: "Filtering levels and resultant data from the California CPFV recreational index."
-```
-
-```{r}
-# Do we need this?
-#| label: tbl-model-selection-CA-MRFSS
-#| echo: false
-#| warning: false
-#| tbl-cap: "Delta-GLM model selection for the California CPFV recreational index. Gray bar indicates selected model."
-```
-
-```{r}
-# Do we need this?
-#| label: tbl-filtering-OR-onboard
-#| echo: false
-#| warning: false
-#| tbl-cap: "Filtering levels and resultant data from the Oregon onboard recreational index."
-```
-
-```{r}
-# Do we need this?
-#| label: tbl-filtering-OR-MRFSS
-#| echo: false
-#| warning: false
-#| tbl-cap: "Filtering levels and resultant data from the Oregon MRFSS recreational index."
-```
-
-```{r}
-# Do we need this?
-#| label: tbl-filtering-OR-ORBS
-#| echo: false
-#| warning: false
-#| tbl-cap: "Filtering levels and resultant data from the Oregon ORBS dockside index."
-```
-
-```{r}
-# Do we need this?
-#| label: tbl-model-selection-ORBS
-#| echo: false
-#| warning: false
-#| tbl-cap: "Delta-GLM model selection for the Oregon ORBS dockside index. Gray bar indicates selected model."
-```
-
-```{r}
-# Do we need this?
-#| label: tbl-filtering-WA-dockside
-#| echo: false
-#| warning: false
-#| tbl-cap: "Filtering levels and resultant data from the Washington dockside recreational index."
-```
-
-```{r}
-# Do we need this?
-#| label: tbl-model-selection-WA-dockside
-#| echo: false
-#| warning: false
-#| tbl-cap: "Delta-GLM model selection for the Washington dockside recreational index. Gray bar indicates selected model."
-```
-
-```{r}
-#| label: tbl-ts-indices
-#| echo: false
-#| warning: false
-#| tbl-cap: "Time series of relative abundance indices and uncertainty (CVs) for the Washington-Oregon fishery independent surveys."
-```
-
-```{r}
-#| label: tbl-sampling-effort-length-CA
-#| echo: false
-#| warning: false
-#| tbl-cap: "Summary of fishery sampling effort (number of trips and fish sampled) used to create length frequency distributions of the California fleets."
-```
-
-```{r}
-#| label: tbl-sampling-effort-length-ORWA
-#| echo: false
-#| warning: false
-#| tbl-cap: "Summary of fishery sampling effort (number of trips and fish sampled) used to create length frequency distributions of the Oregon and Washington fleets."
-```
-
-```{r}
-#| label: tbl-sampling-effort-age-CA
-#| echo: false
-#| warning: false
-#| tbl-cap: "Summary of fishery sampling effort (number of trips and fish sampled) used to create age frequency distributions of the California fleets."
-```
-
-```{r}
-#| label: tbl-sampling-effort-age-ORWA
-#| echo: false
-#| warning: false
-#| tbl-cap: "Summary of fishery sampling effort (number of trips and fish sampled) used to create age frequency distributions of the Oregon and Washington fleets."
-```
-
-```{r}
-#| label: tbl-sampling-effort-length-wcgop
-#| echo: false
-#| warning: false
-#| tbl-cap: "Summary of WCGOP sampling effort (number of trips and fish sampled) of yelloweye rockfish lengths within the commercial fleets."
-```
-
-```{r}
-#| label: tbl-sampling-effort-age-wcgop
-#| echo: false
-#| warning: false
-#| tbl-cap: "Summary of WCGOP sampling effort (number of trips and fish sampled) of yelloweye rockfish ages within the commercial fleets."
-```
-
-```{r}
-#| label: tbl-sampling-effort-length-fish-ind
-#| echo: false
-#| warning: false
-#| tbl-cap: "Summary of sampling effort (number of hauls and fish sampled) used to create length frequency distributions of the fishery-independent surveys."
-```
-
-```{r}
-#| label: tbl-sampling-effort-age-fish-ind
-#| echo: false
-#| warning: false
-#| tbl-cap: "Summary of sampling effort (number of hauls and fish sampled) used to create age frequency distributions of the fishery-independent surveys."
-```
-
-```{r}
-#| label: tbl-age-error
-#| echo: false
-#| warning: false
-#| tbl-cap: "Ageing error models and resultant model selection (AICc) values for 9 models of bias and precision explored for each lab used in the yelloweye rockfish assessments. Gray bars indicate the chosen model. Model codes: 0= unbiased; 1 = Constant CV; 2 = Curvilinear SD; 3= Curvilinear CV."
-```
-
-
 ## Model results
- 
+
 ```{r}
 #| label: tbl-model-config
 #| warning: false
@@ -320,7 +267,7 @@ parcount_table |>
 
 {{< pagebreak >}}
 
-::: {.landscape}
+::: landscape
 ```{r}
 #| label: tbl-pars
 #| warning: false
@@ -384,7 +331,7 @@ kableExtra::kable(
 
 {{< pagebreak >}}
 
-::: {.landscape}
+::: landscape
 ```{r}
 #| label: tbl-sensitivities-like-comps
 #| echo: false
@@ -415,8 +362,8 @@ table_sens(indices_and_comps)
 
 {{< pagebreak >}}
 
-```{r, tbl-ref-points-es, results = "asis"}
-#| label: tbl-ref-points-es
+```{r, tbl-ref-points-es-2, results = "asis"}
+#| label: tbl-ref-points-es-2
 #| warning: false
 #| echo: false
 #| eval: !expr eval_tables 
@@ -465,8 +412,7 @@ reference_points_table |>
 
 \pagebreak
 
-::: {.landscape}
-
+::: landscape
 ```{r, results = "asis"}
 #| label: tbl-projections
 #| warning: false
@@ -502,11 +448,10 @@ projections_table |>
   gt::as_latex()
 
 ```
-
 :::
 
-```{r, results = "asis"}
-#| label: tbl-es-decision
+```{r, 2, results = "asis"}
+#| label: tbl-es-decision-2
 #| warning: false
 #| echo: false
 #| eval: !expr eval_tables 

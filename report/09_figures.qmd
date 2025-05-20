@@ -254,18 +254,6 @@ knitr::include_graphics(
 <!-- 04a_model_summary -->
 
 ```{r}
-#| label: fig-ss3exe_1
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Comparison of the spawning output for the 2017 model with the updated SS3 executable and a single-sex model."
-#
-knitr::include_graphics(
-    "figures/bridging/1_SS3exe/compare2_spawnbio_uncertainty.png"
-)
-```
-
-```{r}
 #| label: fig-ss3exe_2
 #| echo: false
 #| warning: false
@@ -676,7 +664,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Plot showing 50 jitters with 78% returning to the base model likelihood."
+#| fig-cap: "Results from 50 base model runs when starting parameters values are jittered by 0.1 units. Horizontal line indicates base model value."
 #
 knitr::include_graphics(
     "figures/diagnostics/2025_base_model_jitter_0.1/jitter.png"
@@ -774,7 +762,43 @@ knitr::include_graphics(
 <!-- add retro figures here -->
 
 ```{r}
-#| label: fig-status_assmtns
+#| label: fig-retro-sp-output
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Results of retrospective analysis. Spawning output time series of this assesment base model are proved with ~95% interval."
+#
+knitr::include_graphics(
+    "figures/diagnostics/2025_base_model_retro_5_yr_peel/compare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-retro-rel-biomass
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Results of retrospective analysis. Relative spawning output time series of this assesment base model are proved with ~95% interval."
+#
+knitr::include_graphics(
+    "figures/diagnostics/2025_base_model_retro_5_yr_peel/compare4_Bratio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-retro-recruit-dev
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Recruitment deviation time series for each scenario of the retrospective analysis."
+#
+knitr::include_graphics(
+    "figures/diagnostics/2025_base_model_retro_5_yr_peel/compare12_recdevs_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-status_assmnts
 #| echo: false
 #| warning: false
 #| eval: true
@@ -784,6 +808,124 @@ knitr::include_graphics(
     "figures/bridging/Timeseries_comp_previous_assessments.png"
 )
 ```
+
+<!-- Likelihood Profiles -->
+
+```{r}
+#| label: fig-natm-piner
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Negative log-likelihood profile for each data component and in total given different values of natural mortality ranging from 0.03 to 0.06 in increments of 0.002."
+#
+knitr::include_graphics(
+    "figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/piner_panel_NatM_break_1_Fem_GP_1.png"
+)
+```
+
+\clearpage
+
+```{r}
+#| label: fig-natm-bratio
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of fraction of unfished biomass output associated with different values of natural mortality ranging from 0.03 to 0.06 in increments of 0.002."
+#
+knitr::include_graphics(
+    "figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/NatM_break_1_Fem_GP_1_trajectories_compare3_Bratio.png"
+)
+```
+
+```{r}
+#| label: fig-steep-piner
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Negative log-likelihood profile for each data component and in total given different values of stock-recruit steepness ranging from 0.25 to 1.0 by increments of 0.05."
+#
+knitr::include_graphics(
+    "figures/diagnostics/2025_base_model_profile_SR_BH_steep/piner_panel_SR_BH_steep.png"
+)
+```
+
+```{r}
+#| label: fig-steep-bratio
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of fraction of unfished biomass output associated with different values of steepness ranging from 0.25 to 1.0 in increments of 0.05."
+#
+knitr::include_graphics(
+    "figures/diagnostics/2025_base_model_profile_SR_BH_steep/SR_BH_steep_trajectories_compare3_Bratio.png"
+)
+```
+
+```{r}
+#| label: fig-rzero-piner
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Negative log-likelihood profile for each data component and in total given different values of log initial recruitment (lnR0) ranging from 4.5 to 6.0 by increments of 0.15."
+#
+knitr::include_graphics(
+    "figures/diagnostics/2025_base_model_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png"
+)
+```
+
+```{r}
+#| label: fig-rzero-sp-output
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Spawning output as profiled over values of lnR0."
+#
+knitr::include_graphics(
+    "figures/diagnostics/2025_base_model_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare1_spawnbio.png"
+)
+```
+
+```{r}
+#| label: fig-rzero-parm
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Likelihood profile (top left panel) for log initial recruitment (lnR0), with associated changes in stock status in the current year (SB_2025/SB_0; top right panel), initial spawning biomass (SB_0; bottom left panel), and current year spawning biomass (SB_2025; bottom right panel). Points indicate the base model MLE estimate."
+#
+knitr::include_graphics(
+    "figures/diagnostics/2025_base_model_profile_SR_LN(R0)/parameter_panel_SR_LN(R0).png"
+)
+```
+
+\clearpage
+<!-- management section -->
+
+```{r}
+#| label: fig-eq-yield
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Equilibrium yield curve (derived from reference point values) for the base model. Values are based on 2024 fishery selectivity and distribution with steepness fixed at 0.718. The relative spawning output is relative to unfished spawning biomass."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/yield1_yield_curve.png"
+)
+```
+
+```{r}
+#| label: fig-status-area
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of relative spawning output estimated by area (area 1= California, area 2 = Oregon and Washington)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts10_Relative_spawning_output.png"
+)
+```
+
+
+
 
 <!-- keep this at end -->
 \pagebreak

@@ -2,7 +2,7 @@
 title: 'Status of Yelloweye Rockfish off the U.S. West Coast in 2025'
 author:
 # add authors in order
-  - name: 'Morgan Johnston*'
+  - name: 'Morgan A. Johnston*'
     affiliations:
       - name: 'Oregon State University'
         address: '1500 SW Jefferson Way'
@@ -54,9 +54,9 @@ author:
   - name: 'Samantha Schiano'
     affiliations:
       - name: 'ECS Federal in support of NMFS OST'
-        address: '2750 Prosperity Ave #600'
-        city: 'Fairfax, VA'
-        state: 'VA'
+        address: 'East-West Hwy'
+        city: 'Silver Spring, MD'
+        state: 'MD'
         postal-code: '22031'
   - name: 'Fabio Prior Caltabellotta'
     affiliations:
@@ -65,10 +65,31 @@ author:
         city: 'Olympia, WA'
         state: 'WA'
         postal-code: '98504-3150'
-author-note: "*These authors contributed equally to this work."
+  - name: 'Vladlena Gertseva'
+    affiliations:
+      - name: 'NOAA Fisheries Northwest Fisheries Science Center'
+        address: '2725 Montlake Boulevard East'
+        city: 'Seattle'
+        state: 'WA'
+        postal-code: '98112-2097'
+  - name: 'Ian Taylor'
+    affiliations:
+      - name: 'NOAA Fisheries Northwest Fisheries Science Center'
+        address: '2725 Montlake Boulevard East'
+        city: 'Seattle'
+        state: 'WA'
+        postal-code: '98112-2097'
+  - name: 'Kiva Oken'
+    affiliations:
+      - name: 'NOAA Fisheries Northwest Fisheries Science Center'
+        address: '2725 Montlake Boulevard East'
+        city: 'Seattle'
+        state: 'WA'
+        postal-code: '98112-2097'
 date: today
 lang: en 
 keep-tex: true 
+mainfont: 'Latin Modern Sans' 
 cover: support_files/Yelloweye_Rockfish.png
 pdf-engine: lualatex
 format: 
@@ -81,7 +102,12 @@ format:
     include-in-header:
       - 'support_files/in-header.tex'
       - 'support_files/pfmc.tex'
+    include-after-body:
+      text: |
+        \newpage{}
+        \printnoidxglossaries
     toc: true
+    sansfont: 'Latin Modern Sans'
     lof: false
     lot: false
     titlepage-geometry: 
@@ -221,7 +247,9 @@ R0 <- output |>
 
 Please cite this publication as: 
 
-Johnston, M., Rosemond, R. C., Perl, E., Whitman, A., Barros, M., Champagnat, J., Schamp, A., Schiano, S., and  Prior Caltabellotta, F. (2025) Status of Yelloweye rockfish off the U.S. West Coast in 2025. Pacific Fishery Management Council. [XX] p.
+Johnston\*, M. A., Rosemond\*, R. C., Perl, E., Whitman, A., Barros, M., Champagnat, J., Schamp, A., Schiano, S., Prior Caltabellotta, F., Gertseva, V., Taylor, I., and Oken, K. (2025) Status of Yelloweye rockfish off the U.S. West Coast in 2025. Pacific Fishery Management Council. \pageref*{LastPage}{} pp.
+
+\*These authors contributed equally to this work.
 
 {{< pagebreak >}} 
 
