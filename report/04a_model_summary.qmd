@@ -8,7 +8,7 @@ This section is not required for an update assessment; please refer to the most 
 
 To be completed after SSC GFSC review.
 
-## Model Structure and Assumptions
+## Model Structure and Assumptions{#sec-bridge}
 
 ### Description of New Modeling Approaches
 
