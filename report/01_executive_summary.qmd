@@ -310,7 +310,7 @@ recent_management_table |>
 
 ## Harvest projections{-}
 
-
+This section will be updated after GFSC review.
 
 ::: {.landscape}
 
@@ -371,14 +371,21 @@ table_decision(
 
 ```
 
-ADW - decision tables not needed until after review
+This section will be updated after GFSC review.
 
 ## Scientific uncertainty{-}
 
+The model estimated uncertainty around the 2025 spawning biomass for the model is 𝜎 = `r round(mod_out$derived_quants$StdDev[which(mod_out$derived_quants$Label=="Bratio_2025")], 3)`. The uncertainty around the \gls{ofl} in 2025 is 𝜎 = `r round(mod_out$derived_quants$StdDev[which(mod_out$derived_quants$Label=="OFLCatch_2025")], 3)`. Each of these are likely underestimates of overall uncertainty due to the necessity to fix several key population dynamics parameters (e.g., steepness, recruitment variance) and also because there is no explicit incorporation of model structural uncertainty (although see the decision table for alternative states of nature).
+
 ## Research and data needs{-}
+
+Please refer to the 2017 benchmark assessment for a detailed list of research and data needs for Yelloweye Rockfish (@gertseva_stock_2017). In addition to those, the following research and recommendations could improve the ability of future stock assessments to determine the status and productivity of the Yelloweye Rockfish population:
+
+-	Continue refining the ORFS index analysis and ultimately use either the ORBS or ORFS index to describe the CPUE trends in the Oregon recreational fishery after 2000.
+-	Expand the IPHC age composition bins to an older maximum age for the IPHC age composition data to spread out the distribution of length data in the oldest age bins for conditional age-at-length.
 
 ## Rebuilding projections{-}
 
-TBD following GFSC review.
+This section will be updated after GFSC review.
 
 {{< pagebreak >}}
