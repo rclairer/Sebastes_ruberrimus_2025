@@ -909,5 +909,35 @@ knitr::include_graphics(
 )
 ```
 
+\clearpage
+<!-- management section -->
+
+```{r}
+#| label: fig-eq-yield
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Equilibrium yield curve (derived from reference point values) for the base model. Values are based on 2024 fishery selectivity and distribution with steepness fixed at 0.718. The relative spawning output is relative to unfished spawning biomass."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/yield1_yield_curve.png"
+)
+```
+
+```{r}
+#| label: fig-status-area
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of relative spawning output estimated by area (area 1= California, area 2 = Oregon and Washington)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts10_Relative_spawning_output.png"
+)
+```
+
+
+
+
 <!-- keep this at end -->
 \pagebreak

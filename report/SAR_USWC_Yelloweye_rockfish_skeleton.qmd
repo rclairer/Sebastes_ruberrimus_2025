@@ -65,7 +65,6 @@ author:
         city: 'Olympia, WA'
         state: 'WA'
         postal-code: '98504-3150'
-author-note: "*These authors contributed equally to this work."
 date: today
 lang: en 
 keep-tex: true 
@@ -227,7 +226,9 @@ R0 <- output |>
 
 Please cite this publication as: 
 
-Johnston, M. A., Rosemond, R. C., Perl, E., Whitman, A., Barros, M., Champagnat, J., Schamp, A., Schiano, S., and  Prior Caltabellotta, F. (2025) Status of Yelloweye rockfish off the U.S. West Coast in 2025. Pacific Fishery Management Council. \pageref*{LastPage}{} pp.
+Johnston\*, M. A., Rosemond\*, R. C., Perl, E., Whitman, A., Barros, M., Champagnat, J., Schamp, A., Schiano, S., and  Prior Caltabellotta, F. (2025) Status of Yelloweye rockfish off the U.S. West Coast in 2025. Pacific Fishery Management Council. \pageref*{LastPage}{} pp.
+
+\*These authors contributed equally to this work.
 
 {{< pagebreak >}} 
 
