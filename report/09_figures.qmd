@@ -254,18 +254,6 @@ knitr::include_graphics(
 <!-- 04a_model_summary -->
 
 ```{r}
-#| label: fig-ss3exe_1
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Comparison of the spawning output for the 2017 model with the updated SS3 executable and a single-sex model."
-#
-knitr::include_graphics(
-    "figures/bridging/1_SS3exe/compare2_spawnbio_uncertainty.png"
-)
-```
-
-```{r}
 #| label: fig-ss3exe_2
 #| echo: false
 #| warning: false

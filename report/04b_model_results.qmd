@@ -1,4 +1,5 @@
 ## Base Model Results
+**We havent updated this section yet since Kiva looked at it, we definitely need more time for this section and to cut out the fluff**
 
 ### Parameter Estimates
 

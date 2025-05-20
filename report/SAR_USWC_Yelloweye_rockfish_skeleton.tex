@@ -20,6 +20,8 @@
 \usepackage{lmodern}
 \ifPDFTeX\else  
     % xetex/luatex font selection
+    \setmainfont[]{Latin Modern Sans}
+    \setsansfont[]{Latin Modern Sans}
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -64,46 +66,6 @@
 \fi
 \makeatother
 
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{241,243,245}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
-\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
 
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
@@ -118,15 +80,17 @@
 \makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
-\makeatother
-% Scale images if necessary, so that they will not overflow the page
-% margins by default, and it is still possible to overwrite the defaults
-% using explicit options in \includegraphics[width, height, ...]{}
-\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
 % Set default figure placement to htbp
-\makeatletter
 \def\fps@figure{htbp}
 \makeatother
 % definitions for citeproc citations
@@ -167,38 +131,28 @@
 \usepackage{graphicx}
 % and their extensions so you won't have to specify these with
  % every instance of \includegraphics
- \usepackage{pdfcomment}
+\usepackage{pdfcomment}
 \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
 \usepackage{wallpaper} % for the background image on title page
 \usepackage{geometry}
+\usepackage{lastpage}
 % set font
 
-% added by Ross
-% % set font - - depends upon the driver
-% \ifPDFTeX
-%  %% only want this in body section headings and ToC, using \sf
-%  \def\sfdefault{phv}% Helvetica instead of its clone Arial
-%  \renewcommand{\sectfont}{\normalcolor
-%   \def\bfdefault{bc}% bold condensed; i.e., narrow
-%   \maybesffamily \bfseries }%% uses uhvb8ac
-% % \def\sfdefault{lmss}% Latin Modern replaces Arial
-% % \renewcommand{\sectfont}{\normalcolor
-%  % \fontseries{sbc}\fontfamily{lmss}\selectfont }%% uses lmssdc10
-% \else
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
 
-\usepackage{fontspec}
-\setsansfont[Ligatures=TeX]{Arial Narrow}
+\newfontfamily\sectionfont[Color=Black]{Latin Modern Sans}
+\newfontfamily\subsectionfont[Color=Black]{Latin Modern Sans}
+\newfontfamily\subsubsectionfont[Color=Black]{Latin Modern Sans}
 
-% added by Ross
-%\fi
-%\usepackage[scaled=0.9]{helvet}% needed later to replace Arial Narrow
 \usepackage[headsepline=0.005pt:,footsepline=0.005pt:,plainfootsepline,automark]{scrlayer-scrpage}
 \clearpairofpagestyles
 \ohead[]{\headmark} \cofoot[\pagemark]{\pagemark}
 \lohead{Yelloweye Rockfish assessment 2025}
 \ModifyLayer[addvoffset=-.6ex]{scrheadings.foot.above.line}
 \ModifyLayer[addvoffset=-.6ex]{plain.scrheadings.foot.above.line}
-\setkomafont{pageheadfoot}{\small}
+% \setkomafont{pageheadfoot}{\small}
+\newfontfamily\headfootfont[Color=Black]{Latin Modern Sans}
 % Landscape tables and figures
 \usepackage{pdflscape}
 \newcommand{\blandscape}{\begin{landscape}}
@@ -207,6 +161,7 @@
 % Acronyms
 \usepackage[acronym]{glossaries}
 \glsdisablehyper
+\makenoidxglossaries
 \loadglsentries{sa4ss_glossaries.tex}
 \usepackage{booktabs}
 \usepackage{longtable}
@@ -260,6 +215,9 @@
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \makeatother
 \makeatletter
+\usepackage{pdflscape}
+\makeatother
+\makeatletter
 \makeatother
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
@@ -272,11 +230,15 @@
 \usepackage[bidi=default]{babel}
 \fi
 \babelprovide[main,import]{english}
+\ifPDFTeX
+\else
+\babelfont{rm}[]{Latin Modern Sans}
+\fi
 % get rid of language-specific shorthands (see #6817):
 \let\LanguageShortHands\languageshorthands
 \def\languageshorthands#1{}
 \ifLuaTeX
-  \usepackage{selnolig}  % disable illegal ligatures
+  \usepackage[english]{selnolig} % disable illegal ligatures
 \fi
 \usepackage{bookmark}
 
@@ -284,7 +246,7 @@
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
   pdftitle={Status of Yelloweye Rockfish off the U.S. West Coast in 2025},
-  pdfauthor={Morgan A. Johnston*; R. Claire Rosemond*; Elizabeth Perl; Alison Whitman; Matheus de Barros; Juliette Champagnat; Abby Schamp; Samantha Schiano; Fabio Prior Caltabellotta},
+  pdfauthor={Morgan A. Johnston*; R. Claire Rosemond*; Elizabeth Perl; Alison Whitman; Matheus de Barros; Juliette Champagnat; Abby Schamp; Samantha Schiano; Fabio Prior Caltabellotta; Vladlena Gertseva; Ian Taylor; Kiva Oken},
   pdflang={en},
   colorlinks=true,
   linkcolor={blue},
@@ -298,8 +260,8 @@
 \author{Morgan A. Johnston* \and R. Claire Rosemond* \and Elizabeth
 Perl \and Alison Whitman \and Matheus de Barros \and Juliette
 Champagnat \and Abby Schamp \and Samantha Schiano \and Fabio Prior
-Caltabellotta}
-\date{2025-05-19}
+Caltabellotta \and Vladlena Gertseva \and Ian Taylor \and Kiva Oken}
+\date{2025-05-20}
 
 \begin{document}
   \begin{titlepage}
@@ -334,7 +296,7 @@ Caltabellotta}
   % Ross would change this to 2\baselineskip
 
   %%%%%% Cover image
-  \pdftooltip{\includegraphics[width=6in]{support\_files/Yelloweye\_Rockfish.png}}{An illustration of Yelloweye Rockfish}
+  \pdftooltip{\includegraphics[width=5in]{support\_files/Yelloweye\_Rockfish.png}}{An illustration of Yelloweye Rockfish}
   % cover page customization need to be inserted here
   %\pdftooltip{\includegraphics{support\_files/Yelloweye\_Rockfish.png}}{Alt text}
 
@@ -364,10 +326,19 @@ Caltabellotta}
    {\large{Abby Schamp}}{\textsuperscript{5}}%
   %
   ,
-   {\large{Samantha Schiano}}{\textsuperscript{6}}%
+   {\large{Samantha Schiano}}{\textsuperscript{3}}%
+  %
+  ,
+   {\large{Fabio Prior Caltabellotta}}{\textsuperscript{6}}%
+  %
+  ,
+   {\large{Vladlena Gertseva}}{\textsuperscript{7}}%
+  %
+  ,
+   {\large{Ian Taylor}}{\textsuperscript{7}}%
   %
   %
-  { and \large{Fabio Prior Caltabellotta}}%
+  { and \large{Kiva Oken}}%
   {\textsuperscript{7}}%
   %
 
@@ -427,21 +398,21 @@ Caltabellotta}
   %
   \par\hangindent=1em\hangafter=1%
   %
-  {6}.~{ECS Federal in support of NMFS OST}%
-  %
-  %
-  % Ross recommends putting address on one line
-  , %
-  {2750 Prosperity Ave \#600, Fairfax, VA, 22031}%
-  %
-  \par\hangindent=1em\hangafter=1%
-  %
-  {7}.~{Washington Department of Fish and Wildlife}%
+  {6}.~{Washington Department of Fish and Wildlife}%
   %
   %
   % Ross recommends putting address on one line
   , %
   {1111 Washington St SE, Olympia, WA, 98504-3150}%
+  %
+  \par\hangindent=1em\hangafter=1%
+  %
+  {7}.~{NOAA Fisheries Northwest Fisheries Science Center}%
+  %
+  %
+  % Ross recommends putting address on one line
+  , %
+  {2725 Montlake Boulevard East, Seattle, 98112-2097}%
   %
 
 
@@ -490,7 +461,7 @@ Please cite this publication as:
 Johnston*, M. A., Rosemond*, R. C., Perl, E., Whitman, A., Barros, M.,
 Champagnat, J., Schamp, A., Schiano, S., and Prior Caltabellotta, F.
 (2025) Status of Yelloweye rockfish off the U.S. West Coast in 2025.
-Pacific Fishery Management Council. {[}XX{]} p.
+Pacific Fishery Management Council. \pageref*{LastPage}{} pp.
 
 *These authors contributed equally to this work.
 
@@ -587,7 +558,7 @@ Year & 1\_CA\_TWL (mt) & 2\_CA\_NONTWL (mt) & 3\_CA\_REC (mt) & 4\_ORWA\_TWL (mt
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/catch2_landings_stacked.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/catch2_landings_stacked.png}
 
 }
 
@@ -608,10 +579,9 @@ multiple indices of abundance in California and Oregon/Washington. Two
 new historical catch reconstructions from Oregon and Washington were
 incorporated. Four indices of abundance were updated for this
 assessment, including two recreational fishery indices in Oregon, the
-West Coast Groundfish Bottom Trawl Survey, and the IPHC longline survey.
-In addition, sample sizes and assignment of aging error were corrected
-in the compositional data. No new data were considered in this update
-assessment.
+\gls{indexwc}, and the \gls{iphc} longline survey. In addition, sample
+sizes and assignment of aging error were corrected in the compositional
+data. No new data were considered in this update assessment.
 
 \subsection*{Stock biomass and
 dynamics}\label{stock-biomass-and-dynamics}
@@ -658,7 +628,7 @@ Year & Spawning output & Lower Interval (mt) & Upper Interval (mt) & Fraction Un
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png}
 
 }
 
@@ -806,16 +776,26 @@ tons (mt).}
 \toprule
 Year & OFL (mt) & ABC (mt) & ACL (mt) & Total dead catch (mt) \\ 
 \midrule\addlinespace[2.5pt]
-2015 & 52 & 43 & 18 & 12 \\ 
-2016 & 52 & 43 & 19 & 9 \\ 
-2017 & 57 & 47 & 20 & 20 \\ 
-2018 & 58 & 48 & 20 & 19 \\ 
-2019 & 82 & 74 & 48 & 24 \\ 
-2020 & 84 & 77 & 49 & 18 \\ 
-2021 & 97 & 83 & 50 & 21 \\ 
-2022 & NA & NA & NA & 34 \\ 
-2023 & 90 & 75 & 52 & 39 \\ 
-2024 & 91 & 76 & 53 & 15 \\ 
+2015 & 52 & 43 & 18 & 2 \\ 
+2016 & 52 & 43 & 19 & 1 \\ 
+2017 & 57 & 47 & 20 & 6 \\ 
+2018 & 58 & 48 & 20 & 5 \\ 
+2019 & 82 & 74 & 48 & 6 \\ 
+2020 & 84 & 77 & 49 & 2 \\ 
+2021 & 97 & 83 & 50 & 7 \\ 
+2022 & NA & NA & NA & 9 \\ 
+2023 & 90 & 75 & 52 & 12 \\ 
+2024 & 91 & 76 & 53 & 5 \\ 
+2015 & 52 & 43 & 18 & 10 \\ 
+2016 & 52 & 43 & 19 & 8 \\ 
+2017 & 57 & 47 & 20 & 14 \\ 
+2018 & 58 & 48 & 20 & 14 \\ 
+2019 & 82 & 74 & 48 & 17 \\ 
+2020 & 84 & 77 & 49 & 16 \\ 
+2021 & 97 & 83 & 50 & 14 \\ 
+2022 & NA & NA & NA & 24 \\ 
+2023 & 90 & 75 & 52 & 28 \\ 
+2024 & 91 & 76 & 53 & 10 \\ 
 \bottomrule
 
 \end{longtable}
@@ -824,6 +804,8 @@ Year & OFL (mt) & ABC (mt) & ACL (mt) & Total dead catch (mt) \\
 
 \subsection*{Harvest projections}\label{harvest-projections}
 \addcontentsline{toc}{subsection}{Harvest projections}
+
+\begin{landscape}
 
 \begingroup
 \fontsize{9.0pt}{10.8pt}\selectfont
@@ -857,6 +839,8 @@ Year & Adopted OFL (mt) & Adopted ACL (mt) & Assumed Catch (mt) & OFL (mt) & Buf
 \end{longtable}
 
 \endgroup
+
+\end{landscape}
 
 \clearpage
 
@@ -996,18 +980,18 @@ the coastal waters population (W. Stewart I.J 2009) and have been listed
 as threatened under the Endangered Species Act since 2010 (Drake et al.
 2010).
 
-Yelloweye Rockfish are strongly associated with rocky bottom habtiat,
+Yelloweye Rockfish are strongly associated with rocky bottom habitat,
 particularly areas of high relief (Love, Yoklavich, and Thorsteinson
 2002), and adults are considered to be solitary and sedentary after
 settlement (Coombs 1979; DeMott 1983). However, new tagging studies
 suggest that adult Yelloweye Rockfish exhibit larger scale movement
-patterns more commonly than preivously considered (Hannah and Rankin
+patterns more commonly than previously considered (Hannah and Rankin
 2011; Rasmuson et al. 2025).
 
 There has been little advancement on information pertaining to the stock
 structure of Yelloweye Rockfish since the previous benchmark assessment.
 As noted in Gertseva and Cope (2017), there is evidence of genetic
-diferences between Canadian waters (Strait of Georgia) and West coast
+differences between Canadian waters (Strait of Georgia) and West coast
 coastal populations of Yelloweye Rockfish, but no evidence of
 differentiation across coastal populations (Siegle and Yamanaka 2013).
 Gao and Wallace (2010) found that there was complete mixing of offspring
@@ -1050,23 +1034,23 @@ information.
 \subsection{Management performance}\label{management-performance-1}
 
 Yelloweye Rockfish removals have been substantially reduced since its
-designation as overfished in 2002 through a variety of management
+designation as overfished in 2002 through a variety of managment
 measures that eliminated retention in recreational fisheries, limited
 commercial retention, created broad spatial closures, and implemented
 new gear restrictions that reduced trawling in rocky habitats. Many of
 these restrictions remain in effect, though as Yelloweye Rockfish and
-other groundfish stocks have begun to rebuild, some manaegment measures
+other groundfish stocks have begun to rebuild, some managment measures
 have been modified or removed in recent years. These include some
 additional allocations to recreational fisheries that remain constrained
 by Yelloweye Rockfish estimated discard mortality, the recent removal of
-the Yelloweye Rockfish Conservation Areas (RCA) for the trawl sector off
-of California and Oregon, and eliminating some gear restrictions in the
-RCAs for the non-trawl sector.
+the Yelloweye \gls{rca} for the trawl sector off of California and
+Oregon, and eliminating some gear restrictions in the RCAs for the
+non-trawl sector.
 
-Recent trends in total catch relative to management guidelines is
+Recent trends in total catch relative to managment guidelines is
 available in Table~\ref{tbl-yelloweye_management} and shows that total
-catch of Yelloweye Rockfish has remained below both the OFLs and ACLs in
-each year since the previous assessment. Catch in
+catch of Yelloweye Rockfish has remained below both the \gls{ofl} and
+\gls{acl} in each year since the previous assessment. Catch in
 Table~\ref{tbl-yelloweye_management} combines the two areas in this
 model as catch limits for Yelloweye Rockfish are managed as a single
 coastwide unit and includes both landings and estimated discard
@@ -1102,7 +1086,7 @@ Removals:
   incorporated, which covered 1979 - 2000.
 \item
   A new Washington historical recreational catch reconstruction was
-  provided by WDFW and included changes to data from 1990-2016.
+  provided by \gls{wdfw} and included changes to data from 1990-2016.
 \end{itemize}
 
 Composition Data:
@@ -1113,8 +1097,8 @@ Composition Data:
   Length and age composition data were added from 2017 - 2024 for all
   states for the commercial and recreational fleets.
 \item
-  Length and age composition data were also extended for the West Coast
-  Groundfish Bottom Trawl Survey (WCGBTS) and the IPHC Longline survey.
+  Length and age composition data were also extended for the
+  \gls{indexwc} and the \gls{iphc} Longline survey.
 \item
   Some length and age composition data from the 2017 assessment had
   minor errors in how sample numbers were calculated, ageing error
@@ -1135,11 +1119,11 @@ Indices of Abundance:
   \item
     Oregon Onboard Observer (2001 - 2024)
   \item
-    Oregon ORBS Dockside (release only) (2004-2024)
+    Oregon \gls{orbs} Dockside (release only) (2004-2024)
   \item
-    WCGBTS (2003 - 2024)
+    \gls{indexwc} (2003 - 2024)
   \item
-    IPHC Longline Survey (2002 - 2024)
+    \gls{iphc} Longline Survey (2002 - 2024)
   \end{itemize}
 \end{itemize}
 
@@ -1167,56 +1151,54 @@ A summary of total removals are provided in Table~\ref{tbl-all_removals}
 and Figure~\ref{fig-catch}.
 
 Recent commercial landings (2017-2024) were obtained from
-\href{www.pacfin.psmfc.org}{PacFIN} for California, Oregon and
+\href{www.pacfin.psmfc.org}{\gls{pacfin}} for California, Oregon and
 Washington. For the period from 2016 through 2023, updated West Coast
-Groundfish Observer Program (WCGOP) discard estimates were added to
-PacFIN landings by adding the annual dead discard mortality rate for the
-commercial sector in the Groundfish Expanded Mortality Multi-year (GEMM)
-recorded discards to obtain the total catch of Yelloweye Rockfish within
-commercial fleets.
+Groundfish Observer Program (\gls{wcgop}) discard estimates were added
+to \gls{pacfin} landings by adding the annual dead discard mortality
+rate for the commercial sector in the \gls{gemm} recorded discards to
+obtain the total catch of Yelloweye Rockfish within commercial fleets.
 
 Bycatch for the At-Sea Pacific Hake fleet (A-SHOP) was updated from 2017
 through 2024.
 
-Recreational removals from \href{www.recfin.org}{RecFIN} were updated
-for California, Oregon and Washington from 2017 - 2024. RecFIN removals
-include an estimate of discard mortality and represent total estimated
-removals. The Oregon Department of Fish and Wildlife (ODFW) provided
-updated historical recreational removals for Oregon from 1979 through
-2000(Whitman (2024)). The Washington Department of Fish and Wildlife
-(WDFW) provided updated historical recreational removals (1967-1989) and
-WDFW Ocean Sampling Program (OSP) estimates (1990-2001). The historical
-recreational removals for 1971, 1974, and 1979 were not available and
-were filled in as the average of the two preceding and two following
-years. Historical data were filtered to marine catch areas 1-4. For OSP
-catch estimates, data included marine catch areas 1-4, up to the
-Bonilla-Tatoosh line. WDFW also provided updated catch estimates for
-2002-2004, which did not include discard mortality. To adjust for this,
-we multiplied the average mortality rate from the following five years
-(2005-2009) by the total discards to calculate total mortality for those
-years.
+Recreational removals from \href{www.recfin.org}{\gls{recfin}} were
+updated for California, Oregon and Washington from 2017 - 2024.
+\gls{recfin} removals include an estimate of discard mortality and
+represent total estimated removals. The Oregon Department of Fish and
+Wildlife (ODFW) provided updated historical recreational removals for
+Oregon from 1979 through 2000(Whitman (2024)). The \gls{wdfw} provided
+updated historical recreational removals (1967-1989) and \gls{osp}
+estimates (1990-2001). The historical recreational removals for 1971,
+1974, and 1979 were not available and were filled in as the average of
+the two preceding and two following years. Historical data were filtered
+to marine catch areas 1-4. For \gls{osp} catch estimates, data included
+marine catch areas 1-4, up to the Bonilla-Tatoosh line. \gls{wdfw} also
+provided updated catch estimates for 2002-2004, which did not include
+discard mortality. To adjust for this, we multiplied the average
+mortality rate from the following five years (2005-2009) by the total
+discards to calculate total mortality for those years.
 
 \subsubsection{Fishery-Dependent Length and Age
 Compositions}\label{sec-fd_comps}
 
 Updated length composition data for commercial catches (trawl and
-non-trawl) were available from PacFIN (extracted April 4, 2025) and from
-WCGOP for all three states. These include the years 2017 - 2024 for
-PacFIN data and 2017 - 2023 for WCGOP data. Updated recreational length
-composition data were available from RecFIN (extracted April 4, 2025)
-for all three states, and include years 2017 - 2024. Additionally,
-updated length compositions from the California On-Board CPFV Observer
-Sampling Program and from the Ocean Recreational Fishery Survey (ORFS,
-previously the Oregon onboard recreational observer program), both of
-which measure fish discarded at sea, were also available up through 2024
-on RecFIN.
+non-trawl) were available from \gls{pacfin} (extracted April 4, 2025)
+and from \gls{wcgop} for all three states. These include the years 2017
+- 2024 for \gls{pacfin} data and 2017 - 2023 for \gls{wcgop} data.
+Updated recreational length composition data were available from
+\gls{recfin} (extracted April 4, 2025) for all three states, and include
+years 2017 - 2024. Additionally, updated length compositions from the
+California On-Board CPFV Observer Sampling Program and from the Ocean
+Recreational Fishery Survey (ORFS, previously the Oregon onboard
+recreational observer program), both of which measure fish discarded at
+sea, were also available up through 2024 on \gls{recfin}.
 
-New commercial age composition data from PacFIN and WDGCOP for 2017-2024
-was included for Oregon and Washington. No new commercial age data were
-available from California. New recreational age composition data was
-available from RecFIN from 2017 - 2024 for Washington only (extracted
-May 13, 2025). These data were collected in the WDFW Ocean Sampling
-Program (OSP). There were also some historical updates to Oregon and
+New commercial age composition data from \gls{pacfin} and WDGCOP for
+2017-2024 was included for Oregon and Washington. No new commercial age
+data were available from California. New recreational age composition
+data was available from \gls{recfin} from 2017 - 2024 for Washington
+only (extracted May 13, 2025). These data were collected in the
+\gls{osp}. There were also some historical updates to Oregon and
 Washington recreational age data provided by the state representatives.
 
 In addition to extending the length data time series, we also fixed
@@ -1230,19 +1212,19 @@ linear regressions to approximate the relationship of samples to the
 number of fish. Then, we applied that regression to the total number of
 fish for data between 2017 and 2024 to estimate the number of samples. A
 future benchmark assessment should investigate how to get the number of
-sampled trips from RecFIN to calculate the number of samples using the
-I. J. Stewart and Hamel (2014) method.
+sampled trips from \gls{recfin} to calculate the number of samples using
+the I. J. Stewart and Hamel (2014) method.
 
-We also found that conditional-age-at-length (CAAL) data from the 2017
-assessment had all sample sizes and relative proportions doubled,
-potentially from when Yelloweye Rockfish was changed from a two-sex to
-single-sex model. For most fleets this was not a problem because the
-proportions of age-at-length counts were the same, however, some of the
-commercial fleets included discard age proportions that were not
-doubled, leading to small differences in proportions. To fix the CAAL
-data so it accurately represented the number of fish in each age class,
-we either rebuilt the entire fleet's CAAL data frame using the most
-recently pulled information from PacFIN and RecFIN, or divided the
+We also found that \gls{caal} data from the 2017 assessment had all
+sample sizes and relative proportions doubled, potentially from when
+Yelloweye Rockfish was changed from a two-sex to single-sex model. For
+most fleets this was not a problem because the proportions of
+age-at-length counts were the same, however, some of the commercial
+fleets included discard age proportions that were not doubled, leading
+to small differences in proportions. To fix the \gls{caal} data so it
+accurately represented the number of fish in each age class, we either
+rebuilt the entire fleet's \gls{caal} data frame using the most recently
+pulled information from \gls{pacfin} and \gls{recfin}, or divided the
 number of samples or relative proportions in each length bin by two. How
 these problems were treated for each fleet specifically is detailed
 below, including other minor data changes. Otherwise, length and age
@@ -1258,10 +1240,10 @@ Fleet 2. California Non-Trawl:
 \begin{itemize}
 \tightlist
 \item
-  For ages, all the CAAL and marginal ages (used to explore fits only,
-  not included in the likelihood) data were recalculated using the most
-  recent age data pulled from PacFIN and WCGOP, to account for age
-  doubling in 2017.
+  For ages, all the \gls{caal} and marginal ages (used to explore fits
+  only, not included in the likelihood) data were recalculated using the
+  most recent age data pulled from \gls{pacfin} and \gls{wcgop}, to
+  account for age doubling in 2017.
 \end{itemize}
 
 Fleet 3. California Recreational:
@@ -1269,15 +1251,15 @@ Fleet 3. California Recreational:
 \begin{itemize}
 \tightlist
 \item
-  CAAL data for 1979-1984 were doubled, so the number of samples and
-  age-at-length proportions were divided by two.
+  \gls{caal} data for 1979-1984 were doubled, so the number of samples
+  and age-at-length proportions were divided by two.
 \item
-  CAAL data for 2009-2016 were doubled, but the raw data we received
-  from RecFIN were correct, without doubled ages, so this time series
-  was replaced with newly pulled data.
+  \gls{caal} data for 2009-2016 were doubled, but the raw data we
+  received from \gls{recfin} were correct, without doubled ages, so this
+  time series was replaced with newly pulled data.
 \item
-  We then re-built the marginal age data from the updated CAAL for both
-  time periods because there were errors in previous data entry and
+  We then re-built the marginal age data from the updated \gls{caal} for
+  both time periods because there were errors in previous data entry and
   sample number calculations.
 \end{itemize}
 
@@ -1287,10 +1269,10 @@ Non-Trawl:
 \begin{itemize}
 \tightlist
 \item
-  Both the OR/WA commercial fleets had all CAAL and marginal age (not
-  included in the likelihood) data recalculated using the most recent
-  age data pulled from PacFIN and WCGOP, to account for age doubling in
-  2017.
+  Both the OR/WA commercial fleets had all \gls{caal} and marginal age
+  (not included in the likelihood) data recalculated using the most
+  recent age data pulled from \gls{pacfin} and \gls{wcgop}, to account
+  for age doubling in 2017.
 \end{itemize}
 
 Fleet 6. Oregon Recreational:
@@ -1298,17 +1280,18 @@ Fleet 6. Oregon Recreational:
 \begin{itemize}
 \tightlist
 \item
-  CAAL data sample sizes and proportions were doubled so numbers from
-  1979 - 2017 were divided by two.
+  \gls{caal} data sample sizes and proportions were doubled so numbers
+  from 1979 - 2017 were divided by two.
 \item
   We included 2015 unsexed ages.
 \item
   We also reassigned the aging error for this fleet for the correct
   years. The ODFW data representative confirmed that all fish from
-  1979-2002 were aged by WDFW (ageing error 1), and fish from 2009-2016
-  were aged by the NWFSC (ageing error 2). No new ages since 2016 were
-  provided. Marginal data were then recalculated from the updated CAAL
-  so that the ageing error labels and number of samples matched.
+  1979-2002 were aged by \gls{wdfw} (ageing error 1), and fish from
+  2009-2016 were aged by the NWFSC (ageing error 2). No new ages since
+  2016 were provided. Marginal data were then recalculated from the
+  updated \gls{caal} so that the ageing error labels and number of
+  samples matched.
 \end{itemize}
 
 Fleet 7. Washington Recreational:
@@ -1317,9 +1300,9 @@ Fleet 7. Washington Recreational:
 \tightlist
 \item
   All age data from 1998 to 2024 were replaced with the most recent data
-  provided in RecFIN, following the recommendation of the WDFW
-  representative. CAAL and the marginal age data were calculated using
-  this data.
+  provided in \gls{recfin}, following the recommendation of the
+  \gls{wdfw} representative. \gls{caal} and the marginal age data were
+  calculated using this data.
 \end{itemize}
 
 \subsubsection{Indices of Abundance}\label{indices-of-abundance}
@@ -1359,14 +1342,14 @@ fishing (all depths or inside 20/30/40fm), and a five fm-binned depth of
 drift covariate. This is in contrast to the 2017 index, which was only
 able to evaluate a year covariate. The covariates listed above are
 standard to evaluate for this index in other assessments. Negative
-binomial models were fit using sdmTMB (version 0.6.0; Anderson et al.
-(2024)) to the drift-level data (catch with a log offset for adjusted
-angler hours). A model without the open fishing depths or month was
-selected as the best fit model by AIC
+binomial models were fit using \gls{sdmtmb} (version 0.6.0; Anderson et
+al. (2024)) to the drift-level data (catch with a log offset for
+adjusted angler hours). A model without the open fishing depths or month
+was selected as the best fit model by AIC
 Table~\ref{tbl-yelloweye_model_selection_ORFS}. Acceptable diagnostics
 for the model were achieved, as evidenced by passing the sanity function
-in sdmTMB (Figure~\ref{fig-orfs_qqplot}). The index of abundance is
-shown in Figure~\ref{fig-ORFS_index}. A comparison to the ORFS index
+in \gls{sdmtmb} (Figure~\ref{fig-orfs_qqplot}). The index of abundance
+is shown in Figure~\ref{fig-ORFS_index}. A comparison to the ORFS index
 used in the previous assessment indicates that despite the change in
 modeling approach and the covariates included, most years overlap
 between the two indices and similar trends are observed
@@ -1377,24 +1360,23 @@ variance and a lack of extreme swings in the standardized index value
 \paragraph{Oregon ORBS Dockside (release only) CPUE,
 2004-2024}\label{oregon-orbs-dockside-release-only-cpue-2004-2024}
 
-The Ocean Recreational Boat Survey (ORBS) dockside index for Oregon was
-updated for this assessment. CPUE, expressed in terms of fish per
-angler-hour, was calculated by multiplying the number of anglers and the
-total trip time, minus the boat type-specific travel time. The database
-contains information on released fish by species (number of
-angler-reported released fish), effort (angler hours), sample location
-(port where data were collected), date, bag limits and other relevant
-regulations, boat type (charter or private), and trip type (e.g., bottom
-associated fish).
+The \gls{orbs} dockside index for Oregon was updated for this
+assessment. CPUE, expressed in terms of fish per angler-hour, was
+calculated by multiplying the number of anglers and the total trip time,
+minus the boat type-specific travel time. The database contains
+information on released fish by species (number of angler-reported
+released fish), effort (angler hours), sample location (port where data
+were collected), date, bag limits and other relevant regulations, boat
+type (charter or private), and trip type (e.g., bottom associated fish).
 
 The unfiltered data set contained 504,128 trips from 2001 - 2024. Since
 the previous Yelloweye assessment, multiple data filters have been
 standardized, which are very similar to the 2017 assessment, and are
-applied to ORBS trip-level data to remove outliers and data unsuitable
-for an index. For this index, the time period was restricted to years
-when retention of Yelloweye Rockfish was prohibited, which began on
-January 1, 2004. There were two differences in the filtering in this
-updated index. First, the previous index began in 2005, which was
+applied to \gls{orbs} trip-level data to remove outliers and data
+unsuitable for an index. For this index, the time period was restricted
+to years when retention of Yelloweye Rockfish was prohibited, which
+began on January 1, 2004. There were two differences in the filtering in
+this updated index. First, the previous index began in 2005, which was
 determined to be an error in the timing of the implementation of
 prohibited status for Yelloweye. Given that prohibition was in effect on
 January 1, the year 2004 is included in this updated index. The second
@@ -1407,37 +1389,39 @@ Table~\ref{tbl-yelloweye_percent_pos_ORBS}.
 
 Covariates evaluated included year, month, port, the open depths to
 fishing (all depths or inside 20/30/40 fm), and boat type. These are the
-same covariates evaluated in the 2017 ORBS index, apart from the open
-depths of the fishery. The final model in 2017 included boat type, port
-and year. Negative binomial models were fit in sdmTMB (Version 0.6.0) to
-the trip-level data (catch with a log offset for adjusted angler hours).
-The final model selected includes year, month, port, boat type and open
-fishery depths, which was the best fit model by AIC in this series
-Table~\ref{tbl-yelloweye_model_selection_ORBS}. Acceptable diagnostics
-for the model were achieved, as evidenced by passing the sanity function
-in sdmTMB.(Figure~\ref{fig-orbs_qq}). The index of abundance in shown in
-Figure~\ref{fig-ORBS_index}. ODFW no longer maintains the deltaGLM code
-that was used to develop the 2017 index and so the index was updated to
-use the currently accepted modeling approach for PFMC groundfish
-assessments (sdmTMB, version 0.6.0; Anderson et al. (2024)). To bridge
-this change, the 2017 model index structure was applied to the current
-dataset using sdmTMB and compared to the deltaGLM index used in the 2017
+same covariates evaluated in the 2017 \gls{orbs} index, apart from the
+open depths of the fishery. The final model in 2017 included boat type,
+port and year. Negative binomial models were fit in \gls{sdmtmb}
+(Version 0.6.0) to the trip-level data (catch with a log offset for
+adjusted angler hours). The final model selected includes year, month,
+port, boat type and open fishery depths, which was the best fit model by
+AIC in this series Table~\ref{tbl-yelloweye_model_selection_ORBS}.
+Acceptable diagnostics for the model were achieved, as evidenced by
+passing the sanity function in \gls{sdmtmb}.(Figure~\ref{fig-orbs_qq}).
+The index of abundance in shown in Figure~\ref{fig-ORBS_index}. ODFW no
+longer maintains the deltaGLM code that was used to develop the 2017
+index and so the index was updated to use the currently accepted
+modeling approach for \gls{pfmc} groundfish assessments (\gls{sdmtmb},
+version 0.6.0; Anderson et al. (2024)). To bridge this change, the 2017
+model index structure was applied to the current dataset using
+\gls{sdmtmb} and compared to the deltaGLM index used in the 2017
 assessment and the current recommended updated index in
 Figure~\ref{fig-ORBS_comp}. There are some differences observed in 2005
--- 2009 between the deltaGLM index and the two sdmTMB indices; however,
-this appears to be largely driven by the updated modeling approach.
+-- 2009 between the deltaGLM index and the two \gls{sdmtmb} indices;
+however, this appears to be largely driven by the updated modeling
+approach.
 
 \subsection{Fishery-Independent Data}\label{fishery-independent-data}
 
 Two sources of fishery-independent data were updated: the West Coast
-Groundfish Bottom Trawl Survey and the IPHC Longline survey.
+Groundfish Bottom Trawl Survey and the \gls{iphc} Longline survey.
 
 \subsubsection{West Coast Bottom Trawl Survey
 (WCGBTS)}\label{west-coast-bottom-trawl-survey-wcgbts}
 
-The WCGBTS survey methods are most recently described in detail in
-Keller, Wallace, and Methot (2017). Geostatistical models of biomass
-density were fit to survey data from the WCGBTS using \gls{tmb}
+The \gls{indexwc} survey methods are most recently described in detail
+in Keller, Wallace, and Methot (2017). Geostatistical models of biomass
+density were fit to survey data from the \gls{indexwc} using \gls{tmb}
 (Kristensen et al. 2016) via the \gls{sdmtmb} R package (Anderson et al.
 2024) as configured within the
 \href{https://github.com/pfmc-assessments/indexwc}{indexwc} R package
@@ -1470,84 +1454,87 @@ non-estimable standard errors because the positive encounters are too
 sparse to support the dense spatiotemporal structure. Anisotropy was not
 estimated.
 
-The biomass estimates produced for this assessment using sdmTMB are
-comparable to the biomass estimates produced in the previous benchmark
-assessment (Figure~\ref{fig-wcgbtsindexcomparison}). The index is
-relatively flat with a peak in 2014, but variation is high throughout
+The biomass estimates produced for this assessment using \gls{sdmtmb}
+are comparable to the biomass estimates produced in the previous
+benchmark assessment (Figure~\ref{fig-wcgbtsindexcomparison}). The index
+is relatively flat with a peak in 2014, but variation is high throughout
 the time series (Figure~\ref{fig-wcgbtsindex}).
 
 \subsubsection{IPHC Setline Survey}\label{iphc-setline-survey}
 
-The IPHC has conducted an annual longline survey for Pacific halibut off
-the coast of Oregon and Washington (IPHC area ``2A'') since 1997 (no
-surveys were performed in 1998 or 2000). Beginning in 1999, this has
-been a fixed station design, with roughly 1,800 hooks deployed at each
-of 84 locations. Before 1999, station locations were not fixed, and,
-therefore, those years are not used in the index. Rockfish bycatch,
-mainly yelloweye, was recorded during this survey, although values for
-1999 and 2001 are estimates based on subsampling the first 20 hooks of
-each 100-hook skate. The gear used to conduct this survey, while
-designed specifically to efficiently sample Pacific halibut, is similar
-to that used in some earlier line fisheries that targeted adult
-Yelloweye Rockfish. Some variability in exact sampling location is
-unavoidable, and leeway is given in the IPHC methods to center the set
-on the target coordinates but to allow wind and currents to dictate the
-actual direction in which the gear is deployed. This can result in
-different habitats accessed at each fixed location among years. The
-number of skates used can also differ from year to year; skates hauled
-(i.e., 100 hooks/skate) are thus used as the unit of effort for all
-years. This has been the standard effort used in past Yelloweye Rockfish
-stock assessments.
+The \gls{iphc} has conducted an annual longline survey for Pacific
+halibut off the coast of Oregon and Washington (\gls{iphc} area ``2A'')
+since 1997 (no surveys were performed in 1998 or 2000). Beginning in
+1999, this has been a fixed station design, with roughly 1,800 hooks
+deployed at each of 84 locations. Before 1999, station locations were
+not fixed, and, therefore, those years are not used in the index.
+Rockfish bycatch, mainly yelloweye, was recorded during this survey,
+although values for 1999 and 2001 are estimates based on subsampling the
+first 20 hooks of each 100-hook skate. The gear used to conduct this
+survey, while designed specifically to efficiently sample Pacific
+halibut, is similar to that used in some earlier line fisheries that
+targeted adult Yelloweye Rockfish. Some variability in exact sampling
+location is unavoidable, and leeway is given in the \gls{iphc} methods
+to center the set on the target coordinates but to allow wind and
+currents to dictate the actual direction in which the gear is deployed.
+This can result in different habitats accessed at each fixed location
+among years. The number of skates used can also differ from year to
+year; skates hauled (i.e., 100 hooks/skate) are thus used as the unit of
+effort for all years. This has been the standard effort used in past
+Yelloweye Rockfish stock assessments.
 
 New to this assessment is the consideration of eight additional survey
-stations (1527 to 1534) conducted in a collaborative effort between IPHC
-and WDFW from 2007-2009, 2013-2019 and 2021-2023. These stations are
-arranged around IPHC station 1082 (one of the more notable stations to
-encounter Yelloweye Rockfish). Only the summer months are considered
-here to match the time of year sampled by the IPHC survey. Survey sets
-at the WDFW stations used three skates with 100 hooks each for most
-years, except for 2021 - 2023, where a total of four skates were used.
-Like the IPHC survey, effort was standardized to 100 hooks/skate. These
-stations were integrated into the IPHC stations when calculating the
-index of abundance. The full survey used in this assessment combined all
-stations in Oregon and Washington into a single index. Data were first
-filtered to remove all depths with few or no encounters, and then we
-excluded stations that rarely encountered Yelloweye Rockfish (averaging
-less than one encounter a year). This left a total of 11 stations for
-analysis. Both filtering levels increased the percentage of encounters
-from an initial 11\% to 80\%.
+stations (1527 to 1534) conducted in a collaborative effort between
+\gls{iphc} and \gls{wdfw} from 2007-2009, 2013-2019 and 2021-2023. These
+stations are arranged around \gls{iphc} station 1082 (one of the more
+notable stations to encounter Yelloweye Rockfish). Only the summer
+months are considered here to match the time of year sampled by the
+\gls{iphc} survey. Survey sets at the \gls{wdfw} stations used three
+skates with 100 hooks each for most years, except for 2021 - 2023, where
+a total of four skates were used. Like the \gls{iphc} survey, effort was
+standardized to 100 hooks/skate. These stations were integrated into the
+\gls{iphc} stations when calculating the index of abundance. The full
+survey used in this assessment combined all stations in Oregon and
+Washington into a single index. Data were first filtered to remove all
+depths with few or no encounters, and then we excluded stations that
+rarely encountered Yelloweye Rockfish (averaging less than one encounter
+a year). This left a total of 11 stations for analysis. Both filtering
+levels increased the percentage of encounters from an initial 11\% to
+80\%.
 
-A log-normal generalized linear model with a log link in the sdmTMB R
-package (Anderson et al. 2024) was used to standardize the CPUE. Model
-selection using the Akaike Information Criteria for small samples (AICc)
-was conducted to select which variables were included in the model. The
-final model included year, station, and depth as explanatory variables.
-Diagnostic tools to ensure the model fit was satisfactory included
-checking whether the hessian matrix is positive definite, the presence
-of extreme eigenvalues, and if the non-linear minimizer suggests
-convergence. These diagnostics were conducted with the sanity function
-in the sdmTMB package. The updated index is compared to the index used
-in 2017 in Figure~\ref{fig-IPHC_comparison}.
+A log-normal generalized linear model with a log link in the
+\gls{sdmtmb} R package (Anderson et al. 2024) was used to standardize
+the CPUE. Model selection using the Akaike Information Criteria for
+small samples (AICc) was conducted to select which variables were
+included in the model. The final model included year, station, and depth
+as explanatory variables. Diagnostic tools to ensure the model fit was
+satisfactory included checking whether the hessian matrix is positive
+definite, the presence of extreme eigenvalues, and if the non-linear
+minimizer suggests convergence. These diagnostics were conducted with
+the sanity function in the \gls{sdmtmb} package. The updated index is
+compared to the index used in 2017 in Figure~\ref{fig-IPHC_comparison}.
 
 \subsubsection{Fishery-Independent Length and Age
 Compositions}\label{fishery-independent-length-and-age-compositions}
 
 Updated length and age composition data were available for the two
 updated fishery-independent surveys. Compositional data from 2017
-through 2024 were updated for WCGBTS were obtained using functions from
-the \href{https://github.com/pfmc-assessments/indexwc}{indexwc} R
-package (Johnson et al. 2025). The IPHC survey compositional data were
-provided by WDFW.
+through 2024 were updated for \gls{indexwc} were obtained using
+functions from the
+\href{https://github.com/pfmc-assessments/indexwc}{indexwc} R package
+(Johnson et al. 2025). The \gls{iphc} survey compositional data were
+provided by \gls{wdfw}.
 
 A summary of sampling efforts (number of hauls and number of individual
-fish) in all surveys is provided in \textbf{Table X} and \textbf{Table
-X}. Updated year-specific length frequency distributions generated for
-each survey are shown in Figure~\ref{fig-NWFSC_lencomps} and
-Figure~\ref{fig-IPHC_lencomps}, respectively. Updated year-specific CAAL
-frequencies for each survey are shown in
-Figure~\ref{fig-NWFSC_agecomps1} and Figure~\ref{fig-NWFSC_agecomps2}
-for the WCGBTS and Figure~\ref{fig-IPHC_agecomps1} and
-Figure~\ref{fig-IPHC_agecomps2}.
+fish) in all surveys is provided in
+Table~\ref{tbl-sampling-effort-triennial} and
+Table~\ref{tbl-sampling-effort-nwfsc}. Updated year-specific length
+frequency distributions generated for each survey are shown in
+Figure~\ref{fig-NWFSC_lencomps} and Figure~\ref{fig-IPHC_lencomps},
+respectively. Updated year-specific \gls{caal} frequencies for each
+survey are shown in Figure~\ref{fig-NWFSC_agecomps1} and
+Figure~\ref{fig-NWFSC_agecomps2} for the \gls{indexwc} and
+Figure~\ref{fig-IPHC_agecomps1} and Figure~\ref{fig-IPHC_agecomps2}.
 
 \subsection{Biological Parameters and
 Data}\label{biological-parameters-and-data}
@@ -1560,9 +1547,9 @@ the stock assessment results does not include any uncertainty in these
 quantities (however, some were investigated via sensitivity analyses
 described later in this report). The parameters for the length-weight
 relationship were updated to include the most recent data from 2017 -
-2024. The parameters derived from this analysis were as follows: ⍺ =
-7.183309·10-6, and β = 3.244801 (Figure~\ref{fig-LWrel}). Aging error
-matrices were unchanged.
+2024. The parameters derived from this analysis were as follows:
+\(\alpha = 7.183309 \cdot 10^{-6}\), and \(\beta = 3.244801\)
+(Figure~\ref{fig-LWrel}). Aging error matrices were unchanged.
 
 \newpage{}
 
@@ -1583,96 +1570,10 @@ To be completed after SSC GFSC review.
 \subsection{Model Structure and
 Assumptions}\label{model-structure-and-assumptions}
 
-\subsubsection{Model Changes from the Last
-Assessment}\label{sec-changes}
+\subsubsection{Description of New Modeling
+Approaches}\label{description-of-new-modeling-approaches}
 
-A list of changes that were made to the model compared to the previous
-assessment (Gertseva and Cope 2017) are listed below.
-
-ADW - what do we need to update after new WA catches incorporated into
-base? Plus it seems like this section should go after the
-platform/structure section, and we need to double check we're limiting
-repetition with the model results section.
-
-\begin{itemize}
-\tightlist
-\item
-  Data
-
-  \begin{itemize}
-  \tightlist
-  \item
-    Detailed information on specific updates and changes to the data
-    incldued in the model are included in Section 2 but are summarized
-    below.
-  \item
-    The landings time series was corrected and updated through the end
-    of 2024 for California, Oregon and Washington.
-  \item
-    Length and age compositions from all fishery removal and index
-    fleets were updated through 2024.
-  \item
-    Some indices of abundance were updated with recent data, where
-    available, and re-analyzed using more up-to-date methods. Two
-    fishery-dependent indices from Oregon were updated, along with the
-    fishery-independent indices, the WCBTS and the IPHC setline survey.
-  \end{itemize}
-\item
-  Biology
-
-  \begin{itemize}
-  \tightlist
-  \item
-    No changes were made to the biological parameterization of the
-    model; however, the length-weight relationship was updated to
-    include the most recent data. -No changes were made to the aging
-    error matrices estimated for the previous assessment; however, the
-    designated matrix for several years of Oregon recreational ages were
-    corrected.
-  \end{itemize}
-\item
-  Recruitment
-
-  \begin{itemize}
-  \tightlist
-  \item
-    The bias adjustment ramp was updated to end with the last year of
-    removals (2024) and begin to ramp to zero two years prior (2022)
-  \end{itemize}
-\item
-  Software and Workflow
-
-  \begin{itemize}
-  \tightlist
-  \item
-    Update SS3 3.30.23.2 - As seen in Figures Figure~\ref{fig-ss3exe_1}
-    and Figure~\ref{fig-ss3exe_2}, updating to the most recent version
-    of the SS3 executable had no discernible impact on model results.
-  \item
-    Use most up-to-date R packages to process input and output files for
-    the assessment, including \textbf{nwfscDiag, r4ss, and pacfintools}.
-  \item
-    Created a public github repository for Yelloweye Rockfish
-    (``sebastes\_ruberrimus\_2025'') to provide a transparent and
-    reproducible system for processing the data and creating the model
-    and assessment document
-  \end{itemize}
-\end{itemize}
-
-The iterative impact of the updated catch, composition and indices of
-abundance on the model are shown in Figure~\ref{fig-newdata_1} and
-Figure~\ref{fig-newdata_2}. Overall, there was little impact on the
-model results when updating and extending the catch time series and when
-updating the indices of abundance. However, the addition of the new
-fishery length composition data decreased the spawning output
-(Figure~\ref{fig-newdata_1}). When the new age composition data were
-added, there was a slight increase in the scale of the population but
-was overall very similar to the model with the new length composition
-data (Figure~\ref{fig-newdata_3} and Figure~\ref{fig-newdata_4}). There
-was very little impact on the model results when tuning the
-compositional data and updating the bias adjustment ramp
-(Figure~\ref{fig-newdata_5} and Figure~\ref{fig-newdata_6}). The impact
-of the updated lenght-weight relationship is evalated as a sensitivity.
+This section is not required for an update assessment
 
 \subsubsection{Modeling Platform and
 Structure}\label{modeling-platform-and-structure}
@@ -1683,7 +1584,7 @@ Synthesis 3 (Version 3.30.23.2 - available
 Bridging between SS versions is discussed in Section
 Section~\ref{sec-changes}.
 
-Briefly, the Yelloweye Rockfish model is a coastwide, single-sex
+Briefly, the Yelloweye Rockfish model is a coastwide, single-sex,
 two-area model. California is Area 1, and Oregon and Washington are
 combined into Area 2, due to differences in potential exploitation rates
 by area over time. Yelloweye Rockfish compositional data are primarily
@@ -1691,28 +1592,145 @@ reported as both sexes combined, and therefore, the previous assessment
 used a single sex model to facilitate the use of all available data.
 Growth is assumed to be the same in both areas, though future benchmark
 assessments may want to re-evaluate this assumption if more
-spatially-explicit data become available. The modeling period starts in
-the first year of available catches from historical reconstructions
-(1889) and the stock is assumed to be at an unfished equilibrium prior
-to that time. No changes were made to the fleet structure of the model.
-Fishery removals were divided among seven area- and sector-specific
-fleets. Estimated discard mortality was added to landings and included
-in the model as fleet-specific total removals. Length compositions for
+spatially-explicit data become available. Both growth and initial
+recruitment parameters were estimated internally, while all other
+biological parameters were fixed. The modeling period starts in the
+first year of available catches from historical reconstructions (1889)
+and the stock is assumed to be at an unfished equilibrium prior to that
+time. No changes were made to the fleet structure of the model. Fishery
+removals were divided among seven area- and sector-specific fleets.
+Estimated discard mortality was added to landings and included in the
+model as fleet-specific total removals. Length compositions for
 discarded and retained fish were combined as well. Data weighting was
 done using the Francis method (Francis 2011) but the McAllister-Ianelli
 method was explored as a sensitivity. More detailed information on the
 model structure and justification is available in Gertseva and Cope
-(2017) and summarized in \textbf{?@tbl-table\_config}. (ADW - DO WE NEED
-MORE DETAIL HERE?)
+(2017) and summarized in \textbf{?@tbl-table\_config}.
+
+\subsubsection{Model Changes from the Last
+Assessment}\label{sec-changes}
+
+A list of changes that were made to the model compared to the previous
+assessment (Gertseva and Cope 2017) are listed below.
+
+\begin{itemize}
+\tightlist
+\item
+  Data
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Detailed information on specific updates and changes to the data
+    included in the model are included in (\textbf{section?}) 2 (add
+    reference code) but are summarized below.
+  \item
+    The landing time series were corrected and updated through the end
+    of 2024 for California, Oregon and Washington. Overall, there was
+    little change in the model results when updating and extending the
+    catch time series, even after changes in the historical catch
+    (\textbf{?@fig-bridge3-comp2} and \textbf{?@fig-bridge3-comp4}).
+    Though, the age 8+ biomass increased more for the most recent years
+    than the forecasted estimates from 2017
+    (\textbf{?@fig-bridge3-comp18}).\\
+  \item
+    Indices of abundance were updated with recent data, where available,
+    and re-analyzed using more up-to-date methods. Updating indices lead
+    to a slight decrease in ln(\(R\)\textsubscript{0}), reducing the
+    spawning output by very little (\textbf{?@fig-bridge5-comp2}).
+  \item
+    Length and age compositions from all fishery removal and index
+    fleets were updated and tuned through 2024. The addition of
+    composition data greatly increased ln(\(R\)\textsubscript{0}), which
+    led to an increase in the spawning output, particularly for
+    1920-1980 (\textbf{?@fig-bridge14-comp2}). This new data also
+    changed the patter of the recruitment deviations significantly from
+    1990-2024 (\textbf{?@fig-bridge14-comp11}). From 1990-2005
+    recruitment was lower than predicted in the last assessment, then
+    from 2006-2016 recruitment was higher than the past, and finally
+    recruitment dropped very low for 2017-2021. This shift to lower
+    estimated recruitment for recent years seems to have slowed the
+    recovery curve (\textbf{?@fig-bridge14-comp2}).
+  \end{itemize}
+\item
+  Fleet structure
+
+  \begin{itemize}
+  \tightlist
+  \item
+    No changes were made to the fleet structure.
+  \end{itemize}
+\item
+  Biology
+
+  \begin{itemize}
+  \tightlist
+  \item
+    No changes were made to the biological parameterization of the
+    model; however, the length-weight relationship was updated to
+    include the most recent data and did not change the model fit. The
+    impact of updating the length-weight relationship is evaluated as a
+    sensitivity.
+  \end{itemize}
+\item
+  Recruitment
+
+  \begin{itemize}
+  \tightlist
+  \item
+    The bias adjustment ramp was updated. (Do we specifically need to
+    say what changed??)
+  \end{itemize}
+\item
+  Selectivity and retention
+
+  \begin{itemize}
+  \tightlist
+  \item
+    (I dont think we changed any selectivity blocks)
+  \end{itemize}
+\item
+  Software and Workflow
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Updating to SS3 3.30.23.2 and to the most recent version of the SS3
+    executable had no discernable impact on model results
+    (Figure~\ref{fig-ss3exe_2}).
+  \item
+    Use most up-to-date R packages to process input and output files for
+    the assessment, including \textbf{nwfscDiag, r4ss, and pacfintools}.
+  \item
+    Created a public github repository for Yelloweye Rockfish
+    (``sebastes\_ruberrimus\_2025'') to provide a transparent and
+    reproducible system for processing the data and creating the model
+    and assessment document (\textbf{Include link here to github}
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{Key Assumptions and Structural
+Choices}\label{key-assumptions-and-structural-choices}
+
+This section is not required for an update assessment; please refer to
+the most recent full assessment (Gertseva and Cope 2017) for additional
+information.
+
+\subsubsection{Priors?}\label{priors}
+
+\subsubsection{Data Weighting?}\label{data-weighting}
 
 \subsubsection{Model Parameters}\label{model-parameters}
 
-** ADW - update the code here to be sure we're getting the proper base
-model. also do we need any more fig's from the base? **
-
-The base model had r sum(mod\_out\$ parameters
-\(Phase > 0) estimated parameters (tallied by type in @tbl-table_parcounts). A single-sex growth curve was estimated (@fig-growth). Natural mortality was fixed, as in the 2017 assessment. Unfished recruitment and the distribution of recruits between areas are estimated. Steepness of the stock-recruit relationship was kept fixed at 0.718, matching the 2017 assessment. Estimating steepness was evaluated as a sensitivity. Recruitment deviations during the "main" period (from r mod_in\)ctl\(MainRdevYrFirst to r mod_in\)ctl\$MainRdevYrLast)
-were forced to sum to zero and the bias adjustment ranmp was updated
+The base model had 188 estimated parameters (tallied by type in
+\textbf{?@tbl-table\_parcounts}). A single-sex growth curve was
+estimated (Figure~\ref{fig-growth}). Natural mortality was fixed, as in
+the 2017 assessment. Unfished recruitment and the distribution of
+recruits between areas are estimated. Steepness of the stock-recruit
+relationship was kept fixed at 0.718, matching the 2017 assessment.
+Estimating steepness was evaluated as a sensitivity. Recruitment
+deviations during the ``main'' period (from 1980 to 2023) were forced to
+sum to zero and the bias adjustment ramp was updated
 (Figure~\ref{fig-biasadj}).
 
 Length, age, and age-at-length composition data weights were tuned using
@@ -1733,35 +1751,35 @@ recreational ages.
 Additional standard error was estimated for all indices with the
 exception of the WCBTS.
 
-\subsubsection{Key Assumptions and Structural
-Choices}\label{key-assumptions-and-structural-choices}
-
-This section is not required for an update assessment; please refer to
-the most recent full assessment (Gertseva and Cope 2017) for additional
-information.
-
 \subsection{Base Model Results}\label{base-model-results}
+
+\textbf{We havent updated this section yet since Kiva looked at it, we
+definitely need more time for this section and to cut out the fluff}
 
 \subsubsection{Parameter Estimates}\label{parameter-estimates}
 
 The list of the all the parameters used in the assessment model and
-their values (either fixed or estimated) is provided in \textbf{Table
-X}. The growth parameters estimated within the model are reasonable,
-commensurate with inspection of the raw data and consistent with what we
-know about the species. These parameters are relatively precisely
-estimated, in terms of the asymptotic standard error estimates.
-Figure~\ref{fig-growth} shows the estimated growth curve. Spawning
-output-at-length is shown in Figure~\ref{fig-spoutlen}. Spawning output
-in the assessment is expressed in millions of eggs.
+their values (either fixed or estimated) is provided in
+Table~\ref{tbl-pars}. The growth parameters estimated within the model
+are reasonable, commensurate with inspection of the raw data and
+consistent with what we know about the species, a long-lived rockfish
+with relatively slow growth and large asymptotic sizes. These parameters
+are relatively precisely estimated in terms of the asymptotic standard
+error estimates. Figure~\ref{fig-growth} shows the estimated growth
+curve. Spawning output-at-length is shown in Figure~\ref{fig-spoutlen}.
+Spawning output in the assessment is expressed in millions of eggs.
 
 Estimated stock-recruit function for the assessment model is shown in
 \textbf{?@fig-SR\_curve}. Estimated recruitment deviations are shown
-Figure~\ref{fig-recdevs_err}. Recruitment of yelloweye rockfish was
-estimated to be quite variable over time, and the estimated
-stock-recruit function predicts a relatively wide range of cohort sizes
-over the observed range of spawning biomass. The model output
-recruitment variance (RMSE = 0.48) is consistent with the fixed input
-recruitment variance (R = 0.5).
+Figure~\ref{fig-recdevs_err}. Recruitment of Yelloweye Rockfish was
+estimated to be quite variable over time, with the most recent years
+experiencing slightly lower than average recruitment after periods of
+low and high recruitment during the late 1980s to the early 200s, and
+late 2000s to late 2010s, respectively. Reflecting these variable
+recruitment patterns, the estimated stock-recruit function predicts a
+relatively wide range of cohort sizes over the observed range of
+spawning biomass. The model output recruitment variance (RMSE = 0.48) is
+consistent with the fixed input recruitment variance (R = 0.5).
 
 Length-based selectivity curves estimated in the assessment are shown
 for all fleets together in Figure~\ref{fig-selex_allfleets}. Estimated
@@ -1775,9 +1793,9 @@ recreational selectivity pattern and so the selectivity for the two
 series was not separated. All fleets for which curves were allowed to be
 dome-shaped (commercial trawl and non-trawl fleets) were estimated to be
 asymptotic. Estimated selectivity curves for the IPHC survey indicate a
-selection of the largest yelloweye available, and select the least
-amount of smaller yelloweye rockfish (Figure~\ref{fig-sel12}). The NWFSC
-trawl survey selected far more smaller yelloweye among all surveys
+selection of the largest Yelloweye available, and select the least
+amount of smaller Yelloweye Rockfish (Figure~\ref{fig-sel12}). The NWFSC
+trawl survey selected far more smaller Yelloweye among all surveys
 (Figure~\ref{fig-sel11}). That the triennial survey selectivity was
 shifted to the largest fish but also selected some very small fish is
 likely an artifact of the very noisy composition data from that survey
@@ -1791,37 +1809,35 @@ model predicted a decreasing trend in the triennial survey between 1980
 and 2004 (Figure~\ref{fig-indexfit10}) and a slightly increasing trend
 for the NWFSC trawl survey between 2003 and 2024
 (Figure~\ref{fig-indexfit11}). The model predicted a relatively flat
-trend through the IPHC survey index despite the upward trend seen in the
-last three years as of this update (Figure~\ref{fig-indexfit12}). The
-triennial survey index indicated a population decrease in 1992 and lower
-estimates (compared with pre-1992) persisted through the end of the
-index time series. This decrease in the abundance index coincided with
-decrease in number of biological samples collected from this survey. No
-changes have been implemented to the triennial survey between 1989 and
-1992. In 1995, the survey timing slightly shifted from early fall to
-mid-summer, approximately a month earlier that previous surveys. This
-shift in timing, however, seems unlikely to impact our understanding of
-yelloweye rockfish abundance trends during that period, given the
-sedentary life history of the species. Additionally, the change in the
-index trend was observed before the slight shift in survey timing. The
-California MRFSS recreational CPUE index tracked the decline in
-observations through the 1990s (Figure~\ref{fig-indexfit3}), and a
-slight increase in abundance was predicted in the Oregon MRFSS/ORBS
-recreational index during the 2000s (Figure~\ref{fig-indexfit6}). The
-Oregon recreational observer index showed a small and very uncertain
-increasing trend in the 2000s (Figure~\ref{fig-indexfit9}). The
-California CPFV charter series index indicated a relatively flat
-trajectory prior to 1992 with a drop in stock abundance from 1992 on
-(Figure~\ref{fig-indexfit8}). The model predicted a decreasing trend for
-the Washington Recreational index despite the relatively large variances
-on many of the observations, which does not match the relative stability
-of the index from 1982 to the early 2000s (Figure~\ref{fig-indexfit7}).
+trend through the \gls{iphc} survey index despite the upward trend seen
+in the last three years as of this update (Figure~\ref{fig-indexfit12}).
+The triennial survey index indicated a population decrease in 1992 and
+lower estimates (compared with pre-1992) persisted through the end of
+the index time series. This decrease in the abundance index coincided
+with decrease in number of biological samples collected from this
+survey. No changes have been implemented to the triennial survey between
+1989 and 1992. In 1995, the survey timing slightly shifted from early
+fall to mid-summer, approximately a month earlier that previous surveys.
+This shift in timing, however, seems unlikely to impact our
+understanding of Yelloweye Rockfish abundance trends during that period,
+given the sedentary life history of the species. Additionally, the
+change in the index trend was observed before the slight shift in survey
+timing. The California \gls{mrfss} recreational CPUE index tracked the
+decline in observations through the 1990s (Figure~\ref{fig-indexfit3}),
+and a slight increase in abundance was predicted in the Oregon
+\gls{mrfss}/\gls{orbs} recreational index during the 2000s
+(Figure~\ref{fig-indexfit6}). The Oregon recreational observer index
+showed a small and very uncertain increasing trend in the 2000s
+(Figure~\ref{fig-indexfit9}). The California \gls{cpfv} charter series
+index indicated a relatively flat trajectory prior to 1992 with a drop
+in stock abundance from 1992 on (Figure~\ref{fig-indexfit8}). The model
+predicted a decreasing trend for the Washington Recreational index
+despite the relatively large variances on many of the observations,
+which does not match the relative stability of the index from 1982 to
+the early 2000s (Figure~\ref{fig-indexfit7}).
 
 The model fitted length data aggregated across years reasonably well for
-all fleets (Figure~\ref{fig-agglencomps}). The model fits to length
-frequency distributions by fleet across years are shown in \textbf{add
-length comps by fleet/year - ADW - suggest these are all not needed, are
-there specific fleets we should highlight?}. Pearson residuals for the
+all fleets (Figure~\ref{fig-agglencomps}). Pearson residuals for the
 fits by fleet and year are shown in Figure~\ref{fig-pearsonlenfit1} and
 Figure~\ref{fig-pearsonlenfit2}. The length data are very sparse in many
 years and the quality of fit varies among years and fleets, reflecting
@@ -1829,27 +1845,10 @@ the differences in the quantity and quality of the data. However,
 neither length composition data nor the Pearson residuals, which reflect
 the noise in the data both within and among years, exhibit obvious
 patterns for any fleet. The data for fishing fleets are particularly
-poor after 2002 after retention of yelloweye rockfish was prohibited in
+poor after 2002 after retention of Yelloweye Rockfish was prohibited in
 most fleets and limited in trawl fleets. Input sample sizes for length
 composition data were tuned down using the Francis data weighting method
-\textbf{add weighting table}. Francis weighting fits to the mean lengths
-for each fleet by year (with 95\% confidence intervals) are shown in
-\textbf{Figure X} through \textbf{Figure X} (\textbf{ADW note - we don't
-normally include these in the report - do we need them?}).
-
-The fits to age data are shown in \textbf{Figure X} through
-\textbf{Figure X}, \textbf{ADW - I would suggest we don't include the
-ghost age comps and we don't normally include ALL of the CAAL - do we
-have a fleet where we can focus on this?} with the ``ghost'' marginal
-age compositions shown to aid in visual interpretation of these fits.
-These ``ghost'' age compositions do not contribute to the likelihood and
-do not affect model fit in any way. Input sample sizes for conditional
-age-at-length composition data were also tuned down using Francis data
-weighting method. The Francis weighting index fit of the conditional
-age-at-length data for each fleet by year (with 95\% confidence
-intervals) are shown in \textbf{Figure X} through \textbf{Figure X} -
-\textbf{ADW - again, these are probably not all necessary - let's focus
-on a specific fleet}.
+(Table~\ref{tbl-compweight}).
 
 \subsubsection{Population Trajectory}\label{population-trajectory}
 
@@ -1884,7 +1883,7 @@ followed by a two periods of elevated recruitment in the 1970s and early
 1980s and another period centered around the 2010s. This trend is
 consistent with the previous assessment, apart from the most recent
 elevated time period, which estimated a sole peak in 2001 and several
-other peaks of smaller magnitude starting in 2005. Recuits for this
+other peaks of smaller magnitude starting in 2005. Recruits for this
 assessment appear to have extended and increased this more recent time
 period starting in 2005, with a peak in 2008 and 2013 and shifts the
 peak in 2001 to 2002. Recruitment in the late 2010s was estimated to be
@@ -1947,20 +1946,22 @@ Sensitivity analyses to data set choices to examine the impact of
 including different data streams were conducted by selectively removing
 each data source using emphasis factors, as well as by including
 different weighting schemes for composition data. Summaries of model
-results for these sensitivities are presented in Tables XX to XX. Among
-these, the base model appears to be most sensitive to removing length
-compositions, which show a significantly different biomass trajectory
-and a more optimistic estimate of stock status at the end of the time
-series (Figure~\ref{fig-sens_data_spout} and
-Figure~\ref{fig-sens_data_status}). Removing all age compositions, IPHC
-age compositions only, and applying the McAllister \& Ianelli weighting
-scheme also result in slightly more optimistic estimates of stock status
-at the end of the time series compared to the base model
+results for these sensitivities are presented in
+Table~\ref{tbl-sensitivities-like-comps} and
+Table~\ref{tbl-sensitivities-model-specs}. Among these, the base model
+appears to be most sensitive to removing length compositions, which show
+a significantly different biomass trajectory and a more optimistic
+estimate of stock status at the end of the time series
+(Figure~\ref{fig-sens_data_spout} and
+Figure~\ref{fig-sens_data_status}). Removing all age compositions,
+\gls{iphc} age compositions only, and applying the McAllister \& Ianelli
+weighting scheme also result in slightly more optimistic estimates of
+stock status at the end of the time series compared to the base model
 (Figure~\ref{fig-sens_data_spout} and
 Figure~\ref{fig-sens_data_status}). Furthermore, models with all
-abundance and IPHC indices removed resulted in slightly less optimistic
-estimates of spawning output and stock status at the end of the time
-series (Figure~\ref{fig-sens_indices_spout} and
+abundance and \gls{iphc} indices removed resulted in slightly less
+optimistic estimates of spawning output and stock status at the end of
+the time series (Figure~\ref{fig-sens_indices_spout} and
 Figure~\ref{fig-sens_indices_status}). Models removing the remaining
 indices consecutively did not show large differences in the final stock
 status estimate. A summary of the relative changes in management
@@ -2035,52 +2036,50 @@ Uncertainties}\label{unresolved-problems-and-major-uncertainties}
 \subsection{Reference Points}\label{reference-points-1}
 
 This assessment estimates that the stock of Yelloweye Rockfish off the
-continental U.S. Pacific Coast is currently at \textbf{XXX\%} of its
-unexploited level. This is above the overfished threshold of SB25\%, but
-below the management target of SB40\% of unfished spawning biomass. Both
-areas are above the overfished level of 25\%. The assessment estimates
-that the coastwide spawning output of Yelloweye Rockfish dropped below
-the SB40\% target for the first time in 1986 and below the overfished
-SB25\% threshold in 1993, as a result of intense fishing by commercial
-and recreational fleets. It continued to decline and reached 14.2\% of
-its unfished output in 2000 (\textbf{Table XX}). The same year, the
-stock was declared overfished. Since then, the spawning output has
-slowly increased due to management regulations implemented to foster
-stock rebuilding.
+continental U.S. Pacific Coast is currently at 35.7\% of its unexploited
+level. This is above the overfished threshold of SB25\%, but below the
+management target of SB40\% of unfished spawning biomass. Both areas are
+above the overfished level of 25\%. The assessment estimates that the
+coastwide spawning output of Yelloweye Rockfish dropped below the SB40\%
+target for the first time in 1986 and below the overfished SB25\%
+threshold in 1993, as a result of intense fishing by commercial and
+recreational fleets. It continued to decline and reached 14.2\% of its
+unfished output in 2000 (Table~\ref{tbl-ts}). The same year, the stock
+was declared overfished. Since then, the spawning output has slowly
+increased due to management regulations implemented to foster stock
+rebuilding.
 
-Reference points for the base model are summarized in \textbf{Table XX}.
-Unfished spawning stock output for Yelloweye Rockfish was estimated to
-be \textbf{XXXX} million eggs (95\% confidence interval:
-\textbf{XXXX-XXXX} million eggs). The stock is declared overfished if
-the current spawning output is estimated to be below the minimum stock
-size threshold (MSST) of 25\% of unfished level (SB25\%). The management
-target for Yelloweye Rockfish is defined as 40\% of the unfished
-spawning output (SB40\%), which is estimated by the model to be
-\textbf{XXX} million eggs (95\% confidence interval: \textbf{XXX-XXX}),
-which corresponds to an exploitation rate of 0.025. This harvest rate
-provides an equilibrium yield of \textbf{XXX} mt at SB40\% (95\%
-confidence interval: \textbf{XX-XXX} mt). The model estimate of maximum
-sustainable yield (MSY) is \textbf{XXX} mt (95\% confidence interval:
-\textbf{XXX-XXX} mt). The estimated spawning stock output at MSY is
-\textbf{XXX} million eggs (95\% confidence interval: XXX-XXX million
-eggs). The exploitation rate corresponding to the estimated SPRMSY of
-F36\% is 0.034.
+Reference points for the base model are summarized in
+Table~\ref{tbl-ref-points-es-2}. Unfished spawning stock output for
+Yelloweye Rockfish was estimated to be 1129.7 million eggs (95\%
+confidence interval: 999.2-1267.2 million eggs). The stock is declared
+overfished if the current spawning output is estimated to be below the
+\gls{msst} of 25\% of unfished level (SB25\%). The management target for
+Yelloweye Rockfish is defined as 40\% of the unfished spawning output
+(SB40\%), which is estimated by the model to be 452 million eggs (95\%
+confidence interval: 397-507), which corresponds to an exploitation rate
+of 0.025. This harvest rate provides an equilibrium yield of 115 mt at
+SB40\% (95\% confidence interval: 101-130 mt). The model estimate of
+maximum sustainable yield (MSY) is 121 mt (95\% confidence interval:
+106-136 mt). The estimated spawning stock output at MSY is 327 million
+eggs (95\% confidence interval: 287-367 million eggs). The exploitation
+rate corresponding to the estimated SPRMSY of F36\% is 0.036.
 
-This assessment estimates that the 2024 SPR is \textbf{XX\%}. The SPR
+This assessment estimates that the 2024 SPR is 0.221. \textbf{The SPR
 used for setting the OFL is 50\%, while the SPR-based management fishing
-mortality target \textbf{specified in the current rebuilding plan and
-used to determine the ACL is 76\%. Relative exploitation rates
-(calculated as catch/biomass of age-8 and older fish) are estimated to
-have been below 1\% during the last decade}. This assessment estimates
-that Yelloweye Rockfish was fished beyond the relative SPR ratio
-(calculated as 1-SPR/1-SPRTarget=0.5) between 1977 and 2000. The
-equilibrium yield curve is shown in \textbf{Figure XX}.
+mortality target specified in the current rebuilding plan and used to
+determine the ACL is 76\%. Relative exploitation rates (calculated as
+catch/biomass of age-8 and older fish) are estimated to have been below
+1\% during the last decade. This assessment estimates that Yelloweye
+Rockfish was fished beyond the relative SPR ratio (calculated as
+1-SPR/1-SPRTarget=0.5) between 1977 and 2000. The equilibrium yield
+curve is shown in Figure~\ref{fig-eq-yield}.}
 
 \subsection{Harvest Projections and Decision
 Tables}\label{harvest-projections-and-decision-tables}
 
-The base model estimate for 2025 spawning depletion is \textbf{XX\%}.
-The primary axis of uncertainty about this estimate used in the decision
+The base model estimate for 2025 spawning depletion is 37.8\%. The
+primary axis of uncertainty about this estimate used in the decision
 table was based on natural mortality. Natural mortality in the
 assessment model is fixed at the median of the Hamel prior (0.044 y-1),
 estimated using the maximum age of 123 years. Natural mortality value
@@ -2091,47 +2090,39 @@ low state of nature was calculated to correspond to 147 years of age,
 which is the maximum age reported for the Yelloweye Rockfish; this value
 was 0.037 y-1.
 
-\textbf{We explored different approaches to identify alternative natural
-mortality values, including using the 12.5 and 87.5 percentiles of the
-Hamel prior distribution. However, this approach yielded values that
-were considered to be not realistic. For instance, the 12.5 percentile
-value of 0.031y-1 corresponded to an age of 175 years, which
-substantially exceeds the oldest Yelloweye Rockfish individual ever
-reported.}
-
 Twelve-year forecasts for each state of nature were calculated for two
-catch scenarios (\textbf{Table XX}). One scenario assumes 2025-2026
-catches to be 60\% of year-specific ACL values, and 2027-2036 catches to
-be 60\% of removals calculated using current rebuilding SPR of 76\%
-applied to the base model. The second catch scenario assumes 2025-2026
-removals to be equal to year-specific ACLs, and 2027-2036 catches
-calculated using current rebuilding SPR of 76\% applied to the base
-model.
+catch scenarios (Table~\ref{tbl-es-decision-2}). One scenario assumes
+2025-2026 catches to be 60\% of year-specific \gls{acl} values, and
+2027-2036 catches to be 60\% of removals calculated using current
+rebuilding SPR of 76\% applied to the base model. The second catch
+scenario assumes 2025-2026 removals to be equal to year-specific
+\gls{acl}s, and 2027-2036 catches calculated using current rebuilding
+SPR of 76\% applied to the base model.
 
 \subsection{Evaluation of Scientific
 Uncertainty}\label{evaluation-of-scientific-uncertainty}
 
 The model estimated uncertainty around the 2025 spawning biomass for the
-model \textbf{is 𝜎 = XX}. The uncertainty around the OFL in 2025
-\textbf{is 𝜎 = XX}. Each of these are likely underestimates of overall
-uncertainty due to the necessity to fix several key population dynamics
-parameters (e.g., steepness, recruitment variance) and also because
-there is no explicit incorporation of model structural uncertainty
-(although see the decision table for alternative states of nature).
+model is 𝜎 = 0.026. The uncertainty around the \gls{ofl} in 2025 is 𝜎 =
+10.82. Each of these are likely underestimates of overall uncertainty
+due to the necessity to fix several key population dynamics parameters
+(e.g., steepness, recruitment variance) and also because there is no
+explicit incorporation of model structural uncertainty (although see the
+decision table for alternative states of nature).
 
 \subsection{Regional management
 considerations}\label{regional-management-considerations}
 
-Yelloweye Rockfish is modelled in two areas (California and
+Yelloweye Rockfish is modeled in two areas (California and
 Oregon-Washington) in this assessment. Current population status does
 differ by area and may be valuable information for making management and
-allocation decisions (\textbf{ts10\_Relative\_spawning\_output}).
+allocation decisions (Figure~\ref{fig-status-area}).
 
 \subsection{Research and Data Needs}\label{research-and-data-needs-1}
 
 Please refer to the 2017 benchmark assessment for a detailed list of
-research and data needs for Yelloweye Rockfish (\textbf{cite last
-assessment}). In addition to those, the following research and
+research and data needs for Yelloweye Rockfish (Gertseva and Cope
+(2017)). In addition to those, the following research and
 recommendations could improve the ability of future stock assessments to
 determine the status and productivity of the Yelloweye Rockfish
 population:
@@ -2139,16 +2130,13 @@ population:
 \begin{itemize}
 \tightlist
 \item
-  USE ONLY ONE INDEX FOR OR REC (CHOOSE ORFS?) and refinement of the
-  ORFS index analysis. Choosing orfs over orbs because it's a longer
-  time period and orfs and orbs sample the same fishery.
+  Continue refining the ORFS index analysis and ultimately use either
+  the ORBS or ORFS index to describe the CPUE trends in the Oregon
+  recreational fishery after 2000.
 \item
-  Continue using the methods that we developed for the IPHC index (using
-  sdmTMB).
-\item
-  In the model structure, consider expanding age bins for the IPHC data
-  to capture the population dynamics of a long-lived species. (max age
-  in model?) (max age in data)?
+  Expand the IPHC age composition bins to an older maximum age for the
+  IPHC age composition data to spread out the distribution of length
+  data in the oldest age bins for conditional age-at-length.
 \end{itemize}
 
 \newpage{}
@@ -2299,16 +2287,26 @@ metric tons (mt).}
 \toprule
 Year & OFL (mt) & ABC (mt) & ACL (mt) & Total dead catch (mt) \\ 
 \midrule\addlinespace[2.5pt]
-2015 & 52 & 43 & 18 & 12 \\ 
-2016 & 52 & 43 & 19 & 9 \\ 
-2017 & 57 & 47 & 20 & 20 \\ 
-2018 & 58 & 48 & 20 & 19 \\ 
-2019 & 82 & 74 & 48 & 24 \\ 
-2020 & 84 & 77 & 49 & 18 \\ 
-2021 & 97 & 83 & 50 & 21 \\ 
-2022 & NA & NA & NA & 34 \\ 
-2023 & 90 & 75 & 52 & 39 \\ 
-2024 & 91 & 76 & 53 & 15 \\ 
+2015 & 52 & 43 & 18 & 2 \\ 
+2016 & 52 & 43 & 19 & 1 \\ 
+2017 & 57 & 47 & 20 & 6 \\ 
+2018 & 58 & 48 & 20 & 5 \\ 
+2019 & 82 & 74 & 48 & 6 \\ 
+2020 & 84 & 77 & 49 & 2 \\ 
+2021 & 97 & 83 & 50 & 7 \\ 
+2022 & NA & NA & NA & 9 \\ 
+2023 & 90 & 75 & 52 & 12 \\ 
+2024 & 91 & 76 & 53 & 5 \\ 
+2015 & 52 & 43 & 18 & 10 \\ 
+2016 & 52 & 43 & 19 & 8 \\ 
+2017 & 57 & 47 & 20 & 14 \\ 
+2018 & 58 & 48 & 20 & 14 \\ 
+2019 & 82 & 74 & 48 & 17 \\ 
+2020 & 84 & 77 & 49 & 16 \\ 
+2021 & 97 & 83 & 50 & 14 \\ 
+2022 & NA & NA & NA & 24 \\ 
+2023 & 90 & 75 & 52 & 28 \\ 
+2024 & 91 & 76 & 53 & 10 \\ 
 \bottomrule
 
 \end{longtable}
@@ -2318,6 +2316,8 @@ Year & OFL (mt) & ABC (mt) & ACL (mt) & Total dead catch (mt) \\
 \newpage{}
 
 \subsection{Data}\label{data-1}
+
+\begin{landscape}
 
 \begingroup
 \fontsize{9.0pt}{10.8pt}\selectfont
@@ -2477,6 +2477,8 @@ Year & CA trawl (mt) & CA non-trawl (mt) & CA sport (mt) & OR-WA trawl (mt) & OR
 
 \endgroup
 
+\end{landscape}
+
 \newpage{}
 
 \begingroup
@@ -2517,6 +2519,8 @@ year & tripsWithTarget & tripsWOTarget & totalTrips & percentpos \\
 
 \newpage{}
 
+\begin{landscape}
+
 \begingroup
 \fontsize{9.0pt}{10.8pt}\selectfont
 
@@ -2545,6 +2549,8 @@ Incl. & - & - & Incl. & Incl. & Incl. & 27 & -1502.7 & 3059.6 & 201.1 \\
 \end{longtable}
 
 \endgroup
+
+\end{landscape}
 
 \newpage{}
 
@@ -2590,6 +2596,8 @@ year & tripsWithTarget & tripsWOTarget & totalTrips & percentpos \\
 
 \newpage{}
 
+\begin{landscape}
+
 \begingroup
 \fontsize{9.0pt}{10.8pt}\selectfont
 
@@ -2618,6 +2626,8 @@ Incl. & - & - & Incl. & - & Incl. & Incl. & 30 & -45583.4 & 91226.9 & 427.8 \\
 \end{longtable}
 
 \endgroup
+
+\end{landscape}
 
 \newpage{}
 
@@ -2697,106 +2707,6 @@ summarized by area.}
 
 \endgroup
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Do we need this?}
-\CommentTok{\#| label: tbl{-}filtering{-}CA{-}MRFSS}
-\CommentTok{\#| echo: false}
-\CommentTok{\#| warning: false}
-\CommentTok{\#| tbl{-}cap: "Filtering levels and resultant data from the California MRFSS recreational index."}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Do we need this?}
-\CommentTok{\#| label: tbl{-}model{-}selection{-}CA{-}MRFSS}
-\CommentTok{\#| echo: false}
-\CommentTok{\#| warning: false}
-\CommentTok{\#| tbl{-}cap: "Delta{-}GLM model selection for the California MRFSS recreational index. Gray bar indicates selected model."}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Do we need this?}
-\CommentTok{\#| label: tbl{-}filtering{-}CA{-}CPFV}
-\CommentTok{\#| echo: false}
-\CommentTok{\#| warning: false}
-\CommentTok{\#| tbl{-}cap: "Filtering levels and resultant data from the California CPFV recreational index."}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Do we need this?}
-\CommentTok{\#| label: tbl{-}model{-}selection{-}CA{-}MRFSS}
-\CommentTok{\#| echo: false}
-\CommentTok{\#| warning: false}
-\CommentTok{\#| tbl{-}cap: "Delta{-}GLM model selection for the California CPFV recreational index. Gray bar indicates selected model."}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Do we need this?}
-\CommentTok{\#| label: tbl{-}filtering{-}OR{-}onboard}
-\CommentTok{\#| echo: false}
-\CommentTok{\#| warning: false}
-\CommentTok{\#| tbl{-}cap: "Filtering levels and resultant data from the Oregon onboard recreational index."}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Do we need this?}
-\CommentTok{\#| label: tbl{-}filtering{-}OR{-}MRFSS}
-\CommentTok{\#| echo: false}
-\CommentTok{\#| warning: false}
-\CommentTok{\#| tbl{-}cap: "Filtering levels and resultant data from the Oregon MRFSS recreational index."}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Do we need this?}
-\CommentTok{\#| label: tbl{-}filtering{-}OR{-}ORBS}
-\CommentTok{\#| echo: false}
-\CommentTok{\#| warning: false}
-\CommentTok{\#| tbl{-}cap: "Filtering levels and resultant data from the Oregon ORBS dockside index."}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Do we need this?}
-\CommentTok{\#| label: tbl{-}model{-}selection{-}ORBS}
-\CommentTok{\#| echo: false}
-\CommentTok{\#| warning: false}
-\CommentTok{\#| tbl{-}cap: "Delta{-}GLM model selection for the Oregon ORBS dockside index. Gray bar indicates selected model."}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Do we need this?}
-\CommentTok{\#| label: tbl{-}filtering{-}WA{-}dockside}
-\CommentTok{\#| echo: false}
-\CommentTok{\#| warning: false}
-\CommentTok{\#| tbl{-}cap: "Filtering levels and resultant data from the Washington dockside recreational index."}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{\# Do we need this?}
-\CommentTok{\#| label: tbl{-}model{-}selection{-}WA{-}dockside}
-\CommentTok{\#| echo: false}
-\CommentTok{\#| warning: false}
-\CommentTok{\#| tbl{-}cap: "Delta{-}GLM model selection for the Washington dockside recreational index. Gray bar indicates selected model."}
-\end{Highlighting}
-\end{Shaded}
-
 \subsection{Model results}\label{model-results}
 
 \begingroup
@@ -2858,6 +2768,8 @@ Size selectivity & 25 \\
 \endgroup
 
 \newpage{}
+
+\begin{landscape}
 
 \begingroup
 \fontsize{9.0pt}{10.8pt}\selectfont
@@ -3132,6 +3044,8 @@ Size\_DblN\_end\_logit\_12\_IPHC\_ORWA(12) & -999 & -5 & (-1000, 9) & fixed &  &
 \end{longtable}
 
 \endgroup
+
+\end{landscape}
 
 \newpage{}
 
@@ -3506,6 +3420,8 @@ Year & Total Biomass (mt) & Spawning output & Total Biomass 8+ (mt) & Fraction U
 
 \newpage{}
 
+\begin{landscape}
+
 \begingroup\fontsize{9}{11}\selectfont
 
 \begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}}
@@ -3544,6 +3460,8 @@ Label & Base & CA.REC.index & OR.REC.index & WA.REC.index & CA.CPFV.index & ORBS
 \end{longtable}
 
 \endgroup{}
+
+\end{landscape}
 
 \newpage{}
 
@@ -3633,6 +3551,8 @@ MSY (mt) & 121 & 106 & 136 \\
 
 \pagebreak
 
+\begin{landscape}
+
 \begingroup
 \fontsize{9.0pt}{10.8pt}\selectfont
 
@@ -3665,6 +3585,8 @@ Year & Adopted OFL (mt) & Adopted ACL (mt) & Assumed Catch (mt) & OFL (mt) & Buf
 \end{longtable}
 
 \endgroup
+
+\end{landscape}
 
 \begin{table}[H]
 
@@ -3783,7 +3705,7 @@ Mgmt & Year & Catch & Low Spawn & Low Frac & Base Spawn & Base Frac & High Spawn
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/data_plot.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/data_plot.png}
 
 }
 
@@ -3796,7 +3718,7 @@ model.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/catch2_landings_stacked.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/catch2_landings_stacked.png}
 
 }
 
@@ -3808,7 +3730,7 @@ model.}
 
 \centering{
 
-\includegraphics{figures/indices/ORFS_qq.png}
+\includegraphics[width=7in,height=\textheight,keepaspectratio]{figures/indices/ORFS_qq.png}
 
 }
 
@@ -3821,7 +3743,7 @@ model fit for the Oregon Onboard Observer (ORFS) index.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/index1_cpuedata_9_OR_RECOB.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index1_cpuedata_9_OR_RECOB.png}
 
 }
 
@@ -3834,7 +3756,7 @@ the Oregon Onboard Observer (ORFS) index.}
 
 \centering{
 
-\includegraphics{figures/indices/ORFS index comparison_errbars.png}
+\includegraphics[width=10in,height=\textheight,keepaspectratio]{figures/indices/ORFS index comparison_errbars.png}
 
 }
 
@@ -3847,7 +3769,7 @@ indices from the 2017 and the current assessment.}
 
 \centering{
 
-\includegraphics{figures/indices/ORBS_qq.png}
+\includegraphics[width=7in,height=\textheight,keepaspectratio]{figures/indices/ORBS_qq.png}
 
 }
 
@@ -3860,7 +3782,7 @@ fit for the updated portion of the Oregon recreational (ORBS) index.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/index1_cpuedata_6_OR_REC.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index1_cpuedata_6_OR_REC.png}
 
 }
 
@@ -3876,7 +3798,7 @@ ORBS (2004 - 2024) indices.}
 
 \centering{
 
-\includegraphics{figures/indices/ORBS index comparison_ORBSonly_errbars.png}
+\includegraphics[width=10in,height=\textheight,keepaspectratio]{figures/indices/ORBS index comparison_ORBSonly_errbars.png}
 
 }
 
@@ -3890,7 +3812,7 @@ current ORBS index (sdmTMB).}
 
 \centering{
 
-\includegraphics{figures/indices/wcgbts_qq.png}
+\includegraphics[width=7in,height=\textheight,keepaspectratio]{figures/indices/wcgbts_qq.png}
 
 }
 
@@ -3904,7 +3826,7 @@ model fit for the NWFSC West Coast Groundfish Bottom Trawl Survey
 
 \centering{
 
-\includegraphics{figures/indices/wcgbts_index_comparison.png}
+\includegraphics[width=5.05in,height=\textheight,keepaspectratio]{figures/indices/wcgbts_index_comparison.png}
 
 }
 
@@ -3918,7 +3840,7 @@ index of abundance.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/index1_cpuedata_11_NWFSC_ORWA.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index1_cpuedata_11_NWFSC_ORWA.png}
 
 }
 
@@ -3931,7 +3853,7 @@ the West Coast Groundfish Bottom Trawl Survey (WCGBTS).}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/index1_cpuedata_12_IPHC_ORWA.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index1_cpuedata_12_IPHC_ORWA.png}
 
 }
 
@@ -3944,7 +3866,7 @@ the IPHC longline survey.}
 
 \centering{
 
-\includegraphics{figures/indices/IPHC_index_comparison.pdf}
+\pandocbounded{\includegraphics[keepaspectratio]{figures/indices/IPHC_index_comparison.pdf}}
 
 }
 
@@ -3957,7 +3879,7 @@ current IPHC index of abundance.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/comp_lendat_flt11mkt0.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/comp_lendat_flt11mkt0.png}
 
 }
 
@@ -3970,7 +3892,7 @@ the WCBTS.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png}
 
 }
 
@@ -3985,7 +3907,7 @@ the IPHC longline survey.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page1.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page1.png}
 
 }
 
@@ -3998,7 +3920,7 @@ age-at-length data for the WCBTS (1 of 2).}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page2.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page2.png}
 
 }
 
@@ -4011,7 +3933,7 @@ age-at-length data for the WCBTS (2 of 2).}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page1.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page1.png}
 
 }
 
@@ -4024,7 +3946,7 @@ age-at-length data for the IPHC (1 of 2).}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png}
 
 }
 
@@ -4037,7 +3959,7 @@ age-at-length data for the IPHC (1 of 2).}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/bio5_weightatsize.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/bio5_weightatsize.png}
 
 }
 
@@ -4051,20 +3973,7 @@ age-at-length data for the IPHC (1 of 2).}
 
 \centering{
 
-\includegraphics{figures/bridging/1_SS3exe/compare2_spawnbio_uncertainty.png}
-
-}
-
-\caption{\label{fig-ss3exe_1}Comparison of the spawning output for the
-2017 model with the updated SS3 executable and a single-sex model.}
-
-\end{figure}%
-
-\begin{figure}
-
-\centering{
-
-\includegraphics{figures/bridging/1_SS3exe/compare4_Bratio_uncertainty.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/bridging/1_SS3exe/compare4_Bratio_uncertainty.png}
 
 }
 
@@ -4079,7 +3988,7 @@ model with the updated SS3 executable and a single-sex model.}
 
 \centering{
 
-\includegraphics{figures/bridging/8_newlencomps/compare2_spawnbio_uncertainty.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/bridging/8_newlencomps/compare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4094,7 +4003,7 @@ composition data (orange), and survey length composition data (red).}
 
 \centering{
 
-\includegraphics{figures/bridging/8_newlencomps/compare4_Bratio_uncertainty.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/bridging/8_newlencomps/compare4_Bratio_uncertainty.png}
 
 }
 
@@ -4109,7 +4018,7 @@ data (orange), and survey length composition data (red).}
 
 \centering{
 
-\includegraphics{figures/bridging/13_newagecomps/compare2_spawnbio_uncertainty.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/bridging/13_newagecomps/compare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4125,7 +4034,7 @@ composition data (light green), and commercial (yellow), recreational
 
 \centering{
 
-\includegraphics{figures/bridging/13_newagecomps/compare4_Bratio_uncertainty.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/bridging/13_newagecomps/compare4_Bratio_uncertainty.png}
 
 }
 
@@ -4141,7 +4050,7 @@ survey (red) age composition data.}
 
 \centering{
 
-\includegraphics{figures/bridging/15_fitbias/compare2_spawnbio_uncertainty.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/bridging/15_fitbias/compare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4156,7 +4065,7 @@ and with the updated recruitment bias adjustment ramp (red).}
 
 \centering{
 
-\includegraphics{figures/bridging/15_fitbias/compare4_Bratio_uncertainty.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/bridging/15_fitbias/compare4_Bratio_uncertainty.png}
 
 }
 
@@ -4171,7 +4080,7 @@ and with the updated recruitment bias adjustment ramp (red).}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/bio1_sizeatage.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/bio1_sizeatage.png}
 
 }
 
@@ -4184,7 +4093,7 @@ the ending year of the model.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/recruit_fit_bias_adjust.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/recruit_fit_bias_adjust.png}
 
 }
 
@@ -4201,7 +4110,7 @@ adjustment relationship for recruitment deviations.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/sel01_multiple_fleets_length1.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/sel01_multiple_fleets_length1.png}
 
 }
 
@@ -4214,7 +4123,7 @@ all fleets.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/bio10_spawningoutput_len.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/bio10_spawningoutput_len.png}
 
 }
 
@@ -4226,7 +4135,7 @@ all fleets.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/SR_curve.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/SR_curve.png}
 
 }
 
@@ -4240,7 +4149,7 @@ showing later years.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/recdevs2_withbars.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/recdevs2_withbars.png}
 
 }
 
@@ -4253,7 +4162,7 @@ showing later years.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/sel09_len_flt12sex1.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/sel09_len_flt12sex1.png}
 
 }
 
@@ -4266,7 +4175,7 @@ survey for Oregon/Washington (Fleet 12).}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/sel09_len_flt11sex1.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/sel09_len_flt11sex1.png}
 
 }
 
@@ -4279,7 +4188,7 @@ Oregon/Washington (Fleet 11).}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/sel09_len_flt10sex1.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/sel09_len_flt10sex1.png}
 
 }
 
@@ -4294,7 +4203,7 @@ trawl survey for Oregon/Washington (Fleet 10).}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/index2_cpuefit_3_CA_REC.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index2_cpuefit_3_CA_REC.png}
 
 }
 
@@ -4307,7 +4216,7 @@ index.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/index2_cpuefit_6_OR_REC.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index2_cpuefit_6_OR_REC.png}
 
 }
 
@@ -4319,7 +4228,7 @@ index.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/index2_cpuefit_7_WA_REC.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index2_cpuefit_7_WA_REC.png}
 
 }
 
@@ -4331,7 +4240,7 @@ index.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/index2_cpuefit_8_CACPFV.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index2_cpuefit_8_CACPFV.png}
 
 }
 
@@ -4344,7 +4253,7 @@ index.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/index2_cpuefit_9_OR_RECOB.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index2_cpuefit_9_OR_RECOB.png}
 
 }
 
@@ -4357,7 +4266,7 @@ index.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/index2_cpuefit_10_TRI_ORWA.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index2_cpuefit_10_TRI_ORWA.png}
 
 }
 
@@ -4369,7 +4278,7 @@ index.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/index2_cpuefit_11_NWFSC_ORWA.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index2_cpuefit_11_NWFSC_ORWA.png}
 
 }
 
@@ -4381,7 +4290,7 @@ index.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/index2_cpuefit_12_IPHC_ORWA.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/index2_cpuefit_12_IPHC_ORWA.png}
 
 }
 
@@ -4395,7 +4304,7 @@ index.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/comp_lenfit__aggregated_across_time.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/comp_lenfit__aggregated_across_time.png}
 
 }
 
@@ -4408,7 +4317,7 @@ aggregated across time by fleet.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/comp_lenfit__page1_multi-fleet_comparison.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/comp_lenfit__page1_multi-fleet_comparison.png}
 
 }
 
@@ -4423,7 +4332,7 @@ are negative residuals (observed \textless{} expected).}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/comp_lenfit__page2_multi-fleet_comparison.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/comp_lenfit__page2_multi-fleet_comparison.png}
 
 }
 
@@ -4438,7 +4347,7 @@ are negative residuals (observed \textless{} expected).}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png}
 
 }
 
@@ -4451,7 +4360,7 @@ for both areas combined.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png}
 
 }
 
@@ -4464,7 +4373,7 @@ by area (Area 1 is California, Area 2 is Oregon/Washington combined).}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/ts2_Total_biomass_(t)_by_area.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/ts2_Total_biomass_(t)_by_area.png}
 
 }
 
@@ -4477,7 +4386,7 @@ by area (Area 1 is California, Area 2 is Oregon/Washington combined).}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png}
 
 }
 
@@ -4492,7 +4401,7 @@ by area (Area 1 is California, Area 2 is Oregon/Washington combined).}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/ts12_Age-0_recruits_(1000s)_by_area.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/ts12_Age-0_recruits_(1000s)_by_area.png}
 
 }
 
@@ -4505,7 +4414,7 @@ area (Area 1 is California, Area 2 is Oregon/Washington combined).}
 
 \centering{
 
-\includegraphics{figures/diagnostics/2025_base_model_jitter_0.1/jitter.png}
+\includegraphics[width=9in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_jitter_0.1/jitter.png}
 
 }
 
@@ -4519,7 +4428,7 @@ indicates base model value.}
 
 \centering{
 
-\includegraphics{figures/sensitivities/modelingcompare2_spawnbio_uncertainty.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/sensitivities/modelingcompare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4532,7 +4441,7 @@ structure sensitivities.}
 
 \centering{
 
-\includegraphics{figures/sensitivities/modelingcompare4_Bratio_uncertainty.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/sensitivities/modelingcompare4_Bratio_uncertainty.png}
 
 }
 
@@ -4545,7 +4454,7 @@ model structure sensitivities.}
 
 \centering{
 
-\includegraphics{figures/sensitivities/comp_datacompare2_spawnbio_uncertainty.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/sensitivities/comp_datacompare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4558,7 +4467,7 @@ inclusion sensitivities.}
 
 \centering{
 
-\includegraphics{figures/sensitivities/comp_datacompare4_Bratio_uncertainty.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/sensitivities/comp_datacompare4_Bratio_uncertainty.png}
 
 }
 
@@ -4571,7 +4480,7 @@ dataset inclusion sensitivities.}
 
 \centering{
 
-\includegraphics{figures/sensitivities/indicescompare2_spawnbio_uncertainty.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/sensitivities/indicescompare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4584,7 +4493,7 @@ inclusion sensitivities.}
 
 \centering{
 
-\includegraphics{figures/sensitivities/indicescompare4_Bratio_uncertainty.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/sensitivities/indicescompare4_Bratio_uncertainty.png}
 
 }
 
@@ -4599,7 +4508,7 @@ index inclusion sensitivities.}
 
 \centering{
 
-\includegraphics{figures/sensitivities/sens_summary.png}
+\includegraphics[width=6in,height=\textheight,keepaspectratio]{figures/sensitivities/sens_summary.png}
 
 }
 
@@ -4612,7 +4521,7 @@ across models conducted as sensitivities.}
 
 \centering{
 
-\includegraphics{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare2_spawnbio_uncertainty.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4626,7 +4535,7 @@ Spawning output time series of this assesment base model are proved with
 
 \centering{
 
-\includegraphics{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare4_Bratio_uncertainty.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare4_Bratio_uncertainty.png}
 
 }
 
@@ -4640,7 +4549,7 @@ proved with \textasciitilde95\% interval.}
 
 \centering{
 
-\includegraphics{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare12_recdevs_uncertainty.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare12_recdevs_uncertainty.png}
 
 }
 
@@ -4653,7 +4562,7 @@ for each scenario of the retrospective analysis.}
 
 \centering{
 
-\includegraphics{figures/bridging/Timeseries_comp_previous_assessments.png}
+\includegraphics[width=7.6in,height=\textheight,keepaspectratio]{figures/bridging/Timeseries_comp_previous_assessments.png}
 
 }
 
@@ -4666,7 +4575,7 @@ across Yelloweye Rockfish assessments over time.}
 
 \centering{
 
-\includegraphics{figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/piner_panel_NatM_break_1_Fem_GP_1.png}
+\includegraphics[width=7in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/piner_panel_NatM_break_1_Fem_GP_1.png}
 
 }
 
@@ -4682,7 +4591,7 @@ ranging from 0.03 to 0.06 in increments of 0.002.}
 
 \centering{
 
-\includegraphics{figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/NatM_break_1_Fem_GP_1_trajectories_compare3_Bratio.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/NatM_break_1_Fem_GP_1_trajectories_compare3_Bratio.png}
 
 }
 
@@ -4696,7 +4605,7 @@ ranging from 0.03 to 0.06 in increments of 0.002.}
 
 \centering{
 
-\includegraphics{figures/diagnostics/2025_base_model_profile_SR_BH_steep/piner_panel_SR_BH_steep.png}
+\includegraphics[width=7in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_profile_SR_BH_steep/piner_panel_SR_BH_steep.png}
 
 }
 
@@ -4710,7 +4619,7 @@ steepness ranging from 0.25 to 1.0 by increments of 0.05.}
 
 \centering{
 
-\includegraphics{figures/diagnostics/2025_base_model_profile_SR_BH_steep/SR_BH_steep_trajectories_compare3_Bratio.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_profile_SR_BH_steep/SR_BH_steep_trajectories_compare3_Bratio.png}
 
 }
 
@@ -4724,7 +4633,7 @@ from 0.25 to 1.0 in increments of 0.05.}
 
 \centering{
 
-\includegraphics{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png}
+\includegraphics[width=7in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png}
 
 }
 
@@ -4738,7 +4647,7 @@ recruitment (lnR0) ranging from 4.5 to 6.0 by increments of 0.15.}
 
 \centering{
 
-\includegraphics{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare1_spawnbio.png}
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare1_spawnbio.png}
 
 }
 
@@ -4751,7 +4660,7 @@ values of lnR0.}
 
 \centering{
 
-\includegraphics{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/parameter_panel_SR_LN(R0).png}
+\includegraphics[width=7in,height=\textheight,keepaspectratio]{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/parameter_panel_SR_LN(R0).png}
 
 }
 
@@ -4764,9 +4673,42 @@ estimate.}
 
 \end{figure}%
 
+\clearpage
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/yield1_yield_curve.png}
+
+}
+
+\caption{\label{fig-eq-yield}Equilibrium yield curve (derived from
+reference point values) for the base model. Values are based on 2024
+fishery selectivity and distribution with steepness fixed at 0.718. The
+relative spawning output is relative to unfished spawning biomass.}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/ts10_Relative_spawning_output.png}
+
+}
+
+\caption{\label{fig-status-area}Time series of relative spawning output
+estimated by area (area 1= California, area 2 = Oregon and Washington).}
+
+\end{figure}%
+
 \pagebreak
 
 
+
+\newpage{}
+\printnoidxglossaries
 
 
 \end{document}

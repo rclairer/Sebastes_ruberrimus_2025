@@ -25,7 +25,7 @@ Catches for Yelloweye Rockfish have averaged over 20 mt in recent years (@fig-es
 #| tbl-pos: H
 
 catches_es_table |>
-  aggregate(catches_es_table[,2:9], FUN = sum, by = list("Year" = catches_es_table$Year)) |> # years were doubled probably because of the two areas
+  # aggregate(catches_es_table[,2:9], by = list("Year" = catches_es_table$Year), FUN = sum) |> # years were doubled probably because of the two areas
   gt::gt() |>
   gt::fmt_number(
     columns = 2:9, # depends on number of fleets with catch
