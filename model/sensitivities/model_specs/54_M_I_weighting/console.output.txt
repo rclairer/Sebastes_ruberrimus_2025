@@ -1,6 +1,6 @@
 ###
 console output
-2025-05-14 15:42:25.692836
+2025-05-20 09:59:02.450214
 ###
  
  reading from starter.ss
@@ -12,7 +12,7 @@ Data read successful 999
 End of control file successful! 999
 Begin setting up parameters ...  end of parameter section 
 Evaluating biology calculations once ... done
-Starting optimization of 'ss3' in phase 1 of 8 at Wed May 14 15:40:08 2025
+Starting optimization of 'ss3' in phase 1 of 8 at Tue May 20 09:56:44 2025
 1 1 -log(L): 8296.13  Spbio: 1129.7 384.071
 phase= 1 | nvar=  2 | iter=  0 | nll=8.30e+03 | mag=3.64e+03 | par[  1]=MGparm[4]
 1 2 -log(L): 8296.11  Spbio: 1129.69 384.056
@@ -653,7 +653,7 @@ phase= 8 | nvar=188 | iter=  0 | nll=7.56e+03 | mag=1.55e-04 | par[  7]=SR_parm[
 8 609 -log(L): 7563.85  Spbio: 1191.4 484.781
 8 610 -log(L): 7563.85  Spbio: 1191.4 484.781
 phase= 8 | nvar=188 | iter=  1 | nll=7.56e+03 | mag=1.55e-04 | par[  7]=SR_parm[1]
-Optimization completed after 2 m 8.2 s with final statistics:
+Optimization completed after 2 m 8.8 s with final statistics:
   nll=7563.851603 | mag=1.54596e-04 | par[  7]=SR_parm[1]
 
 Warning: the following parameters had issues
@@ -673,4 +673,4 @@ Begin writing *.ss_new output files ... Finished writing *.ss_new output files
 !!  Run has completed  !! 
 !!  See warning.sso for 3 warnings  and 3 notes 
 
-Finished running model 'ss3' after 2 m 17 s.
+Finished running model 'ss3' after 2 m 18 s.
