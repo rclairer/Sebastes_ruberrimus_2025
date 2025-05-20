@@ -60,7 +60,7 @@ knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 
 <!-- Date of last assessment, type of assessment model, data available, new information, and information lacking. -->
 
-The last assessment for Yelloweye Rockfish occurred in 2017. This update assessment extends the data used in the 2017 assessment through 2024. Data includes catch, length and age data from seven fishery fleets and multiple indices of abundance in California and Oregon/Washington. Two new historical catch reconstructions from Oregon and Washington were incorporated. Four indices of abundance were updated for this assessment, including two recreational fishery indices in Oregon, the West Coast Groundfish Bottom Trawl Survey, and the IPHC longline survey. In addition, sample sizes and assignment of aging error were corrected in the compositional data. No new data were considered in this update assessment. 
+The last assessment for Yelloweye Rockfish occurred in 2017. This update assessment extends the data used in the 2017 assessment through 2024. Data includes catch, length and age data from seven fishery fleets and multiple indices of abundance in California and Oregon/Washington. Two new historical catch reconstructions from Oregon and Washington were incorporated. Four indices of abundance were updated for this assessment, including two recreational fishery indices in Oregon, the \gls{indexwc}, and the \gls{iphc} longline survey. In addition, sample sizes and assignment of aging error were corrected in the compositional data. No new data were considered in this update assessment. 
 
 ## Stock biomass and dynamics{-}
 

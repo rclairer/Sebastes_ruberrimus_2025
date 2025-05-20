@@ -54,9 +54,9 @@ author:
   - name: 'Samantha Schiano'
     affiliations:
       - name: 'ECS Federal in support of NMFS OST'
-        address: '2750 Prosperity Ave #600'
-        city: 'Fairfax, VA'
-        state: 'VA'
+        address: 'East-West Hwy'
+        city: 'Silver Spring, MD'
+        state: 'MD'
         postal-code: '22031'
   - name: 'Fabio Prior Caltabellotta'
     affiliations:
@@ -68,6 +68,7 @@ author:
 date: today
 lang: en 
 keep-tex: true 
+mainfont: 'Latin Modern Sans' 
 cover: support_files/Yelloweye_Rockfish.png
 pdf-engine: lualatex
 format: 
@@ -80,7 +81,12 @@ format:
     include-in-header:
       - 'support_files/in-header.tex'
       - 'support_files/pfmc.tex'
+    include-after-body:
+      text: |
+        \newpage{}
+        \printnoidxglossaries
     toc: true
+    sansfont: 'Latin Modern Sans'
     lof: false
     lot: false
     titlepage-geometry: 
@@ -220,7 +226,7 @@ R0 <- output |>
 
 Please cite this publication as: 
 
-Johnston\*, M. A., Rosemond\*, R. C., Perl, E., Whitman, A., Barros, M., Champagnat, J., Schamp, A., Schiano, S., and  Prior Caltabellotta, F. (2025) Status of Yelloweye rockfish off the U.S. West Coast in 2025. Pacific Fishery Management Council. [XX] p.
+Johnston\*, M. A., Rosemond\*, R. C., Perl, E., Whitman, A., Barros, M., Champagnat, J., Schamp, A., Schiano, S., and  Prior Caltabellotta, F. (2025) Status of Yelloweye rockfish off the U.S. West Coast in 2025. Pacific Fishery Management Council. \pageref*{LastPage}{} pp.
 
 \*These authors contributed equally to this work.
 
