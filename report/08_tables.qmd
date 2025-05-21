@@ -241,7 +241,7 @@ data_wide |>
 
 ```
 
-## Model results
+## Model summary
 
 ```{r}
 #| label: tbl-model-config
@@ -250,6 +250,23 @@ data_wide |>
 #| tbl-cap: !expr if(eval_tables) config_cap
 
 config_table |>
+  gt() |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
+```
+
+{{< pagebreak >}}
+
+```{r}
+#| label: tbl-compweight
+#| warning: false
+#| echo: false
+#| tbl-cap: !expr if(eval_tables) compweight_cap
+
+compweight_table |>
   gt() |>
   tab_options(
     table.font.size = 12,
@@ -278,6 +295,8 @@ parcount_table |>
 
 {{< pagebreak >}}
 
+## Model Results
+
 ```{r}
 #| label: tbl-pars
 #| warning: false
@@ -298,23 +317,6 @@ pars_table |>
   as_latex()
 
 cat("\n\\end{landscape}\n") 
-```
-
-{{< pagebreak >}}
-
-```{r}
-#| label: tbl-compweight
-#| warning: false
-#| echo: false
-#| tbl-cap: !expr if(eval_tables) compweight_cap
-
-compweight_table |>
-  gt() |>
-  tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE
-  ) |>
-  as_latex()
 ```
 
 {{< pagebreak >}}
