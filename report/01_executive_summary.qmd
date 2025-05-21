@@ -42,7 +42,7 @@ knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 
 # changed to csv file until r4ss gets fixed
  catches_es_table |>
- read.csv("tables/catches_es_tablement.csv") |> 
+ read.csv("tables/catches_es_table.csv") |> 
    gt() |>
    tab_options(
      table.font.size = 12,
