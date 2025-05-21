@@ -334,7 +334,6 @@ This section will be updated after SSC GFSC review.
 \clearpage
 
 ::: {.landscape}
-
 ```{r, tbl-es-projections, results = "asis"}
 #| label: tbl-es-projections
 #| warning: false
@@ -370,17 +369,13 @@ projections_table |>
   gt::as_latex()
 
 ```
-
 :::
-
 \clearpage
-
 ## Decision table{-}
 
 This section will be updated after SSC GFSC review.
 
 \clearpage
-
 ```{r, 1, results = "asis"}
 #| label: tbl-es-decision-1
 #| warning: false
@@ -411,4 +406,4 @@ Please refer to the 2017 benchmark assessment for a detailed list of research an
 
 This section will be updated after SSC GFSC review.
 
-{{< pagebreak >}}
+\pagebreak
