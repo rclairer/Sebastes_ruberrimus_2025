@@ -136,6 +136,7 @@ read.csv("Tables/yelloweye_percent_pos_ORBS.csv") |>
 #| label: tbl-yelloweye_model_selection_ORBS
 #| echo: false
 #| warning: false
+#| results: "asis"
 #| tbl-cap: "Model selection for top model covariate combinations considered for the ORBS index"
 
 cat("\\begin{landscape}\n")
@@ -281,6 +282,7 @@ parcount_table |>
 #| label: tbl-pars
 #| warning: false
 #| echo: false
+#| results: "asis"
 #| tbl-cap: !expr if(eval_tables) pars_cap
 
 cat("\\begin{landscape}\n")
@@ -292,9 +294,6 @@ pars_table |>
   tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE
-  ) |>
-  cols_width(
-    tidyselect::everything() ~ px(75)
   ) |>
   as_latex()
 
@@ -352,6 +351,7 @@ kableExtra::kable(
 #| echo: false
 #| message: false
 #| warning: false
+#| results: "asis"
 #| tbl-cap: "Base model sensitivity to the removal of data sources."
 
 cat("\\begin{landscape}\n")
@@ -375,6 +375,7 @@ cat("\n\\end{landscape}\n")
 #| label: tbl-sensitivities-model-specs
 #| echo: false
 #| warning: false
+#| results: "asis"
 #| tbl-cap: "Base model sensitivity to model parameters and specifications."
 
 cat("\\begin{landscape}\n")
