@@ -19,7 +19,7 @@
 #  gt::as_latex()
 
 yelloweye_management |>
- read.csv("Tables/yelloweye_management.csv") |> 
+ read.csv("tables/yelloweye_management.csv") |> 
    gt() |>
    tab_options(
      table.font.size = 12,
