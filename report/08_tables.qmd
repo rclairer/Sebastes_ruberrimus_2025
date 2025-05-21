@@ -20,8 +20,7 @@
 
 yelloweye_management <- read.csv("tables/yelloweye_management.csv")
 yelloweye_management |>
- read.csv("tables/yelloweye_management.csv") |> 
-   gt() |>
+   gt::gt() |>
    cols_label(
     `Year` = "Year",
     `OFL..mt.` = "OFL (mt)",
