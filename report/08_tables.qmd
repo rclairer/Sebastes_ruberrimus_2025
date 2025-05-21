@@ -69,6 +69,9 @@ catch_table |> # produced in 002_load_tables.qmd
     table.font.size = 12,
     latex.use_longtable = TRUE
   ) |>
+  cols_width(
+    tidyselect::everything() ~ px(75)
+  ) |>
   as_latex()
 
 cat("\n\\end{landscape}\n")  
