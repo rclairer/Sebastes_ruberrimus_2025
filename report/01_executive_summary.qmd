@@ -40,22 +40,32 @@ knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 #| tbl-cap: !expr if(eval_tables) catches_es_cap 
 #| tbl-pos: H
 
-catches_es_table |>
-  gt::gt() |>
-  gt::fmt_number(
-    columns = 2:9, # depends on number of fleets with catch
-    decimals = 2
-  ) |>
-  gt::tab_options(
-    table.font.size = 12,
-    # if want to not have tables the width of the page include the below option:
-    latex.use_longtable = TRUE,
-    table.width = pct(80) # trying to make it fit to page width 
-  ) |>
-  gt::cols_align(
-    align = "center"
-  ) |>
-  gt::as_latex()
+# changed to csv file until r4ss gets fixed
+ catches_es_table |>
+ read.csv("tables/catches_es_tablement.csv") |> 
+   gt() |>
+   tab_options(
+     table.font.size = 12,
+     latex.use_longtable = TRUE
+   ) |>
+   as_latex()
+
+#catches_es_table |>
+#  gt::gt() |>
+#  gt::fmt_number(
+#    columns = 2:9, # depends on number of fleets with catch
+#    decimals = 2
+#  ) |>
+#  gt::tab_options(
+#    table.font.size = 12,
+#    # if want to not have tables the width of the page include the below option:
+#    latex.use_longtable = TRUE,
+#    table.width = pct(80) # trying to make it fit to page width 
+#  ) |>
+#  gt::cols_align(
+#    align = "center"
+#  ) |>
+#  gt::as_latex()
 
 ```
 :::
@@ -284,8 +294,6 @@ reference_points_table |>
 
 Recent trends in total catch relative to managment guidelines is available in @tbl-yelloweye_management and shows that total catch of Yelloweye Rockfish has remained below both the \gls{ofl} and \gls{acl} in each year since the previous assessment. Catch in @tbl-yelloweye_management combines the two areas in this model as catch limits for Yelloweye Rockfish are managed as a single coastwide unit and includes both landings and estimated discard mortality.
 
-** ADW - this table also doesn't work (doubled years again) - we could switch it to the yelloweye_managment csv or fix **
-
 <!-- Catches in comparison to OFL, ABC, HG, and OY/ACL values for the most recent 10 years (when available), overfishing levels, actual catch and discard. Include OFL (encountered), OFL (retained) and OFL (dead) if different due to discard and discard mortality. -->
 
 ```{r, tbl-es-management, results = "asis"}
@@ -296,15 +304,24 @@ Recent trends in total catch relative to managment guidelines is available in @t
 #| tbl-cap: "Recent trend in the overfishing limits (OFL), the acceptable biological catches (ABCs), the annual catch limits (ACLs), and the total dead catch (landings + discards) all in metric tons (mt)."
 #| tbl-pos: H
 
-# yelloweye_management |>
-recent_management_table |>
-  dplyr::rename(`Total dead catch (mt)` = `Catch (mt)`) |>
-  gt::gt() |>
-  gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE 
-  ) |>
-  gt::as_latex()
+# changed to csv file until r4ss gets fixed
+ yelloweye_management |>
+ read.csv("tables/yelloweye_management.csv") |> 
+   gt() |>
+   tab_options(
+     table.font.size = 12,
+     latex.use_longtable = TRUE
+   ) |>
+   as_latex()
+
+#recent_management_table |>
+#  dplyr::rename(`Total dead catch (mt)` = `Catch (mt)`) |>
+#  gt::gt() |>
+#  gt::tab_options(
+#    table.font.size = 12,
+#    latex.use_longtable = TRUE 
+#  ) |>
+#  gt::as_latex()
 
 ```
 
