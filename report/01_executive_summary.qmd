@@ -308,7 +308,7 @@ yelloweye_management <- read.csv("tables/yelloweye_management.csv")
     `OFL..mt..` = "OFL (mt)",
     `ABC..mt..` = "ABC (mt)",
     `ACL..mt..` = "ACL (mt)",
-    `Catch..mt.. = "Catch (mt)"
+    `Catch..mt..` = "Catch (mt)"
   ) |>
    gt::tab_options(
      table.font.size = 12,
