@@ -8,7 +8,7 @@ Model convergence was evaluated by starting the minimization process from disper
 
 #### Sensitivity to assumptions about model structure
 
-Sensitivity analyses to examine the impact of different assumptions about model structure on management quantities included a model with an estimated natural mortality rate ($M$), one with estimated steepness ($h$) of the stock-recruit relationship, and one using the 2017 length-weight relationship. Summaries of model results for these sensitivities are presented in @tbl-sens-mod-results. 
+Sensitivity analyses to examine the impact of different assumptions about model structure on management quantities included a model with an estimated natural mortality rate ($M$), one with estimated steepness ($h$) of the stock-recruit relationship, and one using the 2017 length-weight relationship. Summaries of model results for these sensitivities are presented in @tbl-sensitivities-model-specs. 
 
 The estimated natural mortality was slightly higher than that of the base model (~ 0.053 compared to ~ 0.044 from the base model). Steepness was estimated much higher at 0.905, similar to what the 2017 assessment estimated, which would otherwise indicate recruitment is less dependent on the spawning stock biomass, especially at small stock sizes. However, steepness values close to 1 are implausible for slow growing rockfish, supporting the decision to fix steepness at 0.718. 
 
