@@ -306,14 +306,15 @@ Recent trends in total catch relative to managment guidelines is available in @t
 #| tbl-pos: H
 
 # changed to csv file until r4ss gets fixed
- yelloweye_management |>
- read.csv("tables/yelloweye_management.csv") |> 
-   gt() |>
-   tab_options(
+
+yelloweye_management <- read.csv("tables/yelloweye_management.csv")
+ yelloweye_management |> 
+   gt::gt() |>
+   gt::tab_options(
      table.font.size = 12,
      latex.use_longtable = TRUE
    ) |>
-   as_latex()
+   gt::as_latex()
 
 #recent_management_table |>
 #  dplyr::rename(`Total dead catch (mt)` = `Catch (mt)`) |>
