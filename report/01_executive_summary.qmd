@@ -45,7 +45,8 @@ catches_es_table |>
    gt::gt() |>
    gt::tab_options(
      table.font.size = 12,
-     latex.use_longtable = TRUE
+     latex.use_longtable = TRUE,
+     table.width = pct(80) # trying to make it fit better
    ) |>
    gt::as_latex()
 
@@ -197,6 +198,7 @@ knitr::include_graphics("figures/r4ss_plots/plots/SPR4_phase.png")
 
 ```
 
+\clearpage
 ```{r, tbl-es-spr, results = "asis"}
 #| label: tbl-es-spr
 #| warning: false
@@ -334,6 +336,7 @@ This section will be updated after SSC GFSC review.
 \clearpage
 
 ::: {.landscape}
+
 ```{r, tbl-es-projections, results = "asis"}
 #| label: tbl-es-projections
 #| warning: false
@@ -369,13 +372,14 @@ projections_table |>
   gt::as_latex()
 
 ```
+
 :::
+
 \clearpage
 ## Decision table{-}
 
 This section will be updated after SSC GFSC review.
 
-\clearpage
 ```{r, 1, results = "asis"}
 #| label: tbl-es-decision-1
 #| warning: false
