@@ -961,8 +961,15 @@ This section will be updated after SSC GFSC review.
 
 \begin{table}[H]
 
-\caption{\label{tbl-es-decision-1}!expr if(eval\_tables)
-decision\_table\_cap}
+\caption{\label{tbl-es-decision-1}Decision table with 10-year
+projections. `Mgmt' refers to the three management scenarios (A) the
+default harvest control rule \(P^* = 0.45\), (B) harvest control rule
+with a lower \(P^* = 0.40\). In each case the 2023 and 2024 catches are
+fixed at the ACLs which have been set for that year with estimated fleet
+allocation provided by the GMT. The alternative states of nature (`Low',
+`Base', and `High' as discussed in the text) are provided in the
+columns, with Spawning Output (`Spawn', in trillions of eggs) and
+Fraction of unfished spawning output (`Frac') provided for each state.}
 
 \centering{
 
@@ -1911,110 +1918,82 @@ recreational ages.
 
 \subsection{Base Model Results}\label{base-model-results}
 
-\textbf{We havent updated this section yet since Kiva looked at it, we
-definitely need more time for this section and to cut out the fluff}
+\subsubsection{Base Model Selection}\label{base-model-selection}
+
+As a supplement to the model results figures included in this report and
+described below, a full set of diagnostic plots created by the \{r4ss\}
+package (Taylor et al. 2021) is available at
+\href{https://github.com/rclairer/Sebastes_ruberrimus_2025}{online}
+along with the Stock Synthesis input files.
 
 \subsubsection{Parameter Estimates}\label{parameter-estimates}
 
-The list of the all the parameters used in the assessment model and
-their values (either fixed or estimated) is provided in
-Table~\ref{tbl-pars}. The growth parameters estimated within the model
-are reasonable, commensurate with inspection of the raw data and
-consistent with what we know about the species, a long-lived rockfish
-with relatively slow growth and large asymptotic sizes. These parameters
-are relatively precisely estimated in terms of the asymptotic standard
-error estimates. Figure~\ref{fig-growth} shows the estimated growth
-curve. Spawning output-at-length is shown in Figure~\ref{fig-spoutlen}.
-Spawning output in the assessment is expressed in millions of eggs.
+Estimated and fixed parameter values are shown in Table~\ref{tbl-pars}.
+Unfished recruitment was estimated at 5.43515. Yelloweye length at age
+70 (the second reference age) equals 61.3823. Figure~\ref{fig-growth}
+shows the estimated growth curve. Spawning output-at-length is shown in
+Figure~\ref{fig-spoutlen}. Spawning output in the assessment is
+expressed in millions of eggs.
 
 Estimated stock-recruit function for the assessment model is shown in
-\textbf{?@fig-SR\_curve}. Estimated recruitment deviations are shown
+Figure~\ref{fig-SRcurve}. Estimated recruitment deviations are shown
 Figure~\ref{fig-recdevs_err}. Recruitment of Yelloweye Rockfish was
-estimated to be quite variable over time, with the most recent years
+estimated to be variable over time, with the most recent years
 experiencing slightly lower than average recruitment after periods of
-low and high recruitment during the late 1980s to the early 200s, and
+low and high recruitment during the late 1980s to the early 2000s, and
 late 2000s to late 2010s, respectively. Reflecting these variable
 recruitment patterns, the estimated stock-recruit function predicts a
 relatively wide range of cohort sizes over the observed range of
-spawning biomass. The model output recruitment variance (RMSE = 0.48) is
-consistent with the fixed input recruitment variance (R = 0.5).
+spawning biomass. The model output recruitment variance
+(\(RMSE = 0.48\)) is consistent with the fixed input recruitment
+variance (\(R = 0.5\)) (Methot and Taylor 2011).
 
 Length-based selectivity curves estimated in the assessment are shown
 for all fleets together in Figure~\ref{fig-selex_allfleets}. Estimated
 selectivity curves for the fishing fleets indicate that the recreational
-fleets access somewhat smaller fish than the commercial fisheries. This
-pattern is most pronounced in Oregon, and also as expected, since recent
-charter fishing selectivity has shifted shoreward where there is a
-higher density of smaller fish. Addition of the charter vessel length
-data did not appreciably change the estimate for the California
-recreational selectivity pattern and so the selectivity for the two
-series was not separated. All fleets for which curves were allowed to be
-dome-shaped (commercial trawl and non-trawl fleets) were estimated to be
-asymptotic. Estimated selectivity curves for the IPHC survey indicate a
-selection of the largest Yelloweye available, and select the least
-amount of smaller Yelloweye Rockfish (\textbf{?@fig-sel12}). The NWFSC
-trawl survey selected far more smaller Yelloweye among all surveys
-(\textbf{?@fig-sel11}). That the triennial survey selectivity was
-shifted to the largest fish but also selected some very small fish is
-likely an artifact of the very noisy composition data from that survey
-(\textbf{?@fig-sel10}).
+fleets access somewhat smaller fish than the commercial fisheries. All
+fleets for which curves were allowed to be dome-shaped (commercial trawl
+and non-trawl fleets) were estimated to be asymptotic. Estimated
+selectivity curves for the IPHC survey indicate a selection of the
+largest Yelloweye available, and select the least amount of smaller
+Yelloweye Rockfish. The WCGBTS selected smaller Yelloweye among all the
+fishery-independent surveys.
 
 \subsubsection{Fits to the Data}\label{fits-to-the-data}
 
 Model fits to the fishery CPUE and survey indices are presented in
-Figure~\ref{fig-indexfit3} through Figure~\ref{fig-indexfit12}. The base
-model predicted a decreasing trend in the triennial survey between 1980
-and 2004 (Figure~\ref{fig-indexfit10}) and a slightly increasing trend
-for the NWFSC trawl survey between 2003 and 2024
-(Figure~\ref{fig-indexfit11}). The model predicted a relatively flat
-trend through the \gls{iphc} survey index despite the upward trend seen
-in the last three years as of this update (Figure~\ref{fig-indexfit12}).
-The triennial survey index indicated a population decrease in 1992 and
-lower estimates (compared with pre-1992) persisted through the end of
-the index time series. This decrease in the abundance index coincided
-with decrease in number of biological samples collected from this
-survey. No changes have been implemented to the triennial survey between
-1989 and 1992. In 1995, the survey timing slightly shifted from early
-fall to mid-summer, approximately a month earlier that previous surveys.
-This shift in timing, however, seems unlikely to impact our
-understanding of Yelloweye Rockfish abundance trends during that period,
-given the sedentary life history of the species. Additionally, the
-change in the index trend was observed before the slight shift in survey
-timing. The California \gls{mrfss} recreational CPUE index tracked the
-decline in observations through the 1990s (Figure~\ref{fig-indexfit3}),
-and a slight increase in abundance was predicted in the Oregon
-\gls{mrfss}/\gls{orbs} recreational index during the 2000s
-(Figure~\ref{fig-indexfit6}). The Oregon recreational observer index
-showed a small and very uncertain increasing trend in the 2000s
-(Figure~\ref{fig-indexfit9}). The California \gls{cpfv} charter series
-index indicated a relatively flat trajectory prior to 1992 with a drop
-in stock abundance from 1992 on (Figure~\ref{fig-indexfit8}). The model
-predicted a decreasing trend for the Washington Recreational index
-despite the relatively large variances on many of the observations,
-which does not match the relative stability of the index from 1982 to
-the early 2000s (Figure~\ref{fig-indexfit7}).
+Figure~\ref{fig-indexfit3} through Figure~\ref{fig-indexfit12}, and log
+scale plots were used to see finer changes. Model fits to the indices
+generally fall within the uncertainty intervals but do not capture the
+temporal dynamics of each index, most notably in the WCGBTS and in the
+IPHC survey.
 
 The model fitted length data aggregated across years reasonably well for
 all fleets (Figure~\ref{fig-agglencomps}). Pearson residuals for the
 fits by fleet and year are shown in Figure~\ref{fig-pearsonlenfit1} and
 Figure~\ref{fig-pearsonlenfit2}. The length data are very sparse in many
-years and the quality of fit varies among years and fleets, reflecting
-the differences in the quantity and quality of the data. However,
-neither length composition data nor the Pearson residuals, which reflect
-the noise in the data both within and among years, exhibit obvious
-patterns for any fleet. The data for fishing fleets are particularly
-poor after 2002 after retention of Yelloweye Rockfish was prohibited in
-most fleets and limited in trawl fleets. Input sample sizes for length
-composition data were tuned down using the Francis data weighting method
-(Table~\ref{tbl-compweight}).
+years and model fit varies among years and fleets, reflecting the
+differences in the quantity of the data. For example, lengths for the
+IPHC survey, the California recreational, and OR/WA non-trawl fleets,
+which also have the highest input sample sizes, are fit by the model
+relatively well.
+
+The fits to the mean age by fleet are generally acceptable and are
+responsive to short-term temporal changes (Figure~\ref{fig-mean-age-3} -
+Figure~\ref{fig-mean-age-12}), with the exception of the IPHC survey,
+where the model predicts a lower mean age than the data suggest. Pearson
+residuals by year and fleet show strong residual patterns but are
+difficult to interpret given the general lack of age data. See the
+\href{https://github.com/rclairer/Sebastes_ruberrimus_2025}{GitHub
+repository} for individual Pearson residual plots.
 
 \subsubsection{Population Trajectory}\label{population-trajectory}
 
 The estimated time series of spawning output for the entire stock and by
 area are shown in Figure~\ref{fig-spout_combined} and
 Figure~\ref{fig-spout_area}, respectively. Spawning output relative to
-SB0 for the entire stock and by area are shown in
-\textbf{?@fig-status\_combined} and \textbf{?@fig-status\_area}. Total
+unfished spawning output for the entire stock and by area are shown in
+Figure~\ref{fig-status_combined} and Figure~\ref{fig-status_area}. Total
 biomass, summary biomass and recruitment are shown in
 Figure~\ref{fig-totalbio}, Figure~\ref{fig-summbio} and
 Figure~\ref{fig-tsrecuits}, respectively. Trends in total and summary
@@ -2023,29 +2002,39 @@ closely. The spawning output of Yelloweye Rockfish started to decline in
 the 1940s during World War II, but are estimated to have been lightly
 exploited until the mid-1970s when catches increased and a rapid decline
 in biomass and spawning output began. The combined relative spawning
-output reached a minimum of 16\% of unexploited levels in 2000
+output reached a minimum of 0.148923 of unexploited levels in 2000
 (Figure~\ref{fig-spout_combined}). Yelloweye Rockfish spawning output
 and relative status is estimated to have been gradually increasing since
-that time, in response to large reductions in harvest. However, the
-aggregate spawning output estimates do not convey the spatial
-heterogeneity included via the area-specific dynamics. Relative spawning
-output has differed between the two areas modelled in the assessment,
-with the California resource estimated to have a lower unfished
-equilibrium spawning output and estimated to be more depleted in 2025
-than the Oregon and Washington resource (\textbf{?@fig-status\_area}).
+that time, in response to large reductions in harvest and spatial area
+closures. This trend is similar to the 2017 assessment, however, they
+estimated a quicker recovery in biomass since 2002 than the 2025 model.
+Relative spawning output has differed between the two areas modelled in
+the assessment, with the California resource estimated to have a lower
+unfished equilibrium spawning output and estimated to be more depleted
+in 2025 than the Oregon and Washington resource
+(Figure~\ref{fig-status_area}).
 
-Recruitment appears to be relatively dynamic over time, with several
-elevated peaks over time estimated in the age-0 recruits
-(Figure~\ref{fig-tsrecuits}). An initial peak in the mid-1940s is
-followed by a two periods of elevated recruitment in the 1970s and early
-1980s and another period centered around the 2010s. This trend is
-consistent with the previous assessment, apart from the most recent
-elevated time period, which estimated a sole peak in 2001 and several
-other peaks of smaller magnitude starting in 2005. Recruits for this
-assessment appear to have extended and increased this more recent time
-period starting in 2005, with a peak in 2008 and 2013 and shifts the
-peak in 2001 to 2002. Recruitment in the late 2010s was estimated to be
-lower, but a more recent increase is seen starting in 2020.
+Recruitment has been relatively dynamic over time, with several large
+peaks and troughs estimated in the age-0 recruits
+(Figure~\ref{fig-tsrecuits}). Compared to the 2017 recruitment, our
+model estimates larger deviations from zero in the low period before
+2000 and the high period after 2000, and estimates above average
+recruitment up until 2015. In 2016, and to 2024, the recruitment
+estimates drop below zero, though with the 95\% intervals widely
+overlapping zero. Due to limited age data and protracted age
+distribution it can be hard to assign recruitment events to specific
+years, and we end up with autocorrelated patterns based on ages as
+inferred from lengths. There are some autocorrelated peaks and troughs
+in recruitment in the 1940s and 50s but those early patterns in
+recruitment are not very meaningful. The above average recruitment
+starting in 2020 is also not biologically meaningful because there are
+no composition data to inform the estimates, and they are pulled by the
+recruitment deviation prior to zero. The more extreme swings in low to
+high periods for 1990-2015 and the extended low recruitment starting in
+2016 are likely driving the slower recovery rate of Yelloweye Rockfish
+relative to the 2017 predictions. However, there are no data to inform
+the most recent years when recruits are not yet selected by the
+fisheries.
 
 \subsection{Model Diagnostics}\label{model-diagnostics}
 
@@ -2472,6 +2461,13 @@ Stewart, Ian J., and Owen S. Hamel. 2014. {``Bootstrapping of Sample
 Sizes for Length- or Age-Composition Data Used in Stock Assessments.''}
 \emph{Canadian Journal of Fisheries and Aquatic Sciences} 71 (4):
 581--88. \url{https://doi.org/10.1139/cjfas-2013-0289}.
+
+\bibitem[\citeproctext]{ref-Taylor_r4ss_lessons_2021}
+Taylor, I. G., K. L. Doering, K. L. Johnson, C. R. Wetzel, and I. J.
+Stewart. 2021. {``Beyond Visualizing Catch-at-Age Models: Lessons
+Learned from the R4ss Package about Software to Support Stock
+Assessments.''} \emph{Fisheries Research} 239.
+https://doi.org/\url{https://doi.org/10.1016/j.fishres.2021.105924}.
 
 \bibitem[\citeproctext]{ref-thorson_geostatistical_2015}
 Thorson, J. T., A. O. Shelton, E. J. Ward, and H. J. Skaug. 2015.
@@ -3854,8 +3850,7 @@ Year & Adopted OFL (mt) & Adopted ACL (mt) & Assumed Catch (mt) & OFL (mt) & Buf
 
 \begin{table}[H]
 
-\caption{\label{tbl-es-decision-2}TODO: UPDATE PLACEHOLDER DECISION
-TABLE CAPTION COPIED FROM PETRALE SOLE. Decision table with 10-year
+\caption{\label{tbl-es-decision-2}Decision table with 10-year
 projections. `Mgmt' refers to the three management scenarios (A) the
 default harvest control rule \(P^* = 0.45\), (B) harvest control rule
 with a lower \(P^* = 0.40\). In each case the 2023 and 2024 catches are
@@ -4746,6 +4741,33 @@ by area (Area 1 is California, Area 2 is Oregon/Washington combined).}
 
 \centering{
 
+\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png}
+
+}
+
+\caption{\label{fig-status_combined}Time series of relative spawning
+output estimated in the assessment model (solid line) with
+\textasciitilde{} 95\% interval (dashed lines).}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/ts10_Relative_spawning_output.png}
+
+}
+
+\caption{\label{fig-status_area}Time series of relative spawning output
+estimated by area (area 1= California, area 2 = Oregon and Washington).}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
 \includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/ts2_Total_biomass_(t)_by_area.png}
 
 }
@@ -4774,12 +4796,12 @@ by area (Area 1 is California, Area 2 is Oregon/Washington combined).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/ts12_Age-0_recruits_(1000s)_by_area.png}
+\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png}
 
 }
 
-\caption{\label{fig-tsrecuits}Age 0 recruits (1000s) over time and by
-area (Area 1 is California, Area 2 is Oregon/Washington combined).}
+\caption{\label{fig-tsrecuits}Time series of recruitment estimated in
+the assessment model with \textasciitilde{} 95\% interval.}
 
 \end{figure}%
 
