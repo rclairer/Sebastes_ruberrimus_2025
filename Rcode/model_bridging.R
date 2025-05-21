@@ -2175,7 +2175,7 @@ SS_plots(replist = SS_output('model/updated_alldata_tunecomps_fitbias_ctl_tuneco
 ### Final Comparison Plots
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
             paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250512")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512")),
+            #paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512")),
             paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512")))
 
 models_output <- SSgetoutput(dirvec = models)
@@ -2185,6 +2185,6 @@ SSplotComparisons(models_summary,
                                       "19_alldata_tunecomps_fitbias_upctl_tuned_upstart_fore"),
                   legendlabels = c("2017 updated SS3 exe", 
                                    "2025 updated all data and tuned",
-                                   "2025 updated ctl file and tuned",
-                                   "2025 updated start and forecast"),
+                                   #"2025 updated ctl file and tuned",
+                                   "proposed 2025 base model"),
                   print = TRUE)

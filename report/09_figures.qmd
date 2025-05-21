@@ -254,6 +254,102 @@ knitr::include_graphics(
 <!-- 04a_model_summary -->
 
 ```{r}
+#| label: fig-bridge3-comp2
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated historical catch data (red), and catch extened to 2024 (green)."
+#
+knitr::include_graphics(
+    "figures/bridging/3_extendedcatch/compare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-bridge3-comp4
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), updated historical catch data (red), and catch extened to 2024 (green) relative to the management target and minimum stock size threshold."
+#
+knitr::include_graphics(
+    "figures/bridging/3_extendedcatch/compare4_Bratio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-bridge3-comp18
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Comparison of adult Yelloweye Rockfish biomass of the 2017 model with an updated SS3 executable (blue), updated historical catch data (red), and catch extened to 2024 (green)."
+#
+knitr::include_graphics(
+    "figures/bridging/3_extendedcatch/compare18_smrybio.png"
+)
+```
+
+```{r}
+#| label: fig-bridge5-comp2
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated and extended historical catch data (green), updated historical indices (yellow), and indices extended to 2024 (red)."
+#
+knitr::include_graphics(
+    "figures/bridging/5_newindices/compare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-bridge14-comp2
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated and extended catch and indices (red), and all tuned length and age composition data (green)."
+#
+knitr::include_graphics(
+    "figures/bridging/14_tunecomps/compare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-bridge14-comp11
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Recruitment deviation time-series comparing an updated SS3 executable (blue), updated and extended catch and indices (red), and all tuned length and age composition data (green)."
+#
+knitr::include_graphics(
+    "figures/bridging/14_tunecomps/compare11_recdevs.png"
+)
+```
+
+```{r}
+#| label: fig-bridge19-comp2
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated and extended and tuned data (red), and the proposed 2025 base model after all final bridging steps (green)."
+#
+knitr::include_graphics(
+    "figures/bridging/19_last_bridge/compare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-bridge19-comp4
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Comparison of the stock status output of the 2017 model with an updated SS3 executable (blue), updated and extended and tuned data (red), and the proposed 2025 base model after all final bridging steps (green) relative to the management target and minimum stock size threshold."
+#
+knitr::include_graphics(
+    "figures/bridging/19_last_bridge/compare4_Bratio_uncertainty.png"
+)
+```
+
+```{r}
 #| label: fig-ss3exe_2
 #| echo: false
 #| warning: false
@@ -266,78 +362,6 @@ knitr::include_graphics(
 ```
 
 \clearpage
-
-```{r}
-#| label: fig-newdata_1
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated catch data (dark green), updated indices (light green), new fishery length composition data (orange), and survey length composition data (red)."
-#
-knitr::include_graphics(
-    "figures/bridging/8_newlencomps/compare2_spawnbio_uncertainty.png"
-)
-```
-
-```{r}
-#| label: fig-newdata_2
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), updated catch data (dark green), updated indices (light green), new fishery length composition data (orange), and survey length composition data (red)."
-#
-knitr::include_graphics(
-    "figures/bridging/8_newlencomps/compare4_Bratio_uncertainty.png"
-)
-```
-
-```{r}
-#| label: fig-newdata_3
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated catch data (light blue), updated indices (dark green), new fishery length composition data (light green), and commercial (yellow), recreational (orange), and survey (red) age composition data."
-#
-knitr::include_graphics(
-    "figures/bridging/13_newagecomps/compare2_spawnbio_uncertainty.png"
-)
-```
-
-```{r}
-#| label: fig-newdata_4
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), updated catch data (light blue), updated indices (dark green), new fishery length composition data (light green), and commercial (yellow), recreational (orange), and survey (red) age composition data."
-#
-knitr::include_graphics(
-    "figures/bridging/13_newagecomps/compare4_Bratio_uncertainty.png"
-)
-```
-
-```{r}
-#| label: fig-newdata_5
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), 2025 model with all available updated data (green), with tuned compositional data (yellow), and with the updated recruitment bias adjustment ramp (red)."
-#
-knitr::include_graphics(
-    "figures/bridging/15_fitbias/compare2_spawnbio_uncertainty.png"
-)
-```
-
-```{r}
-#| label: fig-newdata_6
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), 2025 model with all available updated data (green), with tuned compositional data (yellow), and with the updated recruitment bias adjustment ramp (red)."
-#
-knitr::include_graphics(
-    "figures/bridging/15_fitbias/compare4_Bratio_uncertainty.png"
-)
-```
 
 ```{r}
 #| label: fig-growth
