@@ -1,6 +1,6 @@
 # Tables
 
-## Introduction
+<!-- Introduction -->
 
 ```{r, yelloweye_management}
 #| label: tbl-yelloweye_management
@@ -38,7 +38,7 @@ yelloweye_management |>
 
 {{< pagebreak >}}
 
-## Data
+<!-- ## Data -->
 
 ```{r}
 #| label: tbl-all_removals
@@ -241,7 +241,7 @@ data_wide |>
 
 ```
 
-## Model summary
+<!-- ## Model summary -->
 
 ```{r}
 #| label: tbl-model-config
@@ -295,7 +295,7 @@ parcount_table |>
 
 {{< pagebreak >}}
 
-## Model Results
+<!-- ## Model Results -->
 
 ```{r}
 #| label: tbl-pars
@@ -466,7 +466,7 @@ reference_points_table |>
 
 ```
 
-## Management
+<!-- ## Management -->
 
 \pagebreak
 
@@ -508,7 +508,6 @@ projections_table |>
 
 cat("\n\\end{landscape}\n")
 ```
-:::
 
 ```{r, 2, results = "asis"}
 #| label: tbl-es-decision-2

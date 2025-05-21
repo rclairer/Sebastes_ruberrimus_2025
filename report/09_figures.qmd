@@ -1,7 +1,5 @@
 #Figures
 
-#Figures
-
 <!-- FIGURES SHOULD BE ADDED HERE IN THE ORDER THAT THEY APPEAR IN THE REPORT -->
 
 <!-- 03_Data -->
