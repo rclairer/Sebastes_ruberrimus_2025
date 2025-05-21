@@ -8,7 +8,7 @@ This section is not required for an update assessment; please refer to the most 
 
 To be completed after SSC GFSC review.
 
-## Model Structure and Assumptions
+## Model Structure and Assumptions{#sec-bridge}
 
 ### Description of New Modeling Approaches
 
@@ -38,7 +38,7 @@ A list of changes that were made to the model compared to the previous assessmen
 - Selectivity and retention: 
     - The end year for all time blocks was extended to 2024.
     - All final updates in the control, starter, and forecast files showed little to no additional change in the model, retaining the slower than expected recovery from 2002 (@fig-bridge19-comp2 and @fig-bridge19-comp4). 
-- Software and Workflow
+- Software and Workflow:
     - Updating to SS3 3.30.23.2 and to the most recent version of the SS3 executable had no discernable impact on model results (@fig-ss3exe_2). 
     - Use most up-to-date R packages to process input and output files for the assessment, including *nwfscDiag*, *r4ss*, and *pacfintools*. 
     - Created a public github repository for Yelloweye Rockfish ("sebastes_ruberrimus_2025") to provide a transparent and reproducible system for processing the data and creating the model and assessment document ([available online](https://github.com/rclairer/Sebastes_ruberrimus_2025)).
