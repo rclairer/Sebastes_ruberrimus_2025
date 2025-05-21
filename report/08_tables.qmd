@@ -47,6 +47,8 @@ yelloweye_management |>
 #| warning: false
 #| tbl-cap: "Time series of yelloweye rockfish catches by fleet used in the assessment. Trawl fleets include yelloweye bycatch in foreign POP and in at-sea Pacific hake fisheries. Years 1967 - 1974, 1979, and 2002 - 2004 do not include WA Sport Catch in MT as that information is not available."
 
+cat("\\begin{landscape}\n")
+
 # This table needs to be redone once the WA sport catches are updated
 catch_table |> # produced in 002_load_tables.qmd
 #catch_table_est_weights |> # uncomment this line to use the catch table with estimated weights from the SS3 output
@@ -68,6 +70,8 @@ catch_table |> # produced in 002_load_tables.qmd
     latex.use_longtable = TRUE
   ) |>
   as_latex()
+
+cat("\n\\end{landscape}\n")  
 ```
 :::
 
