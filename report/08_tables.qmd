@@ -8,30 +8,32 @@
 #| warning: false
 #| tbl-cap: "Recent trend in the overfishing limits (OFL), the acceptable biological catches (ABCs), the annual catch limits (ACLs), and the total dead catch (landings + discards) all in metric tons (mt)."
 
-# yelloweye_management |>
-recent_management_table |>
-  dplyr::rename(`Total dead catch (mt)` = `Catch (mt)`) |>
-  gt::gt() |>
-  gt::tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE 
-  ) |>
-  gt::as_latex()
+# used the csv until two area thing sorted in r4ss
+#recent_management_table |>
+#  dplyr::rename(`Total dead catch (mt)` = `Catch (mt)`) |>
+#  gt::gt() |>
+#  gt::tab_options(
+#    table.font.size = 12,
+#    latex.use_longtable = TRUE 
+#  ) |>
+#  gt::as_latex()
 
-# read.csv("Tables/yelloweye_management.csv") |> 
-#   gt() |>
-#   tab_options(
-#     table.font.size = 12,
-#     latex.use_longtable = TRUE
-#   ) |>
-#   as_latex()
+yelloweye_management |>
+ read.csv("Tables/yelloweye_management.csv") |> 
+   gt() |>
+   tab_options(
+     table.font.size = 12,
+     latex.use_longtable = TRUE
+   ) |>
+   as_latex()
+
 ```
 
 {{< pagebreak >}}
 
 ## Data
 
-::: landscape
+::: {.landscape}
 ```{r}
 #| label: tbl-all_removals
 #| echo: false
@@ -267,7 +269,7 @@ parcount_table |>
 
 {{< pagebreak >}}
 
-::: landscape
+::: {.landscape}
 ```{r}
 #| label: tbl-pars
 #| warning: false
@@ -331,7 +333,7 @@ kableExtra::kable(
 
 {{< pagebreak >}}
 
-::: landscape
+::: {.landscape}
 ```{r}
 #| label: tbl-sensitivities-like-comps
 #| echo: false
@@ -351,6 +353,7 @@ table_sens(indices_and_comps)
 
 {{< pagebreak >}}
 
+::: {.landscape}
 ```{r}
 #| label: tbl-sensitivities-model-specs
 #| echo: false
@@ -359,6 +362,7 @@ table_sens(indices_and_comps)
 modeling <- read.csv(here::here("report", "figures", "sensitivities", "modeling_table.csv"))
 table_sens(indices_and_comps)
 ```
+:::
 
 {{< pagebreak >}}
 
@@ -412,7 +416,7 @@ reference_points_table |>
 
 \pagebreak
 
-::: landscape
+::: {.landscape}
 ```{r, results = "asis"}
 #| label: tbl-projections
 #| warning: false
