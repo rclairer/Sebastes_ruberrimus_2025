@@ -697,7 +697,29 @@ knitr::include_graphics(
 )
 ```
 
-<!-- add two figures for stock status -->
+```{r}
+#| label: fig-status_combined
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of relative spawning output estimated in the assessment model (solid line) with ~ 95% interval (dashed lines)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png"
+)
+```
+
+```{r}
+#| label: fig-status_area
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of relative spawning output estimated by area (area 1= California, area 2 = Oregon and Washington)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts10_Relative_spawning_output.png"
+)
+```
 
 ```{r}
 #| label: fig-totalbio
@@ -730,10 +752,10 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Age 0 recruits (1000s) over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
+#| fig-cap: "Time series of recruitment estimated in the assessment model with ~ 95% interval."
 #
 knitr::include_graphics(
-    "figures/r4ss_plots/plots/ts12_Age-0_recruits_(1000s)_by_area.png"
+    "figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png"
 )
 ```
 
