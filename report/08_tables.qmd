@@ -18,9 +18,17 @@
 #  ) |>
 #  gt::as_latex()
 
+yelloweye_management <- read.csv("tables/yelloweye_management.csv")
 yelloweye_management |>
  read.csv("tables/yelloweye_management.csv") |> 
    gt() |>
+   cols_label(
+    `Year` = "Year",
+    `OFL..mt.` = "OFL (mt)",
+    `ABC..mt.` = "ABC (mt)",
+    `ACL..mt.` = "ACL (mt)",
+    `Catch..mt.` = "Catch (mt)"
+  ) |>
    tab_options(
      table.font.size = 12,
      latex.use_longtable = TRUE
