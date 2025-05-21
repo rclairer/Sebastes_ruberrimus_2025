@@ -891,6 +891,18 @@ knitr::include_graphics(
 <!-- management section -->
 
 ```{r}
+#| label: fig-time-spr
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of estimated SPR"
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/SPR1_series.png"
+)
+```
+
+```{r}
 #| label: fig-eq-yield
 #| echo: false
 #| warning: false
