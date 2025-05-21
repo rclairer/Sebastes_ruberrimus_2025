@@ -41,14 +41,15 @@ knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 #| tbl-pos: H
 
 # changed to csv file until r4ss gets fixed
- catches_es_table |>
-gt::gt(read.csv("tables/catches_es_table.csv")) |> 
-   gt() |>
-   tab_options(
+
+catches_es_table <- read.csv("tables/catches_es_table.csv")
+catches_es_table |> 
+   gt::gt() |>
+   gt::tab_options(
      table.font.size = 12,
      latex.use_longtable = TRUE
    ) |>
-   as_latex()
+   gt::as_latex()
 
 #catches_es_table |>
 #  gt::gt() |>
