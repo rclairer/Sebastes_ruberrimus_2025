@@ -382,11 +382,6 @@ cat("\n\\end{landscape}\n")
 
 cat("\\begin{landscape}\n")
 
-\begingroup
-\setlength{\LTleft}{0pt minus 500pt}
-\setlength{\LTright}{0pt minus 500pt}
-\fontsize{5pt}{7pt}\selectfont
-
 source(here::here("Rcode/table_sens.R"))
 #indices <- read.csv(here::here("report", "figures", "sensitivities", "indices_table.csv"))
 comps <- read.csv(here::here("report", "figures", "sensitivities", "comp_data_table.csv"))
@@ -398,7 +393,6 @@ names(comps) <-c("Label","Base","- CA TWL length comps","- CA NONTWL length comp
 
 table_sens(comps)
 
-\endgroup
 cat("\n\\end{landscape}\n") 
 ```
 
