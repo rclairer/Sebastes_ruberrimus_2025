@@ -345,6 +345,8 @@ This section will be updated after SSC GFSC review.
 #| tbl-cap: !expr if(eval_tables) projections_cap 
 #| tbl-pos: H
 
+cat("\\begin{landscape}\n")
+
 projections_table |>
   gt::gt() |>
   gt::fmt_number(
@@ -371,6 +373,7 @@ projections_table |>
   ) |>
   gt::as_latex()
 
+cat("\n\\end{landscape}\n")
 ```
 
 :::
