@@ -63,7 +63,7 @@ catch_table |> # produced in 002_load_tables.qmd
     `6` = "OR sport (mt)",
     `7` = "WA sport (mt)",
     `8` = "WA sport (1000s fish)",
-    Total = "Total Catch (mt)"
+    Total = "Catch (mt)"
   ) |>
   tab_options(
     table.font.size = 12,
@@ -95,9 +95,6 @@ read.csv("Tables/yelloweye_percent_pos_ORFS.csv") |>
   as_latex()
 ```
 
-{{< pagebreak >}}
-
-::: landscape
 ```{r, yelloweye_model_selection_ORFS}
 #| label: tbl-yelloweye_model_selection_ORFS
 #| echo: false
@@ -116,9 +113,6 @@ orfs_modselect |>
   ) |>
   as_latex()
 ```
-:::
-
-{{< pagebreak >}}
 
 ```{r, yelloweye_percent_pos_ORBS}
 #| label: tbl-yelloweye_percent_pos_ORBS
@@ -138,13 +132,13 @@ read.csv("Tables/yelloweye_percent_pos_ORBS.csv") |>
 
 {{< pagebreak >}}
 
-::: landscape
-```{r, yelloweye_model_selection_ORFS}
+```{r, yelloweye_model_selection_ORBS}
 #| label: tbl-yelloweye_model_selection_ORBS
 #| echo: false
 #| warning: false
-#| tbl-cap: "Model selection for top model covariate combinations considered for the ORFS index"
+#| tbl-cap: "Model selection for top model covariate combinations considered for the ORBS index"
 
+cat("\\begin{landscape}\n")
 
 orbs_modselect <- read.csv("Tables/yelloweye_model_selection_ORBS.csv")[1:10, ]
 orbs_modselect[orbs_modselect == "Included"] <- "Incl."
@@ -156,8 +150,9 @@ orbs_modselect |>
     latex.use_longtable = TRUE
   ) |>
   as_latex()
+
+cat("\n\\end{landscape}\n") 
 ```
-:::
 
 {{< pagebreak >}}
 
@@ -282,12 +277,13 @@ parcount_table |>
 
 {{< pagebreak >}}
 
-::: {.landscape}
 ```{r}
 #| label: tbl-pars
 #| warning: false
 #| echo: false
 #| tbl-cap: !expr if(eval_tables) pars_cap
+
+cat("\\begin{landscape}\n")
 
 pars_table |>
   mutate(SD = ifelse(Status == 'fixed', NA, SD)) |>
@@ -297,9 +293,13 @@ pars_table |>
     table.font.size = 12,
     latex.use_longtable = TRUE
   ) |>
+  cols_width(
+    tidyselect::everything() ~ px(75)
+  ) |>
   as_latex()
+
+cat("\n\\end{landscape}\n") 
 ```
-:::
 
 {{< pagebreak >}}
 
@@ -346,13 +346,16 @@ kableExtra::kable(
 
 {{< pagebreak >}}
 
-::: {.landscape}
+
 ```{r}
 #| label: tbl-sensitivities-like-comps
 #| echo: false
 #| message: false
 #| warning: false
 #| tbl-cap: "Base model sensitivity to the removal of data sources."
+
+cat("\\begin{landscape}\n")
+
 source(here::here("Rcode/table_sens.R"))
 indices <- read.csv(here::here("report", "figures", "sensitivities", "indices_table.csv"))
 comps <- read.csv(here::here("report", "figures", "sensitivities", "comp_data_table.csv"))
@@ -361,21 +364,26 @@ indices_and_comps <- inner_join(indices, comps, by = c("Label", "Base"))
 names(indices_and_comps) <- gsub("X..", "", names(indices_and_comps))
 
 table_sens(indices_and_comps)
+
+cat("\n\\end{landscape}\n") 
 ```
-:::
+
 
 {{< pagebreak >}}
 
-::: {.landscape}
 ```{r}
 #| label: tbl-sensitivities-model-specs
 #| echo: false
 #| warning: false
 #| tbl-cap: "Base model sensitivity to model parameters and specifications."
+
+cat("\\begin{landscape}\n")
+
 modeling <- read.csv(here::here("report", "figures", "sensitivities", "modeling_table.csv"))
 table_sens(indices_and_comps)
+
+cat("\n\\end{landscape}\n") 
 ```
-:::
 
 {{< pagebreak >}}
 
@@ -429,7 +437,6 @@ reference_points_table |>
 
 \pagebreak
 
-::: {.landscape}
 ```{r, results = "asis"}
 #| label: tbl-projections
 #| warning: false
@@ -437,6 +444,8 @@ reference_points_table |>
 #| eval: !expr eval_tables 
 #| tbl-cap: !expr if(eval_tables) projections_cap 
 #| tbl-pos: H
+
+cat("\\begin{landscape}\n")
 
 projections_table |>
   gt::gt() |>
@@ -464,6 +473,7 @@ projections_table |>
   ) |>
   gt::as_latex()
 
+cat("\n\\end{landscape}\n")
 ```
 :::
 
