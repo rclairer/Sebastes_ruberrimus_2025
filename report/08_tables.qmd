@@ -44,7 +44,7 @@ yelloweye_management |>
 #| label: tbl-all_removals
 #| echo: false
 #| warning: false
-#| results: `asis`
+#| results: "asis
 #| tbl-cap: "Time series of yelloweye rockfish catches by fleet used in the assessment. Trawl fleets include yelloweye bycatch in foreign POP and in at-sea Pacific hake fisheries. Years 1967 - 1974, 1979, and 2002 - 2004 do not include WA Sport Catch in MT as that information is not available."
 
 cat("\\begin{landscape}\n")
