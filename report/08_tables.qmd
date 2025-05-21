@@ -40,7 +40,6 @@ yelloweye_management |>
 
 ## Data
 
-::: {.landscape}
 ```{r}
 #| label: tbl-all_removals
 #| echo: false
@@ -73,7 +72,6 @@ catch_table |> # produced in 002_load_tables.qmd
 
 cat("\n\\end{landscape}\n")  
 ```
-:::
 
 {{< pagebreak >}}
 
