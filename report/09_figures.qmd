@@ -248,7 +248,7 @@ knitr::include_graphics(
     "figures/r4ss_plots/plots/bio5_weightatsize.png"
 )
 ```
-#
+
 <!-- 04a_model_summary -->
 
 ```{r}
