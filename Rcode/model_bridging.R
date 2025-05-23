@@ -2270,8 +2270,9 @@ copy_SS_inputs(
 inputs <- SS_read(dir = fix_float_dir)
 #ctl <- inputs$ctl
 
-inputs$ctl$Q_options[[6]][2] <- 0
 #changes to float option here
+inputs$ctl$Q_options[[6]][2] <- 0
+inputs$ctl$Q_parms[[7]][3] <- 1
 
 ctl <- inputs$ctl
 # Fill outfile with directory and file name of the file written
