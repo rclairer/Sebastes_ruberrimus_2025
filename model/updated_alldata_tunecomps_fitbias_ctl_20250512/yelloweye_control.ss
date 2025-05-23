@@ -1,6 +1,6 @@
 #C Yelloweye 2017 control file
 #C file created using an r4ss function
-#C file write time: 2025-05-13  20:16:04
+#C file write time: 2025-05-23  14:42:03
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -19,7 +19,7 @@
 1 1 1 1 #_blocks_per_pattern
 #_begin and end years of blocks
 1992 2004
-2005 2024
+2004 2024
 2002 2024
 2002 2024
 #
@@ -121,7 +121,7 @@
 #_Q_setup for fleets with cpue or survey data
 #_fleet	link	link_info	extra_se	biasadj	float  #  fleetname
     3	1	0	1	0	1	#_3_CA_REC     
-    6	1	0	1	0	1	#_6_OR_REC     
+    6	1	0	1	0	0	#_6_OR_REC     
     7	1	0	1	0	1	#_7_WA_REC     
     8	1	0	1	0	1	#_8_CACPFV     
     9	1	0	1	0	1	#_9_OR_RECOB   
@@ -133,7 +133,7 @@
 #_LO	HI	INIT	PRIOR	PR_SD	PR_type	PHASE	env-var	use_dev	dev_mnyr	dev_mxyr	dev_PH	Block	Blk_Fxn  #  parm_name
 -15	15	 -9.11761	   0	99	0	-1	0	0	0	0	0	0	0	#_LnQ_base_3_CA_REC(3)       
   0	 5	 0.141799	0.01	99	0	 5	0	0	0	0	0	0	0	#_Q_extraSD_3_CA_REC(3)      
--15	15	 -10.7361	   0	99	0	-1	0	0	0	0	0	2	1	#_LnQ_base_6_OR_REC(6)       
+-15	15	 -10.7361	   0	99	0	 1	0	0	0	0	0	2	1	#_LnQ_base_6_OR_REC(6)       
   0	 5	  1.02361	0.01	99	0	 5	0	0	0	0	0	0	0	#_Q_extraSD_6_OR_REC(6)      
 -20	15	 -8.75197	   0	99	0	-1	0	0	0	0	0	0	0	#_LnQ_base_7_WA_REC(7)       
   0	 5	 0.427773	0.01	99	0	 5	0	0	0	0	0	0	0	#_Q_extraSD_7_WA_REC(7)      
