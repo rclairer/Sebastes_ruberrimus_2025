@@ -2188,3 +2188,118 @@ SSplotComparisons(models_summary,
                                    #"2025 updated ctl file and tuned",
                                    "proposed 2025 base model"),
                   print = TRUE)
+
+################################################################
+###### fix OR REC time block ###################################
+################################################################
+
+#check if the control file updated from the previous run with the rec dev bias adj
+
+# Get inputs from 2025 assessment that ran with updated data
+updated_alldata_tunecomps_fitbias_dir <- here::here("model", "19_alldata_tunecomps_fitbias_upctl_tuned_upstart_fore")
+
+##### Update CTL file for 2025 assessment ##### ----------------------------------------
+updated_ctlfile_dir <- here::here("model", "fix_ORrec_timeblock")
+
+copy_SS_inputs(
+  dir.old = updated_alldata_tunecomps_fitbias_dir,
+  dir.new = updated_ctlfile_dir,
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+inputs <- SS_read(dir = updated_ctlfile_dir)
+#ctl <- inputs$ctl
+
+# Update block end year (selectivity and biology (if used) time blocks)
+# Update block end year (selectivity and biology (if used) time blocks)
+inputs$ctl$Block_Design[[2]][2] <- 2024
+inputs$ctl$Block_Design[[3]][2] <- 2024
+inputs$ctl$Block_Design[[4]][2] <- 2024
+
+# Need to update the Prior SD for M for Hamel method
+inputs$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$PR_SD <- 0.31
+
+# Update weight-length relationship
+inputs$ctl$MG_parms["Wtlen_1_Fem_GP_1", ]$INIT <- 7.183309e-06 #update with standard_filtering = FALSE
+inputs$ctl$MG_parms["Wtlen_1_Fem_GP_1", ]$PRIOR <- 7.183309e-06 #update with standard_filtering = FALSE
+inputs$ctl$MG_parms["Wtlen_2_Fem_GP_1", ]$INIT <- 3.244801 #update with standard_filtering = FALSE
+inputs$ctl$MG_parms["Wtlen_2_Fem_GP_1", ]$PRIOR <- 3.244801 #update with standard_filtering = FALSE
+
+# Question: Switch do rec_dev to option 3? It's currently option 1 but I think
+# most people are using option 2 or 3
+# Answer: We can stick with option 1 for the base model but we can also try it
+# out with option 2 or 3
+# ctl$do_recdev <- 2
+# ctl$do_recdev <- 3
+
+# Change last year of main rec_dev, for the last assessment this was 2015 so I
+# would assume this would be 2023 for this year?
+inputs$ctl$MainRdevYrLast <- 2023 #Aaron Berger recommended changing this to ~2019, because recruitment isn't that informed close to the end year
+
+# Change selparm bounds that are being hit
+# Size_DblN_peak_10_TRI_ORWA(10)
+#ctl$size_selex_parms[49, ]$HI <- 87
+
+# Remove 4 params that have priors but are not estimated by changing prior type to 0
+inputs$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$PR_type <- 0
+inputs$ctl$MG_parms["Eggs_alpha_Fem_GP_1", ]$PR_type <- 0
+inputs$ctl$MG_parms["Eggs_beta_Fem_GP_1", ]$PR_type <- 0
+inputs$ctl$SR_parms["SR_BH_steep", ]$PR_type <- 0
+
+# Change size selex types for these two fleets to 0 because they appear to be ignored
+# by the model anyways
+inputs$ctl$size_selex_types["4_ORWA_TWL",]$Special <- 0
+inputs$ctl$size_selex_types["5_ORWA_NONTWL",]$Special <- 0
+
+############################################################
+# Change the growth age for L1 from 1 to 0 because at 1 it produces a funny growth curve
+# as Vlada showed us
+inputs$ctl$Growth_Age_for_L1 <- 0 #I think this change is causing problems?? because l at amin parameter bound, I wonder if tune comps fixed this but I dont think so???? have to change lower bound to 0.01 says Ian
+inputs$ctl$MG_parms[2, ]$LO <- 0.01
+##############################################################
+
+ctl <- inputs$ctl
+# Fill outfile with directory and file name of the file written
+r4ss::SS_writectl(
+  ctl,
+  outfile = file.path(updated_ctlfile_dir, "yelloweye_control.ss"),
+  overwrite = TRUE
+)
+
+# Changed convergence criterion to 1.3e-04 from 1e-04 because needed covar file
+# start <- inputs$start
+# start$converge_criterion <- 1.3e-04
+# r4ss::SS_writestarter(start, outfile = file.path(update_ctl_model_path, "starter.ss"), overwrite = TRUE)
+
+r4ss::get_ss3_exe(dir = updated_ctlfile_dir)
+
+# You have to run this model in full (not using -nohess) because you need the covar file
+# to fit the bias
+r4ss::run(dir = updated_ctlfile_dir, show_in_console = TRUE)
+
+replist_updated_ctlfile <- r4ss::SS_output(dir = updated_ctlfile_dir)
+
+r4ss::SS_plots(replist_updated_ctlfile)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250512")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "16_alldata_tunecomps_fitbias_upctl"),
+                  legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
+                                   "2025 updated all data",
+                                   "+ tuned comps",
+                                   "+ recruitment dev bias adj",
+                                   "+ updated ctl file"),
+                  print = TRUE)
+
