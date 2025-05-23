@@ -1,4 +1,4 @@
-#Figures
+# Figures
 
 <!-- FIGURES SHOULD BE ADDED HERE IN THE ORDER THAT THEY APPEAR IN THE REPORT -->
 
@@ -248,7 +248,7 @@ knitr::include_graphics(
     "figures/r4ss_plots/plots/bio5_weightatsize.png"
 )
 ```
-#
+
 <!-- 04a_model_summary -->
 
 ```{r}
