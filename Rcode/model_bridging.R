@@ -1882,10 +1882,14 @@ inputs <- SS_read(dir = updated_ctlfile_dir)
 #ctl <- inputs$ctl
 
 # Update block end year (selectivity and biology (if used) time blocks)
-# Update block end year (selectivity and biology (if used) time blocks)
+inputs$ctl$Block_Design[[2]][1] <- 2004
 inputs$ctl$Block_Design[[2]][2] <- 2024
 inputs$ctl$Block_Design[[3]][2] <- 2024
 inputs$ctl$Block_Design[[4]][2] <- 2024
+
+#changes to float option here
+inputs$ctl$Q_options[[6]][2] <- 0
+inputs$ctl$Q_parms[[7]][3] <- 1
 
 # Need to update the Prior SD for M for Hamel method
 inputs$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$PR_SD <- 0.31
