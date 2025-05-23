@@ -1,7 +1,5 @@
 #Figures
 
-#Figures
-
 <!-- FIGURES SHOULD BE ADDED HERE IN THE ORDER THAT THEY APPEAR IN THE REPORT -->
 
 <!-- 03_Data -->
@@ -254,6 +252,102 @@ knitr::include_graphics(
 <!-- 04a_model_summary -->
 
 ```{r}
+#| label: fig-bridge3-comp2
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated historical catch data (red), and catch extened to 2024 (green)."
+#
+knitr::include_graphics(
+    "figures/bridging/3_extendedcatch/compare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-bridge3-comp4
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), updated historical catch data (red), and catch extened to 2024 (green) relative to the management target and minimum stock size threshold."
+#
+knitr::include_graphics(
+    "figures/bridging/3_extendedcatch/compare4_Bratio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-bridge3-comp18
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Comparison of adult Yelloweye Rockfish biomass of the 2017 model with an updated SS3 executable (blue), updated historical catch data (red), and catch extened to 2024 (green)."
+#
+knitr::include_graphics(
+    "figures/bridging/3_extendedcatch/compare18_smrybio.png"
+)
+```
+
+```{r}
+#| label: fig-bridge5-comp2
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated and extended historical catch data (green), updated historical indices (yellow), and indices extended to 2024 (red)."
+#
+knitr::include_graphics(
+    "figures/bridging/5_newindices/compare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-bridge14-comp2
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated and extended catch and indices (red), and all tuned length and age composition data (green)."
+#
+knitr::include_graphics(
+    "figures/bridging/14_tunecomps/compare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-bridge14-comp11
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Recruitment deviation time-series comparing an updated SS3 executable (blue), updated and extended catch and indices (red), and all tuned length and age composition data (green)."
+#
+knitr::include_graphics(
+    "figures/bridging/14_tunecomps/compare11_recdevs.png"
+)
+```
+
+```{r}
+#| label: fig-bridge19-comp2
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated and extended and tuned data (red), and the proposed 2025 base model after all final bridging steps (green)."
+#
+knitr::include_graphics(
+    "figures/bridging/19_last_bridge/compare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-bridge19-comp4
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Comparison of the stock status output of the 2017 model with an updated SS3 executable (blue), updated and extended and tuned data (red), and the proposed 2025 base model after all final bridging steps (green) relative to the management target and minimum stock size threshold."
+#
+knitr::include_graphics(
+    "figures/bridging/19_last_bridge/compare4_Bratio_uncertainty.png"
+)
+```
+
+```{r}
 #| label: fig-ss3exe_2
 #| echo: false
 #| warning: false
@@ -266,78 +360,6 @@ knitr::include_graphics(
 ```
 
 \clearpage
-
-```{r}
-#| label: fig-newdata_1
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated catch data (dark green), updated indices (light green), new fishery length composition data (orange), and survey length composition data (red)."
-#
-knitr::include_graphics(
-    "figures/bridging/8_newlencomps/compare2_spawnbio_uncertainty.png"
-)
-```
-
-```{r}
-#| label: fig-newdata_2
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), updated catch data (dark green), updated indices (light green), new fishery length composition data (orange), and survey length composition data (red)."
-#
-knitr::include_graphics(
-    "figures/bridging/8_newlencomps/compare4_Bratio_uncertainty.png"
-)
-```
-
-```{r}
-#| label: fig-newdata_3
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated catch data (light blue), updated indices (dark green), new fishery length composition data (light green), and commercial (yellow), recreational (orange), and survey (red) age composition data."
-#
-knitr::include_graphics(
-    "figures/bridging/13_newagecomps/compare2_spawnbio_uncertainty.png"
-)
-```
-
-```{r}
-#| label: fig-newdata_4
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), updated catch data (light blue), updated indices (dark green), new fishery length composition data (light green), and commercial (yellow), recreational (orange), and survey (red) age composition data."
-#
-knitr::include_graphics(
-    "figures/bridging/13_newagecomps/compare4_Bratio_uncertainty.png"
-)
-```
-
-```{r}
-#| label: fig-newdata_5
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), 2025 model with all available updated data (green), with tuned compositional data (yellow), and with the updated recruitment bias adjustment ramp (red)."
-#
-knitr::include_graphics(
-    "figures/bridging/15_fitbias/compare2_spawnbio_uncertainty.png"
-)
-```
-
-```{r}
-#| label: fig-newdata_6
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Comparison of the stock status of the 2017 model with an updated SS3 executable (blue), 2025 model with all available updated data (green), with tuned compositional data (yellow), and with the updated recruitment bias adjustment ramp (red)."
-#
-knitr::include_graphics(
-    "figures/bridging/15_fitbias/compare4_Bratio_uncertainty.png"
-)
-```
 
 ```{r}
 #| label: fig-growth
@@ -415,42 +437,6 @@ knitr::include_graphics(
 )
 ```
 
-```{r}
-#| label: fig-sel12
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for the IPHC longline survey for Oregon/Washington (Fleet 12)."
-#
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/sel09_len_flt12sex1.png"
-)
-```
-
-```{r}
-#| label: fig-sel11
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for the WCBTS for Oregon/Washington (Fleet 11)."
-#
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/sel09_len_flt11sex1.png"
-)
-```
-
-```{r}
-#| label: fig-sel10
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Estimated selectivity for the Triennial bottom trawl survey for Oregon/Washington (Fleet 10)."
-#
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/sel09_len_flt10sex1.png"
-)
-```
-
 \clearpage
 
 ```{r}
@@ -461,7 +447,7 @@ knitr::include_graphics(
 #| fig-cap: "Fit to the California MRFSS recreational index."
 #
 knitr::include_graphics(
-    "figures/r4ss_plots/plots/index2_cpuefit_3_CA_REC.png"
+    "figures/r4ss_plots/plots/index5_logcpuefit_3_CA_REC.png"
 )
 ```
 
@@ -473,7 +459,7 @@ knitr::include_graphics(
 #| fig-cap: "Fit to the Oregon recreational index."
 #
 knitr::include_graphics(
-    "figures/r4ss_plots/plots/index2_cpuefit_6_OR_REC.png"
+    "figures/r4ss_plots/plots/index5_logcpuefit_6_OR_REC.png"
 )
 ```
 
@@ -485,7 +471,7 @@ knitr::include_graphics(
 #| fig-cap: "Fit to the Washington recreational index."
 #
 knitr::include_graphics(
-    "figures/r4ss_plots/plots/index2_cpuefit_7_WA_REC.png"
+    "figures/r4ss_plots/plots/index5_logcpuefit_7_WA_REC.png"
 )
 ```
 
@@ -497,7 +483,7 @@ knitr::include_graphics(
 #| fig-cap: "Fit to the California CPFV observer index."
 #
 knitr::include_graphics(
-    "figures/r4ss_plots/plots/index2_cpuefit_8_CACPFV.png"
+    "figures/r4ss_plots/plots/index5_logcpuefit_8_CACPFV.png"
 )
 ```
 
@@ -509,7 +495,7 @@ knitr::include_graphics(
 #| fig-cap: "Fit to the Oregon onboard observer (ORFS) index."
 #
 knitr::include_graphics(
-    "figures/r4ss_plots/plots/index2_cpuefit_9_OR_RECOB.png"
+    "figures/r4ss_plots/plots/index5_logcpuefit_9_OR_RECOB.png"
 )
 ```
 
@@ -521,7 +507,7 @@ knitr::include_graphics(
 #| fig-cap: "Fit to the Triennial survey index."
 #
 knitr::include_graphics(
-    "figures/r4ss_plots/plots/index2_cpuefit_10_TRI_ORWA.png"
+    "figures/r4ss_plots/plots/index5_logcpuefit_10_TRI_ORWA.png"
 )
 ```
 
@@ -533,7 +519,7 @@ knitr::include_graphics(
 #| fig-cap: "Fit to the WCBTS index."
 #
 knitr::include_graphics(
-    "figures/r4ss_plots/plots/index2_cpuefit_11_NWFSC_ORWA.png"
+    "figures/r4ss_plots/plots/index5_logcpuefit_11_NWFSC_ORWA.png"
 )
 ```
 
@@ -545,7 +531,7 @@ knitr::include_graphics(
 #| fig-cap: "Fit to the IPHC survey index."
 #
 knitr::include_graphics(
-    "figures/r4ss_plots/plots/index2_cpuefit_12_IPHC_ORWA.png"
+    "figures/r4ss_plots/plots/index5_logcpuefit_12_IPHC_ORWA.png"
 )
 ```
 
@@ -589,11 +575,101 @@ knitr::include_graphics(
 )
 ```
 
-<!-- add mean length fits here if needed -->
+```{r}
+#| label: fig-mean-age-2
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Mean age from conditional data (aggregated across length bins) for the CA NONTWL fleet with 95% confidence intervals based on input sample sizes. The blue line is the model expectation."
 
-<!-- add ghost age comps here if needed -->
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge2_CA_NONTWL.png"
+)
+```
 
-<!-- add CAAL fits here if needed -->
+```{r}
+#| label: fig-mean-age-3
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Mean age from conditional data (aggregated across length bins) for the CA REC fleet with 95% confidence intervals based on input sample sizes. The blue line is the model expectation."
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge3_CA_REC.png"
+)
+```
+
+```{r}
+#| label: fig-mean-age-4
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Mean age from conditional data (aggregated across length bins) for the ORWA TWL fleet with 95% confidence intervals based on input sample sizes. The blue line is the model expectation."
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge4_ORWA_TWL.png"
+)
+```
+
+```{r}
+#| label: fig-mean-age-5
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Mean age from conditional data (aggregated across length bins) for the ORWA NONTWL fleet with 95% confidence intervals based on input sample sizes. The blue line is the model expectation."
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge5_ORWA_NONTWL.png"
+)
+```
+
+```{r}
+#| label: fig-mean-age-6
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Mean age from conditional data (aggregated across length bins) for the ORWA REC fleet with 95% confidence intervals based on input sample sizes. The blue line is the model expectation."
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge6_OR_REC.png"
+)
+```
+
+```{r}
+#| label: fig-mean-age-7
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Mean age from conditional data (aggregated across length bins) for the WA REC fleet with 95% confidence intervals based on input sample sizes. The blue line is the model expectation."
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge7_WA_REC.png"
+)
+```
+
+```{r}
+#| label: fig-mean-age-11
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Mean age from conditional data (aggregated across length bins) for the WCGBTS with 95% confidence intervals based on input sample sizes. The blue line is the model expectation."
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge11_NWFSC_ORWA.png"
+)
+```
+
+```{r}
+#| label: fig-mean-age-12
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Mean age from conditional data (aggregated across length bins) for the IPHC survey with 95% confidence intervals based on input sample sizes. The blue line is the model expectation."
+
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge12_IPHC_ORWA.png"
+)
+```
 
 ```{r}
 #| label: fig-spout_combined
@@ -616,6 +692,30 @@ knitr::include_graphics(
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png"
+)
+```
+
+```{r}
+#| label: fig-status_combined
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of relative spawning output estimated in the assessment model (solid line) with ~ 95% interval (dashed lines)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png"
+)
+```
+
+```{r}
+#| label: fig-status_area
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of relative spawning output estimated by area (area 1= California, area 2 = Oregon and Washington)."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/ts10_Relative_spawning_output.png"
 )
 ```
 
@@ -650,10 +750,10 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Age 0 recruits (1000s) over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
+#| fig-cap: "Time series of recruitment estimated in the assessment model with ~ 95% interval."
 #
 knitr::include_graphics(
-    "figures/r4ss_plots/plots/ts12_Age-0_recruits_(1000s)_by_area.png"
+    "figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png"
 )
 ```
 
@@ -899,6 +999,18 @@ knitr::include_graphics(
 
 \clearpage
 <!-- management section -->
+
+```{r}
+#| label: fig-time-spr
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of estimated SPR"
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/SPR1_series.png"
+)
+```
 
 ```{r}
 #| label: fig-eq-yield
