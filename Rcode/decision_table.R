@@ -1,3 +1,33 @@
+SS_decision_table_stuff <- function(replist, yrs = 2025:2036, digits = c(0, 0, 3)) {
+  # needs to be able to aggregate across areas for spatial models
+  if (replist[["N_areas"]] > 1) {
+    warning("You probably need to aggregate function output across areas")
+  }
+  # subset timeseries
+  ts <- replist[["timeseries"]][replist[["timeseries"]][["Yr"]] %in% yrs, ]
+  # note that new $dead_B_sum quantity can be used in future versions
+  catch <- round(
+    apply(ts[, grep("dead(B)", names(ts), fixed = TRUE)],
+          MARGIN = 1, FUN = sum
+    ),
+    digits[1]
+  )
+  yr <- ts[["Yr"]]
+  # get spawning biomass
+  SpawnBio <- round(ts[["SpawnBio"]], digits[2])
+  # get depletion (this calc is independent of Bratio definition)
+  SpawnBioVirg <-
+    replist[["timeseries"]][["SpawnBio"]][replist[["timeseries"]][["Era"]] == "VIRG"]
+  dep <- round(SpawnBio / SpawnBioVirg, digits[3])
+  # get summary biomass (not currently reported)
+  Bio_smry <- ts[["Bio_smry"]]
+  # combine stuff
+  # stuff <- data.frame(yr=yr[ts[["Area"]]==1], catch, dep, SpawnBio, Bio_smry)
+  stuff <- data.frame(yr, catch, SpawnBio, dep)
+  return(stuff)
+}
+
+
 #' Format a decision table
 #'
 #' Format a decision table for its inclusion in a document.
@@ -32,7 +62,7 @@
 #' )
 table_decision <- function(
     ...,
-    years = 2025:2037,
+    years = 2025:2036,
     format = c("latex", "html"),
     caption = formals(kableExtra::kbl)$caption,
     label = formals(kableExtra::kbl)$label,
@@ -50,7 +80,7 @@ table_decision <- function(
   results <- purrr::modify_depth(
     mods,
     .depth = 2,
-    .f = r4ss::SS_decision_table_stuff,
+    .f = SS_decision_table_stuff,
     yrs = years,
     digits = digits
   ) |>
