@@ -31,9 +31,9 @@ exe_loc <- here::here(directory, 'ss3.exe')
 
 profile_info <- get_settings_profile(
   parameters =  c("NatM_break_1_Fem_GP_1", "SR_BH_steep", "SR_LN(R0)"),
-  low =  c(0.03, 0.25, 4.5),
+  low =  c(0.03, 0.25, 5),
   high = c(0.06, 1.0, 6),
-  step_size = c(0.002, 0.05, 0.15),
+  step_size = c(0.002, 0.05, 0.1),
   param_space = c('real', 'real', 'real')
   )
 
@@ -99,16 +99,16 @@ model_settings <- get_settings(
     # Profile Settings
     profile_details = profile_info,
 
-     # Jitter Settings
-     extras = "-nohess",
-     Njitter = 50,
-     jitter_fraction = 0.10,
-     jitter_init_values_src = NULL,
+    # Jitter Settings
+    extras = "-nohess",
+    Njitter = 50,
+    jitter_fraction = 0.10,
+    jitter_init_values_src = NULL,
 
-     # Retrospective Settings
-     newsubdir = "retro",
-     retro_yrs = -1:-5,
-     exe = exe_loc,
+    # Retrospective Settings
+    newsubdir = "retro",
+    retro_yrs = -1:-5,
+    exe = exe_loc,
     
     # Plot target lines
     btarg = NULL,
