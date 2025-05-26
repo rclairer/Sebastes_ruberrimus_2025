@@ -2192,3 +2192,128 @@ SSplotComparisons(models_summary,
                                    "2025 updated ctl file and tuned",
                                    "proposed 2025 base model"),
                   print = TRUE)
+
+################################################################
+###### fix OR REC time block ###################################
+################################################################
+
+# Get inputs from 2025 assessment that ran with updated data
+base_model_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512")
+
+##### Update CTL file for 2025 assessment ##### ----------------------------------------
+fix_timeblock_dir <- here::here("model", "fix_ORrec_timeblock")
+
+copy_SS_inputs(
+  dir.old = base_model_dir,
+  dir.new = fix_timeblock_dir,
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+inputs <- SS_read(dir = fix_timeblock_dir)
+#ctl <- inputs$ctl
+
+inputs$ctl$Block_Design[[2]][1] <- 2004
+
+ctl <- inputs$ctl
+# Fill outfile with directory and file name of the file written
+r4ss::SS_writectl(
+  ctl,
+  outfile = file.path(fix_timeblock_dir, "yelloweye_control.ss"),
+  overwrite = TRUE
+)
+
+# Changed convergence criterion to 1.3e-04 from 1e-04 because needed covar file
+# start <- inputs$start
+# start$converge_criterion <- 1.3e-04
+# r4ss::SS_writestarter(start, outfile = file.path(update_ctl_model_path, "starter.ss"), overwrite = TRUE)
+
+r4ss::get_ss3_exe(dir = fix_timeblock_dir)
+
+# You have to run this model in full (not using -nohess) because you need the covar file
+# to fit the bias
+r4ss::run(dir = fix_timeblock_dir, show_in_console = TRUE, extras = "-nohess")
+
+replist_fix_timeblock <- r4ss::SS_output(dir = fix_timeblock_dir)
+
+r4ss::SS_plots(replist_fix_timeblock)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512")),
+            paste0(file.path(getwd(), "model", "fix_ORrec_timeblock")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "20_fix_ORrec_timeblock"),
+                  legendlabels = c("2025 base model", 
+                                   "fix ORrec timeblock"),
+                  print = TRUE)
+############################################################
+########### change float option ###########################
+############################################################
+
+fix_timeblock_dir <- here::here("model", "fix_ORrec_timeblock")
+
+
+##### Update CTL file for 2025 assessment ##### ----------------------------------------
+fix_float_dir <- here::here("model", "fix_ORrec_float")
+
+copy_SS_inputs(
+  dir.old = fix_timeblock_dir,
+  dir.new = fix_float_dir,
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+inputs <- SS_read(dir = fix_float_dir)
+#ctl <- inputs$ctl
+
+#changes to float option here
+inputs$ctl$Q_options[[6]][2] <- 0
+inputs$ctl$Q_parms[[7]][3] <- 1
+
+ctl <- inputs$ctl
+# Fill outfile with directory and file name of the file written
+r4ss::SS_writectl(
+  ctl,
+  outfile = file.path(fix_float_dir, "yelloweye_control.ss"),
+  overwrite = TRUE
+)
+
+# Changed convergence criterion to 1.3e-04 from 1e-04 because needed covar file
+# start <- inputs$start
+# start$converge_criterion <- 1.3e-04
+# r4ss::SS_writestarter(start, outfile = file.path(update_ctl_model_path, "starter.ss"), overwrite = TRUE)
+
+r4ss::get_ss3_exe(dir = fix_float_dir)
+
+# You have to run this model in full (not using -nohess) because you need the covar file
+# to fit the bias
+r4ss::run(dir = fix_float_dir, show_in_console = TRUE, extras = "-nohess")
+
+replist_fix_float <- r4ss::SS_output(dir = fix_float_dir)
+
+r4ss::SS_plots(replist_fix_float)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512")),
+            paste0(file.path(getwd(), "model", "fix_ORrec_timeblock")),
+            paste0(file.path(getwd(), "model", "fix_ORrec_float")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "21_fix_ORrec_timeblock_float"),
+                  legendlabels = c("2025 base model", 
+                                   "fix ORrec timeblock",
+                                   "fix ORrec float"),
+                  print = TRUE)
+
+
