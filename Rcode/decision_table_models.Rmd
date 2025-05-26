@@ -1,0 +1,37 @@
+---
+title: "decision_table_models"
+output: html_document
+date: "2025-05-26"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list=ls())
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+#remotes::install_github("r4ss/r4ss")
+library(r4ss)
+library(readr)
+library(nwfscSurvey)
+library(here)
+#remotes::install_github("pfmc-assessments/pacfintools")
+library(pacfintools)
+exe_loc <- here::here('model/ss3.exe')
+```
+
+
+
+```{r}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
