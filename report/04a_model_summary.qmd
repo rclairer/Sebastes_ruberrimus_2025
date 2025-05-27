@@ -1,4 +1,4 @@
-# Assessment model
+# Assessment Model
 
 ## History of modeling approaches
 
