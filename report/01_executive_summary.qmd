@@ -441,17 +441,17 @@ cat("\n\\end{landscape}\n")
 This section will be updated after SSC GFSC review.
 
 ```{r, 1, results = "asis"}
-# #| label: tbl-es-decision-1
-# #| warning: false
-# #| echo: false
-# #| eval: !expr eval_tables 
-# #| tbl-cap: !expr if(eval_tables) decision_table_cap 
-# #| tbl-pos: H
-# table_decision(
-#   list(mod_low_A, mod_base_A, mod_high_A),
+ #| label: tbl-es-decision-1
+ #| warning: false
+ #| echo: false
+ #| eval: !expr eval_tables 
+ #| tbl-cap: !expr if(eval_tables) decision_table_cap 
+ #| tbl-pos: H
+ table_decision(
+   list(mod_low_A, mod_base_A, mod_high_A)#,
 #   list(mod_low_B, mod_base_B, mod_high_B),
 #   list(mod_low_C, mod_base_C, mod_high_C)
-# )
+ )
 
 ```
 
