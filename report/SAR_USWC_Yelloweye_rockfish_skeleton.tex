@@ -66,46 +66,6 @@
 \fi
 \makeatother
 
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{241,243,245}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
-\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
-\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
-\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
-\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
-\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
-\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
-\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
-\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
-\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
 
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
@@ -1025,43 +985,20 @@ Year & Adopted OFL (mt) & Adopted ACL (mt) & Assumed Catch (mt) & OFL (mt) & Buf
 
 This section will be updated after SSC GFSC review.
 
-\begin{Shaded}
-\begin{Highlighting}[]
- \CommentTok{\#| label: tbl{-}es{-}decision{-}1}
- \CommentTok{\#| warning: false}
- \CommentTok{\#| echo: false}
- \CommentTok{\#| message: false}
- \CommentTok{\#| eval: !expr eval\_tables }
- \CommentTok{\#| tbl{-}cap: !expr if(eval\_tables) decision\_table\_cap }
- \CommentTok{\#| tbl{-}pos: H}
- \FunctionTok{table\_decision}\NormalTok{(}
-   \FunctionTok{list}\NormalTok{(mod\_low\_A, mod\_base\_A, mod\_high\_A)}
-\NormalTok{ )}
-\end{Highlighting}
-\end{Shaded}
+\begin{table}[H]
 
-\begin{verbatim}
-New names:
-* `yr` -> `yr...1`
-* `catch` -> `catch...2`
-* `SpawnBio` -> `SpawnBio...3`
-* `dep` -> `dep...4`
-* `yr` -> `yr...5`
-* `catch` -> `catch...6`
-* `SpawnBio` -> `SpawnBio...7`
-* `dep` -> `dep...8`
-* `yr` -> `yr...9`
-* `catch` -> `catch...10`
-* `SpawnBio` -> `SpawnBio...11`
-* `dep` -> `dep...12`
-\end{verbatim}
+\caption{\label{tbl-es-decision-1}Decision table with 10-year
+projections. `Mgmt' refers to the three management scenarios (A) the
+default harvest control rule \(P^* = 0.45\). In each case the 2025 and
+2026 catches are fixed at the ACLs which have been set for that year
+with estimated fleet allocation provided by the GMT. The alternative
+states of nature (`Low', `Base', and `High' as discussed in the text)
+are provided in the columns, with Spawning Output (`Spawn', in millions
+of eggs) and Fraction of unfished spawning output (`Frac') provided for
+each state.}
 
-\begin{verbatim}
-Warning in table_decision(list(mod_low_A, mod_base_A, mod_high_A)): Catch
-differs among columns, perhaps due to a crashed model without enough biomass.
-\end{verbatim}
+\centering{
 
-\begin{table}
 \centering\centering
 \fontsize{9}{11}\selectfont
 \begin{tabular}[t]{>{}llr>{\raggedleft\arraybackslash}p{3.5em}>{\raggedleft\arraybackslash}p{3.5em}>{\raggedleft\arraybackslash}p{3.5em}>{\raggedleft\arraybackslash}p{3.5em}>{\raggedleft\arraybackslash}p{3.5em}>{\raggedleft\arraybackslash}p{3.5em}}
@@ -1082,7 +1019,10 @@ Mgmt & Year & Catch & Low Spawn & Low Frac & Base Spawn & Base Frac & High Spawn
 \textbf{} & 2036 & 67 & 440.02 & 0.386 & 592.92 & 0.499 & 923.86 & 0.666\\
 \bottomrule
 \end{tabular}
-\end{table}
+
+}
+
+\end{table}%
 
 \subsection*{Scientific uncertainty}\label{scientific-uncertainty}
 \addcontentsline{toc}{subsection}{Scientific uncertainty}
