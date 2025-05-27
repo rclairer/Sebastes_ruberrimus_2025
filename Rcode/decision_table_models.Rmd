@@ -10,7 +10,7 @@ rm(list=ls())
 library(dplyr)
 library(tidyr)
 library(ggplot2)
-remotes::install_github("r4ss/r4ss")
+#remotes::install_github("r4ss/r4ss")
 library(r4ss)
 library(readr)
 library(nwfscSurvey)
@@ -72,4 +72,70 @@ SSplotComparisons(models_summary,
                   print = TRUE)
 
 ```
+
+Build the Decision Table CSV
+
+What we need first is the Years (2025-2036) and projected Catch (mt).
+Then for each state (low, base, high) we need spawning biomass (mt) and depletion summed up so it is for the entire stock
+
+```{r}
+# Assign model outputs for each state of nature
+
+# Model outputs
+mod_low_A <- SS_output(here::here("model", "2025_low_state"))
+mod_base_A <- SS_output(here::here("model", "2025_base_model"))
+mod_high_A <- SS_output(here::here("model", "2025_high_state"))
+
+years <- c(2025:2036)
+
+# SSB = Spawning Biomass; Bratio = Depletion
+ssb_low <- mod_low_A$derived_quants |>
+  filter(grepl("^SSB_\\d{4}$", Label)) |>
+  mutate(year = as.numeric(sub("SSB_", "", Label))) |>
+  filter(year >= 2025, year <= 2036)
+
+bratio_low <- mod_low_A$derived_quants |>
+  filter(grepl("^Bratio_\\d{4}$", Label)) |>
+  mutate(year = as.numeric(sub("Bratio_", "", Label))) |>
+  filter(year >= 2025, year <= 2036)
+
+ssb_base <- mod_base_A$derived_quants |>
+  filter(grepl("^SSB_\\d{4}$", Label)) |>
+  mutate(year = as.numeric(sub("SSB_", "", Label))) |>
+  filter(year >= 2025, year <= 2036)
+
+bratio_base <- mod_base_A$derived_quants |>
+  filter(grepl("^Bratio_\\d{4}$", Label)) |>
+  mutate(year = as.numeric(sub("Bratio_", "", Label))) |>
+  filter(year >= 2025, year <= 2036)
+
+ssb_high <- mod_high_A$derived_quants |>
+  filter(grepl("^SSB_\\d{4}$", Label)) |>
+  mutate(year = as.numeric(sub("SSB_", "", Label))) |>
+  filter(year >= 2025, year <= 2036)
+
+bratio_high <- mod_high_A$derived_quants |>
+  filter(grepl("^Bratio_\\d{4}$", Label)) |>
+  mutate(year = as.numeric(sub("Bratio_", "", Label))) |>
+  filter(year >= 2025, year <= 2036)
+
+# now it is time to put all the columns together
+
+combined_df <- data.frame(check.names = FALSE,
+  "Year" = years,
+  "Low Spawning Biomass" = ssb_low$Value,
+  "Low Depletion" = bratio_low$Value,
+  "Base Spawning Biomass" = ssb_base$Value,
+  "Base Depletion" = bratio_base$Value,
+  "High Spawning Biomass" = ssb_high$Value,
+  "High Depletion" = bratio_high$Value
+)
+
+combined_df_rounded <- combined_df
+combined_df_rounded[ , -1] <- round(combined_df[ , -1], 2)
+
+saveRDS(combined_df_rounded, here::here("report","tables","states_of_nature_by_hand.rds"))
+```
+
+
 
