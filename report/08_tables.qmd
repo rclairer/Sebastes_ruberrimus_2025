@@ -114,6 +114,8 @@ orfs_modselect |>
   as_latex()
 ```
 
+\clearpage
+
 ```{r, yelloweye_percent_pos_ORBS}
 #| label: tbl-yelloweye_percent_pos_ORBS
 #| echo: false
@@ -129,8 +131,6 @@ read.csv("Tables/yelloweye_percent_pos_ORBS.csv") |>
   ) |>
   as_latex()
 ```
-
-{{< pagebreak >}}
 
 ```{r, yelloweye_model_selection_ORBS}
 #| label: tbl-yelloweye_model_selection_ORBS
@@ -156,13 +156,6 @@ cat("\n\\end{landscape}\n")
 ```
 
 {{< pagebreak >}}
-
-```{r}
-#| label: tbl-srvy-lat-depth
-#| echo: false
-#| warning: false
-#| tbl-cap: "Latitudinal and depth ranges by year of two bottom trawl surveys used in the assessment"
-```
 
 ```{r}
 #| label: tbl-sampling-effort-triennial
@@ -258,7 +251,7 @@ config_table |>
   as_latex()
 ```
 
-{{< pagebreak >}}
+\clearpage
 
 ```{r}
 #| label: tbl-compweight
