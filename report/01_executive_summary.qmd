@@ -446,8 +446,10 @@ This section will be updated after SSC GFSC review.
  #| warning: false
  #| echo: false
  #| message: false
- #| eval: !expr eval_tables 
- #| tbl-cap: !expr if(eval_tables) decision_table_cap 
+# #| eval: !expr eval_tables 
+# #| tbl-cap: !expr if(eval_tables) decision_table_cap 
+#| eval: true
+#| tbl-cap: "Decision table with 10-year projections. 'Mgmt' refers to the three management scenarios (A) the default harvest control rule $P^* = 0.45$. In each case the 2025 and 2026 catches are fixed at the ACLs which have been set for that year with estimated fleet allocation provided by the GMT. The alternative states of nature ('Low', 'Base', and 'High' as discussed in the text) are provided in the columns, with Spawning Output ('Spawn', in millions of eggs) and Fraction of unfished spawning output ('Frac') provided for each state."
  #| tbl-pos: H
  table_decision(
    list(mod_low_A, mod_base_A, mod_high_A)
