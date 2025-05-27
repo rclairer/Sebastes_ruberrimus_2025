@@ -14,7 +14,7 @@ This update assessment reports the status of Yelloweye Rockfish (*Sebastes ruber
 
 ## Catches{-}
 
-Catches for Yelloweye Rockfish have averaged over $20 mt$ in recent years (@fig-es-landings, @tbl-es-catches). Yelloweye Rockfish was declared overfished in $2002$ and remains under a rebuilding plan that substantially limits catch. However, as other rockfish stocks have rebuilt and Yelloweye Rockfish has progressed under it's rebuilding plan, catches have slowly increased in recent years, primarily in the Oregon-Washington non-trawl fleet and the recreational fleets. 
+Catches for Yelloweye Rockfish have averaged over $20 mt$ in recent years (@fig-es-landings, @tbl-es-catches). Yelloweye Rockfish was declared overfished in $2002$ and remains under a rebuilding plan that substantially limits catch. However, as other rockfish stocks have rebuilt and Yelloweye Rockfish has progressed under its rebuilding plan, catches have slowly increased in recent years, primarily in the Oregon-Washington non-trawl fleet and the recreational fleets. 
 
 ```{r, fig-es-landings} 
 #| label: fig-es-landings
