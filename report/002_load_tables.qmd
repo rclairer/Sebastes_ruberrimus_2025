@@ -235,17 +235,17 @@ decision_table_cap <- "Decision table with 10-year projections. 'Mgmt' refers to
 #     SpawnOutputLabel = "Spawning Output (trillions of eggs)"
 # )
 
-mod_low_A <- replist
-mod_low_B <- replist
-mod_low_C <- replist
+#mod_low_A <- replist
+#mod_low_B <- replist
+#mod_low_C <- replist
 
-mod_base_A <- replist
-mod_base_B <- replist
-mod_base_C <- replist
+#mod_base_A <- replist
+#mod_base_B <- replist
+#mod_base_C <- replist
 
-mod_high_A <- replist
-mod_high_B <- replist
-mod_high_C <- replist 
+#mod_high_A <- replist
+#mod_high_B <- replist
+#mod_high_C <- replist 
 
 
 #######################################################
