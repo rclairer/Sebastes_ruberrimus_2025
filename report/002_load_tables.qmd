@@ -11,9 +11,10 @@ library(here)
 library(tidyverse)
 library(dplyr)
 
-source(here::here("Rcode", "decision_table.R"))
+#source(here::here("Rcode", "decision_table.R"))
 
 replist <- r4ss::SS_output(here::here("model", "2025_base_model"), verbose = FALSE, printstats = FALSE)
+
 inputs <- r4ss::SS_read(here::here("model", "2025_base_model"))
 
 tables <-r4ss::table_all(replist, dir = here::here("report"))

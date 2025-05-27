@@ -1,10 +1,10 @@
-SS_decision_table_stuff <- function(replist, yrs = 2025:2036, digits = c(0, 0, 3)) {
+SS_decision_table_stuff <- function(mods, yrs = 2025:2036, digits = c(0, 0, 3)) {
   # needs to be able to aggregate across areas for spatial models
-  if (replist[["N_areas"]] > 1) {
+  if (mods[["N_areas"]] > 1) {
     warning("You probably need to aggregate function output across areas")
   }
   # subset timeseries
-  ts <- replist[["timeseries"]][replist[["timeseries"]][["Yr"]] %in% yrs, ]
+  ts <- mods[["timeseries"]][mods[["timeseries"]][["Yr"]] %in% yrs, ]
   # note that new $dead_B_sum quantity can be used in future versions
   catch <- round(
     apply(ts[, grep("dead(B)", names(ts), fixed = TRUE)],
@@ -17,7 +17,7 @@ SS_decision_table_stuff <- function(replist, yrs = 2025:2036, digits = c(0, 0, 3
   SpawnBio <- round(ts[["SpawnBio"]], digits[2])
   # get depletion (this calc is independent of Bratio definition)
   SpawnBioVirg <-
-    replist[["timeseries"]][["SpawnBio"]][replist[["timeseries"]][["Era"]] == "VIRG"]
+    mods[["timeseries"]][["SpawnBio"]][mods[["timeseries"]][["Era"]] == "VIRG"]
   dep <- round(SpawnBio / SpawnBioVirg, digits[3])
   # get summary biomass (not currently reported)
   Bio_smry <- ts[["Bio_smry"]]
