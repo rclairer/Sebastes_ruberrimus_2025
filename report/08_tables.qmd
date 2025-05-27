@@ -347,79 +347,6 @@ kableExtra::kable(
 
 {{< pagebreak >}}
 
-
-```{r}
-#| label: tbl-sensitivities-like-indices
-#| echo: false
-#| message: false
-#| warning: false
-#| results: "asis"
-#| tbl-cap: "Base model sensitivity to the removal of data sources (indices)."
-
-cat("\\begin{landscape}\n")
-
-source(here::here("Rcode/table_sens.R"))
-indices <- read.csv(here::here("report", "figures", "sensitivities", "indices_table.csv"))
-#comps <- read.csv(here::here("report", "figures", "sensitivities", "comp_data_table.csv"))
-
-#indices_and_comps <- inner_join(indices, comps, by = c("Label", "Base"))
-#names(indices) <- gsub("X..", "", names(indices))
-
-names(indices) <- c("Label","Base","- CA REC Index","- OR REC Index","- WA REC Index","- CA CPFV Index","- ORFS Index","- Triennial Index","- WCGBTS Index","- IPHC Index","No indices")
-
-table_sens(indices)
-
-cat("\n\\end{landscape}\n") 
-```
-
-{{< pagebreak >}}
-
-```{r}
-#| label: tbl-sensitivities-like-comps
-#| echo: false
-#| message: false
-#| warning: false
-#| results: "asis"
-#| tbl-cap: "Base model sensitivity to the removal of data sources (compositional data)."
-
-cat("\\begin{landscape}\n")
-
-source(here::here("Rcode/table_sens.R"))
-#indices <- read.csv(here::here("report", "figures", "sensitivities", "indices_table.csv"))
-comps <- read.csv(here::here("report", "figures", "sensitivities", "comp_data_table.csv"))
-
-#indices_and_comps <- inner_join(indices, comps, by = c("Label", "Base"))
-#names(comps) <- gsub("X..", "", names(comps))
-
-names(comps) <-c("Label","Base","- CA TWL length comps","- CA NONTWL length comps","- CA REC length comps","- ORWA TWL length comps","- ORWA NONTWL length comps","- OR REC length comps","No length comps","- IPHC age comps","No age comps","McAllister & Ianelli")
-
-table_sens(comps)
-
-cat("\n\\end{landscape}\n") 
-```
-
-{{< pagebreak >}}
-
-```{r}
-#| label: tbl-sensitivities-model-specs
-#| echo: false
-#| warning: false
-#| results: "asis"
-#| tbl-cap: "Base model sensitivity to model parameters and specifications."
-
-cat("\\begin{landscape}\n")
-
-modeling <- read.csv(here::here("report", "figures", "sensitivities", "modeling_table.csv"))
-#names(modeling) <- gsub("X", "", names(modeling))
-names(modeling) <- c("Label","Base","Est. M", "Est. steepness","2017 LW relationship")
-
-table_sens(modeling)
-
-cat("\n\\end{landscape}\n") 
-```
-
-{{< pagebreak >}}
-
 ```{r, tbl-ref-points-es-2, results = "asis"}
 #| label: tbl-ref-points-es-2
 #| warning: false
@@ -517,9 +444,7 @@ cat("\n\\end{landscape}\n")
 #| tbl-cap: !expr if(eval_tables) decision_table_cap 
 #| tbl-pos: H
  table_decision(
-   list(mod_low_A, mod_base_A, mod_high_A),
-   list(mod_low_B, mod_base_B, mod_high_B),
-   list(mod_low_C, mod_base_C, mod_high_C)
+   list(mod_low_A, mod_base_A, mod_high_A)
  )
 
 ```

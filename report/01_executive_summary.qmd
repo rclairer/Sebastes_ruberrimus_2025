@@ -448,9 +448,7 @@ This section will be updated after SSC GFSC review.
  #| tbl-cap: !expr if(eval_tables) decision_table_cap 
  #| tbl-pos: H
  table_decision(
-   list(mod_low_A, mod_base_A, mod_high_A)#,
-#   list(mod_low_B, mod_base_B, mod_high_B),
-#   list(mod_low_C, mod_base_C, mod_high_C)
+   list(mod_low_A, mod_base_A, mod_high_A)
  )
 
 ```
