@@ -20,8 +20,8 @@
 \usepackage{lmodern}
 \ifPDFTeX\else  
     % xetex/luatex font selection
-  \setmainfont[]{Latin Modern Sans}
-  \setsansfont[]{Latin Modern Sans}
+    \setmainfont[]{Latin Modern Sans}
+    \setsansfont[]{Latin Modern Sans}
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -43,14 +43,28 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \setcounter{secnumdepth}{5}
 % Make \paragraph and \subparagraph free-standing
+\makeatletter
 \ifx\paragraph\undefined\else
   \let\oldparagraph\paragraph
-  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
 \fi
 \ifx\subparagraph\undefined\else
   \let\oldsubparagraph\subparagraph
-  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
+\makeatother
 
 \usepackage{color}
 \usepackage{fancyvrb}
@@ -70,7 +84,7 @@
 \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
 \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
 \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
-\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
 \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
 \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
 \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
@@ -80,7 +94,7 @@
 \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
 \newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
 \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
 \newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
 \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
 \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
@@ -244,6 +258,7 @@
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
+
 \ifLuaTeX
 \usepackage[bidi=basic]{babel}
 \else
@@ -274,6 +289,7 @@
   citecolor={Blue},
   urlcolor={Blue},
   pdfcreator={LaTeX via pandoc}}
+
 
 \title{Status of Yelloweye Rockfish off the U.S. West Coast in 2025}
 \author{Morgan A. Johnston* \and R. Claire Rosemond* \and Elizabeth
@@ -466,6 +482,7 @@ Caltabellotta \and Vladlena Gertseva \and Ian Taylor \and Kiva Oken}
 \setcounter{tocdepth}{3}
 \tableofcontents
 }
+
 \pagenumbering{roman}
 \setcounter{page}{1}
 
@@ -634,7 +651,8 @@ information for making management and allocation decisions
 \begin{longtable}{>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}}
 
 \caption{\label{tbl-es-sb}Estimated recent trend in spawning output and
-the fraction of unfished spawning output and the 95 percent intervals.}
+the fraction of unfished spawning output and the 95 percent confidence
+intervals.}
 
 \tabularnewline
 
@@ -662,7 +680,7 @@ Year & Spawning output & Lower Interval (mt) & Upper Interval (mt) & Fraction Un
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png}
+\includegraphics{figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png}
 
 }
 
@@ -676,7 +694,7 @@ interval (dashed lines). Spawning output is expressed in million eggs.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png}
+\includegraphics{figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png}
 
 }
 
@@ -689,7 +707,7 @@ output for the base model.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/ts10_Relative_spawning_output.png}
+\includegraphics{figures/r4ss_plots/plots/ts10_Relative_spawning_output.png}
 
 }
 
@@ -719,7 +737,8 @@ is seen starting in 2020.
 \begin{longtable}{>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}}
 
 \caption{\label{tbl-es-recr}Estimated recent trend in recruitment
-(1,000s) and recruitment deviations and the 95 percent intervals.}
+(1,000s) and recruitment deviations and the 95 percent confidence
+intervals.}
 
 \tabularnewline
 
@@ -747,7 +766,7 @@ Year & Recruitment (1,000s) & Lower Interval (1,000s) & Upper Interval (1,000s) 
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png}
+\includegraphics{figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png}
 
 }
 
@@ -761,7 +780,7 @@ intervals (vertical lines).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/recdevs2_withbars.png}
+\includegraphics{figures/r4ss_plots/plots/recdevs2_withbars.png}
 
 }
 
@@ -787,7 +806,7 @@ Table~\ref{tbl-es-spr}).
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/SPR4_phase.png}
+\includegraphics{figures/r4ss_plots/plots/SPR4_phase.png}
 
 }
 
@@ -803,14 +822,15 @@ fraction unfished.}
 
 \begin{longtable}{>{\centering\arraybackslash}p{\dimexpr 60.00pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 60.00pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 60.00pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 60.00pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 60.00pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 60.00pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 60.00pt -2\tabcolsep-1.5\arrayrulewidth}}
 
-\caption{\label{tbl-es-spr}Estimated recent trend in the (1-SPR)/(1-SPR
-50\%) where SPR is the spawning potential ratio, the exploitation rate,
-and the 95 percent intervals.}
+\caption{\label{tbl-es-spr}Estimated recent trend in relative fishing
+intensity (1-SPR)/(1-SPR50\%), where SPR is the spawning potential
+ratio, and the exploitation rate, along with the 95 percent confidence
+intervals for both quantities.}
 
 \tabularnewline
 
 \toprule
-Year & (1-SPR)/(1-SPR 50\%) & Lower Interval (SPR) & Upper Interval (SPR) & Exploitation Rate & Lower Interval (Rate) & Upper Interval (Rate) \\ 
+Year & (1-SPR)/(1-SPR50\%) & Lower Interval (SPR) & Upper Interval (SPR) & Exploitation Rate & Lower Interval (Rate) & Upper Interval (Rate) \\ 
 \midrule\addlinespace[2.5pt]
 2015 & 0.246 & 0.203 & 0.289 & 0.004 & 0.003 & 0.005 \\ 
 2016 & 0.175 & 0.145 & 0.206 & 0.003 & 0.002 & 0.003 \\ 
@@ -860,7 +880,9 @@ equilibrium yield curve is shown in Figure~\ref{fig-eq-yield-es}.
 \begin{longtable}{lrrr}
 
 \caption{\label{tbl-ref-points-es-1}Summary of reference points and
-management quantities, including estimates of the 95 percent intervals.}
+management quantities, including estimates of the 95 percent confidence
+intervals. SO is spawning output, SPR is the spawning potential ratio,
+and MSY is maximum sustainable yield.}
 
 \tabularnewline
 
@@ -897,7 +919,7 @@ MSY (mt) & 127 & 112 & 142 \\
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/yield1_yield_curve.png}
+\includegraphics{figures/r4ss_plots/plots/yield1_yield_curve.png}
 
 }
 
@@ -1019,15 +1041,6 @@ This section will be updated after SSC GFSC review.
 \end{Shaded}
 
 \begin{verbatim}
-Warning in .f(.x[[i]], ...): You probably need to aggregate function output
-across areas
-Warning in .f(.x[[i]], ...): You probably need to aggregate function output
-across areas
-Warning in .f(.x[[i]], ...): You probably need to aggregate function output
-across areas
-\end{verbatim}
-
-\begin{verbatim}
 New names:
 * `yr` -> `yr...1`
 * `catch` -> `catch...2`
@@ -1055,31 +1068,18 @@ differs among columns, perhaps due to a crashed model without enough biomass.
 \toprule
 Mgmt & Year & Catch & Low Spawn & Low Frac & Base Spawn & Base Frac & High Spawn & High Frac\\
 \midrule
-\textbf{A} & 2025 & 19 & 120.72 & 0.262 & 166.92 & 0.366 & 255.55 & 0.552\\
-\textbf{} & 2026 & 19 & 128.04 & 0.188 & 176.79 & 0.242 & 269.10 & 0.291\\
-\textbf{} & 2027 & 17 & 135.33 & 0.294 & 186.58 & 0.409 & 282.38 & 0.610\\
-\textbf{} & 2028 & 18 & 142.58 & 0.210 & 194.88 & 0.267 & 290.64 & 0.315\\
-\textbf{} & 2029 & 18 & 149.35 & 0.324 & 202.44 & 0.444 & 297.55 & 0.643\\
-\textbf{} & 2030 & 19 & 155.48 & 0.229 & 209.05 & 0.286 & 302.87 & 0.328\\
-\textbf{} & 2031 & 19 & 160.88 & 0.349 & 214.63 & 0.470 & 306.57 & 0.662\\
-\textbf{} & 2032 & 19 & 165.57 & 0.244 & 219.21 & 0.300 & 308.74 & 0.334\\
-\textbf{} & 2033 & 19 & 169.59 & 0.368 & 222.89 & 0.489 & 309.62 & 0.669\\
-\textbf{} & 2034 & 20 & 173.04 & 0.254 & 225.81 & 0.309 & 309.48 & 0.335\\
-\textbf{} & 2035 & 20 & 176.05 & 0.382 & 228.14 & 0.500 & 308.61 & 0.667\\
-\textbf{} & 2036 & 20 & 178.74 & 0.263 & 230.05 & 0.315 & 307.25 & 0.333\\
-\addlinespace
-\textbf{} & 2025 & 30 & 207.15 & 0.450 & 306.47 & 0.672 & 575.18 & 1.243\\
-\textbf{} & 2026 & 31 & 216.51 & 0.318 & 320.57 & 0.439 & 599.72 & 0.649\\
-\textbf{} & 2027 & 45 & 225.82 & 0.490 & 334.58 & 0.733 & 623.86 & 1.348\\
-\textbf{} & 2028 & 46 & 233.35 & 0.343 & 342.90 & 0.469 & 632.73 & 0.685\\
-\textbf{} & 2029 & 47 & 240.11 & 0.521 & 350.06 & 0.767 & 639.19 & 1.381\\
-\textbf{} & 2030 & 48 & 245.89 & 0.362 & 355.76 & 0.487 & 642.79 & 0.696\\
-\textbf{} & 2031 & 48 & 250.59 & 0.544 & 359.91 & 0.789 & 643.44 & 1.390\\
-\textbf{} & 2032 & 48 & 254.24 & 0.374 & 362.55 & 0.496 & 641.39 & 0.694\\
-\textbf{} & 2033 & 48 & 256.96 & 0.558 & 363.90 & 0.798 & 637.11 & 1.376\\
-\textbf{} & 2034 & 48 & 258.91 & 0.381 & 364.21 & 0.498 & 631.18 & 0.683\\
-\textbf{} & 2035 & 48 & 260.28 & 0.565 & 363.77 & 0.797 & 624.18 & 1.348\\
-\textbf{} & 2036 & 48 & 261.29 & 0.384 & 362.86 & 0.496 & 616.61 & 0.667\\
+\textbf{A} & 2025 & 49 & 327.86 & 0.287 & 473.38 & 0.399 & 830.73 & 0.599\\
+\textbf{} & 2026 & 50 & 344.55 & 0.302 & 497.36 & 0.419 & 868.83 & 0.626\\
+\textbf{} & 2027 & 62 & 361.15 & 0.317 & 521.17 & 0.439 & 906.23 & 0.653\\
+\textbf{} & 2028 & 64 & 375.94 & 0.330 & 537.79 & 0.453 & 923.36 & 0.666\\
+\textbf{} & 2029 & 65 & 389.46 & 0.341 & 552.50 & 0.465 & 936.73 & 0.675\\
+\textbf{} & 2030 & 66 & 401.37 & 0.352 & 564.81 & 0.476 & 945.66 & 0.682\\
+\textbf{} & 2031 & 67 & 411.48 & 0.361 & 574.54 & 0.484 & 950.01 & 0.685\\
+\textbf{} & 2032 & 67 & 419.81 & 0.368 & 581.76 & 0.490 & 950.13 & 0.685\\
+\textbf{} & 2033 & 68 & 426.54 & 0.374 & 586.78 & 0.494 & 946.73 & 0.683\\
+\textbf{} & 2034 & 68 & 431.95 & 0.379 & 590.02 & 0.497 & 940.66 & 0.678\\
+\textbf{} & 2035 & 68 & 436.34 & 0.383 & 591.91 & 0.499 & 932.78 & 0.673\\
+\textbf{} & 2036 & 67 & 440.02 & 0.386 & 592.92 & 0.499 & 923.86 & 0.666\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -2773,6 +2773,8 @@ Incl. & - & - & Incl. & Incl. & Incl. & 27 & -1502.7 & 3059.6 & 201.1 \\
 
 \endgroup
 
+\clearpage
+
 \begingroup
 \fontsize{9.0pt}{10.8pt}\selectfont
 
@@ -2813,8 +2815,6 @@ year & tripsWithTarget & tripsWOTarget & totalTrips & percentpos \\
 
 \endgroup
 
-\newpage{}
-
 \begin{landscape}
 \begingroup
 \fontsize{9.0pt}{10.8pt}\selectfont
@@ -2848,17 +2848,6 @@ Incl. & - & - & Incl. & - & Incl. & Incl. & 30 & -45583.4 & 91226.9 & 427.8 \\
 \end{landscape}
 
 \newpage{}
-
-\begin{table}
-
-\caption{\label{tbl-srvy-lat-depth}Latitudinal and depth ranges by year
-of two bottom trawl surveys used in the assessment}
-
-\centering{
-
-}
-
-\end{table}%
 
 \begingroup
 \fontsize{9.0pt}{10.8pt}\selectfont
@@ -2966,7 +2955,7 @@ Data age bins & 0-65 by 1 year \\
 
 \endgroup
 
-\newpage{}
+\clearpage
 
 \begingroup
 \fontsize{9.0pt}{10.8pt}\selectfont
@@ -2974,11 +2963,11 @@ Data age bins & 0-65 by 1 year \\
 \begin{longtable}{llrrrrr}
 
 \caption{\label{tbl-compweight}Data weightings applied to compositions
-according to the \texttt{Francis\textquotesingle{}\ method.}Obs.' refers
-to the number of unique composition vectors included in the likelihood.
-\texttt{N\ input\textquotesingle{}\ and}N adj.' refer to the sample
-sizes of those vectors before and after being adjusted by the the
-weights. `CAAL' is conditional age-at-length data.}
+according to the \texttt{Francis} method. \texttt{Obs.} refers to the
+number of unique composition vectors included in the likelihood.
+\texttt{N\ input} and \texttt{N\ adj.} refer to the sample sizes of
+those vectors before and after being adjusted by the the weights.
+\texttt{CAAL} is conditional age-at-length data.}
 
 \tabularnewline
 
@@ -3676,8 +3665,8 @@ Label & Base & X..CA.REC.index & X..OR.REC.index & X..WA.REC.index & X..CA.CPFV.
 \addlinespace[0.3em]
 \multicolumn{9}{l}{\textbf{Estimates of derived quantities}}\\
 \hspace{1em}Unfished age 4+ bio 1000 mt & \textcolor{black}{10.305} & \textcolor{black}{10.129} & \textcolor{black}{10.164} & \textcolor{black}{9.879} & \textcolor{black}{10.494} & \textcolor{black}{10.331} & \textcolor{black}{9.896} & \textcolor{black}{9.432}\\
-\hspace{1em}B0 trillions of eggs & \textcolor{black}{1187.12} & \textcolor{black}{1166.96} & \textcolor{black}{1170.95} & \textcolor{black}{1137.84} & \textcolor{black}{1209} & \textcolor{black}{1190.92} & \textcolor{black}{1160.59} & \textcolor{black}{1108.68}\\
-\hspace{1em}B2025 trillions of eggs & \textcolor{black}{473.382} & \textcolor{black}{455.304} & \textcolor{black}{460.177} & \textcolor{black}{430.964} & \textcolor{black}{495.377} & \textcolor{black}{483.928} & \textcolor{black}{388.391} & \textcolor{black}{335.91}\\
+\hspace{1em}B0 millions of eggs & \textcolor{black}{1187.12} & \textcolor{black}{1166.96} & \textcolor{black}{1170.95} & \textcolor{black}{1137.84} & \textcolor{black}{1209} & \textcolor{black}{1190.92} & \textcolor{black}{1160.59} & \textcolor{black}{1108.68}\\
+\hspace{1em}B2025 millions of eggs & \textcolor{black}{473.382} & \textcolor{black}{455.304} & \textcolor{black}{460.177} & \textcolor{black}{430.964} & \textcolor{black}{495.377} & \textcolor{black}{483.928} & \textcolor{black}{388.391} & \textcolor{black}{335.91}\\
 \hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.399} & \textcolor{black}{0.39} & \textcolor{black}{0.393} & \textcolor{black}{0.379} & \textcolor{black}{0.41} & \textcolor{black}{0.406} & \textcolor{black}{0.335} & \textcolor{black}{0.303}\\
 \hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.202} & \textcolor{black}{0.209} & \textcolor{black}{0.207} & \textcolor{black}{0.219} & \textcolor{black}{0.193} & \textcolor{black}{0.198} & \textcolor{black}{0.246} & \textcolor{black}{0.282}\\
 \bottomrule
@@ -3721,8 +3710,8 @@ Label & Base & X..ORWA.TWL.length.comps & X..ORWA.NONTWL.length.comps & X..OR.RE
 \addlinespace[0.3em]
 \multicolumn{10}{l}{\textbf{Estimates of derived quantities}}\\
 \hspace{1em}Unfished age 4+ bio 1000 mt & \textcolor{black}{10.305} & \textcolor{black}{10.254} & \textcolor{black}{10.44} & \textcolor{black}{10.631} & \textcolor{black}{16.669} & \textcolor{black}{10.415} & \textcolor{black}{9.925} & \textcolor{black}{11.023} & \textcolor{black}{10.955}\\
-\hspace{1em}B0 trillions of eggs & \textcolor{black}{1187.12} & \textcolor{black}{1179.3} & \textcolor{black}{1204.12} & \textcolor{black}{1227.97} & \textcolor{black}{1932.26} & \textcolor{black}{1197.08} & \textcolor{black}{1164.1} & \textcolor{black}{1225.13} & \textcolor{black}{1237.67}\\
-\hspace{1em}B2025 trillions of eggs & \textcolor{black}{473.382} & \textcolor{black}{516.052} & \textcolor{black}{496.303} & \textcolor{black}{539.091} & \textcolor{black}{1445.73} & \textcolor{black}{467.721} & \textcolor{black}{389.673} & \textcolor{black}{466.679} & \textcolor{black}{544.993}\\
+\hspace{1em}B0 millions of eggs & \textcolor{black}{1187.12} & \textcolor{black}{1179.3} & \textcolor{black}{1204.12} & \textcolor{black}{1227.97} & \textcolor{black}{1932.26} & \textcolor{black}{1197.08} & \textcolor{black}{1164.1} & \textcolor{black}{1225.13} & \textcolor{black}{1237.67}\\
+\hspace{1em}B2025 millions of eggs & \textcolor{black}{473.382} & \textcolor{black}{516.052} & \textcolor{black}{496.303} & \textcolor{black}{539.091} & \textcolor{black}{1445.73} & \textcolor{black}{467.721} & \textcolor{black}{389.673} & \textcolor{black}{466.679} & \textcolor{black}{544.993}\\
 \hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.399} & \textcolor{black}{0.438} & \textcolor{black}{0.412} & \textcolor{black}{0.439} & \textcolor{black}{0.748} & \textcolor{black}{0.391} & \textcolor{black}{0.335} & \textcolor{black}{0.381} & \textcolor{black}{0.44}\\
 \hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.202} & \textcolor{black}{0.188} & \textcolor{black}{0.194} & \textcolor{black}{0.182} & \textcolor{black}{0.098} & \textcolor{black}{0.207} & \textcolor{black}{0.246} & \textcolor{black}{0.211} & \textcolor{black}{0.177}\\
 \bottomrule
@@ -3766,8 +3755,8 @@ Label & Base & Est. M & Est. steepness & 2017 LW relationship\\
 \addlinespace[0.3em]
 \multicolumn{5}{l}{\textbf{Estimates of derived quantities}}\\
 \hspace{1em}Unfished age 4+ bio 1000 mt & \textcolor{black}{10.305} & \textcolor{black}{11.838} & \textcolor{black}{10.253} & \textcolor{black}{10.305}\\
-\hspace{1em}B0 trillions of eggs & \textcolor{black}{1187.12} & \textcolor{black}{1312.97} & \textcolor{black}{1180.97} & \textcolor{black}{1187.12}\\
-\hspace{1em}B2025 trillions of eggs & \textcolor{black}{473.382} & \textcolor{black}{720.354} & \textcolor{black}{636.606} & \textcolor{black}{473.382}\\
+\hspace{1em}B0 millions of eggs & \textcolor{black}{1187.12} & \textcolor{black}{1312.97} & \textcolor{black}{1180.97} & \textcolor{black}{1187.12}\\
+\hspace{1em}B2025 millions of eggs & \textcolor{black}{473.382} & \textcolor{black}{720.354} & \textcolor{black}{636.606} & \textcolor{black}{473.382}\\
 \hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.399} & \textcolor{black}{0.549} & \textcolor{black}{0.539} & \textcolor{black}{0.399}\\
 \hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.202} & \textcolor{black}{0.118} & \textcolor{black}{0.153} & \textcolor{black}{0.202}\\
 \bottomrule
@@ -3787,7 +3776,9 @@ Label & Base & Est. M & Est. steepness & 2017 LW relationship\\
 \begin{longtable}{lrrr}
 
 \caption{\label{tbl-ref-points-es-2}Summary of reference points and
-management quantities, including estimates of the 95 percent intervals.}
+management quantities, including estimates of the 95 percent confidence
+intervals. SO is spawning output, SPR is the spawning potential ratio,
+and MSY is maximum sustainable yield.}
 
 \tabularnewline
 
@@ -3862,13 +3853,13 @@ Year & Adopted OFL (mt) & Adopted ACL (mt) & Assumed Catch (mt) & OFL (mt) & Buf
 
 \caption{\label{tbl-es-decision-2}Decision table with 10-year
 projections. `Mgmt' refers to the three management scenarios (A) the
-default harvest control rule \(P^* = 0.45\), (B) harvest control rule
-with a lower \(P^* = 0.40\). In each case the 2023 and 2024 catches are
-fixed at the ACLs which have been set for that year with estimated fleet
-allocation provided by the GMT. The alternative states of nature (`Low',
-`Base', and `High' as discussed in the text) are provided in the
-columns, with Spawning Output (`Spawn', in trillions of eggs) and
-Fraction of unfished spawning output (`Frac') provided for each state.}
+default harvest control rule \(P^* = 0.45\). In each case the 2025 and
+2026 catches are fixed at the ACLs which have been set for that year
+with estimated fleet allocation provided by the GMT. The alternative
+states of nature (`Low', `Base', and `High' as discussed in the text)
+are provided in the columns, with Spawning Output (`Spawn', in millions
+of eggs) and Fraction of unfished spawning output (`Frac') provided for
+each state.}
 
 \centering{
 
@@ -3878,31 +3869,18 @@ Fraction of unfished spawning output (`Frac') provided for each state.}
 \toprule
 Mgmt & Year & Catch & Low Spawn & Low Frac & Base Spawn & Base Frac & High Spawn & High Frac\\
 \midrule
-\textbf{A} & 2025 & 19 & 120.72 & 0.262 & 166.92 & 0.366 & 255.55 & 0.552\\
-\textbf{} & 2026 & 19 & 128.04 & 0.188 & 176.79 & 0.242 & 269.10 & 0.291\\
-\textbf{} & 2027 & 17 & 135.33 & 0.294 & 186.58 & 0.409 & 282.38 & 0.610\\
-\textbf{} & 2028 & 18 & 142.58 & 0.210 & 194.88 & 0.267 & 290.64 & 0.315\\
-\textbf{} & 2029 & 18 & 149.35 & 0.324 & 202.44 & 0.444 & 297.55 & 0.643\\
-\textbf{} & 2030 & 19 & 155.48 & 0.229 & 209.05 & 0.286 & 302.87 & 0.328\\
-\textbf{} & 2031 & 19 & 160.88 & 0.349 & 214.63 & 0.470 & 306.57 & 0.662\\
-\textbf{} & 2032 & 19 & 165.57 & 0.244 & 219.21 & 0.300 & 308.74 & 0.334\\
-\textbf{} & 2033 & 19 & 169.59 & 0.368 & 222.89 & 0.489 & 309.62 & 0.669\\
-\textbf{} & 2034 & 20 & 173.04 & 0.254 & 225.81 & 0.309 & 309.48 & 0.335\\
-\textbf{} & 2035 & 20 & 176.05 & 0.382 & 228.14 & 0.500 & 308.61 & 0.667\\
-\textbf{} & 2036 & 20 & 178.74 & 0.263 & 230.05 & 0.315 & 307.25 & 0.333\\
-\addlinespace
-\textbf{} & 2025 & 30 & 207.15 & 0.450 & 306.47 & 0.672 & 575.18 & 1.243\\
-\textbf{} & 2026 & 31 & 216.51 & 0.318 & 320.57 & 0.439 & 599.72 & 0.649\\
-\textbf{} & 2027 & 45 & 225.82 & 0.490 & 334.58 & 0.733 & 623.86 & 1.348\\
-\textbf{} & 2028 & 46 & 233.35 & 0.343 & 342.90 & 0.469 & 632.73 & 0.685\\
-\textbf{} & 2029 & 47 & 240.11 & 0.521 & 350.06 & 0.767 & 639.19 & 1.381\\
-\textbf{} & 2030 & 48 & 245.89 & 0.362 & 355.76 & 0.487 & 642.79 & 0.696\\
-\textbf{} & 2031 & 48 & 250.59 & 0.544 & 359.91 & 0.789 & 643.44 & 1.390\\
-\textbf{} & 2032 & 48 & 254.24 & 0.374 & 362.55 & 0.496 & 641.39 & 0.694\\
-\textbf{} & 2033 & 48 & 256.96 & 0.558 & 363.90 & 0.798 & 637.11 & 1.376\\
-\textbf{} & 2034 & 48 & 258.91 & 0.381 & 364.21 & 0.498 & 631.18 & 0.683\\
-\textbf{} & 2035 & 48 & 260.28 & 0.565 & 363.77 & 0.797 & 624.18 & 1.348\\
-\textbf{} & 2036 & 48 & 261.29 & 0.384 & 362.86 & 0.496 & 616.61 & 0.667\\
+\textbf{A} & 2025 & 49 & 327.86 & 0.287 & 473.38 & 0.399 & 830.73 & 0.599\\
+\textbf{} & 2026 & 50 & 344.55 & 0.302 & 497.36 & 0.419 & 868.83 & 0.626\\
+\textbf{} & 2027 & 62 & 361.15 & 0.317 & 521.17 & 0.439 & 906.23 & 0.653\\
+\textbf{} & 2028 & 64 & 375.94 & 0.330 & 537.79 & 0.453 & 923.36 & 0.666\\
+\textbf{} & 2029 & 65 & 389.46 & 0.341 & 552.50 & 0.465 & 936.73 & 0.675\\
+\textbf{} & 2030 & 66 & 401.37 & 0.352 & 564.81 & 0.476 & 945.66 & 0.682\\
+\textbf{} & 2031 & 67 & 411.48 & 0.361 & 574.54 & 0.484 & 950.01 & 0.685\\
+\textbf{} & 2032 & 67 & 419.81 & 0.368 & 581.76 & 0.490 & 950.13 & 0.685\\
+\textbf{} & 2033 & 68 & 426.54 & 0.374 & 586.78 & 0.494 & 946.73 & 0.683\\
+\textbf{} & 2034 & 68 & 431.95 & 0.379 & 590.02 & 0.497 & 940.66 & 0.678\\
+\textbf{} & 2035 & 68 & 436.34 & 0.383 & 591.91 & 0.499 & 932.78 & 0.673\\
+\textbf{} & 2036 & 67 & 440.02 & 0.386 & 592.92 & 0.499 & 923.86 & 0.666\\
 \bottomrule
 \end{tabular}
 
@@ -3920,7 +3898,7 @@ Mgmt & Year & Catch & Low Spawn & Low Frac & Base Spawn & Base Frac & High Spawn
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/data_plot.png}
+\includegraphics{figures/r4ss_plots/plots/data_plot.png}
 
 }
 
@@ -3933,7 +3911,7 @@ model.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/catch2_landings_stacked.png}
+\includegraphics{figures/r4ss_plots/plots/catch2_landings_stacked.png}
 
 }
 
@@ -3945,7 +3923,7 @@ model.}
 
 \centering{
 
-\includegraphics[width=7in,height=\textheight]{figures/indices/ORFS_qq.png}
+\includegraphics{figures/indices/ORFS_qq.png}
 
 }
 
@@ -3958,7 +3936,7 @@ model fit for the Oregon Onboard Observer (ORFS) index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/index1_cpuedata_9_OR_RECOB.png}
+\includegraphics{figures/r4ss_plots/plots/index1_cpuedata_9_OR_RECOB.png}
 
 }
 
@@ -3971,7 +3949,7 @@ the Oregon Onboard Observer (ORFS) index.}
 
 \centering{
 
-\includegraphics[width=10in,height=\textheight]{figures/indices/ORFS index comparison_errbars.png}
+\includegraphics{figures/indices/ORFS index comparison_errbars.png}
 
 }
 
@@ -3984,7 +3962,7 @@ indices from the 2017 and the current assessment.}
 
 \centering{
 
-\includegraphics[width=7in,height=\textheight]{figures/indices/ORBS_qq.png}
+\includegraphics{figures/indices/ORBS_qq.png}
 
 }
 
@@ -3997,7 +3975,7 @@ fit for the updated portion of the Oregon recreational (ORBS) index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/index1_cpuedata_6_OR_REC.png}
+\includegraphics{figures/r4ss_plots/plots/index1_cpuedata_6_OR_REC.png}
 
 }
 
@@ -4013,7 +3991,7 @@ ORBS (2004 - 2024) indices.}
 
 \centering{
 
-\includegraphics[width=10in,height=\textheight]{figures/indices/ORBS index comparison_ORBSonly_errbars.png}
+\includegraphics{figures/indices/ORBS index comparison_ORBSonly_errbars.png}
 
 }
 
@@ -4027,7 +4005,7 @@ current ORBS index (sdmTMB).}
 
 \centering{
 
-\includegraphics[width=7in,height=\textheight]{figures/indices/wcgbts_qq.png}
+\includegraphics{figures/indices/wcgbts_qq.png}
 
 }
 
@@ -4041,7 +4019,7 @@ model fit for the NWFSC West Coast Groundfish Bottom Trawl Survey
 
 \centering{
 
-\includegraphics[width=5.05in,height=\textheight]{figures/indices/wcgbts_index_comparison.png}
+\includegraphics{figures/indices/wcgbts_index_comparison.png}
 
 }
 
@@ -4055,7 +4033,7 @@ index of abundance.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/index1_cpuedata_11_NWFSC_ORWA.png}
+\includegraphics{figures/r4ss_plots/plots/index1_cpuedata_11_NWFSC_ORWA.png}
 
 }
 
@@ -4068,7 +4046,7 @@ the West Coast Groundfish Bottom Trawl Survey (WCGBTS).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/index1_cpuedata_12_IPHC_ORWA.png}
+\includegraphics{figures/r4ss_plots/plots/index1_cpuedata_12_IPHC_ORWA.png}
 
 }
 
@@ -4094,7 +4072,7 @@ current IPHC index of abundance.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/comp_lendat_flt11mkt0.png}
+\includegraphics{figures/r4ss_plots/plots/comp_lendat_flt11mkt0.png}
 
 }
 
@@ -4107,7 +4085,7 @@ the WCBTS.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png}
+\includegraphics{figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png}
 
 }
 
@@ -4122,7 +4100,7 @@ the IPHC longline survey.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page1.png}
+\includegraphics{figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page1.png}
 
 }
 
@@ -4135,7 +4113,7 @@ age-at-length data for the WCBTS (1 of 2).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page2.png}
+\includegraphics{figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page2.png}
 
 }
 
@@ -4148,7 +4126,7 @@ age-at-length data for the WCBTS (2 of 2).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page1.png}
+\includegraphics{figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page1.png}
 
 }
 
@@ -4161,7 +4139,7 @@ age-at-length data for the IPHC (1 of 2).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png}
+\includegraphics{figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png}
 
 }
 
@@ -4174,7 +4152,7 @@ age-at-length data for the IPHC (1 of 2).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/bio5_weightatsize.png}
+\includegraphics{figures/r4ss_plots/plots/bio5_weightatsize.png}
 
 }
 
@@ -4186,7 +4164,7 @@ age-at-length data for the IPHC (1 of 2).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/bridging/3_extendedcatch/compare2_spawnbio_uncertainty.png}
+\includegraphics{figures/bridging/3_extendedcatch/compare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4200,7 +4178,7 @@ catch data (red), and catch extened to 2024 (green).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/bridging/3_extendedcatch/compare4_Bratio_uncertainty.png}
+\includegraphics{figures/bridging/3_extendedcatch/compare4_Bratio_uncertainty.png}
 
 }
 
@@ -4215,7 +4193,7 @@ management target and minimum stock size threshold.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/bridging/3_extendedcatch/compare18_smrybio.png}
+\includegraphics{figures/bridging/3_extendedcatch/compare18_smrybio.png}
 
 }
 
@@ -4230,7 +4208,7 @@ Rockfish biomass of the 2017 model with an updated SS3 executable
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/bridging/5_newindices/compare2_spawnbio_uncertainty.png}
+\includegraphics{figures/bridging/5_newindices/compare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4245,7 +4223,7 @@ extended historical catch data (green), updated historical indices
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/bridging/14_tunecomps/compare2_spawnbio_uncertainty.png}
+\includegraphics{figures/bridging/14_tunecomps/compare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4260,7 +4238,7 @@ composition data (green).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/bridging/14_tunecomps/compare11_recdevs.png}
+\includegraphics{figures/bridging/14_tunecomps/compare11_recdevs.png}
 
 }
 
@@ -4275,7 +4253,7 @@ and indices (red), and all tuned length and age composition data
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/bridging/19_last_bridge/compare2_spawnbio_uncertainty.png}
+\includegraphics{figures/bridging/19_last_bridge/compare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4290,7 +4268,7 @@ all final bridging steps (green).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/bridging/19_last_bridge/compare4_Bratio_uncertainty.png}
+\includegraphics{figures/bridging/19_last_bridge/compare4_Bratio_uncertainty.png}
 
 }
 
@@ -4306,7 +4284,7 @@ minimum stock size threshold.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/bridging/1_SS3exe/compare4_Bratio_uncertainty.png}
+\includegraphics{figures/bridging/1_SS3exe/compare4_Bratio_uncertainty.png}
 
 }
 
@@ -4321,7 +4299,7 @@ model with the updated SS3 executable and a single-sex model.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/bio1_sizeatage.png}
+\includegraphics{figures/r4ss_plots/plots/bio1_sizeatage.png}
 
 }
 
@@ -4334,7 +4312,7 @@ the ending year of the model.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/recruit_fit_bias_adjust.png}
+\includegraphics{figures/r4ss_plots/plots/recruit_fit_bias_adjust.png}
 
 }
 
@@ -4351,7 +4329,7 @@ adjustment relationship for recruitment deviations.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/sel01_multiple_fleets_length1.png}
+\includegraphics{figures/r4ss_plots/plots/sel01_multiple_fleets_length1.png}
 
 }
 
@@ -4364,7 +4342,7 @@ all fleets.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/bio10_spawningoutput_len.png}
+\includegraphics{figures/r4ss_plots/plots/bio10_spawningoutput_len.png}
 
 }
 
@@ -4376,7 +4354,7 @@ all fleets.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/SR_curve.png}
+\includegraphics{figures/r4ss_plots/plots/SR_curve.png}
 
 }
 
@@ -4390,7 +4368,7 @@ showing later years.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/recdevs2_withbars.png}
+\includegraphics{figures/r4ss_plots/plots/recdevs2_withbars.png}
 
 }
 
@@ -4405,7 +4383,7 @@ showing later years.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/index5_logcpuefit_3_CA_REC.png}
+\includegraphics{figures/r4ss_plots/plots/index5_logcpuefit_3_CA_REC.png}
 
 }
 
@@ -4418,7 +4396,7 @@ index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/index5_logcpuefit_6_OR_REC.png}
+\includegraphics{figures/r4ss_plots/plots/index5_logcpuefit_6_OR_REC.png}
 
 }
 
@@ -4430,7 +4408,7 @@ index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/index5_logcpuefit_7_WA_REC.png}
+\includegraphics{figures/r4ss_plots/plots/index5_logcpuefit_7_WA_REC.png}
 
 }
 
@@ -4442,7 +4420,7 @@ index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/index5_logcpuefit_8_CACPFV.png}
+\includegraphics{figures/r4ss_plots/plots/index5_logcpuefit_8_CACPFV.png}
 
 }
 
@@ -4455,7 +4433,7 @@ index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/index5_logcpuefit_9_OR_RECOB.png}
+\includegraphics{figures/r4ss_plots/plots/index5_logcpuefit_9_OR_RECOB.png}
 
 }
 
@@ -4468,7 +4446,7 @@ index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/index5_logcpuefit_10_TRI_ORWA.png}
+\includegraphics{figures/r4ss_plots/plots/index5_logcpuefit_10_TRI_ORWA.png}
 
 }
 
@@ -4480,7 +4458,7 @@ index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/index5_logcpuefit_11_NWFSC_ORWA.png}
+\includegraphics{figures/r4ss_plots/plots/index5_logcpuefit_11_NWFSC_ORWA.png}
 
 }
 
@@ -4492,7 +4470,7 @@ index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/index5_logcpuefit_12_IPHC_ORWA.png}
+\includegraphics{figures/r4ss_plots/plots/index5_logcpuefit_12_IPHC_ORWA.png}
 
 }
 
@@ -4506,7 +4484,7 @@ index.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/comp_lenfit__aggregated_across_time.png}
+\includegraphics{figures/r4ss_plots/plots/comp_lenfit__aggregated_across_time.png}
 
 }
 
@@ -4519,7 +4497,7 @@ aggregated across time by fleet.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/comp_lenfit__page1_multi-fleet_comparison.png}
+\includegraphics{figures/r4ss_plots/plots/comp_lenfit__page1_multi-fleet_comparison.png}
 
 }
 
@@ -4534,7 +4512,7 @@ are negative residuals (observed \textless{} expected).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/comp_lenfit__page2_multi-fleet_comparison.png}
+\includegraphics{figures/r4ss_plots/plots/comp_lenfit__page2_multi-fleet_comparison.png}
 
 }
 
@@ -4549,7 +4527,7 @@ are negative residuals (observed \textless{} expected).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge2_CA_NONTWL.png}
+\includegraphics{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge2_CA_NONTWL.png}
 
 }
 
@@ -4564,7 +4542,7 @@ model expectation.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge3_CA_REC.png}
+\includegraphics{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge3_CA_REC.png}
 
 }
 
@@ -4579,7 +4557,7 @@ model expectation.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge4_ORWA_TWL.png}
+\includegraphics{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge4_ORWA_TWL.png}
 
 }
 
@@ -4594,7 +4572,7 @@ model expectation.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge5_ORWA_NONTWL.png}
+\includegraphics{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge5_ORWA_NONTWL.png}
 
 }
 
@@ -4609,7 +4587,7 @@ model expectation.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge6_OR_REC.png}
+\includegraphics{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge6_OR_REC.png}
 
 }
 
@@ -4624,7 +4602,7 @@ model expectation.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge7_WA_REC.png}
+\includegraphics{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge7_WA_REC.png}
 
 }
 
@@ -4639,7 +4617,7 @@ model expectation.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge11_NWFSC_ORWA.png}
+\includegraphics{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge11_NWFSC_ORWA.png}
 
 }
 
@@ -4654,7 +4632,7 @@ expectation.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge12_IPHC_ORWA.png}
+\includegraphics{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge12_IPHC_ORWA.png}
 
 }
 
@@ -4669,7 +4647,7 @@ expectation.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png}
+\includegraphics{figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png}
 
 }
 
@@ -4682,7 +4660,7 @@ for both areas combined.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png}
+\includegraphics{figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png}
 
 }
 
@@ -4695,7 +4673,7 @@ by area (Area 1 is California, Area 2 is Oregon/Washington combined).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png}
+\includegraphics{figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png}
 
 }
 
@@ -4709,7 +4687,7 @@ output estimated in the assessment model (solid line) with
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/ts10_Relative_spawning_output.png}
+\includegraphics{figures/r4ss_plots/plots/ts10_Relative_spawning_output.png}
 
 }
 
@@ -4722,7 +4700,7 @@ estimated by area (area 1= California, area 2 = Oregon and Washington).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/ts2_Total_biomass_(t)_by_area.png}
+\includegraphics{figures/r4ss_plots/plots/ts2_Total_biomass_(t)_by_area.png}
 
 }
 
@@ -4735,7 +4713,7 @@ estimated by area (area 1= California, area 2 = Oregon and Washington).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png}
+\includegraphics{figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png}
 
 }
 
@@ -4750,7 +4728,7 @@ estimated by area (area 1= California, area 2 = Oregon and Washington).}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png}
+\includegraphics{figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png}
 
 }
 
@@ -4763,7 +4741,7 @@ the assessment model with \textasciitilde{} 95\% interval.}
 
 \centering{
 
-\includegraphics[width=9in,height=\textheight]{figures/diagnostics/2025_base_model_jitter_0.1/jitter.png}
+\includegraphics{figures/diagnostics/2025_base_model_jitter_0.1/jitter.png}
 
 }
 
@@ -4777,7 +4755,7 @@ indicates base model value.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/sensitivities/modelingcompare2_spawnbio_uncertainty.png}
+\includegraphics{figures/sensitivities/modelingcompare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4790,7 +4768,7 @@ structure sensitivities.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/sensitivities/modelingcompare4_Bratio_uncertainty.png}
+\includegraphics{figures/sensitivities/modelingcompare4_Bratio_uncertainty.png}
 
 }
 
@@ -4803,7 +4781,7 @@ model structure sensitivities.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/sensitivities/comp_datacompare2_spawnbio_uncertainty.png}
+\includegraphics{figures/sensitivities/comp_datacompare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4816,7 +4794,7 @@ inclusion sensitivities.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/sensitivities/comp_datacompare4_Bratio_uncertainty.png}
+\includegraphics{figures/sensitivities/comp_datacompare4_Bratio_uncertainty.png}
 
 }
 
@@ -4829,7 +4807,7 @@ dataset inclusion sensitivities.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/sensitivities/indicescompare2_spawnbio_uncertainty.png}
+\includegraphics{figures/sensitivities/indicescompare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4842,7 +4820,7 @@ inclusion sensitivities.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/sensitivities/indicescompare4_Bratio_uncertainty.png}
+\includegraphics{figures/sensitivities/indicescompare4_Bratio_uncertainty.png}
 
 }
 
@@ -4857,7 +4835,7 @@ index inclusion sensitivities.}
 
 \centering{
 
-\includegraphics[width=6in,height=\textheight]{figures/sensitivities/sens_summary.png}
+\includegraphics{figures/sensitivities/sens_summary.png}
 
 }
 
@@ -4870,7 +4848,7 @@ across models conducted as sensitivities.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare2_spawnbio_uncertainty.png}
+\includegraphics{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare2_spawnbio_uncertainty.png}
 
 }
 
@@ -4884,7 +4862,7 @@ Spawning output time series of this assesment base model are proved with
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare4_Bratio_uncertainty.png}
+\includegraphics{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare4_Bratio_uncertainty.png}
 
 }
 
@@ -4898,7 +4876,7 @@ proved with \textasciitilde95\% interval.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare12_recdevs_uncertainty.png}
+\includegraphics{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare12_recdevs_uncertainty.png}
 
 }
 
@@ -4911,7 +4889,7 @@ for each scenario of the retrospective analysis.}
 
 \centering{
 
-\includegraphics[width=7.6in,height=\textheight]{figures/bridging/Timeseries_comp_previous_assessments.png}
+\includegraphics{figures/bridging/Timeseries_comp_previous_assessments.png}
 
 }
 
@@ -4924,7 +4902,7 @@ across Yelloweye Rockfish assessments over time.}
 
 \centering{
 
-\includegraphics[width=7in,height=\textheight]{figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/piner_panel_NatM_break_1_Fem_GP_1.png}
+\includegraphics{figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/piner_panel_NatM_break_1_Fem_GP_1.png}
 
 }
 
@@ -4940,7 +4918,7 @@ ranging from 0.03 to 0.06 in increments of 0.002.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/NatM_break_1_Fem_GP_1_trajectories_compare3_Bratio.png}
+\includegraphics{figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/NatM_break_1_Fem_GP_1_trajectories_compare3_Bratio.png}
 
 }
 
@@ -4954,7 +4932,7 @@ ranging from 0.03 to 0.06 in increments of 0.002.}
 
 \centering{
 
-\includegraphics[width=7in,height=\textheight]{figures/diagnostics/2025_base_model_profile_SR_BH_steep/piner_panel_SR_BH_steep.png}
+\includegraphics{figures/diagnostics/2025_base_model_profile_SR_BH_steep/piner_panel_SR_BH_steep.png}
 
 }
 
@@ -4968,7 +4946,7 @@ steepness ranging from 0.25 to 1.0 by increments of 0.05.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/diagnostics/2025_base_model_profile_SR_BH_steep/SR_BH_steep_trajectories_compare3_Bratio.png}
+\includegraphics{figures/diagnostics/2025_base_model_profile_SR_BH_steep/SR_BH_steep_trajectories_compare3_Bratio.png}
 
 }
 
@@ -4982,7 +4960,7 @@ from 0.25 to 1.0 in increments of 0.05.}
 
 \centering{
 
-\includegraphics[width=7in,height=\textheight]{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png}
+\includegraphics{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png}
 
 }
 
@@ -4996,7 +4974,7 @@ recruitment (lnR0) ranging from 4.5 to 6.0 by increments of 0.15.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare1_spawnbio.png}
+\includegraphics{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare1_spawnbio.png}
 
 }
 
@@ -5009,7 +4987,7 @@ values of lnR0.}
 
 \centering{
 
-\includegraphics[width=7in,height=\textheight]{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/parameter_panel_SR_LN(R0).png}
+\includegraphics{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/parameter_panel_SR_LN(R0).png}
 
 }
 
@@ -5028,7 +5006,7 @@ estimate.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/SPR1_series.png}
+\includegraphics{figures/r4ss_plots/plots/SPR1_series.png}
 
 }
 
@@ -5040,7 +5018,7 @@ estimate.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/yield1_yield_curve.png}
+\includegraphics{figures/r4ss_plots/plots/yield1_yield_curve.png}
 
 }
 
@@ -5055,7 +5033,7 @@ relative spawning output is relative to unfished spawning biomass.}
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight]{figures/r4ss_plots/plots/ts10_Relative_spawning_output.png}
+\includegraphics{figures/r4ss_plots/plots/ts10_Relative_spawning_output.png}
 
 }
 
@@ -5070,5 +5048,6 @@ estimated by area (area 1= California, area 2 = Oregon and Washington).}
 
 \newpage{}
 \printnoidxglossaries
+
 
 \end{document}
