@@ -513,6 +513,7 @@ cat("\n\\end{landscape}\n")
 #| label: tbl-es-decision-2
 #| warning: false
 #| echo: false
+#| message: false
 #| eval: !expr eval_tables 
 #| tbl-cap: !expr if(eval_tables) decision_table_cap 
 #| tbl-pos: H
