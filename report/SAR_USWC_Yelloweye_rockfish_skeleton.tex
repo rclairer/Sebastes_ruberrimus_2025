@@ -261,7 +261,7 @@
 Perl \and Alison Whitman \and Matheus de Barros \and Juliette
 Champagnat \and Abby Schamp \and Samantha Schiano \and Fabio Prior
 Caltabellotta \and Vladlena Gertseva \and Ian Taylor \and Kiva Oken}
-\date{2025-05-27}
+\date{2025-05-28}
 
 \begin{document}
   \begin{titlepage}
@@ -889,7 +889,7 @@ MSY (mt) & 127 & 112 & 142 \\
 
 \centering{
 
-\includegraphics[width=6.5in,height=\textheight,keepaspectratio]{figures/r4ss_plots/plots/yield1_yield_curve.png}
+\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/yield1_yield_curve.png}}
 
 }
 
@@ -1144,19 +1144,23 @@ information.
 
 \subsection{Management History}\label{management-history}
 
-This section is not required for an update assessment; please refer to
-the most recent full assessment (Gertseva and Cope 2017) for additional
+Since the 2017 assessment, catch restrictions for Yelloweye Rockfish
+have continued, though as the stock has begun to recover, the rebuilding
+plan has allowed for small catch increases that have slightly loosened
+the constraining impact of this species. However, this section is not
+required for an update assessment; please refer to the most recent full
+assessment (Gertseva and Cope 2017) and \#sec-mgmt for additional
 information.
 
-\subsection{Management performance}\label{management-performance-1}
+\subsection{Management performance}\label{sec-mgmt}
 
 Yelloweye Rockfish removals have been substantially reduced since its
-designation as overfished in 2002 through a variety of managment
+designation as overfished in 2002 through a variety of management
 measures that eliminated retention in recreational fisheries, limited
 commercial retention, created broad spatial closures, and implemented
 new gear restrictions that reduced trawling in rocky habitats. Many of
 these restrictions remain in effect, though as Yelloweye Rockfish and
-other groundfish stocks have begun to rebuild, some managment measures
+other groundfish stocks have begun to rebuild, some management measures
 have been modified or removed in recent years. These include some
 additional allocations to recreational fisheries that remain constrained
 by Yelloweye Rockfish estimated discard mortality, the recent removal of
@@ -1164,13 +1168,13 @@ the Yelloweye \gls{rca} for the trawl sector off of California and
 Oregon, and eliminating some gear restrictions in the RCAs for the
 non-trawl sector.
 
-Recent trends in total catch relative to managment guidelines is
+Recent trends in total catch relative to management guidelines is
 available in Table~\ref{tbl-yelloweye_management} and shows that total
 catch of Yelloweye Rockfish has remained below both the \gls{ofl} and
 \gls{acl} in each year since the previous assessment. Catch in
 Table~\ref{tbl-yelloweye_management} combines the two areas in this
 model as catch limits for Yelloweye Rockfish are managed as a single
-coastwide unit and includes both landings and estimated discard
+coast wide unit and includes both landings and estimated discard
 mortality. As in the previous assessment, total catches for each fleet
 in this update include both landings and estimated dead discard
 mortality.
@@ -1188,8 +1192,9 @@ information.
 
 A summary of available data by type and fleet used in the Yelloweye
 Rockfish assessment is available in Figure~\ref{fig-data}. Data that
-have changed from the previous 2017 assessment are summarized below. No
-new data sources were considered in this update assessment.
+have changed or been added since the previous 2017 assessment are
+summarized below. No new data sources were considered in this update
+assessment.
 
 Removals:
 
@@ -1219,7 +1224,7 @@ Composition Data:
 \item
   Some length and age composition data from the 2017 assessment had
   minor errors in how sample numbers were calculated, ageing error
-  assignment, and doubled age samples and thus needed to be fixed. See
+  assignment, or doubled age samples and thus needed to be fixed. See
   Section~\ref{sec-fd_comps} below.
 \end{itemize}
 
@@ -1253,14 +1258,14 @@ Biological Data:
   recent (2017 - 2024) fishery-independent data.
 \item
   Ageing error matrices were unchanged but some Oregon recreation ages
-  were assigned the wrong ageing error and were corrected based on ODFW
-  recommendations.
+  were assigned the wrong ageing error in the 2017 assessment and were
+  corrected based on ODFW recommendations.
 \end{itemize}
 
 \subsection{Fishery-Dependent Data}\label{fishery-dependent-data}
 
 Updated fishery-dependent data, including removals, length and age
-compositions, and indices of abundance, are detailed below.
+compositions, and indices of abundance are detailed below.
 
 \subsubsection{Landings}\label{landings}
 
@@ -1274,6 +1279,7 @@ Groundfish Observer Program (\gls{wcgop}) discard estimates were added
 to \gls{pacfin} landings by adding the annual dead discard mortality
 rate for the commercial sector in the \gls{gemm} recorded discards to
 obtain the total catch of Yelloweye Rockfish within commercial fleets.
+At this time no \gls{wcgop} data were available for 2024.
 
 Bycatch for the At-Sea Pacific Hake fleet (A-SHOP) was updated from 2017
 through 2024.
@@ -1282,18 +1288,19 @@ Recreational removals from \href{www.recfin.org}{\gls{recfin}} were
 updated for California, Oregon and Washington from 2017 - 2024.
 \gls{recfin} removals include an estimate of discard mortality and
 represent total estimated removals. The Oregon Department of Fish and
-Wildlife (ODFW) provided updated historical recreational removals for
-Oregon from 1979 through 2000(Whitman (2024)). The \gls{wdfw} provided
-updated historical recreational removals (1967-1989) and \gls{osp}
-estimates (1990-2001). The historical recreational removals for 1971,
-1974, and 1979 were not available and were filled in as the average of
-the two preceding and two following years. Historical data were filtered
-to marine catch areas 1-4. For \gls{osp} catch estimates, data included
-marine catch areas 1-4, up to the Bonilla-Tatoosh line. \gls{wdfw} also
-provided updated catch estimates for 2002-2004, which did not include
-discard mortality. To adjust for this, we multiplied the average
-mortality rate from the following five years (2005-2009) by the total
-discards to calculate total mortality for those years.
+Wildlife (\gls{odfw}) provided updated historical recreational removals
+for Oregon from 1979 through 2000 (Whitman 2024). The Washington
+Department of Fish and Wildlife (\gls{wdfw}) provided updated historical
+recreational removals (1967-1989) and \gls{osp} estimates (1990-2001).
+The historical recreational removals for 1971, 1974, and 1979 were not
+available and were filled in as the average of the two preceding and two
+following years. Historical data were filtered to marine catch areas
+1-4. For \gls{osp} catch estimates, data included marine catch areas
+1-4, up to the Bonilla-Tatoosh line. \gls{wdfw} also provided updated
+catch estimates for 2002-2004, which did not include discard mortality.
+To adjust for this, we multiplied the average discard mortality rate
+from the following five years (2005-2009) by the total discards to
+calculate total mortality for those years.
 
 \subsubsection{Fishery-Dependent Length and Age
 Compositions}\label{sec-fd_comps}
@@ -1310,12 +1317,12 @@ Recreational Fishery Survey (ORFS, previously the Oregon onboard
 recreational observer program), both of which measure fish discarded at
 sea, were also available up through 2024 on \gls{recfin}.
 
-New commercial age composition data from \gls{pacfin} and WDGCOP for
-2017-2024 was included for Oregon and Washington. No new commercial age
-data were available from California. New recreational age composition
-data was available from \gls{recfin} from 2017 - 2024 for Washington
-only (extracted May 13, 2025). These data were collected in the
-\gls{osp}. There were also some historical updates to Oregon and
+New commercial age composition data from \gls{pacfin} and \gls{wcgop}
+for 2017-2024 was included for Oregon and Washington. No new commercial
+age data were available from California. New recreational age
+composition data was available from \gls{recfin} from 2017 - 2024 for
+Washington only (extracted May 13, 2025). These data were collected in
+the \gls{osp}. There were also some historical updates to Oregon and
 Washington recreational age data provided by the state representatives.
 
 In addition to extending the length data time series, we also fixed
@@ -1330,7 +1337,7 @@ number of fish. Then, we applied that regression to the total number of
 fish for data between 2017 and 2024 to estimate the number of samples. A
 future benchmark assessment should investigate how to get the number of
 sampled trips from \gls{recfin} to calculate the number of samples using
-the Ian J. Stewart and Hamel (2014) method.
+the I. J. Stewart and Hamel (2014) method.
 
 We also found that \gls{caal} data from the 2017 assessment had all
 sample sizes and relative proportions doubled, potentially from when
@@ -2420,16 +2427,16 @@ Rockfish (Sebastes Ruberrimus) Is Consistent with a Major Oceanographic
 Division in British Columbia, Canada.''} \emph{PloS One} 8.
 \url{https://doi.org/p.e71083}.
 
+\bibitem[\citeproctext]{ref-stewart_bootstrapping_2014}
+Stewart, I. J., and O. S. Hamel. 2014. {``Bootstrapping of Sample Sizes
+for Length- or Age-Composition Data Used in Stock Assessments.''}
+\emph{Canadian Journal of Fisheries and Aquatic Sciences} 71 (4):
+581--88. \url{https://doi.org/10.1139/cjfas-2013-0289}.
+
 \bibitem[\citeproctext]{ref-stewart_status_2009}
 Stewart, I. J, J. R. Wallace, and C. McGilliard. 2009. {``Status of the
 {U}.{S}. Yelloweye Rockfish Resource in 2009.''} 7700 Ambassador Place
 NE, Suite 200, Portland, OR: Pacific Fishery Management Council.
-
-\bibitem[\citeproctext]{ref-stewart_bootstrapping_2014}
-Stewart, Ian J., and Owen S. Hamel. 2014. {``Bootstrapping of Sample
-Sizes for Length- or Age-Composition Data Used in Stock Assessments.''}
-\emph{Canadian Journal of Fisheries and Aquatic Sciences} 71 (4):
-581--88. \url{https://doi.org/10.1139/cjfas-2013-0289}.
 
 \bibitem[\citeproctext]{ref-Taylor_r4ss_lessons_2021}
 Taylor, I. G., K. L. Doering, K. L. Johnson, C. R. Wetzel, and I. J.
@@ -3585,7 +3592,7 @@ Year & Total Biomass (mt) & Spawning output & Total Biomass 8+ (mt) & Fraction U
 \begin{landscape}
 \begingroup\fontsize{9}{11}\selectfont
 
-\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}}
+\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}}
 
 \caption{\label{tbl-sensitivities-like-indices}Base model sensitivity to
 the removal of data sources (indices).}
@@ -3593,29 +3600,29 @@ the removal of data sources (indices).}
 \tabularnewline
 
 \toprule
-Label & Base & X..CA.REC.index & X..OR.REC.index & X..WA.REC.index & X..CA.CPFV.index & X..ORBS.index & X..IPHC.index & No.indices\\
+Label & Base & X..CA.REC.index & X..OR.REC.index & X..WA.REC.index & X..CA.CPFV.index & X..ORFS.index & X..AFSC.triennial.index & X..NWFSC.bottom.trawl.index & X..IPHC.index & No.indices\\
 \midrule
 \addlinespace[0.3em]
-\multicolumn{9}{l}{\textbf{Diff. in likelihood from base model}}\\
-\hspace{1em}Total & \textcolor{black}{0} & \textcolor{black}{4.64} & \textcolor{black}{29.09} & \textcolor{black}{5.04} & \textcolor{red}{-162.75} & \textcolor{red}{-103.95} & \textcolor{red}{-951.85} & \textcolor{red}{-2659.37}\\
-\hspace{1em}Index & \textcolor{black}{0} & \textcolor{black}{4.86} & \textcolor{black}{29.243} & \textcolor{black}{5.661} & \textcolor{black}{5.615} & \textcolor{black}{4.039} & \textcolor{black}{0.945} & \textcolor{black}{NA}\\
-\hspace{1em}Length comp & \textcolor{black}{0} & \textcolor{black}{0.12} & \textcolor{black}{0.47} & \textcolor{red}{-2.22} & \textcolor{red}{-165.57} & \textcolor{red}{-99.61} & \textcolor{red}{-67.6} & \textcolor{red}{-437.641}\\
-\hspace{1em}Age comp & \textcolor{black}{0} & \textcolor{red}{-0.03} & \textcolor{black}{0.11} & \textcolor{black}{2.28} & \textcolor{red}{-5.04} & \textcolor{red}{-8.32} & \textcolor{red}{-884.31} & \textcolor{red}{-2271.63}\\
-\hspace{1em}Recruitment & \textcolor{black}{0} & \textcolor{red}{-0.342} & \textcolor{red}{-0.743} & \textcolor{red}{-0.749} & \textcolor{black}{2.249} & \textcolor{red}{-0.026} & \textcolor{red}{-1.123} & \textcolor{red}{-5.132}\\
-\hspace{1em}Parm priors & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0}\\
+\multicolumn{11}{l}{\textbf{Diff. in likelihood from base model}}\\
+\hspace{1em}Total & \textcolor{black}{0} & \textcolor{black}{4.64} & \textcolor{black}{29.09} & \textcolor{black}{5.04} & \textcolor{red}{-162.75} & \textcolor{red}{-103.95} & \textcolor{red}{-25.8} & \textcolor{red}{-1460.3} & \textcolor{red}{-951.85} & \textcolor{red}{-2659.37}\\
+\hspace{1em}Index & \textcolor{black}{0} & \textcolor{black}{4.86} & \textcolor{black}{29.243} & \textcolor{black}{5.661} & \textcolor{black}{5.615} & \textcolor{black}{4.039} & \textcolor{black}{0.921} & \textcolor{black}{4.769} & \textcolor{black}{0.945} & \textcolor{black}{NA}\\
+\hspace{1em}Length comp & \textcolor{black}{0} & \textcolor{black}{0.12} & \textcolor{black}{0.47} & \textcolor{red}{-2.22} & \textcolor{red}{-165.57} & \textcolor{red}{-99.61} & \textcolor{red}{-24.58} & \textcolor{red}{-81.55} & \textcolor{red}{-67.6} & \textcolor{red}{-437.641}\\
+\hspace{1em}Age comp & \textcolor{black}{0} & \textcolor{red}{-0.03} & \textcolor{black}{0.11} & \textcolor{black}{2.28} & \textcolor{red}{-5.04} & \textcolor{red}{-8.32} & \textcolor{red}{-2.3} & \textcolor{red}{-1378.96} & \textcolor{red}{-884.31} & \textcolor{red}{-2271.63}\\
+\hspace{1em}Recruitment & \textcolor{black}{0} & \textcolor{red}{-0.342} & \textcolor{red}{-0.743} & \textcolor{red}{-0.749} & \textcolor{black}{2.249} & \textcolor{red}{-0.026} & \textcolor{black}{0.181} & \textcolor{red}{-4.53} & \textcolor{red}{-1.123} & \textcolor{red}{-5.132}\\
+\hspace{1em}Parm priors & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0}\\
 \addlinespace[0.3em]
-\multicolumn{9}{l}{\textbf{Estimates of key parameters}}\\
-\hspace{1em}Recruitment unfished thousands & \textcolor{black}{241.237} & \textcolor{black}{237.065} & \textcolor{black}{237.898} & \textcolor{black}{231.346} & \textcolor{black}{245.567} & \textcolor{black}{241.483} & \textcolor{black}{221.874} & \textcolor{black}{208.71}\\
-\hspace{1em}log(R0) & \textcolor{black}{5.486} & \textcolor{black}{5.468} & \textcolor{black}{5.472} & \textcolor{black}{5.444} & \textcolor{black}{5.504} & \textcolor{black}{5.487} & \textcolor{black}{5.402} & \textcolor{black}{5.341}\\
-\hspace{1em}M Female & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044}\\
-\hspace{1em}L at Amax Female & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{62.4} & \textcolor{black}{62.7}\\
+\multicolumn{11}{l}{\textbf{Estimates of key parameters}}\\
+\hspace{1em}Recruitment unfished thousands & \textcolor{black}{241.237} & \textcolor{black}{237.065} & \textcolor{black}{237.898} & \textcolor{black}{231.346} & \textcolor{black}{245.567} & \textcolor{black}{241.483} & \textcolor{black}{242.685} & \textcolor{black}{244.144} & \textcolor{black}{221.874} & \textcolor{black}{208.71}\\
+\hspace{1em}log(R0) & \textcolor{black}{5.486} & \textcolor{black}{5.468} & \textcolor{black}{5.472} & \textcolor{black}{5.444} & \textcolor{black}{5.504} & \textcolor{black}{5.487} & \textcolor{black}{5.492} & \textcolor{black}{5.498} & \textcolor{black}{5.402} & \textcolor{black}{5.341}\\
+\hspace{1em}M Female & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044}\\
+\hspace{1em}L at Amax Female & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.3} & \textcolor{black}{61.5} & \textcolor{black}{62.4} & \textcolor{black}{62.7}\\
 \addlinespace[0.3em]
-\multicolumn{9}{l}{\textbf{Estimates of derived quantities}}\\
-\hspace{1em}Unfished age 4+ bio 1000 mt & \textcolor{black}{10.305} & \textcolor{black}{10.129} & \textcolor{black}{10.164} & \textcolor{black}{9.879} & \textcolor{black}{10.494} & \textcolor{black}{10.331} & \textcolor{black}{9.896} & \textcolor{black}{9.432}\\
-\hspace{1em}B0 millions of eggs & \textcolor{black}{1187.12} & \textcolor{black}{1166.96} & \textcolor{black}{1170.95} & \textcolor{black}{1137.84} & \textcolor{black}{1209} & \textcolor{black}{1190.92} & \textcolor{black}{1160.59} & \textcolor{black}{1108.68}\\
-\hspace{1em}B2025 millions of eggs & \textcolor{black}{473.382} & \textcolor{black}{455.304} & \textcolor{black}{460.177} & \textcolor{black}{430.964} & \textcolor{black}{495.377} & \textcolor{black}{483.928} & \textcolor{black}{388.391} & \textcolor{black}{335.91}\\
-\hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.399} & \textcolor{black}{0.39} & \textcolor{black}{0.393} & \textcolor{black}{0.379} & \textcolor{black}{0.41} & \textcolor{black}{0.406} & \textcolor{black}{0.335} & \textcolor{black}{0.303}\\
-\hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.202} & \textcolor{black}{0.209} & \textcolor{black}{0.207} & \textcolor{black}{0.219} & \textcolor{black}{0.193} & \textcolor{black}{0.198} & \textcolor{black}{0.246} & \textcolor{black}{0.282}\\
+\multicolumn{11}{l}{\textbf{Estimates of derived quantities}}\\
+\hspace{1em}Unfished age 4+ bio 1000 mt & \textcolor{black}{10.305} & \textcolor{black}{10.129} & \textcolor{black}{10.164} & \textcolor{black}{9.879} & \textcolor{black}{10.494} & \textcolor{black}{10.331} & \textcolor{black}{10.354} & \textcolor{black}{10.463} & \textcolor{black}{9.896} & \textcolor{black}{9.432}\\
+\hspace{1em}B0 millions of eggs & \textcolor{black}{1187.12} & \textcolor{black}{1166.96} & \textcolor{black}{1170.95} & \textcolor{black}{1137.84} & \textcolor{black}{1209} & \textcolor{black}{1190.92} & \textcolor{black}{1192.05} & \textcolor{black}{1202.44} & \textcolor{black}{1160.59} & \textcolor{black}{1108.68}\\
+\hspace{1em}B2025 millions of eggs & \textcolor{black}{473.382} & \textcolor{black}{455.304} & \textcolor{black}{460.177} & \textcolor{black}{430.964} & \textcolor{black}{495.377} & \textcolor{black}{483.928} & \textcolor{black}{481.547} & \textcolor{black}{480.667} & \textcolor{black}{388.391} & \textcolor{black}{335.91}\\
+\hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.399} & \textcolor{black}{0.39} & \textcolor{black}{0.393} & \textcolor{black}{0.379} & \textcolor{black}{0.41} & \textcolor{black}{0.406} & \textcolor{black}{0.404} & \textcolor{black}{0.4} & \textcolor{black}{0.335} & \textcolor{black}{0.303}\\
+\hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.202} & \textcolor{black}{0.209} & \textcolor{black}{0.207} & \textcolor{black}{0.219} & \textcolor{black}{0.193} & \textcolor{black}{0.198} & \textcolor{black}{0.199} & \textcolor{black}{0.202} & \textcolor{black}{0.246} & \textcolor{black}{0.282}\\
 \bottomrule
 
 \end{longtable}
