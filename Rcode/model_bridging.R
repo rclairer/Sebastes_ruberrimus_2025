@@ -2109,6 +2109,149 @@ SSplotComparisons(models_summary,
                                    "+ updated start file"),
                   print = TRUE)
 
+##########################################################################
+#####################    ADD DISCARD AMOUNTS #############################
+##########################################################################
+
+
+
+
+
+
+
+##########################################################################
+######################### UPDATE STEEPNESS ###############################
+############################################################################
+
+updated_startfile_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512")
+
+base_steepness_updated_dir <- here::here("model", "base_steepness_updated")
+
+copy_SS_inputs(
+  dir.old = updated_startfile_dir,
+  dir.new = base_steepness_updated_dir,
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+inputs <- SS_read(dir = base_steepness_updated_dir)
+inputs$ctl$SR_parms$INIT[2] <- 0.72
+inputs$ctl$SR_parms$PRIOR[2] <- 0.72
+
+ctl <- inputs$ctl
+# Fill outfile with directory and file name of the file written
+r4ss::SS_writectl(
+  ctl,
+  outfile = file.path(base_steepness_updated_dir, "yelloweye_control.ss"),
+  overwrite = TRUE
+)
+
+r4ss::get_ss3_exe(dir = base_steepness_updated_dir)
+
+# You have to run this model in full (not using -nohess) because you need the covar file
+# to fit the bias
+r4ss::run(dir = base_steepness_updated_dir, show_in_console = TRUE)
+
+replist_base_steepness_updated <- r4ss::SS_output(dir = base_steepness_updated_dir)
+
+r4ss::SS_plots(replist_base_steepness_updated)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "2025_base_model")),
+            paste0(file.path(getwd(), "model", "base_steepness_updated")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "22_base_steepness_updated"),
+                  legendlabels = c("2025 base model", 
+                                   "steepness updated to 0.72"),
+                  print = TRUE)
+
+
+######################################################################
+#####################   FIT BIAS ADJ RAMP SECOND TIME ################
+#####################################################################
+
+# Read in base model
+#base_mod_dir <- here::here("model/2025_base_model")
+base_mod <- SS_read(here::here("model", "2025_base_model"))
+SS_write(base_mod, here::here("model", "2025_base_model_requests"), overwrite = TRUE)
+base_mod_requests_dir <- here::here("model/2025_base_model_requests")
+
+r4ss::get_ss3_exe(dir = base_mod_requests_dir)
+r4ss::run(dir = here::here("model", "2025_base_model_requests"), show_in_console = TRUE)
+#SS_plots(replist = SS_output(here::here("model", "2025_base_model_requests")),dir = 2025_base_model_requests_dir)
+
+replist_base_mod_requests <- r4ss::SS_output(dir = file.path(getwd(), "model", "2025_base_model_requests"))
+
+#run(dir = base_mod_dir, show_in_console = TRUE)
+
+#replist_base_mod <- r4ss::SS_output(dir = file.path(getwd(), "model", "2025_base_model"))
+
+#replist_base_mod <- r4ss::SS_output(dir = base_mod_dir, covar = TRUE)
+
+second_fitbias_dir <- here::here("model/second_fit_bias_adj_ramp")
+
+copy_SS_inputs(
+  dir.old = base_mod_requests_dir,
+  dir.new = second_fitbias_dir,
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+#fitbias_plots <- here::here("model/updated_alldata_tunecomps_fitbias_20250416/plots")
+#add this folder manually
+
+r4ss::SS_fitbiasramp(
+  replist_base_mod_requests, #use replist from previous run
+  plot = FALSE,
+  #print = TRUE,
+  #plotdir = fitbias_plots,
+  #shownew = TRUE,
+  oldctl = file.path(base_mod_requests_dir, "yelloweye_control.ss"),
+  newctl = file.path(second_fitbias_dir, "yelloweye_control.ss"),#this incorporates the suggested changes from the last run
+  startvalues = NULL,
+  method = "BFGS",
+  altmethod = "nlminb"
+)
+
+# Run model after fitbias
+r4ss::get_ss3_exe(dir = second_fitbias_dir)
+
+run(dir = second_fitbias_dir, show_in_console = TRUE)
+
+replist_second_fitbias <- r4ss::SS_output(dir = second_fitbias_dir)
+
+SS_plots(replist_second_fitbias)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "2025_base_model_requests")),
+            paste0(file.path(getwd(), "model", "second_fit_bias_adj_ramp")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "21_second_fitbias"),
+                  legendlabels = c("2025 base model", 
+                                   "second fitbias"),
+                  print = TRUE)
+
+###################################################################
+##################### TUNE AGAIN  #################################
+######################################################
+#
+
+
+
+
+
 ###################################################################
 #######               FORECAST FILE CHANGES               #########
 ###################################################################
