@@ -398,6 +398,7 @@ cat("\n\\end{landscape}\n")
 #| echo: false
 #| message: false
 #| warning: false
+#| out.width: "\\textwidth"
 #| results: "asis"
 #| tbl-cap: "Base model sensitivity to the removal of data sources (age compositional data)."
 
