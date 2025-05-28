@@ -311,7 +311,7 @@ kableExtra::kable(
   linesep = "") |>
   kableExtra::kable_styling(
     latex_options = "repeat_header",
-    font_size = 8) |>
+    font_size = 12) |>
   kableExtra::column_spec(
     #column = 1:9,
     width = "0.5in"
