@@ -297,10 +297,10 @@ parcount_table |>
 #| results: "asis"
 #| tbl-cap: !expr if(eval_tables) pars_cap
 
-cat("\\begin{landscape}\n")
-
-pars_table_fixed |>
+pars_table_fixed <- pars_table |>
   mutate(SD = ifelse(Status == 'fixed', NA, SD))
+
+cat("\\begin{landscape}\n")
 
 pars_table_fixed |>
 kableExtra::kable(
