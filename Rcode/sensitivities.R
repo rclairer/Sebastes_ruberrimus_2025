@@ -992,7 +992,7 @@ make_detailed_sensitivites <- function(biglist, mods, outdir, grp_name) {
     plotdir = outdir,
     filenameprefix = grp_name,
     legendlabels = c('Base', mods$pretty),
-    endyrvec = 2036
+    endyrvec = 2024
   )
 
   SStableComparisons(
@@ -1074,7 +1074,7 @@ indices <- data.frame(
     '- OR REC index',
     '- WA REC index',
     '- CA CPFV index',
-    '- ORBS index',
+    '- ORFS index',
     '- AFSC triennial index',
     '- NWFSC bottom trawl index',
     '- IPHC index',
@@ -1083,7 +1083,7 @@ indices <- data.frame(
 )
 
 
-comp_data <- data.frame(
+length_comps <- data.frame(
   dir = c(
     'index_and_comp_data/10_no_CA_trawl_lengths',
     'index_and_comp_data/11_no_CA_nontrawl_lengths',
@@ -1097,17 +1097,7 @@ comp_data <- data.frame(
     'index_and_comp_data/19_no_AFSC_TRI_lengths',
     'index_and_comp_data/20_no_NWFSC_lengths',
     'index_and_comp_data/21_no_IPHC_lengths',
-    'index_and_comp_data/22_no_length_comps',
-    'index_and_comp_data/23_no_CA_NONTWL_ages',
-    'index_and_comp_data/24_no_CA_REC_ages',
-    'index_and_comp_data/25_no_ORWA_TWL_ages',
-    'index_and_comp_data/26_no_ORWA_NON-TWL_ages',
-    'index_and_comp_data/27_no_OR_dockside_ages',
-    'index_and_comp_data/28_no_WA_dockside_ages',
-    'index_and_comp_data/29_no_NWFSC_ages',
-    'index_and_comp_data/30_no_IPHC_ages',
-    'index_and_comp_data/31_no_age_comps',
-    'model_specs/54_M_I_weighting'
+    'index_and_comp_data/22_no_length_comps'
   ),
   pretty = c(
     '- CA TWL length comps',
@@ -1122,7 +1112,25 @@ comp_data <- data.frame(
     '- AFSC triennial length comps',
     '- NWFSC bottom trawl length comps',
     '- IPHC length comps',
-    '- No length comps',
+    '- No length comps'
+  )
+)
+
+age_comps <- data.frame(
+  dir = c(
+
+    'index_and_comp_data/23_no_CA_NONTWL_ages',
+    'index_and_comp_data/24_no_CA_REC_ages',
+    'index_and_comp_data/25_no_ORWA_TWL_ages',
+    'index_and_comp_data/26_no_ORWA_NON-TWL_ages',
+    'index_and_comp_data/27_no_OR_dockside_ages',
+    'index_and_comp_data/28_no_WA_dockside_ages',
+    'index_and_comp_data/29_no_NWFSC_ages',
+    'index_and_comp_data/30_no_IPHC_ages',
+    'index_and_comp_data/31_no_age_comps',
+    'model_specs/54_M_I_weighting'
+  ),
+  pretty = c(
     '- CA NONTWL age comps',
     '- CA REC age comps',
     '- ORWA TWL age comps',
@@ -1136,7 +1144,8 @@ comp_data <- data.frame(
   )
 )
 
-sens_names <- bind_rows(modeling, indices, comp_data)
+
+sens_names <- bind_rows(modeling, indices, age_comps, length_comps)
 
 big_sensitivity_output <- SSgetoutput(
   dirvec = file.path(
@@ -1157,7 +1166,8 @@ which(sapply(big_sensitivity_output, length) < 180) # all lengths should be >180
 sens_names_ls <- list(
   modeling = modeling,
   indices = indices,
-  comp_data = comp_data
+  age_comps = age_comps,
+  length_comps = length_comps
 )
 
 outdir <- 'report/figures/sensitivities'

@@ -83,7 +83,7 @@ cat("\n\\end{landscape}\n")
 #| label: tbl-yelloweye_percent_pos_ORFS
 #| echo: false
 #| warning: false
-#| tbl-cap: "Summary of trips with and without yellowtail rockfish from ORFS index"
+#| tbl-cap: "Summary of trips with and without Yelloweye Rockfish from ORFS index"
 
 
 read.csv("Tables/yelloweye_percent_pos_ORFS.csv") |> 
@@ -120,7 +120,7 @@ orfs_modselect |>
 #| label: tbl-yelloweye_percent_pos_ORBS
 #| echo: false
 #| warning: false
-#| tbl-cap: "Summary of trips with and without yellowtail rockfish from ORBS index"
+#| tbl-cap: "Summary of trips with and without Yelloweye Rockfish from ORBS index"
 
 
 read.csv("Tables/yelloweye_percent_pos_ORBS.csv") |> 
@@ -358,7 +358,7 @@ indices <- read.csv(here::here("report", "figures", "sensitivities", "indices_ta
 #indices_and_comps <- inner_join(indices, comps, by = c("Label", "Base"))
 #names(indices) <- gsub("X..", "", names(indices))
 
-#names(indices) <- c("Label","Base","- CA REC Index","- OR REC Index","- WA REC Index","- CA CPFV Index","- ORFS Index","- Triennial Index","- WCGBTS Index","- IPHC Index","No indices")
+names(indices) <- c("Label","Base","- CA REC","- OR REC","- WA REC","- CA CPFV","- ORFS","- Triennial","- WCGBTS","- IPHC","No indices")
 
 table_sens(indices)
 
@@ -368,25 +368,47 @@ cat("\n\\end{landscape}\n")
 {{< pagebreak >}}
 
 ```{r}
-#| label: tbl-sensitivities-like-comps
+#| label: tbl-sensitivities-like-comps-len
 #| echo: false
 #| message: false
 #| warning: false
 #| results: "asis"
-#| tbl-cap: "Base model sensitivity to the removal of data sources (compositional data)."
+#| tbl-cap: "Base model sensitivity to the removal of data sources (length compositional data)."
 
 cat("\\begin{landscape}\n")
 
 source(here::here("Rcode/table_sens.R"))
 #indices <- read.csv(here::here("report", "figures", "sensitivities", "indices_table.csv"))
-comps <- read.csv(here::here("report", "figures", "sensitivities", "comp_data_table.csv"))
+len_comps <- read.csv(here::here("report", "figures", "sensitivities", "length_comps_table.csv"))
 
 #indices_and_comps <- inner_join(indices, comps, by = c("Label", "Base"))
 #names(comps) <- gsub("X..", "", names(comps))
 
-#names(comps) <-c("Label","Base","- CA TWL length comps","- CA NONTWL length comps","- CA REC length comps","- ORWA TWL length comps","- ORWA NONTWL length comps","- OR REC length comps","No length comps","- IPHC age comps","No age comps","McAllister & Ianelli")
+names(len_comps) <-c("Label","Base","- CA TWL","- CA NONTWL","- CA REC","- ORWA TWL","- ORWA NONTWL","- OR REC","- WA REC","- CA CPFV","- ORFS","- Triennial","- WCGBTS","- IPHC","No length comps")
 
-table_sens(comps)
+table_sens(len_comps)
+
+cat("\n\\end{landscape}\n") 
+```
+
+{{< pagebreak >}}
+
+```{r}
+#| label: tbl-sensitivities-like-comps-age
+#| echo: false
+#| message: false
+#| warning: false
+#| results: "asis"
+#| tbl-cap: "Base model sensitivity to the removal of data sources (age compositional data)."
+
+cat("\\begin{landscape}\n")
+
+source(here::here("Rcode/table_sens.R"))
+age_comps <- read.csv(here::here("report", "figures", "sensitivities", "age_comps_table.csv"))
+
+names(age_comps) <-c("Label","Base","- CA NONTWL","- CA REC","- ORWA TWL","- ORWA NONTWL","- OR REC","- WA REC","- WCGBTS","- IPHC","No age comps","McAllister & Ianelli")
+
+table_sens(age_comps)
 
 cat("\n\\end{landscape}\n") 
 ```

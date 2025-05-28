@@ -797,26 +797,50 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-sens_data_spout
+#| label: fig-sens_lengths_spout
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Spawning output across dataset inclusion sensitivities."
+#| fig-cap: "Spawning output across length composition inclusion sensitivities."
 #
 knitr::include_graphics(
-    "figures/sensitivities/comp_datacompare2_spawnbio_uncertainty.png"
+    "figures/sensitivities/length_compscompare2_spawnbio_uncertainty.png"
 )
 ```
 
 ```{r}
-#| label: fig-sens_data_status
+#| label: fig-sens_lengths_status
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Relative spawning output across dataset inclusion sensitivities."
+#| fig-cap: "Relative spawning output across length composition inclusion sensitivities."
 #
 knitr::include_graphics(
-    "figures/sensitivities/comp_datacompare4_Bratio_uncertainty.png"
+    "figures/sensitivities/length_compscompare4_Bratio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-sens_age_spout
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Spawning output across age composition inclusion sensitivities."
+#
+knitr::include_graphics(
+    "figures/sensitivities/age_compscompare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-sens_age_status
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Relative spawning output across age composition inclusion sensitivities."
+#
+knitr::include_graphics(
+    "figures/sensitivities/age_compscompare4_Bratio_uncertainty.png"
 )
 ```
 
@@ -855,6 +879,18 @@ knitr::include_graphics(
 #
 knitr::include_graphics(
     "figures/sensitivities/sens_summary.png"
+)
+```
+
+```{r}
+#| label: fig-sens_sum_no_lengths
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Relative change in management quantities across models conducted as sensitivities, without the removal of all length composition data."
+#
+knitr::include_graphics(
+    "figures/sensitivities/sens_summary_with_no_length_comps.png"
 )
 ```
 
