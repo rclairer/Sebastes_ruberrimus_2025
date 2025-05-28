@@ -160,7 +160,7 @@ table_sens <- function(dat,
   }
   if (NCOL(data) > 7) {
     tt <- tt |>
-      kableExtra::column_spec(3:NCOL(data), width = "4em")
+      kableExtra::column_spec(3:NCOL(data), width = "3em")
   }
   
   # add subsection to improve readability
