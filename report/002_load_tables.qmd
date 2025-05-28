@@ -31,9 +31,10 @@ if (file.exists(here::here("report/tables"))) {
   catches_es_cap <- catches_es$cap
   rm(catches_es)
   
-  ssb_es_table <- ssb_es$table
+  ssb_es_table <- ssb_es$table |> rename(`Lower Interval.` = `Lower Interval (mt)`) |> rename(`Upper Interval.` = `Upper Interval (mt)`)
   ssb_es_cap <- ssb_es$cap
   ssb_es_cap <- gsub("fraction unfished", "fraction of unfished spawning output", ssb_es_cap)
+  ssb_es_cap <- "Estimated recent trend in spawning output (millions of eggs) and the fraction of unfished spawning output and the 95 percent confidence intervals."
   rm(ssb_es)
   
   spr_es_table <- spr_es$table
