@@ -93,7 +93,12 @@ mainfont: 'Latin Modern Sans'
 cover: support_files/Yelloweye_Rockfish.png
 pdf-engine: lualatex
 format: 
-  pdf: 
+  pdf:
+    knitr:
+      opts_chunk:
+        out.width: "\\textwidth" 
+    code-block:
+      out-width: "\\textwidth"
     documentclass: scrartcl
     number-sections: true
     template-partials:
