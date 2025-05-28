@@ -39,7 +39,7 @@ Updated fishery-dependent data, including removals, length and age compositions,
 
 A summary of total removals are provided in @tbl-all_removals and @fig-catch.
 
-Recent commercial landings (2017-2024) were obtained from [\gls{pacfin}](www.pacfin.psmfc.org) for California, Oregon and Washington. For the period from 2016 through 2023, updated \gls{wcgop} discard estimates were added to \gls{pacfin} landings by adding the annual dead discard mortality rate for the commercial sector in the \gls{gemm} recorded discards to obtain the total catch of Yelloweye Rockfish within commercial fleets. At this time no \gls{wcgop} data were available for 2024.  
+Recent commercial landings (2017-2024) were obtained from [\gls{pacfin}](www.pacfin.psmfc.org) for California, Oregon and Washington. For the period from 2016 through 2023, updated \gls{wcgop} discard estimates were added to \gls{pacfin} landings by adding the annual dead discard mortality rate for the commercial sector in the \gls{gemm} recorded discards to obtain the total catch of Yelloweye Rockfish within commercial fleets. At this time no \gls{wcgop} data were available for 2024, so we used the average total discard for 2021-2023 to approximate total 2024 discards for each commercial fleet.  
 
 Bycatch for the At-Sea Pacific Hake fleet (A-SHOP) was updated from 2017 through 2024.
 
