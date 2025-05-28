@@ -384,7 +384,7 @@ len_comps <- read.csv(here::here("report", "figures", "sensitivities", "length_c
 #indices_and_comps <- inner_join(indices, comps, by = c("Label", "Base"))
 #names(comps) <- gsub("X..", "", names(comps))
 
-names(len_comps) <-c("Label","Base","- CA TWL length comps","- CA NONTWL length comps","- CA REC length comps","- ORWA TWL length comps","- ORWA NONTWL length comps","- OR REC length comps","- WA REC length comps","- CA CPFV length comps","- ORFS length comps","- Triennial length comps","- WCGBTS length comps,"- IPHC length comps","No length comps")
+names(len_comps) <-c("Label","Base","- CA TWL length comps","- CA NONTWL length comps","- CA REC length comps","- ORWA TWL length comps","- ORWA NONTWL length comps","- OR REC length comps","- WA REC length comps","- CA CPFV length comps","- ORFS length comps","- Triennial length comps","- WCGBTS length comps","- IPHC length comps","No length comps")
 
 table_sens(len_comps)
 
