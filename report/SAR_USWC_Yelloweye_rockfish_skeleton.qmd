@@ -16,13 +16,6 @@ author:
         city: 'Newport, OR' 
         state: 'OR' 
         postal-code: '98112-2097'
-  - name: 'Elizabeth Perl'
-    affiliations:
-      - name: 'ECS Federal in support of NMFS OST'
-        address: 'East-West Hwy'
-        city: 'Silver Spring, MD'
-        state: 'MD'
-        postal-code: '22031'
   - name: 'Alison Whitman'
     affiliations:
       - name: 'Oregon Department of Fish and Wildlife'
@@ -30,6 +23,13 @@ author:
         city: 'Newport, OR'
         state: 'OR'
         postal-code: '97365'
+  - name: 'Elizabeth Perl'
+    affiliations:
+      - name: 'ECS Federal in support of NMFS OST'
+        address: 'East-West Hwy'
+        city: 'Silver Spring, MD'
+        state: 'MD'
+        postal-code: '22031'
   - name: 'Matheus de Barros'
     affiliations:
       - name: 'University of Washington'
