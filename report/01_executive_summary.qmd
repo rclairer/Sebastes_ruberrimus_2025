@@ -1,3 +1,5 @@
+\markright{Executive Summary}
+
 # Executive Summary{-}
 
 <!-- 
@@ -10,18 +12,19 @@ sa4ss::es_table_tex will convert them to text files formatted as LaTeX tables if
 
 <!-- Species/area, including an evaluation of any potential biological basis for regional management -->
 
-This update assessment reports the status of Yelloweye Rockfish (*Sebastes ruberrimus*) off the U.S. West Coast using data through 2024. Yelloweye Rockfish are found from the Gulf of Alaska to northern Baja California in Mexico across the northeastern Pacific Ocean. Their core distribution is from southeast Alaska to central California on the west coast of the United States. Yelloweye Rockfish are strongly associated with rocky bottom habtiat and adults are considered to be solitary and sedentary after settlement. Given the general perception of the sedentary nature of Yelloweye Rockfish adults and the moderate amount of mixing that occurs during the pelagic larval stage, the previous Yelloweye Rockfish assessment modeled the West coast population as a two-area assessment (California and a combined Oregon-Washington area) with a common stock recruitment relationship. This update assessment maintains this basic structure. 
+This update assessment reports the status of Yelloweye Rockfish (*Sebastes ruberrimus*) off the U.S. West Coast using data through 2024. Yelloweye Rockfish are found from the Gulf of Alaska to northern Baja California in Mexico across the northeastern Pacific Ocean. Their core distribution is from southeast Alaska to central California on the west coast of the United States. Yelloweye Rockfish are strongly associated with rocky bottom habtiat and adults are considered to be solitary and sedentary after settlement. Given the general perception of the sedentary nature of Yelloweye Rockfish adults and the moderate amount of mixing that occurs during the pelagic larval stage, the previous Yelloweye Rockfish assessment, conducted in 2017, modeled the West coast population as a two-area assessment (California and a combined Oregon-Washington area) with a common stock recruitment relationship. This update assessment necessarily maintains this same structure. 
 
 ## Catches{-}
 
-Catches for Yelloweye Rockfish have averaged over 20 mt in recent years (@fig-es-landings, @tbl-es-catches). Yelloweye Rockfish was declared overfished in 2002 and remains under a rebuilding plan that substantially limits catch. However, as other rockfish stocks have rebuilt and Yelloweye Rockfish has progressed under it's rebuilding plan, catches have slowly increased in recent years, primarily in the Oregon-Washington non-trawl fleet and the recreational fleets. 
+Catches for Yelloweye Rockfish have averaged over $20 mt$ in recent years (@fig-es-landings, @tbl-es-catches). Yelloweye Rockfish was declared overfished in $2002$ and remains under a rebuilding plan that substantially limits catch. However, as other rockfish stocks have rebuilt and Yelloweye Rockfish has progressed under its rebuilding plan, catches have slowly increased in recent years, primarily in the Oregon-Washington non-trawl fleet and the recreational fleets. 
 
 ```{r, fig-es-landings} 
 #| label: fig-es-landings
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Landings in metric tons (mt) by year for each fleet."
+#| out.width: "\\textwidth"
+#| fig-cap: "Yelloweye Rockfish landing history in metric tons (mt) between 1889 and 2024 for each fleet."
 
 knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 
@@ -40,7 +43,7 @@ knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 
 # changed to csv file until r4ss gets fixed
 
-cat("\\begin{landscape}\n")
+#cat("\\begin{landscape}\n")
 
 catches_es_table <- read.csv("tables/catches_es_table.csv")
 catches_es_table |> 
@@ -52,7 +55,7 @@ catches_es_table |>
    ) |>
    gt::as_latex()
 
-cat("\n\\end{landscape}\n")
+#cat("\n\\end{landscape}\n")
 
 #catches_es_table |>
 #  gt::gt() |>
@@ -80,14 +83,14 @@ cat("\n\\end{landscape}\n")
 
 <!-- Date of last assessment, type of assessment model, data available, new information, and information lacking. -->
 
-The last assessment for Yelloweye Rockfish occurred in 2017. This update assessment extends the data used in the 2017 assessment through 2024. This assessment uses the stock assessment framework Stock Synthesis (SS3 Version 3.30.23.2; @methot_stock_2013) Data includes catch, length and age data from seven fishery fleets and multiple indices of abundance in California and Oregon/Washington. Two new historical catch reconstructions from Oregon and Washington were incorporated. Four indices of abundance were updated for this assessment, including two recreational fishery indices in Oregon, the \gls{indexwc}, and the \gls{iphc} longline survey. In addition, sample sizes and assignment of aging error were corrected in the compositional data. No new data were considered in this update assessment. 
+The last assessment for Yelloweye Rockfish occurred in 2017. This update assessment extends the data used in the 2017 assessment through 2024. This assessment uses the stock assessment framework Stock Synthesis (SS3 Version 3.30.23.2) by @methot_stock_2013. Data includes catch, length and age data from seven fishery fleets and multiple indices of abundance in California and Oregon/Washington. Two new historical catch reconstructions from Oregon and Washington were incorporated. Four indices of abundance were updated for this assessment, including two recreational fishery indices in Oregon, the \gls{indexwc}, and the \gls{iphc} longline survey. In addition, sample sizes and assignment of aging error were corrected in the compositional data. No new data streams were considered in this update assessment. 
 
 ## Stock biomass and dynamics{-}
 
-The Yelloweye Rockfish assessment uses estimates of the egg-to-length relationship from @dick_meta-analysis_2017, and spawning output is reported in millions of eggs. The unexploited level of spawning stock output is estimated to be `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="SSB_Virgin")], 3)` million eggs (95% confidence interval: 999.2-1267.2 million eggs) (@fig-es-so). At the beginning of 2025, the spawning stock output is estimated to be `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="SSB_2025")], 3)` million eggs (95% confidence interval:
-339.1–514.7 million eggs), which represents `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="Bratio_2025")], 3)*100`% of the unfished spawning output level.
+The Yelloweye Rockfish assessment uses estimates of fecundity (eggs-at-length) from the @dick_meta-analysis_2017 method, and spawning output is reported in millions of eggs. The unexploited level of spawning stock output is estimated to be `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="SSB_Virgin")], 3)` million eggs (95% confidence interval: 1,045.7-1,328.5 million eggs) (@fig-es-so). At the beginning of 2025, the spawning stock output is estimated to be `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="SSB_2025")], 3)` million eggs (95% confidence interval:
+381–566 million eggs), which represents `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="Bratio_2025")], 3)*100`% of the unfished spawning output level.
 
-Estimated relative spawning output was below the minimum stock size threshold in the late 1990s and was lowest in the early 2000s before increasing over the last 20 years. The 2024 estimated relative spawning output follows an increasing trajectory and is just below the management target threshold (@fig-es-sb). Yelloweye Rockfish is modeled in two areas (California and Oregon-Washington) in this assessment. Current population status does differ by area and may be valuable information for making management and allocation decisions (@fig-status-area-es).
+Estimated relative spawning output was below the minimum stock size threshold in the late 1990s and was lowest in the early 2000s before increasing over the last 20 years. The 2024 estimated relative spawning output follows an increasing trajectory and is slightly below the management target threshold (@fig-es-so, @fig-es-sb). Though Yelloweye Rockfish are considered a single stock due to their population's even genetic and spatial structure throughout their range, this assessment is modeled with two areas (California and Oregon-Washington). Current population status differs by area wich may be valuable information for making management and allocation decisions (@fig-status-area-es).
 
 <!-- Trends and current levels relative to virgin or historic levels, description of uncertainty-include table for last 10 years and graph with long term estimates. -->
 
@@ -153,15 +156,17 @@ knitr::include_graphics("figures/r4ss_plots/plots/ts9_Relative_spawning_output_i
 #| warning: false
 #| eval: true
 #| fig-cap: "Time series of relative spawning output estimated by area (area 1= California, area 2 = Oregon and Washington)."
-#
+#| fig-pos: H
+
 knitr::include_graphics(
     "figures/r4ss_plots/plots/ts10_Relative_spawning_output.png"
 )
 ```
+\clearpage
 
 ## Recruitment{-}
 
-The largest estimated recruitment events were in 1971, followed by more recently, in 2013 and 2008 (@fig-es-recruits, @fig-es-recdev, @tbl-es-recr). Trends in recruitment are largely consistent with the previous assessment, apart from the most recent elevated time period that is more informed with additional length composition data. Recruits for this assessment appear to have extended this more recent time period starting in 2005, with a peak in 2008 and 2013 and shifts the peak in 2001 to 2002. Recruitment in the late 2010s was estimated to be lower, but a more recent increase is seen starting in 2020.
+The largest estimated recruitment events were in 1971, followed by more recently, in 2013 and 2008 (@fig-es-recruits, @fig-es-recdev, @tbl-es-recr). Trends in recruitment are largely consistent with the previous assessment, apart from the most recent elevated time period that is more informed with additional length and age composition data. Recruits for this assessment appear to have extended this more recent time period starting in 2005, with peaks in 2008 and 2013, and and lower recruitment in 2017.
 
 <!-- Trends and current levels relative to virgin or historic levels-include table for last 10 years and graph with long term estimates. -->
 
@@ -225,7 +230,7 @@ knitr::include_graphics("figures/r4ss_plots/plots/recdevs2_withbars.png")
 
 ## Exploitation status{-}
 
-This assessment estimates that the stock of Yelloweye Rockfish off the continental U.S. Pacific Coast is currently at `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="Bratio_2025")], 3)*100`% of its unexploited level. This is above the overfished threshold of SB25%, but below the management target of SB40% of unfished spawning biomass. Fishing intensity increased throughout the 1900s as the stock was fished down, until stablizing at peak intensity between the mid1980s and late 1990s and substantially decreasing in the late 1990s and early 2000s. Fishing intensity has since been relatively stable (@fig-es-kobe, @tbl-es-spr). 
+This assessment estimates that the stock of Yelloweye Rockfish off the continental U.S. Pacific Coast is currently at `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="Bratio_2025")], 3)*100`% of its unexploited level. This is above the overfished threshold of SB25%, and slightly below the management target SB40% of unfished spawning biomass. Fishing intensity increased throughout the 1900s as the stock was fished down, until stabilizing at peak intensity between the mid1980s and late 1990s and substantially decreasing in the late 1990s and early 2000s. Fishing intensity has since been relatively stable (@fig-es-kobe, @tbl-es-spr). 
 
 <!-- Exploitation rates (i.e., total catch divided by exploitable biomass, or the annual SPR harvest rate) - include a table with the last 10 years of data and a graph showing the trend in fishing mortality relative to the target (y-axis) plotted against the trend in biomass relative to the target (x-axis). -->
 
@@ -276,7 +281,7 @@ No ecosystem or environmental data was used in the previous Yelloweye Rockfish a
 
 ## Reference points{-}
 
-A list of estimates of the current state of the population, as well as reference points based on 1) a target unfished spawning output of 40%, 2) a spawning potential ratio of 0.5, and 3) the model estimate of maximum sustainable yield, are all listed in @tbl-ref-points-es-1. Unfished spawning stock output for Yelloweye Rockfish was estimated to be `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="SSB_Virgin")], 3)` million eggs (95% confidence interval: 999.2-1267.2 million eggs). The management target for Yelloweye Rockfish is defined as 40% of the unfished spawning output (SB40%), which is estimated by the model to be 452 million eggs (95% confidence interval: 397-507), which corresponds to an exploitation rate of 0.025. This harvest rate provides an equilibrium yield of 115 mt at SB40% (95% confidence interval: 101-130 mt). The equilibrium yield curve is shown in @fig-eq-yield-es.
+A list of estimates of the current state of the population, as well as reference points based on 1) a target unfished spawning output of 40%, 2) a spawning potential ratio of 0.5, and 3) the model estimate of maximum sustainable yield, are all listed in @tbl-ref-points-es-1. Unfished spawning stock output for Yelloweye Rockfish was estimated to be `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="SSB_Virgin")], 3)` million eggs (95% confidence interval: 1,045.7-1,328.5 million eggs). The management target for Yelloweye Rockfish is defined as 40% of the unfished spawning output (SB40%), which is estimated by the model to be 475 million eggs (95% confidence interval: 418-531), which corresponds to an exploitation rate of 0.026. This harvest rate provides an equilibrium yield of 121 mt at SB40% (95% confidence interval: 107-136 mt). The equilibrium yield curve is shown in @fig-eq-yield-es.
 
 <!-- Management targets and definitions of overfishing, including the harvest rate that brings the stock to equilibrium at B24% for flatfishes and B40% for all other groundfish stocks (BMSY proxies) and the equilibrium stock size that results from fishing at the default harvest rate (the FMSY proxy). Include a summary table that compares estimated reference points for SSB, SPR, Exploitation Rate and Yield based on SSB proxy for MSY, SPR proxy for MSY, and estimated MSY values. -->
 
@@ -334,8 +339,9 @@ reference_points_table |>
 #| echo: false
 #| warning: false
 #| eval: true
+#| out.width: "\\textwidth"
 #| fig-cap: "Equilibrium yield curve (derived from reference point values) for the base model. Values are based on 2024 fishery selectivity and distribution with steepness fixed at 0.718. The relative spawning output is relative to unfished spawning biomass."
-#
+
 knitr::include_graphics(
     "figures/r4ss_plots/plots/yield1_yield_curve.png"
 )
@@ -402,7 +408,7 @@ This section will be updated after SSC GFSC review.
 #| tbl-cap: !expr if(eval_tables) projections_cap 
 #| tbl-pos: H
 
-cat("\\begin{landscape}\n")
+#cat("\\begin{landscape}\n")
 
 projections_table |>
   gt::gt() |>
@@ -430,7 +436,7 @@ projections_table |>
   ) |>
   gt::as_latex()
 
-cat("\n\\end{landscape}\n")
+#cat("\n\\end{landscape}\n")
 ```
 
 :::
@@ -441,23 +447,20 @@ cat("\n\\end{landscape}\n")
 This section will be updated after SSC GFSC review.
 
 ```{r, 1, results = "asis"}
-# #| label: tbl-es-decision-1
-# #| warning: false
-# #| echo: false
-# #| eval: !expr eval_tables 
-# #| tbl-cap: !expr if(eval_tables) decision_table_cap 
-# #| tbl-pos: H
-# table_decision(
-#   list(mod_low_A, mod_base_A, mod_high_A),
-#   list(mod_low_B, mod_base_B, mod_high_B),
-#   list(mod_low_C, mod_base_C, mod_high_C)
-# )
+#| label: tbl-es-decision-1
+#| warning: false
+#| echo: false
+#| tbl-cap: "Decision table with 10-year projections. 'Mgmt' refers to the three management scenarios (A) the default harvest control rule $P^* = 0.45$. In each case the 2025 and 2026 catches are fixed at the ACLs which have been set for that year with estimated fleet allocation provided by the GMT. The alternative states of nature ('Low', 'Base', and 'High' as discussed in the text) are provided in the columns, with Spawning Output ('Spawn', in millions of eggs) and Fraction of unfished spawning output ('Frac') provided for each state."
+#| tbl-pos: H
+ table_decision(
+   list(mod_low_A, mod_base_A, mod_high_A)
+ )
 
 ```
 
 ## Scientific uncertainty{-}
 
-The model estimated uncertainty around the 2025 spawning biomass for the model is 𝜎 = `r round(mod_out$derived_quants$StdDev[which(mod_out$derived_quants$Label=="Bratio_2025")], 3)`. The uncertainty around the \gls{ofl} in 2025 is 𝜎 = `r round(mod_out$derived_quants$StdDev[which(mod_out$derived_quants$Label=="OFLCatch_2025")], 3)`. Each of these are likely underestimates of overall uncertainty due to the necessity to fix several key population dynamics parameters (e.g., steepness, recruitment variance) and also because there is no explicit incorporation of model structural uncertainty (although see the decision table for alternative states of nature).
+The model estimated uncertainty around the 2025 spawning biomass with a standard deviation = `r round(mod_out$derived_quants$StdDev[which(mod_out$derived_quants$Label=="Bratio_2025")], 3)`. The uncertainty around the \gls{ofl} in 2025 has a standard deviation = `r round(mod_out$derived_quants$StdDev[which(mod_out$derived_quants$Label=="OFLCatch_2025")], 3)`. Each of these are likely underestimates of overall uncertainty due to the necessity to fix several key population dynamics parameters (e.g. steepness and recruitment variance) and also because there is no explicit incorporation of model structural uncertainty (although see the decision table for alternative states of nature).
 
 ## Research and data needs{-}
 

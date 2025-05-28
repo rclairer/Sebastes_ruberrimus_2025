@@ -11,9 +11,10 @@ library(here)
 library(tidyverse)
 library(dplyr)
 
-source(here::here("Rcode", "decision_table.R"))
+#source(here::here("Rcode", "decision_table.R"))
 
 replist <- r4ss::SS_output(here::here("model", "2025_base_model"), verbose = FALSE, printstats = FALSE)
+
 inputs <- r4ss::SS_read(here::here("model", "2025_base_model"))
 
 tables <-r4ss::table_all(replist, dir = here::here("report"))
@@ -30,9 +31,10 @@ if (file.exists(here::here("report/tables"))) {
   catches_es_cap <- catches_es$cap
   rm(catches_es)
   
-  ssb_es_table <- ssb_es$table
+  ssb_es_table <- ssb_es$table |> rename(`Lower Interval.` = `Lower Interval (mt)`) |> rename(`Upper Interval.` = `Upper Interval (mt)`)
   ssb_es_cap <- ssb_es$cap
   ssb_es_cap <- gsub("fraction unfished", "fraction of unfished spawning output", ssb_es_cap)
+  ssb_es_cap <- "Estimated recent trend in spawning output (millions of eggs) and the fraction of unfished spawning output and the 95 percent confidence intervals."
   rm(ssb_es)
   
   spr_es_table <- spr_es$table
@@ -223,29 +225,45 @@ catch_table_est_weights <- inputs$dat$catch |>
 
 <!-- Read in models for decision table as well as caption -->
 ```{r}
-#| echo: false
 #| eval: true
+#| warning: false
+#| echo: false
+#| message: false
 
-decision_table_cap <- "Decision table with 10-year projections. 'Mgmt' refers to the three management scenarios (A) the default harvest control rule $P^* = 0.45$, (B) harvest control rule with a lower $P^* = 0.40$. In each case the 2023 and 2024 catches are fixed at the ACLs which have been set for that year with estimated fleet allocation provided  by the GMT. The alternative states of nature ('Low', 'Base', and 'High' as discussed in the text) are provided in the columns, with Spawning Output ('Spawn', in trillions of eggs) and Fraction of unfished spawning output ('Frac') provided for each state."
+#decision_table_cap <- "Decision table with 10-year projections. 'Mgmt' refers to the three management scenarios (A) the default harvest control rule $P^* = 0.45$. In each case the 2025 and 2026 catches are fixed at the ACLs which have been set for that year with estimated fleet allocation provided by the GMT. The alternative states of nature ('Low', 'Base', and 'High' as discussed in the text) are provided in the columns, with Spawning Output ('Spawn', in millions of eggs) and Fraction of unfished spawning output ('Frac') provided for each state."
 
 # # replace mod_out below with calls like
 # mod_low_A <- SS_output(dir_low_A,
 #     verbose = FALSE,
 #     printstats = FALSE,
-#     SpawnOutputLabel = "Spawning Output (trillions of eggs)"
+#     SpawnOutputLabel = "Spawning Output (millions of eggs)"
 # )
 
-mod_low_A <- replist
-mod_low_B <- replist
-mod_low_C <- replist
+#mod_low_A <- replist
+#mod_low_B <- replist
+#mod_low_C <- replist
 
-mod_base_A <- replist
-mod_base_B <- replist
-mod_base_C <- replist
+#mod_base_A <- replist
+#mod_base_B <- replist
+#mod_base_C <- replist
 
-mod_high_A <- replist
-mod_high_B <- replist
-mod_high_C <- replist 
+#mod_high_A <- replist
+#mod_high_B <- replist
+#mod_high_C <- replist 
+
+
+#######################################################
+mod_low_A <- r4ss::SS_output(here::here("model/2025_low_state"),    
+  SpawnOutputLabel = "Spawning output (millions of eggs)", printstats = FALSE, verbose = FALSE)
+#mod_low_B <- r4ss::SS_output(here::here("model_runs/6.28_lowR0_forecast_avg_attain"))
+
+mod_base_A <- mod_out
+#mod_base_B <- r4ss::SS_output(here::here("model_runs/6.30_base_forecast_avg_attain"))
+
+mod_high_A <- r4ss::SS_output(here::here("model/2025_high_state"), 
+  SpawnOutputLabel = "Spawning output (millions of eggs)", printstats = FALSE, verbose = FALSE)
+#mod_high_B <- r4ss::SS_output(here::here("model_runs/6.29_highR0_forecast_avg_attain")) 
+
 
 ```
 

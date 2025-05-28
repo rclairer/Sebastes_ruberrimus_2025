@@ -1,0 +1,141 @@
+---
+title: "decision_table_models"
+output: html_document
+date: "2025-05-26"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list=ls())
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+#remotes::install_github("r4ss/r4ss")
+library(r4ss)
+library(readr)
+library(nwfscSurvey)
+library(here)
+#remotes::install_github("pfmc-assessments/pacfintools")
+library(pacfintools)
+exe_loc <- here::here('model/ss3.exe')
+```
+
+High state of nature Model
+M = 0.056
+
+```{r}
+# Read in base model
+mod <- SS_read(here::here("model", "2025_base_model"))
+
+# Change M
+mod$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$INIT <- 0.056
+
+# Run and save model
+SS_write(mod, here::here("model", "2025_high_state"), overwrite = TRUE)
+r4ss::run(dir = here::here("model", "2025_high_state"), exe = exe_loc, show_in_console = TRUE, skipfinished = FALSE)
+SS_plots(replist = SS_output(here::here("model", "2025_high_state")),dir = here::here("model","2025_high_state"))
+
+```
+
+Low state of nature Model
+M = 0.037
+
+```{r}
+# Read in base model
+mod <- SS_read(here::here("model", "2025_base_model"))
+
+# Change M
+mod$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$INIT <- 0.037
+
+# Run and save model
+SS_write(mod, here::here("model", "2025_low_state"), overwrite = TRUE)
+r4ss::run(dir = here::here("model", "2025_low_state"), exe = exe_loc, show_in_console = TRUE, skipfinished = FALSE)
+SS_plots(replist = SS_output(here::here("model", "2025_low_state")),dir = here::here("model","2025_low_state"))
+
+```
+
+Comparison Plots
+
+```{r}
+### Final Comparison Plots
+models <- c(paste0(file.path(here::here("model", "2025_base_model"))),
+            paste0(file.path(here::here("model", "2025_high_state"))),
+            paste0(file.path(here::here("model", "2025_low_state"))))
+
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(here::here("Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", "20_states_of_nature")),
+                  legendlabels = c("2025 Base Model", 
+                                   "2025 High State of Nature",
+                                   "2025 Low State of Nature"),
+                  print = TRUE)
+
+```
+
+Build the Decision Table CSV
+
+What we need first is the Years (2025-2036) and projected Catch (mt).
+Then for each state (low, base, high) we need spawning biomass (mt) and depletion summed up so it is for the entire stock
+
+```{r}
+# Assign model outputs for each state of nature
+
+# Model outputs
+mod_low_A <- SS_output(here::here("model", "2025_low_state"))
+mod_base_A <- SS_output(here::here("model", "2025_base_model"))
+mod_high_A <- SS_output(here::here("model", "2025_high_state"))
+
+years <- c(2025:2036)
+
+# SSB = Spawning Biomass; Bratio = Depletion
+ssb_low <- mod_low_A$derived_quants |>
+  filter(grepl("^SSB_\\d{4}$", Label)) |>
+  mutate(year = as.numeric(sub("SSB_", "", Label))) |>
+  filter(year >= 2025, year <= 2036)
+
+bratio_low <- mod_low_A$derived_quants |>
+  filter(grepl("^Bratio_\\d{4}$", Label)) |>
+  mutate(year = as.numeric(sub("Bratio_", "", Label))) |>
+  filter(year >= 2025, year <= 2036)
+
+ssb_base <- mod_base_A$derived_quants |>
+  filter(grepl("^SSB_\\d{4}$", Label)) |>
+  mutate(year = as.numeric(sub("SSB_", "", Label))) |>
+  filter(year >= 2025, year <= 2036)
+
+bratio_base <- mod_base_A$derived_quants |>
+  filter(grepl("^Bratio_\\d{4}$", Label)) |>
+  mutate(year = as.numeric(sub("Bratio_", "", Label))) |>
+  filter(year >= 2025, year <= 2036)
+
+ssb_high <- mod_high_A$derived_quants |>
+  filter(grepl("^SSB_\\d{4}$", Label)) |>
+  mutate(year = as.numeric(sub("SSB_", "", Label))) |>
+  filter(year >= 2025, year <= 2036)
+
+bratio_high <- mod_high_A$derived_quants |>
+  filter(grepl("^Bratio_\\d{4}$", Label)) |>
+  mutate(year = as.numeric(sub("Bratio_", "", Label))) |>
+  filter(year >= 2025, year <= 2036)
+
+# now it is time to put all the columns together
+
+combined_df <- data.frame(check.names = FALSE,
+  "Year" = years,
+  "Low Spawning Biomass" = ssb_low$Value,
+  "Low Depletion" = bratio_low$Value,
+  "Base Spawning Biomass" = ssb_base$Value,
+  "Base Depletion" = bratio_base$Value,
+  "High Spawning Biomass" = ssb_high$Value,
+  "High Depletion" = bratio_high$Value
+)
+
+combined_df_rounded <- combined_df
+combined_df_rounded[ , -1] <- round(combined_df[ , -1], 2)
+
+saveRDS(combined_df_rounded, here::here("report","tables","states_of_nature_by_hand.rds"))
+```
+
+
+
