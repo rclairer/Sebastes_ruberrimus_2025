@@ -83,7 +83,7 @@ cat("\n\\end{landscape}\n")
 #| label: tbl-yelloweye_percent_pos_ORFS
 #| echo: false
 #| warning: false
-#| tbl-cap: "Summary of trips with and without yellowtail rockfish from ORFS index"
+#| tbl-cap: "Summary of trips with and without Yelloweye Rockfish from ORFS index"
 
 
 read.csv("Tables/yelloweye_percent_pos_ORFS.csv") |> 
@@ -120,7 +120,7 @@ orfs_modselect |>
 #| label: tbl-yelloweye_percent_pos_ORBS
 #| echo: false
 #| warning: false
-#| tbl-cap: "Summary of trips with and without yellowtail rockfish from ORBS index"
+#| tbl-cap: "Summary of trips with and without Yelloweye Rockfish from ORBS index"
 
 
 read.csv("Tables/yelloweye_percent_pos_ORBS.csv") |> 
