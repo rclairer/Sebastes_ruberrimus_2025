@@ -297,21 +297,17 @@ parcount_table |>
 #| results: "asis"
 #| tbl-cap: !expr if(eval_tables) pars_cap
 
-library(kableExtra)
-
-# Prepare the table first
-pars_table_fixed <- pars_table |>
-  mutate(SD = ifelse(Status == 'fixed', NA, SD))
-
-# Output the LaTeX with repeating headers
 cat("\\begin{landscape}\n")
 
-pars_table_fixed |>
-  knitr::kable("latex", booktabs = TRUE, longtable = TRUE, caption = if (eval_tables) pars_cap else NULL) |>
-  kable_styling(
-    latex_options = c("repeat_header", "hold_position"),
-    font_size = 12
-  )
+pars_table |>
+  mutate(SD = ifelse(Status == 'fixed', NA, SD)) |>
+  gt() |>
+  sub_missing(missing_text = '') |>
+  tab_options(
+    table.font.size = 12,
+    latex.use_longtable = TRUE
+  ) |>
+  as_latex()
 
 cat("\n\\end{landscape}\n")
 ```
