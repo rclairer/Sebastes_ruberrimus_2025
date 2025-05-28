@@ -456,7 +456,7 @@ This section will be updated after SSC GFSC review.
 
 ## Scientific uncertainty{-}
 
-The model estimated uncertainty around the 2025 spawning biomass for the model is *sigma* = `r round(mod_out$derived_quants$StdDev[which(mod_out$derived_quants$Label=="Bratio_2025")], 3)`. The uncertainty around the \gls{ofl} in 2025 is *sigma* = `r round(mod_out$derived_quants$StdDev[which(mod_out$derived_quants$Label=="OFLCatch_2025")], 3)`. Each of these are likely underestimates of overall uncertainty due to the necessity to fix several key population dynamics parameters (e.g., steepness, recruitment variance) and also because there is no explicit incorporation of model structural uncertainty (although see the decision table for alternative states of nature).
+The model estimated uncertainty around the 2025 spawning biomass with a standard deviation = `r round(mod_out$derived_quants$StdDev[which(mod_out$derived_quants$Label=="Bratio_2025")], 3)`. The uncertainty around the \gls{ofl} in 2025 has a standard deviation = `r round(mod_out$derived_quants$StdDev[which(mod_out$derived_quants$Label=="OFLCatch_2025")], 3)`. Each of these are likely underestimates of overall uncertainty due to the necessity to fix several key population dynamics parameters (e.g. steepness and recruitment variance) and also because there is no explicit incorporation of model structural uncertainty (although see the decision table for alternative states of nature).
 
 ## Research and data needs{-}
 
