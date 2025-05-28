@@ -297,6 +297,8 @@ parcount_table |>
 #| results: "asis"
 #| tbl-cap: !expr if(eval_tables) pars_cap
 
+library(kableExtra)
+
 # Prepare the table first
 pars_table_fixed <- pars_table |>
   mutate(SD = ifelse(Status == 'fixed', NA, SD))
