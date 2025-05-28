@@ -299,15 +299,31 @@ parcount_table |>
 
 cat("\\begin{landscape}\n")
 
-pars_table |>
-  mutate(SD = ifelse(Status == 'fixed', NA, SD)) |>
-  gt() |>
-  sub_missing(missing_text = '') |>
-  tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE
-  ) |>
-  as_latex()
+pars_table_fixed |>
+  mutate(SD = ifelse(Status == 'fixed', NA, SD))
+
+pars_table_fixed |>
+kableExtra::kable(
+  format = "latex", 
+  longtable = TRUE,
+  booktabs = TRUE,
+  caption = "Parameter estimates, estimation phase, parameter bounds, estimation status, estimated standard deviation (SD),prior information [distribution(mean, SD)] used in the base model.",
+  linesep = "") |>
+  kableExtra::kable_styling(
+    latex_options = "repeat_header",
+    font_size = 8) |>
+  kableExtra::column_spec(
+    #column = 1:9,
+    width = "0.5in"
+  )
+
+#  gt() |>
+#  sub_missing(missing_text = '') |>
+#  tab_options(
+#    table.font.size = 12,
+#    latex.use_longtable = TRUE
+#  ) |>
+#  as_latex()
 
 cat("\n\\end{landscape}\n")
 ```
