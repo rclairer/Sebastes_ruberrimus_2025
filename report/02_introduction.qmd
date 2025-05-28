@@ -22,9 +22,9 @@ This section is not required for an update assessment; please refer to the most 
 
 ## Management History
 
-This section is not required for an update assessment; please refer to the most recent full assessment [@gertseva_stock_2017] for additional information.
+Since the 2017 assessment, catch restrictions for Yelloweye Rockfish have continued, though as the stock has begun to recover, the rebuilding plan has allowed for small catch increases that have slightly loosened the constraining impact of this species. However, this section is not required for an update assessment; please refer to the most recent full assessment [@gertseva_stock_2017] and #sec-mgmt for additional information.
 
-## Management performance
+## Management performance{#sec-mgmt}
 
 Yelloweye Rockfish removals have been substantially reduced since its designation as overfished in 2002 through a variety of managment measures that eliminated retention in recreational fisheries, limited commercial retention, created broad spatial closures, and implemented new gear restrictions that reduced trawling in rocky habitats. Many of these restrictions remain in effect, though as Yelloweye Rockfish and other groundfish stocks have begun to rebuild, some managment measures have been modified or removed in recent years. These include some additional allocations to recreational fisheries that remain constrained by Yelloweye Rockfish estimated discard mortality, the recent removal of the Yelloweye \gls{rca} for the trawl sector off of California and Oregon, and eliminating some gear restrictions in the RCAs for the non-trawl sector. 
 
