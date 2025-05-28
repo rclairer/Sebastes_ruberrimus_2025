@@ -406,7 +406,7 @@ cat("\\begin{landscape}\n")
 source(here::here("Rcode/table_sens.R"))
 age_comps <- read.csv(here::here("report", "figures", "sensitivities", "age_comps_table.csv"))
 
-names(age_comps) <-c("Label","Base","- CA NONTWL age comps","- CA REC age comps","- ORWA TWL age comps","- ORWA NONTWL age comps","- OR REC age comps","- WA REC age comps","- WCGBTS age comps,"- IPHC age comps","No age comps","McAllister & Ianelli")
+names(age_comps) <-c("Label","Base","- CA NONTWL age comps","- CA REC age comps","- ORWA TWL age comps","- ORWA NONTWL age comps","- OR REC age comps","- WA REC age comps","- WCGBTS age comps","- IPHC age comps","No age comps","McAllister & Ianelli")
 
 table_sens(age_comps)
 
