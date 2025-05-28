@@ -282,7 +282,7 @@ cat(a, sep = '\n')
  {{< pagebreak >}}
 
 ```{r, results='asis'}
-#| label: 'executive_summary'
+#| label: 'Executive Summary'
 #| eval: true
 #| echo: false
 #| warning: false

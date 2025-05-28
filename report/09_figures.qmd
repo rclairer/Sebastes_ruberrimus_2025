@@ -22,11 +22,10 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Landings (mt) by year and fleet."
+#| out.width: "\\textwidth"
+#| fig-cap: "Yelloweye Rockfish landing history in metric tons (mt) between 1889 and 2024 for each fleet."
 
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/catch2_landings_stacked.png"
-)
+knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 ```
 
 ```{r}
