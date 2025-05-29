@@ -2385,105 +2385,20 @@ SSplotComparisons(models_summary,
                   print = TRUE)
 
 
-
-###################################################################
-#######               FORECAST FILE CHANGES               #########
-###################################################################
-
-# step 1. read last model file
-# step 2. manually copy in Vlada's forecast file
-# step 3. make the final edit based on Ian's recommendation to average the last 5 years to avoid an end year with 0 catch.
-
-# Step 1.
-mod <- SS_read(here::here("model", "base_comm_discards_steepness_fitbias_tuned"))
-
-### Vlada provided a forecast.ss file based on the rougheye one she made and including our buffer and fixed forecast catches. 
-### It includes some of our changes in the code below, the rest are listed below. 
-# All benchmark years = 0
-# Bmark_relF_Bias = 2, not 1
-# Fmult = 1 (in our forecast we have _f_scalar = 0.2)
-# Recruitment start and end years were changed to = 0
-# FirstYear_for_caps = 2027
-
-# # Update flimit fraction
-# mod$fore$Flimitfraction <- -1
-# 
-# # change "stddev of log(realized catch/target catch) in forecast" to 0
-# mod$fore$stddev_of_log_catch_ratio <- 0
-# 
-# # These may not need to change; either way this is something to do with the rebuilder stuff
-# mod$fore$Ydecl <- 0
-# mod$fore$Yinit <- 0
-# 
-# # update buffer values
-# mod$fore$Flimitfraction_m <- PEPtools::get_buffer(2025:2036, sigma = 0.5, pstar = 0.4)
-# 
-# # update fixed forecast catches at the bottom for assumed catches in 2025 and 2026
-# mod$fore$ForeCatch <- data.frame(
-#   year = rep(2025:2026, each = 7),
-#   seas = 1,
-#   fleet = rep(1:7,2),
-#   catch_or_F = c(0.14,10,9,7.76,8.88,6.6,3.22,0.14,10,9,7.76,9.58,6.6,3.22)) # Sent by Christian Heath 5/5/25
-#  
-# ## Kiva said to change the control rule method from 1, to 3.
-# mod$fore$ControlRuleMethod <- 3
-# 
-# # set rebuilder to 0 for now, need to fix for future us.
-# mod$fore$Do_West_Coast_gfish_rebuilder_output <- 0
-# 
-# # Update benchmark years, convert to negative value representing years before the ending year of the model
-# mod$fore$Bmark_years <- c(0, 0, 0, 0, 0, 0, -999, 0, -999, 0)
-
-# Step 1. continued..
-SS_write(mod, here::here("model", "base_comm_discards_steepness_fitbias_tuned_forecast"), overwrite = TRUE)
-
-# Step 2. Go copy in forecast file, and re assign "mod" to the updated files
-mod <- SS_read(here::here("model", "base_comm_discards_steepness_fitbias_tuned_forecast"))
-
-# Step 3. Change the end years: https://github.com/pfmc-assessments/Assessment_Class/discussions/72
-mod$fore$Fcast_years$st_year <- c(-4,-4,-4)
-
-# Now write again and run
-SS_write(mod, here::here("model", "base_comm_discards_steepness_fitbias_tuned_forecast"), overwrite = TRUE)
-run(dir = 'model/base_comm_discards_steepness_fitbias_tuned_forecast', exe = exe_loc, show_in_console = TRUE, skipfinished = FALSE)
-
-# store plots in figures folder so that we can pull easily into report
-SS_plots(replist = SS_output('model/base_comm_discards_steepness_fitbias_tuned_forecast'),dir = here::here("model","base_comm_discards_steepness_fitbias_tuned_forecast"))
-
-# plot the forecast years
-SS_plots(replist = SS_output('model/base_comm_discards_steepness_fitbias_tuned_forecast'),dir = here::here("model","base_comm_discards_steepness_fitbias_tuned_forecast","forecast_plots"), forecastplot = TRUE)
-
-### Final Comparison Plots
-models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250512")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512")),
-            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned_forecast")))
-
-models_output <- SSgetoutput(dirvec = models)
-models_summary <- SSsummarize(models_output)
-SSplotComparisons(models_summary,
-                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "19_alldata_tunecomps_fitbias_upctl_tuned_upstart_fore"),
-                  legendlabels = c("2017 updated SS3 exe", 
-                                   "Updated all data and tuned",
-                                   "Updated fitbias, ctl file, tuned",
-                                   "Proposed 2025 base model"),
-                  print = TRUE)
-
-##############################################################
-##################### FORECAST FILE CHANGES NEW #############
+#############################################################
+##################### FORECAST FILE CHANGES #############
 ##############################################################
 
 copy_SS_inputs(
-  dir.old = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_updated"), 
-  dir.new = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned"),
+  dir.old = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned"), 
+  dir.new = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned_forecast"),
   create.dir = TRUE,
   overwrite = TRUE,
   use_ss_new = TRUE,
   verbose = TRUE
 )
 
-mod <- SS_read(here::here("model", "base_comm_discards_steepness_fitbias_tuned"))
+mod <- SS_read(here::here("model", "base_comm_discards_steepness_fitbias_tuned_forecast"))
 
 mod$fore$Bmark_years <- c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
