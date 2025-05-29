@@ -2126,11 +2126,8 @@ copy_SS_inputs(
   verbose = TRUE
 )
 
-
 #all catch
 inputs <- SS_read(dir = file.path(getwd(), "model", "base_comm_discards_updated"))
-
-#catch <- inputs$dat$catch
 
 #ONLY NEED TO ADD THESE COMMERCIAL DISCARDS
 
@@ -2174,13 +2171,18 @@ discards_all_ave_2021to2023 <- discards_all %>%
   group_by(ST_FLEET) %>%
   summarise(avg_discards = mean(discards, na.rm = TRUE, .groups = "drop"))
 
+discards_1 <- discards_all_ave_2021to2023$avg_discards[discards_all_ave_2021to2023$ST_FLEET == "CA_TWL"]
+discards_2 <- discards_all_ave_2021to2023$avg_discards[discards_all_ave_2021to2023$ST_FLEET == "CA_NONTWL"]
+discards_4 <- discards_all_ave_2021to2023$avg_discards[discards_all_ave_2021to2023$ST_FLEET == "ORWA_TWL"]
+discards_5 <- discards_all_ave_2021to2023$avg_discards[discards_all_ave_2021to2023$ST_FLEET == "ORWA_NONTWL"]
+
 ##############################################
 
 inputs$dat$catch <- inputs$dat$catch %>%
-  mutate(catch = if_else(fleet == 1 & year == 2024, catch + discards_all_ave_2021to2023$avg_discards[discards_all_ave_2021to2023$ST_FLEET == "CA_TWL"], catch)) %>%
-  mutate(catch = if_else(fleet == 2 & year == 2024, catch + discards_all_ave_2021to2023$avg_discards[discards_all_ave_2021to2023$ST_FLEET == "CA_NONTWL"], catch)) %>%
-  mutate(catch = if_else(fleet == 4 & year == 2024, catch + discards_all_ave_2021to2023$avg_discards[discards_all_ave_2021to2023$ST_FLEET == "ORWA_TWL"], catch)) %>%
-  mutate(catch = if_else(fleet == 5 & year == 2024, catch + discards_all_ave_2021to2023$avg_discards[discards_all_ave_2021to2023$ST_FLEET == "ORWA_NONTWL"], catch))
+  mutate(catch = if_else(fleet == 1 & year == 2024, catch + discards_1, catch)) %>%
+  mutate(catch = if_else(fleet == 2 & year == 2024, catch + discards_2, catch)) %>%
+  mutate(catch = if_else(fleet == 4 & year == 2024, catch + discards_4, catch)) %>%
+  mutate(catch = if_else(fleet == 5 & year == 2024, catch + discards_5, catch))
 
 SS_write(inputs, dir = file.path(getwd(), "model", "base_comm_discards_updated"), overwrite = TRUE)
 
