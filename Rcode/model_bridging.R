@@ -2393,7 +2393,7 @@ SSplotComparisons(models_summary,
 # step 3. make the final edit based on Ian's recommendation to average the last 5 years to avoid an end year with 0 catch.
 
 # Step 1.
-mod <- SS_read(here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512"))
+mod <- SS_read(here::here("model", "base_comm_discards_steepness_fitbias_tuned"))
 
 ### Vlada provided a forecast.ss file based on the rougheye one she made and including our buffer and fixed forecast catches. 
 ### It includes some of our changes in the code below, the rest are listed below. 
@@ -2433,29 +2433,29 @@ mod <- SS_read(here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tuneco
 # mod$fore$Bmark_years <- c(0, 0, 0, 0, 0, 0, -999, 0, -999, 0)
 
 # Step 1. continued..
-SS_write(mod, here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512"), overwrite = TRUE)
+SS_write(mod, here::here("model", "base_comm_discards_steepness_fitbias_tuned_forecast"), overwrite = TRUE)
 
 # Step 2. Go copy in forecast file, and re assign "mod" to the updated files
-mod <- SS_read(here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512"))
+mod <- SS_read(here::here("model", "base_comm_discards_steepness_fitbias_tuned_forecast"))
 
 # Step 3. Change the end years: https://github.com/pfmc-assessments/Assessment_Class/discussions/72
 mod$fore$Fcast_years$st_year <- c(-4,-4,-4)
 
 # Now write again and run
-SS_write(mod, here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512"), overwrite = TRUE)
-run(dir = 'model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512', exe = exe_loc, show_in_console = TRUE, skipfinished = FALSE)
+SS_write(mod, here::here("model", "base_comm_discards_steepness_fitbias_tuned_forecast"), overwrite = TRUE)
+run(dir = 'model/base_comm_discards_steepness_fitbias_tuned_forecast', exe = exe_loc, show_in_console = TRUE, skipfinished = FALSE)
 
 # store plots in figures folder so that we can pull easily into report
-SS_plots(replist = SS_output('model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512'),dir = here::here("model","updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512"))
+SS_plots(replist = SS_output('model/base_comm_discards_steepness_fitbias_tuned_forecast'),dir = here::here("model","base_comm_discards_steepness_fitbias_tuned_forecast"))
 
 # plot the forecast years
-SS_plots(replist = SS_output('model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512'),dir = here::here("model","updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512","forecast_plots"), forecastplot = TRUE)
+SS_plots(replist = SS_output('model/base_comm_discards_steepness_fitbias_tuned_forecast'),dir = here::here("model","base_comm_discards_steepness_fitbias_tuned_forecast","forecast_plots"), forecastplot = TRUE)
 
 ### Final Comparison Plots
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
             paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250512")),
             paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512")))
+            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned_forecast")))
 
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
@@ -2463,7 +2463,7 @@ SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
                                       "19_alldata_tunecomps_fitbias_upctl_tuned_upstart_fore"),
                   legendlabels = c("2017 updated SS3 exe", 
-                                   "2025 updated all data and tuned",
-                                   "2025 updated ctl file and tuned",
-                                   "proposed 2025 base model"),
+                                   "Updated all data and tuned",
+                                   "Updated fitbias, ctl file, tuned",
+                                   "Proposed 2025 base model"),
                   print = TRUE)
