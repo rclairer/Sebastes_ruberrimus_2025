@@ -2241,9 +2241,9 @@ r4ss::get_ss3_exe(dir = base_comm_discards_steepness_updated_dir)
 # to fit the bias
 r4ss::run(dir = base_comm_discards_steepness_updated_dir, show_in_console = TRUE)
 
-replist_base_comm_discards_steepness_updated_dir <- r4ss::SS_output(dir = base_comm_discards_steepness_updated_dir)
+replist_base_comm_discards_steepness_updated <- r4ss::SS_output(dir = base_comm_discards_steepness_updated_dir)
 
-r4ss::SS_plots(replist_base_comm_discards_steepness_updated_dir)
+r4ss::SS_plots(replist_base_comm_discards_steepness_updated)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
 models <- c(paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512")),
@@ -2282,7 +2282,7 @@ copy_SS_inputs(
 #add this folder manually
 
 r4ss::SS_fitbiasramp(
-  base_comm_discards_steepness_updated_dir, #use replist from previous run
+  replist_base_comm_discards_steepness_updated, #use replist from previous run
   plot = FALSE,
   #print = TRUE,
   #plotdir = fitbias_plots,
@@ -2304,24 +2304,27 @@ replist_base_comm_discards_steepness_fitbias_updated <- r4ss::SS_output(dir = ba
 SS_plots(replist_base_comm_discards_steepness_fitbias_updated)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
-##models <- c(paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512")),
-##            paste0(file.path(getwd(), "model", "base_comm_discards_updated")),
-##            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_updated")),
-##            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_updated")))
-##models
-##models_output <- SSgetoutput(dirvec = models)
-##models_summary <- SSsummarize(models_output)
-##SSplotComparisons(models_summary,
-##                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-##                                      "24_base_comm_discards_steepness_fitbias_updated"),
-##                  legendlabels = c("2025 base model (- forcast file changes)", 
-##                                   "+ comm discards updated",
-##                                   "+ steepness updated to 0.72",
-##                                   "+ fit bias adj ramp"),
-##                  print = TRUE)
+models <- c(paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_updated")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_updated")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_updated")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "24_base_comm_discards_steepness_fitbias_updated"),
+                  legendlabels = c("2025 base model (- forcast file changes)", 
+                                   "+ comm discards updated",
+                                   "+ steepness updated to 0.72",
+                                   "+ fit bias adj ramp"),
+                  print = TRUE)
+
+
 ###################################################################
 ##################### TUNE AGAIN  #################################
 ###################################################################
+
 # copy model starters and data file from prev run
 copy_SS_inputs(
   dir.old = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250512"), 
