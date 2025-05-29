@@ -9,6 +9,7 @@ Data/raw/confidential
 *admodel.dep
 *admodel.hes
 *checkup.sso
+*covar.sso
 *CumReport.sso
 *echoinput.sso
 *fmin.log
