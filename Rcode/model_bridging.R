@@ -2324,7 +2324,7 @@ SSplotComparisons(models_summary,
 
 
 ###################################################################
-##################### TUNE AGAIN (maybe) #############################
+##################### TUNE AGAIN #############################
 ###################################################################
 
 # copy model starters and data file from prev run
@@ -2431,7 +2431,7 @@ GMT_catch_biomass <- data.frame(
   catch_or_F = c(0.14, 10, 9, 7.76, 8.88, 6.6, 3.22, 0.14, 10, 9, 7.76, 9.58, 6.6, 3.22)
 ) # Sent by Christian Heath 5/5/25
 
-replist <- SS_output("model/base_comm_discards_steepness_fitbias_tuned_forecast")
+replist <- SS_output("model/base_comm_discards_steepness_fitbias_tuned")
 # which fleets have catch in numbers (catch_units == 2) and are fishery fleets (fleet_type == 1)
 replist$FleetNames[replist$catch_units == 2 & replist$fleet_type == 1]
 # [1] "7_WA_REC"
@@ -2477,8 +2477,8 @@ models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "19_alldata_tunecomps_fitbias_upctl_tuned_upstart_fore"),
-                  legendlabels = c("2017 updated SS3 exe", 
+                                      "23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore"),
+                  legendlabels = c("2017 base model", 
                                    "Updated all data and tuned",
                                    "Updated fitbias, ctl file, tuned",
                                    "Proposed 2025 base model"),
