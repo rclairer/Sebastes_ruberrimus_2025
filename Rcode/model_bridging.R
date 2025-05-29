@@ -2113,11 +2113,96 @@ SSplotComparisons(models_summary,
 #####################    ADD DISCARD AMOUNTS #############################
 ##########################################################################
 
+updated_startfile_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512")
+
+base_comm_discards_updated_dir <- here::here("model", "base_comm_discards_updated")
+
+copy_SS_inputs(
+  dir.old = updated_startfile_dir, 
+  dir.new = base_comm_discards_updated_dir,
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
 
 
+#all catch
+inputs <- SS_read(dir = file.path(getwd(), "model", "base_comm_discards_updated"))
 
+#catch <- inputs$dat$catch
 
+#ONLY NEED TO ADD THESE COMMERCIAL DISCARDS
 
+################################################
+#discards in 2024 by fleet
+
+#CA_TWL FLEET 1
+
+#CA_NONTWL FLEET 2
+
+#ORWA_TWL FLEET 4
+
+#ORWA_NONTWL FLEET 5
+
+# read in commercial discards
+discards <- read.csv(file.path(getwd(),"Data","processed","discards","commercial_discards.csv")) |> 
+  # remove column of row names from previous save
+  dplyr::select(-X)
+
+# Combine OR and WA discards for fleet
+discards_ORWA <- discards |>
+  dplyr::filter(grepl("OR|WA", fleet)) |>
+  tidyr::separate_wider_delim(fleet, delim = "-", names = c("fleet", "state")) |>
+  dplyr::group_by(year, fleet) |>
+  dplyr::summarise(discards = sum(total_discards)) |>
+  dplyr::ungroup() |>
+  dplyr::mutate(state = "ORWA")
+
+# Combine CA and ORWA discards into final discards df
+discards_all <- discards |>
+  dplyr::filter(grepl("CA", fleet)) |>
+  tidyr::separate_wider_delim(fleet, delim = "-", names = c("fleet", "state")) |>
+  dplyr::rename(discards = total_discards) |>
+  rbind(discards_ORWA) |>
+  dplyr::mutate(ST_FLEET = glue::glue("{state}_{fleet}")) |>
+  dplyr::select(-c(fleet, state)) |>
+  dplyr::filter(year > 2015)
+
+discards_all_ave_2021to2023 <- discards_all %>%
+  filter(year %in% c(2021, 2022, 2023)) %>%
+  group_by(ST_FLEET) %>%
+  summarise(avg_discards = mean(discards, na.rm = TRUE, .groups = "drop"))
+
+##############################################
+
+inputs$dat$catch <- inputs$dat$catch %>%
+  mutate(catch = if_else(fleet == 1 & year == 2024, catch + discards_all_ave_2021to2023$avg_discards[discards_all_ave_2021to2023$ST_FLEET == "CA_TWL"], catch)) %>%
+  mutate(catch = if_else(fleet == 2 & year == 2024, catch + discards_all_ave_2021to2023$avg_discards[discards_all_ave_2021to2023$ST_FLEET == "CA_NONTWL"], catch)) %>%
+  mutate(catch = if_else(fleet == 4 & year == 2024, catch + discards_all_ave_2021to2023$avg_discards[discards_all_ave_2021to2023$ST_FLEET == "ORWA_TWL"], catch)) %>%
+  mutate(catch = if_else(fleet == 5 & year == 2024, catch + discards_all_ave_2021to2023$avg_discards[discards_all_ave_2021to2023$ST_FLEET == "ORWA_NONTWL"], catch))
+
+SS_write(inputs, dir = file.path(getwd(), "model", "base_comm_discards_updated"), overwrite = TRUE)
+
+get_ss3_exe(dir = file.path(getwd(), "model", "base_comm_discards_updated"))
+
+run(dir = file.path(getwd(), "model", "base_comm_discards_updated"), show_in_console = TRUE)
+
+replist_base_comm_discards_updated <- SS_output(dir = file.path(getwd(), "model", "base_comm_discards_updated"))
+SS_plots(replist_base_comm_discards_updated)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "2025_base_model")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_updated")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "22_base_comm_discards_updated"),
+                  legendlabels = c("2025 base model", 
+                                   "+ avg last 3 yrs comm discards"),
+                  print = TRUE)
 
 ##########################################################################
 ######################### UPDATE STEEPNESS ###############################
