@@ -2246,19 +2246,19 @@ replist_base_comm_discards_steepness_updated_dir <- r4ss::SS_output(dir = base_c
 r4ss::SS_plots(replist_base_comm_discards_steepness_updated_dir)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
-##models <- c(paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512")),
-##            paste0(file.path(getwd(), "model", "base_comm_discards_updated")),
-##            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_updated")))
-##models
-##models_output <- SSgetoutput(dirvec = models)
-##models_summary <- SSsummarize(models_output)
-##SSplotComparisons(models_summary,
-##                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-##                                      "23_base_comm_discards_steepness_updated"),
-##                  legendlabels = c("2025 base model (- forcast file changes)", 
-##                                   "+ comm discards updated",
-##                                   "+ steepness updated to 0.72"),
-##                  print = TRUE)
+models <- c(paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_updated")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_updated")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "23_base_comm_discards_steepness_updated"),
+                  legendlabels = c("2025 base model (- forcast file changes)", 
+                                   "+ comm discards updated",
+                                   "+ steepness updated to 0.72"),
+                  print = TRUE)
 
 
 ######################################################################
