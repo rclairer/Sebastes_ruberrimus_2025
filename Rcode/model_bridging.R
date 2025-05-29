@@ -2327,8 +2327,8 @@ SSplotComparisons(models_summary,
 
 # copy model starters and data file from prev run
 copy_SS_inputs(
-  dir.old = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250512"), 
-  dir.new = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512"),
+  dir.old = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_updated"), 
+  dir.new = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned"),
   create.dir = TRUE,
   overwrite = TRUE,
   use_ss_new = TRUE,
@@ -2337,55 +2337,50 @@ copy_SS_inputs(
 
 #inputs <- SS_read(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250416"))
 
-get_ss3_exe(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512"))
+get_ss3_exe(dir = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned"))
 
-run(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512"), 
+run(dir = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned"), 
     show_in_console = TRUE, extras = "-nohess")
 
-replist <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512"))
+replist_tuned <- SS_output(dir = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned"))
 
 
 ##### Tune composition data ##### ----------------------------------------------
-tunecomps_again_dir <- here::here("model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512")
+base_comm_discards_steepness_fitbias_tuned_dir <- here::here("model", "base_comm_discards_steepness_fitbias_tuned")
 
 r4ss::tune_comps(
-  replist, # use replist from previous run
+  replist_tuned, # use replist from previous run
   write = TRUE,
   niters_tuning = 2, 
   option = "Francis",
-  dir = tunecomps_again_dir,
+  dir = base_comm_discards_steepness_fitbias_tuned_dir,
   show_in_console = TRUE,
   #extras = "-nohess", #run with hessian so we can run fitbias next
   exe = "ss3"
 )
 
-replist_tunecomps_again <- SS_output(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512"))
+replist_base_comm_discards_steepness_fitbias_tuned <- SS_output(dir = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned"))
 
-SS_plots(replist_tunecomps_again)
+SS_plots(replist_base_comm_discards_steepness_fitbias_tuned)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
-models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
-            paste0(file.path(getwd(), "model", "updated_catch_indices_lencompall_upextcomagecomp_upextrecagecomp_surveyagecomp_20250512")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250512")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_20250512")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_20250512")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512")))
+models <- c(paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_updated")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_updated")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_updated")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "17_alldata_tunecomps_fitbias_upctl_tuned"),
-                  legendlabels = c("2017 updated SS3 exe (Nsexes = -1)", 
-                                   "2025 updated all data",
-                                   "+ tuned comps",
-                                   "+ recruitment dev bias adj",
-                                   "+ updated ctl file",
-                                   "+ tuned comps again"),
+                                      "25_base_comm_discards_steepness_fitbias_tuned"),
+                  legendlabels = c("2025 base model (- forcast file changes)", 
+                                   "+ comm discards updated",
+                                   "+ steepness updated to 0.72",
+                                   "+ fit bias adj ramp",
+                                   "+ tuned comps"),
                   print = TRUE)
-
-
-
 
 
 
