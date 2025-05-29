@@ -248,6 +248,18 @@ knitr::include_graphics(
 )
 ```
 
+```{r}
+#| label: fig-maturity
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Maturity at length relationship used in the base model for Yelloweye Rockfish."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/bio6_maturity.png"
+)
+```
+
 <!-- 04a_model_summary -->
 
 ```{r}
