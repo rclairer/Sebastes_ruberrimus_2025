@@ -9,6 +9,8 @@ library(nwfscSurvey)
 library(here)
 #remotes::install_github("pfmc-assessments/pacfintools")
 library(pacfintools)
+#remotes::install_github("pfmc-assessments/PEPtools")
+library(PEPtools)
 exe_loc <- here::here('model/ss3.exe')
 
 ###############################################
@@ -2467,3 +2469,103 @@ SSplotComparisons(models_summary,
                                    "Updated fitbias, ctl file, tuned",
                                    "Proposed 2025 base model"),
                   print = TRUE)
+
+##############################################################
+##################### FORECAST FILE CHANGES NEW #############
+##############################################################
+
+copy_SS_inputs(
+  dir.old = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_updated"), 
+  dir.new = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned"),
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+mod <- SS_read(here::here("model", "base_comm_discards_steepness_fitbias_tuned"))
+
+mod$fore$Bmark_years <- c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+mod$fore$Bmark_relF_Basis <- 2
+
+mod$fore$Fmult <- 1
+
+mod$fore$Fcast_years$st_year <- c(-4,-4,-4)
+
+mod$fore$ControlRuleMethod <- 3
+
+mod$fore$Flimitfraction <- -1
+
+mod$fore$Flimitfraction_m <- PEPtools::get_buffer(2025:2036, sigma = 0.5, pstar = 0.4)
+
+mod$fore$FirstYear_for_caps_and_allocations <- 2027
+
+mod$fore$stddev_of_log_catch_ratio <- 0
+
+mod$fore$Do_West_Coast_gfish_rebuilder_output <- 0
+
+mod$fore$Yinit <- 0
+
+mod$fore$Ydecl <- 0
+
+GMT_catch_biomass <- data.frame(
+  year = rep(2025:2026, each = 7),
+  seas = 1,
+  fleet = rep(1:7, 2),
+  catch_or_F = c(0.14, 10, 9, 7.76, 8.88, 6.6, 3.22, 0.14, 10, 9, 7.76, 9.58, 6.6, 3.22)
+) # Sent by Christian Heath 5/5/25
+
+replist <- SS_output("model/base_comm_discards_steepness_fitbias_tuned_forecast")
+# which fleets have catch in numbers (catch_units == 2) and are fishery fleets (fleet_type == 1)
+replist$FleetNames[replist$catch_units == 2 & replist$fleet_type == 1]
+# [1] "7_WA_REC"
+
+# calculate model expectation for mean weight for the WA_REC fleet
+# which is based on the combination of parameters for growth and selectivity
+WA_REC_meanwt <- replist$timeseries |>
+  dplyr::filter(Area == 2 & Yr == 2024) |>
+  dplyr::mutate(meanwt = as.numeric(`dead(B):_7`) / as.numeric(`dead(N):_7`)) |>
+  dplyr::pull(meanwt) |>
+  round(3)
+WA_REC_meanwt
+# [1] 2.105
+
+GMT_catch_input <- GMT_catch_biomass |>
+  dplyr::mutate(catch_or_F = ifelse(fleet != 7, catch_or_F, round(catch_or_F / WA_REC_meanwt, 3)))
+
+# resulting table has 1.53 (1000s) for fleet 7 vs 3.22 (metric tons) in GMT_catch_biomass
+GMT_catch_input
+
+mod$fore$ForeCatch <- GMT_catch_input
+
+# Now write again and run
+SS_write(mod, here::here("model", "base_comm_discards_steepness_fitbias_tuned_forecast"), overwrite = TRUE)
+
+get_ss3_exe(dir = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned_forecast"))
+
+run(dir = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned_forecast"), exe = exe_loc, show_in_console = TRUE, skipfinished = FALSE)
+
+# store plots in figures folder so that we can pull easily into report
+SS_plots(replist = SS_output('model/base_comm_discards_steepness_fitbias_tuned_forecast'),dir = here::here("model","base_comm_discards_steepness_fitbias_tuned_forecast"))
+
+# plot the forecast years
+SS_plots(replist = SS_output('model/base_comm_discards_steepness_fitbias_tuned_forecast'),dir = here::here("model","base_comm_discards_steepness_fitbias_tuned_forecast","forecast_plots"), forecastplot = TRUE)
+
+### Final Comparison Plots
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250512")),
+            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned_forecast")))
+
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "19_alldata_tunecomps_fitbias_upctl_tuned_upstart_fore"),
+                  legendlabels = c("2017 updated SS3 exe", 
+                                   "Updated all data and tuned",
+                                   "Updated fitbias, ctl file, tuned",
+                                   "Proposed 2025 base model"),
+                  print = TRUE)
+

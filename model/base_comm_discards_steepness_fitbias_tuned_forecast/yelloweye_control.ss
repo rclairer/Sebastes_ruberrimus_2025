@@ -1,6 +1,6 @@
 #C Yelloweye 2017 control file
 #C file created using an r4ss function
-#C file write time: 2025-05-29  10:06:03
+#C file write time: 2025-05-29  14:49:18
 #
 0 # 0 means do not read wtatage.ss; 1 means read and usewtatage.ss and also read and use growth parameters
 1 #_N_Growth_Patterns
@@ -262,26 +262,26 @@
 #
 # Input variance adjustments factors: 
 #_factor	fleet	value
-    4	 1	0.519245	#_Variance_adjustment_list1 
-    4	 2	0.286784	#_Variance_adjustment_list2 
-    4	 3	0.523939	#_Variance_adjustment_list3 
-    4	 4	0.255103	#_Variance_adjustment_list4 
-    4	 5	0.373578	#_Variance_adjustment_list5 
-    4	 6	0.363635	#_Variance_adjustment_list6 
+    4	 1	 0.51995	#_Variance_adjustment_list1 
+    4	 2	0.287639	#_Variance_adjustment_list2 
+    4	 3	0.524137	#_Variance_adjustment_list3 
+    4	 4	0.254344	#_Variance_adjustment_list4 
+    4	 5	0.373636	#_Variance_adjustment_list5 
+    4	 6	0.365238	#_Variance_adjustment_list6 
     4	 7	       1	#_Variance_adjustment_list7 
-    4	 8	0.559929	#_Variance_adjustment_list8 
-    4	 9	0.541348	#_Variance_adjustment_list9 
-    4	10	 0.45545	#_Variance_adjustment_list10
-    4	11	0.511122	#_Variance_adjustment_list11
-    4	12	 0.89235	#_Variance_adjustment_list12
+    4	 8	0.559252	#_Variance_adjustment_list8 
+    4	 9	0.542121	#_Variance_adjustment_list9 
+    4	10	0.456885	#_Variance_adjustment_list10
+    4	11	0.510701	#_Variance_adjustment_list11
+    4	12	0.892108	#_Variance_adjustment_list12
     5	 2	       1	#_Variance_adjustment_list13
     5	 3	       1	#_Variance_adjustment_list14
     5	 4	       1	#_Variance_adjustment_list15
-    5	 5	0.222147	#_Variance_adjustment_list16
+    5	 5	0.220324	#_Variance_adjustment_list16
     5	 6	       1	#_Variance_adjustment_list17
     5	 7	       1	#_Variance_adjustment_list18
     5	11	       1	#_Variance_adjustment_list19
-    5	12	0.088235	#_Variance_adjustment_list20
+    5	12	0.087666	#_Variance_adjustment_list20
 -9999	 0	       0	#_terminator                
 #
 1 #_maxlambdaphase
