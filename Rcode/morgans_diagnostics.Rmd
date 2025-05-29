@@ -17,7 +17,7 @@ library(future)
 # Set directory and pull in best model
 
 directory <- here::here("model")
-base_model_name <- "2025_base_model"
+base_model_name <- "base_comm_discards_steepness_fitbias_forecast_updated"
 
 # Identify the exe location so that the model settings can grab it for running the profiles.
 get_ss3_exe(dir = here::here("model"))
