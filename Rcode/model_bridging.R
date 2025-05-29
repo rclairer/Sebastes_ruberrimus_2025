@@ -2544,7 +2544,7 @@ SS_write(mod, here::here("model", "base_comm_discards_steepness_fitbias_tuned_fo
 
 get_ss3_exe(dir = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned_forecast"))
 
-run(dir = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned_forecast"), exe = exe_loc, show_in_console = TRUE, skipfinished = FALSE)
+run(dir = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned_forecast"), show_in_console = TRUE)
 
 # store plots in figures folder so that we can pull easily into report
 SS_plots(replist = SS_output('model/base_comm_discards_steepness_fitbias_tuned_forecast'),dir = here::here("model","base_comm_discards_steepness_fitbias_tuned_forecast"))
