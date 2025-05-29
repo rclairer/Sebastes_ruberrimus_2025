@@ -2203,7 +2203,7 @@ models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "22_base_comm_discards_updated"),
+                                      "19_base_comm_discards_updated"),
                   legendlabels = c("2025 base model (- forecast file changes)", 
                                    "+ comm discards updated"),
                   print = TRUE)
@@ -2256,7 +2256,7 @@ models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "23_base_comm_discards_steepness_updated"),
+                                      "20_base_comm_discards_steepness_updated"),
                   legendlabels = c("2025 base model (- forcast file changes)", 
                                    "+ comm discards updated",
                                    "+ steepness updated to 0.72"),
@@ -2315,7 +2315,7 @@ models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "24_base_comm_discards_steepness_fitbias_updated"),
+                                      "21_base_comm_discards_steepness_fitbias_updated"),
                   legendlabels = c("2025 base model (- forcast file changes)", 
                                    "+ comm discards updated",
                                    "+ steepness updated to 0.72",
@@ -2376,7 +2376,7 @@ models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "25_base_comm_discards_steepness_fitbias_tuned"),
+                                      "22_base_comm_discards_steepness_fitbias_tuned"),
                   legendlabels = c("2025 base model (- forcast file changes)", 
                                    "+ comm discards updated",
                                    "+ steepness updated to 0.72",
