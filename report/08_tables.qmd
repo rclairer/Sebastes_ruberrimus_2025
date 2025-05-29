@@ -309,7 +309,7 @@ pars_table |>
   ) |>
   as_latex()
 
-cat("\n\\end{landscape}\n") 
+cat("\n\\end{landscape}\n")
 ```
 
 {{< pagebreak >}}
