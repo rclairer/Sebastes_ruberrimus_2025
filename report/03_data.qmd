@@ -130,3 +130,7 @@ A summary of sampling efforts (number of hauls and number of individual fish) in
 ## Biological Parameters and Data
 
 The approach to natural mortality, maturity and fecundity were unchanged from the previous assessment [@gertseva_stock_2017]. All of these biological parameters used in the assessment were estimated outside the model or obtained from literature. Therefore, uncertainty reported for the stock assessment results does not include any uncertainty in these quantities (however, some were investigated via sensitivity analyses described later in this report). The parameters for the length-weight relationship were updated to include the most recent data from 2017 - 2024; see the updated equation: $W =$ `r mod_in$ctl$MG_parms['Wtlen_1_Fem_GP_1', 'INIT']*(10^6)`\*$10^{-6}L$^`r mod_in$ctl$MG_parms['Wtlen_2_Fem_GP_1', 'INIT']`^ (@fig-LWrel). Aging error matrices were unchanged. 
+
+## Environmental and ecosystem data
+
+No environmental or ecosystem data were used in the 2017 assessment [@gertseva_stock_2017] and no new data sources were considered for this update assessment. 
