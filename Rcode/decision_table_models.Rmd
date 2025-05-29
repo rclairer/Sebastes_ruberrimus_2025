@@ -24,24 +24,17 @@ High state of nature Model
 M = 0.056
 
 ```{r}
-# Read in base model
+
+# Read in base model and model output
 mod <- SS_read(here::here("model", "2025_base_model"))
+mod_out <- SS_output(here::here("model", "2025_base_model"))
+
+forecast_catch <- r4ss::SS_ForeCatch(mod_out, yrs = 2025:2036)
 
 # Change M
 mod$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$INIT <- 0.056
 
-forecast_catch <- r4ss::SS_ForeCatch(mod, yrs = 2025:2036)
 
-forecast_catch <- r4ss::SS_ForeCatch(
-  replist = mod,
-  yrs = 2025:2036
-) |>
-  dplyr::rename(
-    year = "#Year",
-    seas = "Seas",
-    fleet = "Fleet",
-    catch_or_F = "dead(B)",
-  )
 
 # Run and save model
 SS_write(mod, here::here("model", "2025_high_state"), overwrite = TRUE)
