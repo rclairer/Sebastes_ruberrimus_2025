@@ -499,7 +499,7 @@ projections_table |>
   gt::gt() |>
   gt::fmt_number(
     columns = c(2:5, 7:9),
-    decimals = 0
+    decimals = 1
   ) |>
   gt::fmt_number(
     columns = c(6, 10),
