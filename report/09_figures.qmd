@@ -781,7 +781,7 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-bridge25_comp4
+#| label: fig-bridge25-comp4
 #| echo: false
 #| warning: false
 #| eval: true
