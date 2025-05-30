@@ -2502,5 +2502,19 @@ get_ss3_exe(dir = file.path(getwd(), "model", "base_model_check_gradient"))
 run(dir = file.path(getwd(), "model", "base_model_check_gradient"), show_in_console = TRUE)
 run(dir = file.path(getwd(), "model", "base_model_check_gradient"), show_in_console = TRUE, skipfinished = FALSE, extras = "-hess_step")
 
+######################################################################
+##### Plotting 2017 base vs 2025 base for management comparison ######
+######################################################################
 
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "2025_base_model")))
+
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "25_2025base_vs_2017base"),
+                  legendlabels = c("2017 base model",
+                                   "Proposed 2025 base model"),
+                  print = TRUE)
 

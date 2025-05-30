@@ -471,11 +471,11 @@ Oken \and Aaron Berger}
 
 Please cite this publication as:
 
-Johnston*, M. A., Rosemond*, R. C., Perl, E., Whitman, A., Barros, M.,
+Johnston*, M. A., Rosemond*, R. C., Whitman, A., Perl, E., Barros, M.,
 Champagnat, J., Schamp, A., Schiano, S., Prior Caltabellotta, F.,
-Gertseva, V., Taylor, I., and Oken, K. (2025) Status of Yelloweye
-rockfish off the U.S. West Coast in 2025. Pacific Fishery Management
-Council. \pageref*{LastPage}{} pp.
+Gertseva, V., Taylor, I., Oken, K. and Berger, A. (2025) Status of
+Yelloweye rockfish off the U.S. West Coast in 2025. Pacific Fishery
+Management Council. \pageref*{LastPage}{} pp.
 
 *These authors contributed equally to this work.
 
@@ -1031,16 +1031,16 @@ Mgmt & Year & Catch & Low Spawn & Low Frac & Base Spawn & Base Frac & High Spawn
 \midrule
 \textbf{A} & 2025 & 46 & 330.67 & 0.289 & 477.63 & 0.401 & 839.65 & 0.603\\
 \textbf{} & 2026 & 46 & 347.96 & 0.305 & 502.27 & 0.422 & 878.58 & 0.630\\
-\textbf{} & 2027 & 99 & 365.20 & 0.320 & 526.77 & 0.443 & 916.84 & 0.658\\
-\textbf{} & 2028 & 98 & 376.44 & 0.329 & 543.56 & 0.457 & 946.40 & 0.679\\
-\textbf{} & 2029 & 97 & 386.47 & 0.338 & 558.41 & 0.469 & 972.47 & 0.698\\
-\textbf{} & 2030 & 96 & 394.93 & 0.346 & 570.84 & 0.480 & 994.20 & 0.713\\
-\textbf{} & 2031 & 94 & 401.71 & 0.352 & 580.65 & 0.488 & 1011.25 & 0.726\\
-\textbf{} & 2032 & 92 & 406.85 & 0.356 & 587.93 & 0.494 & 1023.78 & 0.735\\
-\textbf{} & 2033 & 91 & 410.56 & 0.359 & 592.97 & 0.498 & 1032.35 & 0.741\\
-\textbf{} & 2034 & 89 & 413.15 & 0.362 & 596.20 & 0.501 & 1037.71 & 0.745\\
-\textbf{} & 2035 & 87 & 414.93 & 0.363 & 598.07 & 0.503 & 1040.63 & 0.747\\
-\textbf{} & 2036 & 85 & 416.25 & 0.364 & 599.03 & 0.503 & 1041.85 & 0.748\\
+\textbf{} & 2027 & 113 & 365.20 & 0.320 & 526.77 & 0.443 & 916.84 & 0.658\\
+\textbf{} & 2028 & 113 & 374.94 & 0.328 & 543.56 & 0.457 & 946.40 & 0.679\\
+\textbf{} & 2029 & 113 & 383.27 & 0.335 & 558.41 & 0.469 & 972.47 & 0.698\\
+\textbf{} & 2030 & 113 & 389.86 & 0.341 & 570.84 & 0.480 & 994.20 & 0.713\\
+\textbf{} & 2031 & 112 & 394.60 & 0.345 & 580.65 & 0.488 & 1011.25 & 0.726\\
+\textbf{} & 2032 & 111 & 397.56 & 0.348 & 587.93 & 0.494 & 1023.78 & 0.735\\
+\textbf{} & 2033 & 110 & 398.98 & 0.349 & 592.97 & 0.498 & 1032.35 & 0.741\\
+\textbf{} & 2034 & 109 & 399.19 & 0.349 & 596.20 & 0.501 & 1037.71 & 0.745\\
+\textbf{} & 2035 & 108 & 398.51 & 0.349 & 598.07 & 0.503 & 1040.63 & 0.747\\
+\textbf{} & 2036 & 106 & 397.30 & 0.348 & 599.03 & 0.503 & 1041.85 & 0.748\\
 \bottomrule
 \end{tabular}
 
@@ -1694,7 +1694,9 @@ The parameters for the length-weight relationship were updated to
 include the most recent WCGBTS data from 2017 - 2024. Length-weight
 curves were fitted using this equation:
 
-\(W =\) 7.18331*10\textsuperscript{-6}\(L\)\textsuperscript{3.2448}
+\textbackslash begin\{center\} \(W\) =\$
+7.18331*10\textsuperscript{-6}\(L\)\textsuperscript{3.2448}
+\textbackslash end\{center\}
 
 Where \(W\) is individual weight (kg) and \(L\) is total natural length
 (cm) (Figure~\ref{fig-LWrel}).
@@ -1714,12 +1716,14 @@ The fecundity-at-length relationship also remained unchanged from the
 hierarchical Bayesian modeling framework. The fecundity was assumed to
 be related to female body size:
 
-\(F = aL^b\)
+\[
+F = aL^b
+\]
 
 Where \(F\) is fecundity (number of eggs), \(L\) is fish length (cm),
-and \(a\) and \(b\) are constant coefficients. For Yelloweye Dick et al.
-(2017) estimated \(a = 7.21847\)*10\textsuperscript{-8} and
-\(b = 4.043\).
+and \(a\) and \(b\) are constant coefficients
+(Figure~\ref{fig-fecundity}). For Yelloweye Dick et al. (2017) estimated
+\(a = 7.21847\)*10\textsuperscript{-8} and \(b = 4.043\).
 
 \subsubsection{Natural Mortality}\label{natural-mortality}
 
@@ -1977,7 +1981,7 @@ recreational ages.
 
 As a supplement to the model results figures included in this report and
 described below, a full set of diagnostic plots created by the \{r4ss\}
-package (Taylor et al. 2021) is available at
+package (Taylor et al. 2021) is available
 \href{https://github.com/rclairer/Sebastes_ruberrimus_2025}{online}
 along with the Stock Synthesis input files.
 
@@ -1985,10 +1989,10 @@ along with the Stock Synthesis input files.
 
 Estimated and fixed parameter values are shown in Table~\ref{tbl-pars}.
 Unfished recruitment was estimated at 5.48847. Yelloweye length at age
-70 (the second reference age) equals 61.3623. Figure~\ref{fig-growth}
-shows the estimated growth curve. Spawning output-at-length is shown in
-Figure~\ref{fig-spoutlen}. Spawning output in the assessment is
-expressed in millions of eggs.
+70 (the second reference age) equals 61.4 and an L-infinity of 61.7.
+Figure~\ref{fig-growth} shows the estimated growth curve. Spawning
+output-at-length (cm) is shown in Figure~\ref{fig-spoutlen}. Spawning
+output in the assessment is expressed in millions of eggs.
 
 Estimated stock-recruit function for the assessment model is shown in
 Figure~\ref{fig-SRcurve}. Estimated recruitment deviations are shown
@@ -2057,14 +2061,15 @@ closely. The spawning output of Yelloweye Rockfish started to decline in
 the 1940s during World War II, but are estimated to have been lightly
 exploited until the mid-1970s when catches increased and a rapid decline
 in biomass and spawning output began. The combined relative spawning
-output reached a minimum of 0.156161 of unexploited levels in 2000
+output reached a minimum of 15.6 of unexploited levels in 2000
 (Figure~\ref{fig-spout_combined}). Yelloweye Rockfish spawning output
 and relative status is estimated to have been gradually increasing since
 that time, in response to large reductions in harvest and spatial area
-closures. This trend is similar to the 2017 assessment, however, they
-estimated a quicker recovery in biomass since 2002 than the 2025 model.
-Relative spawning output has differed between the two areas modelled in
-the assessment, with the California resource estimated to have a lower
+closures. The trend from the update model is similar that from the 2017
+assessment, however, they estimated a quicker recovery in biomass since
+2002 than the 2025 model (Figure~\ref{fig-bridge25-comp4}). Relative
+spawning output has differed between the two areas modeled in the
+assessment, with the California resource estimated to have a lower
 unfished equilibrium spawning output and estimated to be more depleted
 in 2025 than the Oregon and Washington resource
 (Figure~\ref{fig-status_area}).
@@ -2074,9 +2079,9 @@ peaks and troughs estimated in the age-0 recruits
 (Figure~\ref{fig-tsrecuits}). Compared to the 2017 recruitment, our
 model estimates larger deviations from zero in the low period before
 2000 and the high period after 2000, and estimates above average
-recruitment up until 2015. In 2016, and to 2024, the recruitment
-estimates drop below zero, though with the 95\% intervals widely
-overlapping zero. Due to limited age data and protracted age
+recruitment up until 2015. In 2016, and to 2024, the estimate of
+recruitment deviations drop below zero, though with the 95\% intervals
+widely overlapping zero. Due to limited age data and protracted age
 distribution it can be hard to assign recruitment events to specific
 years, and we end up with autocorrelated patterns based on ages as
 inferred from lengths. There are some autocorrelated peaks and troughs
@@ -2126,20 +2131,20 @@ Table~\ref{tbl-sensitivities-model-specs}.
 The estimated natural mortality was slightly higher than that of the
 base model (\textasciitilde{} 0.053 compared to \textasciitilde{} 0.044
 from the base model). Steepness was estimated much higher at the maximum
-of 1.0, similar to what the 2017 assessment estimated, which would
-otherwise indicate recruitment is less dependent on the spawning stock
-biomass, especially at small stock sizes. However, steepness values
-close to 1 are implausible for slow growing rockfish, supporting the
-decision to fix steepness at 0.72.
+of 1.0, slightly higher than the sensitivity of the 2017 assessment
+estimated, which would otherwise indicate recruitment is less dependent
+on the spawning stock biomass, especially at small stock sizes. However,
+steepness values close to 1 are implausible for slow growing rockfish,
+supporting the decision to fix steepness at 0.72.
 
 Model results are sensitive to whether natural mortality and steepness
 are estimated or fixed, with the alternative models estimating a higher
-spawning output and a lower depletion status when compared to the base
-model (Figure~\ref{fig-sens_model_spout} and
-Figure~\ref{fig-sens_model_status}). However, outputs of the model using
-the 2017 length-weight relationship showed the base model is not
-sensitive to this update, with very similar spawning outputs between the
-base and alternative model.
+spawning output and a higher relative spawning output (status) when
+compared to the base model (Figure~\ref{fig-sens_model_spout} and
+Figure~\ref{fig-sens_model_status}). In contrast, outputs of the model
+using the 2017 length-weight relationship showed the base model is not
+sensitive to this update, with similar results between the base and
+alternative model.
 
 \paragraph{Sensitivity to dataset choice and weighting
 schemes}\label{sensitivity-to-dataset-choice-and-weighting-schemes}
@@ -2157,15 +2162,16 @@ model appears to be most sensitive to removing all length compositions,
 which show a significantly different biomass trajectory and a more
 optimistic estimate of stock status at the end of the time series
 (Figure~\ref{fig-sens_lengths2_spout} through
-Figure~\ref{fig-sens_lengths2_status}). Removing all age compositions,
-\gls{iphc} age compositions only, and applying the McAllister \& Ianelli
-weighting scheme also result in slightly more optimistic estimates of
-stock status at the end of the time series compared to the base model
-(Figure~\ref{fig-sens_age_spout} and Figure~\ref{fig-sens_age_status}).
-Furthermore, models with all abundance and \gls{iphc} indices removed
-resulted in slightly less optimistic estimates of spawning output and
-stock status at the end of the time series
-(Figure~\ref{fig-sens_indices_spout} and
+Figure~\ref{fig-sens_lengths2_status}).
+
+Removing all age compositions, \gls{iphc} age compositions only or
+applying the McAllister \& Ianelli weighting scheme also result in
+slightly more optimistic estimates of stock status at the end of the
+time series compared to the base model (Figure~\ref{fig-sens_age_spout}
+and Figure~\ref{fig-sens_age_status}). Furthermore, models with all
+abundance and \gls{iphc} indices removed resulted in slightly less
+optimistic estimates of spawning output and stock status at the end of
+the time series (Figure~\ref{fig-sens_indices_spout} and
 Figure~\ref{fig-sens_indices_status}). Models removing the remaining
 indices consecutively did not show large differences in the final stock
 status estimate. A summary of the relative changes in management
@@ -2180,10 +2186,12 @@ data removed for the past 5 years. Comparisons of the time series of
 absolute and relative spawning output and recruitment deviations time
 series for the runs are shown in Figure~\ref{fig-retro-sp-output},
 Figure~\ref{fig-retro-rel-biomass}, and
-Figure~\ref{fig-retro-recruit-dev}, respectively. Recruitment deviations
-were more positive as years were removed. However, the change is not
-large, indicating that the new data are consistent with previous values
-or the sample sizes are too small to have any impact.
+Figure~\ref{fig-retro-recruit-dev}, respectively. Recent recruitment
+deviations, which were negative in the base model, regressed towards the
+spawner-recruit curve, indicating closer to average recruitments in
+those years, with higher uncertainty, as data were removed. However, the
+change is not large, indicating that the new data are consistent with
+previous values or the sample sizes are too small to have any impact.
 
 General trends in relative depletion (or spawning output) have been
 relatively stable across assessments (Figure~\ref{fig-status_assmnts}),
@@ -3997,16 +4005,16 @@ Mgmt & Year & Catch & Low Spawn & Low Frac & Base Spawn & Base Frac & High Spawn
 \midrule
 \textbf{A} & 2025 & 46 & 330.67 & 0.289 & 477.63 & 0.401 & 839.65 & 0.603\\
 \textbf{} & 2026 & 46 & 347.96 & 0.305 & 502.27 & 0.422 & 878.58 & 0.630\\
-\textbf{} & 2027 & 99 & 365.20 & 0.320 & 526.77 & 0.443 & 916.84 & 0.658\\
-\textbf{} & 2028 & 98 & 376.44 & 0.329 & 543.56 & 0.457 & 946.40 & 0.679\\
-\textbf{} & 2029 & 97 & 386.47 & 0.338 & 558.41 & 0.469 & 972.47 & 0.698\\
-\textbf{} & 2030 & 96 & 394.93 & 0.346 & 570.84 & 0.480 & 994.20 & 0.713\\
-\textbf{} & 2031 & 94 & 401.71 & 0.352 & 580.65 & 0.488 & 1011.25 & 0.726\\
-\textbf{} & 2032 & 92 & 406.85 & 0.356 & 587.93 & 0.494 & 1023.78 & 0.735\\
-\textbf{} & 2033 & 91 & 410.56 & 0.359 & 592.97 & 0.498 & 1032.35 & 0.741\\
-\textbf{} & 2034 & 89 & 413.15 & 0.362 & 596.20 & 0.501 & 1037.71 & 0.745\\
-\textbf{} & 2035 & 87 & 414.93 & 0.363 & 598.07 & 0.503 & 1040.63 & 0.747\\
-\textbf{} & 2036 & 85 & 416.25 & 0.364 & 599.03 & 0.503 & 1041.85 & 0.748\\
+\textbf{} & 2027 & 113 & 365.20 & 0.320 & 526.77 & 0.443 & 916.84 & 0.658\\
+\textbf{} & 2028 & 113 & 374.94 & 0.328 & 543.56 & 0.457 & 946.40 & 0.679\\
+\textbf{} & 2029 & 113 & 383.27 & 0.335 & 558.41 & 0.469 & 972.47 & 0.698\\
+\textbf{} & 2030 & 113 & 389.86 & 0.341 & 570.84 & 0.480 & 994.20 & 0.713\\
+\textbf{} & 2031 & 112 & 394.60 & 0.345 & 580.65 & 0.488 & 1011.25 & 0.726\\
+\textbf{} & 2032 & 111 & 397.56 & 0.348 & 587.93 & 0.494 & 1023.78 & 0.735\\
+\textbf{} & 2033 & 110 & 398.98 & 0.349 & 592.97 & 0.498 & 1032.35 & 0.741\\
+\textbf{} & 2034 & 109 & 399.19 & 0.349 & 596.20 & 0.501 & 1037.71 & 0.745\\
+\textbf{} & 2035 & 108 & 398.51 & 0.349 & 598.07 & 0.503 & 1040.63 & 0.747\\
+\textbf{} & 2036 & 106 & 397.30 & 0.348 & 599.03 & 0.503 & 1041.85 & 0.748\\
 \bottomrule
 \end{tabular}
 
@@ -4123,7 +4131,7 @@ ORBS (2004 - 2024) indices.}
 }
 
 \caption{\label{fig-ORBS_comp}Comparison of the 2017 ORBS index
-(delta-GLM), the 2017 ORBS model (with the current dataset and
+(delta-GLM), the 2017 ORBS model structure (with the current dataset and
 implemented in sdmTMB), and the current ORBS index (sdmTMB).}
 
 \end{figure}%
@@ -4297,6 +4305,19 @@ age-at-length data for the IPHC (1 of 2).}
 
 \caption{\label{fig-maturity}Maturity at length relationship used in the
 base model for Yelloweye Rockfish.}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/bio9_fecundity_len.png}}
+
+}
+
+\caption{\label{fig-fecundity}Fecundity at length relationship used in
+the base model for Yelloweye Rockfish.}
 
 \end{figure}%
 
@@ -4877,6 +4898,20 @@ estimated by area (area 1= California, area 2 = Oregon and Washington).}
 
 \caption{\label{fig-tsrecuits}Time series of recruitment estimated in
 the assessment model with \textasciitilde{} 95\% interval.}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{figures/bridging/25_2025base_vs_2017base/compare4_Bratio_uncertainty.png}}
+
+}
+
+\caption{\label{fig-bridge25-comp4}Time series of the fraction of
+unfished biomass with \textasciitilde{} 95\% interval comparing the 2017
+assessment trajectory with the 2025 base model.}
 
 \end{figure}%
 

@@ -1083,7 +1083,7 @@ indices <- data.frame(
 )
 
 
-length_comps <- data.frame(
+length_comps_1 <- data.frame(
   dir = c(
     'index_and_comp_data/10_no_CA_trawl_lengths',
     'index_and_comp_data/11_no_CA_nontrawl_lengths',
@@ -1091,13 +1091,13 @@ length_comps <- data.frame(
     'index_and_comp_data/13_no_ORWA_trawl_lengths',
     'index_and_comp_data/14_no_ORWA_non-trawl_lengths',
     'index_and_comp_data/15_no_OR_dockside_lengths',
-    'index_and_comp_data/16_no_WA_dockside_lengths',
-    'index_and_comp_data/17_no_CA_CPFV_lengths',
-    'index_and_comp_data/18_no_OR_onboard_lengths',
-    'index_and_comp_data/19_no_AFSC_TRI_lengths',
-    'index_and_comp_data/20_no_NWFSC_lengths',
-    'index_and_comp_data/21_no_IPHC_lengths',
-    'index_and_comp_data/22_no_length_comps'
+    'index_and_comp_data/16_no_WA_dockside_lengths'
+    #'index_and_comp_data/17_no_CA_CPFV_lengths',
+    #'index_and_comp_data/18_no_OR_onboard_lengths',
+    #'index_and_comp_data/19_no_AFSC_TRI_lengths',
+    #'index_and_comp_data/20_no_NWFSC_lengths',
+    #'index_and_comp_data/21_no_IPHC_lengths',
+    #'index_and_comp_data/22_no_length_comps'
   ),
   pretty = c(
     '- CA TWL length comps',
@@ -1106,7 +1106,40 @@ length_comps <- data.frame(
     '- ORWA TWL length comps',
     '- ORWA NONTWL length comps',
     '- OR REC length comps',
-    '- WA REC length comps',
+    '- WA REC length comps'
+    #'- CA CPFV length comps',
+    #'- ORFS length comps',
+    #'- AFSC triennial length comps',
+    #'- NWFSC bottom trawl length comps',
+    #'- IPHC length comps',
+    #'- No length comps'
+  )
+)
+
+length_comps_2 <- data.frame(
+  dir = c(
+    #'index_and_comp_data/10_no_CA_trawl_lengths',
+    #'index_and_comp_data/11_no_CA_nontrawl_lengths',
+    #'index_and_comp_data/12_no_CA_dockside_lengths',
+    #'index_and_comp_data/13_no_ORWA_trawl_lengths',
+    #'index_and_comp_data/14_no_ORWA_non-trawl_lengths',
+    #'index_and_comp_data/15_no_OR_dockside_lengths',
+    #'index_and_comp_data/16_no_WA_dockside_lengths'
+    'index_and_comp_data/17_no_CA_CPFV_lengths',
+    'index_and_comp_data/18_no_OR_onboard_lengths',
+    'index_and_comp_data/19_no_AFSC_TRI_lengths',
+    'index_and_comp_data/20_no_NWFSC_lengths',
+    'index_and_comp_data/21_no_IPHC_lengths',
+    'index_and_comp_data/22_no_length_comps'
+  ),
+  pretty = c(
+    #'- CA TWL length comps',
+    #'- CA NONTWL lengths comps',
+    #'- CA REC lengths comps',
+    #'- ORWA TWL length comps',
+    #'- ORWA NONTWL length comps',
+    #'- OR REC length comps',
+    #'- WA REC length comps',
     '- CA CPFV length comps',
     '- ORFS length comps',
     '- AFSC triennial length comps',
@@ -1145,13 +1178,13 @@ age_comps <- data.frame(
 )
 
 
-sens_names <- bind_rows(modeling, indices, age_comps, length_comps)
+sens_names <- bind_rows(modeling, indices, age_comps, length_comps_1, length_comps_2)
 
 big_sensitivity_output <- SSgetoutput(
   dirvec = file.path(
     model_directory,
     c(
-      "2025_base_model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250427",
+      "2025_base_model",
       glue::glue("sensitivities/{subdir}", subdir = sens_names$dir)
     )
   )
@@ -1167,7 +1200,8 @@ sens_names_ls <- list(
   modeling = modeling,
   indices = indices,
   age_comps = age_comps,
-  length_comps = length_comps
+  length_comps_1 = length_comps_1,
+  length_comps_2 = length_comps_2
 )
 
 outdir <- 'report/figures/sensitivities'
@@ -1316,3 +1350,145 @@ ggsave(
   height = 6.5,
   units = "in"
 )
+
+## big plot with out no length comps model ----------------------------------
+
+current.year <- 2025
+CI <- 0.95
+
+sensitivity_output <- SSsummarize(
+  big_sensitivity_output[!names(big_sensitivity_output) %in% "index_and_comp_data/22_no_length_comps"]
+)
+
+length_comps_2_clean <- length_comps_2[length_comps_2$dir != "index_and_comp_data/22_no_length_comps", ]
+
+sens_names <- bind_rows(modeling, indices, age_comps, length_comps_1, length_comps_2_clean)
+
+
+lapply(
+  big_sensitivity_output,
+  function(.) .$warnings[grep('gradient', .$warnings)]
+) # check gradients
+
+dev.quants.SD <- c(
+  sensitivity_output$quantsSD[
+    sensitivity_output$quantsSD$Label == "SSB_Initial",
+    1
+  ],
+  (sensitivity_output$quantsSD[
+    sensitivity_output$quantsSD$Label == paste0("SSB_", current.year),
+    1
+  ]),
+  sensitivity_output$quantsSD[
+    sensitivity_output$quantsSD$Label == paste0("Bratio_", current.year),
+    1
+  ],
+  sensitivity_output$quantsSD[
+    sensitivity_output$quantsSD$Label == "Dead_Catch_SPR",
+    1
+  ],
+  sensitivity_output$quantsSD[
+    sensitivity_output$quantsSD$Label == "annF_SPR",
+    1
+  ]
+)
+
+dev.quants <- rbind(
+  sensitivity_output$quants[
+    sensitivity_output$quants$Label == "SSB_Initial",
+    1:(dim(sensitivity_output$quants)[2] - 2)
+  ],
+  sensitivity_output$quants[
+    sensitivity_output$quants$Label == paste0("SSB_", current.year),
+    1:(dim(sensitivity_output$quants)[2] - 2)
+  ],
+  sensitivity_output$quants[
+    sensitivity_output$quants$Label == paste0("Bratio_", current.year),
+    1:(dim(sensitivity_output$quants)[2] - 2)
+  ],
+  sensitivity_output$quants[
+    sensitivity_output$quants$Label == "Dead_Catch_SPR",
+    1:(dim(sensitivity_output$quants)[2] - 2)
+  ],
+  sensitivity_output$quants[
+    sensitivity_output$quants$Label == "annF_SPR",
+    1:(dim(sensitivity_output$quants)[2] - 2)
+  ]
+) |>
+  cbind(baseSD = dev.quants.SD) |>
+  dplyr::mutate(
+    Metric = c(
+      "SB0",
+      paste0("SSB_", current.year),
+      paste0("Bratio_", current.year),
+      "MSY_SPR",
+      "F_SPR"
+    )
+  ) |>
+  tidyr::pivot_longer(
+    -c(base, Metric, baseSD),
+    names_to = 'Model',
+    values_to = 'Est'
+  ) |>
+  dplyr::mutate(
+    relErr = (Est - base) / base,
+    logRelErr = log(Est / base),
+    mod_num = rep(1:nrow(sens_names[]), 5)
+  )
+
+metric.labs <- c(
+  SB0 = expression(SB[0]),
+  SSB_2023 = as.expression(bquote("SB"[.(current.year)])),
+  Bratio_2023 = bquote(frac(SB[.(current.year)], SB[0])),
+  MSY_SPR = expression(Yield['SPR=0.50']),
+  F_SPR = expression(F['SPR=0.50'])
+)
+
+CI.quants <- dev.quants |>
+  dplyr::filter(Model == unique(dev.quants$Model)[1]) |>
+  dplyr::select(base, baseSD, Metric) |>
+  dplyr::mutate(CI = qnorm((1 - CI) / 2, 0, baseSD) / base)
+
+ggplot(dev.quants, aes(x = relErr, y = mod_num, col = Metric, pch = Metric)) +
+  geom_vline(xintercept = 0, linetype = 'dotted') +
+  geom_point() +
+  geom_segment(
+    aes(
+      x = CI,
+      xend = abs(CI),
+      col = Metric,
+      y = nrow(sens_names) +
+        1.5 +
+        seq(-0.5, 0.5, length.out = length(metric.labs)),
+      yend = nrow(sens_names) +
+        1.5 +
+        seq(-0.5, 0.5, length.out = length(metric.labs))
+    ),
+    data = CI.quants,
+    linewidth = 2,
+    show.legend = FALSE,
+    lineend = 'round'
+  ) +
+  theme_bw() +
+  scale_shape_manual(
+    values = c(15:18, 12),
+    # name = "",
+    labels = metric.labs
+  ) +
+  scale_y_continuous(
+    breaks = 1:nrow(sens_names),
+    name = '',
+    labels = sens_names$pretty,
+    limits = c(1, nrow(sens_names) + 2),
+    minor_breaks = NULL
+  ) +
+  xlab("Relative change") +
+  viridis::scale_color_viridis(discrete = TRUE, labels = metric.labs)
+ggsave(
+  file.path(outdir, 'sens_summary_with_no_length_comps.png'),
+  dpi = 300,
+  width = 6,
+  height = 6.5,
+  units = "in"
+)
+
