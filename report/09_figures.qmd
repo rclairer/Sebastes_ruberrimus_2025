@@ -229,7 +229,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "nnual unsexed conditional age-at-length data for the IPHC (1 of 2)."
+#| fig-cap: "Annual unsexed conditional age-at-length data for the IPHC (1 of 2)."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png"
@@ -267,7 +267,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated historical catch data (red), and catch extened to 2024 (green)."
+#| fig-cap: "Comparison of the spawning output (millions of eggs) of the 2017 model with an updated SS3 executable (blue), updated historical catch data (red), and catch extened to 2024 (green)."
 #
 knitr::include_graphics(
     "figures/bridging/3_extendedcatch/compare2_spawnbio_uncertainty.png"
@@ -303,7 +303,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated and extended historical catch data (green), updated historical indices (yellow), and indices extended to 2024 (red)."
+#| fig-cap: "Comparison of the spawning output (millions of eggs) of the 2017 model with an updated SS3 executable (blue), updated and extended historical catch data (green), updated historical indices (yellow), and indices extended to 2024 (red)."
 #
 knitr::include_graphics(
     "figures/bridging/5_newindices/compare2_spawnbio_uncertainty.png"
@@ -315,7 +315,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated and extended catch and indices (red), and all tuned length and age composition data (green)."
+#| fig-cap: "Comparison of the spawning output (millions of eggs) of the 2017 model with an updated SS3 executable (blue), updated and extended catch and indices (red), and all tuned length and age composition data (green)."
 #
 knitr::include_graphics(
     "figures/bridging/14_tunecomps/compare2_spawnbio_uncertainty.png"
@@ -339,7 +339,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated and extended and tuned data (red), and the proposed 2025 base model after all final bridging steps (green)."
+#| fig-cap: "Comparison of the spawning output (millions of eggs) of the 2017 model with an updated SS3 executable (blue), updated and extended and tuned data (red), and the proposed 2025 base model after all final bridging steps (green)."
 #
 knitr::include_graphics(
     "figures/bridging/19_base_comm_discards_updated/compare2_spawnbio_uncertainty.png"
@@ -417,7 +417,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Spawning output at length."
+#| fig-cap: "Spawning output (millions of eggs) at length."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/bio10_spawningoutput_len.png"
@@ -687,7 +687,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimated spawning output over time for both areas combined."
+#| fig-cap: "Estimated spawning output (millions of eggs) over time for both areas combined."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png"
@@ -699,7 +699,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Estimated spawning output over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
+#| fig-cap: "Estimated spawning output (millions of eggs) over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png"
@@ -789,7 +789,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Spawning output across model structure sensitivities."
+#| fig-cap: "Spawning output (millions of eggs) across model structure sensitivities."
 #
 knitr::include_graphics(
     "figures/sensitivities/modelingcompare2_spawnbio_uncertainty.png"
@@ -813,7 +813,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Spawning output across length composition inclusion sensitivities (1 of 2)."
+#| fig-cap: "Spawning output (millions of eggs) across length composition inclusion sensitivities (1 of 2)."
 #
 knitr::include_graphics(
     "figures/sensitivities/length_comps1compare2_spawnbio_uncertainty.png"
@@ -837,7 +837,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Spawning output across length composition inclusion sensitivities (2 of 2)."
+#| fig-cap: "Spawning output (millions of eggs) across length composition inclusion sensitivities (2 of 2)."
 #
 knitr::include_graphics(
     "figures/sensitivities/length_comps2compare2_spawnbio_uncertainty.png"
@@ -863,7 +863,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Spawning output across age composition inclusion sensitivities."
+#| fig-cap: "Spawning output (millions of eggs) across age composition inclusion sensitivities."
 #
 knitr::include_graphics(
     "figures/sensitivities/age_compscompare2_spawnbio_uncertainty.png"
@@ -887,7 +887,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Spawning output across index inclusion sensitivities."
+#| fig-cap: "Spawning output (millions of eggs) across index inclusion sensitivities."
 #
 knitr::include_graphics(
     "figures/sensitivities/indicescompare2_spawnbio_uncertainty.png"
@@ -939,7 +939,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Results of retrospective analysis. Spawning output time series of this assesment base model are proved with ~95% interval."
+#| fig-cap: "Results of retrospective analysis. Spawning output (millions of eggs) time series of this assesment base model are proved with ~95% interval."
 #
 knitr::include_graphics(
     "figures/diagnostics/2025_base_model_retro_5_yr_peel/compare2_spawnbio_uncertainty.png"
@@ -1051,7 +1051,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Spawning output as profiled over values of lnR0."
+#| fig-cap: "Spawning output (millions of eggs) as profiled over values of lnR0."
 #
 knitr::include_graphics(
     "figures/diagnostics/2025_base_model_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare1_spawnbio.png"
