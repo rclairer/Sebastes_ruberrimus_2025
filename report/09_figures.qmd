@@ -95,7 +95,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Comparison of the 2017 ORBS index (delta-GLM), the 2017 ORBS model (with the current dataset and implemented in sdmTMB), and the current ORBS index (sdmTMB)."
+#| fig-cap: "Comparison of the 2017 ORBS index (delta-GLM), the 2017 ORBS model structure (with the current dataset and implemented in sdmTMB), and the current ORBS index (sdmTMB)."
 
 knitr::include_graphics(
     "figures/indices/ORBS index comparison_ORBSonly_errbars.png"
