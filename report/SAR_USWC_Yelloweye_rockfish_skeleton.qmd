@@ -259,7 +259,7 @@ R0 <- output |>
 
 Please cite this publication as: 
 
-Johnston\*, M. A., Rosemond\*, R. C., Perl, E., Whitman, A., Barros, M., Champagnat, J., Schamp, A., Schiano, S., Prior Caltabellotta, F., Gertseva, V., Taylor, I., and Oken, K. (2025) Status of Yelloweye rockfish off the U.S. West Coast in 2025. Pacific Fishery Management Council. \pageref*{LastPage}{} pp.
+Johnston\*, M. A., Rosemond\*, R. C., Whitman, A., Perl, E., Barros, M., Champagnat, J., Schamp, A., Schiano, S., Prior Caltabellotta, F., Gertseva, V., Taylor, I., Oken, K. and Berger, A. (2025) Status of Yelloweye rockfish off the U.S. West Coast in 2025. Pacific Fishery Management Council. \pageref*{LastPage}{} pp.
 
 \*These authors contributed equally to this work.
 
