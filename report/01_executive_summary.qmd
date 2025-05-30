@@ -241,7 +241,7 @@ This assessment estimates that the stock of Yelloweye Rockfish off the continent
 #| echo: false 
 #| warning: false 
 #| eval: true 
-#| fig-cap: "Phase plot of fishing intensity versus fraction unfished."
+#| fig-cap: "Phase plot of fishing intensity versus fraction unfished. Each point represents the biomass ratio at the start of the year and the relative fishing intensity in that same year. Lines through the final point show 95% intervals based on the asymptotic uncertainty for each dimension. The shaded ellipse is a 95% region which accounts for the estimated correlation between the two quantities." 
 #| fig-alt: "See table @tbl-ts for the values of the fraction unfished and fishing intensity which are related in this figure."
 #| fig-pos: H
 
