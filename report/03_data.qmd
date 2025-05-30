@@ -57,9 +57,8 @@ We also found that \gls{caal} data from the 2017 assessment had all sample sizes
 
 #### Fleet Specific Changes in the Compositional Data
 
-Fleet 2. California Non-Trawl:
-
-- For ages, all the \gls{caal} and marginal ages (used to explore fits only, not included in the likelihood) data were recalculated using the most recent age data pulled from \gls{pacfin} and \gls{wcgop}, to account for age doubling in 2017.
+- Fleet 2. California Non-Trawl:
+  - For ages, all the \gls{caal} and marginal ages (used to explore fits only, not included in the likelihood) data were recalculated using the most recent age data pulled from \gls{pacfin} and \gls{wcgop}, to account for age doubling in 2017.
 
 Fleet 3. California Recreational:
 
@@ -135,9 +134,9 @@ Several biological parameters used in the assessment were estimated outside the 
 
 The parameters for the length-weight relationship were updated to include the most recent WCGBTS data from 2017 - 2024. Length-weight curves were fitted using this equation: 
 
-\begin{center}
+$$
 $W$ =$ `r mod_in$ctl$MG_parms['Wtlen_1_Fem_GP_1', 'INIT']*(10^6)`\*10^-6^$L$^`r mod_in$ctl$MG_parms['Wtlen_2_Fem_GP_1', 'INIT']`^
-\end{center}
+$$
 
 Where $W$ is individual weight (kg) and $L$ is total natural length (cm) (@fig-LWrel). 
 
