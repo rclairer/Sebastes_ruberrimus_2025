@@ -809,28 +809,54 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-sens_lengths_spout
+#| label: fig-sens_lengths1_spout
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Spawning output across length composition inclusion sensitivities."
+#| fig-cap: "Spawning output across length composition inclusion sensitivities (1 of 2)."
 #
 knitr::include_graphics(
-    "figures/sensitivities/length_compscompare2_spawnbio_uncertainty.png"
+    "figures/sensitivities/length_comps1compare2_spawnbio_uncertainty.png"
 )
 ```
 
 ```{r}
-#| label: fig-sens_lengths_status
+#| label: fig-sens_lengths1_status
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Relative spawning output across length composition inclusion sensitivities."
+#| fig-cap: "Relative spawning output across length composition inclusion sensitivities (1 of 2)."
 #
 knitr::include_graphics(
-    "figures/sensitivities/length_compscompare4_Bratio_uncertainty.png"
+    "figures/sensitivities/length_comps1compare4_Bratio_uncertainty.png"
 )
 ```
+
+```{r}
+#| label: fig-sens_lengths2_spout
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Spawning output across length composition inclusion sensitivities (2 of 2)."
+#
+knitr::include_graphics(
+    "figures/sensitivities/length_comps2compare2_spawnbio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-sens_lengths2_status
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Relative spawning output across length composition inclusion sensitivities (2 of 2)."
+#
+knitr::include_graphics(
+    "figures/sensitivities/length_comps2compare4_Bratio_uncertainty.png"
+)
+```
+
+\clearpage
 
 ```{r}
 #| label: fig-sens_age_spout
