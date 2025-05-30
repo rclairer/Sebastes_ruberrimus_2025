@@ -611,9 +611,9 @@ The Yelloweye Rockfish assessment uses estimates of fecundity
 (eggs-at-length) from the Dick et al. (2017) method, and spawning output
 is reported in millions of eggs. The unexploited level of spawning stock
 output is estimated to be 1190 million eggs (95\% confidence interval:
-1,045.7-1,328.5 million eggs) (Figure~\ref{fig-es-so}). At the beginning
+1,117.6-1,262.4 million eggs) (Figure~\ref{fig-es-so}). At the beginning
 of 2025, the spawning stock output is estimated to be 477.63 million
-eggs (95\% confidence interval: 381--566 million eggs), which represents
+eggs (95\% confidence interval: 384--571 million eggs), which represents
 40.1\% of the unfished spawning output level.
 
 Estimated relative spawning output was below the minimum stock size
@@ -778,7 +778,7 @@ intervals.}
 This assessment estimates that the stock of Yelloweye Rockfish off the
 continental U.S. Pacific Coast is currently at 40.1\% of its unexploited
 level. This is above the overfished threshold of SB25\%, and slightly
-below the management target SB40\% of unfished spawning biomass. Fishing
+above the management target SB40\% of unfished spawning biomass. Fishing
 intensity increased throughout the 1900s as the stock was fished down,
 until stabilizing at peak intensity between the mid1980s and late 1990s
 and substantially decreasing in the late 1990s and early 2000s. Fishing
@@ -847,12 +847,12 @@ reference points based on 1) a target unfished spawning output of 40\%,
 maximum sustainable yield, are all listed in
 Table~\ref{tbl-ref-points-es-1}. Unfished spawning stock output for
 Yelloweye Rockfish was estimated to be 1190 million eggs (95\%
-confidence interval: 1,045.7-1,328.5 million eggs). The management
+confidence interval: 1,117.6-1,262.4 million eggs). The management
 target for Yelloweye Rockfish is defined as 40\% of the unfished
-spawning output (SB40\%), which is estimated by the model to be 475
-million eggs (95\% confidence interval: 418-531), which corresponds to
+spawning output (SB40\%), which is estimated by the model to be 476
+million eggs (95\% confidence interval: 447-505), which corresponds to
 an exploitation rate of 0.026. This harvest rate provides an equilibrium
-yield of 121 mt at SB40\% (95\% confidence interval: 107-136 mt). The
+yield of 128 mt at SB40\% (95\% confidence interval: 120-136 mt). The
 equilibrium yield curve is shown in Figure~\ref{fig-eq-yield-es}.
 
 \clearpage
@@ -1013,13 +1013,15 @@ This section will be updated after SSC GFSC review.
 
 \caption{\label{tbl-es-decision-1}Decision table with 10-year
 projections. `Mgmt' refers to the three management scenarios (A) the
-default harvest control rule \(P^* = 0.45\). In each case the 2025 and
-2026 catches are fixed at the ACLs which have been set for that year
-with estimated fleet allocation provided by the GMT. The alternative
-states of nature (`Low', `Base', and `High' as discussed in the text)
-are provided in the columns, with Spawning Output (`Spawn', in millions
-of eggs) and Fraction of unfished spawning output (`Frac') provided for
-each state.}
+default harvest control rule \(P^* = 0.40\). In each case the 2025 and
+2026 catches are fixed at the estimates provided by the GMT. The catch
+for the Washington recreational fleet is input in numbers so the GMT
+estimate was converted from 3.22 metric tons to 1.53 based on a mean
+weight of 2.105 kg estimated by SS3 for this fleet in 2024. The
+alternative states of nature (`Low', `Base', and `High' as discussed in
+the text) are provided in the columns, with Spawning Output (`Spawn', in
+millions of eggs) and Fraction of unfished spawning output (`Frac')
+provided for each state.}
 
 \centering{
 
@@ -1373,15 +1375,19 @@ for additional information.
 \paragraph{Fleet Specific Changes in the Compositional
 Data}\label{fleet-specific-changes-in-the-compositional-data}
 
-Fleet 2. California Non-Trawl:
-
 \begin{itemize}
 \tightlist
 \item
-  For ages, all the \gls{caal} and marginal ages (used to explore fits
-  only, not included in the likelihood) data were recalculated using the
-  most recent age data pulled from \gls{pacfin} and \gls{wcgop}, to
-  account for age doubling in 2017.
+  Fleet 2. California Non-Trawl:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    For ages, all the \gls{caal} and marginal ages (used to explore fits
+    only, not included in the likelihood) data were recalculated using
+    the most recent age data pulled from \gls{pacfin} and \gls{wcgop},
+    to account for age doubling in 2017.
+  \end{itemize}
 \end{itemize}
 
 Fleet 3. California Recreational:
@@ -1688,15 +1694,13 @@ mortality, and ageing error. The methods used to derive these parameters
 in the assessment are described below.
 
 \subsubsection{Length-Weight
-Relationship}\label{length-weight-relationship}
+Relationships}\label{length-weight-relationships}
 
 The parameters for the length-weight relationship were updated to
 include the most recent WCGBTS data from 2017 - 2024. Length-weight
 curves were fitted using this equation:
 
-\textbackslash begin\{center\} \(W\) =\$
-7.18331*10\textsuperscript{-6}\(L\)\textsuperscript{3.2448}
-\textbackslash end\{center\}
+\(W\) =\$ 7.18331*10\textsuperscript{-6}\(L\)\textsuperscript{3.2448}
 
 Where \(W\) is individual weight (kg) and \(L\) is total natural length
 (cm) (Figure~\ref{fig-LWrel}).
@@ -1988,11 +1992,15 @@ along with the Stock Synthesis input files.
 \subsubsection{Parameter Estimates}\label{parameter-estimates}
 
 Estimated and fixed parameter values are shown in Table~\ref{tbl-pars}.
-Unfished recruitment was estimated at 5.48847. Yelloweye length at age
-70 (the second reference age) equals 61.4 and an L-infinity of 61.7.
-Figure~\ref{fig-growth} shows the estimated growth curve. Spawning
-output-at-length (cm) is shown in Figure~\ref{fig-spoutlen}. Spawning
-output in the assessment is expressed in millions of eggs.
+Unfished recruitment was estimated at 5 thousands of fish. The von
+Bertalanffy growth function (Bertalanffy 1938) was used to model the
+relationship between length and age in Yelloweye Rockfish. Conditional
+age-at-length data is the main source of information to estimate growth.
+Yelloweye length-at-age 70 (the second reference age) equals 61.4 and an
+L-infinity of 61.7. Figure~\ref{fig-growth} shows the estimated growth
+curve. Spawning output-at-length (cm) is shown in
+Figure~\ref{fig-spoutlen}. Spawning output in the assessment is
+expressed in millions of eggs.
 
 Estimated stock-recruit function for the assessment model is shown in
 Figure~\ref{fig-SRcurve}. Estimated recruitment deviations are shown
@@ -2039,10 +2047,12 @@ relatively well.
 
 The fits to the mean age by fleet are generally acceptable and are
 responsive to short-term temporal changes (Figure~\ref{fig-mean-age-3} -
-Figure~\ref{fig-mean-age-12}), with the exception of the IPHC survey,
-where the model predicts a lower mean age than the data suggest. Pearson
-residuals by year and fleet show strong residual patterns but are
-difficult to interpret given the general lack of age data. See the
+Figure~\ref{fig-mean-age-12}), with the exception of the Oregon
+recreational fleet and the IPHC survey, where the model predicts a lower
+mean age than the data suggest but these results are consistent with the
+2017 assessment. Pearson residuals by year and fleet show strong
+residual patterns but are difficult to interpret given the general lack
+of age data. See the
 \href{https://github.com/rclairer/Sebastes_ruberrimus_2025}{GitHub
 repository} for individual Pearson residual plots.
 
@@ -2278,7 +2288,7 @@ indicator of abundance dynamics.
 This assessment estimates that the stock of Yelloweye Rockfish off the
 continental U.S. Pacific Coast is currently at 40.1\% of its unexploited
 level. This is above the overfished threshold of SB25\%, and slightly
-below the management target of SB40\% of unfished spawning biomass. Both
+above the management target of SB40\% of unfished spawning biomass. Both
 areas are above the overfished level of 25\%. The assessment estimates
 that the coastwide spawning output of Yelloweye Rockfish dropped below
 the SB40\% target for the first time in 1986 and below the overfished
@@ -2292,19 +2302,21 @@ stock rebuilding.
 Reference points for the base model are summarized in
 Table~\ref{tbl-ref-points-es-2}. Unfished spawning stock output for
 Yelloweye Rockfish was estimated to be 1190 million eggs (95\%
-confidence interval: 1,045.7-1,328.5 million eggs). The stock is
-declared overfished if the current spawning output is estimated to be
+confidence interval: \textbf{1,045.7-1,328.5} million eggs). The stock
+is declared overfished if the current spawning output is estimated to be
 below the \gls{msst} of 25\% of unfished level (SB25\%). The management
 target for Yelloweye Rockfish is defined as 40\% of the unfished
-spawning output (SB40\%), which is estimated by the model to be 475
-million eggs (95\% confidence interval: 418-531 million eggs), which
-corresponds to an exploitation rate of 0.026. This harvest rate provides
-an equilibrium yield of 121 mt at SB40\% (95\% confidence interval:
-107-136 mt). The model estimate of maximum sustainable yield (MSY) is
-127 mt (95\% confidence interval: 112-142 mt). The estimated spawning
-stock output at MSY is 344 million eggs (95\% confidence interval:
-303-384 million eggs). The exploitation rate corresponding to the
-estimated SPRMSY of F36\% is 0.036.
+spawning output (SB40\%), which is estimated by the model to be
+\textbf{475} million eggs (95\% confidence interval: \textbf{418-531}
+million eggs), which corresponds to an exploitation rate of
+\textbf{0.026}. This harvest rate provides an equilibrium yield of
+\textbf{121} mt at SB40\% (95\% confidence interval: \textbf{107-136}
+mt). The model estimate of maximum sustainable yield (MSY) is
+\textbf{127} mt (95\% confidence interval: \textbf{112-142} mt). The
+estimated spawning stock output at MSY is \textbf{344} million eggs
+(95\% confidence interval: \textbf{303-384} million eggs). The
+exploitation rate corresponding to the estimated SPRMSY of F36\% is
+\textbf{0.036}.
 
 This assessment estimates that the 2024 SPR is 64.3\%
 (Figure~\ref{fig-time-spr}). The SPR used for setting the OFL is 50\%,
@@ -2394,6 +2406,10 @@ Flexible, and User-Friendly Generalized Linear Mixed Effects Models with
 Spatial and Spatiotemporal Random Fields.''} \emph{bioRxiv},
 2022.03.24.485545. \url{https://doi.org/10.1101/2022.03.24.485545}.
 
+\bibitem[\citeproctext]{ref-vonB1938}
+Bertalanffy, L von. 1938. {``{A quantitative theory of organic
+growth}.''} \emph{Human Biology} 10: 181--213.
+
 \bibitem[\citeproctext]{ref-coombs_1979}
 Coombs, C. I. 1979. {``Reef Fishes Near Dipoe Bay, Oregon: Movement and
 the Recreational Fishery.''} Master's thesis, Oregon State University.
@@ -2475,7 +2491,7 @@ Bell. 2016. {``{TMB}: {Automatic} {Differentiation} and {Laplace}
 {Approximation}.''} \emph{Journal of Statistical Software} 70: 1--21.
 
 \bibitem[\citeproctext]{ref-love_rockfishes_2002}
-Love, M. S., Yoklavich M., and L. Thorsteinson. 2002. \emph{The
+Love, M. S., M. Yoklavich, and L. Thorsteinson. 2002. \emph{The
 {Rockfishes} of the {Northeast} {Pacific}}. 1st Edition. Berkeley:
 University of California Press.
 
@@ -3987,13 +4003,15 @@ Year & Adopted OFL (mt) & Adopted ACL (mt) & Assumed Catch (mt) & OFL (mt) & Buf
 
 \caption{\label{tbl-es-decision-2}Decision table with 10-year
 projections. `Mgmt' refers to the three management scenarios (A) the
-default harvest control rule \(P^* = 0.45\). In each case the 2025 and
-2026 catches are fixed at the ACLs which have been set for that year
-with estimated fleet allocation provided by the GMT. The alternative
-states of nature (`Low', `Base', and `High' as discussed in the text)
-are provided in the columns, with Spawning Output (`Spawn', in millions
-of eggs) and Fraction of unfished spawning output (`Frac') provided for
-each state.}
+default harvest control rule \(P^* = 0.40\). In each case the 2025 and
+2026 catches are fixed at the estimates provided by the GMT. The catch
+for the Washington recreational fleet is input in numbers so the GMT
+estimate was converted from 3.22 metric tons to 1.53 based on a mean
+weight of 2.105 kg estimated by SS3 for this fleet in 2024. The
+alternative states of nature (`Low', `Base', and `High' as discussed in
+the text) are provided in the columns, with Spawning Output (`Spawn', in
+millions of eggs) and Fraction of unfished spawning output (`Frac')
+provided for each state.}
 
 \centering{
 

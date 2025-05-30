@@ -134,9 +134,9 @@ Several biological parameters used in the assessment were estimated outside the 
 
 The parameters for the length-weight relationship were updated to include the most recent WCGBTS data from 2017 - 2024. Length-weight curves were fitted using this equation: 
 
-$$
+::: center
 $W$ =$ `r mod_in$ctl$MG_parms['Wtlen_1_Fem_GP_1', 'INIT']*(10^6)`\*10^-6^$L$^`r mod_in$ctl$MG_parms['Wtlen_2_Fem_GP_1', 'INIT']`^
-$$
+:::
 
 Where $W$ is individual weight (kg) and $L$ is total natural length (cm) (@fig-LWrel). 
 
