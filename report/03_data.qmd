@@ -104,7 +104,7 @@ Covariates evaluated included year, month, port, the open depths to fishing (all
 
 Two sources of fishery-independent data were updated: the West Coast Groundfish Bottom Trawl Survey and the \gls{iphc} Longline survey. 
 
-### West Coast Bottom Trawl Survey (WCGBTS)
+### West Coast Groundfish Bottom Trawl Survey (WCGBTS)
 
 The \gls{indexwc} survey methods are most recently described in detail in @keller2017northwest. Geostatistical models of biomass density were fit to survey data from the \gls{indexwc} using \gls{tmb} [@kristensen_tmb:_2016] via the \gls{sdmtmb} R package [@Anderson_2024_SRP] as configured within the [indexwc](https://github.com/pfmc-assessments/indexwc) R package [@Johnson_indexwc]. These models can account for latent spatial factors with a constant spatial Gaussian random field and spatiotemporal deviations to evolve as a random walk Gaussian random field [@thorson_geostatistical_2015]. Delta-gamma and delta-lognormal distributions were investigated. Results are only shown for the model that led to the best model diagnostics, defined as similar distributions of theoretical normal quantiles and model quantiles (@fig-wcgbts_qq), high precision, lack of extreme predictions, and low \gls{aic}. Estimates of biomass from this best model were predicted using a grid based on available survey locations.
 
