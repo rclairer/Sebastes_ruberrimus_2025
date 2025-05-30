@@ -816,7 +816,7 @@ knitr::include_graphics(
 #| fig-cap: "Spawning output (millions of eggs) across length composition inclusion sensitivities (1 of 2)."
 #
 knitr::include_graphics(
-    "figures/sensitivities/length_comps1compare2_spawnbio_uncertainty.png"
+    "figures/sensitivities/length_comps_1compare2_spawnbio_uncertainty.png"
 )
 ```
 
@@ -828,7 +828,7 @@ knitr::include_graphics(
 #| fig-cap: "Relative spawning output across length composition inclusion sensitivities (1 of 2)."
 #
 knitr::include_graphics(
-    "figures/sensitivities/length_comps1compare4_Bratio_uncertainty.png"
+    "figures/sensitivities/length_comps_1compare4_Bratio_uncertainty.png"
 )
 ```
 
@@ -840,7 +840,7 @@ knitr::include_graphics(
 #| fig-cap: "Spawning output (millions of eggs) across length composition inclusion sensitivities (2 of 2)."
 #
 knitr::include_graphics(
-    "figures/sensitivities/length_comps2compare2_spawnbio_uncertainty.png"
+    "figures/sensitivities/length_comps_2compare2_spawnbio_uncertainty.png"
 )
 ```
 
@@ -852,7 +852,7 @@ knitr::include_graphics(
 #| fig-cap: "Relative spawning output across length composition inclusion sensitivities (2 of 2)."
 #
 knitr::include_graphics(
-    "figures/sensitivities/length_comps2compare4_Bratio_uncertainty.png"
+    "figures/sensitivities/length_comps_2compare4_Bratio_uncertainty.png"
 )
 ```
 
