@@ -816,7 +816,7 @@ knitr::include_graphics(
 #| fig-cap: "Spawning output (millions of eggs) across length composition inclusion sensitivities (1 of 2)."
 #
 knitr::include_graphics(
-    "figures/sensitivities/length_comps1compare2_spawnbio_uncertainty.png"
+    "figures/sensitivities/length_comps_1compare2_spawnbio_uncertainty.png"
 )
 ```
 
