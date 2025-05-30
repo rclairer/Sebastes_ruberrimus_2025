@@ -151,7 +151,7 @@ $$
 Where $F$ is fecundity (number of eggs), $L$ is fish length (cm), and $a$ and $b$ are constant coefficients (@fig-fecundity). For Yelloweye Rockfish,  @dick_meta-analysis_2017 estimated $a = 7.21847$\*10^-8^ and $b = 4.043$.
 
 ### Natural Mortality
-The 2025 base model used the 2017 assessment's initial value of natural Mortality ($M$) which was estimated based on @hamel2022development.
+The 2025 base model used the 2017 assessment's initial value of natural Mortality ($M$) which was estimated based on @hamel_method_2015.
 
 ## Environmental and ecosystem data
 
