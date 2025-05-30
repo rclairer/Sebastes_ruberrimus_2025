@@ -46,6 +46,8 @@ high_state$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$INIT <- 0.056
 #have to change forecasted catch
 high_state$fore$ForeCatch <- forecast_catch
 
+high_state$fore$FirstYear_for_caps_and_allocations <- 2037
+
 # Run and save model
 SS_write(high_state, here::here("model", "2025_high_state"), overwrite = TRUE)
 
@@ -60,7 +62,7 @@ SS_plots(replist = SS_output(here::here("model", "2025_high_state")),dir = here:
 Low state of nature Model
 M = 0.037
 
-```{r}
+```{r, include=FALSE}
 # Read in base model
 # Read in base model and model output
 base_out <- SS_output(here::here("model", "2025_base_model"))
@@ -82,6 +84,8 @@ low_state$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$INIT <- 0.037
 
 #have to change forecasted catch
 low_state$fore$ForeCatch <- forecast_catch
+
+low_state$fore$FirstYear_for_caps_and_allocations <- 2037
 
 # Run and save model
 SS_write(low_state, here::here("model", "2025_low_state"), overwrite = TRUE)
