@@ -2499,7 +2499,8 @@ copy_SS_inputs(
 
 get_ss3_exe(dir = file.path(getwd(), "model", "base_model_check_gradient"))
 
-run(dir = file.path(getwd(), "model", "base_model_check_gradient"), show_in_console = TRUE, extras = "-hess_step")
+run(dir = file.path(getwd(), "model", "base_model_check_gradient"), show_in_console = TRUE)
+run(dir = file.path(getwd(), "model", "base_model_check_gradient"), show_in_console = TRUE, skipfinished = FALSE, extras = "-hess_step")
 
 
 
