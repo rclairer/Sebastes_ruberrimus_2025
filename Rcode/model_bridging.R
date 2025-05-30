@@ -2487,3 +2487,19 @@ SSplotComparisons(models_summary,
 ######################################################################
 #################### hess step ######################################
 ####################################################################
+
+copy_SS_inputs(
+  dir.old = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned_forecast"), 
+  dir.new = file.path(getwd(), "model", "base_model_check_gradient"),
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+get_ss3_exe(dir = file.path(getwd(), "model", "base_model_check_gradient"))
+
+run(dir = file.path(getwd(), "model", "base_model_check_gradient"), show_in_console = TRUE, extras = "-hess_step")
+
+
+
