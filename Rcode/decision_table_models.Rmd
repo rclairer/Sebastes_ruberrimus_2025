@@ -48,6 +48,11 @@ high_state$fore$ForeCatch <- forecast_catch
 
 high_state$fore$FirstYear_for_caps_and_allocations <- 2037
 
+high_state$fore$Flimitfraction_m <- data.frame(
+  year = 2025:2036,
+  buffer = 1
+)
+
 # Run and save model
 SS_write(high_state, here::here("model", "2025_high_state"), overwrite = TRUE)
 
@@ -86,6 +91,11 @@ low_state$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$INIT <- 0.037
 low_state$fore$ForeCatch <- forecast_catch
 
 low_state$fore$FirstYear_for_caps_and_allocations <- 2037
+
+low_state$fore$Flimitfraction_m <- data.frame(
+  year = 2025:2036,
+  buffer = 1
+)
 
 # Run and save model
 SS_write(low_state, here::here("model", "2025_low_state"), overwrite = TRUE)
