@@ -429,8 +429,8 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Spawning output (millions of eggs) at length."
-#
+#| fig-cap: "Spawning output (millions of eggs) at length. Yelloweye length-at-age 70 (the second reference age) equals 61.4 and an L-infinity of 61.7."
+
 knitr::include_graphics(
     "figures/r4ss_plots/plots/bio10_spawningoutput_len.png"
 )
