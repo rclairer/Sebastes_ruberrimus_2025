@@ -39,7 +39,7 @@ A list of changes that were made to the model compared to the previous assessmen
     - The control file settings for the bias adjustment were updated to improve the fit of the bias adjustment relationship for recruitment deviations [@methot_adjusting_2011].
 - Selectivity and Catchability: 
     - The end year for all time blocks was extended to 2024.
-    - All final updates in the control, starter, and forecast files showed little to no additional change in the model, with the exception of the updated parameterization of the catchability offset for the Oregon recreational index, which increased spawning output and final stock status (@fig-bridge19-comp2 and @fig-bridge19-comp4 - UPDATE THESE PLOTS). 
+    - All final updates in the control, starter, and forecast files showed little to no additional change in the model, with the exception of the updated parameterization of the catchability offset for the Oregon recreational index, which increased spawning output and final stock status (@fig-bridge23-comp2 and @fig-bridge23-comp4). 
 - Software and Workflow:
     - Updating to SS3 3.30.23.2 and to the most recent version of the SS3 executable had no discernable impact on model results (@fig-ss3exe_2). 
     - Use most up-to-date R packages to process input and output files for the assessment, including *nwfscDiag*, *r4ss*, and *pacfintools*. 

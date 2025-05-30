@@ -347,26 +347,26 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-bridge19-comp2
+#| label: fig-bridge23-comp2
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Comparison of the spawning output (millions of eggs) of the 2017 model with an updated SS3 executable (blue), updated and extended and tuned data (red), and the proposed 2025 base model after all final bridging steps (green)."
+#| fig-cap: "Comparison of the spawning output (millions of eggs) of the 2017 model with an updated SS3 executable (blue), updated and extended and tuned data (green), the updated SS input file changes with tuning (yellow), and the proposed 2025 base model after all final bridging steps (red), all with 95% confidence intervals."
 #
 knitr::include_graphics(
-    "figures/bridging/19_base_comm_discards_updated/compare2_spawnbio_uncertainty.png"
+    "figures/bridging/23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore/compare2_spawnbio_uncertainty.png"
 )
 ```
 
 ```{r}
-#| label: fig-bridge19-comp4
+#| label: fig-bridge23-comp4
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Comparison of the stock status output of the 2017 model with an updated SS3 executable (blue), updated and extended and tuned data (red), and the proposed 2025 base model after all final bridging steps (green) relative to the management target and minimum stock size threshold."
+#| fig-cap: "Comparison of the stock status output of the 2017 model with an updated SS3 executable (blue), updated and extended and tuned data (green), the updated SS input file changes with tuning (yellow), and the proposed 2025 base model after all final bridging steps (red) relative to the management target and minimum stock size threshold, including 95% confidence intervals."
 #
 knitr::include_graphics(
-    "figures/bridging/19_base_comm_discards_updated/compare4_Bratio_uncertainty.png"
+    "figures/bridging/23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore/compare4_Bratio_uncertainty.png"
 )
 ```
 
