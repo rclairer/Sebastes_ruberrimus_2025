@@ -37,54 +37,11 @@ profile_info <- get_settings_profile(
   param_space = c('real', 'real', 'real')
   )
 
-# model 0.055 did not converge
-
-# profile_info <- get_settings_profile(
-#   parameters =  c("NatM_break_1_Fem_GP_1"),
-#   low =  c(0.03),
-#   high = c(0.06),
-#   step_size = c(0.002),
-#   param_space = c('real')
-#   )
-```
-
-#### MCMC ####
-
-```{r}
-# path <- here::here("model", "MJ_last_run_updated_alldata_tunecomps_fitbias_ctl_start_20250416")
-# 
-# run_mcmc_diagnostics(
-#   dir_wd = path,
-#   model = "ss3",
-#   extension = ".exe",
-#   iter = 10,
-#   chains = 2,
-#   interactive = FALSE,
-#   verbose = TRUE
-# )
-
-```
-
-### Compare Model Catch to GEMM catch estimates###
-
-```{r}
-# replist <- r4ss::SS_output(path)
-# compare_catch <- compare_model_gemm_catch(
-#   replist = replist,
-#   common_name = "yelloweye rockfish"
-# )
-
 ```
 
 #### Profile and Jitter and Retrospective in Parallel ####
 
 ```{r}
-
-### usepar = FALSE
-# THIS IS DEFAULT
-
-#install.packages("parallelly")
-#install.packages("future")
 
 ncores <- parallelly::availableCores(omit = 1)
 future::plan(future::multisession, workers = ncores)
@@ -101,7 +58,7 @@ model_settings <- get_settings(
 
     # Jitter Settings
     extras = "-nohess",
-    Njitter = 50,
+    Njitter = 100,
     jitter_fraction = 0.10,
     jitter_init_values_src = NULL,
 
@@ -121,19 +78,3 @@ future::plan(future::sequential)
 
 ```
 
-### Rerun selected values for a profile ###
-Do this if some done converge?
-
-```{r}
-#base model datafile
-# dat <- here::here("model", "MJ_last_run_updated_alldata_tunecomps_fitbias_ctl_start_20250416", "yelloweye_data")
-# 
-# rerun_profile_vals(
-#   mydir = path,
-#   model_settings = model_settings, # make sure this is ther correct model settings
-#   para_name = "SR_LN(R0)",
-#   run_num = c(6,4,3,2), # the runs that didnt converge?
-#   data_file_nm = dat
-# )
-
-```
