@@ -800,7 +800,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Results from 50 base model runs when starting parameters values are jittered by 0.1 units. Horizontal line indicates base model value."
+#| fig-cap: "Results from 100 base model runs when starting parameters values are jittered by 0.1 units. Horizontal line indicates base model value."
 #
 knitr::include_graphics(
     "figures/diagnostics/2025_base_model_jitter_0.1/jitter.png"
