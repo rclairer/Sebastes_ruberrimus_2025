@@ -92,6 +92,7 @@ The Yelloweye Rockfish assessment uses estimates of fecundity (eggs-at-length) f
 
 Estimated relative spawning output was below the minimum stock size threshold in the late 1990s and was lowest in the early 2000s before increasing over the last 20 years. The 2024 estimated relative spawning output follows an increasing trajectory and is slightly above the management target threshold (@fig-es-so, @fig-es-sb). Though Yelloweye Rockfish are considered a single stock due to their population's even genetic and spatial structure throughout their range, this assessment is modeled with two areas (California and Oregon-Washington). Current population status differs by area wich may be valuable information for making management and allocation decisions (@fig-status-area-es).
 
+\clearpage
 <!-- Trends and current levels relative to virgin or historic levels, description of uncertainty-include table for last 10 years and graph with long term estimates. -->
 
 ```{r, tbl-es-sb, results = "asis"}
