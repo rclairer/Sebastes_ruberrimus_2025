@@ -1,6 +1,6 @@
 #V3.30.23.2;_safe;_compile_date:_Apr 17 2025;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_13.2
 #C file created using an r4ss function
-#C file write time: 2025-05-26  13:07:09
+#C file write time: 2025-05-29  21:39:29
 # for all year entries except rebuilder; enter either: actual year, -999 for styr, 0 for endyr, neg number for rel. endyr
 1 # Benchmarks: 0=skip; 1=calc F_spr,F_btgt,F_msy; 2=calc F_spr,F0.1,F_msy; 3=add F_Blimit; 
 2 # Do_MSY: 1= set to F(SPR); 2=calc F(MSY); 3=set to F(Btgt) or F0.1; 4=set to F(endyr); 5=calc F(MEY) with MSY_unit options
@@ -16,7 +16,7 @@
 1 # Forecast: -1=none; 0=simple_1yr; 1=F(SPR); 2=F(MSY) 3=F(Btgt) or F0.1; 4=Ave F (uses first-last relF yrs); 5=input annual F scalar
 # where none and simple require no input after this line; simple sets forecast F same as end year F
 12 # N forecast years 
-1 # Fmult (only used for Do_Forecast==5) such that apical_F(f)=Fmult*relF(f)
+0.2 # Fmult (only used for Do_Forecast==5) such that apical_F(f)=Fmult*relF(f)
 
 -12345  # code to invoke new format for expanded fcast year controls
 # biology and selectivity vectors are updated annually in the forecast according to timevary parameters, so check end year of blocks and dev vectors
@@ -69,13 +69,13 @@
 2 # basis for fcast catch tuning and for fcast catch caps and allocation  (2=deadbio; 3=retainbio; 5=deadnum; 6=retainnum); NOTE: same units for all fleets
 # Conditional input if relative F choice = 2
 # enter list of:  season, fleet, relF; if used, terminate with season=-9999
-# 1 1 0.00711265
-# 1 2 0.114767
-# 1 3 0.260602
-# 1 4 0.0140247
-# 1 5 0.383481
-# 1 6 0.134922
-# 1 7 0.0850897
+# 1 1 0.0064973
+# 1 2 0.135264
+# 1 3 0.236896
+# 1 4 0.0129973
+# 1 5 0.408713
+# 1 6 0.122431
+# 1 7 0.0772008
 # -9999 0 0  # terminator for list of relF
 # enter list of: fleet number, max annual catch for fleets with a max; terminate with fleet=-9999
 -9999 -1
@@ -97,14 +97,14 @@
  2025 1 4 7.76
  2025 1 5 8.88
  2025 1 6 6.6
- 2025 1 7 3.22
+ 2025 1 7 1.53
  2026 1 1 0.14
  2026 1 2 10
  2026 1 3 9
  2026 1 4 7.76
  2026 1 5 9.58
  2026 1 6 6.6
- 2026 1 7 3.22
+ 2026 1 7 1.53
 -9999 1 1 0 
 #
 999 # verify end of input 

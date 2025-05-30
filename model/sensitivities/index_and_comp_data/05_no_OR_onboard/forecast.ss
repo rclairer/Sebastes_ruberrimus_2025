@@ -1,5 +1,5 @@
 #C file created using an r4ss function
-#C file write time: 2025-05-26  13:07:06
+#C file write time: 2025-05-29  21:39:25
 #
 1 #_benchmarks
 2 #_MSY
@@ -10,7 +10,7 @@
 2 #_Bmark_relF_Basis
 1 #_Forecast
 12 #_Nforecastyrs
-1 #_F_scalar
+0.2 #_F_scalar
 -12345  # code to invoke new format for expanded fcast year controls
 # biology and selectivity vectors are updated annually in the forecast according to timevary parameters, so check end year of blocks and dev vectors
 # input in this section directs creation of averages over historical years to override any time_vary changes
@@ -69,14 +69,14 @@
    2025    1     4       7.76
    2025    1     5       8.88
    2025    1     6       6.60
-   2025    1     7       3.22
+   2025    1     7       1.53
    2026    1     1       0.14
    2026    1     2      10.00
    2026    1     3       9.00
    2026    1     4       7.76
    2026    1     5       9.58
    2026    1     6       6.60
-   2026    1     7       3.22
+   2026    1     7       1.53
 -9999 0 0 0
 #
 999 # verify end of input 
