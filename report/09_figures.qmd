@@ -260,6 +260,18 @@ knitr::include_graphics(
 )
 ```
 
+```{r}
+#| label: fig-fecundity
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Fecundity at length relationship used in the base model for Yelloweye Rockfish."
+#
+knitr::include_graphics(
+    "figures/r4ss_plots/plots/bio9_fecundity_len.png"
+)
+```
+
 <!-- 04a_model_summary -->
 
 ```{r}
@@ -767,6 +779,19 @@ knitr::include_graphics(
     "figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png"
 )
 ```
+
+```{r}
+#| label: fig-bridge25_comp4
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of the fraction of unfished biomass with ~ 95% interval comparing the 2017 assessment trajectory with the 2025 base model."
+#
+knitr::include_graphics(
+    "figures/bridging/25_2025base_vs_2017base/compare4_Bratio_uncertainty.png"
+)
+```
+
 
 <!-- 04c_model_diagnostics -->
 
