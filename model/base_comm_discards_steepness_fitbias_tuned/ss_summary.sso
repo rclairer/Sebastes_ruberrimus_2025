@@ -1,7 +1,7 @@
 #V3.30.23.2;_safe;_compile_date:_Apr 17 2025;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_13.2
 yelloweye_data.ss #_DataFile 
 yelloweye_control.ss #_Control 
-Run_Date: Wed May 28 23:02:51 2025
+Run_Date: Thu May 29 17:06:30 2025
 Final_phase: 8  N_iterations: 1427
 #_LIKELIHOOD 
 Label logL*Lambda
