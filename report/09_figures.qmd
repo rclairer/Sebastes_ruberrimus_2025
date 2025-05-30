@@ -342,7 +342,7 @@ knitr::include_graphics(
 #| fig-cap: "Comparison of the spawning output of the 2017 model with an updated SS3 executable (blue), updated and extended and tuned data (red), and the proposed 2025 base model after all final bridging steps (green)."
 #
 knitr::include_graphics(
-    "figures/bridging/19_last_bridge/compare2_spawnbio_uncertainty.png"
+    "figures/bridging/19_base_comm_discards_updated/compare2_spawnbio_uncertainty.png"
 )
 ```
 
@@ -354,7 +354,7 @@ knitr::include_graphics(
 #| fig-cap: "Comparison of the stock status output of the 2017 model with an updated SS3 executable (blue), updated and extended and tuned data (red), and the proposed 2025 base model after all final bridging steps (green) relative to the management target and minimum stock size threshold."
 #
 knitr::include_graphics(
-    "figures/bridging/19_last_bridge/compare4_Bratio_uncertainty.png"
+    "figures/bridging/19_base_comm_discards_updated/compare4_Bratio_uncertainty.png"
 )
 ```
 
