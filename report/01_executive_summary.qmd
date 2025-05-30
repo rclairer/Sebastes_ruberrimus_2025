@@ -283,7 +283,7 @@ No ecosystem or environmental data was used in the previous Yelloweye Rockfish a
 
 ## Reference points{-}
 
-A list of estimates of the current state of the population, as well as reference points based on 1) a target unfished spawning output of 40%, 2) a spawning potential ratio of 0.5, and 3) the model estimate of maximum sustainable yield, are all listed in @tbl-ref-points-es-1. Unfished spawning stock output for Yelloweye Rockfish was estimated to be `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="SSB_Virgin")], 3)` million eggs (95% confidence interval: 1,048.1-1,331.9 million eggs). The management target for Yelloweye Rockfish is defined as 40% of the unfished spawning output (SO40%), which is estimated by the model to be 476 million eggs (95% confidence interval: 419-533), which corresponds to an exploitation rate of 0.026. This harvest rate provides an equilibrium yield of 122 mt at SO40% (95% confidence interval: 108-137 mt). The equilibrium yield curve is shown in @fig-eq-yield-es.
+A list of estimates of the current state of the population, as well as reference points based on 1) a target unfished spawning output of 40%, 2) a spawning potential ratio of 0.5, and 3) the model estimate of maximum sustainable yield, are all listed in @tbl-ref-points-es-1. Unfished spawning stock output for Yelloweye Rockfish was estimated to be `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="SSB_Virgin")], 3)` million eggs (95% confidence interval: 1,048.1-1,331.9 million eggs). The management target for Yelloweye Rockfish is defined as 40% of the unfished spawning output (SO40%), which is estimated by the model to be 476 million eggs (95% confidence interval: 419-533), which corresponds to an exploitation rate of 0.026. This harvest rate provides an equilibrium yield of 122 mt at SO40% (95% confidence interval: 108-137 mt).
 
 <!-- Management targets and definitions of overfishing, including the harvest rate that brings the stock to equilibrium at B24% for flatfishes and B40% for all other groundfish stocks (BMSY proxies) and the equilibrium stock size that results from fishing at the default harvest rate (the FMSY proxy). Include a summary table that compares estimated reference points for SSB, SPR, Exploitation Rate and Yield based on SSB proxy for MSY, SPR proxy for MSY, and estimated MSY values. -->
 
@@ -333,20 +333,6 @@ reference_points_table |>
   ) |>
   gt::as_latex()
 
-```
-
-
-```{r}
-#| label: fig-eq-yield-es
-#| echo: false
-#| warning: false
-#| eval: true
-#| out.width: "\\textwidth"
-#| fig-cap: "Equilibrium yield curve (derived from reference point values) for the base model. Values are based on 2024 fishery selectivity and distribution with steepness fixed at 0.718. The relative spawning output is relative to unfished spawning output."
-
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/yield1_yield_curve.png"
-)
 ```
 
 \clearpage
