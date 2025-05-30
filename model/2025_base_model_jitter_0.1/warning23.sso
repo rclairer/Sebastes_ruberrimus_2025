@@ -1,7 +1,7 @@
 Note 1 Information: Max data length bin: 74  < max pop len bins: 88; so will accumulate larger pop len bins
 Note 2 Suggestion:  recr_dist_method 3 is simpler and takes 1 parm for each settlement
 Warning 1 : At least one block pattern ends in endyr. Check the output parameter value time series to see if the values in forecast years are as intended.
-Warning 2 : Final gradient: 35804 is larger than final_conv: 0.0001
-Warning 3 : Main recdev biasadj is >2 times ratio of rmse to sigmaR
-Note 3 Information:  N parameters that are on or within 1% of min-max bound: 2; check results, variance may be suspect
+Warning 2 : 1st iteration warning: ssb(endyr)/ssb(styr)= 1.24875e-07; suggest start with larger R0 to get near 0.4; or use depletion fleet option
+Warning 3 : Final gradient: 0.000569497 is larger than final_conv: 0.0001
+Note 3 Information:  N parameters that are on or within 1% of min-max bound: 1; check results, variance may be suspect
  3 warnings  and 3 notes 

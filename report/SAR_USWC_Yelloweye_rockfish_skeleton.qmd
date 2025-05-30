@@ -15,7 +15,7 @@ author:
         address: '2032 SE OSU Drive Building 955' 
         city: 'Newport, OR' 
         state: 'OR' 
-        postal-code: '98112-2097'
+        postal-code: '97365'
   - name: 'Alison Whitman'
     affiliations:
       - name: 'Oregon Department of Fish and Wildlife'
@@ -64,28 +64,35 @@ author:
         address: '1111 Washington St SE'
         city: 'Olympia, WA'
         state: 'WA'
-        postal-code: '98504-3150'
+        postal-code: '98504'
   - name: 'Vladlena Gertseva'
     affiliations:
       - name: 'NOAA Fisheries Northwest Fisheries Science Center'
         address: '2725 Montlake Boulevard East'
         city: 'Seattle'
         state: 'WA'
-        postal-code: '98112-2097'
+        postal-code: '98112'
   - name: 'Ian Taylor'
     affiliations:
       - name: 'NOAA Fisheries Northwest Fisheries Science Center'
         address: '2725 Montlake Boulevard East'
         city: 'Seattle'
         state: 'WA'
-        postal-code: '98112-2097'
+        postal-code: '98112'
   - name: 'Kiva Oken'
     affiliations:
       - name: 'NOAA Fisheries Northwest Fisheries Science Center'
         address: '2725 Montlake Boulevard East'
-        city: 'Seattle'
+        city: 'Seattle, WA'
         state: 'WA'
-        postal-code: '98112-2097'
+        postal-code: '98112'
+  - name: 'Aaron Berger'
+    affiliations:
+      - name: 'NOAA Fisheries Northwest Fisheries Science Center'
+        address: '2032 SE OSU Drive Building 955'
+        city: 'Newport, OR'
+        state: 'OR'
+        postal-code: '97365'
 date: today
 lang: en 
 keep-tex: true 
@@ -252,7 +259,7 @@ R0 <- output |>
 
 Please cite this publication as: 
 
-Johnston\*, M. A., Rosemond\*, R. C., Perl, E., Whitman, A., Barros, M., Champagnat, J., Schamp, A., Schiano, S., Prior Caltabellotta, F., Gertseva, V., Taylor, I., and Oken, K. (2025) Status of Yelloweye rockfish off the U.S. West Coast in 2025. Pacific Fishery Management Council. \pageref*{LastPage}{} pp.
+Johnston\*, M. A., Rosemond\*, R. C., Whitman, A., Perl, E., Barros, M., Champagnat, J., Schamp, A., Schiano, S., Prior Caltabellotta, F., Gertseva, V., Taylor, I., Oken, K. and Berger, A. (2025) Status of Yelloweye rockfish off the U.S. West Coast in 2025. Pacific Fishery Management Council. \pageref*{LastPage}{} pp.
 
 \*These authors contributed equally to this work.
 

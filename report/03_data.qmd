@@ -39,7 +39,7 @@ Updated fishery-dependent data, including removals, length and age compositions,
 
 A summary of total removals are provided in @tbl-all_removals and @fig-catch.
 
-Recent commercial landings (2017-2024) were obtained from [\gls{pacfin}](www.pacfin.psmfc.org) for California, Oregon and Washington. For the period from 2016 through 2023, updated \gls{wcgop} discard estimates were added to \gls{pacfin} landings by adding the annual dead discard mortality rate for the commercial sector in the \gls{gemm} recorded discards to obtain the total catch of Yelloweye Rockfish within commercial fleets. At this time no \gls{wcgop} data were available for 2024.  
+Recent commercial landings (2017-2024) were obtained from [\gls{pacfin}](www.pacfin.psmfc.org) for California, Oregon and Washington. For the period from 2016 through 2023, updated \gls{wcgop} discard estimates were added to \gls{pacfin} landings by adding the annual dead discard mortality rate for the commercial sector in the \gls{gemm} recorded discards to obtain the total catch of Yelloweye Rockfish within commercial fleets. At this time no \gls{wcgop} data were available for 2024, so we used the average total discard for 2021-2023 to approximate total 2024 discards for each commercial fleet.  
 
 Bycatch for the At-Sea Pacific Hake fleet (A-SHOP) was updated from 2017 through 2024.
 
@@ -57,9 +57,8 @@ We also found that \gls{caal} data from the 2017 assessment had all sample sizes
 
 #### Fleet Specific Changes in the Compositional Data
 
-Fleet 2. California Non-Trawl:
-
-- For ages, all the \gls{caal} and marginal ages (used to explore fits only, not included in the likelihood) data were recalculated using the most recent age data pulled from \gls{pacfin} and \gls{wcgop}, to account for age doubling in 2017.
+- Fleet 2. California Non-Trawl:
+  - For ages, all the \gls{caal} and marginal ages (used to explore fits only, not included in the likelihood) data were recalculated using the most recent age data pulled from \gls{pacfin} and \gls{wcgop}, to account for age doubling in 2017.
 
 Fleet 3. California Recreational:
 
@@ -107,9 +106,9 @@ Two sources of fishery-independent data were updated: the West Coast Groundfish 
 
 ### West Coast Bottom Trawl Survey (WCGBTS)
 
-The \gls{indexwc} survey methods are most recently described in detail in @keller2017northwest. Geostatistical models of biomass density were fit to survey data from the \gls{indexwc} using \gls{tmb} [@kristensen_tmb:_2016] via the \gls{sdmtmb} R package [@Anderson_2024_SRP] as configured within the [indexwc](https://github.com/pfmc-assessments/indexwc) R package [@Johnson_indexwc]. These models can account for latent spatial factors with a constant spatial Gaussian random field and spatiotemporal deviations to evolve as a random walk Guassian random field [@thorson_geostatistical_2015]. Delta-gamma and delta-lognormal distributions were investigated. Results are only shown for the model that led to the best model diagnostics, defined as similar distributions of theoretical normal quantiles and model quantiles (@fig-wcgbts_qq), high precision, lack of extreme predictions, and low \gls{aic}. Estimates of biomass from this best model were predicted using a grid based on available survey locations.
+The \gls{indexwc} survey methods are most recently described in detail in @keller2017northwest. Geostatistical models of biomass density were fit to survey data from the \gls{indexwc} using \gls{tmb} [@kristensen_tmb:_2016] via the \gls{sdmtmb} R package [@Anderson_2024_SRP] as configured within the [indexwc](https://github.com/pfmc-assessments/indexwc) R package [@Johnson_indexwc]. These models can account for latent spatial factors with a constant spatial Gaussian random field and spatiotemporal deviations to evolve as a random walk Gaussian random field [@thorson_geostatistical_2015]. Delta-gamma and delta-lognormal distributions were investigated. Results are only shown for the model that led to the best model diagnostics, defined as similar distributions of theoretical normal quantiles and model quantiles (@fig-wcgbts_qq), high precision, lack of extreme predictions, and low \gls{aic}. Estimates of biomass from this best model were predicted using a grid based on available survey locations.
 
-The final model used a delta model with a lognormal distribution for the catch-rate component. A logit-link was used for encounter probability and a log-link for positive catch rates. The response variable was catch (mt) with an offset of area swept (km^2^) to account for differences in effort. Fixed effects were estimated for each year and pass. The index was estimated for the area north of $42^{\circ}10'$ (Oregon and Washington) to be consistent with the previous assessment. The data were truncated to depths shallower than 325 m prior to modeling given that there were zero positive encounters in depths deeper than 325 m. The prediction grid was also truncated to only include available survey locations in depths between 55--325 m to limit extrapolating beyond the data and edge effects. Spatial variation was included in the encounter probability and the positive catch rate model. Spatial variation was approximated using 200 knots, where more knots led to non-estimable standard errors because the positive encounters are too sparse to support the dense spatiotemporal structure. Anisotropy was not estimated.
+The final model used a delta model with a lognormal distribution for the catch-rate component. A logit-link was used for encounter probability and a log-link for positive catch rates. The response variable was catch (mt) with an offset of area swept (km^2^) to account for differences in effort. Fixed effects were estimated for each year and pass. The index was estimated for the area north of 42 degrees North (Oregon and Washington) to be consistent with the previous assessment. The data were truncated to depths shallower than 325 m prior to modeling given that there were zero positive encounters in depths deeper than 325 m. The prediction grid was also truncated to only include available survey locations in depths between 55-325 m to limit extrapolating beyond the data and edge effects. Spatial variation was included in the encounter probability and the positive catch rate model. Spatial variation was approximated using 200 knots, where more knots led to non-estimable standard errors because the positive encounters are too sparse to support the dense spatiotemporal structure. Anisotropy was not estimated.
 
 The biomass estimates produced for this assessment using \gls{sdmtmb} are comparable to the biomass estimates produced in the previous benchmark assessment (@fig-wcgbtsindexcomparison). The index is relatively flat with a peak in 2014, but variation is high throughout the time series (@fig-wcgbtsindex).
 
@@ -129,4 +128,32 @@ A summary of sampling efforts (number of hauls and number of individual fish) in
 
 ## Biological Parameters and Data
 
-The approach to natural mortality, maturity and fecundity were unchanged from the previous assessment [@gertseva_stock_2017]. All of these biological parameters used in the assessment were estimated outside the model or obtained from literature. Therefore, uncertainty reported for the stock assessment results does not include any uncertainty in these quantities (however, some were investigated via sensitivity analyses described later in this report). The parameters for the length-weight relationship were updated to include the most recent data from 2017 - 2024; see the updated equation: $W =$ `r mod_in$ctl$MG_parms['Wtlen_1_Fem_GP_1', 'INIT']*(10^6)`\*$10^{-6}L$^`r mod_in$ctl$MG_parms['Wtlen_2_Fem_GP_1', 'INIT']`^ (@fig-LWrel). Aging error matrices were unchanged. 
+Several biological parameters used in the assessment were estimated outside the model or obtained from literature. Their values were treated in the model as fixed, and therefore uncertainty reported for the stock assessment results does not include any uncertainty in these quantities (however, some were investigated via sensitivity analyses described later in this report). These parameters include length-weight relationship parameters, maturity and fecundity parameters, natural mortality, and ageing error. Aging error matrices were unchanged. The methods used to derive these parameters in the assessment are described below.
+
+### Length-Weight Relationships
+
+The parameters for the length-weight relationship were updated to include the most recent WCGBTS data from 2017 - 2024. Length-weight curves were fitted using this equation: 
+
+$W$ = `r mod_in$ctl$MG_parms['Wtlen_1_Fem_GP_1', 'INIT']*(10^6)`\*10^-6^$L$^`r mod_in$ctl$MG_parms['Wtlen_2_Fem_GP_1', 'INIT']`^
+
+Where $W$ is individual weight (kg) and $L$ is total natural length (cm) (@fig-LWrel). 
+
+### Maturity
+The length at maturity relationship remained unchanged from the 2017 assessment. They used a functional maturity approach to assess individual maturity and account for possible false spawning events [@gertseva_stock_2017]. @fig-maturity shows the logistic curve applied in this assessment.
+
+### Fecundity
+The fecundity-at-length relationship also remained unchanged from the 2017 assessment and was developed by @dick_meta-analysis_2017 using a hierarchical Bayesian modeling framework. The fecundity was assumed to be related to female body size: 
+
+$$
+F = aL^b
+$$
+
+Where $F$ is fecundity (number of eggs), $L$ is fish length (cm), and $a$ and $b$ are constant coefficients (@fig-fecundity). For Yelloweye @dick_meta-analysis_2017 estimated $a = 7.21847$\*10^-8^ and $b = 4.043$.
+
+### Natural Mortality
+The 2025 base model used the 2017 assessment's initial value of natural Mortality ($M$) which was estimated based on @hamel_method_2015.
+
+## Environmental and ecosystem data
+
+No environmental or ecosystem data were used in the 2017 assessment [@gertseva_stock_2017] and no new data sources were considered for this update assessment. 
+

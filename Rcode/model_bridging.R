@@ -9,6 +9,8 @@ library(nwfscSurvey)
 library(here)
 #remotes::install_github("pfmc-assessments/pacfintools")
 library(pacfintools)
+#remotes::install_github("pfmc-assessments/PEPtools")
+library(PEPtools)
 exe_loc <- here::here('model/ss3.exe')
 
 ###############################################
@@ -2110,33 +2112,120 @@ SSplotComparisons(models_summary,
                   print = TRUE)
 
 ##########################################################################
-#####################    ADD DISCARD AMOUNTS #############################
+#####################    UPDATE COMM DISCARDS #############################
 ##########################################################################
-
-
-
-
-
-
-
-##########################################################################
-######################### UPDATE STEEPNESS ###############################
-############################################################################
 
 updated_startfile_dir <- here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512")
 
-base_steepness_updated_dir <- here::here("model", "base_steepness_updated")
+base_comm_discards_updated_dir <- here::here("model", "base_comm_discards_updated")
 
 copy_SS_inputs(
-  dir.old = updated_startfile_dir,
-  dir.new = base_steepness_updated_dir,
+  dir.old = updated_startfile_dir, 
+  dir.new = base_comm_discards_updated_dir,
   create.dir = TRUE,
   overwrite = TRUE,
   use_ss_new = TRUE,
   verbose = TRUE
 )
 
-inputs <- SS_read(dir = base_steepness_updated_dir)
+#all catch
+inputs <- SS_read(dir = file.path(getwd(), "model", "base_comm_discards_updated"))
+
+#ONLY NEED TO ADD THESE COMMERCIAL DISCARDS
+
+################################################
+#discards in 2024 by fleet
+
+#CA_TWL FLEET 1
+
+#CA_NONTWL FLEET 2
+
+#ORWA_TWL FLEET 4
+
+#ORWA_NONTWL FLEET 5
+
+# read in commercial discards
+discards <- read.csv(file.path(getwd(),"Data","processed","discards","commercial_discards.csv")) |> 
+  # remove column of row names from previous save
+  dplyr::select(-X)
+
+# Combine OR and WA discards for fleet
+discards_ORWA <- discards |>
+  dplyr::filter(grepl("OR|WA", fleet)) |>
+  tidyr::separate_wider_delim(fleet, delim = "-", names = c("fleet", "state")) |>
+  dplyr::group_by(year, fleet) |>
+  dplyr::summarise(discards = sum(total_discards)) |>
+  dplyr::ungroup() |>
+  dplyr::mutate(state = "ORWA")
+
+# Combine CA and ORWA discards into final discards df
+discards_all <- discards |>
+  dplyr::filter(grepl("CA", fleet)) |>
+  tidyr::separate_wider_delim(fleet, delim = "-", names = c("fleet", "state")) |>
+  dplyr::rename(discards = total_discards) |>
+  rbind(discards_ORWA) |>
+  dplyr::mutate(ST_FLEET = glue::glue("{state}_{fleet}")) |>
+  dplyr::select(-c(fleet, state)) |>
+  dplyr::filter(year > 2015)
+
+discards_all_ave_2021to2023 <- discards_all %>%
+  filter(year %in% c(2021, 2022, 2023)) %>%
+  group_by(ST_FLEET) %>%
+  summarise(avg_discards = mean(discards, na.rm = TRUE, .groups = "drop"))
+
+discards_1 <- discards_all_ave_2021to2023$avg_discards[discards_all_ave_2021to2023$ST_FLEET == "CA_TWL"]
+discards_2 <- discards_all_ave_2021to2023$avg_discards[discards_all_ave_2021to2023$ST_FLEET == "CA_NONTWL"]
+discards_4 <- discards_all_ave_2021to2023$avg_discards[discards_all_ave_2021to2023$ST_FLEET == "ORWA_TWL"]
+discards_5 <- discards_all_ave_2021to2023$avg_discards[discards_all_ave_2021to2023$ST_FLEET == "ORWA_NONTWL"]
+
+##############################################
+
+inputs$dat$catch <- inputs$dat$catch %>%
+  mutate(catch = if_else(fleet == 1 & year == 2024, catch + discards_1, catch)) %>%
+  mutate(catch = if_else(fleet == 2 & year == 2024, catch + discards_2, catch)) %>%
+  mutate(catch = if_else(fleet == 4 & year == 2024, catch + discards_4, catch)) %>%
+  mutate(catch = if_else(fleet == 5 & year == 2024, catch + discards_5, catch))
+
+SS_write(inputs, dir = file.path(getwd(), "model", "base_comm_discards_updated"), overwrite = TRUE)
+
+get_ss3_exe(dir = file.path(getwd(), "model", "base_comm_discards_updated"))
+
+run(dir = file.path(getwd(), "model", "base_comm_discards_updated"), show_in_console = TRUE)
+
+replist_base_comm_discards_updated <- SS_output(dir = file.path(getwd(), "model", "base_comm_discards_updated"))
+SS_plots(replist_base_comm_discards_updated)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_updated")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "19_base_comm_discards_updated"),
+                  legendlabels = c("2025 base model (- forecast file changes)", 
+                                   "+ comm discards updated"),
+                  print = TRUE)
+
+##########################################################################
+######################### UPDATE STEEPNESS ###############################
+############################################################################
+
+base_comm_discards_updated_dir <- here::here("model", "base_comm_discards_updated")
+
+base_comm_discards_steepness_updated_dir <- here::here("model", "base_comm_discards_steepness_updated")
+
+copy_SS_inputs(
+  dir.old = base_comm_discards_updated_dir,
+  dir.new = base_comm_discards_steepness_updated_dir,
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+inputs <- SS_read(dir = base_comm_discards_steepness_updated_dir)
 inputs$ctl$SR_parms$INIT[2] <- 0.72
 inputs$ctl$SR_parms$PRIOR[2] <- 0.72
 
@@ -2144,31 +2233,33 @@ ctl <- inputs$ctl
 # Fill outfile with directory and file name of the file written
 r4ss::SS_writectl(
   ctl,
-  outfile = file.path(base_steepness_updated_dir, "yelloweye_control.ss"),
+  outfile = file.path(base_comm_discards_steepness_updated_dir, "yelloweye_control.ss"),
   overwrite = TRUE
 )
 
-r4ss::get_ss3_exe(dir = base_steepness_updated_dir)
+r4ss::get_ss3_exe(dir = base_comm_discards_steepness_updated_dir)
 
 # You have to run this model in full (not using -nohess) because you need the covar file
 # to fit the bias
-r4ss::run(dir = base_steepness_updated_dir, show_in_console = TRUE)
+r4ss::run(dir = base_comm_discards_steepness_updated_dir, show_in_console = TRUE)
 
-replist_base_steepness_updated <- r4ss::SS_output(dir = base_steepness_updated_dir)
+replist_base_comm_discards_steepness_updated <- r4ss::SS_output(dir = base_comm_discards_steepness_updated_dir)
 
-r4ss::SS_plots(replist_base_steepness_updated)
+r4ss::SS_plots(replist_base_comm_discards_steepness_updated)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
-models <- c(paste0(file.path(getwd(), "model", "2025_base_model")),
-            paste0(file.path(getwd(), "model", "base_steepness_updated")))
+models <- c(paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_updated")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_updated")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "22_base_steepness_updated"),
-                  legendlabels = c("2025 base model", 
-                                   "steepness updated to 0.72"),
+                                      "20_base_comm_discards_steepness_updated"),
+                  legendlabels = c("2025 base model (- forcast file changes)", 
+                                   "+ comm discards updated",
+                                   "+ steepness updated to 0.72"),
                   print = TRUE)
 
 
@@ -2176,29 +2267,13 @@ SSplotComparisons(models_summary,
 #####################   FIT BIAS ADJ RAMP SECOND TIME ################
 #####################################################################
 
-# Read in base model
-#base_mod_dir <- here::here("model/2025_base_model")
-base_mod <- SS_read(here::here("model", "2025_base_model"))
-SS_write(base_mod, here::here("model", "2025_base_model_requests"), overwrite = TRUE)
-base_mod_requests_dir <- here::here("model/2025_base_model_requests")
+base_comm_discards_steepness_updated_dir <- here::here("model", "base_comm_discards_steepness_updated")
 
-r4ss::get_ss3_exe(dir = base_mod_requests_dir)
-r4ss::run(dir = here::here("model", "2025_base_model_requests"), show_in_console = TRUE)
-#SS_plots(replist = SS_output(here::here("model", "2025_base_model_requests")),dir = 2025_base_model_requests_dir)
-
-replist_base_mod_requests <- r4ss::SS_output(dir = file.path(getwd(), "model", "2025_base_model_requests"))
-
-#run(dir = base_mod_dir, show_in_console = TRUE)
-
-#replist_base_mod <- r4ss::SS_output(dir = file.path(getwd(), "model", "2025_base_model"))
-
-#replist_base_mod <- r4ss::SS_output(dir = base_mod_dir, covar = TRUE)
-
-second_fitbias_dir <- here::here("model/second_fit_bias_adj_ramp")
+base_comm_discards_steepness_fitbias_updated_dir <- here::here("model", "base_comm_discards_steepness_fitbias_updated")
 
 copy_SS_inputs(
-  dir.old = base_mod_requests_dir,
-  dir.new = second_fitbias_dir,
+  dir.old = base_comm_discards_steepness_updated_dir,
+  dir.new = base_comm_discards_steepness_fitbias_updated_dir,
   create.dir = TRUE,
   overwrite = TRUE,
   use_ss_new = TRUE,
@@ -2209,129 +2284,237 @@ copy_SS_inputs(
 #add this folder manually
 
 r4ss::SS_fitbiasramp(
-  replist_base_mod_requests, #use replist from previous run
+  replist_base_comm_discards_steepness_updated, #use replist from previous run
   plot = FALSE,
   #print = TRUE,
   #plotdir = fitbias_plots,
   #shownew = TRUE,
-  oldctl = file.path(base_mod_requests_dir, "yelloweye_control.ss"),
-  newctl = file.path(second_fitbias_dir, "yelloweye_control.ss"),#this incorporates the suggested changes from the last run
+  oldctl = file.path(base_comm_discards_steepness_updated_dir, "yelloweye_control.ss"),
+  newctl = file.path(base_comm_discards_steepness_fitbias_updated_dir, "yelloweye_control.ss"),#this incorporates the suggested changes from the last run
   startvalues = NULL,
   method = "BFGS",
   altmethod = "nlminb"
 )
 
 # Run model after fitbias
-r4ss::get_ss3_exe(dir = second_fitbias_dir)
+r4ss::get_ss3_exe(dir = base_comm_discards_steepness_fitbias_updated_dir)
 
-run(dir = second_fitbias_dir, show_in_console = TRUE)
+run(dir = base_comm_discards_steepness_fitbias_updated_dir, show_in_console = TRUE)
 
-replist_second_fitbias <- r4ss::SS_output(dir = second_fitbias_dir)
+replist_base_comm_discards_steepness_fitbias_updated <- r4ss::SS_output(dir = base_comm_discards_steepness_fitbias_updated_dir)
 
-SS_plots(replist_second_fitbias)
+SS_plots(replist_base_comm_discards_steepness_fitbias_updated)
 
 #compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
-models <- c(paste0(file.path(getwd(), "model", "2025_base_model_requests")),
-            paste0(file.path(getwd(), "model", "second_fit_bias_adj_ramp")))
+models <- c(paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_updated")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_updated")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_updated")))
 models
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "21_second_fitbias"),
-                  legendlabels = c("2025 base model", 
-                                   "second fitbias"),
+                                      "21_base_comm_discards_steepness_fitbias_updated"),
+                  legendlabels = c("2025 base model (- forcast file changes)", 
+                                   "+ comm discards updated",
+                                   "+ steepness updated to 0.72",
+                                   "+ fit bias adj ramp"),
                   print = TRUE)
 
-###################################################################
-##################### TUNE AGAIN  #################################
-######################################################
-#
-
-
-
-
 
 ###################################################################
-#######               FORECAST FILE CHANGES               #########
+##################### TUNE AGAIN #############################
 ###################################################################
 
-# step 1. read last model file
-# step 2. manually copy in Vlada's forecast file
-# step 3. make the final edit based on Ian's recommendation to average the last 5 years to avoid an end year with 0 catch.
+# copy model starters and data file from prev run
+copy_SS_inputs(
+  dir.old = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_updated"), 
+  dir.new = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned"),
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
 
-# Step 1.
-mod <- SS_read(here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512"))
+#inputs <- SS_read(dir = file.path(getwd(), "model", "updated_alldata_tunecomps_20250416"))
 
-### Vlada provided a forecast.ss file based on the rougheye one she made and including our buffer and fixed forecast catches. 
-### It includes some of our changes in the code below, the rest are listed below. 
-# All benchmark years = 0
-# Bmark_relF_Bias = 2, not 1
-# Fmult = 1 (in our forecast we have _f_scalar = 0.2)
-# Recruitment start and end years were changed to = 0
-# FirstYear_for_caps = 2027
+get_ss3_exe(dir = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned"))
 
-# # Update flimit fraction
-# mod$fore$Flimitfraction <- -1
-# 
-# # change "stddev of log(realized catch/target catch) in forecast" to 0
-# mod$fore$stddev_of_log_catch_ratio <- 0
-# 
-# # These may not need to change; either way this is something to do with the rebuilder stuff
-# mod$fore$Ydecl <- 0
-# mod$fore$Yinit <- 0
-# 
-# # update buffer values
-# mod$fore$Flimitfraction_m <- PEPtools::get_buffer(2025:2036, sigma = 0.5, pstar = 0.4)
-# 
-# # update fixed forecast catches at the bottom for assumed catches in 2025 and 2026
-# mod$fore$ForeCatch <- data.frame(
-#   year = rep(2025:2026, each = 7),
-#   seas = 1,
-#   fleet = rep(1:7,2),
-#   catch_or_F = c(0.14,10,9,7.76,8.88,6.6,3.22,0.14,10,9,7.76,9.58,6.6,3.22)) # Sent by Christian Heath 5/5/25
-#  
-# ## Kiva said to change the control rule method from 1, to 3.
-# mod$fore$ControlRuleMethod <- 3
-# 
-# # set rebuilder to 0 for now, need to fix for future us.
-# mod$fore$Do_West_Coast_gfish_rebuilder_output <- 0
-# 
-# # Update benchmark years, convert to negative value representing years before the ending year of the model
-# mod$fore$Bmark_years <- c(0, 0, 0, 0, 0, 0, -999, 0, -999, 0)
+run(dir = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned"), 
+    show_in_console = TRUE, extras = "-nohess")
 
-# Step 1. continued..
-SS_write(mod, here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512"), overwrite = TRUE)
+replist_tuned <- SS_output(dir = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned"))
 
-# Step 2. Go copy in forecast file, and re assign "mod" to the updated files
-mod <- SS_read(here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512"))
 
-# Step 3. Change the end years: https://github.com/pfmc-assessments/Assessment_Class/discussions/72
+##### Tune composition data ##### ----------------------------------------------
+base_comm_discards_steepness_fitbias_tuned_dir <- here::here("model", "base_comm_discards_steepness_fitbias_tuned")
+
+r4ss::tune_comps(
+  replist_tuned, # use replist from previous run
+  write = TRUE,
+  niters_tuning = 2, 
+  option = "Francis",
+  dir = base_comm_discards_steepness_fitbias_tuned_dir,
+  show_in_console = TRUE,
+  #extras = "-nohess", #run with hessian so we can run fitbias next
+  exe = "ss3"
+)
+
+replist_base_comm_discards_steepness_fitbias_tuned <- SS_output(dir = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned"))
+
+SS_plots(replist_base_comm_discards_steepness_fitbias_tuned)
+
+#compare updataed ss3 exe, updated historical catch, and updated historical catch + extended catch
+models <- c(paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_20250512")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_updated")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_updated")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_updated")),
+            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned")))
+models
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "22_base_comm_discards_steepness_fitbias_tuned"),
+                  legendlabels = c("2025 base model (- forcast file changes)", 
+                                   "+ comm discards updated",
+                                   "+ steepness updated to 0.72",
+                                   "+ fit bias adj ramp",
+                                   "+ tuned comps"),
+                  print = TRUE)
+
+
+#############################################################
+##################### FORECAST FILE CHANGES #############
+##############################################################
+
+copy_SS_inputs(
+  dir.old = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned"), 
+  dir.new = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned_forecast"),
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+mod <- SS_read(here::here("model", "base_comm_discards_steepness_fitbias_tuned_forecast"))
+
+mod$fore$Bmark_years <- c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+
+mod$fore$Bmark_relF_Basis <- 2
+
+mod$fore$Fmult <- 1
+
 mod$fore$Fcast_years$st_year <- c(-4,-4,-4)
 
+mod$fore$ControlRuleMethod <- 3
+
+mod$fore$Flimitfraction <- -1
+
+mod$fore$Flimitfraction_m <- PEPtools::get_buffer(2025:2036, sigma = 0.5, pstar = 0.4)
+
+mod$fore$FirstYear_for_caps_and_allocations <- 2027
+
+mod$fore$stddev_of_log_catch_ratio <- 0
+
+mod$fore$Do_West_Coast_gfish_rebuilder_output <- 0
+
+mod$fore$Yinit <- 0
+
+mod$fore$Ydecl <- 0
+
+GMT_catch_biomass <- data.frame(
+  year = rep(2025:2026, each = 7),
+  seas = 1,
+  fleet = rep(1:7, 2),
+  catch_or_F = c(0.14, 10, 9, 7.76, 8.88, 6.6, 3.22, 0.14, 10, 9, 7.76, 9.58, 6.6, 3.22)
+) # Sent by Christian Heath 5/5/25
+
+replist <- SS_output("model/base_comm_discards_steepness_fitbias_tuned")
+# which fleets have catch in numbers (catch_units == 2) and are fishery fleets (fleet_type == 1)
+replist$FleetNames[replist$catch_units == 2 & replist$fleet_type == 1]
+# [1] "7_WA_REC"
+
+# calculate model expectation for mean weight for the WA_REC fleet
+# which is based on the combination of parameters for growth and selectivity
+WA_REC_meanwt <- replist$timeseries |>
+  dplyr::filter(Area == 2 & Yr == 2024) |>
+  dplyr::mutate(meanwt = as.numeric(`dead(B):_7`) / as.numeric(`dead(N):_7`)) |>
+  dplyr::pull(meanwt) |>
+  round(3)
+WA_REC_meanwt
+# [1] 2.105
+
+GMT_catch_input <- GMT_catch_biomass |>
+  dplyr::mutate(catch_or_F = ifelse(fleet != 7, catch_or_F, round(catch_or_F / WA_REC_meanwt, 3)))
+
+# resulting table has 1.53 (1000s) for fleet 7 vs 3.22 (metric tons) in GMT_catch_biomass
+GMT_catch_input
+
+mod$fore$ForeCatch <- GMT_catch_input
+
 # Now write again and run
-SS_write(mod, here::here("model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512"), overwrite = TRUE)
-run(dir = 'model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512', exe = exe_loc, show_in_console = TRUE, skipfinished = FALSE)
+SS_write(mod, here::here("model", "base_comm_discards_steepness_fitbias_tuned_forecast"), overwrite = TRUE)
+
+get_ss3_exe(dir = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned_forecast"))
+
+run(dir = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned_forecast"), show_in_console = TRUE)
 
 # store plots in figures folder so that we can pull easily into report
-SS_plots(replist = SS_output('model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512'),dir = here::here("model","updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512"))
+SS_plots(replist = SS_output('model/base_comm_discards_steepness_fitbias_tuned_forecast'),dir = here::here("model","base_comm_discards_steepness_fitbias_tuned_forecast"))
 
 # plot the forecast years
-SS_plots(replist = SS_output('model/updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512'),dir = here::here("model","updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512","forecast_plots"), forecastplot = TRUE)
+SS_plots(replist = SS_output('model/base_comm_discards_steepness_fitbias_tuned_forecast'),dir = here::here("model","base_comm_discards_steepness_fitbias_tuned_forecast","forecast_plots"), forecastplot = TRUE)
 
 ### Final Comparison Plots
 models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
             paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_20250512")),
             paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_20250512")),
-            paste0(file.path(getwd(), "model", "updated_alldata_tunecomps_fitbias_ctl_tunecomps_start_fore_20250512")))
+            paste0(file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned_forecast")))
 
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
-                                      "19_alldata_tunecomps_fitbias_upctl_tuned_upstart_fore"),
-                  legendlabels = c("2017 updated SS3 exe", 
-                                   "2025 updated all data and tuned",
-                                   "2025 updated ctl file and tuned",
-                                   "proposed 2025 base model"),
+                                      "23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore"),
+                  legendlabels = c("2017 base model", 
+                                   "Updated all data and tuned",
+                                   "Updated fitbias, ctl file, tuned",
+                                   "Proposed 2025 base model"),
                   print = TRUE)
+
+######################################################################
+#################### hess step ######################################
+####################################################################
+
+copy_SS_inputs(
+  dir.old = file.path(getwd(), "model", "base_comm_discards_steepness_fitbias_tuned_forecast"), 
+  dir.new = file.path(getwd(), "model", "base_model_check_gradient"),
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+get_ss3_exe(dir = file.path(getwd(), "model", "base_model_check_gradient"))
+
+run(dir = file.path(getwd(), "model", "base_model_check_gradient"), show_in_console = TRUE)
+run(dir = file.path(getwd(), "model", "base_model_check_gradient"), show_in_console = TRUE, skipfinished = FALSE, extras = "-hess_step")
+
+######################################################################
+##### Plotting 2017 base vs 2025 base for management comparison ######
+######################################################################
+
+models <- c(paste0(file.path(getwd(), "model", "2017_yelloweye_model_updated_ss3_exe")),
+            paste0(file.path(getwd(), "model", "2025_base_model")))
+
+models_output <- SSgetoutput(dirvec = models)
+models_summary <- SSsummarize(models_output)
+SSplotComparisons(models_summary,
+                  plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
+                                      "25_2025base_vs_2017base"),
+                  legendlabels = c("2017 base model",
+                                   "Proposed 2025 base model"),
+                  print = TRUE)
+

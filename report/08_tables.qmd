@@ -309,7 +309,7 @@ pars_table |>
   ) |>
   as_latex()
 
-cat("\n\\end{landscape}\n") 
+cat("\n\\end{landscape}\n")
 ```
 
 {{< pagebreak >}}
@@ -368,25 +368,43 @@ cat("\n\\end{landscape}\n")
 {{< pagebreak >}}
 
 ```{r}
-#| label: tbl-sensitivities-like-comps-len
+#| label: tbl-sensitivities-like-comps-len1
 #| echo: false
 #| message: false
 #| warning: false
 #| results: "asis"
-#| tbl-cap: "Base model sensitivity to the removal of data sources (length compositional data)."
+#| tbl-cap: "Base model sensitivity to the removal of data sources (length compositional data - 1 of 2)."
 
 cat("\\begin{landscape}\n")
 
 source(here::here("Rcode/table_sens.R"))
-#indices <- read.csv(here::here("report", "figures", "sensitivities", "indices_table.csv"))
-len_comps <- read.csv(here::here("report", "figures", "sensitivities", "length_comps_table.csv"))
+len_comps1 <- read.csv(here::here("report", "figures", "sensitivities", "length_comps_1_table.csv"))
 
-#indices_and_comps <- inner_join(indices, comps, by = c("Label", "Base"))
-#names(comps) <- gsub("X..", "", names(comps))
+names(len_comps1) <-c("Label","Base","- CA TWL","- CA NONTWL","- CA REC","- ORWA TWL","- ORWA NONTWL","- OR REC","- WA REC")
 
-names(len_comps) <-c("Label","Base","- CA TWL","- CA NONTWL","- CA REC","- ORWA TWL","- ORWA NONTWL","- OR REC","- WA REC","- CA CPFV","- ORFS","- Triennial","- WCGBTS","- IPHC","No length comps")
+table_sens(len_comps1)
 
-table_sens(len_comps)
+cat("\n\\end{landscape}\n") 
+```
+
+{{< pagebreak >}}
+
+```{r}
+#| label: tbl-sensitivities-like-comps-len2
+#| echo: false
+#| message: false
+#| warning: false
+#| results: "asis"
+#| tbl-cap: "Base model sensitivity to the removal of data sources (length compositional data - 2 of 2)."
+
+cat("\\begin{landscape}\n")
+
+source(here::here("Rcode/table_sens.R"))
+len_comps2 <- read.csv(here::here("report", "figures", "sensitivities", "length_comps_2_table.csv"))
+
+names(len_comps2) <-c("Label","Base","- CA CPFV","- ORFS","- Triennial","- WCGBTS","- IPHC","No length comps")
+
+table_sens(len_comps2)
 
 cat("\n\\end{landscape}\n") 
 ```
@@ -499,7 +517,7 @@ projections_table |>
   gt::gt() |>
   gt::fmt_number(
     columns = c(2:5, 7:9),
-    decimals = 0
+    decimals = 1
   ) |>
   gt::fmt_number(
     columns = c(6, 10),
@@ -528,7 +546,7 @@ cat("\n\\end{landscape}\n")
 #| label: tbl-es-decision-2
 #| warning: false
 #| echo: false
-#| tbl-cap: "Decision table with 10-year projections. 'Mgmt' refers to the three management scenarios (A) the default harvest control rule $P^* = 0.45$. In each case the 2025 and 2026 catches are fixed at the ACLs which have been set for that year with estimated fleet allocation provided by the GMT. The alternative states of nature ('Low', 'Base', and 'High' as discussed in the text) are provided in the columns, with Spawning Output ('Spawn', in millions of eggs) and Fraction of unfished spawning output ('Frac') provided for each state."
+#| tbl-cap: "Decision table with 10-year projections. 'Mgmt' refers to the three management scenarios (A) the default harvest control rule $P^* = 0.40$. In each case the 2025 and 2026 catches are fixed at the estimates provided by the GMT. The catch for the Washington recreational fleet is input in numbers so the GMT estimate was converted from 3.22 metric tons to 1.53 based on a mean weight of 2.105 kg estimated by SS3 for this fleet in 2024. The alternative states of nature ('Low', 'Base', and 'High' as discussed in the text) are provided in the columns, with Spawning Output ('Spawn', in millions of eggs) and Fraction of unfished spawning output ('Frac') provided for each state."
 #| tbl-pos: H
  table_decision(
    list(mod_low_A, mod_base_A, mod_high_A)

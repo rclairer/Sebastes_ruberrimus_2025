@@ -1,6 +1,6 @@
 #V3.30.23.2;_safe;_compile_date:_Apr 17 2025;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_13.2
 #C file created using an r4ss function
-#C file write time: 2025-05-26  12:05:24
+#C file write time: 2025-05-30  11:13:43
 # for all year entries except rebuilder; enter either: actual year, -999 for styr, 0 for endyr, neg number for rel. endyr
 1 # Benchmarks: 0=skip; 1=calc F_spr,F_btgt,F_msy; 2=calc F_spr,F0.1,F_msy; 3=add F_Blimit; 
 2 # Do_MSY: 1= set to F(SPR); 2=calc F(MSY); 3=set to F(Btgt) or F0.1; 4=set to F(endyr); 5=calc F(MEY) with MSY_unit options
@@ -16,7 +16,7 @@
 1 # Forecast: -1=none; 0=simple_1yr; 1=F(SPR); 2=F(MSY) 3=F(Btgt) or F0.1; 4=Ave F (uses first-last relF yrs); 5=input annual F scalar
 # where none and simple require no input after this line; simple sets forecast F same as end year F
 12 # N forecast years 
-1 # Fmult (only used for Do_Forecast==5) such that apical_F(f)=Fmult*relF(f)
+0.2 # Fmult (only used for Do_Forecast==5) such that apical_F(f)=Fmult*relF(f)
 
 -12345  # code to invoke new format for expanded fcast year controls
 # biology and selectivity vectors are updated annually in the forecast according to timevary parameters, so check end year of blocks and dev vectors
@@ -40,16 +40,16 @@
 -1 # Buffer:  enter Control rule target as fraction of Flimit (e.g. 0.75), negative value invokes list of [year, scalar] with filling from year to YrMax 
  2025 1
  2026 1
- 2027 0.873
- 2028 0.864
- 2029 0.856
- 2030 0.848
- 2031 0.84
- 2032 0.832
- 2033 0.824
- 2034 0.817
- 2035 0.809
- 2036 0.801
+ 2027 1
+ 2028 1
+ 2029 1
+ 2030 1
+ 2031 1
+ 2032 1
+ 2033 1
+ 2034 1
+ 2035 1
+ 2036 1
  -9999 0
 #
 3 #_N forecast loops (1=OFL only; 2=ABC; 3=get F from forecast ABC catch with allocations applied)
@@ -59,7 +59,7 @@
 1 # Value multiplier is ignored
 0 # not used
 #
-2027  # FirstYear for caps and allocations (should be after years with fixed inputs) 
+2037  # FirstYear for caps and allocations (should be after years with fixed inputs) 
 0 # stddev of log(realized catch/target catch) in forecast (set value>0.0 to cause active impl_error)
 0 # Do West Coast gfish rebuilder output: 0=no; 1=yes 
 0 # Rebuilder:  first year catch could have been set to zero (Ydecl)(-1 to set to 1999)
@@ -69,13 +69,13 @@
 2 # basis for fcast catch tuning and for fcast catch caps and allocation  (2=deadbio; 3=retainbio; 5=deadnum; 6=retainnum); NOTE: same units for all fleets
 # Conditional input if relative F choice = 2
 # enter list of:  season, fleet, relF; if used, terminate with season=-9999
-# 1 1 0.00796626
-# 1 2 0.130497
-# 1 3 0.291555
-# 1 4 0.0127187
-# 1 5 0.356786
-# 1 6 0.122949
-# 1 7 0.0775283
+# 1 1 0.0072808
+# 1 2 0.154238
+# 1 3 0.265158
+# 1 4 0.0117692
+# 1 5 0.379944
+# 1 6 0.111381
+# 1 7 0.0702282
 # -9999 0 0  # terminator for list of relF
 # enter list of: fleet number, max annual catch for fleets with a max; terminate with fleet=-9999
 -9999 -1
@@ -97,14 +97,84 @@
  2025 1 4 7.76
  2025 1 5 8.88
  2025 1 6 6.6
- 2025 1 7 3.22
+ 2025 1 7 1.53
  2026 1 1 0.14
  2026 1 2 10
  2026 1 3 9
  2026 1 4 7.76
  2026 1 5 9.58
  2026 1 6 6.6
- 2026 1 7 3.22
+ 2026 1 7 1.53
+ 2027 1 1 0.52
+ 2027 1 2 10.74
+ 2027 1 3 19.25
+ 2027 1 4 1.85
+ 2027 1 5 52.51
+ 2027 1 6 17.41
+ 2027 1 7 4.75
+ 2028 1 1 0.52
+ 2028 1 2 10.85
+ 2028 1 3 19.39
+ 2028 1 4 1.83
+ 2028 1 5 52.67
+ 2028 1 6 17.27
+ 2028 1 7 4.62
+ 2029 1 1 0.53
+ 2029 1 2 10.92
+ 2029 1 3 19.47
+ 2029 1 4 1.82
+ 2029 1 5 52.66
+ 2029 1 6 17.11
+ 2029 1 7 4.47
+ 2030 1 1 0.53
+ 2030 1 2 10.96
+ 2030 1 3 19.51
+ 2030 1 4 1.8
+ 2030 1 5 52.45
+ 2030 1 6 16.92
+ 2030 1 7 4.33
+ 2031 1 1 0.53
+ 2031 1 2 10.96
+ 2031 1 3 19.51
+ 2031 1 4 1.78
+ 2031 1 5 52.06
+ 2031 1 6 16.72
+ 2031 1 7 4.19
+ 2032 1 1 0.53
+ 2032 1 2 10.94
+ 2032 1 3 19.48
+ 2032 1 4 1.76
+ 2032 1 5 51.54
+ 2032 1 6 16.51
+ 2032 1 7 4.07
+ 2033 1 1 0.53
+ 2033 1 2 10.91
+ 2033 1 3 19.43
+ 2033 1 4 1.73
+ 2033 1 5 50.91
+ 2033 1 6 16.3
+ 2033 1 7 3.96
+ 2034 1 1 0.52
+ 2034 1 2 10.88
+ 2034 1 3 19.39
+ 2034 1 4 1.71
+ 2034 1 5 50.29
+ 2034 1 6 16.12
+ 2034 1 7 3.88
+ 2035 1 1 0.52
+ 2035 1 2 10.83
+ 2035 1 3 19.32
+ 2035 1 4 1.69
+ 2035 1 5 49.57
+ 2035 1 6 15.91
+ 2035 1 7 3.8
+ 2036 1 1 0.52
+ 2036 1 2 10.78
+ 2036 1 3 19.23
+ 2036 1 4 1.67
+ 2036 1 5 48.85
+ 2036 1 6 15.71
+ 2036 1 7 3.74
 -9999 1 1 0 
 #
 999 # verify end of input 
