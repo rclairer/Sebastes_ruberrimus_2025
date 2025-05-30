@@ -18,7 +18,7 @@ Model fits to the fishery CPUE and survey indices are presented in @fig-indexfit
 
 The model fitted length data aggregated across years reasonably well for all fleets (@fig-agglencomps). Pearson residuals for the fits by fleet and year are shown in @fig-pearsonlenfit1 and @fig-pearsonlenfit2. The length data are very sparse in many years and model fit varies among years and fleets, reflecting the differences in the quantity of the data. For example, lengths for the IPHC survey, the California recreational, and OR/WA non-trawl fleets, which also have the highest input sample sizes, are fit by the model relatively well.
 
-The fits to the mean age by fleet are generally acceptable and are responsive to short-term temporal changes (@fig-mean-age-3 - @fig-mean-age-12), with the exception of the IPHC survey, where the model predicts a lower mean age than the data suggest. Pearson residuals by year and fleet show strong residual patterns but are difficult to interpret given the general lack of age data. See the [GitHub repository](https://github.com/rclairer/Sebastes_ruberrimus_2025) for individual Pearson residual plots.
+The fits to the mean age by fleet are generally acceptable and are responsive to short-term temporal changes (@fig-mean-age-3 - @fig-mean-age-12), with the exception of the Oregon recreational fleet and the IPHC survey, where the model predicts a lower mean age than the data suggest but these results are consistent with the 2017 assessment. Pearson residuals by year and fleet show strong residual patterns but are difficult to interpret given the general lack of age data. See the [GitHub repository](https://github.com/rclairer/Sebastes_ruberrimus_2025) for individual Pearson residual plots.
 
 ### Population Trajectory
 
