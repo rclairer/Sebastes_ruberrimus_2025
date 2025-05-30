@@ -23,22 +23,36 @@ exe_loc <- here::here('model/ss3.exe')
 High state of nature Model
 M = 0.056
 
-```{r}
+```{r, include=FALSE}
 
 # Read in base model and model output
-mod <- SS_read(here::here("model", "2025_base_model"))
-mod_out <- SS_output(here::here("model", "2025_base_model"))
+base_out <- SS_output(here::here("model", "2025_base_model"))
 
-forecast_catch <- r4ss::SS_ForeCatch(mod_out, yrs = 2025:2036)
+forecast_catch <- r4ss::SS_ForeCatch(base_out, yrs = 2025:2036)
 
+copy_SS_inputs(
+  dir.old = here::here("model", "2025_base_model"), 
+  dir.new = here::here("model", "2025_high_state"),
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+high_state <- SS_read(here::here("model", "2025_high_state"))
 # Change M
-mod$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$INIT <- 0.056
+high_state$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$INIT <- 0.056
 
-
+#have to change forecasted catch
+high_state$fore$ForeCatch <- forecast_catch
 
 # Run and save model
-SS_write(mod, here::here("model", "2025_high_state"), overwrite = TRUE)
-r4ss::run(dir = here::here("model", "2025_high_state"), exe = exe_loc, show_in_console = TRUE, skipfinished = FALSE)
+SS_write(high_state, here::here("model", "2025_high_state"), overwrite = TRUE)
+
+get_ss3_exe(dir = here::here("model", "2025_high_state"))
+
+r4ss::run(dir = here::here("model", "2025_high_state"), show_in_console = TRUE)
+
 SS_plots(replist = SS_output(here::here("model", "2025_high_state")),dir = here::here("model","2025_high_state"))
 
 ```
@@ -48,14 +62,34 @@ M = 0.037
 
 ```{r}
 # Read in base model
-mod <- SS_read(here::here("model", "2025_base_model"))
+# Read in base model and model output
+base_out <- SS_output(here::here("model", "2025_base_model"))
 
+forecast_catch <- r4ss::SS_ForeCatch(base_out, yrs = 2025:2036)
+
+copy_SS_inputs(
+  dir.old = here::here("model", "2025_base_model"), 
+  dir.new = here::here("model", "2025_low_state"),
+  create.dir = TRUE,
+  overwrite = TRUE,
+  use_ss_new = TRUE,
+  verbose = TRUE
+)
+
+low_state <- SS_read(here::here("model", "2025_low_state"))
 # Change M
-mod$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$INIT <- 0.037
+low_state$ctl$MG_parms["NatM_p_1_Fem_GP_1", ]$INIT <- 0.037
+
+#have to change forecasted catch
+low_state$fore$ForeCatch <- forecast_catch
 
 # Run and save model
-SS_write(mod, here::here("model", "2025_low_state"), overwrite = TRUE)
-r4ss::run(dir = here::here("model", "2025_low_state"), exe = exe_loc, show_in_console = TRUE, skipfinished = FALSE)
+SS_write(low_state, here::here("model", "2025_low_state"), overwrite = TRUE)
+
+get_ss3_exe(dir = here::here("model", "2025_low_state"))
+
+r4ss::run(dir = here::here("model", "2025_low_state"), show_in_console = TRUE)
+
 SS_plots(replist = SS_output(here::here("model", "2025_low_state")),dir = here::here("model","2025_low_state"))
 
 ```
@@ -71,7 +105,7 @@ models <- c(paste0(file.path(here::here("model", "2025_base_model"))),
 models_output <- SSgetoutput(dirvec = models)
 models_summary <- SSsummarize(models_output)
 SSplotComparisons(models_summary,
-                  plotdir = file.path(here::here("Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", "20_states_of_nature")),
+                  plotdir = file.path(here::here("Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", "24_states_of_nature")),
                   legendlabels = c("2025 Base Model", 
                                    "2025 High State of Nature",
                                    "2025 Low State of Nature"),
