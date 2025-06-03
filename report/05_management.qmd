@@ -22,7 +22,7 @@ Twelve-year forecasts for each state of nature were calculated (@tbl-es-decision
 
 ## Evaluation of Scientific Uncertainty
 
-The model estimate of the log-scale standard deviation of the 2025 spawning output is `r mod_outl$Pstar_sigma |> round(4)`. The model estimate of the log-scale standard deviation of the 2025 \gls{ofl} is `r mod_out$OFL_sigma |> round(4)`. Each of these are likely underestimates of overall uncertainty due to the necessity to fix several key population dynamics parameters (e.g. steepness and recruitment variance) and also because there is no explicit incorporation of model structural uncertainty (although see the decision table for alternative states of nature).
+The model estimate of the log-scale standard deviation of the 2025 spawning output is `r mod_out$Pstar_sigma |> round(4)`. The model estimate of the log-scale standard deviation of the 2025 \gls{ofl} is `r mod_out$OFL_sigma |> round(4)`. Each of these are likely underestimates of overall uncertainty due to the necessity to fix several key population dynamics parameters (e.g. steepness and recruitment variance) and also because there is no explicit incorporation of model structural uncertainty (although see the decision table for alternative states of nature).
 
 ## Regional management considerations
 
