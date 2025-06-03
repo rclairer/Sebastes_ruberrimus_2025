@@ -339,7 +339,7 @@ reference_points_table |>
 
 ## Management performance{-}
 
-Recent trends in total catch relative to managment guidelines is available in @tbl-yelloweye_management and shows that total catch of Yelloweye Rockfish has remained below both the \gls{ofl} and \gls{acl} in each year since the previous assessment. Catch in @tbl-yelloweye_management combines the two areas in this model as catch limits for Yelloweye Rockfish are managed as a single coastwide unit and includes both landings and estimated discard mortality.
+Recent trends in total catch relative to management guidelines is available in @tbl-es-management and shows that total catch of Yelloweye Rockfish has remained below both the \gls{ofl} and \gls{acl} in each year since the previous assessment. Catch in @tbl-es-management combines the two areas in this model as catch limits for Yelloweye Rockfish are managed as a single coast wide unit and includes both landings and estimated discard mortality.
 
 <!-- Catches in comparison to OFL, ABC, HG, and OY/ACL values for the most recent 10 years (when available), overfishing levels, actual catch and discard. Include OFL (encountered), OFL (retained) and OFL (dead) if different due to discard and discard mortality. -->
 
