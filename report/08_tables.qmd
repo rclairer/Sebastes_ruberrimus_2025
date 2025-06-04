@@ -63,7 +63,7 @@ recent_management_table |>
 cat("\\begin{landscape}\n")
 
 catch_table |>
- gt() |>
+ gt::gt() |>
   tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE

@@ -41,19 +41,32 @@ knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 #| tbl-cap: !expr if(eval_tables) catches_es_cap 
 #| tbl-pos: H
 
-# changed to csv file until r4ss gets fixed
 
-#cat("\\begin{landscape}\n")
-
-catches_es_table <- read.csv("tables/catches_es_table.csv")
-catches_es_table |> 
-   gt::gt() |>
+catches_es_table <- catch_table |>
+  dplyr::filter(Year > 2014) |>
+  gt::gt() |>
    gt::tab_options(
      table.font.size = 12,
      latex.use_longtable = TRUE,
      table.width = pct(80) # trying to make it fit better
    ) |>
    gt::as_latex()
+
+
+
+# changed to csv file until r4ss gets fixed
+
+#cat("\\begin{landscape}\n")
+
+#catches_es_table <- read.csv("tables/catches_es_table.csv")
+#catches_es_table |> 
+#   gt::gt() |>
+#   gt::tab_options(
+#     table.font.size = 12,
+#     latex.use_longtable = TRUE,
+#     table.width = pct(80) # trying to make it fit better
+#   ) |>
+#   gt::as_latex()
 
 #cat("\n\\end{landscape}\n")
 
