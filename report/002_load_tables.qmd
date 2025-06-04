@@ -1,8 +1,8 @@
 <!-- Load tables produced from r4ss::table_all() -->
 
 ```{r}
-#| echo: false
 #| warning: false
+#| echo: false
 #| message: false
 library(flextable)
 library(gt)

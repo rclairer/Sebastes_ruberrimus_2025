@@ -48,7 +48,7 @@ catch_table |>
    gt::tab_options(
      table.font.size = 12,
      latex.use_longtable = TRUE,
-     table.width = pct(80) # trying to make it fit better
+     table.width = pct(60) # trying to make it fit better
    ) |>
    gt::as_latex()
 
