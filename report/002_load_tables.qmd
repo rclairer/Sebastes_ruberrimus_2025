@@ -141,7 +141,6 @@ projections_table[1:2, "Adopted ACL (mt)"] <- GMT016 |>
 ```
 
 ```{r}
-#| eval: true
 #| warning: false
 #| echo: false
 #| message: false
