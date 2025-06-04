@@ -40,18 +40,19 @@ knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 #| tbl-cap: "Recent catches (mt) by fleet and total catch (mt) summed across fleets." 
 #| tbl-pos: H
 
+cat("\\begin{landscape}\n")
+
 catch_table |>
   dplyr::filter(Year > 2014) |>
  gt::gt() |>
-  tab_options(
-    table.font.size = 12,
-    latex.use_longtable = TRUE
-  ) |>
-  cols_width(
-    tidyselect::everything() ~ px(75)
-  ) |>
-  as_latex()
+   gt::tab_options(
+     table.font.size = 12,
+     latex.use_longtable = TRUE,
+     table.width = pct(80) # trying to make it fit better
+   ) |>
+   gt::as_latex()
 
+cat("\n\\end{landscape}\n")
 
 # changed to csv file until r4ss gets fixed
 
