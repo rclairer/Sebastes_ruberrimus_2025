@@ -37,8 +37,8 @@ knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 #| label: tbl-es-catches
 #| warning: false
 #| echo: false
-#| eval: !expr eval_tables 
-#| tbl-cap: !expr if(eval_tables) catches_es_cap 
+#| eval: false
+#| tbl-cap: "Recent catches (mt) by fleet and total catch (mt) summed across fleets." 
 #| tbl-pos: H
 
 

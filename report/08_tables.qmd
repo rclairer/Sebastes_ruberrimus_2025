@@ -58,7 +58,7 @@ recent_management_table |>
 #| echo: false
 #| warning: false
 #| results: "asis"
-#| tbl-cap: "Time series of Yelloweye Rockfish catches (mt) by fleet used in the assessment. Trawl fleets include Yelloweye Rockfish bycatch in foreign POP and in at-sea Pacific hake fisheries."
+#| tbl-cap: "Time series of Yelloweye Rockfish catches by fleet (mt) and total catch (mt) summed across fleets. Trawl fleets include Yelloweye Rockfish bycatch in foreign POP and in at-sea Pacific hake fisheries."
 
 cat("\\begin{landscape}\n")
 
