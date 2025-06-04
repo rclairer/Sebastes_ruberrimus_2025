@@ -942,10 +942,12 @@ metric tons (mt) between 1889 and 2024 for each fleet.}
 
 \clearpage
 
+\begin{landscape}
 \begingroup
-\fontsize{9.0pt}{10.8pt}\selectfont
+\setlength\LTleft{0.1\linewidth}
+\setlength\LTright{0.1\linewidth}\fontsize{9.0pt}{10.8pt}\selectfont
 
-\begin{longtable}{>{\raggedleft\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}}
+\begin{longtable}{@{\extracolsep{\fill}}rrrrrrrrr}
 
 \caption{\label{tbl-es-catches}Recent catches (mt) by fleet and total
 catch (mt) summed across fleets.}
@@ -970,6 +972,8 @@ Year & CA TWL (mt) & CA NONTWL (mt) & CA REC (mt) & ORWA TWL (mt) & ORWA NONTWL 
 \end{longtable}
 
 \endgroup
+
+\end{landscape}
 
 \clearpage
 
