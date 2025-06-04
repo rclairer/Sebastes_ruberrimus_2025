@@ -62,22 +62,8 @@ recent_management_table |>
 
 cat("\\begin{landscape}\n")
 
-# This table needs to be redone once the WA sport catches are updated
-catch_table |> # produced in 002_load_tables.qmd
-#catch_table_est_weights |> # uncomment this line to use the catch table with estimated weights from the SS3 output
-  gt() |>
- cols_label(
-    year = "Year",
-    `1` = "CA trawl (mt)",
-    `2` = "CA non-trawl (mt)",
-    `3` = "CA sport (mt)",
-    `4` = "OR-WA trawl (mt)",
-    `5` = "OR-WA non-trawl (mt)",
-    `6` = "OR sport (mt)",
-    `7` = "WA sport (mt)",
-    `8` = "WA sport (1000s fish)",
-    Total = "Catch (mt)"
-  ) |>
+catch_table |>
+ gt() |>
   tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE
@@ -86,6 +72,31 @@ catch_table |> # produced in 002_load_tables.qmd
     tidyselect::everything() ~ px(75)
   ) |>
   as_latex()
+
+# This table needs to be redone once the WA sport catches are updated
+#catch_table |> # produced in 002_load_tables.qmd
+#catch_table_est_weights |> # uncomment this line to use the catch table with estimated weights from the SS3 output
+#  gt() |>
+# cols_label(
+#    year = "Year",
+#    `1` = "CA trawl (mt)",
+#    `2` = "CA non-trawl (mt)",
+#    `3` = "CA sport (mt)",
+#    `4` = "OR-WA trawl (mt)",
+#    `5` = "OR-WA non-trawl (mt)",
+#    `6` = "OR sport (mt)",
+#    `7` = "WA sport (mt)",
+#    `8` = "WA sport (1000s fish)",
+#    Total = "Catch (mt)"
+#  ) |>
+#  tab_options(
+#    table.font.size = 12,
+#    latex.use_longtable = TRUE
+#  ) |>
+#  cols_width(
+#    tidyselect::everything() ~ px(75)
+#  ) |>
+#  as_latex()
 
 cat("\n\\end{landscape}\n")  
 ```
