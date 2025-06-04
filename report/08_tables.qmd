@@ -6,8 +6,7 @@
 #| label: tbl-ye-management
 #| warning: false
 #| echo: false
-#| eval: !expr eval_tables 
-#| tbl-cap: "Recent trend in the overfishing limits (OFL), the acceptable biological catches (ABCs), the annual catch limits (ACLs), and the total dead catch (landings + discards) all in metric tons (mt)."
+#| tbl-cap: "Recent trend in the overfishing limits (OFL), the acceptable biological catches (ABCs), the annual catch limits (ACLs), and the total dead catch (landings + discards) in metric tons (mt)."
 #| tbl-pos: H
 
 
@@ -53,11 +52,10 @@ recent_management_table |>
 
 <!-- ## Data -->
 
-```{r}
+```{r, results = "asis"}
 #| label: tbl-all_removals
-#| echo: false
 #| warning: false
-#| results: "asis"
+#| echo: false
 #| tbl-cap: "Time series of Yelloweye Rockfish catches by fleet (mt) and total catch (mt) summed across fleets. Trawl fleets include Yelloweye Rockfish bycatch in foreign POP and in at-sea Pacific hake fisheries."
 
 cat("\\begin{landscape}\n")
