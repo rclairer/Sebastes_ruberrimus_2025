@@ -2122,10 +2122,8 @@ including different data streams were conducted by selectively removing
 each data source using emphasis factors, as well as by including
 different weighting schemes for composition data. Summaries of model
 results for these sensitivities are presented in
-Table~\ref{tbl-sensitivities-like-indices},
-Table~\ref{tbl-sensitivities-like-comps-len1},
-Table~\ref{tbl-sensitivities-like-comps-len1} and
-Table~\ref{tbl-sensitivities-like-comps-age}. Among these, the base
+Table~\ref{tbl-sensitivities-like-indices} to
+Table~\ref{tbl-sensitivities-like-comps-age2}. Among these, the base
 model appears to be most sensitive to removing all length compositions,
 which show a significantly different biomass trajectory and a more
 optimistic estimate of stock status at the end of the time series
@@ -2135,8 +2133,8 @@ Figure~\ref{fig-sens_lengths2_status}).
 Removing all age compositions, \gls{iphc} age compositions only or
 applying the McAllister \& Ianelli weighting scheme also result in
 slightly more optimistic estimates of stock status at the end of the
-time series compared to the base model (Figure~\ref{fig-sens_age_spout}
-and Figure~\ref{fig-sens_age_status}). Furthermore, models with all
+time series compared to the base model (Figure~\ref{fig-sens_age1_spout}
+to Figure~\ref{fig-sens_age2_status}). Furthermore, models with all
 abundance and \gls{iphc} indices removed resulted in slightly less
 optimistic estimates of spawning output and stock status at the end of
 the time series (Figure~\ref{fig-sens_indices_spout} and
@@ -3746,7 +3744,7 @@ Label & Base & - CA TWL & - CA NONTWL & - CA REC & - ORWA TWL & - ORWA NONTWL & 
 
 \end{landscape}
 
-\newpage{}
+\clearpage
 
 \begin{landscape}
 \begingroup\fontsize{9}{11}\selectfont
@@ -3794,47 +3792,90 @@ Label & Base & - CA CPFV & - ORFS & - Triennial & - WCGBTS & - IPHC & No length 
 \newpage{}
 
 \begin{landscape}
-\begin{flushleft}
 \begingroup\fontsize{9}{11}\selectfont
 
-\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}}
+\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}}
 
-\caption{\label{tbl-sensitivities-like-comps-age}Base model sensitivity
-to the removal of data sources (age compositional data).}
+\caption{\label{tbl-sensitivities-like-comps-age1}Base model sensitivity
+to the removal of data sources (age compositional data; 1 of 2).}
 
 \tabularnewline
 
 \toprule
-Label & Base & - CA NONTWL & - CA REC & - ORWA TWL & - ORWA NONTWL & - OR REC & - WA REC & - WCGBTS & - IPHC & No age comps & McAllister-Ianelli\\
+Label & Base & - CA NONTWL & - CA REC & - ORWA TWL & - ORWA NONTWL & - OR REC & - WA REC\\
 \midrule
 \addlinespace[0.3em]
-\multicolumn{12}{l}{\textbf{Diff. in likelihood from base model}}\\
-\hspace{1em}Total & \textcolor{black}{0} & \textcolor{red}{-126.99} & \textcolor{red}{-338.81} & \textcolor{red}{-1631.1} & \textcolor{red}{-435.31} & \textcolor{red}{-1020.72} & \textcolor{red}{-813.89} & \textcolor{red}{-1398.96} & \textcolor{red}{-899.62} & \textcolor{red}{-6628.94} & \textcolor{red}{-368.18}\\
-\hspace{1em}Index & \textcolor{black}{0} & \textcolor{black}{0.079} & \textcolor{black}{0.284} & \textcolor{red}{-0.634} & \textcolor{black}{0.256} & \textcolor{black}{0.912} & \textcolor{red}{-0.952} & \textcolor{red}{-0.684} & \textcolor{black}{4.295} & \textcolor{black}{1.068} & \textcolor{red}{-2.963}\\
-\hspace{1em}Length comp & \textcolor{black}{0} & \textcolor{red}{-1.02} & \textcolor{red}{-5.06} & \textcolor{red}{-16.08} & \textcolor{red}{-3.06} & \textcolor{red}{-8.19} & \textcolor{red}{-5.31} & \textcolor{red}{-14.72} & \textcolor{red}{-15.03} & \textcolor{red}{-77.93} & \textcolor{black}{91.11}\\
-\hspace{1em}Age comp & \textcolor{black}{0} & \textcolor{red}{-126.67} & \textcolor{red}{-333.22} & \textcolor{red}{-1610.46} & \textcolor{red}{-433.04} & \textcolor{red}{-1010.16} & \textcolor{red}{-806.67} & \textcolor{red}{-1378.25} & \textcolor{red}{-887.3} & \textcolor{red}{-6526.61} & \textcolor{red}{-456.34}\\
-\hspace{1em}Recruitment & \textcolor{black}{0} & \textcolor{black}{0.635} & \textcolor{red}{-0.785} & \textcolor{red}{-3.912} & \textcolor{black}{0.533} & \textcolor{red}{-3.299} & \textcolor{red}{-0.916} & \textcolor{red}{-5.283} & \textcolor{red}{-1.82} & \textcolor{red}{-25.344} & \textcolor{black}{0.151}\\
-\hspace{1em}Parm priors & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0}\\
+\multicolumn{8}{l}{\textbf{Diff. in likelihood from base model}}\\
+\hspace{1em}Total & \textcolor{black}{0} & \textcolor{red}{-126.99} & \textcolor{red}{-338.81} & \textcolor{red}{-1631.1} & \textcolor{red}{-435.31} & \textcolor{red}{-1020.72} & \textcolor{red}{-813.89}\\
+\hspace{1em}Index & \textcolor{black}{0} & \textcolor{black}{0.079} & \textcolor{black}{0.284} & \textcolor{red}{-0.634} & \textcolor{black}{0.256} & \textcolor{black}{0.912} & \textcolor{red}{-0.952}\\
+\hspace{1em}Length comp & \textcolor{black}{0} & \textcolor{red}{-1.02} & \textcolor{red}{-5.06} & \textcolor{red}{-16.08} & \textcolor{red}{-3.06} & \textcolor{red}{-8.19} & \textcolor{red}{-5.31}\\
+\hspace{1em}Age comp & \textcolor{black}{0} & \textcolor{red}{-126.67} & \textcolor{red}{-333.22} & \textcolor{red}{-1610.46} & \textcolor{red}{-433.04} & \textcolor{red}{-1010.16} & \textcolor{red}{-806.67}\\
+\hspace{1em}Recruitment & \textcolor{black}{0} & \textcolor{black}{0.635} & \textcolor{red}{-0.785} & \textcolor{red}{-3.912} & \textcolor{black}{0.533} & \textcolor{red}{-3.299} & \textcolor{red}{-0.916}\\
+\hspace{1em}Parm priors & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0}\\
 \addlinespace[0.3em]
-\multicolumn{12}{l}{\textbf{Estimates of key parameters}}\\
-\hspace{1em}Recruitment unfished thousands & \textcolor{black}{241.887} & \textcolor{black}{241.952} & \textcolor{black}{244.735} & \textcolor{black}{242.069} & \textcolor{black}{243.986} & \textcolor{black}{244.196} & \textcolor{black}{250.708} & \textcolor{black}{243.671} & \textcolor{black}{222.982} & \textcolor{black}{274.842} & \textcolor{black}{270.471}\\
-\hspace{1em}log(R0) & \textcolor{black}{5.488} & \textcolor{black}{5.489} & \textcolor{black}{5.5} & \textcolor{black}{5.489} & \textcolor{black}{5.497} & \textcolor{black}{5.498} & \textcolor{black}{5.524} & \textcolor{black}{5.496} & \textcolor{black}{5.407} & \textcolor{black}{5.616} & \textcolor{black}{5.6}\\
-\hspace{1em}M Female & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044}\\
-\hspace{1em}L at Amax Female & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.3} & \textcolor{black}{61.7} & \textcolor{black}{61.3} & \textcolor{black}{61.3} & \textcolor{black}{61.1} & \textcolor{black}{61.5} & \textcolor{black}{62.4} & \textcolor{black}{60.8} & \textcolor{black}{61.2}\\
+\multicolumn{8}{l}{\textbf{Estimates of key parameters}}\\
+\hspace{1em}Recruitment unfished thousands & \textcolor{black}{241.887} & \textcolor{black}{241.952} & \textcolor{black}{244.735} & \textcolor{black}{242.069} & \textcolor{black}{243.986} & \textcolor{black}{244.196} & \textcolor{black}{250.708}\\
+\hspace{1em}log(R0) & \textcolor{black}{5.488} & \textcolor{black}{5.489} & \textcolor{black}{5.5} & \textcolor{black}{5.489} & \textcolor{black}{5.497} & \textcolor{black}{5.498} & \textcolor{black}{5.524}\\
+\hspace{1em}M Female & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044}\\
+\hspace{1em}L at Amax Female & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.3} & \textcolor{black}{61.7} & \textcolor{black}{61.3} & \textcolor{black}{61.3} & \textcolor{black}{61.1}\\
 \addlinespace[0.3em]
-\multicolumn{12}{l}{\textbf{Estimates of derived quantities}}\\
-\hspace{1em}Unfished age 8+ bio 1000 mt & \textcolor{black}{10.331} & \textcolor{black}{10.32} & \textcolor{black}{10.411} & \textcolor{black}{10.185} & \textcolor{black}{10.418} & \textcolor{black}{10.351} & \textcolor{black}{10.61} & \textcolor{black}{10.441} & \textcolor{black}{9.945} & \textcolor{black}{11.047} & \textcolor{black}{10.986}\\
-\hspace{1em}B0 millions of eggs & \textcolor{black}{1190} & \textcolor{black}{1188.12} & \textcolor{black}{1197.32} & \textcolor{black}{1169.27} & \textcolor{black}{1200.16} & \textcolor{black}{1189.66} & \textcolor{black}{1217.61} & \textcolor{black}{1199.98} & \textcolor{black}{1166.44} & \textcolor{black}{1228.11} & \textcolor{black}{1241.2}\\
-\hspace{1em}B2025 millions of eggs & \textcolor{black}{477.63} & \textcolor{black}{475.113} & \textcolor{black}{475.18} & \textcolor{black}{461.464} & \textcolor{black}{485.851} & \textcolor{black}{469.622} & \textcolor{black}{502.097} & \textcolor{black}{471.858} & \textcolor{black}{393.043} & \textcolor{black}{469.146} & \textcolor{black}{549.181}\\
-\hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.401} & \textcolor{black}{0.4} & \textcolor{black}{0.397} & \textcolor{black}{0.395} & \textcolor{black}{0.405} & \textcolor{black}{0.395} & \textcolor{black}{0.412} & \textcolor{black}{0.393} & \textcolor{black}{0.337} & \textcolor{black}{0.382} & \textcolor{black}{0.442}\\
-\hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.357} & \textcolor{black}{0.358} & \textcolor{black}{0.358} & \textcolor{black}{0.372} & \textcolor{black}{0.35} & \textcolor{black}{0.359} & \textcolor{black}{0.341} & \textcolor{black}{0.365} & \textcolor{black}{0.427} & \textcolor{black}{0.372} & \textcolor{black}{0.316}\\
+\multicolumn{8}{l}{\textbf{Estimates of derived quantities}}\\
+\hspace{1em}Unfished age 8+ bio 1000 mt & \textcolor{black}{10.331} & \textcolor{black}{10.32} & \textcolor{black}{10.411} & \textcolor{black}{10.185} & \textcolor{black}{10.418} & \textcolor{black}{10.351} & \textcolor{black}{10.61}\\
+\hspace{1em}B0 millions of eggs & \textcolor{black}{1190} & \textcolor{black}{1188.12} & \textcolor{black}{1197.32} & \textcolor{black}{1169.27} & \textcolor{black}{1200.16} & \textcolor{black}{1189.66} & \textcolor{black}{1217.61}\\
+\hspace{1em}B2025 millions of eggs & \textcolor{black}{477.63} & \textcolor{black}{475.113} & \textcolor{black}{475.18} & \textcolor{black}{461.464} & \textcolor{black}{485.851} & \textcolor{black}{469.622} & \textcolor{black}{502.097}\\
+\hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.401} & \textcolor{black}{0.4} & \textcolor{black}{0.397} & \textcolor{black}{0.395} & \textcolor{black}{0.405} & \textcolor{black}{0.395} & \textcolor{black}{0.412}\\
+\hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.357} & \textcolor{black}{0.358} & \textcolor{black}{0.358} & \textcolor{black}{0.372} & \textcolor{black}{0.35} & \textcolor{black}{0.359} & \textcolor{black}{0.341}\\
 \bottomrule
 
 \end{longtable}
 
 \endgroup{}
 
-\end{flushleft}
+
+\end{landscape}
+
+\newpage{}
+
+\begin{landscape}
+\begingroup\fontsize{9}{11}\selectfont
+
+\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{5em}}
+
+\caption{\label{tbl-sensitivities-like-comps-age2}Base model sensitivity
+to the removal of data sources (age compositional data; 2 of 2).}
+
+\tabularnewline
+
+\toprule
+Label & Base & - WCGBTS & - IPHC & No age comps & McAllister-Ianelli\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{6}{l}{\textbf{Diff. in likelihood from base model}}\\
+\hspace{1em}Total & \textcolor{black}{0} & \textcolor{red}{-1398.96} & \textcolor{red}{-899.62} & \textcolor{red}{-6628.94} & \textcolor{red}{-368.18}\\
+\hspace{1em}Index & \textcolor{black}{0} & \textcolor{red}{-0.684} & \textcolor{black}{4.295} & \textcolor{black}{1.068} & \textcolor{red}{-2.963}\\
+\hspace{1em}Length comp & \textcolor{black}{0} & \textcolor{red}{-14.72} & \textcolor{red}{-15.03} & \textcolor{red}{-77.93} & \textcolor{black}{91.11}\\
+\hspace{1em}Age comp & \textcolor{black}{0} & \textcolor{red}{-1378.25} & \textcolor{red}{-887.3} & \textcolor{red}{-6526.61} & \textcolor{red}{-456.34}\\
+\hspace{1em}Recruitment & \textcolor{black}{0} & \textcolor{red}{-5.283} & \textcolor{red}{-1.82} & \textcolor{red}{-25.344} & \textcolor{black}{0.151}\\
+\hspace{1em}Parm priors & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0}\\
+\addlinespace[0.3em]
+\multicolumn{6}{l}{\textbf{Estimates of key parameters}}\\
+\hspace{1em}Recruitment unfished thousands & \textcolor{black}{241.887} & \textcolor{black}{243.671} & \textcolor{black}{222.982} & \textcolor{black}{274.842} & \textcolor{black}{270.471}\\
+\hspace{1em}log(R0) & \textcolor{black}{5.488} & \textcolor{black}{5.496} & \textcolor{black}{5.407} & \textcolor{black}{5.616} & \textcolor{black}{5.6}\\
+\hspace{1em}M Female & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044}\\
+\hspace{1em}L at Amax Female & \textcolor{black}{61.4} & \textcolor{black}{61.5} & \textcolor{black}{62.4} & \textcolor{black}{60.8} & \textcolor{black}{61.2}\\
+\addlinespace[0.3em]
+\multicolumn{6}{l}{\textbf{Estimates of derived quantities}}\\
+\hspace{1em}Unfished age 8+ bio 1000 mt & \textcolor{black}{10.331} & \textcolor{black}{10.441} & \textcolor{black}{9.945} & \textcolor{black}{11.047} & \textcolor{black}{10.986}\\
+\hspace{1em}B0 millions of eggs & \textcolor{black}{1190} & \textcolor{black}{1199.98} & \textcolor{black}{1166.44} & \textcolor{black}{1228.11} & \textcolor{black}{1241.2}\\
+\hspace{1em}B2025 millions of eggs & \textcolor{black}{477.63} & \textcolor{black}{471.858} & \textcolor{black}{393.043} & \textcolor{black}{469.146} & \textcolor{black}{549.181}\\
+\hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.401} & \textcolor{black}{0.393} & \textcolor{black}{0.337} & \textcolor{black}{0.382} & \textcolor{black}{0.442}\\
+\hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.357} & \textcolor{black}{0.365} & \textcolor{black}{0.427} & \textcolor{black}{0.372} & \textcolor{black}{0.316}\\
+\bottomrule
+
+\end{longtable}
+
+\endgroup{}
+
 
 \end{landscape}
 
@@ -5000,11 +5041,11 @@ length composition inclusion sensitivities (2 of 2).}
 
 \centering{
 
-\includegraphics{figures/sensitivities/age_compscompare2_spawnbio_uncertainty.png}
+\includegraphics{figures/sensitivities/age_comps_1compare2_spawnbio_uncertainty.png}
 
 }
 
-\caption{\label{fig-sens_age_spout}Spawning output (millions of eggs)
+\caption{\label{fig-sens_age1_spout}Spawning output (millions of eggs)
 across age composition inclusion sensitivities.}
 
 \end{figure}%
@@ -5013,11 +5054,37 @@ across age composition inclusion sensitivities.}
 
 \centering{
 
-\includegraphics{figures/sensitivities/age_compscompare4_Bratio_uncertainty.png}
+\includegraphics{figures/sensitivities/age_comps_1compare4_Bratio_uncertainty.png}
 
 }
 
-\caption{\label{fig-sens_age_status}Relative spawning output across age
+\caption{\label{fig-sens_age1_status}Relative spawning output across age
+composition inclusion sensitivities.}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{figures/sensitivities/age_comps_2compare2_spawnbio_uncertainty.png}
+
+}
+
+\caption{\label{fig-sens_age2_spout}Spawning output (millions of eggs)
+across age composition inclusion sensitivities.}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{figures/sensitivities/age_comps_2compare4_Bratio_uncertainty.png}
+
+}
+
+\caption{\label{fig-sens_age2_status}Relative spawning output across age
 composition inclusion sensitivities.}
 
 \end{figure}%
