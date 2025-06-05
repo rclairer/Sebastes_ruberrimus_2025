@@ -183,7 +183,7 @@ cat("\n\\end{landscape}\n")
 #| label: tbl-sampling-effort-triennial
 #| echo: false
 #| warning: false
-#| tbl-cap: "Summary of sampling effort within triennial survey, with total and yelloweye positive hauls summarized by area."
+#| tbl-cap: "Summary of sampling effort within triennial survey, with total and Yelloweye positive hauls summarized by area."
 
 # This data is directly taken from the pdf of the last assessment report
 sampling_tri <- data.frame(
@@ -224,7 +224,7 @@ data_wide |>
 #| label: tbl-sampling-effort-nwfsc
 #| echo: false
 #| warning: false
-#| tbl-cap: "Summary of sampling effort within NWFSC trawl survey, with total and yelloweye positive hauls summarized by area."
+#| tbl-cap: "Summary of sampling effort within the WCGBTS, with total and Yelloweye positive hauls summarized by area."
 
 data_wide <- readRDS(here::here("report", "tables", "tbl-sampling-effort-nwfsc.rds")) |>
   tidyr::pivot_wider(names_from = "area", values_from = c(trawl.count, positive.trawl.count), names_glue = "{area}_{.value}") |>
