@@ -411,7 +411,7 @@ table_sens(len_comps1)
 cat("\n\\end{landscape}\n") 
 ```
 
-{{< pagebreak >}}
+\clearpage
 
 ```{r}
 #| label: tbl-sensitivities-like-comps-len2
