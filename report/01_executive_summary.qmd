@@ -35,12 +35,14 @@ knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 ::: landscape
 ```{r, tbl-es-catches, results = "asis"}
 #| label: tbl-es-catches
+#| eval: true
 #| warning: false
 #| echo: false
 #| tbl-cap: "Recent catches (mt) by fleet and total catch (mt) summed across fleets." 
 #| tbl-pos: H
 
 cat("\\begin{landscape}\n")
+cat("\\begin{flushleft}\n")  # or use \\aggedright if you prfer
 
 catch_table |>
   dplyr::filter(Year > 2014) |>
@@ -52,6 +54,7 @@ catch_table |>
    ) |>
    gt::as_latex()
 
+cat("\\end{flushleft}\n")
 cat("\n\\end{landscape}\n")
 
 # changed to csv file until r4ss gets fixed
@@ -364,6 +367,7 @@ Recent trends in total catch relative to management guidelines is available in @
 #| tbl-cap: "Recent trend in the overfishing limits (OFL), the acceptable biological catches (ABCs), the annual catch limits (ACLs), and the total dead catch (landings + discards) all in metric tons (mt)."
 #| tbl-pos: H
 
+#cat("\\begin{landscape}\n")
 
 recent_management_table |>
    gt::gt() |>
@@ -372,6 +376,9 @@ recent_management_table |>
      latex.use_longtable = TRUE
    ) |>
    gt::as_latex()
+
+#cat("\n\\end{landscape}\n")
+
 # changed to csv file until r4ss gets fixed
 
 #yelloweye_management <- read.csv("tables/yelloweye_management.csv")
@@ -417,7 +424,7 @@ This section will be updated after SSC GFSC review.
 #| tbl-cap: !expr if(eval_tables) projections_cap 
 #| tbl-pos: H
 
-#cat("\\begin{landscape}\n")
+cat("\\begin{landscape}\n")
 
 projections_table |>
   gt::gt() |>
@@ -445,7 +452,7 @@ projections_table |>
   ) |>
   gt::as_latex()
 
-#cat("\n\\end{landscape}\n")
+cat("\n\\end{landscape}\n")
 ```
 
 :::
