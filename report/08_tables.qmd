@@ -372,6 +372,7 @@ kableExtra::kable(
 #| tbl-cap: "Base model sensitivity to the removal of data sources (indices)."
 
 cat("\\begin{landscape}\n")
+cat("\\begin{flushleft}\n") # trying to make it fit better
 
 source(here::here("Rcode/table_sens.R"))
 indices <- read.csv(here::here("report", "figures", "sensitivities", "indices_table.csv"))
@@ -384,6 +385,7 @@ names(indices) <- c("Label","Base","- CA REC","- OR REC","- WA REC","- CA CPFV",
 
 table_sens(indices)
 
+cat("\\end{flushleft}\n")
 cat("\n\\end{landscape}\n") 
 ```
 
@@ -442,6 +444,7 @@ cat("\n\\end{landscape}\n")
 #| tbl-cap: "Base model sensitivity to the removal of data sources (age compositional data)."
 
 cat("\\begin{landscape}\n")
+cat("\\begin{flushleft}\n")
 
 source(here::here("Rcode/table_sens.R"))
 age_comps <- read.csv(here::here("report", "figures", "sensitivities", "age_comps_table.csv"))
@@ -450,6 +453,7 @@ names(age_comps) <-c("Label","Base","- CA NONTWL","- CA REC","- ORWA TWL","- ORW
 
 table_sens(age_comps)
 
+cat("\\end{flushleft}\n")
 cat("\n\\end{landscape}\n") 
 ```
 
