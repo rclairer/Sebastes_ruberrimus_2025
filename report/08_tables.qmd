@@ -446,7 +446,7 @@ cat("\n\\end{landscape}\n")
 cat("\\begin{landscape}\n")
 
 source(here::here("Rcode/table_sens.R"))
-age_comps_1 <- read.csv(here::here("report", "figures", "sensitivities", "age_comps_table_1.csv"))
+age_comps_1 <- read.csv(here::here("report", "figures", "sensitivities", "age_comps_1_table.csv"))
 
 names(age_comps_1) <-c("Label","Base","- CA NONTWL","- CA REC","- ORWA TWL","- ORWA NONTWL","- OR REC","- WA REC")
 
@@ -468,7 +468,7 @@ cat("\n\\end{landscape}\n")
 cat("\\begin{landscape}\n")
 
 source(here::here("Rcode/table_sens.R"))
-age_comps_2 <- read.csv(here::here("report", "figures", "sensitivities", "age_comps_table_2.csv"))
+age_comps_2 <- read.csv(here::here("report", "figures", "sensitivities", "age_comps_2_table.csv"))
 
 names(age_comps_2) <-c("Label","Base","- WCGBTS","- IPHC","No age comps","McAllister & Ianelli")
 
