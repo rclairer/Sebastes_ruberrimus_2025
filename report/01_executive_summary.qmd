@@ -42,6 +42,7 @@ knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 #| tbl-pos: H
 
 cat("\\begin{landscape}\n")
+cat("\\begin{flushleft}\n")  # or use \\aggedright if you prfer
 
 catch_table |>
   dplyr::filter(Year > 2014) |>
@@ -53,6 +54,7 @@ catch_table |>
    ) |>
    gt::as_latex()
 
+cat("\\end{flushleft}\n")
 cat("\n\\end{landscape}\n")
 
 # changed to csv file until r4ss gets fixed
