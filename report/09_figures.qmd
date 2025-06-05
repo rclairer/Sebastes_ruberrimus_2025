@@ -107,7 +107,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Quantile-quantile plot for the sdmTMB model fit for the NWFSC West Coast Groundfish Bottom Trawl Survey (WCGBTS) index."
+#| fig-cap: "Quantile-quantile plot for the sdmTMB model fit for the West Coast Groundfish Bottom Trawl Survey (WCGBTS) index."
 
 knitr::include_graphics(
     "figures/indices/wcgbts_qq.png"
@@ -119,7 +119,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Comparison of the 2017 NWFSC West Coast Groundfish Bottom Trawl Survey (WCGBTS) and the current WCBTS index of abundance."
+#| fig-cap: "Comparison of the 2017 West Coast Groundfish Bottom Trawl Survey (WCGBTS) and the current WCBTS index of abundance."
 #| out.width: "120%"
 
 knitr::include_graphics(
@@ -230,7 +230,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Annual unsexed conditional age-at-length data for the IPHC (1 of 2)."
+#| fig-cap: "Annual unsexed conditional age-at-length data for the IPHC (2 of 2)."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png"

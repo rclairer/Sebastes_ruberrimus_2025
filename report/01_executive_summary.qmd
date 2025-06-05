@@ -254,7 +254,7 @@ knitr::include_graphics("figures/r4ss_plots/plots/recdevs2_withbars.png")
 
 ```
 
-## Exploitation status{-}
+## Exploitation Status{-}
 
 This assessment estimates that the stock of Yelloweye Rockfish off the continental U.S. Pacific Coast is currently at `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="Bratio_2025")], 3)*100`% of its unexploited level. This is above the overfished threshold of SO25%, and slightly above the management target SO40% of unfished spawning output. Fishing intensity increased throughout the 1900s as the stock was fished down, until stabilizing at peak intensity between the mid1980s and late 1990s and substantially decreasing in the late 1990s and early 2000s. Fishing intensity has since been relatively stable (@fig-es-kobe, @tbl-es-spr). 
 
@@ -301,11 +301,11 @@ spr_es_table |>
   gt::as_latex()
 ```
 
-## Ecosystem considerations{-}
+## Ecosystem Considerations{-}
 
 No ecosystem or environmental data was used in the previous Yelloweye Rockfish assessment and no new data were considered for this update assessment. 
 
-## Reference points{-}
+## Reference Points{-}
 
 A list of estimates of the current state of the population, as well as reference points based on 1) a target unfished spawning output of 40%, 2) a spawning potential ratio of 0.5, and 3) the model estimate of maximum sustainable yield, are all listed in @tbl-ref-points-es-1. Unfished spawning stock output for Yelloweye Rockfish was estimated to be `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="SSB_Virgin")], 3)` million eggs (95% confidence interval: 1,048.1 - 1,331.9 million eggs). The management target for Yelloweye Rockfish is defined as 40% of the unfished spawning output (SO40%), which is estimated by the model to be 476 million eggs (95% confidence interval: 419 - 533), which corresponds to an exploitation rate of 0.026. This harvest rate provides an equilibrium yield of 122 mt at SO40% (95% confidence interval: 108 - 137 mt).
 
@@ -361,7 +361,7 @@ reference_points_table |>
 
 \clearpage
 
-## Management performance{-}
+## Management Performance{-}
 
 Recent trends in total catch relative to management guidelines is available in @tbl-es-management and shows that total catch of Yelloweye Rockfish has remained below both the \gls{ofl} and \gls{acl} in each year since the previous assessment. Catch in @tbl-es-management combines the two areas in this model as catch limits for Yelloweye Rockfish are managed as a single coast wide unit and includes both landings and estimated discard mortality.
 
@@ -416,7 +416,7 @@ recent_management_table |>
 
 ```
 
-## Harvest projections{-}
+## Harvest Projections{-}
 
 This section will be updated after SSC GFSC review.
 
@@ -466,7 +466,7 @@ cat("\n\\end{landscape}\n")
 :::
 
 \clearpage
-## Decision table{-}
+## Decision Table{-}
 
 This section will be updated after SSC GFSC review.
 
@@ -482,11 +482,11 @@ This section will be updated after SSC GFSC review.
 
 ```
 
-## Scientific uncertainty{-}
+## Scientific Uncertainty{-}
 
 The model estimate of the log-scale standard deviation of the 2025 spawning output is `r mod_out$Pstar_sigma |> round(4)`. The model estimate of the log-scale standard deviation of the 2025 \gls{ofl} is `r mod_out$OFL_sigma |> round(4)`. Each of these are likely underestimates of overall uncertainty due to the necessity to fix several key population dynamics parameters (e.g. steepness and recruitment variance) and also because there is no explicit incorporation of model structural uncertainty (although see the decision table for alternative states of nature).
 
-## Research and data needs{-}
+## Research and Data Needs{-}
 
 Please refer to the 2017 benchmark assessment for a detailed list of research and data needs for Yelloweye Rockfish (@gertseva_stock_2017). In addition to those, the following research and recommendations could improve the ability of future stock assessments to determine the status and productivity of the Yelloweye Rockfish population:
 
@@ -494,7 +494,7 @@ Please refer to the 2017 benchmark assessment for a detailed list of research an
 -	Expand the IPHC age composition bins to an older maximum age for the IPHC age composition data to spread out the distribution of length data in the oldest age bins for conditional age-at-length.
 - Explore potential indices of abundance in untrawlable areas.
 
-## Rebuilding projections{-}
+## Rebuilding Projections{-}
 
 This section will be updated after SSC GFSC review.
 
