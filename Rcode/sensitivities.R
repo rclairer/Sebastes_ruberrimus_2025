@@ -1149,7 +1149,7 @@ length_comps_2 <- data.frame(
   )
 )
 
-age_comps <- data.frame(
+age_comps_1 <- data.frame(
   dir = c(
 
     'index_and_comp_data/23_no_CA_NONTWL_ages',
@@ -1157,11 +1157,11 @@ age_comps <- data.frame(
     'index_and_comp_data/25_no_ORWA_TWL_ages',
     'index_and_comp_data/26_no_ORWA_NON-TWL_ages',
     'index_and_comp_data/27_no_OR_dockside_ages',
-    'index_and_comp_data/28_no_WA_dockside_ages',
-    'index_and_comp_data/29_no_NWFSC_ages',
-    'index_and_comp_data/30_no_IPHC_ages',
-    'index_and_comp_data/31_no_age_comps',
-    'model_specs/54_M_I_weighting'
+    'index_and_comp_data/28_no_WA_dockside_ages'
+    #'index_and_comp_data/29_no_NWFSC_ages',
+    #'index_and_comp_data/30_no_IPHC_ages',
+    #'index_and_comp_data/31_no_age_comps',
+    #'model_specs/54_M_I_weighting'
   ),
   pretty = c(
     '- CA NONTWL age comps',
@@ -1169,7 +1169,35 @@ age_comps <- data.frame(
     '- ORWA TWL age comps',
     '- ORWA NONTWL age comps',
     '- OR REC age comps',
-    '- WA REC age comps',
+    '- WA REC age comps'
+    #'- NWFSC bottom trawl age comps',
+    #'- IPHC age comps',
+    #'- No age comps',
+    #'McAllister & Ianelli weighting'
+  )
+)
+
+age_comps_2 <- data.frame(
+  dir = c(
+    
+    #'index_and_comp_data/23_no_CA_NONTWL_ages',
+    #'index_and_comp_data/24_no_CA_REC_ages',
+    #'index_and_comp_data/25_no_ORWA_TWL_ages',
+    #'index_and_comp_data/26_no_ORWA_NON-TWL_ages',
+    #'index_and_comp_data/27_no_OR_dockside_ages',
+    #'index_and_comp_data/28_no_WA_dockside_ages',
+    'index_and_comp_data/29_no_NWFSC_ages',
+    'index_and_comp_data/30_no_IPHC_ages',
+    'index_and_comp_data/31_no_age_comps',
+    'model_specs/54_M_I_weighting'
+  ),
+  pretty = c(
+    #'- CA NONTWL age comps',
+    #'- CA REC age comps',
+    #'- ORWA TWL age comps',
+    #'- ORWA NONTWL age comps',
+    #'- OR REC age comps',
+    #'- WA REC age comps',
     '- NWFSC bottom trawl age comps',
     '- IPHC age comps',
     '- No age comps',
@@ -1178,7 +1206,9 @@ age_comps <- data.frame(
 )
 
 
-sens_names <- bind_rows(modeling, indices, age_comps, length_comps_1, length_comps_2)
+sens_names <- bind_rows(modeling, indices, 
+                        length_comps_1, length_comps_2,
+                        age_comps_1,age_comps_2)
 
 big_sensitivity_output <- SSgetoutput(
   dirvec = file.path(
@@ -1199,9 +1229,10 @@ which(sapply(big_sensitivity_output, length) < 180) # all lengths should be >180
 sens_names_ls <- list(
   modeling = modeling,
   indices = indices,
-  age_comps = age_comps,
   length_comps_1 = length_comps_1,
-  length_comps_2 = length_comps_2
+  length_comps_2 = length_comps_2,
+  age_comps_1 = age_comps_1,
+  age_comps_2 = age_comps_2
 )
 
 outdir <- 'report/figures/sensitivities'

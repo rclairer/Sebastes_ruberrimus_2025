@@ -32,7 +32,6 @@ knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 
 \clearpage
 
-::: landscape
 ```{r, tbl-es-catches, results = "asis"}
 #| label: tbl-es-catches
 #| eval: true
@@ -42,16 +41,17 @@ knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 #| tbl-pos: H
 
 cat("\\begin{landscape}\n")
-cat("\\begin{flushleft}\n")  # or use \\aggedright if you prfer
 
 catch_table |>
   dplyr::filter(Year > 2014) |>
  gt::gt() |>
+  gt::tab_options(
+    table.font.size = 12) |>
   gt::cols_align(
     align = "center"
   ) |>
   gt::cols_width(
-    everything() ~ px(75)
+    everything() ~ px(50)
   ) |>
   gt::as_latex()
 
@@ -62,7 +62,6 @@ catch_table |>
 #   ) |>
 #   gt::as_latex()
 
-cat("\\end{flushleft}\n")
 cat("\n\\end{landscape}\n")
 
 # changed to csv file until r4ss gets fixed
@@ -99,7 +98,6 @@ cat("\n\\end{landscape}\n")
 #  gt::as_latex()
 
 ```
-:::
 
 \clearpage
 
