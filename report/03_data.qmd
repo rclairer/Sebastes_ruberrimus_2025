@@ -8,7 +8,7 @@ Removals:
 
 - Post-2016 landings and discards were added for all three states for the commercial and recreational fleets. 
 - A new Oregon historical recreational catch reconstruction was incorporated, which covered 1979 - 2000. 
-- A new Washington historical recreational catch reconstruction was provided by \gls{wdfw} and included changes to data from 1990-2016.
+- A new Washington historical recreational catch reconstruction was provided by \gls{wdfw} and included changes to data from 1990 - 2016.
 
 Composition Data: 
 
@@ -26,7 +26,7 @@ Indices of Abundance:
 
 Biological Data: 
 
-- Length-weight relationship parameters were updated to include all the recent (2017 - 2024) fishery-independent data.
+- Length-weight relationship parameters were updated to include all the recent (2017 - 2024) \gls{indexwc} data.
 - Ageing error matrices were unchanged but some Oregon recreation ages were assigned the wrong ageing error in the 2017 assessment and were corrected based on ODFW recommendations. 
 
 ## Fishery-Dependent Data 
@@ -39,17 +39,17 @@ Updated fishery-dependent data, including removals, length and age compositions,
 
 A summary of total removals are provided in @tbl-all_removals and @fig-catch.
 
-Recent commercial landings (2017-2024) were obtained from [\gls{pacfin}](www.pacfin.psmfc.org) for California, Oregon and Washington. For the period from 2016 through 2023, updated \gls{wcgop} discard estimates were added to \gls{pacfin} landings by adding the annual dead discard mortality rate for the commercial sector in the \gls{gemm} recorded discards to obtain the total catch of Yelloweye Rockfish within commercial fleets. At this time no \gls{wcgop} data were available for 2024, so we used the average total discard for 2021-2023 to approximate total 2024 discards for each commercial fleet.  
+Recent commercial landings (2017 - 2024) were obtained from [\gls{pacfin}](www.pacfin.psmfc.org) for California, Oregon and Washington. For the period from 2016 through 2023, updated \gls{wcgop} discard estimates were added to \gls{pacfin} landings by adding the annual dead discard mortality rate for the commercial sector in the \gls{gemm} recorded discards to obtain the total catch of Yelloweye Rockfish within commercial fleets. At this time no \gls{wcgop} data were available for 2024, so we used the average total discard for 2021 - 2023 to approximate total 2024 discards for each commercial fleet.  
 
 Bycatch for the At-Sea Pacific Hake fleet (A-SHOP) was updated from 2017 through 2024.
 
-Recreational removals from [\gls{recfin}](www.recfin.org) were updated for California, Oregon and Washington from 2017 - 2024. \gls{recfin} removals include an estimate of discard mortality and represent total estimated removals. The (\gls{odfw}) provided updated historical recreational removals for Oregon from 1979 through 2000 [@Whitman_2024]. The Washington Department of Fish and Wildlife (\gls{wdfw}) provided updated historical recreational removals (1967-1989) and \gls{osp} estimates (1990-2001). The historical recreational removals for 1971, 1974, and 1979 were not available and were filled in as the average of the two preceding and two following years. Historical data were filtered to marine catch areas 1-4. For \gls{osp} catch estimates, data included marine catch areas 1-4, up to the Bonilla-Tatoosh line. \gls{wdfw} also provided updated catch estimates for 2002-2004, which did not include discard mortality. To adjust for this, we multiplied the average discard mortality rate from the following five years (2005-2009) by the total discards to calculate total mortality for those years.  
+Recreational removals from [\gls{recfin}](www.recfin.org) were updated for California, Oregon and Washington from 2017 - 2024. \gls{recfin} removals include an estimate of discard mortality and represent total estimated removals. The \gls{odfw} provided updated historical recreational removals for Oregon from 1979 through 2000 [@Whitman_2024]. The Washington Department of Fish and Wildlife (\gls{wdfw}) provided updated historical recreational removals (1967 - 1989) and \gls{osp} estimates (1990 - 2001). The historical recreational removals for 1971, 1974, and 1979 were not available and were filled in as the average of the two preceding and two following years. Historical data were filtered to marine catch areas 1-4. For \gls{osp} catch estimates, data included marine catch areas 1-4, up to the Bonilla-Tatoosh line. \gls{wdfw} also provided updated catch estimates for 2002 - 2004, which did not include discard mortality. To adjust for this, we multiplied the average discard mortality rate from the following five years (2005 - 2009) by the total discards to calculate total mortality for those years.  
 
 ### Fishery-Dependent Length and Age Compositions {#sec-fd_comps}
 
 Updated length composition data for commercial catches (trawl and non-trawl) were available from \gls{pacfin} (extracted April 4, 2025) and from \gls{wcgop} for all three states. These include the years 2017 - 2024 for \gls{pacfin} data and 2017 - 2023 for \gls{wcgop} data. Updated recreational length composition data were available from \gls{recfin} (extracted April 4, 2025) for all three states, and include years 2017 - 2024. Additionally, updated length compositions from the California On-Board CPFV Observer Sampling Program and from the Ocean Recreational Fishery Survey (ORFS, previously the Oregon onboard recreational observer program), both of which measure fish discarded at sea, were also available up through 2024 on \gls{recfin}. 
 
-New commercial age composition data from \gls{pacfin} and \gls{wcgop} for 2017-2024 was included for Oregon and Washington. No new commercial age data were available from California. New recreational age composition data was available from \gls{recfin} from 2017 - 2024 for Washington only (extracted May 13, 2025). These data were collected in the \gls{osp}. There were also some historical updates to Oregon and Washington recreational age data provided by the state representatives.
+New commercial age composition data from \gls{pacfin} and \gls{wcgop} for 2017 - 2024 was included for Oregon and Washington. No new commercial age data were available from California. New recreational age composition data was available from \gls{recfin} from 2017 - 2024 for Washington only (extracted May 13, 2025). These data were collected in the \gls{osp}. There were also some historical updates to Oregon and Washington recreational age data provided by the state representatives.
 
 In addition to extending the length data time series, we also fixed minor data errors found in the 2017 assessment. For length composition data, years with small samples sizes (N = 1) were excluded. There were no changes in how commercial length sample numbers were calculated. However, for all recent recreational fleet length data, the total number of trips information used to calculate the number of samples was not available. Using data from the 2017 assessment, we built fleet-specific linear regressions to approximate the relationship of samples to the number of fish. Then, we applied that regression to the total number of fish for data between 2017 and 2024 to estimate the number of samples. A future benchmark assessment should investigate how to get the number of sampled trips from \gls{recfin} to calculate the number of samples using the @stewart_bootstrapping_2014 method.
 
@@ -57,8 +57,9 @@ We also found that \gls{caal} data from the 2017 assessment had all sample sizes
 
 #### Fleet Specific Changes in the Compositional Data
 
-- Fleet 2. California Non-Trawl:
-  - For ages, all the \gls{caal} and marginal ages (used to explore fits only, not included in the likelihood) data were recalculated using the most recent age data pulled from \gls{pacfin} and \gls{wcgop}, to account for age doubling in 2017.
+Fleet 2. California Non-Trawl:
+
+- For ages, all the \gls{caal} and marginal ages (used to explore fits only, not included in the likelihood) data were recalculated using the most recent age data pulled from \gls{pacfin} and \gls{wcgop}, to account for age doubling in 2017.
 
 Fleet 3. California Recreational:
 
@@ -66,7 +67,7 @@ Fleet 3. California Recreational:
 - \gls{caal} data for 2009-2016 were doubled, but the raw data we received from \gls{recfin} were correct, without doubled ages, so this time series was replaced with newly pulled data. 
 - We then re-built the marginal age data from the updated \gls{caal} for both time periods because there were errors in previous data entry and sample number calculations.
 
-Fleet 4. Oregon/Washington Trawl & Fleet 5. Oregon/Washington Non-Trawl:
+Fleet 4 & 5. Oregon/Washington Trawl & Non-Trawl:
 
 - Both the OR/WA commercial fleets had all \gls{caal} and marginal age (not included in the likelihood) data recalculated using the most recent age data pulled from \gls{pacfin} and \gls{wcgop}, to account for age doubling in 2017.
 
@@ -74,7 +75,7 @@ Fleet 6. Oregon Recreational:
 
 - \gls{caal} data sample sizes and proportions were doubled so numbers from 1979 - 2017 were divided by two. 
 - We included 2015 unsexed ages. 
-- We also reassigned the aging error for this fleet for the correct years. The ODFW data representative confirmed that all fish from 1979-2002 were aged by \gls{wdfw} (ageing error 1), and fish from 2009-2016 were aged by the NWFSC (ageing error 2). No new ages since 2016 were provided. Marginal data were then recalculated from the updated \gls{caal} so that the ageing error labels and number of samples matched.
+- We also reassigned the aging error for this fleet for the correct years. The ODFW data representative confirmed that all fish from 1979 - 2002 were aged by \gls{wdfw} (ageing error 1), and fish from 2009 - 2016 were aged by the NWFSC (ageing error 2). No new ages since 2016 were provided. Marginal data were then recalculated from the updated \gls{caal} so that the ageing error labels and number of samples matched.
 
 Fleet 7. Washington Recreational:
 
@@ -84,11 +85,11 @@ Fleet 7. Washington Recreational:
 
 Two fishery-dependent indices of abundance were updated with new data and up-to-date methodology. These are detailed below. Otherwise, indices of abundances are unchanged from the previous assessment; please refer to the most recent benchmark assessment [@gertseva_stock_2017] for additional information. 
 
-#### Oregon Onboard Observer CPUE, 2001 – 2024 - 
+#### Oregon Onboard Observer CPUE, 2001 – 2024 
 
-The Oregon Onboard Observer (now Ocean Recreational Fisheries Survey, or ORFS) index was updated from the previous Yelloweye Rockfish assessment, and updated drift-level catch-per-unit-effort data was obtained from ODFW through the end of 2024. The database contains information on catch by species (number of retained and released fish), effort (angler hours), sample depth, and bag limits and other relevant regulations [@monk_documentation_2013].  
+The Oregon Onboard Observer (now Ocean Recreational Fisheries Survey, or ORFS) index was updated from the previous Yelloweye Rockfish assessment, and updated drift-level catch-per-unit-effort data were obtained from ODFW through the end of 2024. The database contains information on catch by species (number of retained and released fish), effort (angler hours), sample depth, and bag limits and other relevant regulations [@monk_documentation_2013].  
 
-The unfiltered data set contained 18,410 drifts. Multiple standardized filters are applied to remove outliers and data unsuitable for an index. These filters are very similar to filters applied in 2017 and include removing drifts without data needed for CPUE information, long drifts (above 95th percentile), drifts in deeper waters (more than 64fm, 99th percentile), drifts that were targeting primarily mid-water species, and drifts outside of the legal fishing depth (with a five fm buffer). Additionally, years with extremely low sample sizes (<50) were excluded. Finally, drifts on charters from Port Orford were removed due to small sample sizes. The final filtered data set included 6,839 trips with a 6.1% encounter rate for Yelloweye Rockfish [@tbl-yelloweye_percent_pos_ORFS]. 
+The unfiltered data set contained 18,410 drifts. Multiple standardized filters are applied to remove outliers and data unsuitable for an index. These filters are very similar to filters applied in 2017 and include removing drifts without data needed for CPUE information, long drifts (above 95th percentile), drifts in deeper waters (more than 64fm, 99th percentile), drifts that were targeting primarily mid-water species, and drifts outside of the legal fishing depth (with a five fathom buffer). Additionally, years with extremely low sample sizes (< 50) were excluded. Finally, drifts on charters from Port Orford were removed due to small sample sizes. The final filtered data set included 6,839 trips with a 6.1% encounter rate for Yelloweye Rockfish [@tbl-yelloweye_percent_pos_ORFS]. 
 
 Covariates evaluated included year, month, port, the open depths to fishing (all depths or inside 20/30/40fm), and a five fm-binned depth of drift covariate. This is in contrast to the 2017 index, which was only able to evaluate a year covariate. The covariates listed above are standard to evaluate for this index in other assessments. Negative binomial models were fit using \gls{sdmtmb} version 0.6.0 [@Anderson_2024_SRP]) to the drift-level data (catch with a log offset for adjusted angler hours). A model without the open fishing depths or month was selected as the best fit model by AIC [@tbl-yelloweye_model_selection_ORFS]. Acceptable diagnostics for the model were achieved, as evidenced by passing the sanity function in \gls{sdmtmb} (@fig-orfs_qqplot). The index of abundance is shown in @fig-ORFS_index. A comparison to the ORFS index used in the previous assessment indicates that despite the change in modeling approach and the covariates included, most years overlap between the two indices and similar trends are observed [@fig-ORFS_comp]. The updated index has reduced within-year variance and a lack of extreme swings in the standardized index value (e.g. 2013) relative to the index from 2017.
 
