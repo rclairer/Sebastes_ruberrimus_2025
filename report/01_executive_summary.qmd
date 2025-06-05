@@ -365,7 +365,7 @@ Recent trends in total catch relative to management guidelines is available in @
 #| tbl-cap: "Recent trend in the overfishing limits (OFL), the acceptable biological catches (ABCs), the annual catch limits (ACLs), and the total dead catch (landings + discards) all in metric tons (mt)."
 #| tbl-pos: H
 
-cat("\\begin{landscape}\n")
+#cat("\\begin{landscape}\n")
 
 recent_management_table |>
    gt::gt() |>
@@ -375,7 +375,7 @@ recent_management_table |>
    ) |>
    gt::as_latex()
 
-cat("\n\\end{landscape}\n")
+#cat("\n\\end{landscape}\n")
 
 # changed to csv file until r4ss gets fixed
 
@@ -422,7 +422,7 @@ This section will be updated after SSC GFSC review.
 #| tbl-cap: !expr if(eval_tables) projections_cap 
 #| tbl-pos: H
 
-#cat("\\begin{landscape}\n")
+cat("\\begin{landscape}\n")
 
 projections_table |>
   gt::gt() |>
@@ -450,7 +450,7 @@ projections_table |>
   ) |>
   gt::as_latex()
 
-#cat("\n\\end{landscape}\n")
+cat("\n\\end{landscape}\n")
 ```
 
 :::
