@@ -35,6 +35,7 @@ knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 ::: landscape
 ```{r, tbl-es-catches, results = "asis"}
 #| label: tbl-es-catches
+#| eval: true
 #| warning: false
 #| echo: false
 #| tbl-cap: "Recent catches (mt) by fleet and total catch (mt) summed across fleets." 

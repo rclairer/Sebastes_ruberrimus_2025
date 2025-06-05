@@ -20,8 +20,8 @@
 \usepackage{lmodern}
 \ifPDFTeX\else  
     % xetex/luatex font selection
-    \setmainfont[]{Latin Modern Sans}
-    \setsansfont[]{Latin Modern Sans}
+  \setmainfont[]{Latin Modern Sans}
+  \setsansfont[]{Latin Modern Sans}
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -43,28 +43,14 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \setcounter{secnumdepth}{5}
 % Make \paragraph and \subparagraph free-standing
-\makeatletter
 \ifx\paragraph\undefined\else
   \let\oldparagraph\paragraph
-  \renewcommand{\paragraph}{
-    \@ifstar
-      \xxxParagraphStar
-      \xxxParagraphNoStar
-  }
-  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
-  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
 \fi
 \ifx\subparagraph\undefined\else
   \let\oldsubparagraph\subparagraph
-  \renewcommand{\subparagraph}{
-    \@ifstar
-      \xxxSubParagraphStar
-      \xxxSubParagraphNoStar
-  }
-  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
-  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
-\makeatother
 
 
 \providecommand{\tightlist}{%
@@ -218,7 +204,6 @@
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
-
 \ifLuaTeX
 \usepackage[bidi=basic]{babel}
 \else
@@ -250,14 +235,13 @@
   urlcolor={Blue},
   pdfcreator={LaTeX via pandoc}}
 
-
 \title{Status of Yelloweye Rockfish off the U.S. West Coast in 2025}
 \author{Morgan A. Johnston* \and R. Claire Rosemond* \and Alison
 Whitman \and Elizabeth Perl \and Matheus de Barros \and Juliette
 Champagnat \and Abby Schamp \and Samantha Schiano \and Fabio Prior
 Caltabellotta \and Vladlena Gertseva \and Ian Taylor \and Kiva
 Oken \and Aaron Berger}
-\date{2025-06-04}
+\date{2025-06-05}
 
 \begin{document}
   \begin{titlepage}
@@ -446,7 +430,6 @@ Oken \and Aaron Berger}
 \setcounter{tocdepth}{3}
 \tableofcontents
 }
-
 \pagenumbering{roman}
 \setcounter{page}{1}
 
@@ -483,411 +466,6 @@ provisional and do not represent any determination or policy of NOAA or
 the Department of Commerce.
 
 \newpage{}
-
-\begin{verbatim}
-$SS_version
-[1] "3.30.23.2;_safe;_compile_date:_Apr 17 2025;_Stock_Synthesis_by_Richard_Methot_(NOAA)_using_ADMB_13.2"
-
-$SS_versionshort
-[1] "3.30"
-
-$SS_versionNumeric
-[1] 3.3
-
-$StartTime
-[1] "StartTime: Thu May 29 17:06:30 2025"
-
-$RunTime
-[1] "0 hours, 21 minutes, 32 seconds."
-
-$Files_used
-[1] "Data_File: yelloweye_data.ss Control_File: yelloweye_control.ss"
-
-$log_det_hessian
-[1] 605.778
-
-$Final_phase
-[1] 8
-
-$N_iterations
-[1] 1427
-
-$Nwarnings
-[1] 7
-
-$warnings
-[1] "Note 1 Information: Max data length bin: 74  < max pop len bins: 88; so will accumulate larger pop len bins"                                               
-[2] "Note 2 Suggestion:  recr_dist_method 3 is simpler and takes 1 parm for each settlement"                                                                    
-[3] "Warning 1 : At least one block pattern ends in endyr. Check the output parameter value time series to see if the values in forecast years are as intended."
-[4] "Warning 2 : Minimum pop size bin:_8; is > L at Amin for sex: 1; Gpat: 1; L= 1.54445"                                                                       
-[5] "Warning 3 : Final gradient: 0.000557096 is larger than final_conv: 0.0001"                                                                                 
-[6] "Note 3 Information:  N parameters that are on or within 1% of min-max bound: 1; check results, variance may be suspect"                                    
-[7] " 3 warnings  and 3 notes "                                                                                                                                 
-
-$likelihoods_used
-                                            values lambdas
-TOTAL                                7874.77000000      NA
-Equil_catch                             0.00000000      NA
-Survey                                -54.70650000      NA
-Length_comp                          1387.28000000      NA
-Age_comp                             6526.61000000      NA
-Recruitment                            15.32860000    1.00
-InitEQ_Regime                           0.00000000    1.00
-Forecast_Recruitment                    0.00000000    1.00
-Parm_priors                             0.00000000    1.00
-Parm_softbounds                         0.00895664      NA
-Parm_devs                               0.00000000    1.00
-F_Ballpark                              0.24034500    1.00
-F_Ballpark(info_only)_1999_estF_tgtF    0.09937910    0.09
-Crash_Pen                               0.00000000    1.00
-
-$likelihoods_laplace
-                                      values lambdas
-NoBias_corr_Recruitment(info_only)  -55.9794       1
-Laplace_obj_fun(info_only)         7803.4600      NA
-
-$likelihoods_by_fleet
-              Label       ALL 1_CA_TWL 2_CA_NONTWL  3_CA_REC 4_ORWA_TWL
-212 Init_equ_lambda        NA    1.000      1.0000   1.00000     1.0000
-213   Init_equ_like    0.0000    0.000      0.0000   0.00000     0.0000
-214     Surv_lambda        NA    0.000      0.0000   1.00000     0.0000
-215       Surv_like  -54.7065    0.000      0.0000  -4.80443     0.0000
-216      Surv_N_use        NA    0.000      0.0000  15.00000     0.0000
-217     Surv_N_skip        NA    0.000      0.0000   0.00000     0.0000
-218   Length_lambda        NA    1.000      1.0000   1.00000     1.0000
-219     Length_like 1387.2800  138.497     92.3355 263.67700    82.2725
-220    Length_N_use        NA   38.000     44.0000  42.00000    29.0000
-221   Length_N_skip        NA    0.000      0.0000   0.00000     0.0000
-222      Age_lambda        NA    0.000      1.0000   1.00000     1.0000
-223        Age_like 6526.6100    0.000    126.2710 334.85200  1602.6000
-224       Age_N_use        NA    0.000     42.0000 102.00000   353.0000
-225      Age_N_skip        NA    0.000     10.0000  16.00000    23.0000
-    5_ORWA_NONTWL 6_OR_REC  7_WA_REC  8_CACPFV 9_OR_RECOB 10_TRI_ORWA
-212        1.0000    1.000   1.00000   1.00000     1.0000     1.00000
-213        0.0000    0.000   0.00000   0.00000     0.0000     0.00000
-214        0.0000    1.000   1.00000   1.00000     1.0000     1.00000
-215        0.0000  -29.243  -5.70765  -6.40195    -4.6242    -1.11697
-216        0.0000   36.000  20.00000  11.00000    17.0000     9.00000
-217        0.0000    0.000   0.00000   0.00000     0.0000     0.00000
-218        1.0000    1.000   1.00000   1.00000     1.0000     1.00000
-219       90.7785  181.749 118.28900 165.46000   106.5500    26.75160
-220       31.0000   43.000  26.00000  32.00000    20.0000     7.00000
-221        0.0000    0.000   0.00000   0.00000     0.0000     0.00000
-222        1.0000    1.000   1.00000   0.00000     0.0000     0.00000
-223      433.4050 1007.150 808.61000   0.00000     0.0000     0.00000
-224      266.0000  195.000 177.00000   0.00000     0.0000     0.00000
-225       23.0000   16.000  20.00000   0.00000     0.0000     0.00000
-    11_NWFSC_ORWA 12_IPHC_ORWA
-212       1.00000      1.00000
-213       0.00000      0.00000
-214       1.00000      1.00000
-215      -5.57326      2.76502
-216      21.00000     21.00000
-217       0.00000      0.00000
-218       1.00000      1.00000
-219      66.09200     54.82920
-220      21.00000     21.00000
-221       0.00000      0.00000
-222       1.00000      1.00000
-223    1370.26000    843.47400
-224     382.00000    531.00000
-225      21.00000     36.00000
-
-$N_estimated_parameters
-[1] 201
-
-$table_of_phases
-
--99 -50  -6  -5  -4  -3  -2  -1   1   2   3   4   5   6   7   8 
-  1  10   2  31  11   1   1   8   3   2   3  20  10   2 136  25 
-
-$estimated_non_dev_parameters
-                                           Value Phase    Min   Max       Init
-L_at_Amin_Fem_GP_1                     1.5481500     2   0.01  35.0  1.5444500
-L_at_Amax_Fem_GP_1                    61.3623000     2  40.00 120.0 61.3664000
-VonBert_K_Fem_GP_1                     0.0759256     1   0.01   0.2  0.0759253
-CV_young_Fem_GP_1                      0.1478850     3   0.01   0.5  0.1479200
-CV_old_Fem_GP_1                        0.0644086     7   0.01   0.5  0.0643925
-RecrDist_Area_2                        0.4729680     3  -4.00   4.0  0.4723950
-SR_LN(R0)                              5.4884700     3   3.00  15.0  5.4881300
-Impl_err_2025                          0.0000000     8  -1.00   1.0  0.0000000
-Impl_err_2026                          0.0000000     8  -1.00   1.0  0.0000000
-Impl_err_2027                          0.0000000     8  -1.00   1.0  0.0000000
-Impl_err_2028                          0.0000000     8  -1.00   1.0  0.0000000
-Impl_err_2029                          0.0000000     8  -1.00   1.0  0.0000000
-Impl_err_2030                          0.0000000     8  -1.00   1.0  0.0000000
-Impl_err_2031                          0.0000000     8  -1.00   1.0  0.0000000
-Impl_err_2032                          0.0000000     8  -1.00   1.0  0.0000000
-Impl_err_2033                          0.0000000     8  -1.00   1.0  0.0000000
-Impl_err_2034                          0.0000000     8  -1.00   1.0  0.0000000
-Impl_err_2035                          0.0000000     8  -1.00   1.0  0.0000000
-Impl_err_2036                          0.0000000     8  -1.00   1.0  0.0000000
-Q_extraSD_3_CA_REC(3)                  0.1219540     5   0.00   5.0  0.1219990
-LnQ_base_6_OR_REC(6)                  -9.1355500     1 -15.00  15.0 -9.1338100
-Q_extraSD_6_OR_REC(6)                  0.0841759     5   0.00   5.0  0.0841554
-Q_extraSD_7_WA_REC(7)                  0.3830820     5   0.00   5.0  0.3835360
-Q_extraSD_8_CACPFV(8)                  0.0965565     5   0.00   5.0  0.0965383
-Q_extraSD_9_OR_RECOB(9)                0.1648510     5   0.00   5.0  0.1648590
-Q_extraSD_10_TRI_ORWA(10)              0.1399160     5   0.00   5.0  0.1395990
-Q_extraSD_12_IPHC_ORWA(12)             0.5517640     5   0.00   5.0  0.5519040
-LnQ_base_6_OR_REC(6)_BLK2add_2004     -2.6651000     1  -4.00   4.0 -2.6650500
-Size_DblN_peak_1_CA_TWL(1)            43.9644000     4  20.00  60.0 43.9648000
-Size_DblN_ascend_se_1_CA_TWL(1)        5.1259700     4  -1.00   9.0  5.1259600
-Size_DblN_descend_se_1_CA_TWL(1)      18.2823000     5  -1.00  30.0 18.2831000
-Size_DblN_peak_2_CA_NONTWL(2)         44.6592000     4  20.00  60.0 44.6725000
-Size_DblN_ascend_se_2_CA_NONTWL(2)     5.2012200     4  -1.00   9.0  5.2022300
-Size_DblN_descend_se_2_CA_NONTWL(2)   17.3793000     5  -1.00  30.0 17.3791000
-Size_DblN_peak_3_CA_REC(3)            41.7138000     4  20.00  60.0 41.7128000
-Size_DblN_ascend_se_3_CA_REC(3)        5.2123200     4  -1.00   9.0  5.2121500
-Size_DblN_peak_4_ORWA_TWL(4)          41.9268000     4  20.00  60.0 41.9460000
-Size_DblN_ascend_se_4_ORWA_TWL(4)      5.4944100     4  -1.00   9.0  5.4956400
-Size_DblN_descend_se_4_ORWA_TWL(4)    18.2437000     5  -1.00  30.0 18.2395000
-Size_DblN_peak_5_ORWA_NONTWL(5)       50.8721000     4  20.00  60.0 50.8797000
-Size_DblN_ascend_se_5_ORWA_NONTWL(5)   5.4394600     4  -1.00   9.0  5.4398500
-Size_DblN_peak_6_OR_REC(6)            36.7208000     4  20.00  60.0 36.7290000
-Size_DblN_ascend_se_6_OR_REC(6)        4.1422300     4  -1.00   9.0  4.1432000
-Size_DblN_peak_7_WA_REC(7)            42.7552000     6  20.00  60.0 42.7628000
-Size_DblN_ascend_se_7_WA_REC(7)        4.3165700     6  -1.00   9.0  4.3175100
-Size_DblN_peak_9_OR_RECOB(9)          35.1214000     4  20.00  60.0 35.1235000
-Size_DblN_ascend_se_9_OR_RECOB(9)      4.6071100     4  -1.00   9.0  4.6072000
-Size_DblN_peak_10_TRI_ORWA(10)        79.9716000     4  20.00  80.0 79.9717000
-Size_DblN_ascend_se_10_TRI_ORWA(10)    7.0799400     4  -1.00   9.0  7.0795500
-Size_DblN_peak_11_NWFSC_ORWA(11)      48.8552000     4  20.00  60.0 48.8733000
-Size_DblN_ascend_se_11_NWFSC_ORWA(11)  6.2342700     4  -1.00   9.0  6.2350700
-Size_DblN_peak_12_IPHC_ORWA(12)       53.9882000     4  20.00  60.0 53.9958000
-Size_DblN_ascend_se_12_IPHC_ORWA(12)   4.1367400     4  -1.00   9.0  4.1375000
-                                      Status   Parm_StDev         Gradient
-L_at_Amin_Fem_GP_1                        OK   0.58181400 -0.0000237729000
-L_at_Amax_Fem_GP_1                        OK   0.22501200 -0.0002569350000
-VonBert_K_Fem_GP_1                        OK   0.00132714 -0.0001496400000
-CV_young_Fem_GP_1                         OK   0.00676421 -0.0000033617200
-CV_old_Fem_GP_1                           OK   0.00193725 -0.0000004034390
-RecrDist_Area_2                           OK   0.02350840 -0.0002301870000
-SR_LN(R0)                                 OK   0.06084550 -0.0005570950000
-Impl_err_2025                            act   0.00010000  0.0000000000000
-Impl_err_2026                            act   0.00010000  0.0000000000000
-Impl_err_2027                            act   0.00010000  0.0000000000000
-Impl_err_2028                            act   0.00010000  0.0000000000000
-Impl_err_2029                            act   0.00010000  0.0000000000000
-Impl_err_2030                            act   0.00010000  0.0000000000000
-Impl_err_2031                            act   0.00010000  0.0000000000000
-Impl_err_2032                            act   0.00010000  0.0000000000000
-Impl_err_2033                            act   0.00010000  0.0000000000000
-Impl_err_2034                            act   0.00010000  0.0000000000000
-Impl_err_2035                            act   0.00010000  0.0000000000000
-Impl_err_2036                            act   0.00010000  0.0000000000000
-Q_extraSD_3_CA_REC(3)                     OK   0.07803440 -0.0000039876400
-LnQ_base_6_OR_REC(6)                      OK   0.11091100 -0.0002825200000
-Q_extraSD_6_OR_REC(6)                     OK   0.02897510 -0.0000068352100
-Q_extraSD_7_WA_REC(7)                     OK   0.07625640 -0.0000108947000
-Q_extraSD_8_CACPFV(8)                     OK   0.07456620 -0.0000007525470
-Q_extraSD_9_OR_RECOB(9)                   OK   0.07923370 -0.0000029946200
-Q_extraSD_10_TRI_ORWA(10)                 OK   0.12188300  0.0000003429160
-Q_extraSD_12_IPHC_ORWA(12)                OK   0.10650800  0.0000014280600
-LnQ_base_6_OR_REC(6)_BLK2add_2004         OK   0.11159900 -0.0000639063000
-Size_DblN_peak_1_CA_TWL(1)                OK   3.30615000  0.0000212362000
-Size_DblN_ascend_se_1_CA_TWL(1)           OK   0.40407500 -0.0001125750000
-Size_DblN_descend_se_1_CA_TWL(1)          OK 151.70400000  0.0000000352366
-Size_DblN_peak_2_CA_NONTWL(2)             OK   2.48523000  0.0000166438000
-Size_DblN_ascend_se_2_CA_NONTWL(2)        OK   0.28051500 -0.0000541514000
-Size_DblN_descend_se_2_CA_NONTWL(2)       OK 171.44900000  0.0000010886800
-Size_DblN_peak_3_CA_REC(3)                OK   1.35482000 -0.0000048134300
-Size_DblN_ascend_se_3_CA_REC(3)           OK   0.14373900  0.0000032842300
-Size_DblN_peak_4_ORWA_TWL(4)              OK   3.03695000 -0.0000090425500
-Size_DblN_ascend_se_4_ORWA_TWL(4)         OK   0.34266600  0.0000271868000
-Size_DblN_descend_se_4_ORWA_TWL(4)        OK 152.46900000  0.0000003791700
-Size_DblN_peak_5_ORWA_NONTWL(5)           OK   1.47753000 -0.0000126335000
-Size_DblN_ascend_se_5_ORWA_NONTWL(5)      OK   0.14656300  0.0000298324000
-Size_DblN_peak_6_OR_REC(6)                OK   1.26781000  0.0000178959000
-Size_DblN_ascend_se_6_OR_REC(6)           OK   0.27987500 -0.0000140674000
-Size_DblN_peak_7_WA_REC(7)                OK   2.75354000 -0.0000000378847
-Size_DblN_ascend_se_7_WA_REC(7)           OK   0.51790400 -0.0000057450900
-Size_DblN_peak_9_OR_RECOB(9)              OK   1.62843000  0.0000042199500
-Size_DblN_ascend_se_9_OR_RECOB(9)         OK   0.29186800 -0.0000057021300
-Size_DblN_peak_10_TRI_ORWA(10)            HI   0.89926500  0.0000030834900
-Size_DblN_ascend_se_10_TRI_ORWA(10)       OK   0.26425500  0.0000033367000
-Size_DblN_peak_11_NWFSC_ORWA(11)          OK   5.59042000 -0.0000027020300
-Size_DblN_ascend_se_11_NWFSC_ORWA(11)     OK   0.38642500 -0.0000009594890
-Size_DblN_peak_12_IPHC_ORWA(12)           OK   1.21365000 -0.0000124892000
-Size_DblN_ascend_se_12_IPHC_ORWA(12)      OK   0.23314600  0.0000136462000
-                                       Pr_type Prior Pr_SD Pr_Like Afterbound
-L_at_Amin_Fem_GP_1                    No_prior    NA    NA      NA         OK
-L_at_Amax_Fem_GP_1                    No_prior    NA    NA      NA         OK
-VonBert_K_Fem_GP_1                    No_prior    NA    NA      NA         OK
-CV_young_Fem_GP_1                     No_prior    NA    NA      NA         OK
-CV_old_Fem_GP_1                       No_prior    NA    NA      NA         OK
-RecrDist_Area_2                       No_prior    NA    NA      NA         OK
-SR_LN(R0)                             No_prior    NA    NA      NA         OK
-Impl_err_2025                              dev    NA    NA      NA         OK
-Impl_err_2026                              dev    NA    NA      NA         OK
-Impl_err_2027                              dev    NA    NA      NA         OK
-Impl_err_2028                              dev    NA    NA      NA         OK
-Impl_err_2029                              dev    NA    NA      NA         OK
-Impl_err_2030                              dev    NA    NA      NA         OK
-Impl_err_2031                              dev    NA    NA      NA         OK
-Impl_err_2032                              dev    NA    NA      NA         OK
-Impl_err_2033                              dev    NA    NA      NA         OK
-Impl_err_2034                              dev    NA    NA      NA         OK
-Impl_err_2035                              dev    NA    NA      NA         OK
-Impl_err_2036                              dev    NA    NA      NA         OK
-Q_extraSD_3_CA_REC(3)                 No_prior    NA    NA      NA         OK
-LnQ_base_6_OR_REC(6)                  No_prior    NA    NA      NA         OK
-Q_extraSD_6_OR_REC(6)                 No_prior    NA    NA      NA         OK
-Q_extraSD_7_WA_REC(7)                 No_prior    NA    NA      NA         OK
-Q_extraSD_8_CACPFV(8)                 No_prior    NA    NA      NA         OK
-Q_extraSD_9_OR_RECOB(9)               No_prior    NA    NA      NA         OK
-Q_extraSD_10_TRI_ORWA(10)             No_prior    NA    NA      NA         OK
-Q_extraSD_12_IPHC_ORWA(12)            No_prior    NA    NA      NA         OK
-LnQ_base_6_OR_REC(6)_BLK2add_2004     No_prior    NA    NA      NA         OK
-Size_DblN_peak_1_CA_TWL(1)            No_prior    NA    NA      NA         OK
-Size_DblN_ascend_se_1_CA_TWL(1)       No_prior    NA    NA      NA         OK
-Size_DblN_descend_se_1_CA_TWL(1)      No_prior    NA    NA      NA         OK
-Size_DblN_peak_2_CA_NONTWL(2)         No_prior    NA    NA      NA         OK
-Size_DblN_ascend_se_2_CA_NONTWL(2)    No_prior    NA    NA      NA         OK
-Size_DblN_descend_se_2_CA_NONTWL(2)   No_prior    NA    NA      NA         OK
-Size_DblN_peak_3_CA_REC(3)            No_prior    NA    NA      NA         OK
-Size_DblN_ascend_se_3_CA_REC(3)       No_prior    NA    NA      NA         OK
-Size_DblN_peak_4_ORWA_TWL(4)          No_prior    NA    NA      NA         OK
-Size_DblN_ascend_se_4_ORWA_TWL(4)     No_prior    NA    NA      NA         OK
-Size_DblN_descend_se_4_ORWA_TWL(4)    No_prior    NA    NA      NA         OK
-Size_DblN_peak_5_ORWA_NONTWL(5)       No_prior    NA    NA      NA         OK
-Size_DblN_ascend_se_5_ORWA_NONTWL(5)  No_prior    NA    NA      NA         OK
-Size_DblN_peak_6_OR_REC(6)            No_prior    NA    NA      NA         OK
-Size_DblN_ascend_se_6_OR_REC(6)       No_prior    NA    NA      NA         OK
-Size_DblN_peak_7_WA_REC(7)            No_prior    NA    NA      NA         OK
-Size_DblN_ascend_se_7_WA_REC(7)       No_prior    NA    NA      NA         OK
-Size_DblN_peak_9_OR_RECOB(9)          No_prior    NA    NA      NA         OK
-Size_DblN_ascend_se_9_OR_RECOB(9)     No_prior    NA    NA      NA         OK
-Size_DblN_peak_10_TRI_ORWA(10)        No_prior    NA    NA      NA         OK
-Size_DblN_ascend_se_10_TRI_ORWA(10)   No_prior    NA    NA      NA         OK
-Size_DblN_peak_11_NWFSC_ORWA(11)      No_prior    NA    NA      NA         OK
-Size_DblN_ascend_se_11_NWFSC_ORWA(11) No_prior    NA    NA      NA         OK
-Size_DblN_peak_12_IPHC_ORWA(12)       No_prior    NA    NA      NA         OK
-Size_DblN_ascend_se_12_IPHC_ORWA(12)  No_prior    NA    NA      NA         OK
-
-$maximum_gradient_component
-[1] 0.000557096
-
-$parameters_with_highest_gradients
-                          Value     Gradient
-SR_LN(R0)             5.4884700 -0.000557095
-LnQ_base_6_OR_REC(6) -9.1355500 -0.000282520
-L_at_Amax_Fem_GP_1   61.3623000 -0.000256935
-RecrDist_Area_2       0.4729680 -0.000230187
-VonBert_K_Fem_GP_1    0.0759256 -0.000149640
-
-$Length_Comp_Fit_Summary
-     Data_type Fleet Recommend_var_adj #  N Npos min_Nsamp max_Nsamp
-5992         4     1          0.507139 # 38   38  0.590901  16.06340
-5993         4     2          0.408984 # 44   44  0.652720  50.16200
-5994         4     3          0.573071 # 42   42  2.818790  82.43240
-5995         4     4          0.583293 # 29   29  1.266840  33.17670
-5996         4     5          0.436521 # 31   31  0.953371 104.10000
-5997         4     6          0.224556 # 43   43  0.827633 137.15300
-5998         4     7          0.504382 # 26   26  1.138000  33.08200
-5999         4     8          0.336359 # 32   32  1.911600  64.67290
-6000         4     9          0.574334 # 20   20  1.232110  24.46080
-6001         4    10          1.295240 #  7    7  1.689720   7.72443
-6002         4    11          2.045650 # 21   21  4.078750  13.03360
-6003         4    12          2.376180 # 21   21 14.295400  53.18410
-     mean_Nsamp_in mean_Nsamp_adj mean_Nsamp_DM err_method err_index
-5992       9.93300        5.15766            NA          0        NA
-5993      34.92250       10.01520            NA          0        NA
-5994      45.84090       24.01780            NA          0        NA
-5995      37.23070        9.49766            NA          0        NA
-5996      79.26010       29.60980            NA          0        NA
-5997      52.47780       19.08280            NA          0        NA
-5998       7.25315        7.25315            NA          0        NA
-5999      37.58630       21.04570            NA          0        NA
-6000      25.59210       13.85430            NA          0        NA
-6001      11.24710        5.12251            NA          0        NA
-6002      16.07050        8.21397            NA          0        NA
-6003      28.71880       25.62720            NA          0        NA
-            par1 val1 par2 val2 mean_effN  HarMean Curr_Var_Adj    Fleet_name
-5992 multinomial   NA   NA   NA   14.8207  5.03741     0.519245      1_CA_TWL
-5993 multinomial   NA   NA   NA   82.6929 14.28270     0.286784   2_CA_NONTWL
-5994 multinomial   NA   NA   NA   49.8449 26.27010     0.523939      3_CA_REC
-5995 multinomial   NA   NA   NA   58.9380 21.71640     0.255103    4_ORWA_TWL
-5996 multinomial   NA   NA   NA  125.7480 34.59870     0.373578 5_ORWA_NONTWL
-5997 multinomial   NA   NA   NA   52.7387 11.78420     0.363635      6_OR_REC
-5998 multinomial   NA   NA   NA   33.4103  3.65836     1.000000      7_WA_REC
-5999 multinomial   NA   NA   NA   54.7114 12.64250     0.559929      8_CACPFV
-6000 multinomial   NA   NA   NA   43.0027 14.69840     0.541348    9_OR_RECOB
-6001 multinomial   NA   NA   NA   20.3179 14.56770     0.455450   10_TRI_ORWA
-6002 multinomial   NA   NA   NA   37.8948 32.87450     0.511122 11_NWFSC_ORWA
-6003 multinomial   NA   NA   NA   97.0288 68.24090     0.892350  12_IPHC_ORWA
-
-$Age_Comp_Fit_Summary
-     Data_type Fleet Recommend_var_adj # Nsamp_adj Npos min_Nsamp max_Nsamp
-8223         5     2          0.972023 #        52   42  1.000000    3.0000
-8224         5     3          0.883836 #       118  102  1.000000    6.0000
-8225         5     4          0.540511 #       376  353  1.000000   24.0000
-8226         5     5          0.290019 #       289  266  0.222147   15.1060
-8227         5     6          0.556431 #       211  195  1.000000   16.0000
-8228         5     7          0.544391 #       197  177  1.000000   17.0000
-8229         5    11          0.760222 #       403  382  1.000000   12.0000
-8230         5    12          0.236145 #       567  531  0.088235   10.2353
-     mean_Nsamp_in mean_Nsamp_adj mean_Nsamp_DM err_method err_index
-8223       1.38095        1.38095            NA          0        NA
-8224       1.50000        1.50000            NA          0        NA
-8225       4.20963        4.20963            NA          0        NA
-8226       8.85714        1.96759            NA          0        NA
-8227       4.09231        4.09231            NA          0        NA
-8228       3.63277        3.63277            NA          0        NA
-8229       2.27749        2.27749            NA          0        NA
-8230      15.98310        1.41026            NA          0        NA
-            par1 val1 par2 val2 mean_effN HarMean Curr_Var_Adj    Fleet_name
-8223 multinomial   NA   NA   NA   1.64940 1.34232     1.000000   2_CA_NONTWL
-8224 multinomial   NA   NA   NA   1.94868 1.32575     1.000000      3_CA_REC
-8225 multinomial   NA   NA   NA   4.68721 2.27535     1.000000    4_ORWA_TWL
-8226 multinomial   NA   NA   NA   8.44498 2.56874     0.222147 5_ORWA_NONTWL
-8227 multinomial   NA   NA   NA   4.73156 2.27709     1.000000      6_OR_REC
-8228 multinomial   NA   NA   NA   4.48774 1.97765     1.000000      7_WA_REC
-8229 multinomial   NA   NA   NA   3.05821 1.73140     1.000000 11_NWFSC_ORWA
-8230 multinomial   NA   NA   NA  10.12170 3.77432     0.088235  12_IPHC_ORWA
-
-$SBzero
-[1] 594.999
-
-$current_depletion
-[1] 0.4013704
-
-$SPRratioLabel
-[1] "(1-SPR)/(1-SPR_50%)"
-
-$sigma_R_in
-[1] 0.5
-
-$sigma_R_info
-           period N_devs SD_of_devs Var_of_devs   mean_SE mean_SEsquared
-1            Main     44  0.5827591   0.3396082 0.3609410      0.1356366
-2      Early+Main    135  0.3730102   0.1391366 0.4305959      0.1907855
-3 Early+Main+Late    136  0.3716374   0.1381143 0.4311062      0.1912209
-  sqrt_sum_of_components SD_of_devs_over_sigma_R sqrt_sum_over_sigma_R
-1              0.6893800               1.1655183              1.378760
-2              0.5743885               0.7460205              1.148777
-3              0.5738774               0.7432748              1.147755
-  alternative_sigma_R
-1   0.689380012630552
-2   0.574388519195281
-3   0.573877414336972
-
-$rmse_table
-    ERA  N     RMSE RMSE_over_sigmaR mean_BiasAdj
-1  main 44 0.576099         1.327560     0.459768
-2 early 91 0.214696         0.184378     0.130709
-
-$RecDev_method
-[1] 1
-\end{verbatim}
-
-\begin{verbatim}
-[1] "7_WA_REC"
-\end{verbatim}
-
-\begin{verbatim}
-[1] 2.105
-\end{verbatim}
 
 \newpage{}
 
@@ -5705,6 +5283,5 @@ estimated by area (area 1= California, area 2 = Oregon and Washington).}
 
 \newpage{}
 \printnoidxglossaries
-
 
 \end{document}
