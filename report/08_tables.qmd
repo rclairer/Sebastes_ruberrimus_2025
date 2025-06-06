@@ -312,6 +312,7 @@ parcount_table |>
 
 <!-- ## Model Results -->
 
+<!-- Table 12 parameter estimates -->
 ```{r}
 #| label: tbl-pars
 #| warning: false
@@ -336,32 +337,7 @@ cat("\n\\end{landscape}\n")
 
 {{< pagebreak >}}
 
-```{r, results = "asis"}
-#| label: tbl-ts
-#| warning: false
-#| echo: false
-#| eval: !expr eval_tables 
-#| tbl-cap: !expr if(eval_tables) time_series_cap 
-#| tbl-pos: H
-
-time_series_table |>
-kableExtra::kable(
-  format = "latex", 
-  longtable = TRUE,
-  booktabs = TRUE,
-  caption = "Time series of population estimates from the base model.",
-  linesep = "") |>
-  kableExtra::kable_styling(
-    latex_options = "repeat_header",
-    font_size = 8) |>
-  kableExtra::column_spec(
-    column = 1:9,
-    width = "0.5in"
-  )
-```
-
-{{< pagebreak >}}
-
+<!-- Table 13 sensitivity model results -->
 ```{r}
 #| label: tbl-sensitivities-model-specs
 #| echo: false
@@ -382,6 +358,7 @@ cat("\n\\end{landscape}\n")
 
 {{< pagebreak >}}
 
+<!-- Table 14 - 18 other sensitivity model results -->
 ```{r}
 #| label: tbl-sensitivities-like-indices
 #| echo: false
@@ -498,6 +475,34 @@ cat("\n\\end{landscape}\n")
 
 {{< pagebreak >}}
 
+<!-- Table 19 time series -->
+```{r, results = "asis"}
+#| label: tbl-ts
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) time_series_cap 
+#| tbl-pos: H
+
+time_series_table |>
+kableExtra::kable(
+  format = "latex", 
+  longtable = TRUE,
+  booktabs = TRUE,
+  caption = "Time series of population estimates from the base model.",
+  linesep = "") |>
+  kableExtra::kable_styling(
+    latex_options = "repeat_header",
+    font_size = 8) |>
+  kableExtra::column_spec(
+    column = 1:9,
+    width = "0.5in"
+  )
+```
+
+{{< pagebreak >}}
+
+<!-- Table 20 reference point -->
 ```{r, tbl-ref-points-es-2, results = "asis"}
 #| label: tbl-ref-points-es-2
 #| warning: false
@@ -544,10 +549,9 @@ reference_points_table |>
 
 ```
 
-<!-- ## Management -->
+{{< pagebreak >}}
 
-\pagebreak
-
+<!-- Table 21 OFL projections -->
 ```{r, results = "asis"}
 #| label: tbl-projections
 #| warning: false
@@ -587,6 +591,9 @@ projections_table |>
 cat("\n\\end{landscape}\n")
 ```
 
+{{< pagebreak >}}
+
+<!-- Table 22 states of nature -->
 ```{r, 2, results = "asis"}
 #| label: tbl-es-decision-2
 #| warning: false
@@ -599,4 +606,3 @@ cat("\n\\end{landscape}\n")
 
 ```
 
-\pagebreak
