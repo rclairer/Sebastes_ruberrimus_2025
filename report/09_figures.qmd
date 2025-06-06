@@ -798,6 +798,7 @@ knitr::include_graphics(
 )
 ```
 
+<!-- length exclusions -->
 ```{r}
 #| label: fig-sens_lengths1_spout
 #| echo: false
@@ -807,18 +808,6 @@ knitr::include_graphics(
 #
 knitr::include_graphics(
     "figures/sensitivities/length_comps_1compare2_spawnbio_uncertainty.png"
-)
-```
-
-```{r}
-#| label: fig-sens_lengths1_status
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Relative spawning output across length composition inclusion sensitivities (1 of 2)."
-#
-knitr::include_graphics(
-    "figures/sensitivities/length_comps_1compare4_Bratio_uncertainty.png"
 )
 ```
 
@@ -835,6 +824,18 @@ knitr::include_graphics(
 ```
 
 ```{r}
+#| label: fig-sens_lengths1_status
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Relative spawning output across length composition inclusion sensitivities (1 of 2)."
+#
+knitr::include_graphics(
+    "figures/sensitivities/length_comps_1compare4_Bratio_uncertainty.png"
+)
+```
+
+```{r}
 #| label: fig-sens_lengths2_status
 #| echo: false
 #| warning: false
@@ -847,7 +848,7 @@ knitr::include_graphics(
 ```
 
 \clearpage
-
+<!-- age exclusions -->
 ```{r}
 #| label: fig-sens_age1_spout
 #| echo: false
@@ -857,18 +858,6 @@ knitr::include_graphics(
 #
 knitr::include_graphics(
     "figures/sensitivities/age_comps_1compare2_spawnbio_uncertainty.png"
-)
-```
-
-```{r}
-#| label: fig-sens_age1_status
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Relative spawning output across age composition inclusion sensitivities (1 of 2)."
-#
-knitr::include_graphics(
-    "figures/sensitivities/age_comps_1compare4_Bratio_uncertainty.png"
 )
 ```
 
@@ -885,6 +874,18 @@ knitr::include_graphics(
 ```
 
 ```{r}
+#| label: fig-sens_age1_status
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Relative spawning output across age composition inclusion sensitivities (1 of 2)."
+#
+knitr::include_graphics(
+    "figures/sensitivities/age_comps_1compare4_Bratio_uncertainty.png"
+)
+```
+
+```{r}
 #| label: fig-sens_age2_status
 #| echo: false
 #| warning: false
@@ -896,6 +897,7 @@ knitr::include_graphics(
 )
 ```
 
+<!-- indices exclusions -->
 ```{r}
 #| label: fig-sens_indices_spout
 #| echo: false
