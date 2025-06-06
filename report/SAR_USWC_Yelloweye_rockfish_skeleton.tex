@@ -241,7 +241,7 @@ Whitman \and Elizabeth Perl \and Matheus de Barros \and Juliette
 Champagnat \and Abby Schamp \and Samantha Schiano \and Fabio Prior
 Caltabellotta \and Vladlena Gertseva \and Ian Taylor \and Kiva
 Oken \and Aaron Berger}
-\date{2025-06-05}
+\date{2025-06-06}
 
 \begin{document}
   \begin{titlepage}
@@ -496,9 +496,9 @@ structure.
 \subsection*{Catches}\label{catches}
 \addcontentsline{toc}{subsection}{Catches}
 
-Catches for Yelloweye Rockfish have averaged over \(20 mt\) in recent
-years (Figure~\ref{fig-es-landings}, Table~\ref{tbl-es-catches}). The
-Yelloweye Rockfish stock was declared overfished in \(2002\) and remains
+Catches for Yelloweye Rockfish have averaged over 20 mt in recent years
+(Figure~\ref{fig-es-landings}, Table~\ref{tbl-es-catches}). The
+Yelloweye Rockfish stock was declared overfished in 2002 and remains
 under a rebuilding plan that substantially limits catch. However, as
 other rockfish stocks have rebuilt and Yelloweye Rockfish has progressed
 under its rebuilding plan, catches have slowly increased in recent
@@ -748,7 +748,7 @@ continental U.S. Pacific Coast is currently at 40.1\% of its unexploited
 level. This is above the overfished threshold of SO25\%, and slightly
 above the management target SO40\% of unfished spawning output. Fishing
 intensity increased throughout the 1900s as the stock was fished down,
-until stabilizing at peak intensity between the mid1980s and late 1990s
+until stabilizing at peak intensity between the mid-1980s and late 1990s
 and substantially decreasing in the late 1990s and early 2000s. Fishing
 intensity has since been relatively stable (Figure~\ref{fig-es-kobe},
 Table~\ref{tbl-es-spr}).
@@ -1447,7 +1447,7 @@ selected as the best fit model by AIC
 (Table~\ref{tbl-yelloweye_model_selection_ORFS}). Acceptable diagnostics
 for the model were achieved, as evidenced by passing the sanity function
 in \gls{sdmtmb} (Figure~\ref{fig-orfs_qqplot}). The index of abundance
-is shown in Figure~\ref{fig-ORFS_index}. A comparison to the ORFS index
+is shown in \textbf{?@fig-ORFS\_index}. A comparison to the ORFS index
 used in the previous assessment indicates that despite the change in
 modeling approach and the covariates included, most years overlap
 between the two indices and similar trends are observed
@@ -1496,9 +1496,8 @@ port, boat type and open fishery depths, which was the best fit model by
 AIC in this series (Table~\ref{tbl-yelloweye_model_selection_ORBS}).
 Acceptable diagnostics for the model were achieved, as evidenced by
 passing the sanity function in \gls{sdmtmb} (Figure~\ref{fig-orbs_qq}).
-The index of abundance in shown in Figure~\ref{fig-ORBS_index}. ODFW no
-longer maintains the deltaGLM code that was used to develop the 2017
-index and so the index was updated to use the currently accepted
+ODFW no longer maintains the deltaGLM code that was used to develop the
+2017 index and so the index was updated to use the currently accepted
 modeling approach for \gls{pfmc} groundfish assessments (\gls{sdmtmb},
 version 0.6.0) (Anderson et al. 2024). To bridge this change, the 2017
 model index structure was applied to the current data set using
@@ -1556,7 +1555,7 @@ The biomass estimates produced for this assessment using \gls{sdmtmb}
 are comparable to the biomass estimates produced in the previous
 benchmark assessment (Figure~\ref{fig-wcgbtsindexcomparison}). The index
 is relatively flat with a peak in 2014, but variation is high throughout
-the time series (Figure~\ref{fig-wcgbtsindex}).
+the time series.
 
 \subsubsection{IPHC Setline Survey}\label{iphc-setline-survey}
 
@@ -1694,15 +1693,15 @@ this update assessment.
 
 \section{Assessment Model}\label{assessment-model}
 
-\subsection{History of modeling
-approaches}\label{history-of-modeling-approaches}
+\subsection{History of Modeling
+Approaches}\label{history-of-modeling-approaches}
 
 This section is not required for an update assessment; please refer to
 the most recent full assessment (Gertseva and Cope 2017) for additional
 information.
 
 \subsection{Responses to SSC Groundfish Subcommittee
-requests}\label{responses-to-ssc-groundfish-subcommittee-requests}
+Requests}\label{responses-to-ssc-groundfish-subcommittee-requests}
 
 The 2017 assessment was a benchmark assessment reviewed by a STAR panel
 and the PFMC SSC, and therefore, the Groundfish Subcommittee of the PFMC
@@ -1725,14 +1724,13 @@ Structure}\label{modeling-platform-and-structure}
 The assessment was updated to use the most recent version of Stock
 Synthesis 3 (Version 3.30.23.2 - available
 \href{https://github.com/nmfs-ost/ss3-source-code/releases/tag/v3.30.23.2}{online}).
-Bridging between SS versions is discussed in Section
-Section~\ref{sec-changes}.
+Bridging between SS versions is discussed in Section~\ref{sec-changes}.
 
 Briefly, the Yelloweye Rockfish model is a coastwide, single-sex,
 two-area model. California is Area 1, and Oregon and Washington are
 combined into Area 2; the areas are separated because of differences in
 potential exploitation rates by area over time. Yelloweye Rockfish
-compositional data are primarily reported as both sexes combined, and
+composition data are primarily reported as both sexes combined, and
 therefore, the assessment used a single sex model to facilitate the use
 of all available data. Growth is assumed to be the same in both areas,
 though future benchmark assessments may want to re-evaluate this
@@ -1765,8 +1763,8 @@ assessment (Gertseva and Cope 2017) are listed below.
   \tightlist
   \item
     Detailed information on specific updates and changes to the data
-    included in the model are included in Section~\ref{sec-data} but are
-    summarized below.
+    included in the model are described in Section~\ref{sec-data} but
+    are summarized below.
   \item
     The removals time series were corrected and updated through the end
     of 2024 for California, Oregon and Washington. Overall, there was
@@ -1774,8 +1772,8 @@ assessment (Gertseva and Cope 2017) are listed below.
     catch time series, even after changes in the historical catch
     (Figure~\ref{fig-bridge3-comp2} and Figure~\ref{fig-bridge3-comp4}).
     Though, the age 8+ biomass increased more for the most recent years
-    than the forecasted estimates from 2017
-    (Figure~\ref{fig-bridge3-comp18}).\\
+    than the forecast estimates from 2017
+    (Figure~\ref{fig-bridge3-comp18}).
   \item
     Indices of abundance were updated with recent data, where available,
     and re-analyzed using more up-to-date methods. Updating indices lead
@@ -1785,13 +1783,13 @@ assessment (Gertseva and Cope 2017) are listed below.
     Length and age compositions from all fishery removal and index
     fleets were updated and tuned through 2024. The addition of
     composition data greatly increased ln(\(R\)\textsubscript{0}), which
-    led to an increase in the spawning output, particularly for
-    1920-1980 (Figure~\ref{fig-bridge14-comp2}). This new data also
-    changed the pattern of the recruitment deviations significantly from
-    1990-2024 (Figure~\ref{fig-bridge14-comp11}). From 1990-2005
+    led to an increase in the spawning output, particularly for 1920 -
+    1980 (Figure~\ref{fig-bridge14-comp2}). This new data also changed
+    the pattern of the recruitment deviations significantly from 1990 -
+    2024 (Figure~\ref{fig-bridge14-comp11}). From 1990 - 2005
     recruitment was lower than predicted in the last assessment, then
-    from 2006-2016 recruitment was higher than the last assessment, and
-    finally recruitment dropped very low for 2017-2021. Due to these
+    from 2006 - 2016 recruitment was higher than the last assessment,
+    and finally recruitment dropped very low for 2017-2021. Due to these
     lower estimated recruitment in recent years, the recovery curve
     slowed (Figure~\ref{fig-bridge14-comp2}).
   \end{itemize}
@@ -1850,14 +1848,14 @@ assessment (Gertseva and Cope 2017) are listed below.
     executable had no discernable impact on model results
     (Figure~\ref{fig-ss3exe_2}).
   \item
-    Use most up-to-date R packages to process input and output files for
-    the assessment, including \emph{nwfscDiag}, \emph{r4ss}, and
-    \emph{pacfintools}.
+    We used the most up-to-date R packages to process input and output
+    files for the assessment, including \emph{nwfscDiag}, \emph{r4ss},
+    and \emph{pacfintools}.
   \item
-    Created a public github repository for Yelloweye Rockfish
-    (``sebastes\_ruberrimus\_2025'') to provide a transparent and
-    reproducible system for processing the data and creating the model
-    and assessment document
+    A public github repository for Yelloweye Rockfish
+    (``sebastes\_ruberrimus\_2025'') is available to provide a
+    transparent and reproducible system for processing the data and
+    creating the model and assessment document
     (\href{https://github.com/rclairer/Sebastes_ruberrimus_2025}{available
     online}).
   \end{itemize}
@@ -1873,7 +1871,10 @@ information.
 \subsubsection{Priors}\label{priors}
 
 The natural mortality prior standard deviation was updated to be
-consistent with methods described in Hamel and Cope (2022).
+consistent with methods described in Hamel and Cope (2022). No other
+updates to the priors or prior standard deviations were made. Please
+refer to the most recent full assessment (Gertseva and Cope 2017) for
+additional information on the priors used in this assessment.
 
 \subsubsection{Data Weighting}\label{data-weighting}
 
@@ -1897,21 +1898,22 @@ all indices with the exception of the WCGBTS.
 
 The base model had 189 estimated parameters (tallied by type in
 Table~\ref{tbl-n-param}). A single-sex growth curve was estimated
-(Figure~\ref{fig-growth}). Natural mortality was fixed, as in the 2017
-assessment. Unfished recruitment and the distribution of recruits
-between areas are estimated. Steepness of the stock-recruit relationship
-was fixed at 0.72, updated from the 2017 assessment which was fixed at
-0.718. Estimating steepness was evaluated as a sensitivity. As is
-current practice, recruitment deviations during the ``main'' period
-(from 1980 to 2023) were forced to sum to zero and the bias adjustment
-ramp was updated (Figure~\ref{fig-biasadj}).
+(Figure~\ref{fig-growth}). Natural mortality was fixed at 0.044, as in
+the 2017 assessment. Unfished recruitment and the distribution of
+recruits between areas are estimated. Steepness of the stock-recruit
+relationship was fixed at 0.72, updated from the 2017 assessment which
+was fixed at 0.718. Estimating steepness was evaluated as a sensitivity.
+As is current practice, recruitment deviations during the ``main''
+period (from 1980 to 2023) were forced to sum to zero and the bias
+adjustment ramp was updated (Figure~\ref{fig-biasadj}).
 
 We extended the time blocks on catchability parameters to 2024 to
 encompass additional data. To best fit the index for the Oregon
 recreational fleet, an offset for catchability between the MRFFS and
 ORBS sampling time periods was estimated in the 2017 assessment. In
 order to estimate this parameter under current best practices, the float
-was set to 0 and the phase to 1.
+was set to 0 and the phase to 1. See Section~\ref{sec-fits} for more
+information about the model fit to the index.
 
 All selectivities were assumed to be length-based and used a
 double-normal functional form. Selectivities for all fleets were
@@ -1932,8 +1934,8 @@ recreational ages.
 \subsubsection{Base Model Selection}\label{base-model-selection}
 
 As a supplement to the model results figures included in this report and
-described below, a full set of diagnostic plots created by the \{r4ss\}
-package (Taylor et al. 2021) is available
+described below, a full set of diagnostic plots created by the
+\emph{r4ss} package (Taylor et al. 2021) is available
 \href{https://github.com/rclairer/Sebastes_ruberrimus_2025}{online}
 along with the Stock Synthesis input files.
 
@@ -1974,7 +1976,7 @@ largest Yelloweye available, and select the least amount of smaller
 Yelloweye Rockfish. The WCGBTS selected smaller Yelloweye among all the
 fishery-independent surveys.
 
-\subsubsection{Fits to the Data}\label{fits-to-the-data}
+\subsubsection{Fits to the Data}\label{sec-fits}
 
 Model fits to the fishery CPUE and survey indices are presented in
 Figure~\ref{fig-indexfit3} through Figure~\ref{fig-indexfit12}, and log
@@ -1994,7 +1996,7 @@ which also have the highest input sample sizes, are fit by the model
 relatively well.
 
 The fits to the mean age by fleet are generally acceptable and are
-responsive to short-term temporal changes (Figure~\ref{fig-mean-age-3} -
+responsive to short-term temporal changes (Figure~\ref{fig-mean-age-2} -
 Figure~\ref{fig-mean-age-12}), with the exception of the Oregon
 recreational fleet and the IPHC survey, where the model predicts a
 higher and a lower mean age, respectively, than the data suggest. This
@@ -2023,14 +2025,14 @@ output reached a minimum of 15.6 of unexploited levels in 2000
 (Figure~\ref{fig-spout_combined}). Yelloweye Rockfish spawning output
 and relative status is estimated to have been gradually increasing since
 that time, in response to large reductions in harvest and spatial area
-closures. The trend from the update model is similar that from the 2017
-assessment, however, they estimated a quicker recovery in biomass since
-2002 than the 2025 model (Figure~\ref{fig-bridge25-comp4}). Relative
-spawning output has differed between the two areas modeled in the
-assessment, with the California resource estimated to have a lower
-unfished equilibrium spawning output and estimated to be more depleted
-in 2025 than the Oregon and Washington resource
-(Figure~\ref{fig-status_area}).
+closures. The trend from the 2025 update model is very similar that from
+the 2017 assessment, however, the 2017 assessment estimated a slightly
+quicker recovery in biomass since 2002 than the 2025 model
+(Figure~\ref{fig-bridge25-comp4}). Relative spawning output has differed
+between the two areas modeled in the assessment, with the California
+resource estimated to have a lower unfished equilibrium spawning output
+and estimated to be more depleted in 2025 than the Oregon and Washington
+resource (Figure~\ref{fig-status_area}).
 
 Recruitment has been relatively dynamic over time, with several large
 peaks and troughs estimated in the age-0 recruits
@@ -2121,7 +2123,7 @@ Table~\ref{tbl-sensitivities-like-comps-age2}. Among these, the base
 model appears to be most sensitive to removing all length compositions,
 which show a significantly different biomass trajectory and a more
 optimistic estimate of stock status at the end of the time series
-(Figure~\ref{fig-sens_lengths2_spout} through
+(Figure~\ref{fig-sens_lengths1_spout} through
 Figure~\ref{fig-sens_lengths2_status}).
 
 Removing all age compositions, \gls{iphc} age compositions only or
@@ -2174,7 +2176,7 @@ remaining parameters based on the fixed parameter value.
 
 In the assessment, \(M\) was fixed at the value of 0.044, based on
 Hamel's prior. The profile analysis over \(M\) showed that the negative
-log-likelihood was minimized with a value around 0.052
+log-likelihood was minimized with a value around 0.050
 (Figure~\ref{fig-natm-piner}), which is close to what was assumed in the
 assessment. The time series of absolute and relative spawning output
 associated with different values of \(M\) ranging from 0.03 to 0.06 are
@@ -2215,9 +2217,9 @@ rebuilding. Alternative values of these parameters were explored through
 both sensitivity and likelihood profile analyses. Maturity parameters
 were fixed in this assessment, as they were in benchmark assessment
 (Gertseva and Cope 2017). Maturity schedules are generally estimated
-outside of the assessment, and the maturity estimates were not updated
-since the benchmark assessment. These parameters, once updated, may
-influence estimates of spawning stock output.
+outside of the assessment, and the maturity parameter estimates were not
+updated in the time since the benchmark assessment. These parameters,
+once updated, may influence estimates of spawning stock output.
 
 Although significant progress has been made in reconstructing historical
 landings, early catches of Yelloweye Rockfish continue to be uncertain.
@@ -2240,34 +2242,34 @@ This assessment estimates that the stock of Yelloweye Rockfish off the
 continental U.S. Pacific Coast is currently at 40.1\% of its unexploited
 level. This is above the overfished threshold of SO25\%, and slightly
 above the management target of SO40\% of unfished spawning output. Both
-areas are above the overfished level of 25\%. The assessment estimates
-that the coastwide spawning output of Yelloweye Rockfish dropped below
-the SO40\% target for the first time in 1986 and below the overfished
-SO25\% threshold in 1993, as a result of intense fishing by commercial
-and recreational fleets. It continued to decline and reached 14.2\% of
-its unfished output in 2000 (Table~\ref{tbl-ts}). The same year, the
-stock was declared overfished. Since then, the spawning output has
-slowly increased due to management regulations implemented to foster
-stock rebuilding.
+areas (California and Oregon-Washington) are above the overfished level
+of 25\%. The assessment estimates that the coastwide spawning output of
+Yelloweye Rockfish dropped below the SO40\% target for the first time in
+1986 and below the overfished SO25\% threshold in 1993, as a result of
+intense fishing by commercial and recreational fleets. It continued to
+decline and reached 15.6\% of its unfished output in 2000
+(Table~\ref{tbl-ts}). The stock was declared overfished in 2002. Since
+then, the spawning output has slowly increased due to management
+regulations implemented to foster stock rebuilding.
 
 Reference points for the base model are summarized in
 Table~\ref{tbl-ref-points-es-2}. Unfished spawning stock output for
 Yelloweye Rockfish was estimated to be 1190 million eggs (95\%
-confidence interval: 1,048.1-1,331.9 million eggs). The stock is
+confidence interval: 1,048.1 - 1,331.9 million eggs). The stock is
 declared overfished if the current spawning output is estimated to be
 below the \gls{msst} of 25\% of unfished level (SO25\%). The management
 target for Yelloweye Rockfish is defined as 40\% of the unfished
 spawning output (SO40\%), which is estimated by the model to be 476
-million eggs (95\% confidence interval: 419-533 million eggs), which
+million eggs (95\% confidence interval: 419 - 533 million eggs), which
 corresponds to an exploitation rate of 0.026. This harvest rate provides
-an equilibrium yield of 122 mt at SO40\% (95\% confidence interval:
-108-137 mt). The model estimate of maximum sustainable yield (MSY) is
-128 mt (95\% confidence interval: 113-143 mt). The estimated spawning
+an equilibrium yield of 122 mt at SO40\% (95\% confidence interval: 108
+- 137 mt). The model estimate of maximum sustainable yield (MSY) is 128
+mt (95\% confidence interval: 113 - 143 mt). The estimated spawning
 stock output at MSY is 343 million eggs (95\% confidence interval:
 303-384 million eggs). The exploitation rate corresponding to the
-estimated SPRMSY of F36\% is 0.037.
+estimated SPRMSY is 0.037.
 
-This assessment estimates that the 2024 SPR is 64.3\%
+This assessment estimates that the 2024 SPR is 82.15\%
 (Figure~\ref{fig-time-spr}). The SPR used for setting the OFL is 50\%,
 while the SPR-based management fishing mortality target specified in the
 current rebuilding plan and used to determine the \gls{acl} is 76\%
@@ -2282,17 +2284,18 @@ curve is shown in Figure~\ref{fig-eq-yield}.
 \subsection{Harvest Projections and Decision
 Tables}\label{harvest-projections-and-decision-tables}
 
-The base model estimate for 2025 spawning depletion is 40.1\%. The
-primary axis of uncertainty about this estimate used in the decision
-table was based on natural mortality. Natural mortality in the
-assessment model is fixed at the median of the Hamel prior (0.044 y-1),
-estimated using the maximum age of 123 years. Natural mortality value
-for high state of nature was calculated to correspond to 97 years of
-age, which is the 99th percentile of the age data available for the
-assessment; this value was 0.056 y-1. The natural mortality value for
-low state of nature was calculated to correspond to 147 years of age,
-which is the maximum age reported for the Yelloweye Rockfish; this value
-was 0.037 y-1.
+The base model estimate for 2025 spawning depletion is 40.1\%
+(Table~\ref{tbl-projections}). The primary axis of uncertainty about
+this estimate used in the decision table was based on natural mortality.
+Natural mortality in the assessment model is fixed at the median of the
+Hamel prior (0.044 y-1), estimated using the maximum age of 123 years.
+The natural mortality value for the high state of nature was calculated
+to correspond to 97 years of age, which was the 99th percentile of the
+age data available for the 2017 assessment (Gertseva and Cope (2017));
+this value was 0.056 y-1. The natural mortality value for low state of
+nature was calculated to correspond to 147 years of age, which is the
+maximum age reported for the Yelloweye Rockfish at the time of the 2017
+assessment (Gertseva and Cope (2017)); this value was 0.037 y-1.
 
 Twelve-year forecasts for each state of nature were calculated
 (Table~\ref{tbl-es-decision-2}).
@@ -2342,10 +2345,11 @@ population:
 
 \section{Acknowledgements}\label{sec-acknowledgements}
 
-The authors would like to thank the other members of the FSH 577 class,
-particularly those on the Yelloweye Rockfish team (Emily Branam, Julia
-Coates, Kimberly Fitzpatrick, Madison Sandquist, Olivia Boisen and
-Rachel Brooks). The authors also thank all data providers.
+The authors would like to thank the other members of the University of
+Washington FSH 577 class, particularly those on the Yelloweye Rockfish
+team (Emily Branam, Julia Coates, Kimberly Fitzpatrick, Madison
+Sandquist, Olivia Boisen and Rachel Brooks). The authors also thank all
+data providers.
 
 \newpage{}
 
@@ -3322,6 +3326,278 @@ Size\_DblN\_end\_logit\_12\_IPHC\_ORWA(12) & -999 & -5 & (-1000, 9) & fixed &  &
 
 \newpage{}
 
+\begin{landscape}
+\begingroup\fontsize{9}{11}\selectfont
+
+\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{5em}}
+
+\caption{\label{tbl-sensitivities-model-specs}Base model sensitivity to
+model parameters and specifications.}
+
+\tabularnewline
+
+\toprule
+Label & Base & Est. M & Est. steepness & 2017 LW relationship\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{5}{l}{\textbf{Diff. in likelihood from base model}}\\
+\hspace{1em}Total & \textcolor{black}{0} & \textcolor{red}{-5.64} & \textcolor{red}{-3.33} & \textcolor{black}{0}\\
+\hspace{1em}Index & \textcolor{black}{0} & \textcolor{red}{-3.174} & \textcolor{red}{-1.576} & \textcolor{black}{0}\\
+\hspace{1em}Length comp & \textcolor{black}{0} & \textcolor{red}{-4.67} & \textcolor{red}{-3.35} & \textcolor{black}{0}\\
+\hspace{1em}Age comp & \textcolor{black}{0} & \textcolor{black}{3.93} & \textcolor{black}{2.65} & \textcolor{black}{0}\\
+\hspace{1em}Recruitment & \textcolor{black}{0} & \textcolor{red}{-1.488} & \textcolor{red}{-0.911} & \textcolor{black}{0}\\
+\hspace{1em}Parm priors & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0}\\
+\addlinespace[0.3em]
+\multicolumn{5}{l}{\textbf{Estimates of key parameters}}\\
+\hspace{1em}Recruitment unfished thousands & \textcolor{black}{241.887} & \textcolor{black}{392.064} & \textcolor{black}{240.801} & \textcolor{black}{241.887}\\
+\hspace{1em}log(R0) & \textcolor{black}{5.488} & \textcolor{black}{5.971} & \textcolor{black}{5.484} & \textcolor{black}{5.488}\\
+\hspace{1em}M Female & \textcolor{black}{0.044} & \textcolor{black}{0.053} & \textcolor{black}{0.044} & \textcolor{black}{0.044}\\
+\hspace{1em}L at Amax Female & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4}\\
+\addlinespace[0.3em]
+\multicolumn{5}{l}{\textbf{Estimates of derived quantities}}\\
+\hspace{1em}Unfished age 8+ bio 1000 mt & \textcolor{black}{10.331} & \textcolor{black}{11.865} & \textcolor{black}{10.281} & \textcolor{black}{10.331}\\
+\hspace{1em}B0 millions of eggs & \textcolor{black}{1190} & \textcolor{black}{1316.36} & \textcolor{black}{1184.16} & \textcolor{black}{1190}\\
+\hspace{1em}B2025 millions of eggs & \textcolor{black}{477.63} & \textcolor{black}{724.664} & \textcolor{black}{639.998} & \textcolor{black}{477.63}\\
+\hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.401} & \textcolor{black}{0.551} & \textcolor{black}{0.54} & \textcolor{black}{0.401}\\
+\hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.357} & \textcolor{black}{0.215} & \textcolor{black}{0.276} & \textcolor{black}{0.357}\\
+\bottomrule
+
+\end{longtable}
+
+\endgroup{}
+
+
+\end{landscape}
+
+\newpage{}
+
+\begin{landscape}
+\begin{flushleft}
+\begingroup\fontsize{9}{11}\selectfont
+
+\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}}
+
+\caption{\label{tbl-sensitivities-like-indices}Base model sensitivity to
+the removal of data sources (indices).}
+
+\tabularnewline
+
+\toprule
+Label & Base & - CA REC & - OR REC & - WA REC & - CA CPFV & - ORFS & - Triennial & - WCGBTS & - IPHC & No indices\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{11}{l}{\textbf{Diff. in likelihood from base model}}\\
+\hspace{1em}Total & \textcolor{black}{0} & \textcolor{black}{4.67} & \textcolor{black}{29.12} & \textcolor{black}{5.15} & \textcolor{red}{-163.01} & \textcolor{red}{-103.81} & \textcolor{red}{-25.74} & \textcolor{red}{-1460.39} & \textcolor{red}{-957.26} & \textcolor{red}{-2664.61}\\
+\hspace{1em}Index & \textcolor{black}{0} & \textcolor{black}{4.893} & \textcolor{black}{29.269} & \textcolor{black}{5.761} & \textcolor{black}{5.574} & \textcolor{black}{4.043} & \textcolor{black}{0.897} & \textcolor{black}{4.76} & \textcolor{black}{0.932} & \textcolor{black}{NA}\\
+\hspace{1em}Length comp & \textcolor{black}{0} & \textcolor{black}{0.11} & \textcolor{black}{0.48} & \textcolor{red}{-2.23} & \textcolor{red}{-165.77} & \textcolor{red}{-99.48} & \textcolor{red}{-24.5} & \textcolor{red}{-81.58} & \textcolor{red}{-67.71} & \textcolor{red}{-437.753}\\
+\hspace{1em}Age comp & \textcolor{black}{0} & \textcolor{red}{-0.02} & \textcolor{black}{0.09} & \textcolor{black}{2.29} & \textcolor{red}{-5.05} & \textcolor{red}{-8.32} & \textcolor{red}{-2.3} & \textcolor{red}{-1379.01} & \textcolor{red}{-889.55} & \textcolor{red}{-2276.84}\\
+\hspace{1em}Recruitment & \textcolor{black}{0} & \textcolor{red}{-0.334} & \textcolor{red}{-0.722} & \textcolor{red}{-0.741} & \textcolor{black}{2.242} & \textcolor{red}{-0.01} & \textcolor{black}{0.183} & \textcolor{red}{-4.526} & \textcolor{red}{-1.172} & \textcolor{red}{-5.148}\\
+\hspace{1em}Parm priors & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0}\\
+\addlinespace[0.3em]
+\multicolumn{11}{l}{\textbf{Estimates of key parameters}}\\
+\hspace{1em}Recruitment unfished thousands & \textcolor{black}{241.887} & \textcolor{black}{237.747} & \textcolor{black}{238.639} & \textcolor{black}{231.896} & \textcolor{black}{246.229} & \textcolor{black}{242.162} & \textcolor{black}{243.372} & \textcolor{black}{244.802} & \textcolor{black}{222.331} & \textcolor{black}{209.223}\\
+\hspace{1em}log(R0) & \textcolor{black}{5.488} & \textcolor{black}{5.471} & \textcolor{black}{5.475} & \textcolor{black}{5.446} & \textcolor{black}{5.506} & \textcolor{black}{5.49} & \textcolor{black}{5.495} & \textcolor{black}{5.5} & \textcolor{black}{5.404} & \textcolor{black}{5.343}\\
+\hspace{1em}M Female & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044}\\
+\hspace{1em}L at Amax Female & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.3} & \textcolor{black}{61.5} & \textcolor{black}{62.4} & \textcolor{black}{62.7}\\
+\addlinespace[0.3em]
+\multicolumn{11}{l}{\textbf{Estimates of derived quantities}}\\
+\hspace{1em}Unfished age 8+ bio 1000 mt & \textcolor{black}{10.331} & \textcolor{black}{10.156} & \textcolor{black}{10.194} & \textcolor{black}{9.9} & \textcolor{black}{10.52} & \textcolor{black}{10.358} & \textcolor{black}{10.382} & \textcolor{black}{10.489} & \textcolor{black}{9.916} & \textcolor{black}{9.454}\\
+\hspace{1em}B0 millions of eggs & \textcolor{black}{1190} & \textcolor{black}{1169.99} & \textcolor{black}{1174.29} & \textcolor{black}{1140.22} & \textcolor{black}{1211.93} & \textcolor{black}{1193.95} & \textcolor{black}{1195.11} & \textcolor{black}{1205.33} & \textcolor{black}{1162.9} & \textcolor{black}{1111.28}\\
+\hspace{1em}B2025 millions of eggs & \textcolor{black}{477.63} & \textcolor{black}{459.638} & \textcolor{black}{464.736} & \textcolor{black}{434.657} & \textcolor{black}{499.77} & \textcolor{black}{488.3} & \textcolor{black}{485.989} & \textcolor{black}{484.887} & \textcolor{black}{391.733} & \textcolor{black}{339.272}\\
+\hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.401} & \textcolor{black}{0.393} & \textcolor{black}{0.396} & \textcolor{black}{0.381} & \textcolor{black}{0.412} & \textcolor{black}{0.409} & \textcolor{black}{0.407} & \textcolor{black}{0.402} & \textcolor{black}{0.337} & \textcolor{black}{0.305}\\
+\hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.357} & \textcolor{black}{0.368} & \textcolor{black}{0.365} & \textcolor{black}{0.385} & \textcolor{black}{0.343} & \textcolor{black}{0.35} & \textcolor{black}{0.351} & \textcolor{black}{0.357} & \textcolor{black}{0.428} & \textcolor{black}{0.484}\\
+\bottomrule
+
+\end{longtable}
+
+\endgroup{}
+
+\end{flushleft}
+
+\end{landscape}
+
+\newpage{}
+
+\begin{landscape}
+\begingroup\fontsize{9}{11}\selectfont
+
+\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}}
+
+\caption{\label{tbl-sensitivities-like-comps-len1}Base model sensitivity
+to the removal of data sources (length compositional data - 1 of 2).}
+
+\tabularnewline
+
+\toprule
+Label & Base & - CA TWL & - CA NONTWL & - CA REC & - ORWA TWL & - ORWA NONTWL & - OR REC & - WA REC\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{9}{l}{\textbf{Diff. in likelihood from base model}}\\
+\hspace{1em}Total & \textcolor{black}{0} & \textcolor{red}{-139.43} & \textcolor{red}{-109.74} & \textcolor{red}{-271.06} & \textcolor{red}{-93.92} & \textcolor{red}{-95.57} & \textcolor{red}{-194.67} & \textcolor{red}{-119.41}\\
+\hspace{1em}Index & \textcolor{black}{0} & \textcolor{black}{0.235} & \textcolor{red}{-1.775} & \textcolor{red}{-0.893} & \textcolor{red}{-1.404} & \textcolor{red}{-0.586} & \textcolor{red}{-2.52} & \textcolor{red}{-0.162}\\
+\hspace{1em}Length comp & \textcolor{black}{0} & \textcolor{red}{-136.54} & \textcolor{red}{-97.36} & \textcolor{red}{-263.41} & \textcolor{red}{-84.08} & \textcolor{red}{-88.64} & \textcolor{red}{-173.64} & \textcolor{red}{-116.68}\\
+\hspace{1em}Age comp & \textcolor{black}{0} & \textcolor{red}{-3.43} & \textcolor{red}{-15.27} & \textcolor{red}{-9.08} & \textcolor{red}{-4.56} & \textcolor{red}{-5.8} & \textcolor{red}{-18.88} & \textcolor{red}{-2.76}\\
+\hspace{1em}Recruitment & \textcolor{black}{0} & \textcolor{black}{0.305} & \textcolor{black}{4.435} & \textcolor{black}{2.435} & \textcolor{red}{-3.845} & \textcolor{red}{-0.547} & \textcolor{black}{0.428} & \textcolor{black}{0.193}\\
+\hspace{1em}Parm priors & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0}\\
+\addlinespace[0.3em]
+\multicolumn{9}{l}{\textbf{Estimates of key parameters}}\\
+\hspace{1em}Recruitment unfished thousands & \textcolor{black}{241.887} & \textcolor{black}{240.231} & \textcolor{black}{243.282} & \textcolor{black}{243.821} & \textcolor{black}{241.236} & \textcolor{black}{244.452} & \textcolor{black}{247.886} & \textcolor{black}{242.171}\\
+\hspace{1em}log(R0) & \textcolor{black}{5.488} & \textcolor{black}{5.482} & \textcolor{black}{5.494} & \textcolor{black}{5.496} & \textcolor{black}{5.486} & \textcolor{black}{5.499} & \textcolor{black}{5.513} & \textcolor{black}{5.49}\\
+\hspace{1em}M Female & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044}\\
+\hspace{1em}L at Amax Female & \textcolor{black}{61.4} & \textcolor{black}{61.3} & \textcolor{black}{61.3} & \textcolor{black}{61.3} & \textcolor{black}{61.2} & \textcolor{black}{61.4} & \textcolor{black}{61.3} & \textcolor{black}{61.2}\\
+\addlinespace[0.3em]
+\multicolumn{9}{l}{\textbf{Estimates of derived quantities}}\\
+\hspace{1em}Unfished age 8+ bio 1000 mt & \textcolor{black}{10.331} & \textcolor{black}{10.24} & \textcolor{black}{10.38} & \textcolor{black}{10.41} & \textcolor{black}{10.278} & \textcolor{black}{10.468} & \textcolor{black}{10.661} & \textcolor{black}{10.304}\\
+\hspace{1em}B0 millions of eggs & \textcolor{black}{1190} & \textcolor{black}{1178.36} & \textcolor{black}{1194.97} & \textcolor{black}{1198.67} & \textcolor{black}{1182.05} & \textcolor{black}{1207.27} & \textcolor{black}{1231.32} & \textcolor{black}{1184.65}\\
+\hspace{1em}B2025 millions of eggs & \textcolor{black}{477.63} & \textcolor{black}{471.102} & \textcolor{black}{447.839} & \textcolor{black}{511.303} & \textcolor{black}{520.246} & \textcolor{black}{500.739} & \textcolor{black}{543.75} & \textcolor{black}{475.296}\\
+\hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.401} & \textcolor{black}{0.4} & \textcolor{black}{0.375} & \textcolor{black}{0.427} & \textcolor{black}{0.44} & \textcolor{black}{0.415} & \textcolor{black}{0.442} & \textcolor{black}{0.401}\\
+\hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.357} & \textcolor{black}{0.36} & \textcolor{black}{0.371} & \textcolor{black}{0.341} & \textcolor{black}{0.333} & \textcolor{black}{0.344} & \textcolor{black}{0.322} & \textcolor{black}{0.361}\\
+\bottomrule
+
+\end{longtable}
+
+\endgroup{}
+
+
+\end{landscape}
+
+\clearpage
+
+\begin{landscape}
+\begingroup\fontsize{9}{11}\selectfont
+
+\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}}
+
+\caption{\label{tbl-sensitivities-like-comps-len2}Base model sensitivity
+to the removal of data sources (length compositional data - 2 of 2).}
+
+\tabularnewline
+
+\toprule
+Label & Base & - CA CPFV & - ORFS & - Triennial & - WCGBTS & - IPHC & No length comps\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{8}{l}{\textbf{Diff. in likelihood from base model}}\\
+\hspace{1em}Total & \textcolor{black}{0} & \textcolor{red}{-169.32} & \textcolor{red}{-108.27} & \textcolor{red}{-26.84} & \textcolor{red}{-66.36} & \textcolor{red}{-55.02} & \textcolor{red}{-1480.61}\\
+\hspace{1em}Index & \textcolor{black}{0} & \textcolor{red}{-0.05} & \textcolor{red}{-0.517} & \textcolor{black}{0.051} & \textcolor{red}{-0.339} & \textcolor{red}{-0.08} & \textcolor{red}{-16.679}\\
+\hspace{1em}Length comp & \textcolor{black}{0} & \textcolor{red}{-165.81} & \textcolor{red}{-99.39} & \textcolor{red}{-25.21} & \textcolor{red}{-65.86} & \textcolor{red}{-52.19} & \textcolor{red}{-1387.28}\\
+\hspace{1em}Age comp & \textcolor{black}{0} & \textcolor{red}{-5.16} & \textcolor{red}{-8.03} & \textcolor{red}{-1.64} & \textcolor{red}{-0.4} & \textcolor{red}{-3.41} & \textcolor{red}{-78.02}\\
+\hspace{1em}Recruitment & \textcolor{black}{0} & \textcolor{black}{1.653} & \textcolor{red}{-0.303} & \textcolor{red}{-0.02} & \textcolor{black}{0.26} & \textcolor{black}{0.66} & \textcolor{black}{0.188}\\
+\hspace{1em}Parm priors & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0}\\
+\addlinespace[0.3em]
+\multicolumn{8}{l}{\textbf{Estimates of key parameters}}\\
+\hspace{1em}Recruitment unfished thousands & \textcolor{black}{241.887} & \textcolor{black}{240.462} & \textcolor{black}{242.106} & \textcolor{black}{241.355} & \textcolor{black}{242.363} & \textcolor{black}{241.152} & \textcolor{black}{383.142}\\
+\hspace{1em}log(R0) & \textcolor{black}{5.488} & \textcolor{black}{5.483} & \textcolor{black}{5.489} & \textcolor{black}{5.486} & \textcolor{black}{5.49} & \textcolor{black}{5.485} & \textcolor{black}{5.948}\\
+\hspace{1em}M Female & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044}\\
+\hspace{1em}L at Amax Female & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.3} & \textcolor{black}{61.4} & \textcolor{black}{61.3} & \textcolor{black}{61.4}\\
+\addlinespace[0.3em]
+\multicolumn{8}{l}{\textbf{Estimates of derived quantities}}\\
+\hspace{1em}Unfished age 8+ bio 1000 mt & \textcolor{black}{10.331} & \textcolor{black}{10.277} & \textcolor{black}{10.357} & \textcolor{black}{10.295} & \textcolor{black}{10.353} & \textcolor{black}{10.298} & \textcolor{black}{16.697}\\
+\hspace{1em}B0 millions of eggs & \textcolor{black}{1190} & \textcolor{black}{1184.01} & \textcolor{black}{1193.73} & \textcolor{black}{1185.09} & \textcolor{black}{1192.46} & \textcolor{black}{1186.1} & \textcolor{black}{1935.01}\\
+\hspace{1em}B2025 millions of eggs & \textcolor{black}{477.63} & \textcolor{black}{473.383} & \textcolor{black}{490.053} & \textcolor{black}{476.66} & \textcolor{black}{488.707} & \textcolor{black}{477.218} & \textcolor{black}{1450.16}\\
+\hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.401} & \textcolor{black}{0.4} & \textcolor{black}{0.411} & \textcolor{black}{0.402} & \textcolor{black}{0.41} & \textcolor{black}{0.402} & \textcolor{black}{0.749}\\
+\hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.357} & \textcolor{black}{0.359} & \textcolor{black}{0.349} & \textcolor{black}{0.357} & \textcolor{black}{0.351} & \textcolor{black}{0.356} & \textcolor{black}{0.163}\\
+\bottomrule
+
+\end{longtable}
+
+\endgroup{}
+
+
+\end{landscape}
+
+\newpage{}
+
+\begin{landscape}
+\begingroup\fontsize{9}{11}\selectfont
+
+\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}}
+
+\caption{\label{tbl-sensitivities-like-comps-age1}Base model sensitivity
+to the removal of data sources (age compositional data; 1 of 2).}
+
+\tabularnewline
+
+\toprule
+Label & Base & - CA NONTWL & - CA REC & - ORWA TWL & - ORWA NONTWL & - OR REC & - WA REC\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{8}{l}{\textbf{Diff. in likelihood from base model}}\\
+\hspace{1em}Total & \textcolor{black}{0} & \textcolor{red}{-126.99} & \textcolor{red}{-338.81} & \textcolor{red}{-1631.1} & \textcolor{red}{-435.31} & \textcolor{red}{-1020.72} & \textcolor{red}{-813.89}\\
+\hspace{1em}Index & \textcolor{black}{0} & \textcolor{black}{0.079} & \textcolor{black}{0.284} & \textcolor{red}{-0.634} & \textcolor{black}{0.256} & \textcolor{black}{0.912} & \textcolor{red}{-0.952}\\
+\hspace{1em}Length comp & \textcolor{black}{0} & \textcolor{red}{-1.02} & \textcolor{red}{-5.06} & \textcolor{red}{-16.08} & \textcolor{red}{-3.06} & \textcolor{red}{-8.19} & \textcolor{red}{-5.31}\\
+\hspace{1em}Age comp & \textcolor{black}{0} & \textcolor{red}{-126.67} & \textcolor{red}{-333.22} & \textcolor{red}{-1610.46} & \textcolor{red}{-433.04} & \textcolor{red}{-1010.16} & \textcolor{red}{-806.67}\\
+\hspace{1em}Recruitment & \textcolor{black}{0} & \textcolor{black}{0.635} & \textcolor{red}{-0.785} & \textcolor{red}{-3.912} & \textcolor{black}{0.533} & \textcolor{red}{-3.299} & \textcolor{red}{-0.916}\\
+\hspace{1em}Parm priors & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0}\\
+\addlinespace[0.3em]
+\multicolumn{8}{l}{\textbf{Estimates of key parameters}}\\
+\hspace{1em}Recruitment unfished thousands & \textcolor{black}{241.887} & \textcolor{black}{241.952} & \textcolor{black}{244.735} & \textcolor{black}{242.069} & \textcolor{black}{243.986} & \textcolor{black}{244.196} & \textcolor{black}{250.708}\\
+\hspace{1em}log(R0) & \textcolor{black}{5.488} & \textcolor{black}{5.489} & \textcolor{black}{5.5} & \textcolor{black}{5.489} & \textcolor{black}{5.497} & \textcolor{black}{5.498} & \textcolor{black}{5.524}\\
+\hspace{1em}M Female & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044}\\
+\hspace{1em}L at Amax Female & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.3} & \textcolor{black}{61.7} & \textcolor{black}{61.3} & \textcolor{black}{61.3} & \textcolor{black}{61.1}\\
+\addlinespace[0.3em]
+\multicolumn{8}{l}{\textbf{Estimates of derived quantities}}\\
+\hspace{1em}Unfished age 8+ bio 1000 mt & \textcolor{black}{10.331} & \textcolor{black}{10.32} & \textcolor{black}{10.411} & \textcolor{black}{10.185} & \textcolor{black}{10.418} & \textcolor{black}{10.351} & \textcolor{black}{10.61}\\
+\hspace{1em}B0 millions of eggs & \textcolor{black}{1190} & \textcolor{black}{1188.12} & \textcolor{black}{1197.32} & \textcolor{black}{1169.27} & \textcolor{black}{1200.16} & \textcolor{black}{1189.66} & \textcolor{black}{1217.61}\\
+\hspace{1em}B2025 millions of eggs & \textcolor{black}{477.63} & \textcolor{black}{475.113} & \textcolor{black}{475.18} & \textcolor{black}{461.464} & \textcolor{black}{485.851} & \textcolor{black}{469.622} & \textcolor{black}{502.097}\\
+\hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.401} & \textcolor{black}{0.4} & \textcolor{black}{0.397} & \textcolor{black}{0.395} & \textcolor{black}{0.405} & \textcolor{black}{0.395} & \textcolor{black}{0.412}\\
+\hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.357} & \textcolor{black}{0.358} & \textcolor{black}{0.358} & \textcolor{black}{0.372} & \textcolor{black}{0.35} & \textcolor{black}{0.359} & \textcolor{black}{0.341}\\
+\bottomrule
+
+\end{longtable}
+
+\endgroup{}
+
+
+\end{landscape}
+
+\newpage{}
+
+\begin{landscape}
+\begingroup\fontsize{9}{11}\selectfont
+
+\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{5em}}
+
+\caption{\label{tbl-sensitivities-like-comps-age2}Base model sensitivity
+to the removal of data sources (age compositional data; 2 of 2).}
+
+\tabularnewline
+
+\toprule
+Label & Base & - WCGBTS & - IPHC & No age comps & McAllister-Ianelli\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{6}{l}{\textbf{Diff. in likelihood from base model}}\\
+\hspace{1em}Total & \textcolor{black}{0} & \textcolor{red}{-1398.96} & \textcolor{red}{-899.62} & \textcolor{red}{-6628.94} & \textcolor{red}{-368.18}\\
+\hspace{1em}Index & \textcolor{black}{0} & \textcolor{red}{-0.684} & \textcolor{black}{4.295} & \textcolor{black}{1.068} & \textcolor{red}{-2.963}\\
+\hspace{1em}Length comp & \textcolor{black}{0} & \textcolor{red}{-14.72} & \textcolor{red}{-15.03} & \textcolor{red}{-77.93} & \textcolor{black}{91.11}\\
+\hspace{1em}Age comp & \textcolor{black}{0} & \textcolor{red}{-1378.25} & \textcolor{red}{-887.3} & \textcolor{red}{-6526.61} & \textcolor{red}{-456.34}\\
+\hspace{1em}Recruitment & \textcolor{black}{0} & \textcolor{red}{-5.283} & \textcolor{red}{-1.82} & \textcolor{red}{-25.344} & \textcolor{black}{0.151}\\
+\hspace{1em}Parm priors & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0}\\
+\addlinespace[0.3em]
+\multicolumn{6}{l}{\textbf{Estimates of key parameters}}\\
+\hspace{1em}Recruitment unfished thousands & \textcolor{black}{241.887} & \textcolor{black}{243.671} & \textcolor{black}{222.982} & \textcolor{black}{274.842} & \textcolor{black}{270.471}\\
+\hspace{1em}log(R0) & \textcolor{black}{5.488} & \textcolor{black}{5.496} & \textcolor{black}{5.407} & \textcolor{black}{5.616} & \textcolor{black}{5.6}\\
+\hspace{1em}M Female & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044}\\
+\hspace{1em}L at Amax Female & \textcolor{black}{61.4} & \textcolor{black}{61.5} & \textcolor{black}{62.4} & \textcolor{black}{60.8} & \textcolor{black}{61.2}\\
+\addlinespace[0.3em]
+\multicolumn{6}{l}{\textbf{Estimates of derived quantities}}\\
+\hspace{1em}Unfished age 8+ bio 1000 mt & \textcolor{black}{10.331} & \textcolor{black}{10.441} & \textcolor{black}{9.945} & \textcolor{black}{11.047} & \textcolor{black}{10.986}\\
+\hspace{1em}B0 millions of eggs & \textcolor{black}{1190} & \textcolor{black}{1199.98} & \textcolor{black}{1166.44} & \textcolor{black}{1228.11} & \textcolor{black}{1241.2}\\
+\hspace{1em}B2025 millions of eggs & \textcolor{black}{477.63} & \textcolor{black}{471.858} & \textcolor{black}{393.043} & \textcolor{black}{469.146} & \textcolor{black}{549.181}\\
+\hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.401} & \textcolor{black}{0.393} & \textcolor{black}{0.337} & \textcolor{black}{0.382} & \textcolor{black}{0.442}\\
+\hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.357} & \textcolor{black}{0.365} & \textcolor{black}{0.427} & \textcolor{black}{0.372} & \textcolor{black}{0.316}\\
+\bottomrule
+
+\end{longtable}
+
+\endgroup{}
+
+
+\end{landscape}
+
+\newpage{}
+
 \begingroup\fontsize{8}{10}\selectfont
 
 \begin{longtable}[t]{>{\raggedleft\arraybackslash}p{0.5in}>{\raggedleft\arraybackslash}p{0.5in}>{\raggedleft\arraybackslash}p{0.5in}>{\raggedleft\arraybackslash}p{0.5in}>{\raggedleft\arraybackslash}p{0.5in}>{\raggedleft\arraybackslash}p{0.5in}>{\raggedleft\arraybackslash}p{0.5in}>{\raggedleft\arraybackslash}p{0.5in}>{\raggedleft\arraybackslash}p{0.5in}}
@@ -3648,278 +3924,6 @@ Year & Total Biomass (mt) & Spawning output & Total Biomass 8+ (mt) & Fraction U
 
 \newpage{}
 
-\begin{landscape}
-\begin{flushleft}
-\begingroup\fontsize{9}{11}\selectfont
-
-\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}}
-
-\caption{\label{tbl-sensitivities-like-indices}Base model sensitivity to
-the removal of data sources (indices).}
-
-\tabularnewline
-
-\toprule
-Label & Base & - CA REC & - OR REC & - WA REC & - CA CPFV & - ORFS & - Triennial & - WCGBTS & - IPHC & No indices\\
-\midrule
-\addlinespace[0.3em]
-\multicolumn{11}{l}{\textbf{Diff. in likelihood from base model}}\\
-\hspace{1em}Total & \textcolor{black}{0} & \textcolor{black}{4.67} & \textcolor{black}{29.12} & \textcolor{black}{5.15} & \textcolor{red}{-163.01} & \textcolor{red}{-103.81} & \textcolor{red}{-25.74} & \textcolor{red}{-1460.39} & \textcolor{red}{-957.26} & \textcolor{red}{-2664.61}\\
-\hspace{1em}Index & \textcolor{black}{0} & \textcolor{black}{4.893} & \textcolor{black}{29.269} & \textcolor{black}{5.761} & \textcolor{black}{5.574} & \textcolor{black}{4.043} & \textcolor{black}{0.897} & \textcolor{black}{4.76} & \textcolor{black}{0.932} & \textcolor{black}{NA}\\
-\hspace{1em}Length comp & \textcolor{black}{0} & \textcolor{black}{0.11} & \textcolor{black}{0.48} & \textcolor{red}{-2.23} & \textcolor{red}{-165.77} & \textcolor{red}{-99.48} & \textcolor{red}{-24.5} & \textcolor{red}{-81.58} & \textcolor{red}{-67.71} & \textcolor{red}{-437.753}\\
-\hspace{1em}Age comp & \textcolor{black}{0} & \textcolor{red}{-0.02} & \textcolor{black}{0.09} & \textcolor{black}{2.29} & \textcolor{red}{-5.05} & \textcolor{red}{-8.32} & \textcolor{red}{-2.3} & \textcolor{red}{-1379.01} & \textcolor{red}{-889.55} & \textcolor{red}{-2276.84}\\
-\hspace{1em}Recruitment & \textcolor{black}{0} & \textcolor{red}{-0.334} & \textcolor{red}{-0.722} & \textcolor{red}{-0.741} & \textcolor{black}{2.242} & \textcolor{red}{-0.01} & \textcolor{black}{0.183} & \textcolor{red}{-4.526} & \textcolor{red}{-1.172} & \textcolor{red}{-5.148}\\
-\hspace{1em}Parm priors & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0}\\
-\addlinespace[0.3em]
-\multicolumn{11}{l}{\textbf{Estimates of key parameters}}\\
-\hspace{1em}Recruitment unfished thousands & \textcolor{black}{241.887} & \textcolor{black}{237.747} & \textcolor{black}{238.639} & \textcolor{black}{231.896} & \textcolor{black}{246.229} & \textcolor{black}{242.162} & \textcolor{black}{243.372} & \textcolor{black}{244.802} & \textcolor{black}{222.331} & \textcolor{black}{209.223}\\
-\hspace{1em}log(R0) & \textcolor{black}{5.488} & \textcolor{black}{5.471} & \textcolor{black}{5.475} & \textcolor{black}{5.446} & \textcolor{black}{5.506} & \textcolor{black}{5.49} & \textcolor{black}{5.495} & \textcolor{black}{5.5} & \textcolor{black}{5.404} & \textcolor{black}{5.343}\\
-\hspace{1em}M Female & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044}\\
-\hspace{1em}L at Amax Female & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.3} & \textcolor{black}{61.5} & \textcolor{black}{62.4} & \textcolor{black}{62.7}\\
-\addlinespace[0.3em]
-\multicolumn{11}{l}{\textbf{Estimates of derived quantities}}\\
-\hspace{1em}Unfished age 8+ bio 1000 mt & \textcolor{black}{10.331} & \textcolor{black}{10.156} & \textcolor{black}{10.194} & \textcolor{black}{9.9} & \textcolor{black}{10.52} & \textcolor{black}{10.358} & \textcolor{black}{10.382} & \textcolor{black}{10.489} & \textcolor{black}{9.916} & \textcolor{black}{9.454}\\
-\hspace{1em}B0 millions of eggs & \textcolor{black}{1190} & \textcolor{black}{1169.99} & \textcolor{black}{1174.29} & \textcolor{black}{1140.22} & \textcolor{black}{1211.93} & \textcolor{black}{1193.95} & \textcolor{black}{1195.11} & \textcolor{black}{1205.33} & \textcolor{black}{1162.9} & \textcolor{black}{1111.28}\\
-\hspace{1em}B2025 millions of eggs & \textcolor{black}{477.63} & \textcolor{black}{459.638} & \textcolor{black}{464.736} & \textcolor{black}{434.657} & \textcolor{black}{499.77} & \textcolor{black}{488.3} & \textcolor{black}{485.989} & \textcolor{black}{484.887} & \textcolor{black}{391.733} & \textcolor{black}{339.272}\\
-\hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.401} & \textcolor{black}{0.393} & \textcolor{black}{0.396} & \textcolor{black}{0.381} & \textcolor{black}{0.412} & \textcolor{black}{0.409} & \textcolor{black}{0.407} & \textcolor{black}{0.402} & \textcolor{black}{0.337} & \textcolor{black}{0.305}\\
-\hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.357} & \textcolor{black}{0.368} & \textcolor{black}{0.365} & \textcolor{black}{0.385} & \textcolor{black}{0.343} & \textcolor{black}{0.35} & \textcolor{black}{0.351} & \textcolor{black}{0.357} & \textcolor{black}{0.428} & \textcolor{black}{0.484}\\
-\bottomrule
-
-\end{longtable}
-
-\endgroup{}
-
-\end{flushleft}
-
-\end{landscape}
-
-\newpage{}
-
-\begin{landscape}
-\begingroup\fontsize{9}{11}\selectfont
-
-\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}}
-
-\caption{\label{tbl-sensitivities-like-comps-len1}Base model sensitivity
-to the removal of data sources (length compositional data - 1 of 2).}
-
-\tabularnewline
-
-\toprule
-Label & Base & - CA TWL & - CA NONTWL & - CA REC & - ORWA TWL & - ORWA NONTWL & - OR REC & - WA REC\\
-\midrule
-\addlinespace[0.3em]
-\multicolumn{9}{l}{\textbf{Diff. in likelihood from base model}}\\
-\hspace{1em}Total & \textcolor{black}{0} & \textcolor{red}{-139.43} & \textcolor{red}{-109.74} & \textcolor{red}{-271.06} & \textcolor{red}{-93.92} & \textcolor{red}{-95.57} & \textcolor{red}{-194.67} & \textcolor{red}{-119.41}\\
-\hspace{1em}Index & \textcolor{black}{0} & \textcolor{black}{0.235} & \textcolor{red}{-1.775} & \textcolor{red}{-0.893} & \textcolor{red}{-1.404} & \textcolor{red}{-0.586} & \textcolor{red}{-2.52} & \textcolor{red}{-0.162}\\
-\hspace{1em}Length comp & \textcolor{black}{0} & \textcolor{red}{-136.54} & \textcolor{red}{-97.36} & \textcolor{red}{-263.41} & \textcolor{red}{-84.08} & \textcolor{red}{-88.64} & \textcolor{red}{-173.64} & \textcolor{red}{-116.68}\\
-\hspace{1em}Age comp & \textcolor{black}{0} & \textcolor{red}{-3.43} & \textcolor{red}{-15.27} & \textcolor{red}{-9.08} & \textcolor{red}{-4.56} & \textcolor{red}{-5.8} & \textcolor{red}{-18.88} & \textcolor{red}{-2.76}\\
-\hspace{1em}Recruitment & \textcolor{black}{0} & \textcolor{black}{0.305} & \textcolor{black}{4.435} & \textcolor{black}{2.435} & \textcolor{red}{-3.845} & \textcolor{red}{-0.547} & \textcolor{black}{0.428} & \textcolor{black}{0.193}\\
-\hspace{1em}Parm priors & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0}\\
-\addlinespace[0.3em]
-\multicolumn{9}{l}{\textbf{Estimates of key parameters}}\\
-\hspace{1em}Recruitment unfished thousands & \textcolor{black}{241.887} & \textcolor{black}{240.231} & \textcolor{black}{243.282} & \textcolor{black}{243.821} & \textcolor{black}{241.236} & \textcolor{black}{244.452} & \textcolor{black}{247.886} & \textcolor{black}{242.171}\\
-\hspace{1em}log(R0) & \textcolor{black}{5.488} & \textcolor{black}{5.482} & \textcolor{black}{5.494} & \textcolor{black}{5.496} & \textcolor{black}{5.486} & \textcolor{black}{5.499} & \textcolor{black}{5.513} & \textcolor{black}{5.49}\\
-\hspace{1em}M Female & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044}\\
-\hspace{1em}L at Amax Female & \textcolor{black}{61.4} & \textcolor{black}{61.3} & \textcolor{black}{61.3} & \textcolor{black}{61.3} & \textcolor{black}{61.2} & \textcolor{black}{61.4} & \textcolor{black}{61.3} & \textcolor{black}{61.2}\\
-\addlinespace[0.3em]
-\multicolumn{9}{l}{\textbf{Estimates of derived quantities}}\\
-\hspace{1em}Unfished age 8+ bio 1000 mt & \textcolor{black}{10.331} & \textcolor{black}{10.24} & \textcolor{black}{10.38} & \textcolor{black}{10.41} & \textcolor{black}{10.278} & \textcolor{black}{10.468} & \textcolor{black}{10.661} & \textcolor{black}{10.304}\\
-\hspace{1em}B0 millions of eggs & \textcolor{black}{1190} & \textcolor{black}{1178.36} & \textcolor{black}{1194.97} & \textcolor{black}{1198.67} & \textcolor{black}{1182.05} & \textcolor{black}{1207.27} & \textcolor{black}{1231.32} & \textcolor{black}{1184.65}\\
-\hspace{1em}B2025 millions of eggs & \textcolor{black}{477.63} & \textcolor{black}{471.102} & \textcolor{black}{447.839} & \textcolor{black}{511.303} & \textcolor{black}{520.246} & \textcolor{black}{500.739} & \textcolor{black}{543.75} & \textcolor{black}{475.296}\\
-\hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.401} & \textcolor{black}{0.4} & \textcolor{black}{0.375} & \textcolor{black}{0.427} & \textcolor{black}{0.44} & \textcolor{black}{0.415} & \textcolor{black}{0.442} & \textcolor{black}{0.401}\\
-\hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.357} & \textcolor{black}{0.36} & \textcolor{black}{0.371} & \textcolor{black}{0.341} & \textcolor{black}{0.333} & \textcolor{black}{0.344} & \textcolor{black}{0.322} & \textcolor{black}{0.361}\\
-\bottomrule
-
-\end{longtable}
-
-\endgroup{}
-
-
-\end{landscape}
-
-\clearpage
-
-\begin{landscape}
-\begingroup\fontsize{9}{11}\selectfont
-
-\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}}
-
-\caption{\label{tbl-sensitivities-like-comps-len2}Base model sensitivity
-to the removal of data sources (length compositional data - 2 of 2).}
-
-\tabularnewline
-
-\toprule
-Label & Base & - CA CPFV & - ORFS & - Triennial & - WCGBTS & - IPHC & No length comps\\
-\midrule
-\addlinespace[0.3em]
-\multicolumn{8}{l}{\textbf{Diff. in likelihood from base model}}\\
-\hspace{1em}Total & \textcolor{black}{0} & \textcolor{red}{-169.32} & \textcolor{red}{-108.27} & \textcolor{red}{-26.84} & \textcolor{red}{-66.36} & \textcolor{red}{-55.02} & \textcolor{red}{-1480.61}\\
-\hspace{1em}Index & \textcolor{black}{0} & \textcolor{red}{-0.05} & \textcolor{red}{-0.517} & \textcolor{black}{0.051} & \textcolor{red}{-0.339} & \textcolor{red}{-0.08} & \textcolor{red}{-16.679}\\
-\hspace{1em}Length comp & \textcolor{black}{0} & \textcolor{red}{-165.81} & \textcolor{red}{-99.39} & \textcolor{red}{-25.21} & \textcolor{red}{-65.86} & \textcolor{red}{-52.19} & \textcolor{red}{-1387.28}\\
-\hspace{1em}Age comp & \textcolor{black}{0} & \textcolor{red}{-5.16} & \textcolor{red}{-8.03} & \textcolor{red}{-1.64} & \textcolor{red}{-0.4} & \textcolor{red}{-3.41} & \textcolor{red}{-78.02}\\
-\hspace{1em}Recruitment & \textcolor{black}{0} & \textcolor{black}{1.653} & \textcolor{red}{-0.303} & \textcolor{red}{-0.02} & \textcolor{black}{0.26} & \textcolor{black}{0.66} & \textcolor{black}{0.188}\\
-\hspace{1em}Parm priors & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0}\\
-\addlinespace[0.3em]
-\multicolumn{8}{l}{\textbf{Estimates of key parameters}}\\
-\hspace{1em}Recruitment unfished thousands & \textcolor{black}{241.887} & \textcolor{black}{240.462} & \textcolor{black}{242.106} & \textcolor{black}{241.355} & \textcolor{black}{242.363} & \textcolor{black}{241.152} & \textcolor{black}{383.142}\\
-\hspace{1em}log(R0) & \textcolor{black}{5.488} & \textcolor{black}{5.483} & \textcolor{black}{5.489} & \textcolor{black}{5.486} & \textcolor{black}{5.49} & \textcolor{black}{5.485} & \textcolor{black}{5.948}\\
-\hspace{1em}M Female & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044}\\
-\hspace{1em}L at Amax Female & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.3} & \textcolor{black}{61.4} & \textcolor{black}{61.3} & \textcolor{black}{61.4}\\
-\addlinespace[0.3em]
-\multicolumn{8}{l}{\textbf{Estimates of derived quantities}}\\
-\hspace{1em}Unfished age 8+ bio 1000 mt & \textcolor{black}{10.331} & \textcolor{black}{10.277} & \textcolor{black}{10.357} & \textcolor{black}{10.295} & \textcolor{black}{10.353} & \textcolor{black}{10.298} & \textcolor{black}{16.697}\\
-\hspace{1em}B0 millions of eggs & \textcolor{black}{1190} & \textcolor{black}{1184.01} & \textcolor{black}{1193.73} & \textcolor{black}{1185.09} & \textcolor{black}{1192.46} & \textcolor{black}{1186.1} & \textcolor{black}{1935.01}\\
-\hspace{1em}B2025 millions of eggs & \textcolor{black}{477.63} & \textcolor{black}{473.383} & \textcolor{black}{490.053} & \textcolor{black}{476.66} & \textcolor{black}{488.707} & \textcolor{black}{477.218} & \textcolor{black}{1450.16}\\
-\hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.401} & \textcolor{black}{0.4} & \textcolor{black}{0.411} & \textcolor{black}{0.402} & \textcolor{black}{0.41} & \textcolor{black}{0.402} & \textcolor{black}{0.749}\\
-\hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.357} & \textcolor{black}{0.359} & \textcolor{black}{0.349} & \textcolor{black}{0.357} & \textcolor{black}{0.351} & \textcolor{black}{0.356} & \textcolor{black}{0.163}\\
-\bottomrule
-
-\end{longtable}
-
-\endgroup{}
-
-
-\end{landscape}
-
-\newpage{}
-
-\begin{landscape}
-\begingroup\fontsize{9}{11}\selectfont
-
-\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}}
-
-\caption{\label{tbl-sensitivities-like-comps-age1}Base model sensitivity
-to the removal of data sources (age compositional data; 1 of 2).}
-
-\tabularnewline
-
-\toprule
-Label & Base & - CA NONTWL & - CA REC & - ORWA TWL & - ORWA NONTWL & - OR REC & - WA REC\\
-\midrule
-\addlinespace[0.3em]
-\multicolumn{8}{l}{\textbf{Diff. in likelihood from base model}}\\
-\hspace{1em}Total & \textcolor{black}{0} & \textcolor{red}{-126.99} & \textcolor{red}{-338.81} & \textcolor{red}{-1631.1} & \textcolor{red}{-435.31} & \textcolor{red}{-1020.72} & \textcolor{red}{-813.89}\\
-\hspace{1em}Index & \textcolor{black}{0} & \textcolor{black}{0.079} & \textcolor{black}{0.284} & \textcolor{red}{-0.634} & \textcolor{black}{0.256} & \textcolor{black}{0.912} & \textcolor{red}{-0.952}\\
-\hspace{1em}Length comp & \textcolor{black}{0} & \textcolor{red}{-1.02} & \textcolor{red}{-5.06} & \textcolor{red}{-16.08} & \textcolor{red}{-3.06} & \textcolor{red}{-8.19} & \textcolor{red}{-5.31}\\
-\hspace{1em}Age comp & \textcolor{black}{0} & \textcolor{red}{-126.67} & \textcolor{red}{-333.22} & \textcolor{red}{-1610.46} & \textcolor{red}{-433.04} & \textcolor{red}{-1010.16} & \textcolor{red}{-806.67}\\
-\hspace{1em}Recruitment & \textcolor{black}{0} & \textcolor{black}{0.635} & \textcolor{red}{-0.785} & \textcolor{red}{-3.912} & \textcolor{black}{0.533} & \textcolor{red}{-3.299} & \textcolor{red}{-0.916}\\
-\hspace{1em}Parm priors & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0}\\
-\addlinespace[0.3em]
-\multicolumn{8}{l}{\textbf{Estimates of key parameters}}\\
-\hspace{1em}Recruitment unfished thousands & \textcolor{black}{241.887} & \textcolor{black}{241.952} & \textcolor{black}{244.735} & \textcolor{black}{242.069} & \textcolor{black}{243.986} & \textcolor{black}{244.196} & \textcolor{black}{250.708}\\
-\hspace{1em}log(R0) & \textcolor{black}{5.488} & \textcolor{black}{5.489} & \textcolor{black}{5.5} & \textcolor{black}{5.489} & \textcolor{black}{5.497} & \textcolor{black}{5.498} & \textcolor{black}{5.524}\\
-\hspace{1em}M Female & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044}\\
-\hspace{1em}L at Amax Female & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.3} & \textcolor{black}{61.7} & \textcolor{black}{61.3} & \textcolor{black}{61.3} & \textcolor{black}{61.1}\\
-\addlinespace[0.3em]
-\multicolumn{8}{l}{\textbf{Estimates of derived quantities}}\\
-\hspace{1em}Unfished age 8+ bio 1000 mt & \textcolor{black}{10.331} & \textcolor{black}{10.32} & \textcolor{black}{10.411} & \textcolor{black}{10.185} & \textcolor{black}{10.418} & \textcolor{black}{10.351} & \textcolor{black}{10.61}\\
-\hspace{1em}B0 millions of eggs & \textcolor{black}{1190} & \textcolor{black}{1188.12} & \textcolor{black}{1197.32} & \textcolor{black}{1169.27} & \textcolor{black}{1200.16} & \textcolor{black}{1189.66} & \textcolor{black}{1217.61}\\
-\hspace{1em}B2025 millions of eggs & \textcolor{black}{477.63} & \textcolor{black}{475.113} & \textcolor{black}{475.18} & \textcolor{black}{461.464} & \textcolor{black}{485.851} & \textcolor{black}{469.622} & \textcolor{black}{502.097}\\
-\hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.401} & \textcolor{black}{0.4} & \textcolor{black}{0.397} & \textcolor{black}{0.395} & \textcolor{black}{0.405} & \textcolor{black}{0.395} & \textcolor{black}{0.412}\\
-\hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.357} & \textcolor{black}{0.358} & \textcolor{black}{0.358} & \textcolor{black}{0.372} & \textcolor{black}{0.35} & \textcolor{black}{0.359} & \textcolor{black}{0.341}\\
-\bottomrule
-
-\end{longtable}
-
-\endgroup{}
-
-
-\end{landscape}
-
-\newpage{}
-
-\begin{landscape}
-\begingroup\fontsize{9}{11}\selectfont
-
-\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{5em}}
-
-\caption{\label{tbl-sensitivities-like-comps-age2}Base model sensitivity
-to the removal of data sources (age compositional data; 2 of 2).}
-
-\tabularnewline
-
-\toprule
-Label & Base & - WCGBTS & - IPHC & No age comps & McAllister-Ianelli\\
-\midrule
-\addlinespace[0.3em]
-\multicolumn{6}{l}{\textbf{Diff. in likelihood from base model}}\\
-\hspace{1em}Total & \textcolor{black}{0} & \textcolor{red}{-1398.96} & \textcolor{red}{-899.62} & \textcolor{red}{-6628.94} & \textcolor{red}{-368.18}\\
-\hspace{1em}Index & \textcolor{black}{0} & \textcolor{red}{-0.684} & \textcolor{black}{4.295} & \textcolor{black}{1.068} & \textcolor{red}{-2.963}\\
-\hspace{1em}Length comp & \textcolor{black}{0} & \textcolor{red}{-14.72} & \textcolor{red}{-15.03} & \textcolor{red}{-77.93} & \textcolor{black}{91.11}\\
-\hspace{1em}Age comp & \textcolor{black}{0} & \textcolor{red}{-1378.25} & \textcolor{red}{-887.3} & \textcolor{red}{-6526.61} & \textcolor{red}{-456.34}\\
-\hspace{1em}Recruitment & \textcolor{black}{0} & \textcolor{red}{-5.283} & \textcolor{red}{-1.82} & \textcolor{red}{-25.344} & \textcolor{black}{0.151}\\
-\hspace{1em}Parm priors & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0}\\
-\addlinespace[0.3em]
-\multicolumn{6}{l}{\textbf{Estimates of key parameters}}\\
-\hspace{1em}Recruitment unfished thousands & \textcolor{black}{241.887} & \textcolor{black}{243.671} & \textcolor{black}{222.982} & \textcolor{black}{274.842} & \textcolor{black}{270.471}\\
-\hspace{1em}log(R0) & \textcolor{black}{5.488} & \textcolor{black}{5.496} & \textcolor{black}{5.407} & \textcolor{black}{5.616} & \textcolor{black}{5.6}\\
-\hspace{1em}M Female & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044} & \textcolor{black}{0.044}\\
-\hspace{1em}L at Amax Female & \textcolor{black}{61.4} & \textcolor{black}{61.5} & \textcolor{black}{62.4} & \textcolor{black}{60.8} & \textcolor{black}{61.2}\\
-\addlinespace[0.3em]
-\multicolumn{6}{l}{\textbf{Estimates of derived quantities}}\\
-\hspace{1em}Unfished age 8+ bio 1000 mt & \textcolor{black}{10.331} & \textcolor{black}{10.441} & \textcolor{black}{9.945} & \textcolor{black}{11.047} & \textcolor{black}{10.986}\\
-\hspace{1em}B0 millions of eggs & \textcolor{black}{1190} & \textcolor{black}{1199.98} & \textcolor{black}{1166.44} & \textcolor{black}{1228.11} & \textcolor{black}{1241.2}\\
-\hspace{1em}B2025 millions of eggs & \textcolor{black}{477.63} & \textcolor{black}{471.858} & \textcolor{black}{393.043} & \textcolor{black}{469.146} & \textcolor{black}{549.181}\\
-\hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.401} & \textcolor{black}{0.393} & \textcolor{black}{0.337} & \textcolor{black}{0.382} & \textcolor{black}{0.442}\\
-\hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.357} & \textcolor{black}{0.365} & \textcolor{black}{0.427} & \textcolor{black}{0.372} & \textcolor{black}{0.316}\\
-\bottomrule
-
-\end{longtable}
-
-\endgroup{}
-
-
-\end{landscape}
-
-\newpage{}
-
-\begin{landscape}
-\begingroup\fontsize{9}{11}\selectfont
-
-\begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{5em}}
-
-\caption{\label{tbl-sensitivities-model-specs}Base model sensitivity to
-model parameters and specifications.}
-
-\tabularnewline
-
-\toprule
-Label & Base & Est. M & Est. steepness & 2017 LW relationship\\
-\midrule
-\addlinespace[0.3em]
-\multicolumn{5}{l}{\textbf{Diff. in likelihood from base model}}\\
-\hspace{1em}Total & \textcolor{black}{0} & \textcolor{red}{-5.64} & \textcolor{red}{-3.33} & \textcolor{black}{0}\\
-\hspace{1em}Index & \textcolor{black}{0} & \textcolor{red}{-3.174} & \textcolor{red}{-1.576} & \textcolor{black}{0}\\
-\hspace{1em}Length comp & \textcolor{black}{0} & \textcolor{red}{-4.67} & \textcolor{red}{-3.35} & \textcolor{black}{0}\\
-\hspace{1em}Age comp & \textcolor{black}{0} & \textcolor{black}{3.93} & \textcolor{black}{2.65} & \textcolor{black}{0}\\
-\hspace{1em}Recruitment & \textcolor{black}{0} & \textcolor{red}{-1.488} & \textcolor{red}{-0.911} & \textcolor{black}{0}\\
-\hspace{1em}Parm priors & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0} & \textcolor{black}{0}\\
-\addlinespace[0.3em]
-\multicolumn{5}{l}{\textbf{Estimates of key parameters}}\\
-\hspace{1em}Recruitment unfished thousands & \textcolor{black}{241.887} & \textcolor{black}{392.064} & \textcolor{black}{240.801} & \textcolor{black}{241.887}\\
-\hspace{1em}log(R0) & \textcolor{black}{5.488} & \textcolor{black}{5.971} & \textcolor{black}{5.484} & \textcolor{black}{5.488}\\
-\hspace{1em}M Female & \textcolor{black}{0.044} & \textcolor{black}{0.053} & \textcolor{black}{0.044} & \textcolor{black}{0.044}\\
-\hspace{1em}L at Amax Female & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4} & \textcolor{black}{61.4}\\
-\addlinespace[0.3em]
-\multicolumn{5}{l}{\textbf{Estimates of derived quantities}}\\
-\hspace{1em}Unfished age 8+ bio 1000 mt & \textcolor{black}{10.331} & \textcolor{black}{11.865} & \textcolor{black}{10.281} & \textcolor{black}{10.331}\\
-\hspace{1em}B0 millions of eggs & \textcolor{black}{1190} & \textcolor{black}{1316.36} & \textcolor{black}{1184.16} & \textcolor{black}{1190}\\
-\hspace{1em}B2025 millions of eggs & \textcolor{black}{477.63} & \textcolor{black}{724.664} & \textcolor{black}{639.998} & \textcolor{black}{477.63}\\
-\hspace{1em}Fraction unfished 2025 & \textcolor{black}{0.401} & \textcolor{black}{0.551} & \textcolor{black}{0.54} & \textcolor{black}{0.401}\\
-\hspace{1em}Fishing intensity 2024 & \textcolor{black}{0.357} & \textcolor{black}{0.215} & \textcolor{black}{0.276} & \textcolor{black}{0.357}\\
-\bottomrule
-
-\end{longtable}
-
-\endgroup{}
-
-
-\end{landscape}
-
-\newpage{}
-
 \begingroup
 \fontsize{9.0pt}{10.8pt}\selectfont
 
@@ -3961,7 +3965,7 @@ MSY (mt) & 128 & 113 & 143 \\
 
 \endgroup
 
-\pagebreak
+\newpage{}
 
 \begin{landscape}
 \begingroup
@@ -3998,6 +4002,8 @@ Year & Adopted OFL (mt) & Adopted ACL (mt) & Assumed Catch (mt) & OFL (mt) & Buf
 \endgroup
 
 \end{landscape}
+
+\newpage{}
 
 \begin{table}[H]
 
@@ -4039,8 +4045,6 @@ Mgmt & Year & Catch & Low Spawn & Low Frac & Base Spawn & Base Frac & High Spawn
 }
 
 \end{table}%
-
-\pagebreak
 
 \newpage{}
 
@@ -4089,19 +4093,6 @@ model fit for the Oregon Onboard Observer (ORFS) index.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/index1_cpuedata_9_OR_RECOB.png}
-
-}
-
-\caption{\label{fig-ORFS_index}Annual relative index of abundance for
-the Oregon Onboard Observer (ORFS) index.}
-
-\end{figure}%
-
-\begin{figure}
-
-\centering{
-
 \includegraphics{figures/indices/ORFS index comparison_errbars.png}
 
 }
@@ -4128,13 +4119,13 @@ fit for the updated portion of the Oregon recreational (ORBS) index.}
 
 \centering{
 
-\includegraphics{figures/r4ss_plots/plots/index1_cpuedata_6_OR_REC.png}
+\includegraphics{figures/r4ss_plots/plots/index4_logcpuedata_6_OR_REC.png}
 
 }
 
-\caption{\label{fig-ORBS_index}Annual relative index of abundance for
-the Oregon recreational index, including both MRFSS (1980 - 1999) and
-ORBS (2004 - 2024) indices.}
+\caption{\label{fig-ORBS_index}Annual relative log-scale index of
+abundance for the Oregon recreational index, including both MRFSS (1980
+- 1999) and ORBS (2004 - 2024) indices.}
 
 \end{figure}%
 
@@ -4179,32 +4170,6 @@ index.}
 \caption{\label{fig-wcgbtsindexcomparison}Comparison of the 2017 West
 Coast Groundfish Bottom Trawl Survey (WCGBTS) and the current WCBTS
 index of abundance.}
-
-\end{figure}%
-
-\begin{figure}
-
-\centering{
-
-\includegraphics{figures/r4ss_plots/plots/index1_cpuedata_11_NWFSC_ORWA.png}
-
-}
-
-\caption{\label{fig-wcgbtsindex}Annual relative index of abundance for
-the West Coast Groundfish Bottom Trawl Survey (WCGBTS).}
-
-\end{figure}%
-
-\begin{figure}
-
-\centering{
-
-\includegraphics{figures/r4ss_plots/plots/index1_cpuedata_12_IPHC_ORWA.png}
-
-}
-
-\caption{\label{fig-IPHC_index}Annual relative index of abundance for
-the IPHC longline survey.}
 
 \end{figure}%
 
@@ -4572,8 +4537,8 @@ showing later years.}
 
 }
 
-\caption{\label{fig-indexfit3}Fit to the California MRFSS recreational
-index.}
+\caption{\label{fig-indexfit3}Fit to the log-scale California MRFSS
+recreational index.}
 
 \end{figure}%
 
@@ -4585,7 +4550,8 @@ index.}
 
 }
 
-\caption{\label{fig-indexfit6}Fit to the Oregon recreational index.}
+\caption{\label{fig-indexfit6}Fit to the log-scale Oregon recreational
+index.}
 
 \end{figure}%
 
@@ -4597,7 +4563,8 @@ index.}
 
 }
 
-\caption{\label{fig-indexfit7}Fit to the Washington recreational index.}
+\caption{\label{fig-indexfit7}Fit to the log-scale Washington
+recreational index.}
 
 \end{figure}%
 
@@ -4609,8 +4576,8 @@ index.}
 
 }
 
-\caption{\label{fig-indexfit8}Fit to the California CPFV observer
-index.}
+\caption{\label{fig-indexfit8}Fit to the log-scale California CPFV
+observer index.}
 
 \end{figure}%
 
@@ -4622,8 +4589,8 @@ index.}
 
 }
 
-\caption{\label{fig-indexfit9}Fit to the Oregon onboard observer (ORFS)
-index.}
+\caption{\label{fig-indexfit9}Fit to the log-scale Oregon onboard
+observer (ORFS) index.}
 
 \end{figure}%
 
@@ -4635,7 +4602,8 @@ index.}
 
 }
 
-\caption{\label{fig-indexfit10}Fit to the Triennial survey index.}
+\caption{\label{fig-indexfit10}Fit to the log-scale Triennial survey
+index.}
 
 \end{figure}%
 
@@ -4647,7 +4615,7 @@ index.}
 
 }
 
-\caption{\label{fig-indexfit11}Fit to the WCBTS index.}
+\caption{\label{fig-indexfit11}Fit to the log-scale WCBTS index.}
 
 \end{figure}%
 
@@ -4659,7 +4627,7 @@ index.}
 
 }
 
-\caption{\label{fig-indexfit12}Fit to the IPHC survey index.}
+\caption{\label{fig-indexfit12}Fit to the log-scale IPHC survey index.}
 
 \end{figure}%
 
@@ -4903,8 +4871,9 @@ estimated by area (area 1= California, area 2 = Oregon and Washington).}
 
 }
 
-\caption{\label{fig-summbio}Summary biomass (t) over time and by area
-(Area 1 is California, Area 2 is Oregon/Washington combined).}
+\caption{\label{fig-summbio}Summary biomass (t) of age 8+ fish over time
+and by area (Area 1 is California, Area 2 is Oregon/Washington
+combined).}
 
 \end{figure}%
 
@@ -4994,12 +4963,12 @@ eggs) across length composition inclusion sensitivities (1 of 2).}
 
 \centering{
 
-\includegraphics{figures/sensitivities/length_comps_1compare4_Bratio_uncertainty.png}
+\includegraphics{figures/sensitivities/length_comps_2compare2_spawnbio_uncertainty.png}
 
 }
 
-\caption{\label{fig-sens_lengths1_status}Relative spawning output across
-length composition inclusion sensitivities (1 of 2).}
+\caption{\label{fig-sens_lengths2_spout}Spawning output (millions of
+eggs) across length composition inclusion sensitivities (2 of 2).}
 
 \end{figure}%
 
@@ -5007,12 +4976,12 @@ length composition inclusion sensitivities (1 of 2).}
 
 \centering{
 
-\includegraphics{figures/sensitivities/length_comps_2compare2_spawnbio_uncertainty.png}
+\includegraphics{figures/sensitivities/length_comps_1compare4_Bratio_uncertainty.png}
 
 }
 
-\caption{\label{fig-sens_lengths2_spout}Spawning output (millions of
-eggs) across length composition inclusion sensitivities (2 of 2).}
+\caption{\label{fig-sens_lengths1_status}Relative spawning output across
+length composition inclusion sensitivities (1 of 2).}
 
 \end{figure}%
 
@@ -5040,20 +5009,7 @@ length composition inclusion sensitivities (2 of 2).}
 }
 
 \caption{\label{fig-sens_age1_spout}Spawning output (millions of eggs)
-across age composition inclusion sensitivities.}
-
-\end{figure}%
-
-\begin{figure}
-
-\centering{
-
-\includegraphics{figures/sensitivities/age_comps_1compare4_Bratio_uncertainty.png}
-
-}
-
-\caption{\label{fig-sens_age1_status}Relative spawning output across age
-composition inclusion sensitivities.}
+across age composition inclusion sensitivities (1 of 2).}
 
 \end{figure}%
 
@@ -5066,7 +5022,20 @@ composition inclusion sensitivities.}
 }
 
 \caption{\label{fig-sens_age2_spout}Spawning output (millions of eggs)
-across age composition inclusion sensitivities.}
+across age composition inclusion sensitivities (2 of 2).}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{figures/sensitivities/age_comps_1compare4_Bratio_uncertainty.png}
+
+}
+
+\caption{\label{fig-sens_age1_status}Relative spawning output across age
+composition inclusion sensitivities (1 of 2).}
 
 \end{figure}%
 
@@ -5079,7 +5048,7 @@ across age composition inclusion sensitivities.}
 }
 
 \caption{\label{fig-sens_age2_status}Relative spawning output across age
-composition inclusion sensitivities.}
+composition inclusion sensitivities (2 of 2).}
 
 \end{figure}%
 
@@ -5304,7 +5273,7 @@ estimate.}
 
 }
 
-\caption{\label{fig-time-spr}Time series of estimated SPR}
+\caption{\label{fig-time-spr}Time series of estimated SPR.}
 
 \end{figure}%
 
