@@ -362,6 +362,25 @@ kableExtra::kable(
 
 {{< pagebreak >}}
 
+```{r}
+#| label: tbl-sensitivities-model-specs
+#| echo: false
+#| warning: false
+#| results: "asis"
+#| tbl-cap: "Base model sensitivity to model parameters and specifications."
+
+cat("\\begin{landscape}\n")
+
+modeling <- read.csv(here::here("report", "figures", "sensitivities", "modeling_table.csv"))
+#names(modeling) <- gsub("X", "", names(modeling))
+names(modeling) <- c("Label","Base","Est. M", "Est. steepness","2017 LW relationship")
+
+table_sens(modeling)
+
+cat("\n\\end{landscape}\n") 
+```
+
+{{< pagebreak >}}
 
 ```{r}
 #| label: tbl-sensitivities-like-indices
@@ -473,26 +492,6 @@ age_comps_2 <- read.csv(here::here("report", "figures", "sensitivities", "age_co
 names(age_comps_2) <-c("Label","Base","- WCGBTS","- IPHC","No age comps","McAllister & Ianelli")
 
 table_sens(age_comps_2)
-
-cat("\n\\end{landscape}\n") 
-```
-
-{{< pagebreak >}}
-
-```{r}
-#| label: tbl-sensitivities-model-specs
-#| echo: false
-#| warning: false
-#| results: "asis"
-#| tbl-cap: "Base model sensitivity to model parameters and specifications."
-
-cat("\\begin{landscape}\n")
-
-modeling <- read.csv(here::here("report", "figures", "sensitivities", "modeling_table.csv"))
-#names(modeling) <- gsub("X", "", names(modeling))
-names(modeling) <- c("Label","Base","Est. M", "Est. steepness","2017 LW relationship")
-
-table_sens(modeling)
 
 cat("\n\\end{landscape}\n") 
 ```
