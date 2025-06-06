@@ -312,6 +312,7 @@ parcount_table |>
 
 <!-- ## Model Results -->
 
+<!-- Table 12 parameter estimates -->
 ```{r}
 #| label: tbl-pars
 #| warning: false
@@ -336,32 +337,7 @@ cat("\n\\end{landscape}\n")
 
 {{< pagebreak >}}
 
-```{r, results = "asis"}
-#| label: tbl-ts
-#| warning: false
-#| echo: false
-#| eval: !expr eval_tables 
-#| tbl-cap: !expr if(eval_tables) time_series_cap 
-#| tbl-pos: H
-
-time_series_table |>
-kableExtra::kable(
-  format = "latex", 
-  longtable = TRUE,
-  booktabs = TRUE,
-  caption = "Time series of population estimates from the base model.",
-  linesep = "") |>
-  kableExtra::kable_styling(
-    latex_options = "repeat_header",
-    font_size = 8) |>
-  kableExtra::column_spec(
-    column = 1:9,
-    width = "0.5in"
-  )
-```
-
-{{< pagebreak >}}
-
+<!-- Table 13 sensitivity model results -->
 ```{r}
 #| label: tbl-sensitivities-model-specs
 #| echo: false
@@ -382,6 +358,7 @@ cat("\n\\end{landscape}\n")
 
 {{< pagebreak >}}
 
+<!-- Table 14 - 18 other sensitivity model results -->
 ```{r}
 #| label: tbl-sensitivities-like-indices
 #| echo: false
@@ -498,6 +475,34 @@ cat("\n\\end{landscape}\n")
 
 {{< pagebreak >}}
 
+<!-- Table 19 time series -->
+```{r, results = "asis"}
+#| label: tbl-ts
+#| warning: false
+#| echo: false
+#| eval: !expr eval_tables 
+#| tbl-cap: !expr if(eval_tables) time_series_cap 
+#| tbl-pos: H
+
+time_series_table |>
+kableExtra::kable(
+  format = "latex", 
+  longtable = TRUE,
+  booktabs = TRUE,
+  caption = "Time series of population estimates from the base model.",
+  linesep = "") |>
+  kableExtra::kable_styling(
+    latex_options = "repeat_header",
+    font_size = 8) |>
+  kableExtra::column_spec(
+    column = 1:9,
+    width = "0.5in"
+  )
+```
+
+{{< pagebreak >}}
+
+<!-- Table 20 reference point -->
 ```{r, tbl-ref-points-es-2, results = "asis"}
 #| label: tbl-ref-points-es-2
 #| warning: false
@@ -544,10 +549,24 @@ reference_points_table |>
 
 ```
 
-<!-- ## Management -->
+{{< pagebreak >}}
 
-\pagebreak
+<!-- Table 21 states of nature -->
+```{r, 2, results = "asis"}
+#| label: tbl-es-decision-2
+#| warning: false
+#| echo: false
+#| tbl-cap: "Decision table with 10-year projections. 'Mgmt' refers to the three management scenarios (A) the default harvest control rule $P^* = 0.40$. In each case the 2025 and 2026 catches are fixed at the estimates provided by the GMT. The catch for the Washington recreational fleet is input in numbers so the GMT estimate was converted from 3.22 metric tons to 1.53 thousands of fish based on a mean weight of 2.105 kg estimated by SS3 for this fleet in 2024. The alternative states of nature ('Low', 'Base', and 'High' as discussed in the text) are provided in the columns, with Spawning Output ('Spawn', in millions of eggs) and Fraction of unfished spawning output ('Frac') provided for each state."
+#| tbl-pos: H
+ table_decision(
+   list(mod_low_A, mod_base_A, mod_high_A)
+ )
 
+```
+
+{{< pagebreak >}}
+
+<!-- Table 22 states of nature -->
 ```{r, results = "asis"}
 #| label: tbl-projections
 #| warning: false
@@ -587,16 +606,6 @@ projections_table |>
 cat("\n\\end{landscape}\n")
 ```
 
-```{r, 2, results = "asis"}
-#| label: tbl-es-decision-2
-#| warning: false
-#| echo: false
-#| tbl-cap: "Decision table with 10-year projections. 'Mgmt' refers to the three management scenarios (A) the default harvest control rule $P^* = 0.40$. In each case the 2025 and 2026 catches are fixed at the estimates provided by the GMT. The catch for the Washington recreational fleet is input in numbers so the GMT estimate was converted from 3.22 metric tons to 1.53 thousands of fish based on a mean weight of 2.105 kg estimated by SS3 for this fleet in 2024. The alternative states of nature ('Low', 'Base', and 'High' as discussed in the text) are provided in the columns, with Spawning Output ('Spawn', in millions of eggs) and Fraction of unfished spawning output ('Frac') provided for each state."
-#| tbl-pos: H
- table_decision(
-   list(mod_low_A, mod_base_A, mod_high_A)
- )
 
-```
 
 \pagebreak
