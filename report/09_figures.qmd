@@ -889,7 +889,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Spawning output (millions of eggs) across age composition inclusion sensitivities."
+#| fig-cap: "Spawning output (millions of eggs) across age composition inclusion sensitivities (1 of 2)."
 #
 knitr::include_graphics(
     "figures/sensitivities/age_comps_1compare2_spawnbio_uncertainty.png"
@@ -901,7 +901,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Relative spawning output across age composition inclusion sensitivities."
+#| fig-cap: "Relative spawning output across age composition inclusion sensitivities (1 of 2)."
 #
 knitr::include_graphics(
     "figures/sensitivities/age_comps_1compare4_Bratio_uncertainty.png"
@@ -913,7 +913,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Spawning output (millions of eggs) across age composition inclusion sensitivities."
+#| fig-cap: "Spawning output (millions of eggs) across age composition inclusion sensitivities (2 of 2)."
 #
 knitr::include_graphics(
     "figures/sensitivities/age_comps_2compare2_spawnbio_uncertainty.png"
@@ -925,7 +925,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Relative spawning output across age composition inclusion sensitivities."
+#| fig-cap: "Relative spawning output across age composition inclusion sensitivities (2 of 2)."
 #
 knitr::include_graphics(
     "figures/sensitivities/age_comps_2compare4_Bratio_uncertainty.png"
