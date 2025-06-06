@@ -16,7 +16,7 @@ This update assessment reports the status of Yelloweye Rockfish (*Sebastes ruber
 
 ## Catches{-}
 
-Catches for Yelloweye Rockfish have averaged over $20 mt$ in recent years (@fig-es-landings, @tbl-es-catches). The Yelloweye Rockfish stock was declared overfished in $2002$ and remains under a rebuilding plan that substantially limits catch. However, as other rockfish stocks have rebuilt and Yelloweye Rockfish has progressed under its rebuilding plan, catches have slowly increased in recent years, primarily in the Oregon-Washington non-trawl fleet and the recreational fleets. 
+Catches for Yelloweye Rockfish have averaged over 20 mt in recent years (@fig-es-landings, @tbl-es-catches). The Yelloweye Rockfish stock was declared overfished in 2002 and remains under a rebuilding plan that substantially limits catch. However, as other rockfish stocks have rebuilt and Yelloweye Rockfish has progressed under its rebuilding plan, catches have slowly increased in recent years, primarily in the Oregon-Washington non-trawl fleet and the recreational fleets. 
 
 ```{r, fig-es-landings} 
 #| label: fig-es-landings
@@ -254,7 +254,7 @@ knitr::include_graphics("figures/r4ss_plots/plots/recdevs2_withbars.png")
 
 ## Exploitation Status{-}
 
-This assessment estimates that the stock of Yelloweye Rockfish off the continental U.S. Pacific Coast is currently at `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="Bratio_2025")], 3)*100`% of its unexploited level. This is above the overfished threshold of SO25%, and slightly above the management target SO40% of unfished spawning output. Fishing intensity increased throughout the 1900s as the stock was fished down, until stabilizing at peak intensity between the mid1980s and late 1990s and substantially decreasing in the late 1990s and early 2000s. Fishing intensity has since been relatively stable (@fig-es-kobe, @tbl-es-spr). 
+This assessment estimates that the stock of Yelloweye Rockfish off the continental U.S. Pacific Coast is currently at `r round(mod_out$derived_quants$Value[which(mod_out$derived_quants$Label=="Bratio_2025")], 3)*100`% of its unexploited level. This is above the overfished threshold of SO25%, and slightly above the management target SO40% of unfished spawning output. Fishing intensity increased throughout the 1900s as the stock was fished down, until stabilizing at peak intensity between the mid-1980s and late 1990s and substantially decreasing in the late 1990s and early 2000s. Fishing intensity has since been relatively stable (@fig-es-kobe, @tbl-es-spr). 
 
 <!-- Exploitation rates (i.e., total catch divided by exploitable biomass, or the annual SPR harvest rate) - include a table with the last 10 years of data and a graph showing the trend in fishing mortality relative to the target (y-axis) plotted against the trend in biomass relative to the target (x-axis). -->
 
