@@ -30,7 +30,7 @@ General trends in relative depletion (or spawning output) have been relatively s
 
 Likelihood profiles were conducted for natural mortality ($M$), stock-recruit steepness ($h$), and equilibrium recruitment (ln$R$~0~). These likelihood profiles were conducted by fixing the parameter of interest at specific values and estimating the remaining parameters based on the fixed parameter value.
 
-In the assessment, $M$ was fixed at the value of 0.044, based on Hamel’s prior. The profile analysis over $M$ showed that the negative log-likelihood was minimized with a value around 0.052 (@fig-natm-piner), which is close to what was assumed in the assessment. The time series of absolute and relative spawning output associated with different values of $M$ ranging from 0.03 to 0.06 are shown in @fig-natm-bratio.
+In the assessment, $M$ was fixed at the value of 0.044, based on Hamel’s prior. The profile analysis over $M$ showed that the negative log-likelihood was minimized with a value around 0.050 (@fig-natm-piner), which is close to what was assumed in the assessment. The time series of absolute and relative spawning output associated with different values of $M$ ranging from 0.03 to 0.06 are shown in @fig-natm-bratio.
 
 In the base model, $h$ is fixed at the mean of the meta-analytic steepness prior, 0.72; much higher values (e.g. 0.9) are considered implausible given the life-history of slow growing rockfish. The likelihood profile for $h$ shows that the negative log-likelihood for the base model declines with increasing $h$ to a value around 0.8, notably different from the sensitivity analysis (@fig-steep-piner). Time series of relative unfished biomass associated with different values of $h$ ranging from 0.25 to 1.0 are shown in @fig-steep-bratio.
 
