@@ -12,7 +12,7 @@ Estimated stock-recruit function for the assessment model is shown in @fig-SRcur
 
 Length-based selectivity curves estimated in the assessment are shown for all fleets together in @fig-selex_allfleets. Estimated selectivity curves for the fishing fleets indicate that the recreational fleets access somewhat smaller fish than the commercial fisheries. All fleets for which curves were allowed to be dome-shaped (commercial trawl and non-trawl fleets) were estimated to be asymptotic. Estimated selectivity curves for the IPHC survey indicate a selection of the largest Yelloweye available, and select the least amount of smaller Yelloweye Rockfish. The WCGBTS selected smaller Yelloweye among all the fishery-independent surveys. 
 
-### Fits to the Data
+### Fits to the Data{#sec-fits}
 
 Model fits to the fishery CPUE and survey indices are presented in @fig-indexfit3 through @fig-indexfit12, and log scale plots were used to see finer changes. Model fits to the indices generally fall within the uncertainty intervals but do not capture the temporal dynamics of each index, most notably in the WCGBTS and in the IPHC survey. 
 
