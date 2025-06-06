@@ -1094,7 +1094,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Time series of estimated SPR"
+#| fig-cap: "Time series of estimated SPR."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/SPR1_series.png"
