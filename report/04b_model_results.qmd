@@ -2,7 +2,7 @@
 
 ### Base Model Selection
 
-As a supplement to the model results figures included in this report and described below, a full set of diagnostic plots created by the {r4ss} package [@Taylor_r4ss_lessons_2021] is available [online](https://github.com/rclairer/Sebastes_ruberrimus_2025) along with the Stock Synthesis input files.
+As a supplement to the model results figures included in this report and described below, a full set of diagnostic plots created by the *r4ss* package [@Taylor_r4ss_lessons_2021] is available [online](https://github.com/rclairer/Sebastes_ruberrimus_2025) along with the Stock Synthesis input files.
 
 ### Parameter Estimates
 
