@@ -41,18 +41,6 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-ORFS_index
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Annual relative index of abundance for the Oregon Onboard Observer (ORFS) index."
-
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/index1_cpuedata_9_OR_RECOB.png"
-)
-```
-
-```{r}
 #| label: fig-ORFS_comp
 #| echo: false
 #| warning: false
@@ -81,10 +69,10 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Annual relative index of abundance for the Oregon recreational index, including both MRFSS (1980 - 1999) and ORBS (2004 - 2024) indices."
+#| fig-cap: "Annual relative log index of abundance for the Oregon recreational index, including both MRFSS (1980 - 1999) and ORBS (2004 - 2024) indices."
 
 knitr::include_graphics(
-    "figures/r4ss_plots/plots/index1_cpuedata_6_OR_REC.png"
+    "figures/r4ss_plots/plots/index4_logcpuedata_6_OR_REC.png"
 )
 ```
 
@@ -124,30 +112,6 @@ knitr::include_graphics(
 
 knitr::include_graphics(
     "figures/indices/wcgbts_index_comparison.png"
-)
-```
-
-```{r}
-#| label: fig-wcgbtsindex
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Annual relative index of abundance for the West Coast Groundfish Bottom Trawl Survey (WCGBTS)."
-
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/index1_cpuedata_11_NWFSC_ORWA.png"
-)
-```
-
-```{r}
-#| label: fig-IPHC_index
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Annual relative index of abundance for the IPHC longline survey."
-
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/index1_cpuedata_12_IPHC_ORWA.png"
 )
 ```
 
