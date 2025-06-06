@@ -760,7 +760,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Summary biomass (t) over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
+#| fig-cap: "Summary biomass (t) of age 8+ fish over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png"
