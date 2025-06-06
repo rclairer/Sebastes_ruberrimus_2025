@@ -51,7 +51,7 @@ This section is not required for an update assessment; please refer to the most 
 
 ### Priors
 
-The natural mortality prior standard deviation was updated to be consistent with methods described in @hamel2022development.
+The natural mortality prior standard deviation was updated to be consistent with methods described in @hamel2022development. No other updates to the priors or prior standard deviations were made. Please refer to the most recent full assessment [@gertseva_stock_2017] for additional information on the priors used in this assessment.
 
 ### Data Weighting
 
