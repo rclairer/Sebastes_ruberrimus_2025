@@ -41,18 +41,6 @@ knitr::include_graphics(
 ```
 
 ```{r}
-#| label: fig-ORFS_index
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Annual relative index of abundance for the Oregon Onboard Observer (ORFS) index."
-
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/index1_cpuedata_9_OR_RECOB.png"
-)
-```
-
-```{r}
 #| label: fig-ORFS_comp
 #| echo: false
 #| warning: false
@@ -81,10 +69,10 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Annual relative index of abundance for the Oregon recreational index, including both MRFSS (1980 - 1999) and ORBS (2004 - 2024) indices."
+#| fig-cap: "Annual relative log-scale index of abundance for the Oregon recreational index, including both MRFSS (1980 - 1999) and ORBS (2004 - 2024) indices."
 
 knitr::include_graphics(
-    "figures/r4ss_plots/plots/index1_cpuedata_6_OR_REC.png"
+    "figures/r4ss_plots/plots/index4_logcpuedata_6_OR_REC.png"
 )
 ```
 
@@ -107,7 +95,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Quantile-quantile plot for the sdmTMB model fit for the NWFSC West Coast Groundfish Bottom Trawl Survey (WCGBTS) index."
+#| fig-cap: "Quantile-quantile plot for the sdmTMB model fit for the West Coast Groundfish Bottom Trawl Survey (WCGBTS) index."
 
 knitr::include_graphics(
     "figures/indices/wcgbts_qq.png"
@@ -119,34 +107,11 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Comparison of the 2017 NWFSC West Coast Groundfish Bottom Trawl Survey (WCGBTS) and the current WCBTS index of abundance."
+#| fig-cap: "Comparison of the 2017 West Coast Groundfish Bottom Trawl Survey (WCGBTS) and the current WCBTS index of abundance."
+#| out.width: "120%"
 
 knitr::include_graphics(
     "figures/indices/wcgbts_index_comparison.png"
-)
-```
-
-```{r}
-#| label: fig-wcgbtsindex
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Annual relative index of abundance for the West Coast Groundfish Bottom Trawl Survey (WCGBTS)."
-
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/index1_cpuedata_11_NWFSC_ORWA.png"
-)
-```
-
-```{r}
-#| label: fig-IPHC_index
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Annual relative index of abundance for the IPHC longline survey."
-
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/index1_cpuedata_12_IPHC_ORWA.png"
 )
 ```
 
@@ -229,7 +194,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Annual unsexed conditional age-at-length data for the IPHC (1 of 2)."
+#| fig-cap: "Annual unsexed conditional age-at-length data for the IPHC (2 of 2)."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png"
@@ -467,7 +432,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Fit to the California MRFSS recreational index."
+#| fig-cap: "Fit to the log-scale California MRFSS recreational index."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index5_logcpuefit_3_CA_REC.png"
@@ -479,7 +444,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Fit to the Oregon recreational index."
+#| fig-cap: "Fit to the log-scale Oregon recreational index."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index5_logcpuefit_6_OR_REC.png"
@@ -491,7 +456,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Fit to the Washington recreational index."
+#| fig-cap: "Fit to the log-scale Washington recreational index."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index5_logcpuefit_7_WA_REC.png"
@@ -503,7 +468,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Fit to the California CPFV observer index."
+#| fig-cap: "Fit to the log-scale California CPFV observer index."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index5_logcpuefit_8_CACPFV.png"
@@ -515,7 +480,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Fit to the Oregon onboard observer (ORFS) index."
+#| fig-cap: "Fit to the log-scale Oregon onboard observer (ORFS) index."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index5_logcpuefit_9_OR_RECOB.png"
@@ -527,7 +492,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Fit to the Triennial survey index."
+#| fig-cap: "Fit to the log-scale Triennial survey index."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index5_logcpuefit_10_TRI_ORWA.png"
@@ -539,7 +504,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Fit to the WCBTS index."
+#| fig-cap: "Fit to the log-scale WCBTS index."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index5_logcpuefit_11_NWFSC_ORWA.png"
@@ -551,7 +516,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Fit to the IPHC survey index."
+#| fig-cap: "Fit to the log-scale IPHC survey index."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index5_logcpuefit_12_IPHC_ORWA.png"
@@ -759,7 +724,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Summary biomass (t) over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
+#| fig-cap: "Summary biomass (t) of age 8+ fish over time and by area (Area 1 is California, Area 2 is Oregon/Washington combined)."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png"
@@ -800,7 +765,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Results from 50 base model runs when starting parameters values are jittered by 0.1 units. Horizontal line indicates base model value."
+#| fig-cap: "Results from 100 base model runs when starting parameters values are jittered by 0.1 units. Horizontal line indicates base model value."
 #
 knitr::include_graphics(
     "figures/diagnostics/2025_base_model_jitter_0.1/jitter.png"
@@ -833,6 +798,7 @@ knitr::include_graphics(
 )
 ```
 
+<!-- length exclusions -->
 ```{r}
 #| label: fig-sens_lengths1_spout
 #| echo: false
@@ -842,18 +808,6 @@ knitr::include_graphics(
 #
 knitr::include_graphics(
     "figures/sensitivities/length_comps_1compare2_spawnbio_uncertainty.png"
-)
-```
-
-```{r}
-#| label: fig-sens_lengths1_status
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Relative spawning output across length composition inclusion sensitivities (1 of 2)."
-#
-knitr::include_graphics(
-    "figures/sensitivities/length_comps_1compare4_Bratio_uncertainty.png"
 )
 ```
 
@@ -870,6 +824,18 @@ knitr::include_graphics(
 ```
 
 ```{r}
+#| label: fig-sens_lengths1_status
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Relative spawning output across length composition inclusion sensitivities (1 of 2)."
+#
+knitr::include_graphics(
+    "figures/sensitivities/length_comps_1compare4_Bratio_uncertainty.png"
+)
+```
+
+```{r}
 #| label: fig-sens_lengths2_status
 #| echo: false
 #| warning: false
@@ -882,31 +848,56 @@ knitr::include_graphics(
 ```
 
 \clearpage
-
+<!-- age exclusions -->
 ```{r}
-#| label: fig-sens_age_spout
+#| label: fig-sens_age1_spout
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Spawning output (millions of eggs) across age composition inclusion sensitivities."
+#| fig-cap: "Spawning output (millions of eggs) across age composition inclusion sensitivities (1 of 2)."
 #
 knitr::include_graphics(
-    "figures/sensitivities/age_compscompare2_spawnbio_uncertainty.png"
+    "figures/sensitivities/age_comps_1compare2_spawnbio_uncertainty.png"
 )
 ```
 
 ```{r}
-#| label: fig-sens_age_status
+#| label: fig-sens_age2_spout
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Relative spawning output across age composition inclusion sensitivities."
+#| fig-cap: "Spawning output (millions of eggs) across age composition inclusion sensitivities (2 of 2)."
 #
 knitr::include_graphics(
-    "figures/sensitivities/age_compscompare4_Bratio_uncertainty.png"
+    "figures/sensitivities/age_comps_2compare2_spawnbio_uncertainty.png"
 )
 ```
 
+```{r}
+#| label: fig-sens_age1_status
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Relative spawning output across age composition inclusion sensitivities (1 of 2)."
+#
+knitr::include_graphics(
+    "figures/sensitivities/age_comps_1compare4_Bratio_uncertainty.png"
+)
+```
+
+```{r}
+#| label: fig-sens_age2_status
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Relative spawning output across age composition inclusion sensitivities (2 of 2)."
+#
+knitr::include_graphics(
+    "figures/sensitivities/age_comps_2compare4_Bratio_uncertainty.png"
+)
+```
+
+<!-- indices exclusions -->
 ```{r}
 #| label: fig-sens_indices_spout
 #| echo: false
@@ -1103,7 +1094,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Time series of estimated SPR"
+#| fig-cap: "Time series of estimated SPR."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/SPR1_series.png"
@@ -1115,7 +1106,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Equilibrium yield curve (derived from reference point values) for the base model. Values are based on 2024 fishery selectivity and distribution with steepness fixed at 0.718. The relative spawning output is relative to unfished spawning biomass."
+#| fig-cap: "Equilibrium yield curve (derived from reference point values) for the base model. Values are based on 2024 fishery selectivity and distribution with steepness fixed at 0.72. The relative spawning output is relative to unfished spawning biomass."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/yield1_yield_curve.png"

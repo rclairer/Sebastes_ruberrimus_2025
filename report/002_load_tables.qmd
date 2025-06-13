@@ -1,8 +1,8 @@
 <!-- Load tables produced from r4ss::table_all() -->
 
 ```{r}
-#| echo: false
 #| warning: false
+#| echo: false
 #| message: false
 library(flextable)
 library(gt)
@@ -145,8 +145,35 @@ projections_table[1:2, "Adopted ACL (mt)"] <- GMT016 |>
 #| warning: false
 #| echo: false
 #| message: false
+#| results: "hide"
 
 # produce catch_table
+
+replist <- SS_output(here::here("model", "base_comm_discards_steepness_fitbias_tuned"))
+# which fleets have catch in numbers (catch_units == 2) and are fishery fleets (fleet_type == 1)
+replist$FleetNames[replist$catch_units == 2 & replist$fleet_type == 1]
+# [1] "7_WA_REC"
+
+# calculate model expectation for mean weight for the WA_REC fleet
+# which is based on the combination of parameters for growth and selectivity
+WA_REC_meanwt <- replist$timeseries |>
+  dplyr::filter(Area == 2 & Yr == 2024) |>
+  dplyr::mutate(meanwt = as.numeric(`dead(B):_7`) / as.numeric(`dead(N):_7`)) |>
+  dplyr::pull(meanwt) |>
+  round(3)
+WA_REC_meanwt
+# [1] 2.105
+
+catch_table <- inputs$dat$catch |>
+  dplyr::select(year, fleet, catch) |>
+  tidyr::pivot_wider(names_from = fleet, values_from = catch) |>
+  dplyr::rename("Year" = "year", "CA_TWL" = "1", "CA_NONTWL" = "2", "CA_REC" = "3", "ORWA_TWL" = "4", "ORWA_NONTWL" = "5", "OR_REC" = "6", "WA_REC" = "7") |>
+  dplyr::mutate(CA_TWL = round(CA_TWL,2), CA_NONTWL = round(CA_NONTWL,2), CA_REC = round(CA_REC, 2), ORWA_TWL = round(ORWA_TWL, 2), ORWA_NONTWL = round(ORWA_NONTWL, 2), OR_REC = round(OR_REC, 2), WA_REC = round(WA_REC * WA_REC_meanwt, 2)) |>
+  dplyr::mutate(total_catch = round(rowSums(across(CA_TWL:WA_REC), na.rm = TRUE), 2)) |>
+  dplyr::rename("CA TWL (mt)" = "CA_TWL", "CA NONTWL (mt)" = "CA_NONTWL", "CA REC (mt)" = "CA_REC", "ORWA TWL (mt)" = "ORWA_TWL", "ORWA NONTWL (mt)" = "ORWA_NONTWL", "OR REC (mt)" = "OR_REC", "WA REC (mt)" = "WA_REC", "Catch (mt)" = "total_catch") |>
+  dplyr::filter(Year > 1)
+
+
 
 # Get WA catch MT for where that info is available and create catch table
 # 1967-1974 - no weights in MT
@@ -157,68 +184,68 @@ projections_table[1:2, "Adopted ACL (mt)"] <- GMT016 |>
 # 2002 - 2004 - dont have this in MT
 # 2005 - 2024 - use wa_rec_recfin_1990_2024_may
 
-wa_rec_recfin_1990_2024_may <- read.csv(here::here("Data","raw","nonconfidential","CTE501_WA_1990_2024_may.csv"))
+#wa_rec_recfin_1990_2024_may <- read.csv(here::here("Data","raw","nonconfidential","CTE501_WA_1990_2024_may.csv"))
 # 
 # # years we don't have MT for
-mt_na <- data.frame(
-  year = c(1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1979, 2002, 2003, 2004),
-  catch = c(NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA)
-)
+#mt_na <- data.frame(
+#  year = c(1967, 1968, 1969, 1970, 1971, 1972, 1973, 1974, 1979, 2002, 2003, 2004),
+#  catch = c(NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA)
+#)
 
 # same as previous assessment - these are from the 2017 catch table
-mt_same_previous <- data.frame(
-  year = c(1975, 1976, 1977, 1978, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989),
-  catch = c(4.39, 4.57, 9.33, 4.57, 2.61, 4.77, 6.76, 9.15, 15.24, 11.46, 10.99, 13.66, 10.57, 18.39)
-)
+#mt_same_previous <- data.frame(
+#  year = c(1975, 1976, 1977, 1978, 1980, 1981, 1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989),
+#  catch = c(4.39, 4.57, 9.33, 4.57, 2.61, 4.77, 6.76, 9.15, 15.24, 11.46, 10.99, 13.66, 10.57, 18.39)
+#)
 
-mt_1990_2001 <- wa_rec_recfin_1990_2024_may |>
-  filter(Year >= 1990 & Year <= 2001) |>
-  group_by(Year) |>
-  summarise(catch = sum(MT)) |>
-  rename(year = Year)
+#mt_1990_2001 <- wa_rec_recfin_1990_2024_may |>
+#  filter(Year >= 1990 & Year <= 2001) |>
+#  group_by(Year) |>
+#  summarise(catch = sum(MT)) |>
+#  rename(year = Year)
 
-mt_2005_2024 <- wa_rec_recfin_1990_2024_may |>
-  filter(Year >= 2005) |>
-  group_by(Year) |>
-  summarise(catch = sum(MT)) |>
-  rename(year = Year)
+#mt_2005_2024 <- wa_rec_recfin_1990_2024_may |>
+#  filter(Year >= 2005) |>
+#  group_by(Year) |>
+#  summarise(catch = sum(MT)) |>
+#  rename(year = Year)
 
-all_wa_mt <- bind_rows(mt_na, mt_same_previous, mt_1990_2001, mt_2005_2024) |>
-  mutate(catch = round(catch, 3)) |>
-  arrange(year)|>
-  rename(`7` = catch)
+#all_wa_mt <- bind_rows(mt_na, mt_same_previous, mt_1990_2001, mt_2005_2024) |>
+#  mutate(catch = round(catch, 3)) |>
+#  arrange(year)|>
+#  rename(`7` = catch)
 
 # Catch table using actual weights from WA
-catch_table <- inputs$dat$catch |>
-  dplyr::select(year, fleet, catch) |>
-  tidyr::pivot_wider(names_from = fleet, values_from = catch) |>
-  dplyr::filter(year > 1) |>
-  rename(`8` = `7`) |>
-  dplyr::full_join(all_wa_mt) |>
-  mutate(`7` = case_when(year < 1967 ~ 0,
-                         TRUE ~ `7`)) |>
-  select(year, `1`:`6`, `7`, `8`) |>
-  mutate(Total = round(rowSums(across(`1`:`7`), na.rm = TRUE), 3)) |>
-  mutate(`7` = case_when(is.na(`7`) ~ " - ",
-                         TRUE ~ as.character(`7`)))
+#catch_table <- inputs$dat$catch |>
+#  dplyr::select(year, fleet, catch) |>
+#  tidyr::pivot_wider(names_from = fleet, values_from = catch) |>
+#  dplyr::filter(year > 1) |>
+#  rename(`8` = `7`) |>
+#  dplyr::full_join(all_wa_mt) |>
+#  mutate(`7` = case_when(year < 1967 ~ 0,
+#                         TRUE ~ `7`)) |>
+#  select(year, `1`:`6`, `7`, `8`) |>
+#  mutate(Total = round(rowSums(across(`1`:`7`), na.rm = TRUE), 3)) |>
+#  mutate(`7` = case_when(is.na(`7`) ~ " - ",
+#                         TRUE ~ as.character(`7`)))
  
 # Catch table using weights output from SS3 using weight relationship
-WA_rec_weights <- replist$catch |>
-  filter(Fleet == 7) |>
-  select(Yr, dead_bio) |>
-  mutate(dead_bio = round(dead_bio, 3)) |>
-  rename(`7` = dead_bio,
-         year = Yr) |>
-  filter(year > 1888)
+#WA_rec_weights <- replist$catch |>
+#  filter(Fleet == 7) |>
+#  select(Yr, dead_bio) |>
+#  mutate(dead_bio = round(dead_bio, 3)) |>
+#  rename(`7` = dead_bio,
+#         year = Yr) |>
+#  filter(year > 1888)
 
-catch_table_est_weights <- inputs$dat$catch |>
-  dplyr::select(year, fleet, catch) |>
-  tidyr::pivot_wider(names_from = fleet, values_from = catch) |>
-  dplyr::filter(year > 1) |>
-  rename(`8` = `7`) |>
-  dplyr::full_join(WA_rec_weights, by = "year") |>
-  select(year, `1`:`6`, `7`, `8`) |>
-  mutate(Total = round(rowSums(across(`1`:`7`), na.rm = TRUE), 3))
+#catch_table_est_weights <- inputs$dat$catch |>
+#  dplyr::select(year, fleet, catch) |>
+#  tidyr::pivot_wider(names_from = fleet, values_from = catch) |>
+#  dplyr::filter(year > 1) |>
+#  rename(`8` = `7`) |>
+#  dplyr::full_join(WA_rec_weights, by = "year") |>
+#  select(year, `1`:`6`, `7`, `8`) |>
+#  mutate(Total = round(rowSums(across(`1`:`7`), na.rm = TRUE), 3))
   
 ```
 

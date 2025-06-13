@@ -1,10 +1,10 @@
 # Assessment Model
 
-## History of modeling approaches
+## History of Modeling Approaches
 
 This section is not required for an update assessment; please refer to the most recent full assessment [@gertseva_stock_2017] for additional information.
 
-## Responses to SSC Groundfish Subcommittee requests
+## Responses to SSC Groundfish Subcommittee Requests
 
 The 2017 assessment was a benchmark assessment reviewed by a STAR panel and the PFMC SSC, and therefore, the Groundfish Subcommittee of the PFMC SSC did not review the 2017 assessment. No Yelloweye Rockfish benchmark or update assessments have been conducted since. 
 
@@ -18,19 +18,19 @@ This section is not required for an update assessment.
 
 ### Modeling Platform and Structure
 
-The assessment was updated to use the most recent version of Stock Synthesis 3 (Version 3.30.23.2 - available [online](https://github.com/nmfs-ost/ss3-source-code/releases/tag/v3.30.23.2)). Bridging between SS versions is discussed in Section @sec-changes. 
+The assessment was updated to use the most recent version of Stock Synthesis 3 (Version 3.30.23.2 - available [online](https://github.com/nmfs-ost/ss3-source-code/releases/tag/v3.30.23.2)). Bridging between SS versions is discussed in @sec-changes. 
 
-Briefly, the Yelloweye Rockfish model is a coastwide, single-sex, two-area model. California is Area 1, and Oregon and Washington are combined into Area 2; the areas are separated because of differences in potential exploitation rates by area over time. Yelloweye Rockfish compositional data are primarily reported as both sexes combined, and therefore, the assessment used a single sex model to facilitate the use of all available data. Growth is assumed to be the same in both areas, though future benchmark assessments may want to re-evaluate this assumption if more spatially-explicit data become available. Both growth and initial recruitment parameters were estimated internally, while all other biological parameters were fixed. The modeling period starts in the first year of available catches from historical reconstructions (1889) and the stock is assumed to be at an unfished equilibrium prior to that time. No changes were made to the fleet structure of the model. Fishery removals were divided among seven area- and sector-specific fleets. Estimated discard mortality was added to landings and included in the model as fleet-specific total removals. Length compositions for discarded and retained fish were combined as well. Data weighting was done using the Francis method [@francis_data_2011]. More detailed information on the model structure and justification is available in @gertseva_stock_2017 and summarized in @tbl-model-config.
+Briefly, the Yelloweye Rockfish model is a coastwide, single-sex, two-area model. California is Area 1, and Oregon and Washington are combined into Area 2; the areas are separated because of differences in potential exploitation rates by area over time. Yelloweye Rockfish composition data are primarily reported as both sexes combined, and therefore, the assessment used a single sex model to facilitate the use of all available data. Growth is assumed to be the same in both areas, though future benchmark assessments may want to re-evaluate this assumption if more spatially-explicit data become available. Both growth and initial recruitment parameters were estimated internally, while all other biological parameters were fixed. The modeling period starts in the first year of available catches from historical reconstructions (1889) and the stock is assumed to be at an unfished equilibrium prior to that time. No changes were made to the fleet structure of the model. Fishery removals were divided among seven area- and sector-specific fleets. Estimated discard mortality was added to landings and included in the model as fleet-specific total removals. Length compositions for discarded and retained fish were combined as well. Data weighting was done using the Francis method [@francis_data_2011]. More detailed information on the model structure and justification is available in @gertseva_stock_2017 and summarized in @tbl-model-config.
 
 ### Model Changes from the Last Assessment{#sec-changes}
 
 A list of changes that were made to the model compared to the previous assessment [@gertseva_stock_2017] are listed below. 
 
 - Data: 
-    - Detailed information on specific updates and changes to the data included in the model are included in @sec-data but are summarized below. 
-    - The removals time series were corrected and updated through the end of 2024 for California, Oregon and Washington. Overall, there was little change in the model results when updating and extending the catch time series, even after changes in the historical catch (@fig-bridge3-comp2 and @fig-bridge3-comp4). Though, the age 8+ biomass increased more for the most recent years than the forecasted estimates from 2017 (@fig-bridge3-comp18).   
+    - Detailed information on specific updates and changes to the data included in the model are described in @sec-data but are summarized below. 
+    - The removals time series were corrected and updated through the end of 2024 for California, Oregon and Washington. Overall, there was little change in the model results when updating and extending the catch time series, even after changes in the historical catch (@fig-bridge3-comp2 and @fig-bridge3-comp4). Though, the age 8+ biomass increased more for the most recent years than the forecast estimates from 2017 (@fig-bridge3-comp18).
     - Indices of abundance were updated with recent data, where available, and re-analyzed using more up-to-date methods. Updating indices lead to a slight decrease in ln($R$~0~), reducing the spawning output by very little (@fig-bridge5-comp2).
-    - Length and age compositions from all fishery removal and index fleets were updated and tuned through 2024. The addition of composition data greatly increased ln($R$~0~), which led to an increase in the spawning output, particularly for 1920-1980 (@fig-bridge14-comp2). This new data also changed the pattern of the recruitment deviations significantly from 1990-2024 (@fig-bridge14-comp11). From 1990-2005 recruitment was lower than predicted in the last assessment, then from 2006-2016 recruitment was higher than the last assessment, and finally recruitment dropped very low for 2017-2021. Due to these lower estimated recruitment in recent years, the recovery curve slowed (@fig-bridge14-comp2).
+    - Length and age compositions from all fishery removal and index fleets were updated and tuned through 2024. The addition of composition data greatly increased ln($R$~0~), which led to an increase in the spawning output, particularly for 1920 - 1980 (@fig-bridge14-comp2). This new data also changed the pattern of the recruitment deviations significantly from 1990 - 2024 (@fig-bridge14-comp11). From 1990 - 2005 recruitment was lower than predicted in the last assessment, then from 2006 - 2016 recruitment was higher than the last assessment, and finally recruitment dropped very low for 2017-2021. Due to these lower estimated recruitment in recent years, the recovery curve slowed (@fig-bridge14-comp2).
 - Fleet structure:
     - No changes were made to the fleet structure.
 - Biology:
@@ -42,8 +42,8 @@ A list of changes that were made to the model compared to the previous assessmen
     - All final updates in the control, starter, and forecast files showed little to no additional change in the model, with the exception of the updated parameterization of the catchability offset for the Oregon recreational index, which increased spawning output and final stock status (@fig-bridge23-comp2 and @fig-bridge23-comp4). 
 - Software and Workflow:
     - Updating to SS3 3.30.23.2 and to the most recent version of the SS3 executable had no discernable impact on model results (@fig-ss3exe_2). 
-    - Use most up-to-date R packages to process input and output files for the assessment, including *nwfscDiag*, *r4ss*, and *pacfintools*. 
-    - Created a public github repository for Yelloweye Rockfish ("sebastes_ruberrimus_2025") to provide a transparent and reproducible system for processing the data and creating the model and assessment document ([available online](https://github.com/rclairer/Sebastes_ruberrimus_2025)).
+    - We used the most up-to-date R packages to process input and output files for the assessment, including *nwfscDiag*, *r4ss*, and *pacfintools*. 
+    - A public github repository for Yelloweye Rockfish ("sebastes_ruberrimus_2025") is available to provide a transparent and reproducible system for processing the data and creating the model and assessment document ([available online](https://github.com/rclairer/Sebastes_ruberrimus_2025)).
 
 ### Key Assumptions and Structural Choices
 
@@ -51,7 +51,7 @@ This section is not required for an update assessment; please refer to the most 
 
 ### Priors
 
-The natural mortality prior standard deviation was updated to be consistent with methods described in @hamel2022development.
+The natural mortality prior standard deviation was updated to be consistent with methods described in @hamel2022development. No other updates to the priors or prior standard deviations were made. Please refer to the most recent full assessment [@gertseva_stock_2017] for additional information on the priors used in this assessment.
 
 ### Data Weighting
 
@@ -62,9 +62,9 @@ Additional variance was estimated and added to the input variance for all indice
 
 ### Model Parameters
 
-The base model had `r sum(mod_out$parameters$Phase > 0)` estimated parameters (tallied by type in @tbl-n-param). A single-sex growth curve was estimated (@fig-growth). Natural mortality was fixed, as in the 2017 assessment. Unfished recruitment and the distribution of recruits between areas are estimated. Steepness of the stock-recruit relationship was fixed at 0.72, updated from the 2017 assessment which was fixed at 0.718. Estimating steepness was evaluated as a sensitivity. As is current practice, recruitment deviations during the "main" period (from `r mod_in$ctl$MainRdevYrFirst` to `r mod_in$ctl$MainRdevYrLast`) were forced to sum to zero and the bias adjustment ramp was updated (@fig-biasadj). 
+The base model had `r sum(mod_out$parameters$Phase > 0)` estimated parameters (tallied by type in @tbl-n-param). A single-sex growth curve was estimated (@fig-growth). Natural mortality was fixed at 0.044, as in the 2017 assessment. Unfished recruitment and the distribution of recruits between areas are estimated. Steepness of the stock-recruit relationship was fixed at 0.72, updated from the 2017 assessment which was fixed at 0.718. Estimating steepness was evaluated as a sensitivity. As is current practice, recruitment deviations during the "main" period (from `r mod_in$ctl$MainRdevYrFirst` to `r mod_in$ctl$MainRdevYrLast`) were forced to sum to zero and the bias adjustment ramp was updated (@fig-biasadj). 
 
-Catchability parameters, we extended the time block on catchability parameter for the OR rec index to 2004 to encompass additional data. To fit these data we extimated the catchability offset between MRFFS and ORBS, both are in fleet 6. In order to estiamte it we set Float to 0 and Phase to 1.
+We extended the time blocks on catchability parameters to 2024 to encompass additional data. To best fit the index for the Oregon recreational fleet, an offset for catchability between the MRFFS and ORBS sampling time periods was estimated in the 2017 assessment. In order to estimate this parameter under current best practices, the float was set to 0 and the phase to 1. See @sec-fits for more information about the model fit to the index.
 
 All selectivities were assumed to be length-based and used a double-normal functional form. Selectivities for all fleets were estimated to be asymptotic (@fig-selex_allfleets), though selectivity for the California Onboard Observer CPUE was mirrored to the California recreational fleet. Selectivities were constant through time. Dome-shaped selectivity and various time blocks for specific fleets were explored in @gertseva_stock_2017 but not re-evaluated in this update assessment.   
 

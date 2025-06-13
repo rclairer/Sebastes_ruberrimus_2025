@@ -69,14 +69,14 @@ author:
     affiliations:
       - name: 'NOAA Fisheries Northwest Fisheries Science Center'
         address: '2725 Montlake Boulevard East'
-        city: 'Seattle'
+        city: 'Seattle, WA'
         state: 'WA'
         postal-code: '98112'
   - name: 'Ian Taylor'
     affiliations:
       - name: 'NOAA Fisheries Northwest Fisheries Science Center'
         address: '2725 Montlake Boulevard East'
-        city: 'Seattle'
+        city: 'Seattle, WA'
         state: 'WA'
         postal-code: '98112'
   - name: 'Kiva Oken'

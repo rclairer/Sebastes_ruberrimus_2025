@@ -2,13 +2,41 @@
 
 <!-- Introduction -->
 
-```{r, yelloweye_management}
-#| label: tbl-yelloweye_management
-#| echo: false
+```{r, tbl-yelloweye_management, results = "asis"}
+#| label: tbl-ye-management
 #| warning: false
-#| tbl-cap: "Recent trend in the overfishing limits (OFL), the acceptable biological catches (ABCs), the annual catch limits (ACLs), and the total dead catch (landings + discards) all in metric tons (mt)."
+#| echo: false
+#| tbl-cap: "Recent trend in the overfishing limits (OFL), the acceptable biological catches (ABCs), the annual catch limits (ACLs), and the total dead catch (landings + discards) in metric tons (mt)."
+#| tbl-pos: H
 
-# used the csv until two area thing sorted in r4ss
+
+recent_management_table |>
+   gt::gt() |>
+   gt::tab_options(
+     table.font.size = 12,
+     latex.use_longtable = TRUE
+   ) |>
+   gt::as_latex()
+
+
+# changed to csv file until r4ss gets fixed
+
+#yelloweye_management <- read.csv("tables/yelloweye_management.csv")
+# yelloweye_management |> 
+#   gt::gt() |>
+#   gt::cols_label(
+#    `Year` = "Year",
+#    `OFL..mt.` = "OFL (mt)",
+#    `ABC..mt.` = "ABC (mt)",
+#    `ACL..mt.` = "ACL (mt)",
+#    `Catch..mt.` = "Catch (mt)"
+#  ) |>
+#   gt::tab_options(
+#     table.font.size = 12,
+#     latex.use_longtable = TRUE
+#   ) |>
+#   gt::as_latex()
+
 #recent_management_table |>
 #  dplyr::rename(`Total dead catch (mt)` = `Catch (mt)`) |>
 #  gt::gt() |>
@@ -18,53 +46,22 @@
 #  ) |>
 #  gt::as_latex()
 
-yelloweye_management <- read.csv("tables/yelloweye_management.csv")
-yelloweye_management |>
-   gt::gt() |>
-   cols_label(
-    `Year` = "Year",
-    `OFL..mt.` = "OFL (mt)",
-    `ABC..mt.` = "ABC (mt)",
-    `ACL..mt.` = "ACL (mt)",
-    `Catch..mt.` = "Catch (mt)"
-  ) |>
-   tab_options(
-     table.font.size = 12,
-     latex.use_longtable = TRUE
-   ) |>
-   as_latex()
-
 ```
 
 {{< pagebreak >}}
 
 <!-- ## Data -->
 
-```{r}
+```{r, results = "asis"}
 #| label: tbl-all_removals
-#| echo: false
 #| warning: false
-#| results: "asis"
-#| tbl-cap: "Time series of yelloweye rockfish catches by fleet used in the assessment. Trawl fleets include yelloweye bycatch in foreign POP and in at-sea Pacific hake fisheries. Years 1967 - 1974, 1979, and 2002 - 2004 do not include WA Sport Catch in MT as that information is not available."
+#| echo: false
+#| tbl-cap: "Time series of Yelloweye Rockfish catches by fleet (mt) and total catch (mt) summed across fleets. Trawl fleets include Yelloweye Rockfish bycatch in foreign POP and in at-sea Pacific hake fisheries."
 
 cat("\\begin{landscape}\n")
 
-# This table needs to be redone once the WA sport catches are updated
-catch_table |> # produced in 002_load_tables.qmd
-#catch_table_est_weights |> # uncomment this line to use the catch table with estimated weights from the SS3 output
-  gt() |>
- cols_label(
-    year = "Year",
-    `1` = "CA trawl (mt)",
-    `2` = "CA non-trawl (mt)",
-    `3` = "CA sport (mt)",
-    `4` = "OR-WA trawl (mt)",
-    `5` = "OR-WA non-trawl (mt)",
-    `6` = "OR sport (mt)",
-    `7` = "WA sport (mt)",
-    `8` = "WA sport (1000s fish)",
-    Total = "Catch (mt)"
-  ) |>
+catch_table |>
+ gt::gt() |>
   tab_options(
     table.font.size = 12,
     latex.use_longtable = TRUE
@@ -73,6 +70,31 @@ catch_table |> # produced in 002_load_tables.qmd
     tidyselect::everything() ~ px(75)
   ) |>
   as_latex()
+
+# This table needs to be redone once the WA sport catches are updated
+#catch_table |> # produced in 002_load_tables.qmd
+#catch_table_est_weights |> # uncomment this line to use the catch table with estimated weights from the SS3 output
+#  gt() |>
+# cols_label(
+#    year = "Year",
+#    `1` = "CA trawl (mt)",
+#    `2` = "CA non-trawl (mt)",
+#    `3` = "CA sport (mt)",
+#    `4` = "OR-WA trawl (mt)",
+#    `5` = "OR-WA non-trawl (mt)",
+#    `6` = "OR sport (mt)",
+#    `7` = "WA sport (mt)",
+#    `8` = "WA sport (1000s fish)",
+#    Total = "Catch (mt)"
+#  ) |>
+#  tab_options(
+#    table.font.size = 12,
+#    latex.use_longtable = TRUE
+#  ) |>
+#  cols_width(
+#    tidyselect::everything() ~ px(75)
+#  ) |>
+#  as_latex()
 
 cat("\n\\end{landscape}\n")  
 ```
@@ -161,7 +183,7 @@ cat("\n\\end{landscape}\n")
 #| label: tbl-sampling-effort-triennial
 #| echo: false
 #| warning: false
-#| tbl-cap: "Summary of sampling effort within triennial survey, with total and yelloweye positive hauls summarized by area."
+#| tbl-cap: "Summary of sampling effort within triennial survey, with total and Yelloweye positive hauls summarized by area."
 
 # This data is directly taken from the pdf of the last assessment report
 sampling_tri <- data.frame(
@@ -202,7 +224,7 @@ data_wide |>
 #| label: tbl-sampling-effort-nwfsc
 #| echo: false
 #| warning: false
-#| tbl-cap: "Summary of sampling effort within NWFSC trawl survey, with total and yelloweye positive hauls summarized by area."
+#| tbl-cap: "Summary of sampling effort within the WCGBTS, with total and Yelloweye positive hauls summarized by area."
 
 data_wide <- readRDS(here::here("report", "tables", "tbl-sampling-effort-nwfsc.rds")) |>
   tidyr::pivot_wider(names_from = "area", values_from = c(trawl.count, positive.trawl.count), names_glue = "{area}_{.value}") |>
@@ -290,6 +312,7 @@ parcount_table |>
 
 <!-- ## Model Results -->
 
+<!-- Table 12 parameter estimates -->
 ```{r}
 #| label: tbl-pars
 #| warning: false
@@ -314,6 +337,145 @@ cat("\n\\end{landscape}\n")
 
 {{< pagebreak >}}
 
+<!-- Table 13 sensitivity model results -->
+```{r}
+#| label: tbl-sensitivities-model-specs
+#| echo: false
+#| warning: false
+#| results: "asis"
+#| tbl-cap: "Base model sensitivity to model parameters and specifications."
+
+cat("\\begin{landscape}\n")
+
+modeling <- read.csv(here::here("report", "figures", "sensitivities", "modeling_table.csv"))
+#names(modeling) <- gsub("X", "", names(modeling))
+names(modeling) <- c("Label","Base","Est. M", "Est. steepness","2017 LW relationship")
+
+table_sens(modeling)
+
+cat("\n\\end{landscape}\n") 
+```
+
+{{< pagebreak >}}
+
+<!-- Table 14 - 18 other sensitivity model results -->
+```{r}
+#| label: tbl-sensitivities-like-indices
+#| echo: false
+#| message: false
+#| warning: false
+#| results: "asis"
+#| tbl-cap: "Base model sensitivity to the removal of data sources (indices)."
+
+cat("\\begin{landscape}\n")
+cat("\\begin{flushleft}\n") # trying to make it fit better
+
+source(here::here("Rcode/table_sens.R"))
+indices <- read.csv(here::here("report", "figures", "sensitivities", "indices_table.csv"))
+#comps <- read.csv(here::here("report", "figures", "sensitivities", "comp_data_table.csv"))
+
+#indices_and_comps <- inner_join(indices, comps, by = c("Label", "Base"))
+#names(indices) <- gsub("X..", "", names(indices))
+
+names(indices) <- c("Label","Base","- CA REC","- OR REC","- WA REC","- CA CPFV","- ORFS","- Triennial","- WCGBTS","- IPHC","No indices")
+
+table_sens(indices)
+
+cat("\\end{flushleft}\n")
+cat("\n\\end{landscape}\n") 
+```
+
+{{< pagebreak >}}
+
+```{r}
+#| label: tbl-sensitivities-like-comps-len1
+#| echo: false
+#| message: false
+#| warning: false
+#| results: "asis"
+#| tbl-cap: "Base model sensitivity to the removal of data sources (length compositional data - 1 of 2)."
+
+cat("\\begin{landscape}\n")
+
+source(here::here("Rcode/table_sens.R"))
+len_comps1 <- read.csv(here::here("report", "figures", "sensitivities", "length_comps_1_table.csv"))
+
+names(len_comps1) <-c("Label","Base","- CA TWL","- CA NONTWL","- CA REC","- ORWA TWL","- ORWA NONTWL","- OR REC","- WA REC")
+
+table_sens(len_comps1)
+
+cat("\n\\end{landscape}\n") 
+```
+
+\clearpage
+
+```{r}
+#| label: tbl-sensitivities-like-comps-len2
+#| echo: false
+#| message: false
+#| warning: false
+#| results: "asis"
+#| tbl-cap: "Base model sensitivity to the removal of data sources (length compositional data - 2 of 2)."
+
+cat("\\begin{landscape}\n")
+
+source(here::here("Rcode/table_sens.R"))
+len_comps2 <- read.csv(here::here("report", "figures", "sensitivities", "length_comps_2_table.csv"))
+
+names(len_comps2) <-c("Label","Base","- CA CPFV","- ORFS","- Triennial","- WCGBTS","- IPHC","No length comps")
+
+table_sens(len_comps2)
+
+cat("\n\\end{landscape}\n") 
+```
+
+{{< pagebreak >}}
+
+```{r}
+#| label: tbl-sensitivities-like-comps-age1
+#| echo: false
+#| message: false
+#| warning: false
+#| results: "asis"
+#| tbl-cap: "Base model sensitivity to the removal of data sources (age compositional data; 1 of 2)."
+
+cat("\\begin{landscape}\n")
+
+source(here::here("Rcode/table_sens.R"))
+age_comps_1 <- read.csv(here::here("report", "figures", "sensitivities", "age_comps_1_table.csv"))
+
+names(age_comps_1) <-c("Label","Base","- CA NONTWL","- CA REC","- ORWA TWL","- ORWA NONTWL","- OR REC","- WA REC")
+
+table_sens(age_comps_1)
+
+cat("\n\\end{landscape}\n") 
+```
+
+{{< pagebreak >}}
+
+```{r}
+#| label: tbl-sensitivities-like-comps-age2
+#| echo: false
+#| message: false
+#| warning: false
+#| results: "asis"
+#| tbl-cap: "Base model sensitivity to the removal of data sources (age compositional data; 2 of 2)."
+
+cat("\\begin{landscape}\n")
+
+source(here::here("Rcode/table_sens.R"))
+age_comps_2 <- read.csv(here::here("report", "figures", "sensitivities", "age_comps_2_table.csv"))
+
+names(age_comps_2) <-c("Label","Base","- WCGBTS","- IPHC","No age comps","McAllister & Ianelli")
+
+table_sens(age_comps_2)
+
+cat("\n\\end{landscape}\n") 
+```
+
+{{< pagebreak >}}
+
+<!-- Table 19 time series -->
 ```{r, results = "asis"}
 #| label: tbl-ts
 #| warning: false
@@ -340,119 +502,7 @@ kableExtra::kable(
 
 {{< pagebreak >}}
 
-
-```{r}
-#| label: tbl-sensitivities-like-indices
-#| echo: false
-#| message: false
-#| warning: false
-#| results: "asis"
-#| tbl-cap: "Base model sensitivity to the removal of data sources (indices)."
-
-cat("\\begin{landscape}\n")
-
-source(here::here("Rcode/table_sens.R"))
-indices <- read.csv(here::here("report", "figures", "sensitivities", "indices_table.csv"))
-#comps <- read.csv(here::here("report", "figures", "sensitivities", "comp_data_table.csv"))
-
-#indices_and_comps <- inner_join(indices, comps, by = c("Label", "Base"))
-#names(indices) <- gsub("X..", "", names(indices))
-
-names(indices) <- c("Label","Base","- CA REC","- OR REC","- WA REC","- CA CPFV","- ORFS","- Triennial","- WCGBTS","- IPHC","No indices")
-
-table_sens(indices)
-
-cat("\n\\end{landscape}\n") 
-```
-
-{{< pagebreak >}}
-
-```{r}
-#| label: tbl-sensitivities-like-comps-len1
-#| echo: false
-#| message: false
-#| warning: false
-#| results: "asis"
-#| tbl-cap: "Base model sensitivity to the removal of data sources (length compositional data - 1 of 2)."
-
-cat("\\begin{landscape}\n")
-
-source(here::here("Rcode/table_sens.R"))
-len_comps1 <- read.csv(here::here("report", "figures", "sensitivities", "length_comps_1_table.csv"))
-
-names(len_comps1) <-c("Label","Base","- CA TWL","- CA NONTWL","- CA REC","- ORWA TWL","- ORWA NONTWL","- OR REC","- WA REC")
-
-table_sens(len_comps1)
-
-cat("\n\\end{landscape}\n") 
-```
-
-{{< pagebreak >}}
-
-```{r}
-#| label: tbl-sensitivities-like-comps-len2
-#| echo: false
-#| message: false
-#| warning: false
-#| results: "asis"
-#| tbl-cap: "Base model sensitivity to the removal of data sources (length compositional data - 2 of 2)."
-
-cat("\\begin{landscape}\n")
-
-source(here::here("Rcode/table_sens.R"))
-len_comps2 <- read.csv(here::here("report", "figures", "sensitivities", "length_comps_2_table.csv"))
-
-names(len_comps2) <-c("Label","Base","- CA CPFV","- ORFS","- Triennial","- WCGBTS","- IPHC","No length comps")
-
-table_sens(len_comps2)
-
-cat("\n\\end{landscape}\n") 
-```
-
-{{< pagebreak >}}
-
-```{r}
-#| label: tbl-sensitivities-like-comps-age
-#| echo: false
-#| message: false
-#| warning: false
-#| results: "asis"
-#| tbl-cap: "Base model sensitivity to the removal of data sources (age compositional data)."
-
-cat("\\begin{landscape}\n")
-
-source(here::here("Rcode/table_sens.R"))
-age_comps <- read.csv(here::here("report", "figures", "sensitivities", "age_comps_table.csv"))
-
-names(age_comps) <-c("Label","Base","- CA NONTWL","- CA REC","- ORWA TWL","- ORWA NONTWL","- OR REC","- WA REC","- WCGBTS","- IPHC","No age comps","McAllister & Ianelli")
-
-table_sens(age_comps)
-
-cat("\n\\end{landscape}\n") 
-```
-
-{{< pagebreak >}}
-
-```{r}
-#| label: tbl-sensitivities-model-specs
-#| echo: false
-#| warning: false
-#| results: "asis"
-#| tbl-cap: "Base model sensitivity to model parameters and specifications."
-
-cat("\\begin{landscape}\n")
-
-modeling <- read.csv(here::here("report", "figures", "sensitivities", "modeling_table.csv"))
-#names(modeling) <- gsub("X", "", names(modeling))
-names(modeling) <- c("Label","Base","Est. M", "Est. steepness","2017 LW relationship")
-
-table_sens(modeling)
-
-cat("\n\\end{landscape}\n") 
-```
-
-{{< pagebreak >}}
-
+<!-- Table 20 reference point -->
 ```{r, tbl-ref-points-es-2, results = "asis"}
 #| label: tbl-ref-points-es-2
 #| warning: false
@@ -499,10 +549,9 @@ reference_points_table |>
 
 ```
 
-<!-- ## Management -->
+{{< pagebreak >}}
 
-\pagebreak
-
+<!-- Table 21 OFL projections -->
 ```{r, results = "asis"}
 #| label: tbl-projections
 #| warning: false
@@ -542,11 +591,14 @@ projections_table |>
 cat("\n\\end{landscape}\n")
 ```
 
+{{< pagebreak >}}
+
+<!-- Table 22 states of nature -->
 ```{r, 2, results = "asis"}
 #| label: tbl-es-decision-2
 #| warning: false
 #| echo: false
-#| tbl-cap: "Decision table with 10-year projections. 'Mgmt' refers to the three management scenarios (A) the default harvest control rule $P^* = 0.40$. In each case the 2025 and 2026 catches are fixed at the estimates provided by the GMT. The catch for the Washington recreational fleet is input in numbers so the GMT estimate was converted from 3.22 metric tons to 1.53 based on a mean weight of 2.105 kg estimated by SS3 for this fleet in 2024. The alternative states of nature ('Low', 'Base', and 'High' as discussed in the text) are provided in the columns, with Spawning Output ('Spawn', in millions of eggs) and Fraction of unfished spawning output ('Frac') provided for each state."
+#| tbl-cap: "Decision table with 10-year projections. 'Mgmt' refers to the three management scenarios (A) the default harvest control rule $P^* = 0.40$. In each case the 2025 and 2026 catches are fixed at the estimates provided by the GMT. The catch for the Washington recreational fleet is input in numbers so the GMT estimate was converted from 3.22 metric tons to 1.53 thousands of fish based on a mean weight of 2.105 kg estimated by SS3 for this fleet in 2024. The alternative states of nature ('Low', 'Base', and 'High' as discussed in the text) are provided in the columns, with Spawning Output ('Spawn', in millions of eggs) and Fraction of unfished spawning output ('Frac') provided for each state."
 #| tbl-pos: H
  table_decision(
    list(mod_low_A, mod_base_A, mod_high_A)
@@ -554,4 +606,3 @@ cat("\n\\end{landscape}\n")
 
 ```
 
-\pagebreak
