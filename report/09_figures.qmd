@@ -107,7 +107,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Comparison of the 2017 West Coast Groundfish Bottom Trawl Survey (WCGBTS) and the current WCBTS index of abundance."
+#| fig-cap: "Comparison of the 2017 West Coast Groundfish Bottom Trawl Survey (WCGBTS) and the current WCGBTS index of abundance."
 #| out.width: "120%"
 
 knitr::include_graphics(
