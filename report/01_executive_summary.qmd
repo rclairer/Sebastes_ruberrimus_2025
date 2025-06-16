@@ -18,7 +18,7 @@ This update assessment reports the status of Yelloweye Rockfish (*Sebastes ruber
 
 Catches for Yelloweye Rockfish have averaged over 20 mt in recent years (@fig-es-landings, @tbl-es-catches). The Yelloweye Rockfish stock was declared overfished in 2002 and remains under a rebuilding plan that substantially limits catch. However, as other rockfish stocks have rebuilt and Yelloweye Rockfish has progressed under its rebuilding plan, catches have slowly increased in recent years, primarily in the Oregon-Washington non-trawl fleet and the recreational fleets. 
 
-```{r, fig-es-landings} 
+```{r} 
 #| label: fig-es-landings
 #| echo: false 
 #| warning: false 
@@ -32,7 +32,7 @@ knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 
 \clearpage
 
-```{r, tbl-es-catches, results = "asis"}
+```{r, results = "asis"}
 #| label: tbl-es-catches
 #| eval: true
 #| warning: false
@@ -118,7 +118,7 @@ Estimated relative spawning output was below the minimum stock size threshold in
 <!-- Trends and current levels relative to virgin or historic levels, description of uncertainty-include table for last 10 years and graph with long term estimates. -->
 \pagebreak
 
-```{r, tbl-es-sb, results = "asis"}
+```{r, results = "asis"}
 #| label: tbl-es-sb
 #| warning: false
 #| echo: false
@@ -194,7 +194,7 @@ The largest estimated recruitment events were in 1971, followed by more recently
 
 <!-- Trends and current levels relative to virgin or historic levels-include table for last 10 years and graph with long term estimates. -->
 
-```{r, tbl-es-recr, results = "asis"}
+```{r, results = "asis"}
 #| label: tbl-es-recr
 #| warning: false
 #| echo: false
@@ -272,7 +272,7 @@ knitr::include_graphics("figures/r4ss_plots/plots/SPR4_phase.png")
 ```
 
 \clearpage
-```{r, tbl-es-spr, results = "asis"}
+```{r, results = "asis"}
 #| label: tbl-es-spr
 #| warning: false
 #| echo: false
@@ -311,7 +311,7 @@ A list of estimates of the current state of the population, as well as reference
 
 \clearpage
 
-```{r, tbl-ref-points-es-1, results = "asis"}
+```{r, results = "asis"}
 #| label: tbl-ref-points-es-1
 #| warning: false
 #| echo: false
@@ -365,7 +365,7 @@ Recent trends in total catch relative to management guidelines is available in @
 
 <!-- Catches in comparison to OFL, ABC, HG, and OY/ACL values for the most recent 10 years (when available), overfishing levels, actual catch and discard. Include OFL (encountered), OFL (retained) and OFL (dead) if different due to discard and discard mortality. -->
 
-```{r, tbl-es-management, results = "asis"}
+```{r, results = "asis"}
 #| label: tbl-es-management
 #| warning: false
 #| echo: false
@@ -420,9 +420,7 @@ This section will be updated after SSC GFSC review.
 
 \clearpage
 
-::: {.landscape}
-
-```{r, tbl-es-projections, results = "asis"}
+```{r, results = "asis"}
 #| label: tbl-es-projections
 #| warning: false
 #| echo: false
@@ -461,14 +459,12 @@ projections_table |>
 cat("\n\\end{landscape}\n")
 ```
 
-:::
-
 \clearpage
 ## Decision Table{-}
 
 This section will be updated after SSC GFSC review.
 
-```{r, 1, results = "asis"}
+```{r, results = "asis"}
 #| label: tbl-es-decision-1
 #| warning: false
 #| echo: false

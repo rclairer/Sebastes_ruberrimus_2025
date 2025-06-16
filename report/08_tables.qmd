@@ -2,7 +2,7 @@
 
 <!-- Introduction -->
 
-```{r, tbl-yelloweye_management, results = "asis"}
+```{r, results = "asis"}
 #| label: tbl-ye-management
 #| warning: false
 #| echo: false
@@ -101,7 +101,7 @@ cat("\n\\end{landscape}\n")
 
 {{< pagebreak >}}
 
-```{r, yelloweye_percent_pos_ORFS}
+```{r}
 #| label: tbl-yelloweye_percent_pos_ORFS
 #| echo: false
 #| warning: false
@@ -117,7 +117,7 @@ read.csv("Tables/yelloweye_percent_pos_ORFS.csv") |>
   as_latex()
 ```
 
-```{r, yelloweye_model_selection_ORFS}
+```{r}
 #| label: tbl-yelloweye_model_selection_ORFS
 #| echo: false
 #| warning: false
@@ -138,7 +138,7 @@ orfs_modselect |>
 
 \clearpage
 
-```{r, yelloweye_percent_pos_ORBS}
+```{r}
 #| label: tbl-yelloweye_percent_pos_ORBS
 #| echo: false
 #| warning: false
@@ -154,7 +154,7 @@ read.csv("Tables/yelloweye_percent_pos_ORBS.csv") |>
   as_latex()
 ```
 
-```{r, yelloweye_model_selection_ORBS}
+```{r}
 #| label: tbl-yelloweye_model_selection_ORBS
 #| echo: false
 #| warning: false
@@ -503,7 +503,7 @@ kableExtra::kable(
 {{< pagebreak >}}
 
 <!-- Table 20 reference point -->
-```{r, tbl-ref-points-es-2, results = "asis"}
+```{r, results = "asis"}
 #| label: tbl-ref-points-es-2
 #| warning: false
 #| echo: false
@@ -594,7 +594,7 @@ cat("\n\\end{landscape}\n")
 {{< pagebreak >}}
 
 <!-- Table 22 states of nature -->
-```{r, 2, results = "asis"}
+```{r, results = "asis"}
 #| label: tbl-es-decision-2
 #| warning: false
 #| echo: false
