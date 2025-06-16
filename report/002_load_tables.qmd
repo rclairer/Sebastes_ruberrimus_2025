@@ -34,7 +34,7 @@ if (file.exists(here::here("report/tables"))) {
   ssb_es_table <- ssb_es$table |> rename(`Lower Interval.` = `Lower Interval (mt)`) |> rename(`Upper Interval.` = `Upper Interval (mt)`)
   ssb_es_cap <- ssb_es$cap
   ssb_es_cap <- gsub("fraction unfished", "fraction of unfished spawning output", ssb_es_cap)
-  ssb_es_cap <- "Estimated recent trend in spawning output (millions of eggs) and the fraction of unfished spawning output and the 95 percent confidence intervals."
+  ssb_es_cap <- "Estimated recent trend in spawning output (billions of eggs) and the fraction of unfished spawning output and the 95 percent confidence intervals."
   rm(ssb_es)
   
   spr_es_table <- spr_es$table
@@ -257,13 +257,13 @@ catch_table <- inputs$dat$catch |>
 #| echo: false
 #| message: false
 
-#decision_table_cap <- "Decision table with 10-year projections. 'Mgmt' refers to the three management scenarios (A) the default harvest control rule $P^* = 0.45$. In each case the 2025 and 2026 catches are fixed at the ACLs which have been set for that year with estimated fleet allocation provided by the GMT. The alternative states of nature ('Low', 'Base', and 'High' as discussed in the text) are provided in the columns, with Spawning Output ('Spawn', in millions of eggs) and Fraction of unfished spawning output ('Frac') provided for each state."
+#decision_table_cap <- "Decision table with 10-year projections. 'Mgmt' refers to the three management scenarios (A) the default harvest control rule $P^* = 0.45$. In each case the 2025 and 2026 catches are fixed at the ACLs which have been set for that year with estimated fleet allocation provided by the GMT. The alternative states of nature ('Low', 'Base', and 'High' as discussed in the text) are provided in the columns, with Spawning Output ('Spawn', in billions of eggs) and Fraction of unfished spawning output ('Frac') provided for each state."
 
 # # replace mod_out below with calls like
 # mod_low_A <- SS_output(dir_low_A,
 #     verbose = FALSE,
 #     printstats = FALSE,
-#     SpawnOutputLabel = "Spawning Output (millions of eggs)"
+#     SpawnOutputLabel = "Spawning Output (billions of eggs)"
 # )
 
 #mod_low_A <- replist
@@ -281,14 +281,14 @@ catch_table <- inputs$dat$catch |>
 
 #######################################################
 mod_low_A <- r4ss::SS_output(here::here("model/2025_low_state"),    
-  SpawnOutputLabel = "Spawning output (millions of eggs)", printstats = FALSE, verbose = FALSE)
+  SpawnOutputLabel = "Spawning output (billions of eggs)", printstats = FALSE, verbose = FALSE)
 #mod_low_B <- r4ss::SS_output(here::here("model_runs/6.28_lowR0_forecast_avg_attain"))
 
 mod_base_A <- mod_out
 #mod_base_B <- r4ss::SS_output(here::here("model_runs/6.30_base_forecast_avg_attain"))
 
 mod_high_A <- r4ss::SS_output(here::here("model/2025_high_state"), 
-  SpawnOutputLabel = "Spawning output (millions of eggs)", printstats = FALSE, verbose = FALSE)
+  SpawnOutputLabel = "Spawning output (billions of eggs)", printstats = FALSE, verbose = FALSE)
 #mod_high_B <- r4ss::SS_output(here::here("model_runs/6.29_highR0_forecast_avg_attain")) 
 
 
