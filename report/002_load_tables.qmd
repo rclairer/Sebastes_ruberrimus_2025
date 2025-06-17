@@ -131,14 +131,10 @@ recent_management_table <- recent_management_table |>
 recent_management_table <- round(recent_management_table)
 
 
-projections_table[1:2, "Adopted OFL (mt)"] <- GMT016 |>
-  dplyr::filter(SPECIFICATION_TYPE == "OFL", YEAR %in% projections_table$Year) |>
-  dplyr::arrange(YEAR) |>
-  dplyr::select(VAL)
-projections_table[1:2, "Adopted ACL (mt)"] <- GMT016 |>
-  dplyr::filter(SPECIFICATION_TYPE == "ACL", YEAR %in% projections_table$Year) |>
-  dplyr::arrange(YEAR) |>
-  dplyr::select(VAL)
+projections_table[1:2, "Adopted OFL (mt)"] <- read_csv(here::here("report", "tables", "ofl_abc_acl_table.csv")) |>
+  dplyr::select('OFL (mt)')
+projections_table[1:2, "Adopted ACL (mt)"] <- read_csv(here::here("report", "tables", "ofl_abc_acl_table.csv")) |>
+  dplyr::select('ACL (mt)')
   
 ```
 
