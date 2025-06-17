@@ -481,7 +481,7 @@ cat("\n\\end{landscape}\n")
 #| warning: false
 #| echo: false
 #| eval: !expr eval_tables 
-#| tbl-cap: !expr if(eval_tables) time_series_cap 
+#| tbl-cap: "Time series of population estimates from the base model, including projections from 2025 to 2036." 
 #| tbl-pos: H
 
 time_series_table |>
@@ -489,7 +489,7 @@ kableExtra::kable(
   format = "latex", 
   longtable = TRUE,
   booktabs = TRUE,
-  caption = "Time series of population estimates from the base model.",
+  caption = "Time series of population estimates from the base model, including projections from 2025 to 2036.",
   linesep = "") |>
   kableExtra::kable_styling(
     latex_options = "repeat_header",
