@@ -257,6 +257,32 @@ catch_table <- all_catch |>
 
 #############################################################
 
+replist <- SS_output(here::here("model", "base_comm_discards_steepness_fitbias_tuned"))
+# which fleets have catch in numbers (catch_units == 2) and are fishery fleets (fleet_type == 1)
+replist$FleetNames[replist$catch_units == 2 & replist$fleet_type == 1]
+# [1] "7_WA_REC"
+
+# calculate model expectation for mean weight for the WA_REC fleet
+# which is based on the combination of parameters for growth and selectivity
+WA_REC_meanwt <- replist$timeseries |>
+  dplyr::filter(Area == 2 & Yr == 2024) |>
+  dplyr::mutate(meanwt = as.numeric(`dead(B):_7`) / as.numeric(`dead(N):_7`)) |>
+  dplyr::pull(meanwt) |>
+  round(3)
+WA_REC_meanwt
+# [1] 2.105
+
+catch_table <- inputs$dat$catch |>
+  dplyr::select(year, fleet, catch) |>
+  tidyr::pivot_wider(names_from = fleet, values_from = catch) |>
+  dplyr::rename("Year" = "year", "CA_TWL" = "1", "CA_NONTWL" = "2", "CA_REC" = "3", "ORWA_TWL" = "4", "ORWA_NONTWL" = "5", "OR_REC" = "6", "WA_REC" = "7") |>
+  dplyr::mutate(CA_TWL = round(CA_TWL,2), CA_NONTWL = round(CA_NONTWL,2), CA_REC = round(CA_REC, 2), ORWA_TWL = round(ORWA_TWL, 2), ORWA_NONTWL = round(ORWA_NONTWL, 2), OR_REC = round(OR_REC, 2), WA_REC = round(WA_REC * WA_REC_meanwt, 2)) |>
+  dplyr::mutate(total_catch = round(rowSums(across(CA_TWL:WA_REC), na.rm = TRUE), 2)) |>
+  dplyr::rename("CA TWL (mt)" = "CA_TWL", "CA NONTWL (mt)" = "CA_NONTWL", "CA REC (mt)" = "CA_REC", "ORWA TWL (mt)" = "ORWA_TWL", "ORWA NONTWL (mt)" = "ORWA_NONTWL", "OR REC (mt)" = "OR_REC", "WA REC (mt)" = "WA_REC", "Catch (mt)" = "total_catch") |>
+  dplyr::filter(Year > 1)
+
+
+
 # Get WA catch MT for where that info is available and create catch table
 # 1967-1974 - no weights in MT
 # 1975-1978 - use previous assessment MT
