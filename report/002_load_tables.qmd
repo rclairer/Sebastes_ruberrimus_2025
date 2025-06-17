@@ -130,7 +130,7 @@ recent_management_table <- recent_management_table |>
 
 recent_management_table <- round(recent_management_table)
 
-
+### fix this, we need to find the numbers for 2025-2026
 projections_table[1:2, "Adopted OFL (mt)"] <- read_csv(here::here("report", "tables", "ofl_abc_acl_table.csv")) |>
   dplyr::select('OFL (mt)')
 projections_table[1:2, "Adopted ACL (mt)"] <- read_csv(here::here("report", "tables", "ofl_abc_acl_table.csv")) |>
