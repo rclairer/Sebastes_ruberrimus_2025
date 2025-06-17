@@ -27,56 +27,86 @@ if (file.exists(here::here("report/tables"))) {
     load(all_rda_files[a])
   }
     # process all executive summary tables
-  catches_es_table <- catches_es$table
-  catches_es_cap <- catches_es$cap
-  rm(catches_es)
+  ## Commenting out default catch table, Claire made one that matches what we need below. We had issues with the catch being separated by area and WA rec is in numbers of fish, not mt.
+  #NOT FINE FOR TWO AREA MODEL
+  # catches_es_table <- catches_es$table
+  # catches_es_cap <- catches_es$cap
+  # rm(catches_es)
   
+  
+  #FINE FOR TWO AREA MODEL
   ssb_es_table <- ssb_es$table |> rename(`Lower Interval.` = `Lower Interval (mt)`) |> rename(`Upper Interval.` = `Upper Interval (mt)`)
   ssb_es_cap <- ssb_es$cap
   ssb_es_cap <- gsub("fraction unfished", "fraction of unfished spawning output", ssb_es_cap)
-  ssb_es_cap <- "Estimated recent trend in spawning output (millions of eggs) and the fraction of unfished spawning output and the 95 percent confidence intervals."
+  ssb_es_cap <- "Estimated recent trend in spawning output (billions of eggs) and the fraction of unfished spawning output and the 95 percent confidence intervals."
   rm(ssb_es)
   
+  #FINE FOR TWO AREA MODEL
   spr_es_table <- spr_es$table
   spr_es_cap <- spr_es$cap
   rm(spr_es)
   
+  #FINE FOR TWO AREA MODEL
   recr_es_table <- recr_es$table
   recr_es_cap <- recr_es$cap
   rm(recr_es)
   
+  #based on derived quantities? so should be fine for two area model
   reference_points_table <- reference_points$table
   reference_points_cap <- reference_points$cap
   rm(reference_points)
   
+  #FINE FOR TWO AREA MODEL, CATCH COLUMN MATCHES EXPECTED CATCH
   recent_management_table <- recent_management$table
   recent_management_cap <- recent_management$cap
   rm(recent_management)
-    
+  
+  #FINE FOR TWO AREA MODEL  
   projections_table <- projections$table
   projections_cap <- projections$cap
   projections_cap <- gsub("fraction unfished", "fraction of unfished spawning output", projections_cap)
   rm(projections)
   
+  #FINE FOR TWO AREA MODEL
   compweight_table <- table_compweight$table
   compweight_cap <- table_compweight$cap
   rm(table_compweight)
   
+  #FINE FOR TWO AREA MODEL
   config_table <- table_config$table
   config_cap <- table_config$cap
   rm(table_config)
   
+  #FINE FOR TWO AREA MODEL
   parcount_table <- table_parcounts$table
   parcount_cap <- table_parcounts$cap
   rm(table_parcounts)
   
+  #FINE FOR TWO AREA MODEL
   pars_table <- table_pars$table
   pars_cap <- table_pars$cap
   rm(table_pars)
 
+  #NOT FINE FOR TWO AREA MODEL
   # table from r4ss::table_exec_summary()
   time_series_table <- time_series$table
-  time_series_cap <- time_series$cap
+  
+  # we found that this table was separated by Area, when comparing the two area numbers, the only differences were in Total Mortality and Exploitation Rate. We compared the separated area's numbers to the combined numbers in the TS table (and it's source table 61, Annual Time Series in the report file) and found that it was a simple sum, so we are replacing those two columns in the time_series_table with the summed Total Mortality and Exploitation Rate.
+  summed_tm <- time_series_table |> group_by(Year) |> summarise(`Total Mortality (mt)` = sum(`Total Mortality (mt)`)) 
+  summed_er <- time_series_table |> group_by(Year) |> summarise(`Exploitation Rate` = sum(`Exploitation Rate`))
+  # get rid of the duplicated years
+  time_series_table <- time_series_table[1:148,]
+  # add in the new TM and ER columns
+  time_series_table <- time_series_table |> 
+                          select(-`Total Mortality (mt)`) |> 
+                          left_join(summed_tm, by = "Year") |> 
+                          select(1:6, `Total Mortality (mt)`, everything())
+  time_series_table <- time_series_table |> 
+                          select(-`Exploitation Rate`) |> 
+                          left_join(summed_er, by = "Year")
+  
+  time_series_cap <- time_series$cap # fix the caption so that we include projections
+  time_series_cap <- "Time series of population estimates from the base model, including projections from 2025 to 2036."
   rm(time_series)
 
   time_series_table <- time_series_table |>
@@ -86,41 +116,43 @@ if (file.exists(here::here("report/tables"))) {
       grepl("Fraction", dplyr::cur_column()) ~ round(.x, 3),
       grepl("Recruits", dplyr::cur_column()) ~ round(.x, 0),
       grepl("Mortality", dplyr::cur_column()) ~ round(.x, 0),
-      TRUE ~ round(.x, 3)
-    )))
+      TRUE ~ round(.x, 3))))
 
-  # table from r4ss::table_ts() (not used currently)
-  ts_table <- table_ts$table
-  ts_cap <- table_ts$cap
-  rm(table_ts)
+  #FINE FOR TWO AREA MODEL
+  # table from r4ss::table_ts() (not used currently so dont bother loading it. Helped us figure out the differences between the two area values)
+  # ts_table <- table_ts$table
+  # ts_cap <- table_ts$cap
+  # rm(table_ts)
 
   eval_tables <- TRUE
 } else {
   eval_tables <- FALSE
 }
 
-# GMT016 table is downloaded from https://reports.psmfc.org/
-# This will need to be fixed once Ian gets back, I think r4ss is getting confused because we have some catch 
-# reported in MT and some in numbers of fish
-GMT016 <- read.csv(here::here("report", "tables", "GMT016-final specifications-.csv"))
-es_10_years <- recent_management_table$Year
+# # GMT016 table is downloaded from https://reports.psmfc.org/
+# # This will need to be fixed once Ian gets back, I think r4ss is getting confused because we have some catch 
+# # reported in MT and some in numbers of fish
+# GMT016 <- read.csv(here::here("report", "tables", "GMT016-final specifications-.csv"))
+# es_10_years <- recent_management_table$Year
+# 
+# # Had to switch the way this is done from what Yellowtail had because our GMT016
+# # didn't have the year 2022
+# GMT_filt <- GMT016 |>
+#   select(YEAR, SPECIFICATION_TYPE, VAL) |>
+#   pivot_wider(names_from = SPECIFICATION_TYPE,
+#               values_from = VAL) |>
+#   select(YEAR, OFL, ABC, ACL) |>
+#   dplyr::filter(YEAR %in% es_10_years) |>
+#   arrange(YEAR) |>
+#   rename(Year = YEAR,
+#          `OFL (mt)` = OFL,
+#          `ABC (mt)` = ABC,
+#          `ACL (mt)` = ACL)
 
-# Had to switch the way this is done from what Yellowtail had because our GMT016
-# didn't have the year 2022
-GMT_filt <- GMT016 |>
-  select(YEAR, SPECIFICATION_TYPE, VAL) |>
-  pivot_wider(names_from = SPECIFICATION_TYPE,
-              values_from = VAL) |>
-  select(YEAR, OFL, ABC, ACL) |>
-  dplyr::filter(YEAR %in% es_10_years) |>
-  arrange(YEAR) |>
-  rename(Year = YEAR,
-         `OFL (mt)` = OFL,
-         `ABC (mt)` = ABC,
-         `ACL (mt)` = ACL)
-
+### We are using just this to make the OFL table because the GMT report is out of date.
+# Morgan went to the PFMC website (https://www.pcouncil.org/harvest-specifications-regulations-and-seasons/) and pulled the numbers directly from there for each year and made our own ofl_abc_acl table.
 recent_management_table <- recent_management_table |>
-  full_join(GMT_filt, by = c("Year")) |>
+  full_join(read_csv(here::here("report", "tables", "ofl_abc_acl_table.csv")), by = c("Year")) |>
   select(Year, `OFL (mt).y`, `ABC (mt).y`, `ACL (mt).y`, `Catch (mt)`) |>
   rename(`OFL (mt)` = `OFL (mt).y`,
          `ABC (mt)` = `ABC (mt).y`,
@@ -128,7 +160,14 @@ recent_management_table <- recent_management_table |>
 
 recent_management_table <- round(recent_management_table)
 
+### fix this, we need to find the numbers for 2025-2026
+# projections_table[1:2, "Adopted OFL (mt)"] <- read_csv(here::here("report", "tables", "ofl_abc_acl_table.csv")) |>
+#   dplyr::select('OFL (mt)')
+# projections_table[1:2, "Adopted ACL (mt)"] <- read_csv(here::here("report", "tables", "ofl_abc_acl_table.csv")) |>
+#   dplyr::select('ACL (mt)')
 
+### old code from the file Elizabeth found - the 2025 and 2026 numbers here are correct. 
+GMT016 <- read.csv(here::here("report", "tables", "GMT016-final specifications-.csv"))
 projections_table[1:2, "Adopted OFL (mt)"] <- GMT016 |>
   dplyr::filter(SPECIFICATION_TYPE == "OFL", YEAR %in% projections_table$Year) |>
   dplyr::arrange(YEAR) |>
@@ -147,7 +186,76 @@ projections_table[1:2, "Adopted ACL (mt)"] <- GMT016 |>
 #| message: false
 #| results: "hide"
 
-# produce catch_table
+
+replist <- SS_output(here::here("model", "base_comm_discards_steepness_fitbias_tuned"))
+
+use_timeseries <- replist[["timeseries"]]
+
+CA_use_timeseries <- dplyr::filter(use_timeseries, Area == 1)
+
+ORWA_use_timeseries <- dplyr::filter(use_timeseries, Area == 2)
+
+all_catch <- data.frame(
+  deadB_1 = CA_use_timeseries$`dead(B):_1`,
+  deadB_2 = CA_use_timeseries$`dead(B):_2`,
+  deadB_3 = CA_use_timeseries$`dead(B):_3`,
+  deadB_4 = ORWA_use_timeseries$`dead(B):_4`,
+  deadB_5 = ORWA_use_timeseries$`dead(B):_5`,
+  deadB_6 = ORWA_use_timeseries$`dead(B):_6`,
+  deadB_7 = ORWA_use_timeseries$`dead(B):_7`,
+  deadN_7 = ORWA_use_timeseries$`dead(N):_7`
+)
+
+all_catch$year <- CA_use_timeseries$Yr
+
+catch_table <- all_catch |>
+  dplyr::select(year, everything()) |>
+  dplyr::rename("Year" = "year", "CA_TWL" = "deadB_1", "CA_NONTWL" = "deadB_2", "CA_REC" = "deadB_3", "ORWA_TWL" = "deadB_4", "ORWA_NONTWL" = "deadB_5", "OR_REC" = "deadB_6", "WA_REC" = "deadB_7", "WA_REC_numbers" = "deadN_7")|>
+  dplyr::mutate(CA_TWL = round(CA_TWL,2), CA_NONTWL = round(CA_NONTWL,2), CA_REC = round(CA_REC, 2), ORWA_TWL = round(ORWA_TWL, 2), ORWA_NONTWL = round(ORWA_NONTWL, 2), OR_REC = round(OR_REC, 2), WA_REC = round(WA_REC, 2), WA_REC_numbers = round(WA_REC_numbers, 2) )|>
+      dplyr::mutate(total_catch = round(rowSums(across(CA_TWL:WA_REC), na.rm = TRUE), 2)) |> 
+      dplyr::rename("CA TWL (mt)" = "CA_TWL", "CA NONTWL (mt)" = "CA_NONTWL", "CA REC (mt)" = "CA_REC", "ORWA TWL (mt)" = "ORWA_TWL", "ORWA NONTWL (mt)" = "ORWA_NONTWL", "OR REC (mt)" = "OR_REC", "WA REC (mt)" = "WA_REC", "WA REC (1000s of fish)" = "WA_REC_numbers", "Catch (mt)" = "total_catch") |>
+  dplyr::filter(Year > 1888 & Year < 2025) |>
+  dplyr::select(-'WA REC (mt)') #remove wa rec mt, so comment out if we also want WA rec catch in mt
+
+  
+#################################################################
+
+#catch_table <- inputs$dat$catch |>
+#  dplyr::select(year, fleet, catch) |>
+#  tidyr::pivot_wider(names_from = fleet, values_from = catch) |>
+#  dplyr::rename("Year" = "year", "CA_TWL" = "1", "CA_NONTWL" = "2", "CA_REC" = "3", "ORWA_TWL" = "4", "ORWA_NONTWL" = "5", "OR_REC" = "6", "WA_REC" = "7") |>
+#  dplyr::mutate(CA_TWL = round(CA_TWL,2), CA_NONTWL = round(CA_NONTWL,2), CA_REC = round(CA_REC, 2), ORWA_TWL = round(ORWA_TWL, 2), ORWA_NONTWL = round(ORWA_NONTWL, 2), OR_REC = round(OR_REC, 2), WA_REC = round(WA_REC, 2)) |>
+#  dplyr::mutate(total_catch = round(rowSums(across(CA_TWL:WA_REC), na.rm = TRUE), 2)) |>
+#  dplyr::rename("CA TWL (mt)" = "CA_TWL", "CA NONTWL (mt)" = "CA_NONTWL", "CA REC (mt)" = "CA_REC", "ORWA TWL (mt)" = "ORWA_TWL", "ORWA NONTWL (mt)" = "ORWA_NONTWL", "OR REC (mt)" = "OR_REC", "WA REC (1000s of fish)" = "WA_REC", "Catch (mt)" = "total_catch") |>
+#  dplyr::filter(Year > 1)
+# produce catch_table IF WE WANT WA REC IN MT
+
+#####################################################
+#replist <- SS_output(here::here("model", "base_comm_discards_steepness_fitbias_tuned"))
+# which fleets have catch in numbers (catch_units == 2) and are fishery fleets (fleet_type == 1)
+#replist$FleetNames[replist$catch_units == 2 & replist$fleet_type == 1]
+# [1] "7_WA_REC"
+
+# calculate model expectation for mean weight for the WA_REC fleet
+# which is based on the combination of parameters for growth and selectivity
+#WA_REC_meanwt <- replist$timeseries |>
+#  dplyr::filter(Area == 2 & Yr == 2024) |>
+#  dplyr::mutate(meanwt = as.numeric(`dead(B):_7`) / as.numeric(`dead(N):_7`)) |>
+#  dplyr::pull(meanwt) |>
+#  round(3)
+#WA_REC_meanwt
+# [1] 2.105
+
+#catch_table <- inputs$dat$catch |>
+#  dplyr::select(year, fleet, catch) |>
+#  tidyr::pivot_wider(names_from = fleet, values_from = catch) |>
+#  dplyr::rename("Year" = "year", "CA_TWL" = "1", "CA_NONTWL" = "2", "CA_REC" = "3", "ORWA_TWL" = "4", "ORWA_NONTWL" = "5", "OR_REC" = "6", "WA_REC" = "7") |>
+#  dplyr::mutate(CA_TWL = round(CA_TWL,2), CA_NONTWL = round(CA_NONTWL,2), CA_REC = round(CA_REC, 2), ORWA_TWL = round(ORWA_TWL, 2), ORWA_NONTWL = round(ORWA_NONTWL, 2), OR_REC = round(OR_REC, 2), WA_REC = round(WA_REC * WA_REC_meanwt, 2)) |>
+#  dplyr::mutate(total_catch = round(rowSums(across(CA_TWL:WA_REC), na.rm = TRUE), 2)) |>
+#  dplyr::rename("CA TWL (mt)" = "CA_TWL", "CA NONTWL (mt)" = "CA_NONTWL", "CA REC (mt)" = "CA_REC", "ORWA TWL (mt)" = "ORWA_TWL", "ORWA NONTWL (mt)" = "ORWA_NONTWL", "OR REC (mt)" = "OR_REC", "WA REC (mt)" = "WA_REC", "Catch (mt)" = "total_catch") |>
+#  dplyr::filter(Year > 1)
+
+#############################################################
 
 replist <- SS_output(here::here("model", "base_comm_discards_steepness_fitbias_tuned"))
 # which fleets have catch in numbers (catch_units == 2) and are fishery fleets (fleet_type == 1)
@@ -257,13 +365,13 @@ catch_table <- inputs$dat$catch |>
 #| echo: false
 #| message: false
 
-#decision_table_cap <- "Decision table with 10-year projections. 'Mgmt' refers to the three management scenarios (A) the default harvest control rule $P^* = 0.45$. In each case the 2025 and 2026 catches are fixed at the ACLs which have been set for that year with estimated fleet allocation provided by the GMT. The alternative states of nature ('Low', 'Base', and 'High' as discussed in the text) are provided in the columns, with Spawning Output ('Spawn', in millions of eggs) and Fraction of unfished spawning output ('Frac') provided for each state."
+#decision_table_cap <- "Decision table with 10-year projections. 'Mgmt' refers to the three management scenarios (A) the default harvest control rule $P^* = 0.45$. In each case the 2025 and 2026 catches are fixed at the ACLs which have been set for that year with estimated fleet allocation provided by the GMT. The alternative states of nature ('Low', 'Base', and 'High' as discussed in the text) are provided in the columns, with Spawning Output ('Spawn', in billions of eggs) and Fraction of unfished spawning output ('Frac') provided for each state."
 
 # # replace mod_out below with calls like
 # mod_low_A <- SS_output(dir_low_A,
 #     verbose = FALSE,
 #     printstats = FALSE,
-#     SpawnOutputLabel = "Spawning Output (millions of eggs)"
+#     SpawnOutputLabel = "Spawning Output (billions of eggs)"
 # )
 
 #mod_low_A <- replist
@@ -281,14 +389,14 @@ catch_table <- inputs$dat$catch |>
 
 #######################################################
 mod_low_A <- r4ss::SS_output(here::here("model/2025_low_state"),    
-  SpawnOutputLabel = "Spawning output (millions of eggs)", printstats = FALSE, verbose = FALSE)
+  SpawnOutputLabel = "Spawning output (billions of eggs)", printstats = FALSE, verbose = FALSE)
 #mod_low_B <- r4ss::SS_output(here::here("model_runs/6.28_lowR0_forecast_avg_attain"))
 
 mod_base_A <- mod_out
 #mod_base_B <- r4ss::SS_output(here::here("model_runs/6.30_base_forecast_avg_attain"))
 
 mod_high_A <- r4ss::SS_output(here::here("model/2025_high_state"), 
-  SpawnOutputLabel = "Spawning output (millions of eggs)", printstats = FALSE, verbose = FALSE)
+  SpawnOutputLabel = "Spawning output (billions of eggs)", printstats = FALSE, verbose = FALSE)
 #mod_high_B <- r4ss::SS_output(here::here("model_runs/6.29_highR0_forecast_avg_attain")) 
 
 
