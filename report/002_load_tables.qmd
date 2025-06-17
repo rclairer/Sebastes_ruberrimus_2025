@@ -27,9 +27,10 @@ if (file.exists(here::here("report/tables"))) {
     load(all_rda_files[a])
   }
     # process all executive summary tables
-  catches_es_table <- catches_es$table
-  catches_es_cap <- catches_es$cap
-  rm(catches_es)
+  ## Commenting out default catch table, Claire made one that matches what we need below. We had issues with the catch being separated by area and WA rec is in numbers of fish, not mt.
+  # catches_es_table <- catches_es$table
+  # catches_es_cap <- catches_es$cap
+  # rm(catches_es)
   
   ssb_es_table <- ssb_es$table |> rename(`Lower Interval.` = `Lower Interval (mt)`) |> rename(`Upper Interval.` = `Upper Interval (mt)`)
   ssb_es_cap <- ssb_es$cap
