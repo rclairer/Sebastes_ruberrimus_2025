@@ -37,7 +37,7 @@ knitr::include_graphics("figures/r4ss_plots/plots/catch2_landings_stacked.png")
 #| eval: true
 #| warning: false
 #| echo: false
-#| tbl-cap: "Recent catches (mt or 1000s of fish) by fleet and total catch (mt) summed across fleets." 
+#| tbl-cap: "Recent catches by fleet and total catch (mt) summed across fleets (total catch includes WA REC catch converted to mt)." 
 #| tbl-pos: H
 
 cat("\\begin{landscape}\n")
