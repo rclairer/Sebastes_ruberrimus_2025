@@ -28,53 +28,66 @@ if (file.exists(here::here("report/tables"))) {
   }
     # process all executive summary tables
   ## Commenting out default catch table, Claire made one that matches what we need below. We had issues with the catch being separated by area and WA rec is in numbers of fish, not mt.
+  #NOT FINE FOR TWO AREA MODEL
   # catches_es_table <- catches_es$table
   # catches_es_cap <- catches_es$cap
   # rm(catches_es)
   
+  
+  #FINE FOR TWO AREA MODEL
   ssb_es_table <- ssb_es$table |> rename(`Lower Interval.` = `Lower Interval (mt)`) |> rename(`Upper Interval.` = `Upper Interval (mt)`)
   ssb_es_cap <- ssb_es$cap
   ssb_es_cap <- gsub("fraction unfished", "fraction of unfished spawning output", ssb_es_cap)
   ssb_es_cap <- "Estimated recent trend in spawning output (billions of eggs) and the fraction of unfished spawning output and the 95 percent confidence intervals."
   rm(ssb_es)
   
+  #FINE FOR TWO AREA MODEL
   spr_es_table <- spr_es$table
   spr_es_cap <- spr_es$cap
   rm(spr_es)
   
+  #FINE FOR TWO AREA MODEL
   recr_es_table <- recr_es$table
   recr_es_cap <- recr_es$cap
   rm(recr_es)
   
+  #based on derived quantities? so should be fine for two area model
   reference_points_table <- reference_points$table
   reference_points_cap <- reference_points$cap
   rm(reference_points)
   
+  #FINE FOR TWO AREA MODEL, CATCH COLUMN MATCHES EXPECTED CATCH
   recent_management_table <- recent_management$table
   recent_management_cap <- recent_management$cap
   rm(recent_management)
-    
+  
+  #FINE FOR TWO AREA MODEL  
   projections_table <- projections$table
   projections_cap <- projections$cap
   projections_cap <- gsub("fraction unfished", "fraction of unfished spawning output", projections_cap)
   rm(projections)
   
+  #FINE FOR TWO AREA MODEL
   compweight_table <- table_compweight$table
   compweight_cap <- table_compweight$cap
   rm(table_compweight)
   
+  #FINE FOR TWO AREA MODEL
   config_table <- table_config$table
   config_cap <- table_config$cap
   rm(table_config)
   
+  #FINE FOR TWO AREA MODEL
   parcount_table <- table_parcounts$table
   parcount_cap <- table_parcounts$cap
   rm(table_parcounts)
   
+  #FINE FOR TWO AREA MODEL
   pars_table <- table_pars$table
   pars_cap <- table_pars$cap
   rm(table_pars)
 
+  #NOT FINE FOR TWO AREA MODEL
   # table from r4ss::table_exec_summary()
   time_series_table <- time_series$table
   time_series_cap <- time_series$cap
@@ -89,7 +102,8 @@ if (file.exists(here::here("report/tables"))) {
       grepl("Mortality", dplyr::cur_column()) ~ round(.x, 0),
       TRUE ~ round(.x, 3)
     )))
-
+  
+  #FINE FOR TWO AREA MODEL
   # table from r4ss::table_ts() (not used currently)
   ts_table <- table_ts$table
   ts_cap <- table_ts$cap
@@ -183,10 +197,11 @@ catch_table <- all_catch |>
   dplyr::select(year, everything()) |>
   dplyr::rename("Year" = "year", "CA_TWL" = "deadB_1", "CA_NONTWL" = "deadB_2", "CA_REC" = "deadB_3", "ORWA_TWL" = "deadB_4", "ORWA_NONTWL" = "deadB_5", "OR_REC" = "deadB_6", "WA_REC" = "deadB_7", "WA_REC_numbers" = "deadN_7")|>
   dplyr::mutate(CA_TWL = round(CA_TWL,2), CA_NONTWL = round(CA_NONTWL,2), CA_REC = round(CA_REC, 2), ORWA_TWL = round(ORWA_TWL, 2), ORWA_NONTWL = round(ORWA_NONTWL, 2), OR_REC = round(OR_REC, 2), WA_REC = round(WA_REC, 2), WA_REC_numbers = round(WA_REC_numbers, 2) )|>
-    dplyr::select(-WA_REC)|> #remove wa rec mt, so comment out if we also want WA rec catch in mt
-      dplyr::mutate(total_catch = round(rowSums(across(CA_TWL:OR_REC), na.rm = TRUE), 2)) |> #also will have to make this to WA:REC
-      dplyr::rename("CA TWL (mt)" = "CA_TWL", "CA NONTWL (mt)" = "CA_NONTWL", "CA REC (mt)" = "CA_REC", "ORWA TWL (mt)" = "ORWA_TWL", "ORWA NONTWL (mt)" = "ORWA_NONTWL", "OR REC (mt)" = "OR_REC", "WA REC (1000s of fish)" = "WA_REC_numbers", "Catch (mt)" = "total_catch") |> #would have to add back in WA REC (mt)" = "WA_REC"
-  dplyr::filter(Year > 1888 & Year < 2025)
+      dplyr::mutate(total_catch = round(rowSums(across(CA_TWL:WA_REC), na.rm = TRUE), 2)) |> 
+      dplyr::rename("CA TWL (mt)" = "CA_TWL", "CA NONTWL (mt)" = "CA_NONTWL", "CA REC (mt)" = "CA_REC", "ORWA TWL (mt)" = "ORWA_TWL", "ORWA NONTWL (mt)" = "ORWA_NONTWL", "OR REC (mt)" = "OR_REC", "WA REC (mt)" = "WA_REC", "WA REC (1000s of fish)" = "WA_REC_numbers", "Catch (mt)" = "total_catch") |>
+  dplyr::filter(Year > 1888 & Year < 2025) |>
+  dplyr::select(-'WA REC (mt)') #remove wa rec mt, so comment out if we also want WA rec catch in mt
+
   
 #################################################################
 
