@@ -99,28 +99,30 @@ if (file.exists(here::here("report/tables"))) {
   eval_tables <- FALSE
 }
 
-# GMT016 table is downloaded from https://reports.psmfc.org/
-# This will need to be fixed once Ian gets back, I think r4ss is getting confused because we have some catch 
-# reported in MT and some in numbers of fish
-GMT016 <- read.csv(here::here("report", "tables", "GMT016-final specifications-.csv"))
-es_10_years <- recent_management_table$Year
+# # GMT016 table is downloaded from https://reports.psmfc.org/
+# # This will need to be fixed once Ian gets back, I think r4ss is getting confused because we have some catch 
+# # reported in MT and some in numbers of fish
+# GMT016 <- read.csv(here::here("report", "tables", "GMT016-final specifications-.csv"))
+# es_10_years <- recent_management_table$Year
+# 
+# # Had to switch the way this is done from what Yellowtail had because our GMT016
+# # didn't have the year 2022
+# GMT_filt <- GMT016 |>
+#   select(YEAR, SPECIFICATION_TYPE, VAL) |>
+#   pivot_wider(names_from = SPECIFICATION_TYPE,
+#               values_from = VAL) |>
+#   select(YEAR, OFL, ABC, ACL) |>
+#   dplyr::filter(YEAR %in% es_10_years) |>
+#   arrange(YEAR) |>
+#   rename(Year = YEAR,
+#          `OFL (mt)` = OFL,
+#          `ABC (mt)` = ABC,
+#          `ACL (mt)` = ACL)
 
-# Had to switch the way this is done from what Yellowtail had because our GMT016
-# didn't have the year 2022
-GMT_filt <- GMT016 |>
-  select(YEAR, SPECIFICATION_TYPE, VAL) |>
-  pivot_wider(names_from = SPECIFICATION_TYPE,
-              values_from = VAL) |>
-  select(YEAR, OFL, ABC, ACL) |>
-  dplyr::filter(YEAR %in% es_10_years) |>
-  arrange(YEAR) |>
-  rename(Year = YEAR,
-         `OFL (mt)` = OFL,
-         `ABC (mt)` = ABC,
-         `ACL (mt)` = ACL)
-
+### We are using just this to make the OFL table because the GMT report is out of date.
+# Morgan went to the PFMC website (https://www.pcouncil.org/harvest-specifications-regulations-and-seasons/) and pulled the numbers directly from there for each year and made our own ofl_abc_acl table.
 recent_management_table <- recent_management_table |>
-  full_join(GMT_filt, by = c("Year")) |>
+  full_join(read_csv(here::here("report", "tables", "ofl_abc_acl_table.csv")), by = c("Year")) |>
   select(Year, `OFL (mt).y`, `ABC (mt).y`, `ACL (mt).y`, `Catch (mt)`) |>
   rename(`OFL (mt)` = `OFL (mt).y`,
          `ABC (mt)` = `ABC (mt).y`,
