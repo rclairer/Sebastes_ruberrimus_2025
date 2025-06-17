@@ -71,7 +71,7 @@ table_clean_labels <- function(tab) {
   # not generalized, depends on fecundity parameters and summary biomass age
   newlabel <- gsub("SmryBio unfished", "Unfished age 8+ bio 1000 mt", newlabel)
   # newlabel <- gsub("thousand", "1000", newlabel)
-  newlabel <- gsub("B(\\d+)", "B\\1 millions of eggs", newlabel) # should work for B0 and B2025
+  newlabel <- gsub("B(\\d+)", "B\\1 billions of eggs", newlabel) # should work for B0 and B2025
   tab$Label <- newlabel
   return(tab)
 }
