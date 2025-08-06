@@ -2518,5 +2518,6 @@ SSplotComparisons(models_summary,
                                       "25_2025base_vs_2017base"),
                   legendlabels = c("2017 base model",
                                    "Proposed 2025 base model"),
+                  endyrvec = c(2016, 2024),
                   print = TRUE)
 
