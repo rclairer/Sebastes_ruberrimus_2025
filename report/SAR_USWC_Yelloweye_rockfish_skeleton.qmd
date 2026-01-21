@@ -263,6 +263,20 @@ Johnston\*, M. A., Rosemond\*, R. C., Whitman, A., Perl, E., Barros, M., Champag
 
 \*These authors contributed equally to this work.
 
+ <!-- {{< pagebreak >}}  -->
+
+ <!-- This includes the two-pagers at the top of the executive summary -->
+
+\clearpage
+\thispagestyle{empty}
+\noindent
+\begin{tikzpicture}[remember picture, overlay]
+    \node[inner sep=0pt, anchor=north west] 
+    at (current page.north west) {
+        \includegraphics[width=8.5in, height=11in, alt={summary graphic containing images similar to figures XX, XX, and XX and table XX}]{figures/YEYE_at_a_glance_1.png}
+    };
+\end{tikzpicture}
+
 {{< pagebreak >}} 
 
 \pagenumbering{roman}
