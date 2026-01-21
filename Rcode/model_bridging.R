@@ -2517,7 +2517,7 @@ SSplotComparisons(models_summary,
                   plotdir = file.path(getwd(), "Rcode", "SSplotComparisons_output", "model_bridging_data_comparisons", 
                                       "25_2025base_vs_2017base"),
                   legendlabels = c("2017 base model",
-                                   "Proposed 2025 base model"),
+                                   "2025 base model"),
                   endyrvec = c(2016, 2024),
                   print = TRUE)
 
