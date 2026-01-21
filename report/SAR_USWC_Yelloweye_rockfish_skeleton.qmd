@@ -106,7 +106,7 @@ format:
         out.width: "\\textwidth" 
     code-block:
       out-width: "\\textwidth"
-    documentclass: scrartcl
+    documentclass: article
     number-sections: true
     template-partials:
       - 'support_files/before-body.tex'
