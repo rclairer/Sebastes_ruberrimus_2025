@@ -273,7 +273,7 @@ Johnston\*, M. A., Rosemond\*, R. C., Whitman, A., Perl, E., Barros, M., Champag
 \begin{tikzpicture}[remember picture, overlay]
     \node[inner sep=0pt, anchor=north west] 
     at (current page.north west) {
-        \includegraphics[width=8.5in, height=11in, alt={summary graphic containing images similar to figures XX, XX, and XX and table XX}]{figures/YEYE_at_a_glance_1.png}
+        \includegraphics[width=8.5in, height=11in, alt={summary graphic containing images similar to figures XX, XX, and XX and table XX}]{figures/YEYE_at_a_glance.png}
     };
 \end{tikzpicture}
 
@@ -285,17 +285,6 @@ Johnston\*, M. A., Rosemond\*, R. C., Whitman, A., Perl, E., Barros, M., Champag
 \renewcommand{\thetable}{\roman{table}}
 \renewcommand{\thefigure}{\roman{figure}}
 
-```{r, results='asis'}
-#| label: 'disclaimer'
-#| eval: true
-#| echo: false
-#| warning: false
-a <- knitr::knit_child('00a_disclaimer.qmd', quiet = TRUE)
-cat(a, sep = '\n')
-```
-
- {{< pagebreak >}} 
- 
 ```{r, results='asis'}
 #| label: 'load_tables'
 #| eval: true
