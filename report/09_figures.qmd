@@ -757,6 +757,19 @@ knitr::include_graphics(
 )
 ```
 
+\clearpage
+
+```{r}
+#| label: fig-bridge25-comp12
+#| echo: false
+#| warning: false
+#| eval: true
+#| fig-cap: "Time series of recruitment deviations estimated in the assessment model with ~ 95% intervals comparing the 2017 recruitment deviations in blue, to the 2025 recruitment deviations in red."
+#
+knitr::include_graphics(
+    "figures/bridging/25_2025base_vs_2017base/compare12_recdevs_uncertainty.png"
+)
+```
 
 <!-- 04c_model_diagnostics -->
 
