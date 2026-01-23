@@ -504,7 +504,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Fit to the log-scale WCBTS index."
+#| fig-cap: "Fit to the log-scale WCGBTS index."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index5_logcpuefit_11_NWFSC_ORWA.png"
