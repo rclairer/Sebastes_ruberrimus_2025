@@ -504,7 +504,7 @@ knitr::include_graphics(
 #| echo: false
 #| warning: false
 #| eval: true
-#| fig-cap: "Fit to the log-scale WCBTS index."
+#| fig-cap: "Fit to the log-scale WCGBTS index."
 #
 knitr::include_graphics(
     "figures/r4ss_plots/plots/index5_logcpuefit_11_NWFSC_ORWA.png"
@@ -1125,19 +1125,6 @@ knitr::include_graphics(
     "figures/r4ss_plots/plots/yield1_yield_curve.png"
 )
 ```
-
-```{r}
-#| label: fig-status-area
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Time series of relative spawning output estimated by area (area 1= California, area 2 = Oregon and Washington)."
-#
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/ts10_Relative_spawning_output.png"
-)
-```
-
 
 
 
