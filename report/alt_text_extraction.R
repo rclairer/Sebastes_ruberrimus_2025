@@ -17,7 +17,7 @@ library(dplyr)
 input_files <- c("01_executive_summary",
                  "09_figures")
 
-output_name <- "captions_alt_text"
+output_name <- "fig_labels_captions"
 
 alt_text_to_csv(input_files, output_name)
 
