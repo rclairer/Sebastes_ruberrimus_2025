@@ -1,3 +1,4 @@
+\input{accessibility.tex}
 % Options for packages loaded elsewhere
 % Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode}{hyperref}
@@ -28,10 +29,10 @@
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-\IfFileExists{microtype.sty}{% use microtype if available
-  \usepackage[]{microtype}
-  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
-}{}
+% \IfFileExists{microtype.sty}{% use microtype if available
+%   \usepackage[]{microtype}
+%   \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+% }{}
 \makeatletter
 \@ifundefined{KOMAClassName}{% if non-KOMA class
   \IfFileExists{parskip.sty}{%
@@ -457,7 +458,7 @@ Oken \and Aaron Berger}
 
 \renewcommand*\contentsname{Table of contents}
 {
-\hypersetup{linkcolor=}
+\hypersetup{linkcolor=.}
 \setcounter{tocdepth}{3}
 \tableofcontents
 }
@@ -542,7 +543,7 @@ recreational fleets.
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/catch2_landings_stacked.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Stacked bar plot showing total landings rose from the 1940s through the 1990s, decreased in the 2000s, and have since remained low.'}]{figures/r4ss_plots/plots/catch2_landings_stacked.png}}
 
 }
 
@@ -553,6 +554,7 @@ metric tons (mt) between 1889 and 2024 for each fleet.}
 
 \clearpage
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{table}[H]
 
 \caption{\label{tbl-es-catches}Recent catches by fleet and total catch
@@ -633,6 +635,7 @@ and allocation decisions (Figure~\ref{fig-status-area-es}).
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}}
 
 \caption{\label{tbl-es-sb}Estimated recent trend in spawning output
@@ -665,7 +668,7 @@ Year & Spawning output & Lower Interval. & Upper Interval. & Fraction Unfished &
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Spawning output was relatively unfished prior to the 1940s, decreased to the lowest point in the early 2000s, and then increased to the end of the time series.'}]{figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png}}
 
 }
 
@@ -679,7 +682,7 @@ Year & Spawning output & Lower Interval. & Upper Interval. & Fraction Unfished &
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'The estimated fraction unfished was relatively unfished between the start of the model through the 1940s, decreased to the lowest point in the early 2000s below management targets, and then increased to the end of the time series.'}]{figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png}}
 
 }
 
@@ -692,7 +695,7 @@ output for the base model.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/ts10_Relative_spawning_output.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'The estimated fraction unfished for both model areas was relatively unfished between the start of the model through the 1940s, decreased to the lowest point in the early 2000s below management targets, and then increased to the end of the time series.'}]{figures/r4ss_plots/plots/ts10_Relative_spawning_output.png}}
 
 }
 
@@ -719,6 +722,7 @@ with peaks in 2008 and 2013, and and lower recruitment in 2017.
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}}
 
 \caption{\label{tbl-es-recr}Estimated recent trend in recruitment
@@ -750,7 +754,7 @@ Year & Recruitment (1,000s) & Lower Interval (1,000s) & Upper Interval (1,000s) 
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Plot of recruits and uncertainty intervals over time showing increasing recruitment in the early 1980s and 2010s.'}]{figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png}}
 
 }
 
@@ -764,7 +768,7 @@ intervals (vertical lines).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/recdevs2_withbars.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Plot of recruitment deviations and uncertainty intervals over time showing increasing recruitment in the early 1980s and 2010s and decreasing recruitment in the 1990s and more recent years.'}]{figures/r4ss_plots/plots/recdevs2_withbars.png}}
 
 }
 
@@ -791,7 +795,7 @@ overfished. Fishing intensity has since been relatively stable
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/SPR4_phase.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Phase plot showing population trajectory. Tabular information is available for the values of the fraction unfished and fishing intensity which are related in this figure'}]{figures/r4ss_plots/plots/SPR4_phase.png}}
 
 }
 
@@ -810,6 +814,7 @@ quantities.}
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{>{\centering\arraybackslash}p{\dimexpr 60.00pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 60.00pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 60.00pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 60.00pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 60.00pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 60.00pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 60.00pt -2\tabcolsep-1.5\arrayrulewidth}}
 
 \caption{\label{tbl-es-spr}Estimated recent trend in relative fishing
@@ -867,6 +872,7 @@ confidence interval: 108 - 137 mt).
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{lrrr}
 
 \caption{\label{tbl-ref-points-es-1}Summary of reference points and
@@ -921,6 +927,7 @@ unit and includes both landings and estimated discard mortality.
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{rrrrr}
 
 \caption{\label{tbl-es-management}Recent trend in the overfishing limits
@@ -960,6 +967,7 @@ This section will be updated after SSC GFSC review.
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}}
 
 \caption{\label{tbl-es-projections}Potential OFLs (mt), ABCs (mt), ACLs
@@ -999,6 +1007,7 @@ Year & Adopted OFL (mt) & Adopted ACL (mt) & Assumed Catch (mt) & OFL (mt) & Buf
 
 This section will be updated after SSC GFSC review.
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{table}[H]
 
 \caption{\label{tbl-es-decision-1}Decision table with 12-year
@@ -2569,6 +2578,7 @@ Reconstruction (1979-2000).''} ODFW Science Bulletin 2024-09.
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{rrrrr}
 
 \caption{\label{tbl-ye-management}Recent trend in the overfishing limits
@@ -2603,6 +2613,7 @@ Year & OFL (mt) & ABC (mt) & ACL (mt) & Catch (mt) \\
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{>{\raggedleft\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\raggedleft\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}}
 
 \caption{\label{tbl-all_removals}Time series of Yelloweye Rockfish
@@ -2764,6 +2775,7 @@ Year & CA TWL (mt) & CA NONTWL (mt) & CA REC (mt) & ORWA TWL (mt) & ORWA NONTWL 
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{rrrrr}
 
 \caption{\label{tbl-yelloweye_percent_pos_ORFS}Summary of trips with and
@@ -2800,6 +2812,7 @@ year & tripsWithTarget & tripsWOTarget & totalTrips & percentpos \\
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{llllllrrrr}
 
 \caption{\label{tbl-yelloweye_model_selection_ORFS}Model selection for
@@ -2831,6 +2844,7 @@ Incl. & - & - & Incl. & Incl. & Incl. & 27 & -1502.7 & 3059.6 & 201.1 \\
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{rrrrr}
 
 \caption{\label{tbl-yelloweye_percent_pos_ORBS}Summary of trips with and
@@ -2872,6 +2886,7 @@ year & tripsWithTarget & tripsWOTarget & totalTrips & percentpos \\
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{lllllllrrrr}
 
 \caption{\label{tbl-yelloweye_model_selection_ORBS}Model selection for
@@ -2905,6 +2920,7 @@ Incl. & - & - & Incl. & - & Incl. & Incl. & 30 & -45583.4 & 91226.9 & 427.8 \\
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{l|rrrr}
 
 \caption{\label{tbl-sampling-effort-triennial}Summary of sampling effort
@@ -2938,6 +2954,7 @@ summarized by area.}
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{l|rrrr}
 
 \caption{\label{tbl-sampling-effort-nwfsc}Summary of sampling effort
@@ -2981,6 +2998,7 @@ area.}
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{ll}
 
 \caption{\label{tbl-model-config}Specifications and structure of the
@@ -3013,6 +3031,7 @@ Data age bins & 0-65 by 1 year \\
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{llrrrrr}
 
 \caption{\label{tbl-compweight}Data weightings applied to compositions
@@ -3058,6 +3077,7 @@ CAAL & 12\_IPHC\_ORWA & 0.088 & 531 & 16.0 & 1.4 & 748.8 \\
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{lr}
 
 \caption{\label{tbl-n-param}Estimated parameters in the model.}
@@ -3087,6 +3107,7 @@ Size selectivity & 25 \\
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{llrllrl}
 
 \caption{\label{tbl-pars}Parameter estimates, estimation phase,
@@ -3365,6 +3386,7 @@ Size\_DblN\_end\_logit\_12\_IPHC\_ORWA(12) & -999 & -5 & (-1000, 9) & fixed &  &
 \begin{landscape}
 \begingroup\fontsize{9}{11}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{5em}}
 
 \caption{\label{tbl-sensitivities-model-specs}Base model sensitivity to
@@ -3411,6 +3433,7 @@ Label & Base & Est. M & Est. steepness & 2017 LW relationship\\
 \begin{flushleft}
 \begingroup\fontsize{9}{11}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}}
 
 \caption{\label{tbl-sensitivities-like-indices}Base model sensitivity to
@@ -3457,6 +3480,7 @@ Label & Base & - CA REC & - OR REC & - WA REC & - CA CPFV & - ORFS & - Triennial
 \begin{landscape}
 \begingroup\fontsize{9}{11}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}}
 
 \caption{\label{tbl-sensitivities-like-comps-len1}Base model sensitivity
@@ -3502,6 +3526,7 @@ Label & Base & - CA TWL & - CA NONTWL & - CA REC & - ORWA TWL & - ORWA NONTWL & 
 \begin{landscape}
 \begingroup\fontsize{9}{11}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}}
 
 \caption{\label{tbl-sensitivities-like-comps-len2}Base model sensitivity
@@ -3547,6 +3572,7 @@ Label & Base & - CA CPFV & - ORFS & - Triennial & - WCGBTS & - IPHC & No length 
 \begin{landscape}
 \begingroup\fontsize{9}{11}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}>{\raggedright\arraybackslash}p{4em}}
 
 \caption{\label{tbl-sensitivities-like-comps-age1}Base model sensitivity
@@ -3592,6 +3618,7 @@ Label & Base & - CA NONTWL & - CA REC & - ORWA TWL & - ORWA NONTWL & - OR REC & 
 \begin{landscape}
 \begingroup\fontsize{9}{11}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}[t]{ll>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{5em}>{\raggedright\arraybackslash}p{5em}}
 
 \caption{\label{tbl-sensitivities-like-comps-age2}Base model sensitivity
@@ -3636,6 +3663,7 @@ Label & Base & - WCGBTS & - IPHC & No age comps & McAllister-Ianelli\\
 
 \begingroup\fontsize{8}{10}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}[t]{>{\raggedleft\arraybackslash}p{0.5in}>{\raggedleft\arraybackslash}p{0.5in}>{\raggedleft\arraybackslash}p{0.5in}>{\raggedleft\arraybackslash}p{0.5in}>{\raggedleft\arraybackslash}p{0.5in}>{\raggedleft\arraybackslash}p{0.5in}>{\raggedleft\arraybackslash}p{0.5in}>{\raggedleft\arraybackslash}p{0.5in}>{\raggedleft\arraybackslash}p{0.5in}}
 
 \caption{\label{tbl-ts}Time series of population estimates from the base
@@ -3815,6 +3843,7 @@ Year & Total Biomass (mt) & Spawning output & Total Biomass 8+ (mt) & Fraction U
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{lrrr}
 
 \caption{\label{tbl-ref-points-es-2}Summary of reference points and
@@ -3859,6 +3888,7 @@ MSY (mt) & 128 & 113 & 143 \\
 \begingroup
 \fontsize{9.0pt}{11.0pt}\selectfont
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{longtable}{>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}>{\centering\arraybackslash}p{\dimexpr 56.25pt -2\tabcolsep-1.5\arrayrulewidth}}
 
 \caption{\label{tbl-projections}Potential OFLs (mt), ABCs (mt), ACLs
@@ -3893,6 +3923,7 @@ Year & Adopted OFL (mt) & Adopted ACL (mt) & Assumed Catch (mt) & OFL (mt) & Buf
 
 \newpage{}
 
+\tagpdfsetup{table/header-rows={1}}
 \begin{table}[H]
 
 \caption{\label{tbl-es-decision-2}Decision table with 10-year
@@ -3942,7 +3973,7 @@ Mgmt & Year & Catch & Low Spawn & Low Frac & Base Spawn & Base Frac & High Spawn
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/data_plot.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Tabular information for this figure can be found in the data file.'}]{figures/r4ss_plots/plots/data_plot.png}}
 
 }
 
@@ -3955,7 +3986,7 @@ model.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/catch2_landings_stacked.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Stacked bar plot showing total landings rose from the 1940s through the 1990s, decreased in the 2000s, and have since remained low.'}]{figures/r4ss_plots/plots/catch2_landings_stacked.png}}
 
 }
 
@@ -3968,7 +3999,7 @@ tons (mt) between 1889 and 2024 for each fleet.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/indices/ORFS_qq.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Diagnostic quantile-quantile plot showing residuals followed a normal distribution for the sdmTMB model fit for the Oregon Onboard Observer (ORFS) index.'}]{figures/indices/ORFS_qq.png}}
 
 }
 
@@ -3981,7 +4012,7 @@ model fit for the Oregon Onboard Observer (ORFS) index.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/indices/ORFS index comparison_errbars.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Plot comparing the estimated Oregon Onboard Observer index used in the 2017 and current assessments, showing that the general trend is the same with some year-to-year differences.'}]{figures/indices/ORFS index comparison_errbars.png}}
 
 }
 
@@ -3994,7 +4025,7 @@ indices from the 2017 and the current assessment.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/indices/ORBS_qq.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Diagnostic quantile-quantile plot showing residuals followed a normal distribution for the updated portion of the Oregon recreational (ORBS) index.'}]{figures/indices/ORBS_qq.png}}
 
 }
 
@@ -4007,7 +4038,7 @@ fit for the updated portion of the Oregon recreational (ORBS) index.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/index4_logcpuedata_6_OR_REC.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Plot showing the estimated yearly index and uncertainty for the Oregon Recreational index, showing the difference in scale between the two sampling periods.'}]{figures/r4ss_plots/plots/index4_logcpuedata_6_OR_REC.png}}
 
 }
 
@@ -4023,7 +4054,7 @@ abundance for the Oregon recreational index, including both MRFSS (1980
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/indices/ORBS index comparison_ORBSonly_errbars.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Plot comparing the estimated Oregon recreational index used in the 2017 assessment estimated with a delta-GLM versus estimated with sdmTMB and the index with a modified structure also estimated with sdmTMB. The largest difference in the point estimates is between the model type used.'}]{figures/indices/ORBS index comparison_ORBSonly_errbars.png}}
 
 }
 
@@ -4037,7 +4068,7 @@ implemented in sdmTMB), and the current ORBS index (sdmTMB).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/indices/wcgbts_qq.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Diagnostic quantile-quantile plot showing residuals followed a normal distribution for the West Coast Groundfish Bottom Trawl Survey (WCGBTS) index.'}]{figures/indices/wcgbts_qq.png}}
 
 }
 
@@ -4051,7 +4082,7 @@ index.}
 
 \centering{
 
-\includegraphics[width=1.2\linewidth,height=\textheight,keepaspectratio]{figures/indices/wcgbts_index_comparison.png}
+\includegraphics[width=1.2\linewidth,height=\textheight,keepaspectratio,alt={'Plot comparing the estimated West Coast Groundfish Bottom Trawl Survey index used in the 2017 and current assessments, showing that the general trend is the same with some year-to-year differences.'}]{figures/indices/wcgbts_index_comparison.png}
 
 }
 
@@ -4065,7 +4096,7 @@ index of abundance.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/indices/IPHC_index_comparison.pdf}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Plot comparing the estimated International Pacific Halibut Commission survey index used in the 2017 and current assessments, showing that the general trend is the same with some year-to-year differences.'}]{figures/indices/IPHC_index_comparison.pdf}}
 
 }
 
@@ -4078,7 +4109,7 @@ current IPHC index of abundance.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/comp_lendat_flt11mkt0.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Multi-panel plot showing yearly length composition data for the West Coast Groundfish Bottom Trawl Survey.'}]{figures/r4ss_plots/plots/comp_lendat_flt11mkt0.png}}
 
 }
 
@@ -4091,7 +4122,7 @@ the WCGBTS.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Multi-panel plot showing yearly length composition data for the International Pacific Halibut Commission longline survey.'}]{figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png}}
 
 }
 
@@ -4106,7 +4137,7 @@ the IPHC longline survey.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page1.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Muli-panel plot showing yearly age-at-length compositions for the West Coast Groundfish Bottom Trawl Survey (1 of 2).'}]{figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page1.png}}
 
 }
 
@@ -4119,7 +4150,7 @@ age-at-length data for the WCGBTS (1 of 2).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page2.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Muli-panel plot showing yearly age-at-length compositions for the West Coast Groundfish Bottom Trawl Survey (2 of 2).'}]{figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page2.png}}
 
 }
 
@@ -4132,7 +4163,7 @@ age-at-length data for the WCGBTS (2 of 2).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page1.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Muli-panel plot showing yearly age-at-length compositions for the International Pacific Halibut Commission survey (1 of 2).'}]{figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page1.png}}
 
 }
 
@@ -4145,7 +4176,7 @@ age-at-length data for the IPHC (1 of 2).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Muli-panel plot showing yearly age-at-length compositions for the International Pacific Halibut Commission survey (2 of 2).'}]{figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png}}
 
 }
 
@@ -4158,7 +4189,7 @@ age-at-length data for the IPHC (2 of 2).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/bio5_weightatsize.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Plot of the estimated length-weight relationship for Yelloweye Rockfish, showing an exponential increase of weight at length.'}]{figures/r4ss_plots/plots/bio5_weightatsize.png}}
 
 }
 
@@ -4170,7 +4201,7 @@ age-at-length data for the IPHC (2 of 2).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/bio6_maturity.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Plot of the estimated functional maturity at length relationship for Yelloweye Rockfish.'}]{figures/r4ss_plots/plots/bio6_maturity.png}}
 
 }
 
@@ -4183,7 +4214,7 @@ base model for Yelloweye Rockfish.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/bio9_fecundity_len.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Plot of the estimated fecundity at length relationship for Yelloweye Rockfish, , showing an exponential increase of fecunity at length..'}]{figures/r4ss_plots/plots/bio9_fecundity_len.png}}
 
 }
 
@@ -4196,7 +4227,7 @@ the base model for Yelloweye Rockfish.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/bridging/3_extendedcatch/compare2_spawnbio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure showing that the trajectory of the spawning output from the 2017 model does not change after updating and extending historical catch.'}]{figures/bridging/3_extendedcatch/compare2_spawnbio_uncertainty.png}}
 
 }
 
@@ -4211,7 +4242,7 @@ the base model for Yelloweye Rockfish.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/bridging/3_extendedcatch/compare4_Bratio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure showing that the trajectory of the spawning output relative to unfished from the 2017 model does not change after updating and extending historical catch.'}]{figures/bridging/3_extendedcatch/compare4_Bratio_uncertainty.png}}
 
 }
 
@@ -4226,7 +4257,7 @@ management target and minimum stock size threshold.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/bridging/3_extendedcatch/compare18_smrybio.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure showing that the trajectory of the adult Yelloweye Rockfish biomass from the 2017 model does not change after updating and extending historical catch.'}]{figures/bridging/3_extendedcatch/compare18_smrybio.png}}
 
 }
 
@@ -4241,7 +4272,7 @@ Rockfish biomass of the 2017 model with an updated SS3 executable
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/bridging/5_newindices/compare2_spawnbio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure showing that the trajectory of the spawning output is simliar with updated and extended catch and indicies, but, in the current model the scale increased slightly in the historical period and decreased slightly in the contemporary period.'}]{figures/bridging/5_newindices/compare2_spawnbio_uncertainty.png}}
 
 }
 
@@ -4256,7 +4287,7 @@ historical indices (yellow), and indices extended to 2024 (red).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/bridging/14_tunecomps/compare2_spawnbio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure showing that the trajectory of the spawning output is simliar with updated and extended catch, indicies, and compositional data.'}]{figures/bridging/14_tunecomps/compare2_spawnbio_uncertainty.png}}
 
 }
 
@@ -4271,7 +4302,7 @@ length and age composition data (green).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/bridging/14_tunecomps/compare11_recdevs.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure showing minor differences in recruitment deviations with the additional of contemporary catch and compositional data and indices.'}]{figures/bridging/14_tunecomps/compare11_recdevs.png}}
 
 }
 
@@ -4286,7 +4317,7 @@ and indices (red), and all tuned length and age composition data
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/bridging/23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore/compare2_spawnbio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure showing that the trajectory of the spawning output is simliar with updated and extended data, tuning, and final model adjustments, but the scale increased slightly in the current model.'}]{figures/bridging/23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore/compare2_spawnbio_uncertainty.png}}
 
 }
 
@@ -4303,7 +4334,7 @@ intervals.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/bridging/23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore/compare4_Bratio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure showing that the trajectory of the spawning output relative to unfished is simliar with updated and extended data, tuning, and final model adjustments, but the scale increased slightly in the current model.'}]{figures/bridging/23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore/compare4_Bratio_uncertainty.png}}
 
 }
 
@@ -4320,7 +4351,7 @@ size threshold, including 95\% confidence intervals.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/bridging/1_SS3exe/compare4_Bratio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure showing that the trajectory from the 2017 assessment is similar when using the newest version of stock synthesis.'}]{figures/bridging/1_SS3exe/compare4_Bratio_uncertainty.png}}
 
 }
 
@@ -4335,7 +4366,7 @@ model with the updated SS3 executable and a single-sex model.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/bio1_sizeatage.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Growth curve asymptotes around age 40. See parameter table for growth parameters.'}]{figures/r4ss_plots/plots/bio1_sizeatage.png}}
 
 }
 
@@ -4348,7 +4379,7 @@ the ending year of the model.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/recruit_fit_bias_adjust.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Time series plot showing a period of higher variance (low transformed variance) through the 1940s, followed by a informed recruitment deviations. The bias adjustment used in the model is as recommended.'}]{figures/r4ss_plots/plots/recruit_fit_bias_adjust.png}}
 
 }
 
@@ -4365,7 +4396,7 @@ adjustment relationship for recruitment deviations.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/sel01_multiple_fleets_length1.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Asymptotic selectivity is estimated for all fleets.'}]{figures/r4ss_plots/plots/sel01_multiple_fleets_length1.png}}
 
 }
 
@@ -4378,7 +4409,7 @@ all fleets.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/bio10_spawningoutput_len.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Plot of estimated spawning output at length, showing an exponential increase of spawning output at length after 40 cm.'}]{figures/r4ss_plots/plots/bio10_spawningoutput_len.png}}
 
 }
 
@@ -4392,7 +4423,7 @@ length. Yelloweye length-at-age 70 (the second reference age) equals
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/SR_curve.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Plot of estimated recuitments by year, with the fitted stock-recruitment curve before and after bias adjustment.'}]{figures/r4ss_plots/plots/SR_curve.png}}
 
 }
 
@@ -4406,7 +4437,7 @@ showing later years.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/recdevs2_withbars.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Plot of recruitment deviations and uncertainty intervals over time showing increasing recruitment in the early 1980s and 2010s and decreasing recruitment in the 1990s and more recent years.'}]{figures/r4ss_plots/plots/recdevs2_withbars.png}}
 
 }
 
@@ -4421,7 +4452,7 @@ showing later years.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/index5_logcpuefit_3_CA_REC.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Model fit to the California MRFSS recreational index of abundance, showing the model fit falls within the bounds of uncertainty except for one year.'}]{figures/r4ss_plots/plots/index5_logcpuefit_3_CA_REC.png}}
 
 }
 
@@ -4434,7 +4465,7 @@ recreational index.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/index5_logcpuefit_6_OR_REC.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Model fit to the Oregon recreational index of abundance, showing the model fit falls within the bounds of uncertainty except for most years and includes and offset between two sampling periods.'}]{figures/r4ss_plots/plots/index5_logcpuefit_6_OR_REC.png}}
 
 }
 
@@ -4447,7 +4478,7 @@ index.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/index5_logcpuefit_7_WA_REC.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Model fit to the Washington recreational index of abundance, showing the model fit falls within the bounds of uncertainty except for one year.'}]{figures/r4ss_plots/plots/index5_logcpuefit_7_WA_REC.png}}
 
 }
 
@@ -4460,7 +4491,7 @@ recreational index.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/index5_logcpuefit_8_CACPFV.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Model fit to the California CPFV observer index of abundance, showing the model fit falls within the bounds of uncertainty.'}]{figures/r4ss_plots/plots/index5_logcpuefit_8_CACPFV.png}}
 
 }
 
@@ -4473,7 +4504,7 @@ observer index.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/index5_logcpuefit_9_OR_RECOB.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Model fit to the Oregon onboard observer index of abundance, showing the model fit falls within the bounds of uncertainty. The index values increase slightly over time.'}]{figures/r4ss_plots/plots/index5_logcpuefit_9_OR_RECOB.png}}
 
 }
 
@@ -4486,7 +4517,7 @@ observer (ORFS) index.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/index5_logcpuefit_10_TRI_ORWA.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Model fit to the Triennial survey index of abundance, howing the model fit falls within the bounds of uncertainty.'}]{figures/r4ss_plots/plots/index5_logcpuefit_10_TRI_ORWA.png}}
 
 }
 
@@ -4499,7 +4530,7 @@ index.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/index5_logcpuefit_11_NWFSC_ORWA.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Model fit to the WCGBTS survey index. The model fit generally well to the index. The index values increase slightly over time. Data was missing for 2020.'}]{figures/r4ss_plots/plots/index5_logcpuefit_11_NWFSC_ORWA.png}}
 
 }
 
@@ -4511,7 +4542,7 @@ index.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/index5_logcpuefit_12_IPHC_ORWA.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Model fit to the IPHC survey index. The model fit generally well to the index and is consistant across all  years, however, the model fit does not caputure yearly varriation well.'}]{figures/r4ss_plots/plots/index5_logcpuefit_12_IPHC_ORWA.png}}
 
 }
 
@@ -4525,7 +4556,7 @@ index.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/comp_lenfit__aggregated_across_time.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'A 3 by 4 plot panel showing model fits to the length compostion data aggregated across time and separated by fleet. Length (cm) is on the x-axis, and proportion is on the y-axis. The greyed area under the curve is the length data, and the green line is the model estimates, which fit the data reasonably well.'}]{figures/r4ss_plots/plots/comp_lenfit__aggregated_across_time.png}}
 
 }
 
@@ -4538,7 +4569,7 @@ aggregated across time by fleet.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/comp_lenfit__page1_multi-fleet_comparison.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'There are no clear patters in the residuals in the observed fits.'}]{figures/r4ss_plots/plots/comp_lenfit__page1_multi-fleet_comparison.png}}
 
 }
 
@@ -4553,7 +4584,7 @@ are negative residuals (observed \textless{} expected).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/comp_lenfit__page2_multi-fleet_comparison.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'There are no clear patters in the residuals in the observed fits.'}]{figures/r4ss_plots/plots/comp_lenfit__page2_multi-fleet_comparison.png}}
 
 }
 
@@ -4568,7 +4599,7 @@ are negative residuals (observed \textless{} expected).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge2_CA_NONTWL.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Mean age for the conditional age-at-length California nontrawl fleet is available from 1978 to 1988, and in 2005. Mean age varried widely from 5 to 25 years old. Limited years of data were available.'}]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge2_CA_NONTWL.png}}
 
 }
 
@@ -4583,7 +4614,7 @@ model expectation.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge3_CA_REC.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'The California recreational fleet had very sporatic conditional ages avialable, some were available for the early 1980s, 1995, and early 2010's. Overall, mean age ranged from 10-50 years old. Limited years of data were available.'}]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge3_CA_REC.png}}
 
 }
 
@@ -4598,7 +4629,7 @@ model expectation.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge4_ORWA_TWL.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Mean age for the conditional age-at-length Oregon/Wasington trawl fleet is available from 2000 to 2024. Mean age varried widely from 2000 to 2011 around 5 to 40 years old. Then, from 2012 to 2024, mean age varried closer to 10-20 years old with less variance.'}]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge4_ORWA_TWL.png}}
 
 }
 
@@ -4613,7 +4644,7 @@ model expectation.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge5_ORWA_NONTWL.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Mean age for the conditional age-at-length Oregon/Wasington nontrawl fleet is available from 2001 to 2024. Mean age varried consistently around 25 years old, but with wide error bars around 2011, 2014, and 2020. Also, data was missing for 2016.'}]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge5_ORWA_NONTWL.png}}
 
 }
 
@@ -4628,7 +4659,7 @@ model expectation.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge6_OR_REC.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Mean age for the conditional age-at-length Oregon/Wasington recreational fleet is available from 1980 to 2016, with very sparce data from 1980 to 2009. Mean age before 2009 ranged from 15-30 years. From 2009-2016 mean age varried from 5 to 25, with very wide error bars.'}]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge6_OR_REC.png}}
 
 }
 
@@ -4643,7 +4674,7 @@ model expectation.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge7_WA_REC.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Mean age for the conditional age-at-length Wasington recreational fleet is available from 1998 to 2024, with few years of missing data. Mean age varries between 10 and 35 years old. In 2010, mean age jumps to around 50 years old with high varriance.'}]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge7_WA_REC.png}}
 
 }
 
@@ -4658,7 +4689,7 @@ model expectation.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge11_NWFSC_ORWA.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Mean age for the conditional age-at-length WCGBTS survey is available from 2003 to 2024, with data missing in 2020. Mean age varries between 20 and 25 years old until 2015, where the mean age drops to 15-20.'}]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge11_NWFSC_ORWA.png}}
 
 }
 
@@ -4673,7 +4704,7 @@ expectation.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge12_IPHC_ORWA.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Mean age for the conditional age-at-length IPHC survey is available from 2001 to 2024, with data missing in 2020 and 2021. Mean age varries between 30 and 40 years old. However, the model expectation line consistently under estimates mean age across years, potentially due to high varriance in 2016 data.'}]{figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge12_IPHC_ORWA.png}}
 
 }
 
@@ -4688,7 +4719,7 @@ expectation.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'The combined area spawning output is relatively unfished between the start of the model until the mid 1950s with spawnign output sharply decreasing to low levels by 2000 remaining low until the early 2000s where spawning output begins to increase and reaches the management target of 0.40 by 2024.'}]{figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png}}
 
 }
 
@@ -4701,7 +4732,7 @@ of eggs) over time for both areas combined.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Spawning output is relatively unfished between the start of the model until the mid 1950s with spawning output sharply decreasing to low levels by 2000 remaining low until the early 2000s where the spawnig output begins to increase and reaches the management target of 0.40 by 2024. The two areas generally follow the same trend, with Area 1 (California) consistently having a much lower spawning output compared to Area 2 (Oregon and Washington)'}]{figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png}}
 
 }
 
@@ -4715,7 +4746,7 @@ Oregon/Washington combined).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'The combined area stock status is relatively unfished between the start of the model until the mid 1950s with the stock sharply decreasing to low levels by 2000 remaining low until the early 2000s where the stock begins to increase and reaches the management target of 0.40 by 2024.'}]{figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png}}
 
 }
 
@@ -4729,7 +4760,7 @@ output estimated in the assessment model (solid line) with
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/ts10_Relative_spawning_output.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Stock status is relatively unfished between the start of the model until the mid 1950s with the stock sharply decreasing to low levels by 2000 remaining low until the early 2000s where the stock begins to increase and reaches the management target of 0.40 by 2024. The two areas generally follow the same trend, with Area 1 (California) consistently having a much lower relative stock status compared to Area 2 (Oregon and Washington)'}]{figures/r4ss_plots/plots/ts10_Relative_spawning_output.png}}
 
 }
 
@@ -4742,7 +4773,7 @@ estimated by area (area 1= California, area 2 = Oregon and Washington).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/ts2_Total_biomass_(t)_by_area.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Total biomass in metric tons by area is relatively unfished between the start of the model through 1950 with the biomass sharply decreasing to low levels by the mid 1990s remaining low, increasing in the early 2000s and to the end of the time series. The two areas generally follow the same trend, with Area 1 (California) consistently having a much lower biomass compared to Area 2 (Oregon and Washington).'}]{figures/r4ss_plots/plots/ts2_Total_biomass_(t)_by_area.png}}
 
 }
 
@@ -4755,7 +4786,7 @@ estimated by area (area 1= California, area 2 = Oregon and Washington).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Summary biomass in metric tons by area is relatively unfished between the start of the model through 1950 with the biomass sharply decreasing to low levels by the mid 1990s remaining low, increasing in the early 2000s and to the end of the time series. The two areas generally follow the same trend, with Area 1 (California) consistently having a much lower summary biomass compared to Area 2 (Oregon and Washington).'}]{figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png}}
 
 }
 
@@ -4771,7 +4802,7 @@ combined).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure shows the total Age-0 recruites for the current base model. Recruitment generally peaked in the 1950s, 1970s, 1980s, and 2010s.'}]{figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png}}
 
 }
 
@@ -4784,7 +4815,7 @@ the assessment model with \textasciitilde{} 95\% interval.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/bridging/25_2025base_vs_2017base/compare4_Bratio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure comparing the fraction of unfished biomass trajectories for the 2017 and current base models. There is little to no difference between the two time series, and the time series from the current model seems to continue on the same general path that 2017 ended.'}]{figures/bridging/25_2025base_vs_2017base/compare4_Bratio_uncertainty.png}}
 
 }
 
@@ -4800,7 +4831,7 @@ assessment trajectory with the 2025 base model.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/bridging/25_2025base_vs_2017base/compare12_recdevs_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure compares the recriutment deviations between the 2017 assessment model and current base model. Recruitment generally peaked in the 1950s, 1970s, 1980s, and 2010s. The recent period (2010-2024) showed higher recriutment in the current model compared to the 2017 model.'}]{figures/bridging/25_2025base_vs_2017base/compare12_recdevs_uncertainty.png}}
 
 }
 
@@ -4815,7 +4846,7 @@ recruitment deviations in red.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/diagnostics/2025_base_model_jitter_0.1/jitter.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'A jitter point plot showing the change in negative log-likelihood of 100 iterations. The majority of iterations fell in line with the base model likelihood (green dots), some (the blue dots) had higher likelihood, but none had a lower likelihood.'}]{figures/diagnostics/2025_base_model_jitter_0.1/jitter.png}}
 
 }
 
@@ -4829,7 +4860,7 @@ indicates base model value.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/sensitivities/modelingcompare2_spawnbio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure comparing spawning output between sensitivity models and the base model when estimating natural mortality, steepness, and using the 2017 length-weight relationship. There is a significant increase in spawning output when the model estimates either natural mortality or steepness.'}]{figures/sensitivities/modelingcompare2_spawnbio_uncertainty.png}}
 
 }
 
@@ -4842,7 +4873,7 @@ across model structure sensitivities.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/sensitivities/modelingcompare4_Bratio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure comparing fraction of unfished biomass between sensitivity models and the base model when estimating natural mortality, steepness, and using the 2017 length-weight relationship. There is a significant increase in stock status when the model estimates either natural mortality or steepness.'}]{figures/sensitivities/modelingcompare4_Bratio_uncertainty.png}}
 
 }
 
@@ -4855,7 +4886,7 @@ model structure sensitivities.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/sensitivities/length_comps_1compare2_spawnbio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure comparing spawning output between sensitivity models and the base model, and showing few changes as length data are excluded.'}]{figures/sensitivities/length_comps_1compare2_spawnbio_uncertainty.png}}
 
 }
 
@@ -4868,7 +4899,7 @@ eggs) across length composition inclusion sensitivities (1 of 2).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/sensitivities/length_comps_2compare2_spawnbio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure comparing spawnig output between sensitivity models and the base model, and showing no changes as length data are excluded. Except, when removing all length data, the spawning output nearly doubles.'}]{figures/sensitivities/length_comps_2compare2_spawnbio_uncertainty.png}}
 
 }
 
@@ -4881,7 +4912,7 @@ eggs) across length composition inclusion sensitivities (2 of 2).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/sensitivities/length_comps_1compare4_Bratio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure comparing fraction of unfished biomass between sensitivity models and the base model, and showing no changes as length data are excluded.'}]{figures/sensitivities/length_comps_1compare4_Bratio_uncertainty.png}}
 
 }
 
@@ -4894,7 +4925,7 @@ length composition inclusion sensitivities (1 of 2).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/sensitivities/length_comps_2compare4_Bratio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure comparing fraction of unfished biomass between sensitivity models and the base model, and showing no changes as length data are excluded. Except, when removing all length data, the status greatly increases.'}]{figures/sensitivities/length_comps_2compare4_Bratio_uncertainty.png}}
 
 }
 
@@ -4909,7 +4940,7 @@ length composition inclusion sensitivities (2 of 2).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/sensitivities/age_comps_1compare2_spawnbio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure comparing spawning output between sensitivity models and the base model, and showing few changes as more age data are excluded.'}]{figures/sensitivities/age_comps_1compare2_spawnbio_uncertainty.png}}
 
 }
 
@@ -4922,7 +4953,7 @@ across age composition inclusion sensitivities (1 of 2).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/sensitivities/age_comps_2compare2_spawnbio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure comparing spawning output between sensitivity models and the base model, and showing few changes as more age data are excluded. Removing the IPHC age data slightly reduced spawning output, whereas using the McAllister and Ianelli weighting increased the spawning output.'}]{figures/sensitivities/age_comps_2compare2_spawnbio_uncertainty.png}}
 
 }
 
@@ -4935,7 +4966,7 @@ across age composition inclusion sensitivities (2 of 2).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/sensitivities/age_comps_1compare4_Bratio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure comparing fraction of unfished biomass between sensitivity models and the base model, and showing few changes as more age data are excluded.'}]{figures/sensitivities/age_comps_1compare4_Bratio_uncertainty.png}}
 
 }
 
@@ -4948,7 +4979,7 @@ composition inclusion sensitivities (1 of 2).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/sensitivities/age_comps_2compare4_Bratio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure comparing fraction of unfished biomass between sensitivity models and the base model, and showing few changes as more age data are excluded. Removing the IPHC age data slightly reduced overall fraction unfished, whereas using the McAllister and Ianelli weighting increased the fraction of unfished biomass.'}]{figures/sensitivities/age_comps_2compare4_Bratio_uncertainty.png}}
 
 }
 
@@ -4961,7 +4992,7 @@ composition inclusion sensitivities (2 of 2).}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/sensitivities/indicescompare2_spawnbio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure comparing spawning output between sensitivity models and the base model, and showing relatively little changes when removing indices with the exception of excluding all indices and the IPHC index.'}]{figures/sensitivities/indicescompare2_spawnbio_uncertainty.png}}
 
 }
 
@@ -4974,7 +5005,7 @@ eggs) across index inclusion sensitivities.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/sensitivities/indicescompare4_Bratio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Figure comparing fraction of unfished biomass between sensitivity models and the base model, and showing relatively little changes when removing indices with the exception of excluding all indices and the IPHC index.'}]{figures/sensitivities/indicescompare4_Bratio_uncertainty.png}}
 
 }
 
@@ -4989,7 +5020,7 @@ index inclusion sensitivities.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/sensitivities/sens_summary.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'A summary of the relative changes in management quantities from all sensitivity models with relative change on the x-axis and each data source removed on the y-axis. Plot highlights that the model is most sensitive to removing all length composition data.'}]{figures/sensitivities/sens_summary.png}}
 
 }
 
@@ -5002,7 +5033,7 @@ across models conducted as sensitivities.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/sensitivities/sens_summary_with_no_length_comps.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'A summary of the relative changes in management quantities from all sensitivity models, except the removal of all length compostion data with relative change on the x-axis and each data source removed on the y-axis. Plot highlights that besides removing all length composition data, the model is most sensitive to estimating steepness and natural mortality.'}]{figures/sensitivities/sens_summary_with_no_length_comps.png}}
 
 }
 
@@ -5016,7 +5047,7 @@ of all length composition data.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare2_spawnbio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Plot of spawning output with uncertainty intervals over time. As years of data are removed there is no change to overall spawning output.'}]{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare2_spawnbio_uncertainty.png}}
 
 }
 
@@ -5030,7 +5061,7 @@ model are proved with \textasciitilde95\% interval.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare4_Bratio_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Plot of relative biomass with uncertainty intervals over time. As years of data are removed there is no change to overall fraction of unfished biomass.'}]{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare4_Bratio_uncertainty.png}}
 
 }
 
@@ -5044,7 +5075,7 @@ proved with \textasciitilde95\% interval.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare12_recdevs_uncertainty.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Plot of recruitment deviations with uncertainty intervals over time. As years of data are removed there is little change to overall recuritment deviations.'}]{figures/diagnostics/2025_base_model_retro_5_yr_peel/compare12_recdevs_uncertainty.png}}
 
 }
 
@@ -5057,7 +5088,7 @@ for each scenario of the retrospective analysis.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/bridging/Timeseries_comp_previous_assessments.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Time series line plot with years on the x-axis and relative depletion on the y-axis.  Each line shows the change in the base model from the 2001 assessment to the current assessment. Overtime models have remained relatively consistent'}]{figures/bridging/Timeseries_comp_previous_assessments.png}}
 
 }
 
@@ -5070,7 +5101,7 @@ across Yelloweye Rockfish assessments over time.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/piner_panel_NatM_break_1_Fem_GP_1.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Four panel plot with natural mortality values on the x-axis and change in log-likelihood on the y-axis with panels showing the contribution from each data type in the model. The recruitment, recreational length data, and survey indices are the primarily source of information informing the estimate of natural mortality. There is little information about natural mortality from the age data.'}]{figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/piner_panel_NatM_break_1_Fem_GP_1.png}}
 
 }
 
@@ -5086,7 +5117,7 @@ ranging from 0.03 to 0.06 in increments of 0.002.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/NatM_break_1_Fem_GP_1_trajectories_compare3_Bratio.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Time series line plot with year on the x-axis and fraction unfished on the y-axis. The lines represent multiple model runs that assume a range of natural mortality values from 0.030 to 0.060. Any model with a natural mortality less than 0.044 has the fraction of unfished biomass fall below the management target of 0.40.'}]{figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/NatM_break_1_Fem_GP_1_trajectories_compare3_Bratio.png}}
 
 }
 
@@ -5102,7 +5133,7 @@ ranging from 0.03 to 0.06 in increments of 0.002.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/diagnostics/2025_base_model_profile_SR_BH_steep/piner_panel_SR_BH_steep.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Four panel plot with steepness values on the x-axis and change in log-likelihood on the y-axis with panels showing the contribution from each data type in the model. The recruitment and length data are the primarily sources of information informing the estimate of steepness. There is some information about steepness from the survey indices, but little from the age data.'}]{figures/diagnostics/2025_base_model_profile_SR_BH_steep/piner_panel_SR_BH_steep.png}}
 
 }
 
@@ -5116,7 +5147,7 @@ steepness ranging from 0.25 to 1.0 by increments of 0.05.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/diagnostics/2025_base_model_profile_SR_BH_steep/SR_BH_steep_trajectories_compare3_Bratio.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Time series line plot with year on the x-axis and fraction unfished on the y-axis. The lines represent  multiple model runs that assume a range of steepness values from 0.25 to  1.00. Any model with a steepness less than 0.7 has the fraction of unfished biomass fall below the management target of 0.40.'}]{figures/diagnostics/2025_base_model_profile_SR_BH_steep/SR_BH_steep_trajectories_compare3_Bratio.png}}
 
 }
 
@@ -5130,7 +5161,7 @@ from 0.25 to 1.0 in increments of 0.05.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Four panel plot with ln(R0) on the x-axis and change in log-likelihood on the y-axis with panels showing the contribution from each data type in the model. The recruitment data is the primarily source of information informing the estimate of log(R0) with index data  supporting higher log(R0). There is little information about log(R0) from the length and age compostion data.'}]{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png}}
 
 }
 
@@ -5144,7 +5175,7 @@ recruitment (lnR0) ranging from 4.5 to 6.0 by increments of 0.15.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare1_spawnbio.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Time series line plot with year on the x-axis and spawning output on the y-axis. The lines represent  multiple model runs that assume a range of ln(R0) values from 5.0 to 6.0. The lines are stacked with ln(R0) values of 6.0 with the highest spawning output, and ln(R0) of 5.0 with the lowest spawning output.'}]{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare1_spawnbio.png}}
 
 }
 
@@ -5157,7 +5188,7 @@ as profiled over values of lnR0.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/parameter_panel_SR_LN(R0).png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Four panel plot with ln(R0) on the x-axis and values on the y-axis as described in the caption. The likelihood figure reflects a bowl, with the minimum at the estimate of ln(R0). In the other panels, as ln(R0) increases, the spawning output relative to unfished, initial spawning output, and final spawning output all increase as well.'}]{figures/diagnostics/2025_base_model_profile_SR_LN(R0)/parameter_panel_SR_LN(R0).png}}
 
 }
 
@@ -5176,7 +5207,7 @@ estimate.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/SPR1_series.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Time series plot showing fishing intensity above the SPR target of 50 percent in many years from 1900 to 1975, then a steep drop below SPR 50% until 2002, and again rises above 50% from 2002 to 2024.'}]{figures/r4ss_plots/plots/SPR1_series.png}}
 
 }
 
@@ -5188,7 +5219,7 @@ estimate.}
 
 \centering{
 
-\pandocbounded{\includegraphics[keepaspectratio]{figures/r4ss_plots/plots/yield1_yield_curve.png}}
+\pandocbounded{\includegraphics[keepaspectratio,alt={'Yield curve shows equilibrium yield as a domed function of fraction of unfished spawning output, with a peak slightly below 0.3, a maximum sustainable yield around 120t, and a biomass target at 0.4.'}]{figures/r4ss_plots/plots/yield1_yield_curve.png}}
 
 }
 
