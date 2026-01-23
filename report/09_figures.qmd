@@ -1126,19 +1126,6 @@ knitr::include_graphics(
 )
 ```
 
-```{r}
-#| label: fig-status-area
-#| echo: false
-#| warning: false
-#| eval: true
-#| fig-cap: "Time series of relative spawning output estimated by area (area 1= California, area 2 = Oregon and Washington)."
-#
-knitr::include_graphics(
-    "figures/r4ss_plots/plots/ts10_Relative_spawning_output.png"
-)
-```
-
-
 
 
 <!-- keep this at end -->
