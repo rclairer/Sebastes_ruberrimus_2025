@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2026.1.23)  23 JAN 2026 14:09
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2026.1.23)  23 JAN 2026 16:19
  restricted system commands enabled.
 **yelloweye_508.tex
 (./yelloweye_508.tex
@@ -1795,10 +1795,29 @@ Lua function __luamml_amsmath_finalize_inner_table: = 53
 Lua function __luamml_amsmath_finalize_table:n = 54
 Lua function __luamml_amsmath_save_tag: = 55
 Lua function __luamml_amsmath_save_tag_with_struct_elem:N = 56
-Lua function __luamml_amsmath_set_tag: = 57))
-No file yelloweye_508.aux.
+Lua function __luamml_amsmath_set_tag: = 57)) (./yelloweye_508.aux
+LaTeX Font Info:    Font shape `TU/LatinModernSans(2)/m/n' will be
+(Font)              scaled to size 10.0pt on input line 4.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 4.
+(c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
 
+Package babel Info: The following font families will use the default
+(babel)             settings for all or some languages:
+(babel)             * \sffamily = LatinModernSans(2)
+(babel)               "name:Latin Modern Sans:mode=node;script=latn;language=dflt;+tlig;" at 10.0pt
+(babel)             * \ttfamily = lmtt
+(babel)               ec-lmtt10
+(babel)             There is nothing intrinsically wrong with it, but
+(babel)             'babel' will no set Script and Language, which could
+(babel)             be relevant in some languages. If your document uses
+(babel)             these families, consider redefining them with \babelfont.
+(babel)             Reported on input line 4.
+
+)
 \openout1 = yelloweye_508.aux
+
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 278.
 LaTeX Font Info:    ... okay on input line 278.
 LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 278.
@@ -1966,25 +1985,6 @@ Package footnotehyper Warning:
 (footnotehyper)    \protected\long macro:#1->\noindent \socket_use:n {fntext/mark/link}\tag_socket_use:nnn {fntext/mark}{}{\socket_use:n {fntext/mark}}\tag_socket_use:nnn {fntext/text}{}{\socket_use:nn {fntext/text}{#1}}
 (footnotehyper)    together with the document preamble (in particular if
 (footnotehyper)    footnote numbers do not show at bottom of page).
-
-LaTeX Font Info:    Font shape `TU/LatinModernSans(2)/m/n' will be
-(Font)              scaled to size 10.0pt on input line 278.
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 278.
-(c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
-File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-
-Package babel Info: The following font families will use the default
-(babel)             settings for all or some languages:
-(babel)             * \sffamily = LatinModernSans(2)
-(babel)               "name:Latin Modern Sans:mode=node;script=latn;language=dflt;+tlig;" at 10.0pt
-(babel)             * \ttfamily = lmtt
-(babel)               ec-lmtt10
-(babel)             There is nothing intrinsically wrong with it, but
-(babel)             'babel' will no set Script and Language, which could
-(babel)             be relevant in some languages. If your document uses
-(babel)             these families, consider redefining them with \babelfont.
-(babel)             Reported on input line 278.
 
 Removing  `Babel.pre_otfload_h' from `hpack_filter'.
 Removing  `luaotfload.node_processor' from `hpack_filter'.
@@ -2162,27 +2162,38 @@ Overfull \vbox (20.87953pt too high) detected at line 455
 LaTeX Font Warning: Font shape `T1/LatinModernSans(3)/b/n' undefined
 (Font)              using `T1/LatinModernSans(3)/m/n' instead on input line 463.
 
-No file yelloweye_508.toc.
-\tf@toc=\write6
+(./yelloweye_508.toc
+LaTeX Font Info:    Font shape `TU/LatinModernSans(3)/b/n' will be
+(Font)              scaled to size 10.0pt on input line 2.
 
-\openout6 = yelloweye_508.toc
+Overfull \hbox (0.60715pt too wide) detected at line 16
+ []\T1/latinmodern-math.otf(1)/m/n/10 xvii
+ []
+
 
 LaTeX Font Warning: Font shape `T1/LatinModernSans(3)/m/sl' undefined
-(Font)              using `T1/LatinModernSans(3)/m/n' instead on input line 472.
+(Font)              using `T1/LatinModernSans(3)/m/n' instead on input line 49.
 
 LaTeX Font Info:    Font shape `TU/LatinModernSans(3)/m/sl' in size <10> not available
-(Font)              Font shape `TU/LatinModernSans(3)/m/it' tried instead on input line 472.
+(Font)              Font shape `TU/LatinModernSans(3)/m/it' tried instead on input line 49.
 LaTeX Font Info:    Font shape `TU/LatinModernSans(3)/m/it' will be
-(Font)              scaled to size 10.0pt on input line 472.
+(Font)              scaled to size 10.0pt on input line 49.
+
+warning  (pdf backend): ignoring duplicate destination with the name 'page.1'
+
+warning  (pdf backend): ignoring duplicate destination with the name 'page.1'
 [1
 
 ]
+Package marginnote Info: Using workaround for absolute page number on input line 49.
+)
+\tf@toc=\write6
+
+\openout6 = yelloweye_508.toc
+[1]
 Package marginnote Info: Using workaround for absolute page number on input line 472.
-
-LaTeX Warning: Reference `LastPage' on page ii undefined on input line 480.
-
 [2]
-<figures/YEYE_at_a_glance.png, id=102, 1938.24126pt x 2509.375pt>
+<figures/YEYE_at_a_glance.png, id=656, 1938.24126pt x 2509.375pt>
 File: figures/YEYE_at_a_glance.png Graphic file (type png)
 <use figures/YEYE_at_a_glance.png>
 Package luatex.def Info: figures/YEYE_at_a_glance.png  used on input line 492.
@@ -2190,14 +2201,8 @@ Package luatex.def Info: figures/YEYE_at_a_glance.png  used on input line 492.
 [3
 
 <./figures/YEYE_at_a_glance.png>]
-
-LaTeX Warning: Reference `fig-es-landings' on page i undefined on input line 534.
-
-
-LaTeX Warning: Reference `tbl-es-catches' on page i undefined on input line 534.
-
-Floatstructure:58
-<figures/r4ss_plots/plots/catch2_landings_stacked.png, id=122, 469.755pt x 289.08pt>
+Floatstructure:332
+<figures/r4ss_plots/plots/catch2_landings_stacked.png, id=680, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/catch2_landings_stacked.png Graphic file (type png)
 <use figures/r4ss_plots/plots/catch2_landings_stacked.png>
 Package luatex.def Info: figures/r4ss_plots/plots/catch2_landings_stacked.png  used on input line 546.
@@ -2233,30 +2238,17 @@ warning  (pdf backend): ignoring duplicate destination with the name 'page.iii'
 warning  (pdf backend): ignoring duplicate destination with the name 'page.iii'
 [3
 
-]
-
-LaTeX Warning: Reference `fig-es-so' on page iv undefined on input line 614.
-
-
-LaTeX Warning: Reference `fig-es-so' on page iv undefined on input line 623.
-
-
-LaTeX Warning: Reference `fig-es-sb' on page iv undefined on input line 624.
-
-
-LaTeX Warning: Reference `fig-status-area-es' on page iv undefined on input line 629.
-
-[4
+] [4
 
 ]
 LaTeX Font Info:    Font shape `TU/LatinModernSans(3)/m/n' will be
 (Font)              scaled to size 9.0pt on input line 636.
-<figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png, id=761, 469.755pt x 289.08pt>
+<figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png, id=1332, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png Graphic file (type png)
 <use figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png>
 Package luatex.def Info: figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png  used on input line 671.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-<figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png, id=769, 469.755pt x 289.08pt>
+<figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png, id=1340, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png Graphic file (type png)
 <use figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png>
 Package luatex.def Info: figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png  used on input line 685.
@@ -2264,22 +2256,13 @@ Package luatex.def Info: figures/r4ss_plots/plots/ts9_Relative_spawning_output_i
 [5
 
 <./figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png>]
-<figures/r4ss_plots/plots/ts10_Relative_spawning_output.png, id=788, 469.755pt x 289.08pt>
+<figures/r4ss_plots/plots/ts10_Relative_spawning_output.png, id=1357, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/ts10_Relative_spawning_output.png Graphic file (type png)
 <use figures/r4ss_plots/plots/ts10_Relative_spawning_output.png>
 Package luatex.def Info: figures/r4ss_plots/plots/ts10_Relative_spawning_output.png  used on input line 698.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
 [6<./figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png>] [7<./figures/r4ss_plots/plots/ts10_Relative_spawning_output.png>]
-
-LaTeX Warning: Reference `fig-es-recruits' on page viii undefined on input line 714.
-
-
-LaTeX Warning: Reference `fig-es-recdev' on page viii undefined on input line 715.
-
-
-LaTeX Warning: Reference `tbl-es-recr' on page viii undefined on input line 715.
-
-<figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png, id=1069, 469.755pt x 289.08pt>
+<figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png, id=1640, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png Graphic file (type png)
 <use figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png>
 Package luatex.def Info: figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png  used on input line 757.
@@ -2287,39 +2270,22 @@ Package luatex.def Info: figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_wi
 [8
 
 ]
-<figures/r4ss_plots/plots/recdevs2_withbars.png, id=1086, 469.755pt x 289.08pt>
+<figures/r4ss_plots/plots/recdevs2_withbars.png, id=1663, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/recdevs2_withbars.png Graphic file (type png)
 <use figures/r4ss_plots/plots/recdevs2_withbars.png>
 Package luatex.def Info: figures/r4ss_plots/plots/recdevs2_withbars.png  used on input line 771.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
 [9<./figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png>]
-
-LaTeX Warning: Reference `fig-es-kobe' on page x undefined on input line 792.
-
-
-LaTeX Warning: Reference `tbl-es-spr' on page x undefined on input line 792.
-
-<figures/r4ss_plots/plots/SPR4_phase.png, id=1106, 469.755pt x 469.755pt>
+<figures/r4ss_plots/plots/SPR4_phase.png, id=1685, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/SPR4_phase.png Graphic file (type png)
 <use figures/r4ss_plots/plots/SPR4_phase.png>
 Package luatex.def Info: figures/r4ss_plots/plots/SPR4_phase.png  used on input line 798.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-[10<./figures/r4ss_plots/plots/recdevs2_withbars.png>] [11<./figures/r4ss_plots/plots/SPR4_phase.png>]
-
-LaTeX Warning: Reference `tbl-ref-points-es-1' on page xii undefined on input line 860.
-
-[12
+[10<./figures/r4ss_plots/plots/recdevs2_withbars.png>] [11<./figures/r4ss_plots/plots/SPR4_phase.png>] [12
 
 ] [13
 
-]
-
-LaTeX Warning: Reference `tbl-es-management' on page xiv undefined on input line 920.
-
-
-LaTeX Warning: Reference `tbl-es-management' on page xiv undefined on input line 923.
-
-[14
+] [14
 
 ] [15
 
@@ -2348,341 +2314,7 @@ warning  (pdf backend): ignoring duplicate destination with the name 'page.1'
 
 ]
 Package marginnote Info: Using workaround for absolute page number on input line 1169.
-
-LaTeX Warning: Reference `sec-mgmt' on page 2 undefined on input line 1172.
-
-
-LaTeX Warning: Reference `tbl-ye-management' on page 2 undefined on input line 1191.
-
-
-LaTeX Warning: Reference `tbl-ye-management' on page 2 undefined on input line 1194.
-
-[2]
-
-LaTeX Warning: Reference `fig-data' on page 3 undefined on input line 1212.
-
-
-LaTeX Warning: Reference `sec-fd_comps' on page 3 undefined on input line 1246.
-
-
-LaTeX Warning: Reference `tbl-all_removals' on page 3 undefined on input line 1290.
-
-
-LaTeX Warning: Reference `fig-catch' on page 3 undefined on input line 1291.
-
-[3] [4] [5]
-
-LaTeX Warning: Reference `tbl-yelloweye_percent_pos_ORFS' on page 6 undefined on input line 1481.
-
-
-LaTeX Warning: Reference `tbl-yelloweye_model_selection_ORFS' on page 6 undefined on input line 1492.
-
-
-LaTeX Warning: Reference `fig-orfs_qqplot' on page 6 undefined on input line 1494.
-
-
-LaTeX Warning: Reference `fig-ORFS_comp' on page 6 undefined on input line 1498.
-
-[6]
-
-LaTeX Warning: Reference `tbl-yelloweye_percent_pos_ORBS' on page 7 undefined on input line 1534.
-
-
-LaTeX Warning: Reference `tbl-yelloweye_model_selection_ORBS' on page 7 undefined on input line 1544.
-
-
-LaTeX Warning: Reference `fig-orbs_qq' on page 7 undefined on input line 1546.
-
-
-LaTeX Warning: Reference `fig-ORBS_index' on page 7 undefined on input line 1549.
-
-
-LaTeX Warning: Reference `fig-ORBS_comp' on page 7 undefined on input line 1556.
-
-[7]
-
-LaTeX Warning: Reference `fig-wcgbts_qq' on page 8 undefined on input line 1581.
-
-
-LaTeX Warning: Reference `fig-wcgbtsindexcomparison' on page 8 undefined on input line 1606.
-
-[8]
-
-LaTeX Warning: Reference `fig-IPHC_comparison' on page 9 undefined on input line 1655.
-
-
-LaTeX Warning: Reference `tbl-sampling-effort-triennial' on page 9 undefined on input line 1670.
-
-
-LaTeX Warning: Reference `tbl-sampling-effort-nwfsc' on page 9 undefined on input line 1671.
-
-
-LaTeX Warning: Reference `fig-NWFSC_lencomps' on page 9 undefined on input line 1673.
-
-
-LaTeX Warning: Reference `fig-IPHC_lencomps' on page 9 undefined on input line 1673.
-
-
-LaTeX Warning: Reference `fig-NWFSC_agecomps1' on page 9 undefined on input line 1675.
-
-
-LaTeX Warning: Reference `fig-NWFSC_agecomps2' on page 9 undefined on input line 1676.
-
-
-LaTeX Warning: Reference `fig-IPHC_agecomps1' on page 9 undefined on input line 1677.
-
-
-LaTeX Warning: Reference `fig-IPHC_agecomps2' on page 9 undefined on input line 1677.
-
-[9]
-
-LaTeX Warning: Reference `fig-LWrel' on page 10 undefined on input line 1704.
-
-
-LaTeX Warning: Reference `fig-maturity' on page 10 undefined on input line 1711.
-
-
-LaTeX Warning: Reference `fig-fecundity' on page 10 undefined on input line 1727.
-
-[10]
-
-LaTeX Warning: Reference `sec-changes' on page 11 undefined on input line 1778.
-
-
-LaTeX Warning: Reference `tbl-model-config' on page 11 undefined on input line 1800.
-
-[11]
-
-LaTeX Warning: Reference `sec-data' on page 12 undefined on input line 1817.
-
-
-LaTeX Warning: Reference `fig-bridge3-comp2' on page 12 undefined on input line 1824.
-
-
-LaTeX Warning: Reference `fig-bridge3-comp4' on page 12 undefined on input line 1824.
-
-
-LaTeX Warning: Reference `fig-bridge3-comp18' on page 12 undefined on input line 1827.
-
-
-LaTeX Warning: Reference `fig-bridge5-comp2' on page 12 undefined on input line 1832.
-
-
-LaTeX Warning: Reference `fig-bridge14-comp2' on page 12 undefined on input line 1837.
-
-
-LaTeX Warning: Reference `fig-bridge14-comp11' on page 12 undefined on input line 1839.
-
-
-LaTeX Warning: Reference `fig-bridge14-comp2' on page 12 undefined on input line 1844.
-
-
-LaTeX Warning: Reference `fig-bridge23-comp2' on page 12 undefined on input line 1888.
-
-
-LaTeX Warning: Reference `fig-bridge23-comp4' on page 12 undefined on input line 1889.
-
-
-LaTeX Warning: Reference `fig-ss3exe_2' on page 12 undefined on input line 1899.
-
-[12]
-
-LaTeX Warning: Reference `tbl-compweight' on page 13 undefined on input line 1936.
-
-
-LaTeX Warning: Reference `tbl-n-param' on page 13 undefined on input line 1950.
-
-
-LaTeX Warning: Reference `fig-growth' on page 13 undefined on input line 1951.
-
-
-LaTeX Warning: Reference `fig-biasadj' on page 13 undefined on input line 1958.
-
-
-LaTeX Warning: Reference `sec-fits' on page 13 undefined on input line 1965.
-
-
-LaTeX Warning: Reference `fig-selex_allfleets' on page 13 undefined on input line 1970.
-
-[13]
-
-LaTeX Warning: Reference `tbl-pars' on page 14 undefined on input line 1994.
-
-
-LaTeX Warning: Reference `fig-growth' on page 14 undefined on input line 2000.
-
-
-LaTeX Warning: Reference `fig-spoutlen' on page 14 undefined on input line 2002.
-
-
-LaTeX Warning: Reference `fig-SRcurve' on page 14 undefined on input line 2006.
-
-
-LaTeX Warning: Reference `fig-recdevs_err' on page 14 undefined on input line 2007.
-
-
-LaTeX Warning: Reference `fig-selex_allfleets' on page 14 undefined on input line 2019.
-
-
-LaTeX Warning: Reference `fig-indexfit3' on page 14 undefined on input line 2032.
-
-
-LaTeX Warning: Reference `fig-indexfit12' on page 14 undefined on input line 2032.
-
-[14]
-
-LaTeX Warning: Reference `fig-agglencomps' on page 15 undefined on input line 2039.
-
-
-LaTeX Warning: Reference `fig-pearsonlenfit1' on page 15 undefined on input line 2040.
-
-
-LaTeX Warning: Reference `fig-pearsonlenfit2' on page 15 undefined on input line 2041.
-
-
-LaTeX Warning: Reference `fig-mean-age-2' on page 15 undefined on input line 2049.
-
-
-LaTeX Warning: Reference `fig-mean-age-12' on page 15 undefined on input line 2050.
-
-
-LaTeX Warning: Reference `fig-spout_combined' on page 15 undefined on input line 2062.
-
-
-LaTeX Warning: Reference `fig-spout_area' on page 15 undefined on input line 2063.
-
-
-LaTeX Warning: Reference `fig-status_combined' on page 15 undefined on input line 2065.
-
-
-LaTeX Warning: Reference `fig-status_area' on page 15 undefined on input line 2065.
-
-
-LaTeX Warning: Reference `fig-totalbio' on page 15 undefined on input line 2067.
-
-
-LaTeX Warning: Reference `fig-summbio' on page 15 undefined on input line 2067.
-
-
-LaTeX Warning: Reference `fig-tsrecuits' on page 15 undefined on input line 2068.
-
-
-LaTeX Warning: Reference `fig-spout_combined' on page 15 undefined on input line 2075.
-
-
-LaTeX Warning: Reference `fig-bridge25-comp4' on page 15 undefined on input line 2081.
-
-
-LaTeX Warning: Reference `fig-status_area' on page 15 undefined on input line 2085.
-
-
-LaTeX Warning: Reference `fig-tsrecuits' on page 15 undefined on input line 2089.
-
-
-LaTeX Warning: Reference `fig-bridge25-comp12' on page 15 undefined on input line 2092.
-
-[15]
-
-LaTeX Warning: Reference `fig-full-jitter' on page 16 undefined on input line 2114.
-
-
-LaTeX Warning: Reference `tbl-sensitivities-model-specs' on page 16 undefined on input line 2135.
-
-
-LaTeX Warning: Reference `fig-sens_model_spout' on page 16 undefined on input line 2149.
-
-
-LaTeX Warning: Reference `fig-sens_model_status' on page 16 undefined on input line 2150.
-
-
-LaTeX Warning: Reference `tbl-sensitivities-like-indices' on page 16 undefined on input line 2163.
-
-
-LaTeX Warning: Reference `tbl-sensitivities-like-comps-age2' on page 16 undefined on input line 2164.
-
-
-LaTeX Warning: Reference `fig-sens_lengths1_spout' on page 16 undefined on input line 2168.
-
-
-LaTeX Warning: Reference `fig-sens_lengths2_status' on page 16 undefined on input line 2169.
-
-[16]
-
-LaTeX Warning: Reference `fig-sens_age1_spout' on page 17 undefined on input line 2174.
-
-
-LaTeX Warning: Reference `fig-sens_age2_status' on page 17 undefined on input line 2175.
-
-
-LaTeX Warning: Reference `fig-sens_indices_spout' on page 17 undefined on input line 2178.
-
-
-LaTeX Warning: Reference `fig-sens_indices_status' on page 17 undefined on input line 2179.
-
-
-LaTeX Warning: Reference `fig-sens_sum' on page 17 undefined on input line 2183.
-
-
-LaTeX Warning: Reference `fig-sens_sum_no_lengths' on page 17 undefined on input line 2184.
-
-
-LaTeX Warning: Reference `fig-retro-sp-output' on page 17 undefined on input line 2191.
-
-
-LaTeX Warning: Reference `fig-retro-rel-biomass' on page 17 undefined on input line 2192.
-
-
-LaTeX Warning: Reference `fig-retro-recruit-dev' on page 17 undefined on input line 2193.
-
-
-LaTeX Warning: Reference `fig-status_assmnts' on page 17 undefined on input line 2201.
-
-
-LaTeX Warning: Reference `fig-natm-piner' on page 17 undefined on input line 2222.
-
-
-LaTeX Warning: Reference `fig-natm-bratio' on page 17 undefined on input line 2225.
-
-
-LaTeX Warning: Reference `fig-steep-piner' on page 17 undefined on input line 2233.
-
-
-LaTeX Warning: Reference `fig-steep-bratio' on page 17 undefined on input line 2235.
-
-[17]
-
-LaTeX Warning: Reference `fig-rzero-piner' on page 18 undefined on input line 2239.
-
-
-LaTeX Warning: Reference `fig-rzero-sp-output' on page 18 undefined on input line 2245.
-
-
-LaTeX Warning: Reference `fig-rzero-parm' on page 18 undefined on input line 2245.
-
-[18]
-
-LaTeX Warning: Reference `tbl-ts' on page 19 undefined on input line 2294.
-
-
-LaTeX Warning: Reference `tbl-ref-points-es-2' on page 19 undefined on input line 2299.
-
-
-LaTeX Warning: Reference `fig-time-spr' on page 19 undefined on input line 2317.
-
-
-LaTeX Warning: Reference `fig-eq-yield' on page 19 undefined on input line 2326.
-
-
-LaTeX Warning: Reference `tbl-projections' on page 19 undefined on input line 2332.
-
-
-LaTeX Warning: Reference `tbl-es-decision-2' on page 19 undefined on input line 2346.
-
-[19]
-
-LaTeX Warning: Reference `fig-status_area' on page 20 undefined on input line 2366.
-
-[20] [21]
+[2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12] [13] [14] [15] [16] [17] [18] [19] [20] [21]
 Missing character: There is no δ (U+03B4) in font "name:Latin Modern Sans:mode=node;script=latn;language=ENG;+tlig;family=rm;"!
 Missing character: There is no δ (U+03B4) in font "name:Latin Modern Sans:mode=node;script=latn;language=ENG;+tlig;family=rm;"!
 Missing character: There is no δ (U+03B4) in font "name:Latin Modern Sans:mode=node;script=latn;language=ENG;+tlig;family=rm;"!
@@ -2736,12 +2368,7 @@ warning  (pdf backend): ignoring duplicate destination with the name 'table.7'
 ] [35] [36
 
 
-] [37] [38] [39] [40]
-
-Package longtable Warning: Column widths have changed
-(longtable)                in table 12 on input line 3378.
-
-[41] [42]
+] [37] [38] [39] [40] [41] [42]
 LaTeX Font Info:    Font shape `TU/LatinModernSans(3)/b/n' will be
 (Font)              scaled to size 9.0pt on input line 3401.
 [43
@@ -2825,56 +2452,56 @@ Missing character: There is no ∗ (U+2217) in font ecrm0700!
 [55
 
 ]
-Floatstructure:17088
-<figures/r4ss_plots/plots/data_plot.png, id=18047, 469.755pt x 469.755pt>
+Floatstructure:17480
+<figures/r4ss_plots/plots/data_plot.png, id=18992, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/data_plot.png Graphic file (type png)
 <use figures/r4ss_plots/plots/data_plot.png>
 Package luatex.def Info: figures/r4ss_plots/plots/data_plot.png  used on input line 3976.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-Floatstructure:17095
+Floatstructure:17487
 File: figures/r4ss_plots/plots/catch2_landings_stacked.png Graphic file (type png)
 <use figures/r4ss_plots/plots/catch2_landings_stacked.png>
 Package luatex.def Info: figures/r4ss_plots/plots/catch2_landings_stacked.png  used on input line 3989.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17102
-<figures/indices/ORFS_qq.png, id=18064, 505.89pt x 505.89pt>
+Floatstructure:17494
+<figures/indices/ORFS_qq.png, id=19009, 505.89pt x 505.89pt>
 File: figures/indices/ORFS_qq.png Graphic file (type png)
 <use figures/indices/ORFS_qq.png>
 Package luatex.def Info: figures/indices/ORFS_qq.png  used on input line 4002.
 (luatex.def)             Requested size: 505.88875pt x 505.88875pt.
-Floatstructure:17109
-<figures/indices/ORFS index comparison_errbars.png, id=18073, 722.7pt x 361.35pt>
+Floatstructure:17501
+<figures/indices/ORFS index comparison_errbars.png, id=19018, 722.7pt x 361.35pt>
 File: figures/indices/ORFS index comparison_errbars.png Graphic file (type png)
 <use figures/indices/ORFS index comparison_errbars.png>
 Package luatex.def Info: figures/indices/ORFS index comparison_errbars.png  used on input line 4015.
 (luatex.def)             Requested size: 722.69823pt x 361.34912pt.
-Floatstructure:17116
-<figures/indices/ORBS_qq.png, id=18082, 505.89pt x 505.89pt>
+Floatstructure:17508
+<figures/indices/ORBS_qq.png, id=19027, 505.89pt x 505.89pt>
 File: figures/indices/ORBS_qq.png Graphic file (type png)
 <use figures/indices/ORBS_qq.png>
 Package luatex.def Info: figures/indices/ORBS_qq.png  used on input line 4028.
 (luatex.def)             Requested size: 505.88875pt x 505.88875pt.
-Floatstructure:17123
-<figures/r4ss_plots/plots/index4_logcpuedata_6_OR_REC.png, id=18091, 469.755pt x 289.08pt>
+Floatstructure:17515
+<figures/r4ss_plots/plots/index4_logcpuedata_6_OR_REC.png, id=19036, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/index4_logcpuedata_6_OR_REC.png Graphic file (type png)
 <use figures/r4ss_plots/plots/index4_logcpuedata_6_OR_REC.png>
 Package luatex.def Info: figures/r4ss_plots/plots/index4_logcpuedata_6_OR_REC.png  used on input line 4041.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
 [56] [57<./figures/r4ss_plots/plots/data_plot.png>] [58] [59<./figures/indices/ORFS_qq.png>] [60<./figures/indices/ORFS index comparison_errbars.png>] [61<./figures/indices/ORBS_qq.png>] [62<./figures/r4ss_plots/plots/index4_logcpuedata_6_OR_REC.png>]
-Floatstructure:17130
-<figures/indices/ORBS index comparison_ORBSonly_errbars.png, id=18166, 722.7pt x 361.35pt>
+Floatstructure:17522
+<figures/indices/ORBS index comparison_ORBSonly_errbars.png, id=19097, 722.7pt x 361.35pt>
 File: figures/indices/ORBS index comparison_ORBSonly_errbars.png Graphic file (type png)
 <use figures/indices/ORBS index comparison_ORBSonly_errbars.png>
 Package luatex.def Info: figures/indices/ORBS index comparison_ORBSonly_errbars.png  used on input line 4057.
 (luatex.def)             Requested size: 722.69823pt x 361.34912pt.
-Floatstructure:17137
-<figures/indices/wcgbts_qq.png, id=18175, 505.89pt x 505.89pt>
+Floatstructure:17529
+<figures/indices/wcgbts_qq.png, id=19106, 505.89pt x 505.89pt>
 File: figures/indices/wcgbts_qq.png Graphic file (type png)
 <use figures/indices/wcgbts_qq.png>
 Package luatex.def Info: figures/indices/wcgbts_qq.png  used on input line 4071.
 (luatex.def)             Requested size: 505.88875pt x 505.88875pt.
-Floatstructure:17144
-<figures/indices/wcgbts_index_comparison.png, id=18186, 364.7226pt x 214.8828pt>
+Floatstructure:17536
+<figures/indices/wcgbts_index_comparison.png, id=19117, 364.7226pt x 214.8828pt>
 File: figures/indices/wcgbts_index_comparison.png Graphic file (type png)
 <use figures/indices/wcgbts_index_comparison.png>
 Package luatex.def Info: figures/indices/wcgbts_index_comparison.png  used on input line 4085.
@@ -2884,20 +2511,20 @@ Overfull \hbox (86.0463pt too wide) in paragraph at lines 4085--4086
  [][][][][] 
  []
 
-Floatstructure:17151
-<figures/indices/IPHC_index_comparison.pdf, id=18193, 488.82625pt x 243.91125pt>
+Floatstructure:17543
+<figures/indices/IPHC_index_comparison.pdf, id=19124, 488.82625pt x 243.91125pt>
 File: figures/indices/IPHC_index_comparison.pdf Graphic file (type pdf)
 <use figures/indices/IPHC_index_comparison.pdf>
 Package luatex.def Info: figures/indices/IPHC_index_comparison.pdf  used on input line 4099.
 (luatex.def)             Requested size: 488.82504pt x 243.91064pt.
-Floatstructure:17158
-<figures/r4ss_plots/plots/comp_lendat_flt11mkt0.png, id=18202, 469.755pt x 469.755pt>
+Floatstructure:17550
+<figures/r4ss_plots/plots/comp_lendat_flt11mkt0.png, id=19133, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/comp_lendat_flt11mkt0.png Graphic file (type png)
 <use figures/r4ss_plots/plots/comp_lendat_flt11mkt0.png>
 Package luatex.def Info: figures/r4ss_plots/plots/comp_lendat_flt11mkt0.png  used on input line 4112.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-Floatstructure:17165
-<figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png, id=18211, 469.755pt x 469.755pt>
+Floatstructure:17557
+<figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png, id=19142, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png Graphic file (type png)
 <use figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png>
 Package luatex.def Info: figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png  used on input line 4125.
@@ -2905,111 +2532,111 @@ Package luatex.def Info: figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png  use
 [63
 
 <./figures/indices/ORBS index comparison_ORBSonly_errbars.png>] [64<./figures/indices/wcgbts_qq.png>] [65<./figures/indices/wcgbts_index_comparison.png>] [66<./figures/indices/IPHC_index_comparison.pdf>] [67<./figures/r4ss_plots/plots/comp_lendat_flt11mkt0.png>] [68<./figures/r4ss_plots/plots/comp_lendat_flt12mkt0.png>]
-Floatstructure:17172
-<figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page1.png, id=18282, 469.755pt x 469.755pt>
+Floatstructure:17564
+<figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page1.png, id=19201, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page1.png Graphic file (type png)
 <use figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page1.png>
 Package luatex.def Info: figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page1.png  used on input line 4140.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-Floatstructure:17179
-<figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page2.png, id=18291, 469.755pt x 469.755pt>
+Floatstructure:17571
+<figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page2.png, id=19210, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page2.png Graphic file (type png)
 <use figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page2.png>
 Package luatex.def Info: figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page2.png  used on input line 4153.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-Floatstructure:17186
-<figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page1.png, id=18300, 469.755pt x 469.755pt>
+Floatstructure:17578
+<figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page1.png, id=19219, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page1.png Graphic file (type png)
 <use figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page1.png>
 Package luatex.def Info: figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page1.png  used on input line 4166.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-Floatstructure:17193
-<figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png, id=18309, 469.755pt x 469.755pt>
+Floatstructure:17585
+<figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png, id=19228, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png Graphic file (type png)
 <use figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png>
 Package luatex.def Info: figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png  used on input line 4179.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-Floatstructure:17200
-<figures/r4ss_plots/plots/bio5_weightatsize.png, id=18318, 469.755pt x 289.08pt>
+Floatstructure:17592
+<figures/r4ss_plots/plots/bio5_weightatsize.png, id=19237, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/bio5_weightatsize.png Graphic file (type png)
 <use figures/r4ss_plots/plots/bio5_weightatsize.png>
 Package luatex.def Info: figures/r4ss_plots/plots/bio5_weightatsize.png  used on input line 4192.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17207
-<figures/r4ss_plots/plots/bio6_maturity.png, id=18327, 469.755pt x 289.08pt>
+Floatstructure:17599
+<figures/r4ss_plots/plots/bio6_maturity.png, id=19246, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/bio6_maturity.png Graphic file (type png)
 <use figures/r4ss_plots/plots/bio6_maturity.png>
 Package luatex.def Info: figures/r4ss_plots/plots/bio6_maturity.png  used on input line 4204.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17214
-<figures/r4ss_plots/plots/bio9_fecundity_len.png, id=18336, 469.755pt x 289.08pt>
+Floatstructure:17606
+<figures/r4ss_plots/plots/bio9_fecundity_len.png, id=19255, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/bio9_fecundity_len.png Graphic file (type png)
 <use figures/r4ss_plots/plots/bio9_fecundity_len.png>
 Package luatex.def Info: figures/r4ss_plots/plots/bio9_fecundity_len.png  used on input line 4217.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17221
-<figures/bridging/3_extendedcatch/compare2_spawnbio_uncertainty.png, id=18345, 469.755pt x 361.35pt>
+Floatstructure:17613
+<figures/bridging/3_extendedcatch/compare2_spawnbio_uncertainty.png, id=19264, 469.755pt x 361.35pt>
 File: figures/bridging/3_extendedcatch/compare2_spawnbio_uncertainty.png Graphic file (type png)
 <use figures/bridging/3_extendedcatch/compare2_spawnbio_uncertainty.png>
 Package luatex.def Info: figures/bridging/3_extendedcatch/compare2_spawnbio_uncertainty.png  used on input line 4230.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17228
-<figures/bridging/3_extendedcatch/compare4_Bratio_uncertainty.png, id=18354, 469.755pt x 361.35pt>
+Floatstructure:17620
+<figures/bridging/3_extendedcatch/compare4_Bratio_uncertainty.png, id=19273, 469.755pt x 361.35pt>
 File: figures/bridging/3_extendedcatch/compare4_Bratio_uncertainty.png Graphic file (type png)
 <use figures/bridging/3_extendedcatch/compare4_Bratio_uncertainty.png>
 Package luatex.def Info: figures/bridging/3_extendedcatch/compare4_Bratio_uncertainty.png  used on input line 4245.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17235
-<figures/bridging/3_extendedcatch/compare18_smrybio.png, id=18363, 469.755pt x 361.35pt>
+Floatstructure:17627
+<figures/bridging/3_extendedcatch/compare18_smrybio.png, id=19282, 469.755pt x 361.35pt>
 File: figures/bridging/3_extendedcatch/compare18_smrybio.png Graphic file (type png)
 <use figures/bridging/3_extendedcatch/compare18_smrybio.png>
 Package luatex.def Info: figures/bridging/3_extendedcatch/compare18_smrybio.png  used on input line 4260.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17242
-<figures/bridging/5_newindices/compare2_spawnbio_uncertainty.png, id=18372, 469.755pt x 361.35pt>
+Floatstructure:17634
+<figures/bridging/5_newindices/compare2_spawnbio_uncertainty.png, id=19291, 469.755pt x 361.35pt>
 File: figures/bridging/5_newindices/compare2_spawnbio_uncertainty.png Graphic file (type png)
 <use figures/bridging/5_newindices/compare2_spawnbio_uncertainty.png>
 Package luatex.def Info: figures/bridging/5_newindices/compare2_spawnbio_uncertainty.png  used on input line 4275.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17249
-<figures/bridging/14_tunecomps/compare2_spawnbio_uncertainty.png, id=18381, 469.755pt x 361.35pt>
+Floatstructure:17641
+<figures/bridging/14_tunecomps/compare2_spawnbio_uncertainty.png, id=19300, 469.755pt x 361.35pt>
 File: figures/bridging/14_tunecomps/compare2_spawnbio_uncertainty.png Graphic file (type png)
 <use figures/bridging/14_tunecomps/compare2_spawnbio_uncertainty.png>
 Package luatex.def Info: figures/bridging/14_tunecomps/compare2_spawnbio_uncertainty.png  used on input line 4290.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17256
-<figures/bridging/14_tunecomps/compare11_recdevs.png, id=18390, 469.755pt x 361.35pt>
+Floatstructure:17648
+<figures/bridging/14_tunecomps/compare11_recdevs.png, id=19309, 469.755pt x 361.35pt>
 File: figures/bridging/14_tunecomps/compare11_recdevs.png Graphic file (type png)
 <use figures/bridging/14_tunecomps/compare11_recdevs.png>
 Package luatex.def Info: figures/bridging/14_tunecomps/compare11_recdevs.png  used on input line 4305.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17263
-<figures/bridging/23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore/compare2_spawnbio_uncertainty.png, id=18399, 469.755pt x 361.35pt>
+Floatstructure:17655
+<figures/bridging/23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore/compare2_spawnbio_uncertainty.png, id=19318, 469.755pt x 361.35pt>
 File: figures/bridging/23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore/compare2_spawnbio_uncertainty.png Graphic file (type png)
 <use figures/bridging/23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore/compare2_spawnbio_uncertainty.png>
 Package luatex.def Info: figures/bridging/23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore/compare2_spawnbio_uncertainty.png  used on input line 4320.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17270
-<figures/bridging/23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore/compare4_Bratio_uncertainty.png, id=18408, 469.755pt x 361.35pt>
+Floatstructure:17662
+<figures/bridging/23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore/compare4_Bratio_uncertainty.png, id=19327, 469.755pt x 361.35pt>
 File: figures/bridging/23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore/compare4_Bratio_uncertainty.png Graphic file (type png)
 <use figures/bridging/23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore/compare4_Bratio_uncertainty.png>
 Package luatex.def Info: figures/bridging/23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore/compare4_Bratio_uncertainty.png  used on input line 4337.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17277
-<figures/bridging/1_SS3exe/compare4_Bratio_uncertainty.png, id=18417, 469.755pt x 361.35pt>
+Floatstructure:17669
+<figures/bridging/1_SS3exe/compare4_Bratio_uncertainty.png, id=19336, 469.755pt x 361.35pt>
 File: figures/bridging/1_SS3exe/compare4_Bratio_uncertainty.png Graphic file (type png)
 <use figures/bridging/1_SS3exe/compare4_Bratio_uncertainty.png>
 Package luatex.def Info: figures/bridging/1_SS3exe/compare4_Bratio_uncertainty.png  used on input line 4354.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
 [69<./figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page1.png>] [70<./figures/r4ss_plots/plots/comp_condAALdat_bubflt11mkt0_page2.png>] [71<./figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page1.png>] [72<./figures/r4ss_plots/plots/comp_condAALdat_bubflt12mkt0_page2.png>] [73<./figures/r4ss_plots/plots/bio5_weightatsize.png>] [74<./figures/r4ss_plots/plots/bio6_maturity.png>] [75<./figures/r4ss_plots/plots/bio9_fecundity_len.png>] [76<./figures/bridging/3_extendedcatch/compare2_spawnbio_uncertainty.png>] [77<./figures/bridging/3_extendedcatch/compare4_Bratio_uncertainty.png>] [78<./figures/bridging/3_extendedcatch/compare18_smrybio.png>] [79<./figures/bridging/5_newindices/compare2_spawnbio_uncertainty.png>] [80<./figures/bridging/14_tunecomps/compare2_spawnbio_uncertainty.png>] [81<./figures/bridging/14_tunecomps/compare11_recdevs.png>] [82<./figures/bridging/23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore/compare2_spawnbio_uncertainty.png>] [83<./figures/bridging/23_alldata_tunecomps_fitbias_upctl_tuned_upstart_refine_fore/compare4_Bratio_uncertainty.png>] [84<./figures/bridging/1_SS3exe/compare4_Bratio_uncertainty.png>]
-Floatstructure:17284
-<figures/r4ss_plots/plots/bio1_sizeatage.png, id=18589, 469.755pt x 289.08pt>
+Floatstructure:17676
+<figures/r4ss_plots/plots/bio1_sizeatage.png, id=19476, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/bio1_sizeatage.png Graphic file (type png)
 <use figures/r4ss_plots/plots/bio1_sizeatage.png>
 Package luatex.def Info: figures/r4ss_plots/plots/bio1_sizeatage.png  used on input line 4369.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17291
-<figures/r4ss_plots/plots/recruit_fit_bias_adjust.png, id=18598, 469.755pt x 289.08pt>
+Floatstructure:17683
+<figures/r4ss_plots/plots/recruit_fit_bias_adjust.png, id=19485, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/recruit_fit_bias_adjust.png Graphic file (type png)
 <use figures/r4ss_plots/plots/recruit_fit_bias_adjust.png>
 Package luatex.def Info: figures/r4ss_plots/plots/recruit_fit_bias_adjust.png  used on input line 4382.
@@ -3018,25 +2645,25 @@ Package luatex.def Info: figures/r4ss_plots/plots/recruit_fit_bias_adjust.png  u
 
 
 <./figures/r4ss_plots/plots/bio1_sizeatage.png>] [86<./figures/r4ss_plots/plots/recruit_fit_bias_adjust.png>]
-Floatstructure:17298
-<figures/r4ss_plots/plots/sel01_multiple_fleets_length1.png, id=18627, 469.755pt x 289.08pt>
+Floatstructure:17690
+<figures/r4ss_plots/plots/sel01_multiple_fleets_length1.png, id=19510, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/sel01_multiple_fleets_length1.png Graphic file (type png)
 <use figures/r4ss_plots/plots/sel01_multiple_fleets_length1.png>
 Package luatex.def Info: figures/r4ss_plots/plots/sel01_multiple_fleets_length1.png  used on input line 4399.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17305
-<figures/r4ss_plots/plots/bio10_spawningoutput_len.png, id=18636, 469.755pt x 289.08pt>
+Floatstructure:17697
+<figures/r4ss_plots/plots/bio10_spawningoutput_len.png, id=19519, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/bio10_spawningoutput_len.png Graphic file (type png)
 <use figures/r4ss_plots/plots/bio10_spawningoutput_len.png>
 Package luatex.def Info: figures/r4ss_plots/plots/bio10_spawningoutput_len.png  used on input line 4412.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17312
-<figures/r4ss_plots/plots/SR_curve.png, id=18645, 469.755pt x 469.755pt>
+Floatstructure:17704
+<figures/r4ss_plots/plots/SR_curve.png, id=19528, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/SR_curve.png Graphic file (type png)
 <use figures/r4ss_plots/plots/SR_curve.png>
 Package luatex.def Info: figures/r4ss_plots/plots/SR_curve.png  used on input line 4426.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-Floatstructure:17319
+Floatstructure:17711
 File: figures/r4ss_plots/plots/recdevs2_withbars.png Graphic file (type png)
 <use figures/r4ss_plots/plots/recdevs2_withbars.png>
 Package luatex.def Info: figures/r4ss_plots/plots/recdevs2_withbars.png  used on input line 4440.
@@ -3044,50 +2671,50 @@ Package luatex.def Info: figures/r4ss_plots/plots/recdevs2_withbars.png  used on
 [87
 
 <./figures/r4ss_plots/plots/sel01_multiple_fleets_length1.png>] [88<./figures/r4ss_plots/plots/bio10_spawningoutput_len.png>] [89<./figures/r4ss_plots/plots/SR_curve.png>] [90]
-Floatstructure:17326
-<figures/r4ss_plots/plots/index5_logcpuefit_3_CA_REC.png, id=18702, 469.755pt x 289.08pt>
+Floatstructure:17718
+<figures/r4ss_plots/plots/index5_logcpuefit_3_CA_REC.png, id=19577, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/index5_logcpuefit_3_CA_REC.png Graphic file (type png)
 <use figures/r4ss_plots/plots/index5_logcpuefit_3_CA_REC.png>
 Package luatex.def Info: figures/r4ss_plots/plots/index5_logcpuefit_3_CA_REC.png  used on input line 4455.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17333
-<figures/r4ss_plots/plots/index5_logcpuefit_6_OR_REC.png, id=18711, 469.755pt x 289.08pt>
+Floatstructure:17725
+<figures/r4ss_plots/plots/index5_logcpuefit_6_OR_REC.png, id=19586, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/index5_logcpuefit_6_OR_REC.png Graphic file (type png)
 <use figures/r4ss_plots/plots/index5_logcpuefit_6_OR_REC.png>
 Package luatex.def Info: figures/r4ss_plots/plots/index5_logcpuefit_6_OR_REC.png  used on input line 4468.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17340
-<figures/r4ss_plots/plots/index5_logcpuefit_7_WA_REC.png, id=18720, 469.755pt x 289.08pt>
+Floatstructure:17732
+<figures/r4ss_plots/plots/index5_logcpuefit_7_WA_REC.png, id=19595, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/index5_logcpuefit_7_WA_REC.png Graphic file (type png)
 <use figures/r4ss_plots/plots/index5_logcpuefit_7_WA_REC.png>
 Package luatex.def Info: figures/r4ss_plots/plots/index5_logcpuefit_7_WA_REC.png  used on input line 4481.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17347
-<figures/r4ss_plots/plots/index5_logcpuefit_8_CACPFV.png, id=18729, 469.755pt x 289.08pt>
+Floatstructure:17739
+<figures/r4ss_plots/plots/index5_logcpuefit_8_CACPFV.png, id=19604, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/index5_logcpuefit_8_CACPFV.png Graphic file (type png)
 <use figures/r4ss_plots/plots/index5_logcpuefit_8_CACPFV.png>
 Package luatex.def Info: figures/r4ss_plots/plots/index5_logcpuefit_8_CACPFV.png  used on input line 4494.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17354
-<figures/r4ss_plots/plots/index5_logcpuefit_9_OR_RECOB.png, id=18738, 469.755pt x 289.08pt>
+Floatstructure:17746
+<figures/r4ss_plots/plots/index5_logcpuefit_9_OR_RECOB.png, id=19613, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/index5_logcpuefit_9_OR_RECOB.png Graphic file (type png)
 <use figures/r4ss_plots/plots/index5_logcpuefit_9_OR_RECOB.png>
 Package luatex.def Info: figures/r4ss_plots/plots/index5_logcpuefit_9_OR_RECOB.png  used on input line 4507.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17361
-<figures/r4ss_plots/plots/index5_logcpuefit_10_TRI_ORWA.png, id=18747, 469.755pt x 289.08pt>
+Floatstructure:17753
+<figures/r4ss_plots/plots/index5_logcpuefit_10_TRI_ORWA.png, id=19622, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/index5_logcpuefit_10_TRI_ORWA.png Graphic file (type png)
 <use figures/r4ss_plots/plots/index5_logcpuefit_10_TRI_ORWA.png>
 Package luatex.def Info: figures/r4ss_plots/plots/index5_logcpuefit_10_TRI_ORWA.png  used on input line 4520.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17368
-<figures/r4ss_plots/plots/index5_logcpuefit_11_NWFSC_ORWA.png, id=18756, 469.755pt x 289.08pt>
+Floatstructure:17760
+<figures/r4ss_plots/plots/index5_logcpuefit_11_NWFSC_ORWA.png, id=19631, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/index5_logcpuefit_11_NWFSC_ORWA.png Graphic file (type png)
 <use figures/r4ss_plots/plots/index5_logcpuefit_11_NWFSC_ORWA.png>
 Package luatex.def Info: figures/r4ss_plots/plots/index5_logcpuefit_11_NWFSC_ORWA.png  used on input line 4533.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17375
-<figures/r4ss_plots/plots/index5_logcpuefit_12_IPHC_ORWA.png, id=18765, 469.755pt x 289.08pt>
+Floatstructure:17767
+<figures/r4ss_plots/plots/index5_logcpuefit_12_IPHC_ORWA.png, id=19640, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/index5_logcpuefit_12_IPHC_ORWA.png Graphic file (type png)
 <use figures/r4ss_plots/plots/index5_logcpuefit_12_IPHC_ORWA.png>
 Package luatex.def Info: figures/r4ss_plots/plots/index5_logcpuefit_12_IPHC_ORWA.png  used on input line 4545.
@@ -3095,113 +2722,113 @@ Package luatex.def Info: figures/r4ss_plots/plots/index5_logcpuefit_12_IPHC_ORWA
 [91
 
 <./figures/r4ss_plots/plots/index5_logcpuefit_3_CA_REC.png>] [92<./figures/r4ss_plots/plots/index5_logcpuefit_6_OR_REC.png>] [93<./figures/r4ss_plots/plots/index5_logcpuefit_7_WA_REC.png>] [94<./figures/r4ss_plots/plots/index5_logcpuefit_8_CACPFV.png>] [95<./figures/r4ss_plots/plots/index5_logcpuefit_9_OR_RECOB.png>] [96<./figures/r4ss_plots/plots/index5_logcpuefit_10_TRI_ORWA.png>] [97<./figures/r4ss_plots/plots/index5_logcpuefit_11_NWFSC_ORWA.png>] [98<./figures/r4ss_plots/plots/index5_logcpuefit_12_IPHC_ORWA.png>]
-Floatstructure:17382
-<figures/r4ss_plots/plots/comp_lenfit__aggregated_across_time.png, id=18855, 469.755pt x 469.755pt>
+Floatstructure:17774
+<figures/r4ss_plots/plots/comp_lenfit__aggregated_across_time.png, id=19725, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/comp_lenfit__aggregated_across_time.png Graphic file (type png)
 <use figures/r4ss_plots/plots/comp_lenfit__aggregated_across_time.png>
 Package luatex.def Info: figures/r4ss_plots/plots/comp_lenfit__aggregated_across_time.png  used on input line 4559.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-Floatstructure:17389
-<figures/r4ss_plots/plots/comp_lenfit__page1_multi-fleet_comparison.png, id=18864, 469.755pt x 469.755pt>
+Floatstructure:17781
+<figures/r4ss_plots/plots/comp_lenfit__page1_multi-fleet_comparison.png, id=19734, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/comp_lenfit__page1_multi-fleet_comparison.png Graphic file (type png)
 <use figures/r4ss_plots/plots/comp_lenfit__page1_multi-fleet_comparison.png>
 Package luatex.def Info: figures/r4ss_plots/plots/comp_lenfit__page1_multi-fleet_comparison.png  used on input line 4572.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-Floatstructure:17396
-<figures/r4ss_plots/plots/comp_lenfit__page2_multi-fleet_comparison.png, id=18873, 469.755pt x 469.755pt>
+Floatstructure:17788
+<figures/r4ss_plots/plots/comp_lenfit__page2_multi-fleet_comparison.png, id=19744, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/comp_lenfit__page2_multi-fleet_comparison.png Graphic file (type png)
 <use figures/r4ss_plots/plots/comp_lenfit__page2_multi-fleet_comparison.png>
 Package luatex.def Info: figures/r4ss_plots/plots/comp_lenfit__page2_multi-fleet_comparison.png  used on input line 4587.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-Floatstructure:17403
-<figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge2_CA_NONTWL.png, id=18882, 469.755pt x 469.755pt>
+Floatstructure:17795
+<figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge2_CA_NONTWL.png, id=19753, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge2_CA_NONTWL.png Graphic file (type png)
 <use figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge2_CA_NONTWL.png>
 Package luatex.def Info: figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge2_CA_NONTWL.png  used on input line 4602.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-Floatstructure:17410
-<figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge3_CA_REC.png, id=18891, 469.755pt x 469.755pt>
+Floatstructure:17802
+<figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge3_CA_REC.png, id=19762, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge3_CA_REC.png Graphic file (type png)
 <use figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge3_CA_REC.png>
 Package luatex.def Info: figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge3_CA_REC.png  used on input line 4617.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-Floatstructure:17417
-<figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge4_ORWA_TWL.png, id=18900, 469.755pt x 469.755pt>
+Floatstructure:17809
+<figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge4_ORWA_TWL.png, id=19771, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge4_ORWA_TWL.png Graphic file (type png)
 <use figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge4_ORWA_TWL.png>
 Package luatex.def Info: figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge4_ORWA_TWL.png  used on input line 4632.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-Floatstructure:17424
-<figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge5_ORWA_NONTWL.png, id=18909, 469.755pt x 469.755pt>
+Floatstructure:17816
+<figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge5_ORWA_NONTWL.png, id=19780, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge5_ORWA_NONTWL.png Graphic file (type png)
 <use figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge5_ORWA_NONTWL.png>
 Package luatex.def Info: figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge5_ORWA_NONTWL.png  used on input line 4647.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-Floatstructure:17431
-<figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge6_OR_REC.png, id=18918, 469.755pt x 469.755pt>
+Floatstructure:17823
+<figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge6_OR_REC.png, id=19789, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge6_OR_REC.png Graphic file (type png)
 <use figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge6_OR_REC.png>
 Package luatex.def Info: figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge6_OR_REC.png  used on input line 4662.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-Floatstructure:17438
-<figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge7_WA_REC.png, id=18927, 469.755pt x 469.755pt>
+Floatstructure:17830
+<figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge7_WA_REC.png, id=19798, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge7_WA_REC.png Graphic file (type png)
 <use figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge7_WA_REC.png>
 Package luatex.def Info: figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge7_WA_REC.png  used on input line 4677.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-Floatstructure:17445
-<figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge11_NWFSC_ORWA.png, id=18936, 469.755pt x 469.755pt>
+Floatstructure:17837
+<figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge11_NWFSC_ORWA.png, id=19807, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge11_NWFSC_ORWA.png Graphic file (type png)
 <use figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge11_NWFSC_ORWA.png>
 Package luatex.def Info: figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge11_NWFSC_ORWA.png  used on input line 4692.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-Floatstructure:17452
-<figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge12_IPHC_ORWA.png, id=18945, 469.755pt x 469.755pt>
+Floatstructure:17844
+<figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge12_IPHC_ORWA.png, id=19816, 469.755pt x 469.755pt>
 File: figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge12_IPHC_ORWA.png Graphic file (type png)
 <use figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge12_IPHC_ORWA.png>
 Package luatex.def Info: figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge12_IPHC_ORWA.png  used on input line 4707.
 (luatex.def)             Requested size: 469.75386pt x 469.75386pt.
-Floatstructure:17459
+Floatstructure:17851
 File: figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png Graphic file (type png)
 <use figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png>
 Package luatex.def Info: figures/r4ss_plots/plots/ts7_Spawning_output_with_95_intervals.png  used on input line 4722.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17466
-<figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png, id=18962, 469.755pt x 289.08pt>
+Floatstructure:17858
+<figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png, id=19833, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png Graphic file (type png)
 <use figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png>
 Package luatex.def Info: figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png  used on input line 4735.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17473
+Floatstructure:17865
 File: figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png Graphic file (type png)
 <use figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png>
 Package luatex.def Info: figures/r4ss_plots/plots/ts9_Relative_spawning_output_intervals.png  used on input line 4749.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17480
+Floatstructure:17872
 File: figures/r4ss_plots/plots/ts10_Relative_spawning_output.png Graphic file (type png)
 <use figures/r4ss_plots/plots/ts10_Relative_spawning_output.png>
 Package luatex.def Info: figures/r4ss_plots/plots/ts10_Relative_spawning_output.png  used on input line 4763.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17487
-<figures/r4ss_plots/plots/ts2_Total_biomass_(t)_by_area.png, id=18987, 469.755pt x 289.08pt>
+Floatstructure:17879
+<figures/r4ss_plots/plots/ts2_Total_biomass_(t)_by_area.png, id=19858, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/ts2_Total_biomass_(t)_by_area.png Graphic file (type png)
 <use figures/r4ss_plots/plots/ts2_Total_biomass_(t)_by_area.png>
 Package luatex.def Info: figures/r4ss_plots/plots/ts2_Total_biomass_(t)_by_area.png  used on input line 4776.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17494
-<figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png, id=18996, 469.755pt x 289.08pt>
+Floatstructure:17886
+<figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png, id=19867, 469.755pt x 289.08pt>
 File: figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png Graphic file (type png)
 <use figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png>
 Package luatex.def Info: figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png  used on input line 4789.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
 [99<./figures/r4ss_plots/plots/comp_lenfit__aggregated_across_time.png>] [100<./figures/r4ss_plots/plots/comp_lenfit__page1_multi-fleet_comparison.png>] [101<./figures/r4ss_plots/plots/comp_lenfit__page2_multi-fleet_comparison.png>] [102<./figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge2_CA_NONTWL.png>] [103<./figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge3_CA_REC.png>] [104<./figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge4_ORWA_TWL.png>] [105<./figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge5_ORWA_NONTWL.png>] [106<./figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge6_OR_REC.png>] [107<./figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge7_WA_REC.png>] [108<./figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge11_NWFSC_ORWA.png>] [109<./figures/r4ss_plots/plots/comp_condAALfit_data_weighting_TA1-8_condAge12_IPHC_ORWA.png>] [110] [111<./figures/r4ss_plots/plots/ts8_Spawning_output_by_area.png>] [112] [113] [114<./figures/r4ss_plots/plots/ts2_Total_biomass_(t)_by_area.png>] [115<./figures/r4ss_plots/plots/ts5_Summary_biomass_(t)_by_area.png>]
-Floatstructure:17501
+Floatstructure:17893
 File: figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png Graphic file (type png)
 <use figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png>
 Package luatex.def Info: figures/r4ss_plots/plots/ts11_Age-0_recruits_(1000s)_with_95_asymptotic_intervals.png  used on input line 4805.
 (luatex.def)             Requested size: 469.75386pt x 289.07928pt.
-Floatstructure:17508
-<figures/bridging/25_2025base_vs_2017base/compare4_Bratio_uncertainty.png, id=19183, 1957.3125pt x 1505.625pt>
+Floatstructure:17900
+<figures/bridging/25_2025base_vs_2017base/compare4_Bratio_uncertainty.png, id=20032, 1957.3125pt x 1505.625pt>
 File: figures/bridging/25_2025base_vs_2017base/compare4_Bratio_uncertainty.png Graphic file (type png)
 <use figures/bridging/25_2025base_vs_2017base/compare4_Bratio_uncertainty.png>
 Package luatex.def Info: figures/bridging/25_2025base_vs_2017base/compare4_Bratio_uncertainty.png  used on input line 4818.
@@ -3210,14 +2837,14 @@ Package luatex.def Info: figures/bridging/25_2025base_vs_2017base/compare4_Brati
 
 
 ] [117<./figures/bridging/25_2025base_vs_2017base/compare4_Bratio_uncertainty.png>]
-Floatstructure:17515
-<figures/bridging/25_2025base_vs_2017base/compare12_recdevs_uncertainty.png, id=19211, 1957.3125pt x 1505.625pt>
+Floatstructure:17907
+<figures/bridging/25_2025base_vs_2017base/compare12_recdevs_uncertainty.png, id=20056, 1957.3125pt x 1505.625pt>
 File: figures/bridging/25_2025base_vs_2017base/compare12_recdevs_uncertainty.png Graphic file (type png)
 <use figures/bridging/25_2025base_vs_2017base/compare12_recdevs_uncertainty.png>
 Package luatex.def Info: figures/bridging/25_2025base_vs_2017base/compare12_recdevs_uncertainty.png  used on input line 4834.
 (luatex.def)             Requested size: 1957.30774pt x 1505.62134pt.
-Floatstructure:17522
-<figures/diagnostics/2025_base_model_jitter_0.1/jitter.png, id=19220, 650.43pt x 867.24pt>
+Floatstructure:17914
+<figures/diagnostics/2025_base_model_jitter_0.1/jitter.png, id=20065, 650.43pt x 867.24pt>
 File: figures/diagnostics/2025_base_model_jitter_0.1/jitter.png Graphic file (type png)
 <use figures/diagnostics/2025_base_model_jitter_0.1/jitter.png>
 Package luatex.def Info: figures/diagnostics/2025_base_model_jitter_0.1/jitter.png  used on input line 4849.
@@ -3225,38 +2852,38 @@ Package luatex.def Info: figures/diagnostics/2025_base_model_jitter_0.1/jitter.p
 
 LaTeX Warning: Float too large for page by 34.02402pt on input line 4857.
 
-Floatstructure:17529
-<figures/sensitivities/modelingcompare2_spawnbio_uncertainty.png, id=19229, 469.755pt x 361.35pt>
+Floatstructure:17921
+<figures/sensitivities/modelingcompare2_spawnbio_uncertainty.png, id=20074, 469.755pt x 361.35pt>
 File: figures/sensitivities/modelingcompare2_spawnbio_uncertainty.png Graphic file (type png)
 <use figures/sensitivities/modelingcompare2_spawnbio_uncertainty.png>
 Package luatex.def Info: figures/sensitivities/modelingcompare2_spawnbio_uncertainty.png  used on input line 4863.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17536
-<figures/sensitivities/modelingcompare4_Bratio_uncertainty.png, id=19238, 469.755pt x 361.35pt>
+Floatstructure:17928
+<figures/sensitivities/modelingcompare4_Bratio_uncertainty.png, id=20083, 469.755pt x 361.35pt>
 File: figures/sensitivities/modelingcompare4_Bratio_uncertainty.png Graphic file (type png)
 <use figures/sensitivities/modelingcompare4_Bratio_uncertainty.png>
 Package luatex.def Info: figures/sensitivities/modelingcompare4_Bratio_uncertainty.png  used on input line 4876.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17543
-<figures/sensitivities/length_comps_1compare2_spawnbio_uncertainty.png, id=19247, 469.755pt x 361.35pt>
+Floatstructure:17935
+<figures/sensitivities/length_comps_1compare2_spawnbio_uncertainty.png, id=20092, 469.755pt x 361.35pt>
 File: figures/sensitivities/length_comps_1compare2_spawnbio_uncertainty.png Graphic file (type png)
 <use figures/sensitivities/length_comps_1compare2_spawnbio_uncertainty.png>
 Package luatex.def Info: figures/sensitivities/length_comps_1compare2_spawnbio_uncertainty.png  used on input line 4889.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17550
-<figures/sensitivities/length_comps_2compare2_spawnbio_uncertainty.png, id=19256, 469.755pt x 361.35pt>
+Floatstructure:17942
+<figures/sensitivities/length_comps_2compare2_spawnbio_uncertainty.png, id=20101, 469.755pt x 361.35pt>
 File: figures/sensitivities/length_comps_2compare2_spawnbio_uncertainty.png Graphic file (type png)
 <use figures/sensitivities/length_comps_2compare2_spawnbio_uncertainty.png>
 Package luatex.def Info: figures/sensitivities/length_comps_2compare2_spawnbio_uncertainty.png  used on input line 4902.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17557
-<figures/sensitivities/length_comps_1compare4_Bratio_uncertainty.png, id=19265, 469.755pt x 361.35pt>
+Floatstructure:17949
+<figures/sensitivities/length_comps_1compare4_Bratio_uncertainty.png, id=20110, 469.755pt x 361.35pt>
 File: figures/sensitivities/length_comps_1compare4_Bratio_uncertainty.png Graphic file (type png)
 <use figures/sensitivities/length_comps_1compare4_Bratio_uncertainty.png>
 Package luatex.def Info: figures/sensitivities/length_comps_1compare4_Bratio_uncertainty.png  used on input line 4915.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17564
-<figures/sensitivities/length_comps_2compare4_Bratio_uncertainty.png, id=19274, 469.755pt x 361.35pt>
+Floatstructure:17956
+<figures/sensitivities/length_comps_2compare4_Bratio_uncertainty.png, id=20119, 469.755pt x 361.35pt>
 File: figures/sensitivities/length_comps_2compare4_Bratio_uncertainty.png Graphic file (type png)
 <use figures/sensitivities/length_comps_2compare4_Bratio_uncertainty.png>
 Package luatex.def Info: figures/sensitivities/length_comps_2compare4_Bratio_uncertainty.png  used on input line 4928.
@@ -3264,38 +2891,38 @@ Package luatex.def Info: figures/sensitivities/length_comps_2compare4_Bratio_unc
 [118
 
 <./figures/bridging/25_2025base_vs_2017base/compare12_recdevs_uncertainty.png>] [119<./figures/diagnostics/2025_base_model_jitter_0.1/jitter.png>] [120<./figures/sensitivities/modelingcompare2_spawnbio_uncertainty.png>] [121<./figures/sensitivities/modelingcompare4_Bratio_uncertainty.png>] [122<./figures/sensitivities/length_comps_1compare2_spawnbio_uncertainty.png>] [123<./figures/sensitivities/length_comps_2compare2_spawnbio_uncertainty.png>] [124<./figures/sensitivities/length_comps_1compare4_Bratio_uncertainty.png>] [125<./figures/sensitivities/length_comps_2compare4_Bratio_uncertainty.png>]
-Floatstructure:17571
-<figures/sensitivities/age_comps_1compare2_spawnbio_uncertainty.png, id=19365, 469.755pt x 361.35pt>
+Floatstructure:17963
+<figures/sensitivities/age_comps_1compare2_spawnbio_uncertainty.png, id=20198, 469.755pt x 361.35pt>
 File: figures/sensitivities/age_comps_1compare2_spawnbio_uncertainty.png Graphic file (type png)
 <use figures/sensitivities/age_comps_1compare2_spawnbio_uncertainty.png>
 Package luatex.def Info: figures/sensitivities/age_comps_1compare2_spawnbio_uncertainty.png  used on input line 4943.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17578
-<figures/sensitivities/age_comps_2compare2_spawnbio_uncertainty.png, id=19374, 469.755pt x 361.35pt>
+Floatstructure:17970
+<figures/sensitivities/age_comps_2compare2_spawnbio_uncertainty.png, id=20207, 469.755pt x 361.35pt>
 File: figures/sensitivities/age_comps_2compare2_spawnbio_uncertainty.png Graphic file (type png)
 <use figures/sensitivities/age_comps_2compare2_spawnbio_uncertainty.png>
 Package luatex.def Info: figures/sensitivities/age_comps_2compare2_spawnbio_uncertainty.png  used on input line 4956.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17585
-<figures/sensitivities/age_comps_1compare4_Bratio_uncertainty.png, id=19383, 469.755pt x 361.35pt>
+Floatstructure:17977
+<figures/sensitivities/age_comps_1compare4_Bratio_uncertainty.png, id=20216, 469.755pt x 361.35pt>
 File: figures/sensitivities/age_comps_1compare4_Bratio_uncertainty.png Graphic file (type png)
 <use figures/sensitivities/age_comps_1compare4_Bratio_uncertainty.png>
 Package luatex.def Info: figures/sensitivities/age_comps_1compare4_Bratio_uncertainty.png  used on input line 4969.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17592
-<figures/sensitivities/age_comps_2compare4_Bratio_uncertainty.png, id=19392, 469.755pt x 361.35pt>
+Floatstructure:17984
+<figures/sensitivities/age_comps_2compare4_Bratio_uncertainty.png, id=20225, 469.755pt x 361.35pt>
 File: figures/sensitivities/age_comps_2compare4_Bratio_uncertainty.png Graphic file (type png)
 <use figures/sensitivities/age_comps_2compare4_Bratio_uncertainty.png>
 Package luatex.def Info: figures/sensitivities/age_comps_2compare4_Bratio_uncertainty.png  used on input line 4982.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17599
-<figures/sensitivities/indicescompare2_spawnbio_uncertainty.png, id=19401, 469.755pt x 361.35pt>
+Floatstructure:17991
+<figures/sensitivities/indicescompare2_spawnbio_uncertainty.png, id=20234, 469.755pt x 361.35pt>
 File: figures/sensitivities/indicescompare2_spawnbio_uncertainty.png Graphic file (type png)
 <use figures/sensitivities/indicescompare2_spawnbio_uncertainty.png>
 Package luatex.def Info: figures/sensitivities/indicescompare2_spawnbio_uncertainty.png  used on input line 4995.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17606
-<figures/sensitivities/indicescompare4_Bratio_uncertainty.png, id=19410, 469.755pt x 361.35pt>
+Floatstructure:17998
+<figures/sensitivities/indicescompare4_Bratio_uncertainty.png, id=20243, 469.755pt x 361.35pt>
 File: figures/sensitivities/indicescompare4_Bratio_uncertainty.png Graphic file (type png)
 <use figures/sensitivities/indicescompare4_Bratio_uncertainty.png>
 Package luatex.def Info: figures/sensitivities/indicescompare4_Bratio_uncertainty.png  used on input line 5008.
@@ -3303,51 +2930,51 @@ Package luatex.def Info: figures/sensitivities/indicescompare4_Bratio_uncertaint
 [126
 
 <./figures/sensitivities/age_comps_1compare2_spawnbio_uncertainty.png>] [127<./figures/sensitivities/age_comps_2compare2_spawnbio_uncertainty.png>] [128<./figures/sensitivities/age_comps_1compare4_Bratio_uncertainty.png>] [129<./figures/sensitivities/age_comps_2compare4_Bratio_uncertainty.png>] [130<./figures/sensitivities/indicescompare2_spawnbio_uncertainty.png>] [131<./figures/sensitivities/indicescompare4_Bratio_uncertainty.png>]
-Floatstructure:17613
-<figures/sensitivities/sens_summary.png, id=19480, 433.62pt x 469.755pt>
+Floatstructure:18005
+<figures/sensitivities/sens_summary.png, id=20305, 433.62pt x 469.755pt>
 File: figures/sensitivities/sens_summary.png Graphic file (type png)
 <use figures/sensitivities/sens_summary.png>
 Package luatex.def Info: figures/sensitivities/sens_summary.png  used on input line 5023.
 (luatex.def)             Requested size: 433.61894pt x 469.75386pt.
-Floatstructure:17620
-<figures/sensitivities/sens_summary_with_no_length_comps.png, id=19489, 433.62pt x 469.755pt>
+Floatstructure:18012
+<figures/sensitivities/sens_summary_with_no_length_comps.png, id=20314, 433.62pt x 469.755pt>
 File: figures/sensitivities/sens_summary_with_no_length_comps.png Graphic file (type png)
 <use figures/sensitivities/sens_summary_with_no_length_comps.png>
 Package luatex.def Info: figures/sensitivities/sens_summary_with_no_length_comps.png  used on input line 5036.
 (luatex.def)             Requested size: 433.61894pt x 469.75386pt.
-Floatstructure:17627
-<figures/diagnostics/2025_base_model_retro_5_yr_peel/compare2_spawnbio_uncertainty.png, id=19498, 469.755pt x 361.35pt>
+Floatstructure:18019
+<figures/diagnostics/2025_base_model_retro_5_yr_peel/compare2_spawnbio_uncertainty.png, id=20323, 469.755pt x 361.35pt>
 File: figures/diagnostics/2025_base_model_retro_5_yr_peel/compare2_spawnbio_uncertainty.png Graphic file (type png)
 <use figures/diagnostics/2025_base_model_retro_5_yr_peel/compare2_spawnbio_uncertainty.png>
 Package luatex.def Info: figures/diagnostics/2025_base_model_retro_5_yr_peel/compare2_spawnbio_uncertainty.png  used on input line 5050.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17634
-<figures/diagnostics/2025_base_model_retro_5_yr_peel/compare4_Bratio_uncertainty.png, id=19508, 469.755pt x 361.35pt>
+Floatstructure:18026
+<figures/diagnostics/2025_base_model_retro_5_yr_peel/compare4_Bratio_uncertainty.png, id=20332, 469.755pt x 361.35pt>
 File: figures/diagnostics/2025_base_model_retro_5_yr_peel/compare4_Bratio_uncertainty.png Graphic file (type png)
 <use figures/diagnostics/2025_base_model_retro_5_yr_peel/compare4_Bratio_uncertainty.png>
 Package luatex.def Info: figures/diagnostics/2025_base_model_retro_5_yr_peel/compare4_Bratio_uncertainty.png  used on input line 5064.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17641
-<figures/diagnostics/2025_base_model_retro_5_yr_peel/compare12_recdevs_uncertainty.png, id=19517, 469.755pt x 361.35pt>
+Floatstructure:18033
+<figures/diagnostics/2025_base_model_retro_5_yr_peel/compare12_recdevs_uncertainty.png, id=20341, 469.755pt x 361.35pt>
 File: figures/diagnostics/2025_base_model_retro_5_yr_peel/compare12_recdevs_uncertainty.png Graphic file (type png)
 <use figures/diagnostics/2025_base_model_retro_5_yr_peel/compare12_recdevs_uncertainty.png>
 Package luatex.def Info: figures/diagnostics/2025_base_model_retro_5_yr_peel/compare12_recdevs_uncertainty.png  used on input line 5078.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17648
-<figures/bridging/Timeseries_comp_previous_assessments.png, id=19526, 499.539pt x 296.088pt>
+Floatstructure:18040
+<figures/bridging/Timeseries_comp_previous_assessments.png, id=20351, 499.539pt x 296.088pt>
 File: figures/bridging/Timeseries_comp_previous_assessments.png Graphic file (type png)
 <use figures/bridging/Timeseries_comp_previous_assessments.png>
 Package luatex.def Info: figures/bridging/Timeseries_comp_previous_assessments.png  used on input line 5091.
 (luatex.def)             Requested size: 499.53777pt x 296.08727pt.
-Floatstructure:17655
-<figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/piner_panel_NatM_break_1_Fem_GP_1.png, id=19535, 505.89pt x 505.89pt>
+Floatstructure:18047
+<figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/piner_panel_NatM_break_1_Fem_GP_1.png, id=20360, 505.89pt x 505.89pt>
 File: figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/piner_panel_NatM_break_1_Fem_GP_1.png Graphic file (type png)
 <use figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/piner_panel_NatM_break_1_Fem_GP_1.png>
 Package luatex.def Info: figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/piner_panel_NatM_break_1_Fem_GP_1.png  used on input line 5104.
 (luatex.def)             Requested size: 505.88875pt x 505.88875pt.
 [132<./figures/sensitivities/sens_summary.png>] [133<./figures/sensitivities/sens_summary_with_no_length_comps.png>] [134<./figures/diagnostics/2025_base_model_retro_5_yr_peel/compare2_spawnbio_uncertainty.png>] [135<./figures/diagnostics/2025_base_model_retro_5_yr_peel/compare4_Bratio_uncertainty.png>] [136<./figures/diagnostics/2025_base_model_retro_5_yr_peel/compare12_recdevs_uncertainty.png>] [137<./figures/bridging/Timeseries_comp_previous_assessments.png>] [138<./figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/piner_panel_NatM_break_1_Fem_GP_1.png>]
-Floatstructure:17662
-<figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/NatM_break_1_Fem_GP_1_trajectories_compare3_Bratio.png, id=19611, 469.755pt x 361.35pt>
+Floatstructure:18054
+<figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/NatM_break_1_Fem_GP_1_trajectories_compare3_Bratio.png, id=20422, 469.755pt x 361.35pt>
 File: figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/NatM_break_1_Fem_GP_1_trajectories_compare3_Bratio.png Graphic file (type png)
 <use figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/NatM_break_1_Fem_GP_1_trajectories_compare3_Bratio.png>
 Package luatex.def Info: figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/NatM_break_1_Fem_GP_1_trajectories_compare3_Bratio.png  used on input line 5120.
@@ -3356,53 +2983,100 @@ Package luatex.def Info: figures/diagnostics/2025_base_model_profile_NatM_break_
 
 
 <./figures/diagnostics/2025_base_model_profile_NatM_break_1_Fem_GP_1/NatM_break_1_Fem_GP_1_trajectories_compare3_Bratio.png>]
-Floatstructure:17669
-<figures/diagnostics/2025_base_model_profile_SR_BH_steep/piner_panel_SR_BH_steep.png, id=19630, 505.89pt x 505.89pt>
+Floatstructure:18061
+<figures/diagnostics/2025_base_model_profile_SR_BH_steep/piner_panel_SR_BH_steep.png, id=20440, 505.89pt x 505.89pt>
 File: figures/diagnostics/2025_base_model_profile_SR_BH_steep/piner_panel_SR_BH_steep.png Graphic file (type png)
 <use figures/diagnostics/2025_base_model_profile_SR_BH_steep/piner_panel_SR_BH_steep.png>
 Package luatex.def Info: figures/diagnostics/2025_base_model_profile_SR_BH_steep/piner_panel_SR_BH_steep.png  used on input line 5136.
 (luatex.def)             Requested size: 505.88875pt x 505.88875pt.
-Floatstructure:17676
-<figures/diagnostics/2025_base_model_profile_SR_BH_steep/SR_BH_steep_trajectories_compare3_Bratio.png, id=19639, 469.755pt x 361.35pt>
+Floatstructure:18068
+<figures/diagnostics/2025_base_model_profile_SR_BH_steep/SR_BH_steep_trajectories_compare3_Bratio.png, id=20449, 469.755pt x 361.35pt>
 File: figures/diagnostics/2025_base_model_profile_SR_BH_steep/SR_BH_steep_trajectories_compare3_Bratio.png Graphic file (type png)
 <use figures/diagnostics/2025_base_model_profile_SR_BH_steep/SR_BH_steep_trajectories_compare3_Bratio.png>
 Package luatex.def Info: figures/diagnostics/2025_base_model_profile_SR_BH_steep/SR_BH_steep_trajectories_compare3_Bratio.png  used on input line 5150.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17683
-<figures/diagnostics/2025_base_model_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png, id=19648, 505.89pt x 505.89pt>
+Floatstructure:18075
+<figures/diagnostics/2025_base_model_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png, id=20458, 505.89pt x 505.89pt>
 File: figures/diagnostics/2025_base_model_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png Graphic file (type png)
 <use figures/diagnostics/2025_base_model_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png>
 Package luatex.def Info: figures/diagnostics/2025_base_model_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png  used on input line 5164.
 (luatex.def)             Requested size: 505.88875pt x 505.88875pt.
-Floatstructure:17690
-<figures/diagnostics/2025_base_model_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare1_spawnbio.png, id=19657, 469.755pt x 361.35pt>
+Floatstructure:18082
+<figures/diagnostics/2025_base_model_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare1_spawnbio.png, id=20467, 469.755pt x 361.35pt>
 File: figures/diagnostics/2025_base_model_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare1_spawnbio.png Graphic file (type png)
 <use figures/diagnostics/2025_base_model_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare1_spawnbio.png>
 Package luatex.def Info: figures/diagnostics/2025_base_model_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare1_spawnbio.png  used on input line 5178.
 (luatex.def)             Requested size: 469.75386pt x 361.34912pt.
-Floatstructure:17697
-<figures/diagnostics/2025_base_model_profile_SR_LN(R0)/parameter_panel_SR_LN(R0).png, id=19666, 505.89pt x 505.89pt>
+Floatstructure:18089
+<figures/diagnostics/2025_base_model_profile_SR_LN(R0)/parameter_panel_SR_LN(R0).png, id=20476, 505.89pt x 505.89pt>
 File: figures/diagnostics/2025_base_model_profile_SR_LN(R0)/parameter_panel_SR_LN(R0).png Graphic file (type png)
 <use figures/diagnostics/2025_base_model_profile_SR_LN(R0)/parameter_panel_SR_LN(R0).png>
 Package luatex.def Info: figures/diagnostics/2025_base_model_profile_SR_LN(R0)/parameter_panel_SR_LN(R0).png  used on input line 5191.
 (luatex.def)             Requested size: 505.88875pt x 505.88875pt.
 [140<./figures/diagnostics/2025_base_model_profile_SR_BH_steep/piner_panel_SR_BH_steep.png>] [141<./figures/diagnostics/2025_base_model_profile_SR_BH_steep/SR_BH_steep_trajectories_compare3_Bratio.png>] [142<./figures/diagnostics/2025_base_model_profile_SR_LN(R0)/piner_panel_SR_LN(R0).png>] [143<./figures/diagnostics/2025_base_model_profile_SR_LN(R0)/SR_LN(R0)_trajectories_compare1_spawnbio.png>] [144<./figures/diagnostics/2025_base_model_profile_SR_LN(R0)/parameter_panel_SR_LN(R0).png>]
-Floatstructure:17704
-Runaway argument?
-{\includegraphics [keepaspectratio,alt={'Time series plot showing fis\ETC.
-! Paragraph ended before \pandocbounded was complete.
-<to be read again> 
-\par 
-l.5211 
-     
+Floatstructure:18096
+<figures/r4ss_plots/plots/SPR1_series.png, id=20524, 469.755pt x 289.08pt>
+File: figures/r4ss_plots/plots/SPR1_series.png Graphic file (type png)
+<use figures/r4ss_plots/plots/SPR1_series.png>
+Package luatex.def Info: figures/r4ss_plots/plots/SPR1_series.png  used on input line 5210.
+(luatex.def)             Requested size: 469.75386pt x 289.07928pt.
+Floatstructure:18103
+<figures/r4ss_plots/plots/yield1_yield_curve.png, id=20533, 469.755pt x 289.08pt>
+File: figures/r4ss_plots/plots/yield1_yield_curve.png Graphic file (type png)
+<use figures/r4ss_plots/plots/yield1_yield_curve.png>
+Package luatex.def Info: figures/r4ss_plots/plots/yield1_yield_curve.png  used on input line 5222.
+(luatex.def)             Requested size: 469.75386pt x 289.07928pt.
+[145
+
+
+<./figures/r4ss_plots/plots/SPR1_series.png>] [146<./figures/r4ss_plots/plots/yield1_yield_curve.png>]
+
+Package glossaries Warning: \makenoidxglossaries is required to make \printnoidxglossary[type={main}] work on input line 5238.
+
+
+Package glossaries Warning: \makenoidxglossaries is required to make \printnoidxglossary[type={acronym}] work on input line 5238.
+
+[147] 
+enddocument/afterlastpage (AED): lastpage setting LastPage.
+<<latex-list-css.html>><<latex-align-css.html>> (./yelloweye_508.aux * soulpos - computing points - it may take a few seconds *
+\openout3 = yelloweye_508.upb
+ (./yelloweye_508.upa))
+ ***********
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
+ ***********
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+Package tagpdf Info: Finalizing the tagging structure:
+(tagpdf)             Writing out ~18111 structure objects
+(tagpdf)             with ~9435 'MC' leaf nodes.
+(tagpdf)             Be patient if there are lots of objects!
+
+Package tagpdf Info: writing ParentTree
+Package tagpdf Info: writing IDTree
+Package tagpdf Info: writing RoleMap
+Package tagpdf Info: writing ClassMap
+Package tagpdf Info: writing NameSpaces
+Package tagpdf Info: writing StructElems
+Package tagpdf Info: writing Root
+)
 
 Here is how much of LuaTeX's memory you used:
- 98606 strings out of 476076
- 1165505,4921788 words of node,token memory allocated
- 102038 words of node memory still in use:
-   7 hlist, 1 vlist, 5 rule, 3 dir, 4 glue, 4 kern, 4 penalty, 3 glyph, 42134 attribute, 89 glue_spec, 8496 attribute_list, 2 temp, 2 write, 1 user_defined, 4 pdf_dest, 1 pdf_colorstack nodes
-   avail lists: 1:18,2:172782,3:7243,4:637,5:1404,6:2687,7:37921,8:45,9:19824,10:27,11:2234
- 118352 multiletter control sequences out of 65536+600000
- 90 fonts using 10430023 bytes
- 123i,20n,122p,2496b,1001s stack positions out of 10000i,1000n,20000p,200000b,200000s
-!  ==> Fatal error occurred, no output PDF file produced!
+ 100032 strings out of 476076
+ 1165500,7087374 words of node,token memory allocated
+ 103912 words of node memory still in use:
+   7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 3 glyph, 42994 attribute, 75 glue_spec, 8661 attribute_list, 1 write, 1 user_defined nodes
+   avail lists: 1:17,2:172274,3:7248,4:638,5:1422,6:2687,7:37923,8:45,9:19830,10:27,11:2235
+ 119736 multiletter control sequences out of 65536+600000
+ 91 fonts using 10561711 bytes
+ 123i,20n,122p,2496b,990s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmsans9-regular.otf>{c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}<c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmsans10-oblique.otf><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmsans8-regular.otf><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmsans10-bold.otf><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/cm-super/sfrm0900.pfb><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
+Output written on yelloweye_508.pdf (169 pages, 7667167 bytes).
+
+PDF statistics: 21421 PDF objects out of 22161 (max. 8388607)
+ 20667 compressed objects within 207 object streams
+ 556 named destinations out of 1000 (max. 131072)
+ 94678 words of extra memory for PDF output out of 116407 (max. 100000000)
+
