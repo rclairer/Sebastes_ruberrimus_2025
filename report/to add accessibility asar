@@ -1,0 +1,1 @@
+asar::add_accessibility(x = "SAR_USWC_Yelloweye_rockfish_skeleton.tex", dir = here::here("report"), alttext_csv = here::here("report", "captions_alt_text.csv"), rename = "yelloweye_508")

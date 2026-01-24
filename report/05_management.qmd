@@ -26,7 +26,7 @@ The model estimate of the log-scale standard deviation of the 2025 spawning outp
 
 ## Regional management considerations
 
-Yelloweye Rockfish is modeled in two areas (California and Oregon-Washington) in this assessment. Current population status does differ by area and may be valuable information for making management and allocation decisions (@fig-status-area).
+Yelloweye Rockfish is modeled in two areas (California and Oregon-Washington) in this assessment. Current population status does differ by area and may be valuable information for making management and allocation decisions (@fig-status_area).
 
 ## Research and Data Needs
 

@@ -106,7 +106,7 @@ format:
         out.width: "\\textwidth" 
     code-block:
       out-width: "\\textwidth"
-    documentclass: scrartcl
+    documentclass: article
     number-sections: true
     template-partials:
       - 'support_files/before-body.tex'
@@ -263,6 +263,20 @@ Johnston\*, M. A., Rosemond\*, R. C., Whitman, A., Perl, E., Barros, M., Champag
 
 \*These authors contributed equally to this work.
 
+ <!-- {{< pagebreak >}}  -->
+
+ <!-- This includes the two-pagers at the top of the executive summary -->
+
+\clearpage
+\thispagestyle{empty}
+\noindent
+\begin{tikzpicture}[remember picture, overlay]
+    \node[inner sep=0pt, anchor=north west] 
+    at (current page.north west) {
+        \includegraphics[width=8.5in, height=11in, alt={summary graphic containing images similar to figures 1, 61, and a plot showing the low, base, and hight alternative states of nature}]{figures/YEYE_at_a_glance.png}
+    };
+\end{tikzpicture}
+
 {{< pagebreak >}} 
 
 \pagenumbering{roman}
@@ -271,17 +285,6 @@ Johnston\*, M. A., Rosemond\*, R. C., Whitman, A., Perl, E., Barros, M., Champag
 \renewcommand{\thetable}{\roman{table}}
 \renewcommand{\thefigure}{\roman{figure}}
 
-```{r, results='asis'}
-#| label: 'disclaimer'
-#| eval: true
-#| echo: false
-#| warning: false
-a <- knitr::knit_child('00a_disclaimer.qmd', quiet = TRUE)
-cat(a, sep = '\n')
-```
-
- {{< pagebreak >}} 
- 
 ```{r, results='asis'}
 #| label: 'load_tables'
 #| eval: true
