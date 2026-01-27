@@ -1,7 +1,7 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2026.1.23)  23 JAN 2026 16:19
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2026.1.23)  27 JAN 2026 14:54
  restricted system commands enabled.
-**yelloweye_508.tex
-(./yelloweye_508.tex
+**Yelloweye_rockfish_SAR_2025_508.tex
+(./Yelloweye_rockfish_SAR_2025_508.tex
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
 Lua module: luaotfload 2024-12-03 v3.29 Lua based OpenType font support
@@ -1795,7 +1795,7 @@ Lua function __luamml_amsmath_finalize_inner_table: = 53
 Lua function __luamml_amsmath_finalize_table:n = 54
 Lua function __luamml_amsmath_save_tag: = 55
 Lua function __luamml_amsmath_save_tag_with_struct_elem:N = 56
-Lua function __luamml_amsmath_set_tag: = 57)) (./yelloweye_508.aux
+Lua function __luamml_amsmath_set_tag: = 57)) (./Yelloweye_rockfish_SAR_2025_508.aux
 LaTeX Font Info:    Font shape `TU/LatinModernSans(2)/m/n' will be
 (Font)              scaled to size 10.0pt on input line 4.
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 4.
@@ -1816,7 +1816,7 @@ Package babel Info: The following font families will use the default
 (babel)             Reported on input line 4.
 
 )
-\openout1 = yelloweye_508.aux
+\openout1 = Yelloweye_rockfish_SAR_2025_508.aux
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 278.
 LaTeX Font Info:    ... okay on input line 278.
@@ -2071,7 +2071,7 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
 \g__math_luamml_iow=\write5
 
-\openout5 = yelloweye_508-luamml-mathml.html
+\openout5 = Yelloweye_rockfish_SAR_2025_508-luamml-mathml.html
 
 Package tagpdf Info: luamml has been enabled and will create an MathML file.
 
@@ -2155,14 +2155,14 @@ Overfull \vbox (20.87953pt too high) detected at line 455
 [1
 
 
-\openout3 = yelloweye_508.upa
+\openout3 = Yelloweye_rockfish_SAR_2025_508.upa
 
 {c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}<./support_files/Yelloweye_rockfish.png><./support_files/us_doc_logo.png>]
 
 LaTeX Font Warning: Font shape `T1/LatinModernSans(3)/b/n' undefined
 (Font)              using `T1/LatinModernSans(3)/m/n' instead on input line 463.
 
-(./yelloweye_508.toc
+(./Yelloweye_rockfish_SAR_2025_508.toc
 LaTeX Font Info:    Font shape `TU/LatinModernSans(3)/b/n' will be
 (Font)              scaled to size 10.0pt on input line 2.
 
@@ -2189,7 +2189,7 @@ Package marginnote Info: Using workaround for absolute page number on input line
 )
 \tf@toc=\write6
 
-\openout6 = yelloweye_508.toc
+\openout6 = Yelloweye_rockfish_SAR_2025_508.toc
 [1]
 Package marginnote Info: Using workaround for absolute page number on input line 472.
 [2]
@@ -3038,9 +3038,9 @@ Package glossaries Warning: \makenoidxglossaries is required to make \printnoidx
 
 [147] 
 enddocument/afterlastpage (AED): lastpage setting LastPage.
-<<latex-list-css.html>><<latex-align-css.html>> (./yelloweye_508.aux * soulpos - computing points - it may take a few seconds *
-\openout3 = yelloweye_508.upb
- (./yelloweye_508.upa))
+<<latex-list-css.html>><<latex-align-css.html>> (./Yelloweye_rockfish_SAR_2025_508.aux * soulpos - computing points - it may take a few seconds *
+\openout3 = Yelloweye_rockfish_SAR_2025_508.upb
+ (./Yelloweye_rockfish_SAR_2025_508.upa))
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
@@ -3070,10 +3070,10 @@ Here is how much of LuaTeX's memory you used:
    7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 3 glyph, 42994 attribute, 75 glue_spec, 8661 attribute_list, 1 write, 1 user_defined nodes
    avail lists: 1:17,2:172274,3:7248,4:638,5:1422,6:2687,7:37923,8:45,9:19830,10:27,11:2235
  119736 multiletter control sequences out of 65536+600000
- 91 fonts using 10561711 bytes
- 123i,20n,122p,2496b,990s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 91 fonts using 10561707 bytes
+ 123i,20n,122p,2514b,990s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmsans9-regular.otf>{c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}<c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmsans10-oblique.otf><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmsans8-regular.otf><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmsans10-bold.otf><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/cm-super/sfrm0900.pfb><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on yelloweye_508.pdf (169 pages, 7667167 bytes).
+Output written on Yelloweye_rockfish_SAR_2025_508.pdf (169 pages, 7667272 bytes).
 
 PDF statistics: 21421 PDF objects out of 22161 (max. 8388607)
  20667 compressed objects within 207 object streams
