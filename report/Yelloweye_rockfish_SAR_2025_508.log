@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2026.1.23)  27 JAN 2026 14:18
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2026.1.23)  27 JAN 2026 14:54
  restricted system commands enabled.
 **Yelloweye_rockfish_SAR_2025_508.tex
 (./Yelloweye_rockfish_SAR_2025_508.tex
@@ -3070,10 +3070,10 @@ Here is how much of LuaTeX's memory you used:
    7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 3 glyph, 42994 attribute, 75 glue_spec, 8661 attribute_list, 1 write, 1 user_defined nodes
    avail lists: 1:17,2:172274,3:7248,4:638,5:1422,6:2687,7:37923,8:45,9:19830,10:27,11:2235
  119736 multiletter control sequences out of 65536+600000
- 91 fonts using 10561703 bytes
+ 91 fonts using 10561707 bytes
  123i,20n,122p,2514b,990s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}<c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmsans9-regular.otf>{c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}<c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmsans10-oblique.otf><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmsans8-regular.otf><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/opentype/public/lm/lmsans10-bold.otf><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/cm-super/sfrm0900.pfb><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb><c:/Users/Claire.Rosemond/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on Yelloweye_rockfish_SAR_2025_508.pdf (169 pages, 7667276 bytes).
+Output written on Yelloweye_rockfish_SAR_2025_508.pdf (169 pages, 7667272 bytes).
 
 PDF statistics: 21421 PDF objects out of 22161 (max. 8388607)
  20667 compressed objects within 207 object streams
